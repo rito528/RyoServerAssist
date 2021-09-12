@@ -1,0 +1,7 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 2 files (Run the task at debug level to see details)[0m
+[0m[[0m[0minfo[0m] [0m[0mAssembly up to date: /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0.jar[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 0 s, completed 2021/09/13 6:45:01[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m

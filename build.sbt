@@ -4,7 +4,7 @@ version := "1.0.0"
 
 scalaVersion := "2.13.6"
 
-mainClass := Some("com.gmail.rotoyutoriapp.HomeSystem")
+mainClass := Some("com.ryoserver.RyoServerAssist")
 
 assemblyJarName := { s"${name.value}-${version.value}.jar" }
 

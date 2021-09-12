@@ -1,0 +1,10 @@
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.25.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
+[0m[[0m[0mdebug[0m] [0m[0mChecking every *.class/*.jar file's SHA-1.[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging files...[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/INDEX.LIST' with strategy 'discard'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/MANIFEST.MF' with strategy 'discard'[0m
+[0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 2 files (Run the task at debug level to see details)[0m
+[0m[[0m[0minfo[0m] [0m[0mAssembly up to date: /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0.jar[0m
