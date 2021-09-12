@@ -14,7 +14,7 @@ import org.bukkit.{Bukkit, ChatColor, Location, Material}
 import java.util
 
 class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listener {
-  ryoServerAssist.getServer.getPluginManager.registerEvents(this,ryoServerAssistz)
+  ryoServerAssist.getServer.getPluginManager.registerEvents(this,ryoServerAssist)
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (label.equalsIgnoreCase("home") && sender.isInstanceOf[Player]) {

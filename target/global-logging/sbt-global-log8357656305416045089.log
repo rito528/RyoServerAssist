@@ -1,0 +1,22 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(about, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[0minfo[0m] [0m[0mThis is sbt 1.5.5[0m
+[0m[[0m[0minfo[0m] [0m[0mThe current project is ProjectRef(uri("file:/home/rito/Desktop/Develop/RyoServerAssist/"), "ryoserverassist") 1.0.0[0m
+[0m[[0m[0minfo[0m] [0m[0mThe current project is built against Scala 2.13.6[0m
+[0m[[0m[0minfo[0m] [0m[0mAvailable Plugins[0m
+[0m[[0m[0minfo[0m] [0m[0m - org.jetbrains.sbt.IdeaShellPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - org.jetbrains.sbt.StructurePlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.ScriptedPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.CorePlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.Giter8TemplatePlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.IvyPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.JUnitXmlReportPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.JvmPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.MiniDependencyTreePlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.SbtPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbt.plugins.SemanticdbPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0m - sbtassembly.AssemblyPlugin[0m
+[0m[[0m[0minfo[0m] [0m[0msbt, sbt plugins, and build definitions are using Scala 2.12.14[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
