@@ -1,7 +1,8 @@
-#ホーム機能を利用したときにログを出すかどうか
-log: true
-
 #SQL関係の設定
 host: ''
 user: ''
 pw: ''
+db: 'RyoServerAssist'
+
+#ホーム機能を利用したときにログを出すかどうか
+log: true

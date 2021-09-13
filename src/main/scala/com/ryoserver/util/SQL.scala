@@ -7,7 +7,7 @@ import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet, Statem
 class SQL(ryoServerAssist: RyoServerAssist) {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
-  private val URL = s"jdbc:mysql://${ryoServerAssist.getConfig.getString("host")}/HomeSystem?autoReconnect=true&useSSL=false"
+  private val URL = s"jdbc:mysql://${ryoServerAssist.getConfig.getString("host")}/${ryoServerAssist.getConfig.getString("db")}?autoReconnect=true&useSSL=false"
   private val USER = ryoServerAssist.getConfig.getString("user")
   private val PASS = ryoServerAssist.getConfig.getString("pw")
   private var con: Connection = _
