@@ -90,9 +90,6 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
   }
 
   def setHome(p: Player,point: Int): Unit = {
-    if (!p.hasPermission("home.set")) {
-      p.sendMessage(ChatColor.RED + "権限がないためコマンドを実行できません！")
-    }
     val uuid = p.getUniqueId.toString.replace("-","")
     val locate = p.getLocation()
     val location = s"${locate.getWorld.getName},${locate.getX.toInt},${locate.getY.toInt},${locate.getZ.toInt}"
@@ -121,11 +118,6 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
   def teleportHome(p: Player,point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
     val uuid = p.getUniqueId.toString.replace("-","")
-    if (!p.hasPermission("home.tp")) {
-      p.sendMessage(ChatColor.RED + "権限がないためコマンドを実行できません！")
-      sql.close()
-      return
-    }
     if (!sql.connectionTest()) {
       p.sendMessage(ChatColor.RED + "現在ホーム機能を利用できません！")
       sql.close()

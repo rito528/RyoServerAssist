@@ -1,6 +1,6 @@
 # RyoServerAssist
 
-###　開発環境
+### 開発環境
 
 - [Intellij IDEA](https://www.jetbrains.com/ja-jp/idea/)
 - [Scala 2.13.6](https://www.scala-lang.org/download/2.13.6.html)
