@@ -1,9 +1,9 @@
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-logging-1.2.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.25.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
 [0m[[0m[0mdebug[0m] [0m[0mChecking every *.class/*.jar file's SHA-1.[0m
@@ -12,7 +12,7 @@
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/INDEX.LIST' with strategy 'discard'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/MANIFEST.MF' with strategy 'discard'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
-[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 94c25e3e5a67d88030d98a2fe1f3f6079337e858[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 8e9e4e8e9d0ec16b1b53493534dd5c07e0bb399e[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
 [0m[[0m[0mdebug[0m] [0m[0mPackaging /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
@@ -3450,12 +3450,24 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/5878baec14f531513d7a4a71131db7f4380f7e55_f8b9123acd13058c941aff25f308c9ed8000bb73_da39a3ee5e6b4b0d3255bfef95601890afd80709/com/mysql/jdbc/SocketFactoryWrapper.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Chat/JapaneseChat.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Chat/JapaneseChat.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/Gacha$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/Gacha$$anon$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/Gacha.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/Gacha.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/GachaPaperData$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/GachaPaperData$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/GachaPaperData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/GachaPaperData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Home/Home$$anon$1$$anon$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Home/Home$$anon$1$$anon$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Home/Home$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Home/Home$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Home/Home.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Home/Home.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Inventory/Item$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Inventory/Item$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Inventory/Item.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Inventory/Item.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/RyoServerAssist.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/RyoServerAssist.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/util/SQL.class[0m

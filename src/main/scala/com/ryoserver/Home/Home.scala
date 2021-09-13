@@ -1,13 +1,12 @@
 package com.ryoserver.Home
 
+import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor, Location, Material}
 
@@ -65,15 +64,6 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
         }.runTask(ryoServerAssist)
       }
     }.runTaskAsynchronously(ryoServerAssist)
-  }
-
-  val getItem:(Material,String,java.util.List[String]) => ItemStack = (material: Material,name:String,lore: java.util.List[String]) => {
-    val itemStack:ItemStack = new ItemStack(material)
-    val itemMeta:ItemMeta = itemStack.getItemMeta
-    itemMeta.setDisplayName(name)
-    itemMeta.setLore(lore)
-    itemStack.setItemMeta(itemMeta)
-    itemStack
   }
 
   @EventHandler
