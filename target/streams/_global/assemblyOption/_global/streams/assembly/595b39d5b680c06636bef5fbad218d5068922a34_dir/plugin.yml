@@ -3,17 +3,17 @@ version: 1.0.0
 main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 author: rito528
+
+default-permission-message: 権限がありません！
 commands:
   home:
-    usage: /home
+    description: Use home command.
+    permission: ryoserverassist.home
 
 permissions:
-  home.*:
-    default: true
+  ryoserverassist.*:
+    default: false
     children:
-      home.set: true
-      home.tp: true
-  home.set:
-    default: true
-  home.tp:
+      - ryoserverassist.home
+  ryoserverassist.home:
     default: true

@@ -35,22 +35,22 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
           sql.close()
           return
         }
-        val rs = sql.executeQuery(s"SHOW TABLES LIKE '$uuid';")
-        if (!rs.next()) sql.executeSQL(s"CREATE TABLE `$uuid`(point INT NOT NULL PRIMARY KEY,Location TEXT,Locked BOOLEAN);")
+        val rs = sql.executeQuery(s"SHOW TABLES LIKE 'Homes';")
+        if (!rs.next()) sql.executeSQL(s"CREATE TABLE `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
         val inv = Bukkit.createInventory(null,27,"HomeSystem")
         inv.setItem(2,getItem(Material.WHITE_BED,"ホーム1を設定します。",util.Arrays.asList()))
         inv.setItem(4,getItem(Material.BLUE_BED,"ホーム2を設定します。",util.Arrays.asList()))
         inv.setItem(6,getItem(Material.BLACK_BED,"ホーム3を設定します。",util.Arrays.asList()))
         for (i <- 11 to 15 by 2) {
           val point = (i-9)/2
-          val home_loc_rs = sql.executeQuery(s"SELECT Location FROM `$uuid` WHERE point = $point")
+          val home_loc_rs = sql.executeQuery(s"SELECT Location FROM `Homes` WHERE point = $point AND UUID='$uuid'")
           var homeLoc = "現在ホームポイントが設定されていません。"
           if (home_loc_rs.next()) homeLoc = home_loc_rs.getString("Location")
           inv.setItem(i,getItem(Material.COMPASS,s"ホーム${point}にテレポートします。",util.Arrays.asList(homeLoc)))
         }
         for (i <- 20 to 24 by 2) {
           val point = (i-18)/2
-          val rs = sql.executeQuery(s"SELECT Locked FROM `$uuid` WHERE point = $point")
+          val rs = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID = '$uuid'")
           var wool:Material = Material.LIGHT_BLUE_WOOL
           var msg:String = s"クリックでホーム${point}をロックします。"
           if (rs.next() && rs.getBoolean("Locked")) {
@@ -99,18 +99,15 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
       sql.close()
       return
     }
-    val LockCheck = sql.executeQuery(s"SELECT Locked FROM `$uuid` WHERE point = $point")
+    val LockCheck = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID='$uuid'")
     if (LockCheck.next() && LockCheck.getBoolean("Locked")) {
       p.sendMessage(ChatColor.RED + "ホームがロックされています！")
       sql.close()
       return
     }
-    val rs = sql.executeQuery(s"SHOW TABLES LIKE '$uuid';")
-    if (!rs.next()) sql.executeSQL(s"CREATE TABLE `$uuid`(point INT NOT NULL PRIMARY KEY,Location TEXT,Locked BOOLEAN);")
-    val query = s"INSERT INTO `$uuid` (point,Location,Locked) VALUES ($point,'$location',false) " +
-      s"ON DUPLICATE KEY UPDATE " +
-      s"`Location` = '$location';"
-    sql.executeSQL(query)
+    val rs = sql.executeQuery(s"SELECT * FROM Homes WHERE UUID='$uuid' AND point=$point")
+    if (!rs.next()) sql.executeSQL(s"INSERT INTO `Homes` (UUID,point,Location,Locked) VALUES ('$uuid',$point,'$location',false);")
+    else sql.executeSQL(s"UPDATE `Homes` SET Location='$location' WHERE UUID='$uuid' AND point=$point")
     sql.close()
     p.sendMessage(ChatColor.AQUA + "ホームポイント" + point + "を設定しました。")
   }
@@ -123,15 +120,14 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
       sql.close()
       return
     }
-    val tableCheck = sql.executeQuery(s"SHOW TABLES LIKE '$uuid';")
-    val pointCheck = sql.executeQuery(s"SELECT point FROM `$uuid` WHERE point LIKE $point;")
-    if (!tableCheck.next() || !pointCheck.next()) {
+    val pointCheck = sql.executeQuery(s"SELECT point FROM `Homes` WHERE point=$point AND UUID='$uuid';")
+    if (!pointCheck.next()) {
       p.sendMessage(ChatColor.RED + "ホームが登録されていません！")
       sql.close()
       return
     }
 
-    val rs = sql.executeQuery(s"SELECT * FROM `$uuid`")
+    val rs = sql.executeQuery(s"SELECT * FROM `Homes` WHERE point=$point AND UUID='$uuid'")
     val now_loc = p.getLocation
     while (rs.next()) {
       if (rs.getInt("point") == point) {
@@ -155,12 +151,12 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
       p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
       return
     }
-    val rs = sql.executeQuery(s"SELECT * FROM `$uuid` WHERE point=$index")
+    val rs = sql.executeQuery(s"SELECT * FROM `Homes` WHERE point=$index AND UUID='$uuid'")
     if (!rs.next()) {
       p.sendMessage(ChatColor.RED + "ステータスが変更できませんでした！")
       return
     }
-    sql.executeSQL(s"UPDATE `$uuid` SET Locked = !Locked WHERE point=$index")
+    sql.executeSQL(s"UPDATE `Homes` SET Locked = !Locked WHERE point=$index AND UUID='$uuid'")
     sql.close()
     homeInventory(p)
   }
