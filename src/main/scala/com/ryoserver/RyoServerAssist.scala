@@ -18,12 +18,16 @@ class RyoServerAssist extends JavaPlugin {
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
+
     /*
       イベントの有効化
      */
-    new Home(this)
-    new JapaneseChat(this)
-    new Gacha(this)
+    List(
+      new Home(this),
+      new JapaneseChat(this),
+      new Gacha(this)
+    ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
+
     getLogger.info("RyoServerAssist enabled.")
   }
 
