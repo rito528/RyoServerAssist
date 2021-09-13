@@ -14,7 +14,7 @@ resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.25"
-
+libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.13"
 
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first

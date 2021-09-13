@@ -24,9 +24,13 @@
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.google.code.gson:gson:2.8.0:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.google.guava:guava:21.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.protobuf:protobuf-java:3.11.4:jar" level="project" />
+    <orderEntry type="library" name="sbt: commons-codec:commons-codec:1.11:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: commons-lang:commons-lang:2.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: commons-logging:commons-logging:1.2:jar" level="project" />
     <orderEntry type="library" name="sbt: mysql:mysql-connector-java:8.0.25:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: net.md-5:bungeecord-chat:1.16-R0.4:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpclient:4.5.13:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore:4.4.13:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.6:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.yaml:snakeyaml:1.28:jar" level="project" />

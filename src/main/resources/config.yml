@@ -6,3 +6,8 @@ db: 'RyoServerAssist'
 
 #ホーム機能を利用したときにログを出すかどうか
 log: true
+
+#日本語変換サーバーのIPアドレスを入力してください。
+JapaneseChatServerIP: ''
+#日本語変換サーバーのポートを入力してください。
+JapaneseChatServerPort:
