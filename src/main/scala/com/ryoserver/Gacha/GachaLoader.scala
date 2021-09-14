@@ -4,13 +4,15 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.{Bukkit, Material}
 
 import java.nio.file.{Files, Paths}
-import scala.collection.mutable
 import scala.io.Source
 
 object GachaLoader {
 
-  var GachaItemData:mutable.Map[String,Int] = mutable.Map.empty[String,Int]
-  var GachaRarity:mutable.Map[String,Int] = mutable.Map.empty[String,Int]
+  // 1 = miss, 2 = per,3 = bigPer, 4 = special
+  var perItemList:Array[String] = Array.empty
+  var bigPerItemList:Array[String] = Array.empty
+  var specialItemList:Array[String] = Array.empty
+  var missItemList:Array[String] = Array.empty
 
   var per:Double = _ //あたり
   var bigPer:Double = _ //大当たり
@@ -34,8 +36,16 @@ object GachaLoader {
           Bukkit.getLogger.warning(material + "という不明なガチャアイテムが指定されています！")
           Bukkit.getLogger.warning("サーバーを停止します。")
           Bukkit.shutdown()
+        } else if (!(rarity == 1 || rarity == 2 || rarity == 3 || rarity == 4)) {
+          Bukkit.getLogger.warning(rarity + "という不明なレアリティが指定されています！")
+          Bukkit.getLogger.warning("サーバーを停止します。")
+          Bukkit.shutdown()
+        } else {
+          if (rarity == 1) missItemList :+= material
+          else if (rarity == 2) perItemList :+= material
+          else if (rarity == 3) bigPerItemList :+= material
+          else if (rarity == 4) specialItemList :+= material
         }
-        else GachaItemData += material -> rarity
       })
       Bukkit.getLogger.info("ガチャアイテムロードが完了しました！")
   }

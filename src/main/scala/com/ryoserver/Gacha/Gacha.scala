@@ -4,7 +4,8 @@ import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
-import org.bukkit.{ChatColor, Sound}
+import org.bukkit.inventory.ItemStack
+import org.bukkit.{ChatColor, Sound, World}
 
 class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -14,7 +15,6 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
     val inventory = p.getInventory
     val mainHand = inventory.getItemInMainHand
     val getItemAmount = inventory.getItemInMainHand.getAmount
-
     if (mainHand.getData == GachaPaperData.normal.getData && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && p.isSneaking && !getCoolDown(p)) {
       /*
         シフトと右クリックを同時に行った場合(全部引く場合)
@@ -26,10 +26,18 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
       inventory.getItemInMainHand.setAmount(0)
       for (_ <- 0 until getItemAmount) {
         new GachaLottery().lottery() match {
-          case rarity.special => special += 1
-          case rarity.per => per += 1
-          case rarity.bigPer => bigPer += 1
-          case rarity.miss => miss += 1
+          case rarity.special => 
+            special += 1
+            p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(4)))
+          case rarity.per => 
+            per += 1
+            p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(2)))
+          case rarity.bigPer => 
+            bigPer += 1
+            p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(3)))
+          case rarity.miss => 
+            miss += 1
+            p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(1)))
         }
       }
       p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
@@ -43,10 +51,18 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
       inventory.getItemInMainHand.setAmount(getItemAmount - 1)
       p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       new GachaLottery().lottery() match {
-        case rarity.special => p.sendMessage(ChatColor.AQUA + "特賞！")
-        case rarity.per => p.sendMessage(ChatColor.AQUA + "あたり！")
-        case rarity.bigPer => p.sendMessage(ChatColor.AQUA + "大当たり！")
-        case rarity.miss => p.sendMessage(ChatColor.AQUA + "はずれ！")
+        case rarity.special =>
+          p.sendMessage(ChatColor.AQUA + "特賞！")
+          p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(4)))
+        case rarity.per =>
+          p.sendMessage(ChatColor.AQUA + "あたり！")
+          p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(2)))
+        case rarity.bigPer =>
+          p.sendMessage(ChatColor.AQUA + "大当たり！")
+          p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(3)))
+        case rarity.miss =>
+          p.sendMessage(ChatColor.AQUA + "はずれ！")
+          p.getWorld.dropItem(p.getLocation(),new ItemStack(new GachaLottery().itemLottery(1)))
       }
       pullCoolDownSet(p,ryoServerAssist)
     }
