@@ -2,9 +2,9 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{ChatColor, Sound}
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
+import org.bukkit.{ChatColor, Sound}
 
 class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -19,9 +19,22 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
       /*
         シフトと右クリックを同時に行った場合(全部引く場合)
       */
+      var special = 0
+      var per = 0
+      var bigPer = 0
+      var miss = 0
       inventory.getItemInMainHand.setAmount(0)
+      for (_ <- 0 until getItemAmount) {
+        new GachaLottery().lottery() match {
+          case rarity.special => special += 1
+          case rarity.per => per += 1
+          case rarity.bigPer => bigPer += 1
+          case rarity.miss => miss += 1
+        }
+      }
       p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       p.sendMessage(ChatColor.AQUA + getItemAmount.toString + "回ガチャを引きました！")
+      p.sendMessage(ChatColor.AQUA  + s"特賞x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
       pullCoolDownSet(p,ryoServerAssist)
     } else if (mainHand.getData == GachaPaperData.normal.getData && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && !getCoolDown(p)) {
       /*
@@ -29,7 +42,12 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
       */
       inventory.getItemInMainHand.setAmount(getItemAmount - 1)
       p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
-      p.sendMessage(ChatColor.AQUA + "ガチャを引きました！")
+      new GachaLottery().lottery() match {
+        case rarity.special => p.sendMessage(ChatColor.AQUA + "特賞！")
+        case rarity.per => p.sendMessage(ChatColor.AQUA + "あたり！")
+        case rarity.bigPer => p.sendMessage(ChatColor.AQUA + "大当たり！")
+        case rarity.miss => p.sendMessage(ChatColor.AQUA + "はずれ！")
+      }
       pullCoolDownSet(p,ryoServerAssist)
     }
   }

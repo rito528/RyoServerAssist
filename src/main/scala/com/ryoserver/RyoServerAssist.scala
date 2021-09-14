@@ -1,7 +1,7 @@
 package com.ryoserver
 
 import com.ryoserver.Chat.JapaneseChat
-import com.ryoserver.Gacha.Gacha
+import com.ryoserver.Gacha.{Gacha, GachaLoader}
 import com.ryoserver.Home.Home
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -27,6 +27,7 @@ class RyoServerAssist extends JavaPlugin {
       new JapaneseChat(this),
       new Gacha(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
+    GachaLoader.load(this)
 
     getLogger.info("RyoServerAssist enabled.")
   }
