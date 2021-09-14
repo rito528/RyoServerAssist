@@ -9,11 +9,17 @@ commands:
   home:
     description: Use home command.
     permission: ryoserverassist.home
+  gacha:
+    description: Gacha operation commands.
+    permission: ryoserverassist.gacha
 
 permissions:
   ryoserverassist.*:
     default: false
     children:
       - ryoserverassist.home
+      - ryoserverassist.gacha
   ryoserverassist.home:
     default: true
+  ryoserverassist.gacha:
+    default: op

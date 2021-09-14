@@ -15,7 +15,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
     val inventory = p.getInventory
     val mainHand = inventory.getItemInMainHand
     val getItemAmount = inventory.getItemInMainHand.getAmount
-    if (mainHand.getData == GachaPaperData.normal.getData && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && p.isSneaking && !getCoolDown(p)) {
+    if (mainHand.getType == GachaPaperData.normal.getType && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && p.isSneaking && !getCoolDown(p)) {
       /*
         シフトと右クリックを同時に行った場合(全部引く場合)
       */
@@ -44,7 +44,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
       p.sendMessage(ChatColor.AQUA + getItemAmount.toString + "回ガチャを引きました！")
       p.sendMessage(ChatColor.AQUA  + s"特賞x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
       pullCoolDownSet(p,ryoServerAssist)
-    } else if (mainHand.getData == GachaPaperData.normal.getData && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && !getCoolDown(p)) {
+    } else if (mainHand.getType == GachaPaperData.normal.getType && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta && !getCoolDown(p)) {
       /*
         1回だけ引く場合
       */
