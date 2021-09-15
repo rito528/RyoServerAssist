@@ -15,6 +15,9 @@ commands:
   distribution:
     description: Distribution operation command.
     permission: ryoserverassist.distribution
+  menu:
+    description: Menu open command.
+    permission: ryoserverassist.menu
 
 permissions:
   ryoserverassist.*:
@@ -23,9 +26,12 @@ permissions:
       - ryoserverassist.home
       - ryoserverassist.gacha
       - ryoserverassist.distribution
+      - ryoserverassist.menu
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
     default: op
   ryoserverassist.distribution:
     default: op
+  ryoserverassist.menu:
+    default: true

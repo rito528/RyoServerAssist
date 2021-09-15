@@ -4,6 +4,7 @@ import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
+import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -31,7 +32,8 @@ class RyoServerAssist extends JavaPlugin {
     Map(
       "home" -> new Home(this),
       "gacha" -> new GachaCommand(),
-      "distribution" -> new DistributionCommand(this)
+      "distribution" -> new DistributionCommand(this),
+      "menu" -> new MenuCommand()
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -43,7 +45,8 @@ class RyoServerAssist extends JavaPlugin {
       new Home(this),
       new JapaneseChat(this),
       new Gacha(this),
-      new JoinEvents(this)
+      new JoinEvents(this),
+      new MenuEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
