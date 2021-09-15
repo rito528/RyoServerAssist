@@ -10,6 +10,7 @@ class JoinEvents(ryoServerAssist: RyoServerAssist) extends Listener {
   def onJoin(e: PlayerJoinEvent): Unit = {
     val createData = new createData(ryoServerAssist)
     createData.createPlayerData(e.getPlayer)
+    new UpdateData(ryoServerAssist).update()
   }
 
 }
