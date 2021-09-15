@@ -15,4 +15,12 @@ object GachaPaperData {
     getItem(Material.PAPER,"ガチャ券",Lore)
   }
 
+  val fromAdmin:ItemStack = {
+    val Lore = List(
+      ChatColor.WHITE + "手に持って右クリックで引けます",
+      ChatColor.WHITE + "運営からのお詫びです"
+    ).asJava
+    getItem(Material.PAPER,"ガチャ券",Lore)
+  }
+
 }

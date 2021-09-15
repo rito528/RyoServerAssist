@@ -19,7 +19,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
 
   def addDistribution(gachaPaperType: String, count:Int,sendPlayer:CommandSender): Unit = {
     val sql = new SQL(ryoServerAssist)
-    if (gachaPaperType != "normal") {
+    if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {
       sendPlayer.sendMessage(ChatColor.RED + "不明なガチャ券のタイプが指定されました。")
       return
     }
@@ -47,14 +47,17 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       if (stack >= 576) loop = false
       else if (gachaPaperType != rs.getString("GachaPaperType")) loop = false
     }
-    sql.executeSQL(s"UPDATE Players SET lastDistributionReceived=$id WHERE UUID='${p.getUniqueId.toString}'")
-    sql.close()
-    var gachaPaper:ItemStack = null
-    if (gachaPaperType == "normal") gachaPaper = new ItemStack(GachaPaperData.normal)
-    gachaPaper.setAmount(stack)
-    p.getWorld.dropItem(p.getLocation(),gachaPaper)
-    p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
-    p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+    if (stack != 0 && id != 0) {
+      sql.executeSQL(s"UPDATE Players SET lastDistributionReceived=$id WHERE UUID='${p.getUniqueId.toString}'")
+      sql.close()
+      var gachaPaper: ItemStack = null
+      if (gachaPaperType.equalsIgnoreCase("normal")) gachaPaper = new ItemStack(GachaPaperData.normal)
+      if (gachaPaperType.equalsIgnoreCase("fromAdmin")) gachaPaper = new ItemStack(GachaPaperData.fromAdmin)
+      gachaPaper.setAmount(stack)
+      p.getWorld.dropItem(p.getLocation(), gachaPaper)
+      p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
+      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+    }
   }
 
 }

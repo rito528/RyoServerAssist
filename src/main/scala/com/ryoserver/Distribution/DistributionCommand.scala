@@ -13,8 +13,9 @@ class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandExecu
         return true
       } else if (args(0).equalsIgnoreCase("help") && args.length == 1) {
         sender.sendMessage("+-------------------------------------+")
-        sender.sendMessage(ChatColor.AQUA + "/distribution give <normal> <個数>")
+        sender.sendMessage(ChatColor.AQUA + "/distribution give <normal/fromAdmin> <個数>")
         sender.sendMessage("ガチャ券を配布します。")
+        sender.sendMessage("normalで通常ガチャ券、fromAdminで不具合のお詫びガチャ券を指定します。")
         sender.sendMessage("+-------------------------------------+")
         return true
       }
