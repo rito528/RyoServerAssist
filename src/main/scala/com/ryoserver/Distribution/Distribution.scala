@@ -6,7 +6,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{Bukkit, ChatColor}
+import org.bukkit.{Bukkit, ChatColor, Sound}
 
 class Distribution(ryoServerAssist: RyoServerAssist) {
 
@@ -53,6 +53,8 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
     if (gachaPaperType == "normal") gachaPaper = new ItemStack(GachaPaperData.normal)
     gachaPaper.setAmount(stack)
     p.getWorld.dropItem(p.getLocation(),gachaPaper)
+    p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
+    p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
   }
 
 }
