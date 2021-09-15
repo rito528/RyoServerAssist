@@ -1,8 +1,12 @@
 package com.ryoserver
 
 import com.ryoserver.Chat.JapaneseChat
+import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
+import com.ryoserver.Player.JoinEvents
+import com.ryoserver.util.SQL
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -11,11 +15,23 @@ class RyoServerAssist extends JavaPlugin {
     super.onEnable()
     saveDefaultConfig()
     /*
+      MySQL接続チェック
+     */
+    val sql = new SQL(this)
+    if (!sql.connectionTest()) {
+      getLogger.severe("MySQLに接続できませんでした！")
+      getLogger.severe("サーバを終了します...")
+      Bukkit.shutdown()
+      return
+    }
+    sql.close()
+    /*
       コマンドの有効化
      */
     Map(
       "home" -> new Home(this),
-      "gacha" -> new GachaCommand()
+      "gacha" -> new GachaCommand(),
+      "distribution" -> new DistributionCommand(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -26,9 +42,15 @@ class RyoServerAssist extends JavaPlugin {
     List(
       new Home(this),
       new JapaneseChat(this),
-      new Gacha(this)
+      new Gacha(this),
+      new JoinEvents(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
+
+    /*
+      各種ロード処理
+     */
     GachaLoader.load(this)
+    new Distribution(this).createDistributionTable()
 
     getLogger.info("RyoServerAssist enabled.")
   }
