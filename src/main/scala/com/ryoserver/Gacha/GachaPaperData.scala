@@ -6,7 +6,6 @@ import org.bukkit.inventory.ItemStack
 
 import scala.jdk.CollectionConverters._
 
-
 object GachaPaperData {
 
   val normal:ItemStack = {

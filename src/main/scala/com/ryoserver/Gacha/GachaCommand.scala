@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha
 
-import org.bukkit.{Bukkit, ChatColor}
+import org.bukkit.ChatColor
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

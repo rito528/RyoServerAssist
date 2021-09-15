@@ -5,7 +5,7 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{ChatColor, Sound, World}
+import org.bukkit.{ChatColor, Sound}
 
 class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
 
