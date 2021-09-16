@@ -2,6 +2,7 @@ package com.ryoserver.Menu
 
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Storage.Storage
 import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -15,6 +16,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val p = e.getWhoClicked.asInstanceOf[Player]
     e.getSlot match {
       case 0 => new Distribution(ryoServerAssist).receipt(p)
+      case 2 => new Storage(ryoServerAssist).load(p)
       case _ =>
     }
   }

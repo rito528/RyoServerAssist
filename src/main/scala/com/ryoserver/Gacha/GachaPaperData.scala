@@ -1,8 +1,8 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
 import org.bukkit.{ChatColor, Material}
-import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.{ItemFlag, ItemStack}
 
 import scala.jdk.CollectionConverters._
 
@@ -12,7 +12,7 @@ object GachaPaperData {
     val Lore = List(
       ChatColor.WHITE + "手に持って右クリックで引けます"
     ).asJava
-    getItem(Material.PAPER,"ガチャ券",Lore)
+    getGachaItem(Material.PAPER,"ガチャ券",Lore)
   }
 
   val fromAdmin:ItemStack = {
@@ -20,7 +20,7 @@ object GachaPaperData {
       ChatColor.WHITE + "手に持って右クリックで引けます",
       ChatColor.WHITE + "運営からのお詫びです"
     ).asJava
-    getItem(Material.PAPER,"ガチャ券",Lore)
+    getGachaItem(Material.PAPER,"ガチャ券",Lore)
   }
 
 }

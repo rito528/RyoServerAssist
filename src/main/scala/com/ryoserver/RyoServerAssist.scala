@@ -6,6 +6,7 @@ import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
+import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -46,7 +47,8 @@ class RyoServerAssist extends JavaPlugin {
       new JapaneseChat(this),
       new Gacha(this),
       new JoinEvents(this),
-      new MenuEvent(this)
+      new MenuEvent(this),
+      new StorageEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

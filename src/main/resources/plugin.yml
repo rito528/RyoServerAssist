@@ -1,5 +1,5 @@
 name: RyoServerAssist
-version: 1.0.0
+version: 1.0.0-BETA
 main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 author: rito528

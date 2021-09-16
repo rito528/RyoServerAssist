@@ -1,9 +1,9 @@
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-logging-1.2.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.25.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
 [0m[[0m[0mdebug[0m] [0m[0mChecking every *.class/*.jar file's SHA-1.[0m
@@ -12,9 +12,9 @@
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/INDEX.LIST' with strategy 'discard'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/MANIFEST.MF' with strategy 'discard'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
-[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 324d727102400f14c868c358a66222c853540447[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 3b8bff66aabd31ace98d383372f4e5171ef2e877[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
-[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0-BETA.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	LICENSE_scala-library-2.13.6[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/baf857f78d0e34dce02c22f66651db04f34cf09d_ed7a2f528c7389ea65746c22a01031613d98ab3d_da39a3ee5e6b4b0d3255bfef95601890afd80709/LICENSE_scala-library-2.13.6[0m
@@ -3514,6 +3514,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Player/createData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/RyoServerAssist.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/RyoServerAssist.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Storage/Storage.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Storage/Storage.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Storage/StorageEvent.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Storage/StorageEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/util/SQL.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/util/SQL.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	config.yml[0m
