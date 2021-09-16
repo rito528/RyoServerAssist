@@ -43,6 +43,16 @@ class SQL(ryoServerAssist: RyoServerAssist) {
     this.con.close()
   }
 
+  def purseFolder(sql:String,quote:String): Unit = {
+    Class.forName(this.driver)
+    this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
+    this.ps = this.con.prepareStatement(sql)
+    ps.setString(1,quote)
+    this.ps.executeUpdate()
+    this.ps.close()
+    this.con.close()
+  }
+
   def close(): Unit = {
     if (this.con != null)this.con.close()
     if (this.stmt != null)this.stmt.close()

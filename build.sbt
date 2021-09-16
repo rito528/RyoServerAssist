@@ -15,6 +15,9 @@ resolvers += Resolver.mavenLocal
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.25"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.13"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.13.0-rc1"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.0-rc1"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.0-rc1"
 
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first

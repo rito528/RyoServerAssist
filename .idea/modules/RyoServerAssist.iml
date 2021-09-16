@@ -21,6 +21,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.13.0-rc1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.13.0-rc1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.13.0-rc1:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.google.code.gson:gson:2.8.0:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.google.guava:guava:21.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.protobuf:protobuf-java:3.11.4:jar" level="project" />
