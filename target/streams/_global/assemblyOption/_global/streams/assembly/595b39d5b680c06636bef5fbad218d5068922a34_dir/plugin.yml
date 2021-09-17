@@ -18,6 +18,9 @@ commands:
   menu:
     description: Menu open command.
     permission: ryoserverassist.menu
+  level:
+    description: level operation command.
+    permission: ryoserverassist.level
 
 permissions:
   ryoserverassist.*:
@@ -27,6 +30,7 @@ permissions:
       - ryoserverassist.gacha
       - ryoserverassist.distribution
       - ryoserverassist.menu
+      - ryoserverassist.level
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -35,3 +39,5 @@ permissions:
     default: op
   ryoserverassist.menu:
     default: true
+  ryoserverassist.level:
+    default: op

@@ -4,6 +4,7 @@ import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
+import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Storage.StorageEvent
@@ -34,7 +35,8 @@ class RyoServerAssist extends JavaPlugin {
       "home" -> new Home(this),
       "gacha" -> new GachaCommand(),
       "distribution" -> new DistributionCommand(this),
-      "menu" -> new MenuCommand()
+      "menu" -> new MenuCommand(),
+      "level" -> new LevelCommand
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
