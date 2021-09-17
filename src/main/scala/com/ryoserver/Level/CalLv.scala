@@ -12,8 +12,9 @@ class CalLv {
       経験値から現在のレベルを算出する
      */
     var lv = 1
+    if (exp == 10) return 2 //expが10の場合は例外であるため、レベル2を返す
     //順番にレベルそのレベルに到達するのに必要なexpを取得
-    while (getSumTotal(lv + 1) <= exp && lv != MAX_LV) lv += 1
+    while (getSumTotal(lv + 1) <= exp && lv <= MAX_LV) lv += 1
     lv
   }
 
