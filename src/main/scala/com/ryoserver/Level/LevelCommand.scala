@@ -20,7 +20,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
       } else if (args(0).equalsIgnoreCase("getTotalExp")) {
         sender.sendMessage("Lv." + args(1) + "までに必要な経験値総量:" + lv.getSumTotal(args(1).toInt))
         return true
-      } else if (args(0).equalsIgnoreCase("addExp")) {
+      } else if (args(0).equalsIgnoreCase("setExp")) {
         new updateLevel(ryoServerAssist).updateExp(args(1).toInt,sender.asInstanceOf[Player])
         sender.sendMessage(ChatColor.AQUA + "更新しました。")
         return true
@@ -32,7 +32,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
         sender.sendMessage("指定したレベルにから次のレベルに到達するまでに必要な経験値量を取得します。")
         sender.sendMessage(ChatColor.AQUA + "/level getTotalExp <レベル>")
         sender.sendMessage("指定したレベルに到達するまでに必要な経験値総量を表示します。")
-        sender.sendMessage(ChatColor.AQUA + "/level addExp <経験値>")
+        sender.sendMessage(ChatColor.AQUA + "/level setExp <経験値>")
         sender.sendMessage("自分を指定した経験値にします。")
         sender.sendMessage("+-------------------------------------+")
         return true
