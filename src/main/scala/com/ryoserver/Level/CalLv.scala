@@ -1,18 +1,19 @@
 package com.ryoserver.Level
 
-class CalLv {
+import com.ryoserver.RyoServerAssist
+
+class CalLv(ryoServerAssist: RyoServerAssist) {
   /*
     レベルの計算をするクラス
    */
 
-  private val MAX_LV = 100
+  private val MAX_LV = ryoServerAssist.getConfig.getInt("maxLv")
 
   def getLevel(exp: Int): Int = {
     /*
       経験値から現在のレベルを算出する
      */
-    var lv = 1
-    if (exp == 10) return 2 //expが10の場合は例外であるため、レベル2を返す
+    var lv = 0
     //順番にレベルそのレベルに到達するのに必要なexpを取得
     while (getSumTotal(lv + 1) <= exp && lv <= MAX_LV) lv += 1
     lv

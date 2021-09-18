@@ -36,7 +36,7 @@ class RyoServerAssist extends JavaPlugin {
       "gacha" -> new GachaCommand(),
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(),
-      "level" -> new LevelCommand
+      "level" -> new LevelCommand(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

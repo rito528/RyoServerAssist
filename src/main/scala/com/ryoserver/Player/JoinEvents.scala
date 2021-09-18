@@ -1,5 +1,6 @@
 package com.ryoserver.Player
 
+import com.ryoserver.Level.Player.LevelLoader
 import com.ryoserver.RyoServerAssist
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.player.PlayerJoinEvent
@@ -11,6 +12,7 @@ class JoinEvents(ryoServerAssist: RyoServerAssist) extends Listener {
     val createData = new createData(ryoServerAssist)
     createData.createPlayerData(e.getPlayer)
     new UpdateData(ryoServerAssist).update()
+    new LevelLoader(ryoServerAssist).loadPlayerLevel(e.getPlayer)
   }
 
 }

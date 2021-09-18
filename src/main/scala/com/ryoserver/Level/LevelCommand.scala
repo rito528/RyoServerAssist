@@ -1,13 +1,14 @@
 package com.ryoserver.Level
 
+import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 
-class LevelCommand extends CommandExecutor {
+class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (label.equalsIgnoreCase("level")) {
-      val lv = new CalLv()
+      val lv = new CalLv(ryoServerAssist)
       if (args(0).equalsIgnoreCase("getLevel")) {
         sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt))
         return true
