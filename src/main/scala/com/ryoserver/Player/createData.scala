@@ -18,7 +18,7 @@ class createData(ryoServerAssist: RyoServerAssist) {
     if (!table_rs.next()) sql.executeSQL("CREATE TABLE Players(UUID Text,lastLogin DATETIME,loginDays INT,consecutiveLoginDays INT,lastDistributionReceived INT,EXP INT,Level INT);")
     val user_rs = sql.executeQuery(s"SELECT UUID FROM Players WHERE UUID='${p.getUniqueId.toString}';")
     if (!user_rs.next()) sql.executeSQL(s"INSERT INTO Players (UUID,lastLogin,loginDays,consecutiveLoginDays,lastDistributionReceived,EXP,Level) " +
-      s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT last_insert_id() Distribution),0,1);")
+      s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT last_insert_id() Distribution),0,0);")
     sql.close()
   }
 

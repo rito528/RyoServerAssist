@@ -7,7 +7,7 @@ class CalLv(ryoServerAssist: RyoServerAssist) {
     レベルの計算をするクラス
    */
 
-  private val MAX_LV = ryoServerAssist.getConfig.getInt("maxLv")
+  val MAX_LV: Int = ryoServerAssist.getConfig.getInt("maxLv")
 
   def getLevel(exp: Int): Int = {
     /*
@@ -15,7 +15,7 @@ class CalLv(ryoServerAssist: RyoServerAssist) {
      */
     var lv = 0
     //順番にレベルそのレベルに到達するのに必要なexpを取得
-    while (getSumTotal(lv + 1) <= exp && lv <= MAX_LV) lv += 1
+    while (getSumTotal(lv + 1) <= exp && lv < MAX_LV) lv += 1
     lv
   }
 
