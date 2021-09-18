@@ -13,7 +13,7 @@ class LevelLoader(ryoServerAssist: RyoServerAssist) {
     val rs = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     if (rs.next()) {
       val exp = rs.getInt("EXP")
-      BossBar.createLevelBer(ryoServerAssist,exp,p)
+      BossBar.createLevelBer(ryoServerAssist,exp, p)
     }
     sql.close()
   }

@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/CalLv.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/CalLv.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/LevelCommand.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/LevelCommand.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/BossBar.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/BossBar.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/LevelLoader.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/LevelLoader.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/createData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/createData.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/RyoServerAssist-1.0.0-BETA.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
