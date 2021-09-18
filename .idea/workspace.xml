@@ -6,16 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/MenuEvent.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/MenuEvent.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/createMenu.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/createMenu.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/loadQuests.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/loadQuests.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/RyoServerAssist.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/RyoServerAssist.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/global-logging/sbt-global-log1247814760838145859.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/global-logging/sbt-global-log2145283979720622397.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Level/LevelCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Level/LevelCommand.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/_global/_global/compileOutputs/previous" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/_global/_global/compileOutputs/previous" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +31,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />

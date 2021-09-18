@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.{FileConfiguration, YamlConfiguration}
 
 import java.io.PrintWriter
 import java.nio.file.{Files, Paths}
-class loadQuests(ryoServerAssist: RyoServerAssist) {
+object loadQuests{
 
   private val QUEST_SETTING_FILE = "plugins/RyoServerAssist/Quests.yml"
 
@@ -21,11 +21,15 @@ class loadQuests(ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  def checkQuest(): Unit = {
+  var enableEvents: Array[String] = Array.empty
+  var questConfig:FileConfiguration = _
+
+  def checkQuest(ryoServerAssist: RyoServerAssist): Unit = {
     val quests = ryoServerAssist.getConfig.getStringList("enableQuests")
-    val questConfig:FileConfiguration = YamlConfiguration.loadConfiguration(Paths.get(QUEST_SETTING_FILE).toFile)
+    questConfig = YamlConfiguration.loadConfiguration(Paths.get(QUEST_SETTING_FILE).toFile)
     quests.forEach(questName => {
       if (!questConfig.contains(questName)) ryoServerAssist.getLogger.warning(questName + "という不明なクエストが指定されています！")
+      else enableEvents :+= questName
     })
   }
 
