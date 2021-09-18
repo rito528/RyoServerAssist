@@ -7,9 +7,11 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
+import com.ryoserver.Quest.loadQuests
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
+import org.bukkit.entity.EntityType
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -58,7 +60,8 @@ class RyoServerAssist extends JavaPlugin {
      */
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
-
+    new loadQuests(this).createSetQuestFile()
+    new loadQuests(this).checkQuest()
     getLogger.info("RyoServerAssist enabled.")
   }
 
