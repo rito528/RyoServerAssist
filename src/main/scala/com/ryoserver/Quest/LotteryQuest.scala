@@ -15,18 +15,18 @@ class LotteryQuest(ryoServerAssist: RyoServerAssist) {
 
   def lottery(lv: Int): Unit = {
     val random = SecureRandom.getInstance("SHA1PRNG")
-    var loop = true
     do {
       val r = random.nextInt(loadQuests.enableEvents.length)
       questName = loadQuests.enableEvents(r)
-      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel")) {
-        loop = false
-        questType = loadQuests.questConfig.getString(questName + ".type")
-        items = loadQuests.questConfig.getStringList(questName + ".deliveryItems")
-        descriptions = loadQuests.questConfig.getStringList(questName + ".description")
-        exp = loadQuests.questConfig.getInt(questName + ".exp")
-      }
+      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel")) getQuest()
     } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel"))
+  }
+
+  def getQuest(): Unit = {
+    questType = loadQuests.questConfig.getString(questName + ".type")
+    items = loadQuests.questConfig.getStringList(questName + ".deliveryItems")
+    descriptions = loadQuests.questConfig.getStringList(questName + ".description")
+    exp = loadQuests.questConfig.getInt(questName + ".exp")
   }
 
 
