@@ -62,7 +62,6 @@ class RyoServerAssist extends JavaPlugin {
     new Distribution(this).createDistributionTable()
     loadQuests.createSetQuestFile()
     loadQuests.checkQuest(this)
-    new LotteryQuest(this).lottery()
     getLogger.info("RyoServerAssist enabled.")
   }
 
