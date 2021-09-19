@@ -31,7 +31,6 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
         lottery.questName = data((i - 1)/2)
         lottery.getQuest()
         selectedQuests :+= lottery.questName
-        println(lottery.questName)
       }
       val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト" else ""
       val questDetails: java.util.List[String] = new util.ArrayList[String]()
