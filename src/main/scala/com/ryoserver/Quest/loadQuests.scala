@@ -1,10 +1,12 @@
 package com.ryoserver.Quest
 
+import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.configuration.file.{FileConfiguration, YamlConfiguration}
 
 import java.io.PrintWriter
 import java.nio.file.{Files, Paths}
+import scala.io.Source
 object loadQuests{
 
   private val QUEST_SETTING_FILE = "plugins/RyoServerAssist/Quests.yml"
@@ -23,6 +25,7 @@ object loadQuests{
 
   var enableEvents: Array[String] = Array.empty
   var questConfig:FileConfiguration = _
+  var langFile:JsonNode = _
 
   def checkQuest(ryoServerAssist: RyoServerAssist): Unit = {
     val quests = ryoServerAssist.getConfig.getStringList("enableQuests")
@@ -31,6 +34,9 @@ object loadQuests{
       if (!questConfig.contains(questName)) ryoServerAssist.getLogger.warning(questName + "という不明なクエストが指定されています！")
       else enableEvents :+= questName
     })
+    val is = getClass.getClassLoader.getResourceAsStream("ja_jp.json")
+    val mapper = new ObjectMapper()
+    langFile = mapper.readTree(Source.fromInputStream(is).getLines().mkString)
   }
 
 }

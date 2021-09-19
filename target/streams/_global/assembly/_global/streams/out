@@ -1,11 +1,11 @@
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-logging-1.2.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-core-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-databind-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-annotations-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-core-2.13.0-rc1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-databind-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.25.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
@@ -17,7 +17,7 @@
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/versions/11/module-info.class' with strategy 'first'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'first' was applied to a file (Run the task at debug level to see details)[0m
-[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 0df42ab08559f45f649cf248e41827907c4f829f[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: efe0e4ecaa7f15ee01f8751ba7ac567c73b4febe[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
 [0m[[0m[0mdebug[0m] [0m[0mPackaging /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0-BETA.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
@@ -5405,6 +5405,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/3441f8bc7c0ef1e9ead300a9a8f5dd608b81daf5_7ec0925cc3aef0335bbc7d57edfd42b0f86f8267_da39a3ee5e6b4b0d3255bfef95601890afd80709/google/protobuf/type.proto[0m
 [0m[[0m[0mdebug[0m] [0m[0m	google/protobuf/wrappers.proto[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/3441f8bc7c0ef1e9ead300a9a8f5dd608b81daf5_7ec0925cc3aef0335bbc7d57edfd42b0f86f8267_da39a3ee5e6b4b0d3255bfef95601890afd80709/google/protobuf/wrappers.proto[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ja_jp.json[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/ja_jp.json[0m
 [0m[[0m[0mdebug[0m] [0m[0m	library.properties[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/rito/Desktop/Develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/baf857f78d0e34dce02c22f66651db04f34cf09d_ed7a2f528c7389ea65746c22a01031613d98ab3d_da39a3ee5e6b4b0d3255bfef95601890afd80709/library.properties[0m
 [0m[[0m[0mdebug[0m] [0m[0m	module-info.class[0m

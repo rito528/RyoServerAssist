@@ -1,0 +1,18 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala:6:12: object minecraft is not a member of package net[0m
+[0m[[0m[31merror[0m] [0m[0mimport net.minecraft.locale.LocaleLanguage[0m
+[0m[[0m[31merror[0m] [0m[0m           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala:7:19: object craftbukkit is not a member of package org.bukkit[0m
+[0m[[0m[31merror[0m] [0m[0mimport org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer[0m
+[0m[[0m[31merror[0m] [0m[0m                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala:29:30: not found: type CraftPlayer[0m
+[0m[[0m[31merror[0m] [0m[0m      val l = p.asInstanceOf[CraftPlayer].getHandle.locale[0m
+[0m[[0m[31merror[0m] [0m[0m                             ^[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed 2021/09/19 1:42:01[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
