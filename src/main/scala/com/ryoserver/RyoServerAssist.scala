@@ -7,11 +7,10 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
-import com.ryoserver.Quest.{LotteryQuest, QuestSelectInventoryEvent, loadQuests}
+import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
-import org.bukkit.entity.EntityType
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {

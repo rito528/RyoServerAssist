@@ -74,8 +74,8 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
       questDetails.add(ChatColor.WHITE + "【説明】")
       lottery.descriptions.forEach(description => questDetails.add(ChatColor.WHITE + "・" + description))
       questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
-      deliveryInv.setItem(50, getItem(Material.BOOK, s"[$questType]" + lottery.questName, questDetails))
-      deliveryInv.setItem(51,getItem(Material.NETHER_STAR,"納品する",List("クリックで納品します。").asJava))
+      deliveryInv.setItem(45, getItem(Material.BOOK, s"[$questType]" + lottery.questName, questDetails))
+      deliveryInv.setItem(46,getItem(Material.NETHER_STAR,"納品する",List("クリックで納品します。").asJava))
       deliveryInv.setItem(53,getItem(Material.RED_WOOL,"クエストを中止する",List("クリックでクエストを中止します。","納品したアイテムは戻りません！").asJava))
       p.openInventory(deliveryInv)
     }

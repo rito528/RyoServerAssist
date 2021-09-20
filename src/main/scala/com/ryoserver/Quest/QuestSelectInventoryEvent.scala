@@ -54,9 +54,9 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
       val inv = e.getInventory
       val p = e.getWhoClicked.asInstanceOf[Player]
       val questData = new QuestData(ryoServerAssist)
-      if (index == 50 || index == 51 || index == 53) e.setCancelled(true)
+      if (index == 45 || index == 46 || index == 53) e.setCancelled(true)
       index match {
-        case 51 =>
+        case 46 =>
           var remainingItems:Array[ItemStack] = Array.empty
           var invItems:Array[ItemStack] = Array.empty
           //クエスト終了に必要な残りの納品アイテムを取得する
@@ -123,7 +123,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
   def returnItem(inv:Inventory,p: Player): Unit = {
     var isSend = false
     inv.getContents.foreach(is=> {
-      if (is != null && is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(51).getItemMeta
+      if (is != null && is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta
         && is.getItemMeta != inv.getItem(53).getItemMeta) {
         p.getWorld.dropItem(p.getLocation(),is)
         if (!isSend) {
