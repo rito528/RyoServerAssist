@@ -9,7 +9,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
 
   def updateExp(exp: Int,p:Player): Unit = {
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${new CalLv(ryoServerAssist).getLevel(exp)}")
+    sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${new CalLv(ryoServerAssist).getLevel(exp)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
     BossBar.updateLevelBer(ryoServerAssist,exp, p)
   }
