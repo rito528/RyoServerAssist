@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Player.JoinEvents
-import com.ryoserver.Quest.{LotteryQuest, loadQuests}
+import com.ryoserver.Quest.{LotteryQuest, QuestSelectInventoryEvent, loadQuests}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -52,7 +52,8 @@ class RyoServerAssist extends JavaPlugin {
       new Gacha(this),
       new JoinEvents(this),
       new MenuEvent(this),
-      new StorageEvent(this)
+      new StorageEvent(this),
+      new QuestSelectInventoryEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

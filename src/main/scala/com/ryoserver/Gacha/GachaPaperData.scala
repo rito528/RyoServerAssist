@@ -1,8 +1,8 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
+import com.ryoserver.Inventory.Item.getGachaItem
+import org.bukkit.inventory.ItemStack
 import org.bukkit.{ChatColor, Material}
-import org.bukkit.inventory.{ItemFlag, ItemStack}
 
 import scala.jdk.CollectionConverters._
 
