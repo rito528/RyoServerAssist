@@ -28,7 +28,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
               data = data.filterNot(_ == questEntity)
               var amount = questEntity.split(":")(1).toInt - 1
               if (amount < 0) amount = 0
-              else if (amount%5 == 0) pause = true
+              else if (amount % 5 == 0) pause = true
               data :+= questEntity.split(":")(0) + ":" + amount
             }
           })
