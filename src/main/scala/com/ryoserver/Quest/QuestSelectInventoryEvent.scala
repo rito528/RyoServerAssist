@@ -29,11 +29,11 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           lottery.getQuest()
           questData.selectQuest(p, lottery)
         case 5 =>
-          lottery.questName = questNames(1)
+          lottery.questName = questNames(2)
           lottery.getQuest()
           questData.selectQuest(p, lottery)
         case 7 =>
-          lottery.questName = questNames(1)
+          lottery.questName = questNames(3)
           lottery.getQuest()
           questData.selectQuest(p, lottery)
         case 22 =>
