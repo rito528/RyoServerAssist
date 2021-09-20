@@ -4,9 +4,9 @@ import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import org.bukkit.{ChatColor, Material, Sound}
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.{Inventory, ItemStack}
 
 
 class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listener {
@@ -62,7 +62,6 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           //クエスト終了に必要な残りの納品アイテムを取得する
           questData.getSelectedQuestMaterials(p).split(";").foreach(remainingItem => {
             val itemData = remainingItem.split(":")
-            println(remainingItem)
             remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)),itemData(1).toInt)
           })
           //インベントリの中身をすべて取得
@@ -87,19 +86,6 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
                 }
               }
             })
-          })
-
-          //余ったアイテムをすべて返す
-          var isSend = false
-          inv.getContents.foreach(is=> {
-            if (is != null && is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(51).getItemMeta
-              && is.getItemMeta != inv.getItem(53).getItemMeta) {
-              p.getWorld.dropItem(p.getLocation(),is)
-              if (!isSend) {
-                p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
-                isSend = true
-              }
-            }
           })
 
           //残りの数を設定
@@ -127,7 +113,25 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
         case _ =>
       }
     }
+  }
 
+  @EventHandler
+  def closeInventory(e: InventoryCloseEvent): Unit = {
+    if (e.getView.getTitle == "納品") returnItem(e.getInventory,e.getPlayer.asInstanceOf[Player])
+  }
+
+  def returnItem(inv:Inventory,p: Player): Unit = {
+    var isSend = false
+    inv.getContents.foreach(is=> {
+      if (is != null && is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(51).getItemMeta
+        && is.getItemMeta != inv.getItem(53).getItemMeta) {
+        p.getWorld.dropItem(p.getLocation(),is)
+        if (!isSend) {
+          p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
+          isSend = true
+        }
+      }
+    })
   }
 
 }
