@@ -44,6 +44,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
   }
 
   def getSelectedQuest(p:Player): String = {
+    createQuestTable()
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT selectedQuest FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
     if (rs.next()) return rs.getString("selectedQuest")
@@ -62,6 +63,13 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
   def setSelectedQuestItemRemaining(p:Player,remaining:String): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Quests SET remaining='$remaining' WHERE UUID='${p.getUniqueId.toString}';")
+    sql.close()
+  }
+
+  def questClear(p:Player): Unit = {
+    resetQuest(p)
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()
   }
 

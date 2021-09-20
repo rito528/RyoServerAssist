@@ -62,8 +62,8 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
       lottery.getQuest()
       val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト" else ""
       val questDetails: java.util.List[String] = new util.ArrayList[String]()
-      questDetails.add(ChatColor.WHITE + "【アイテムリスト】")
-      lottery.items.forEach(i => {
+      questDetails.add(ChatColor.WHITE + "【残りアイテムリスト】")
+      questData.getSelectedQuestMaterials(p).split(";").foreach(i => {
         val material = Material.matchMaterial(i.split(":")(0))
         val itemStack = new ItemStack(material)
         var itemName = ""

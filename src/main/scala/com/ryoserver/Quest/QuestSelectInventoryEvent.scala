@@ -62,6 +62,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           //クエスト終了に必要な残りの納品アイテムを取得する
           questData.getSelectedQuestMaterials(p).split(";").foreach(remainingItem => {
             val itemData = remainingItem.split(":")
+            println(remainingItem)
             remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)),itemData(1).toInt)
           })
           //インベントリの中身をすべて取得
@@ -70,10 +71,10 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           })
           //納品アイテムを更新
           remainingItems.foreach(remainingItem => {
-            remainingItems = remainingItems.filterNot(_ == remainingItem) //一旦削除
             invItems.foreach(invItem => {
               if (invItem != null) {
                 if (invItem.getType == remainingItem.getType && remainingItem.getAmount > 0) {
+                  remainingItems = remainingItems.filterNot(_ == remainingItem) //一旦削除
                   val amount = remainingItem.getAmount - invItem.getAmount
                   if (amount < 0) {
                     inv.removeItem(remainingItem)
@@ -108,10 +109,9 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           if (questDone) {
             p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
             p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
-            questData.resetQuest(p)
+            questData.questClear(p)
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)
           } else {
-            questData.setSelectedQuestItemRemaining(p,remainingItems.mkString(";"))
             p.sendMessage(ChatColor.AQUA + "納品しました。")
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)
           }
