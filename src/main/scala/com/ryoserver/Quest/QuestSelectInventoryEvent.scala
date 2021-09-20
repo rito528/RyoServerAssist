@@ -90,10 +90,15 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           })
 
           //余ったアイテムをすべて返す
+          var isSend = false
           inv.getContents.foreach(is=> {
             if (is != null && is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(51).getItemMeta
               && is.getItemMeta != inv.getItem(53).getItemMeta) {
               p.getWorld.dropItem(p.getLocation(),is)
+              if (!isSend) {
+                p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
+                isSend = true
+              }
             }
           })
 
