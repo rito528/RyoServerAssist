@@ -1,5 +1,6 @@
 package com.ryoserver.Quest
 
+import com.ryoserver.Level.Player.{getPlayerData, updateLevel}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
@@ -33,7 +34,11 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
 
   def selectQuest(p:Player,data: LotteryQuest): Unit = {
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Quests SET selectedQuest='${data.questName}',remaining='${data.items.toArray.mkString(";")}' WHERE UUID='${p.getUniqueId.toString}';")
+    if (data.questType == "delivery") {
+      sql.executeSQL(s"UPDATE Quests SET selectedQuest='${data.questName}',remaining='${data.items.toArray.mkString(";")}' WHERE UUID='${p.getUniqueId.toString}';")
+    } else if (data.questType == "suppression") {
+      sql.executeSQL(s"UPDATE Quests SET selectedQuest='${data.questName}',remaining='${data.mobs.toArray.mkString(";")}' WHERE UUID='${p.getUniqueId.toString}';")
+    }
     sql.close()
   }
 
@@ -52,7 +57,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     null
   }
 
-  def getSelectedQuestMaterials(p:Player): String = {
+  def getSelectedQuestRemaining(p:Player): String = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT remaining FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
     if (rs.next()) return rs.getString("remaining")
@@ -67,6 +72,11 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
   }
 
   def questClear(p:Player): Unit = {
+    val exp = new getPlayerData(ryoServerAssist).getPlayerExp(p)
+    val lottery = new LotteryQuest(ryoServerAssist)
+    lottery.questName = getSelectedQuest(p)
+    lottery.getQuest()
+    new updateLevel(ryoServerAssist).updateExp(exp + lottery.exp,p)
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")

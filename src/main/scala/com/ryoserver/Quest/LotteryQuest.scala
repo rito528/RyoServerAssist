@@ -9,6 +9,7 @@ class LotteryQuest(ryoServerAssist: RyoServerAssist) {
   var questType: String = ""
   var questName:String = ""
   var items:java.util.List[String] = _
+  var mobs:java.util.List[String] = _
   var descriptions:java.util.List[String] = _
   var exp:Int = 0
 
@@ -22,9 +23,10 @@ class LotteryQuest(ryoServerAssist: RyoServerAssist) {
     } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel"))
   }
 
-  def getQuest(): Unit = {
+  def getQuest():Unit = {
     questType = loadQuests.questConfig.getString(questName + ".type")
     items = loadQuests.questConfig.getStringList(questName + ".deliveryItems")
+    mobs = loadQuests.questConfig.getStringList(questName + ".suppressionMobs")
     descriptions = loadQuests.questConfig.getStringList(questName + ".description")
     exp = loadQuests.questConfig.getInt(questName + ".exp")
   }

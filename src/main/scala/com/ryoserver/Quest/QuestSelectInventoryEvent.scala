@@ -60,7 +60,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           var remainingItems:Array[ItemStack] = Array.empty
           var invItems:Array[ItemStack] = Array.empty
           //クエスト終了に必要な残りの納品アイテムを取得する
-          questData.getSelectedQuestMaterials(p).split(";").foreach(remainingItem => {
+          questData.getSelectedQuestRemaining(p).split(";").foreach(remainingItem => {
             val itemData = remainingItem.split(":")
             remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)),itemData(1).toInt)
           })
@@ -112,6 +112,17 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
         case _ =>
       }
+    } else if (e.getView.getTitle == "討伐") {
+      val p = e.getWhoClicked.asInstanceOf[Player]
+      val questData = new QuestData(ryoServerAssist)
+      e.setCancelled(true)
+      e.getSlot match {
+        case 53 =>
+          questData.resetQuest(p)
+          new QuestSelectInventory(ryoServerAssist).selectInventory(p)
+          p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
+        case _ =>
+      }
     }
   }
 
@@ -123,12 +134,14 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
   def returnItem(inv:Inventory,p: Player): Unit = {
     var isSend = false
     inv.getContents.foreach(is=> {
-      if (is != null && is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta
-        && is.getItemMeta != inv.getItem(53).getItemMeta) {
-        p.getWorld.dropItem(p.getLocation(),is)
-        if (!isSend) {
-          p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
-          isSend = true
+      if (is != null) {
+        if (is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta
+          && is.getItemMeta != inv.getItem(53).getItemMeta) {
+          p.getWorld.dropItem(p.getLocation(), is)
+          if (!isSend) {
+            p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
+            isSend = true
+          }
         }
       }
     })
