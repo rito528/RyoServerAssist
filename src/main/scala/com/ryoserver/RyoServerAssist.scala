@@ -12,6 +12,7 @@ import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
+import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -40,7 +41,8 @@ class RyoServerAssist extends JavaPlugin {
       "gacha" -> new GachaCommand(),
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(),
-      "level" -> new LevelCommand(this)
+      "level" -> new LevelCommand(this),
+      "tpa" -> new tpaCommand(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

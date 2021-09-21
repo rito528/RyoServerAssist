@@ -21,6 +21,9 @@ commands:
   level:
     description: level operation command.
     permission: ryoserverassist.level
+  tpa:
+    description: tpa command.
+    permission: ryoserverassist.tpa
 
 permissions:
   ryoserverassist.*:
@@ -31,6 +34,7 @@ permissions:
       - ryoserverassist.distribution
       - ryoserverassist.menu
       - ryoserverassist.level
+      - ryoserverassist.tpa
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -41,3 +45,5 @@ permissions:
     default: true
   ryoserverassist.level:
     default: op
+  ryoserverassist.tpa:
+    default: true
