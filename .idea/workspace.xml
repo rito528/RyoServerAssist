@@ -7,10 +7,10 @@
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/updateLevel.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/updateLevel.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/QuestData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/QuestData.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/streams/compile/_global/_global/compileOutputs/previous" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/_global/_global/compileOutputs/previous" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compile/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/compile/incOptions/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/incOptions/_global/streams/out" afterDir="false" />

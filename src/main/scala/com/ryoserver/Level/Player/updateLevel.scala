@@ -10,6 +10,14 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
   def updateExp(exp: Int,p:Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${calLv.getLevel(exp)} WHERE UUID='${p.getUniqueId.toString}';")
+    sql.close()
+    BossBar.updateLevelBer(ryoServerAssist,exp, p)
+  }
+
+  def addExp(exp: Int,p:Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val calLv = new CalLv(ryoServerAssist)
     val data = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var old_exp = 0
     var old_level = 0
@@ -19,15 +27,19 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     }
     val sumExp = exp + old_exp
     val ticketAmountCal = (sumExp / 100) - (old_exp / 100)
+    //経験値毎にもらうガチャ券の算出
     if ((ticketAmountCal / 100) <= 1) {
       sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + $ticketAmountCal WHERE UUID='${p.getUniqueId.toString}';")
     }
-    if (calLv.getLevel(exp) != old_level && calLv.getLevel(exp) > old_exp) {
-      val ticketCal = (calLv.getLevel(exp) - old_level) * 32
-      sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + $ticketCal WHERE UUID='${p.getUniqueId.toString}'")
+    //レベル毎にもらうガチャ券の算出
+    val nowLevel = calLv.getLevel(sumExp)
+    if (nowLevel > old_level && old_level != 0) {
+      for (i <- old_level to nowLevel) {
+        if (i % 10 == 0) sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 32 WHERE UUID='${p.getUniqueId.toString}'")
+      }
     }
-    sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${calLv.getLevel(exp)} WHERE UUID='${p.getUniqueId.toString}';")
+    sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
-    BossBar.updateLevelBer(ryoServerAssist,exp, p)
+    BossBar.updateLevelBer(ryoServerAssist,sumExp, p)
   }
 }

@@ -20,6 +20,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     val checkPlayerData = sql.executeQuery(s"SELECT UUID FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
     if (!checkPlayerData.next()) sql.executeSQL(s"INSERT INTO Quests (UUID,QuestName) VALUES ('${p.getUniqueId.toString}','${quests.mkString(";")}');")
     else sql.executeSQL(s"UPDATE Quests SET QuestName='${quests.mkString(";")}' WHERE UUID='${p.getUniqueId.toString}';")
+    sql.close()
   }
 
   def loadQuest(p:Player): Array[String] = {
@@ -29,6 +30,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     var quests = Array.empty[String]
     if (!check.next()) return Array.empty[String]
     check.getString("QuestName").split(";").foreach(name => quests :+= name)
+    sql.close()
     quests
   }
 
@@ -76,7 +78,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     val lottery = new LotteryQuest(ryoServerAssist)
     lottery.questName = getSelectedQuest(p)
     lottery.getQuest()
-    new updateLevel(ryoServerAssist).updateExp(exp + lottery.exp,p)
+    new updateLevel(ryoServerAssist).addExp(lottery.exp,p)
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")
