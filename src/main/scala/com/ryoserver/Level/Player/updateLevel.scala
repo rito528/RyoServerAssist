@@ -2,6 +2,7 @@ package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Skill.SkillPoint.SkillPointBer
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 
@@ -16,6 +17,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
   }
 
   def addExp(exp: Int,p:Player): Unit = {
+    //levelが上がったときに呼び出されるメソッド
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
     val data = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
@@ -41,5 +43,6 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
     BossBar.updateLevelBer(ryoServerAssist,sumExp, p)
+    SkillPointBer.update(p,ryoServerAssist)
   }
 }
