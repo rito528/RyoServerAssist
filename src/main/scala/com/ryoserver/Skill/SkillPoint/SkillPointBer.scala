@@ -16,7 +16,6 @@ object SkillPointBer {
     val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(new getPlayerData(ryoServerAssist).getPlayerLevel(p))
     val playerSkillPoint = new SkillPointData(ryoServerAssist).getSkillPoint(p)
     val bossBer = Bukkit.createBossBar("スキルポイント:" + playerSkillPoint , BarColor.WHITE, BarStyle.SOLID)
-    println(new SkillPointData(ryoServerAssist).getSkillPoint(p).toDouble / maxSkillPoint.toDouble)
     bossBer.setProgress(new SkillPointData(ryoServerAssist).getSkillPoint(p).toDouble / maxSkillPoint.toDouble)
     bossBer.setVisible(true)
     bossBer.addPlayer(p)
@@ -26,6 +25,7 @@ object SkillPointBer {
   def update(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
     val bossBer = bers.get(p)
     val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(new getPlayerData(ryoServerAssist).getPlayerLevel(p))
+    bossBer.get.setTitle("スキルポイント:" + new SkillPointData(ryoServerAssist).getSkillPoint(p))
     bossBer.get.setProgress(new SkillPointData(ryoServerAssist).getSkillPoint(p).toDouble / maxSkillPoint.toDouble)
   }
 

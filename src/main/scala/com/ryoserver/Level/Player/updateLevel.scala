@@ -2,7 +2,7 @@ package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Skill.SkillPoint.SkillPointBer
+import com.ryoserver.Skill.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 
@@ -44,5 +44,6 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     sql.close()
     BossBar.updateLevelBer(ryoServerAssist,sumExp, p)
     SkillPointBer.update(p,ryoServerAssist)
+    new SkillPointData(ryoServerAssist).setSkillPoint(p,new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp)))
   }
 }

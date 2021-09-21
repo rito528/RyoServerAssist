@@ -12,9 +12,16 @@ class SkillPointData(ryoServerAssist: RyoServerAssist) {
     var sp = 0
     if (rs.next()) {
       sp = rs.getInt("SkillPoint")
-      sql.close()
     }
+    sql.close()
     sp
+  }
+
+  def setSkillPoint(p:Player,point: Int): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET SkillPoint='${point}' WHERE UUID='${p.getUniqueId.toString}';")
+    sql.close()
+    SkillPointBer.update(p,ryoServerAssist)
   }
 
 }
