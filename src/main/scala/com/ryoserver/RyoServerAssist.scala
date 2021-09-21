@@ -2,6 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
+import com.ryoserver.File.createFiles
 import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
@@ -66,6 +67,7 @@ class RyoServerAssist extends JavaPlugin {
     loadQuests.createSetQuestFile()
     loadQuests.checkQuest(this)
     new Notification().createFile()
+    new createFiles().createResourcesFile()
     getLogger.info("RyoServerAssist enabled.")
   }
 
