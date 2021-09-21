@@ -34,9 +34,14 @@ class getGachaTickets(ryoServerAssist: RyoServerAssist) {
 
   def receipt(p:Player): Unit = {
     val gachaTicket = GachaPaperData.normal
-    gachaTicket.setAmount(getTickets(p))
-    p.getWorld.dropItemNaturally(p.getLocation(),gachaTicket)
-    p.sendMessage(ChatColor.AQUA + "ガチャ券を受け取りました。")
+    val number = getTickets(p)
+    if (number != 0) {
+      gachaTicket.setAmount(number)
+      p.getWorld.dropItemNaturally(p.getLocation(), gachaTicket)
+      p.sendMessage(ChatColor.AQUA + "ガチャ券を受け取りました。")
+    } else {
+      p.sendMessage(ChatColor.RED + "受け取れるガチャ券がありません！")
+    }
   }
 
 }
