@@ -11,6 +11,7 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Storage.StorageEvent
+import com.ryoserver.Tips.Tips
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -68,6 +69,7 @@ class RyoServerAssist extends JavaPlugin {
     loadQuests.checkQuest(this)
     new Notification().createFile()
     new createFiles().createResourcesFile()
+    new Tips(this).sendTips()
     getLogger.info("RyoServerAssist enabled.")
   }
 
