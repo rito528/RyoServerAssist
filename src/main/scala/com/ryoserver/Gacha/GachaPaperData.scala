@@ -23,4 +23,11 @@ object GachaPaperData {
     getGachaItem(Material.PAPER,"ガチャ券",Lore)
   }
 
+  val menu:ItemStack = {
+    val Lore = List(
+      ChatColor.WHITE + "クリックで入手します。"
+    ).asJava
+    getGachaItem(Material.PAPER,"ガチャ券を受け取ります。",Lore)
+  }
+
 }
