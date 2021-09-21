@@ -3,8 +3,14 @@
   <component name="FacetManager">
     <facet type="minecraft" name="Minecraft">
       <configuration>
+        <userChosenTypes>
+          <map>
+            <entry key="BUNGEECORD" value="true" />
+          </map>
+        </userChosenTypes>
         <autoDetectTypes>
           <platformType>SPIGOT</platformType>
+          <platformType>BUNGEECORD</platformType>
         </autoDetectTypes>
       </configuration>
     </facet>

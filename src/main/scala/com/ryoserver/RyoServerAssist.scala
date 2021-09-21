@@ -6,6 +6,7 @@ import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
+import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Storage.StorageEvent
@@ -43,7 +44,7 @@ class RyoServerAssist extends JavaPlugin {
     })
 
     /*
-      イベントの有効化
+      Bukkitイベントの有効化
      */
     List(
       new Home(this),
@@ -53,7 +54,8 @@ class RyoServerAssist extends JavaPlugin {
       new MenuEvent(this),
       new StorageEvent(this),
       new QuestSelectInventoryEvent(this),
-      new suppressionEvent(this)
+      new suppressionEvent(this),
+      new Notification
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
@@ -63,6 +65,7 @@ class RyoServerAssist extends JavaPlugin {
     new Distribution(this).createDistributionTable()
     loadQuests.createSetQuestFile()
     loadQuests.checkQuest(this)
+    new Notification().createFile()
     getLogger.info("RyoServerAssist enabled.")
   }
 
