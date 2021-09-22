@@ -10,6 +10,7 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
+import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -63,7 +64,8 @@ class RyoServerAssist extends JavaPlugin {
       new QuestSelectInventoryEvent(this),
       new suppressionEvent(this),
       new Notification,
-      new RecoverySkillPointEvent(this)
+      new RecoverySkillPointEvent(this),
+      new SelectSkillEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

@@ -14,8 +14,9 @@ object createMenu {
     val inv = Bukkit.createInventory(null,27,"りょう鯖メニュー")
     inv.setItem(0,getItem(Material.SHULKER_BOX,"運営からのガチャ券を受け取ります。",List("クリックで受け取ります。").asJava))
     inv.setItem(2,getItem(Material.CHEST,"ストレージを開きます。",List("クリックで開きます。").asJava))
-    inv.setItem(4,getItem(Material.BOOK,"クエストを選択します。",List("クリックで開けます。").asJava))
+    inv.setItem(4,getItem(Material.BOOK,"クエストを選択します。",List("クリックで開きます。").asJava))
     inv.setItem(6,GachaPaperData.menu)
+    inv.setItem(8,getItem(Material.BEACON,"スキルを選択します。",List("クリックで開きます。").asJava))
     inv
   }
 }
