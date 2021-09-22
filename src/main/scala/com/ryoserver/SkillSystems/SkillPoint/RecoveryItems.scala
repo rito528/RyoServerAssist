@@ -1,4 +1,4 @@
-package com.ryoserver.Skill.SkillPoint
+package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
 import org.bukkit.{ChatColor, Material}

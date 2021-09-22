@@ -10,8 +10,8 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
-import com.ryoserver.Skill.SkillCommands
-import com.ryoserver.Skill.SkillPoint.RecoverySkillPointEvent
+import com.ryoserver.SkillSystems.SkillCommands
+import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.tpa.tpaCommand

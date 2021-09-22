@@ -2,7 +2,7 @@ package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.LevelLoader
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Skill.SkillPoint.SkillPointBer
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.player.PlayerJoinEvent
 

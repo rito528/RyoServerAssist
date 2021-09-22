@@ -2,7 +2,7 @@ package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Skill.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
+import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 

@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Skill.SkillPoint.SkillPointCal
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player

@@ -1,6 +1,6 @@
-package com.ryoserver.Skill
+package com.ryoserver.SkillSystems
 
-import com.ryoserver.Skill.SkillPoint.RecoveryItems
+import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 

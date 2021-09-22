@@ -1,4 +1,4 @@
-package com.ryoserver.Skill.SkillPoint
+package com.ryoserver.SkillSystems.SkillPoint
 
 class SkillPointCal {
 

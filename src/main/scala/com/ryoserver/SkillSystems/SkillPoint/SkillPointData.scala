@@ -1,4 +1,4 @@
-package com.ryoserver.Skill.SkillPoint
+package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL

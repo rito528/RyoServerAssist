@@ -1,4 +1,4 @@
-package com.ryoserver.Skill.SkillPoint
+package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.RyoServerAssist
