@@ -10,6 +10,8 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.JoinEvents
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
+import com.ryoserver.Skill.SkillCommands
+import com.ryoserver.Skill.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.tpa.tpaCommand
@@ -42,7 +44,8 @@ class RyoServerAssist extends JavaPlugin {
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(),
       "level" -> new LevelCommand(this),
-      "tpa" -> new tpaCommand(this)
+      "tpa" -> new tpaCommand(this),
+      "skill" -> new SkillCommands
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -59,7 +62,8 @@ class RyoServerAssist extends JavaPlugin {
       new StorageEvent(this),
       new QuestSelectInventoryEvent(this),
       new suppressionEvent(this),
-      new Notification
+      new Notification,
+      new RecoverySkillPointEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

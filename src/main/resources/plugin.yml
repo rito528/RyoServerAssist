@@ -24,6 +24,9 @@ commands:
   tpa:
     description: tpa command.
     permission: ryoserverassist.tpa
+  skill:
+    description: skill operation command.
+    permission: ryoserverassist.skill
 
 permissions:
   ryoserverassist.*:
@@ -35,6 +38,7 @@ permissions:
       - ryoserverassist.menu
       - ryoserverassist.level
       - ryoserverassist.tpa
+      - ryoserverassist.skill
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -47,3 +51,5 @@ permissions:
     default: op
   ryoserverassist.tpa:
     default: true
+  ryoserverassist.skill:
+    default: op
