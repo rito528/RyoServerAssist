@@ -1,6 +1,7 @@
 package com.ryoserver.SkillSystems.Skill
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.SkillSystems.Skill.SkillData.skillMap
 import com.ryoserver.SkillSystems.SkillPoint.skillPointConsumption
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -9,11 +10,12 @@ import org.bukkit.scheduler.BukkitRunnable
 
 import scala.collection.mutable
 
-object useSkill {
+trait SkillToggle {
 
-  var skillMap:mutable.Map[String,mutable.Map[String,BukkitRunnable]] = mutable.Map.empty
+  val p:Player
+  val ryoServerAssist:RyoServerAssist
 
-  private def effect(p:Player,effectType:PotionEffectType,level:Int,ryoServerAssist: RyoServerAssist,sp:Int,skillName:String): Unit = {
+  def effect(effectType:PotionEffectType,level:Int,sp:Int,skillName:String): Unit = {
     if (skillMap.contains(p.getName) && skillMap(p.getName).contains(skillName)) {
       p.removePotionEffect(effectType)
       skillMap(p.getName)(skillName).cancel()
@@ -37,46 +39,6 @@ object useSkill {
     }
   }
 
-  def resistance(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.DAMAGE_RESISTANCE,0,ryoServerAssist,300,"耐性")
-  }
-
-  def speed(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.SPEED,0,ryoServerAssist,300,"移動速度上昇")
-  }
-
-  def jump(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.JUMP,0,ryoServerAssist,300,"跳躍力上昇")
-  }
-
-  def damageUp(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.INCREASE_DAMAGE,0,ryoServerAssist,300,"攻撃力上昇")
-  }
-
-  def diggingUp(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.FAST_DIGGING,0,ryoServerAssist,300,"採掘速度上昇")
-  }
-
-  def regeneration(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.REGENERATION,0,ryoServerAssist,300,"再生能力")
-  }
-
-  def slowFalling(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.SLOW_FALLING,0,ryoServerAssist,600,"低速落下")
-  }
-
-  def nightVision(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.NIGHT_VISION,0,ryoServerAssist,600,"暗視")
-  }
-
-  def fireResistance(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.FIRE_RESISTANCE,0,ryoServerAssist,600,"耐火")
-  }
-
-  def waterBreathing(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    effect(p,PotionEffectType.WATER_BREATHING,0,ryoServerAssist,600,"水中呼吸")
-  }
-
   def allEffectClear(p:Player): Unit = {
     p.getActivePotionEffects.forEach(effect =>{
       p.removePotionEffect(effect.getType)
@@ -90,3 +52,5 @@ object useSkill {
   }
 
 }
+
+class skillToggleClass(val p:Player, val ryoServerAssist: RyoServerAssist) extends SkillToggle {}
