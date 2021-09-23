@@ -22,7 +22,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 2 => new Storage(ryoServerAssist).load(p)
       case 4 => new QuestSelectInventory(ryoServerAssist).selectInventory(p)
       case 6 => new getGachaTickets(ryoServerAssist).receipt(p)
-      case 8 => new SelectSkillMenu().openMenu(p)
+      case 8 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
       case _ =>
     }
   }
