@@ -5,6 +5,7 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 class updateLevel(ryoServerAssist: RyoServerAssist) {
@@ -47,5 +48,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     SkillPointBer.update(p,ryoServerAssist)
     new SkillPointData(ryoServerAssist).setSkillPoint(p,new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp)))
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p,nowLevel - old_level)
+    p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
+    p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
   }
 }
