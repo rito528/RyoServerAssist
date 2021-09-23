@@ -38,4 +38,10 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
+  def addSkillOpenPoint(p:Player,point:Int): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId.toString}'")
+    sql.close()
+  }
+
 }
