@@ -1,5 +1,17 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
-class skillPointConsumption {
+import com.ryoserver.RyoServerAssist
+import org.bukkit.entity.Player
+
+class skillPointConsumption(ryoServerAssist: RyoServerAssist) {
+
+  def consumption(skillPoint:Int,p:Player): Unit = {
+    val spData = new SkillPointData(ryoServerAssist)
+    val playerSP = spData.getSkillPoint(p)
+    if (skillPoint <= playerSP) {
+      spData.setSkillPoint(p,(playerSP - skillPoint))
+      SkillPointBer.update(p,ryoServerAssist)
+    }
+  }
 
 }

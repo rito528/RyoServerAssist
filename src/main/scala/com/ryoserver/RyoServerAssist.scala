@@ -65,7 +65,7 @@ class RyoServerAssist extends JavaPlugin {
       new suppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent(this),
-      new SelectSkillEvent
+      new SelectSkillEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
