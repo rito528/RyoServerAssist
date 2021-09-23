@@ -82,8 +82,6 @@ object useSkill {
       p.removePotionEffect(effect.getType)
     })
     skillMap(p.getName).foreach{case(skillName,_) => {
-      println(skillMap(p.getName))
-      println(skillName)
       skillMap(p.getName)(skillName).cancel()
       val runnableMap = skillMap(p.getName).filterNot{case (name,_) => name == skillName}
       skillMap += (p.getName -> runnableMap)
