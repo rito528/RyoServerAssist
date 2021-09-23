@@ -8,7 +8,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
-import com.ryoserver.Player.JoinEvents
+import com.ryoserver.Player.{PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
@@ -58,7 +58,7 @@ class RyoServerAssist extends JavaPlugin {
       new Home(this),
       new JapaneseChat(this),
       new Gacha(this),
-      new JoinEvents(this),
+      new PlayerEvents(this),
       new MenuEvent(this),
       new StorageEvent(this),
       new QuestSelectInventoryEvent(this),
@@ -78,11 +78,14 @@ class RyoServerAssist extends JavaPlugin {
     new Notification().createFile()
     new createFiles().createResourcesFile()
     new Tips(this).sendTips()
+
+    Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).load(p))
     getLogger.info("RyoServerAssist enabled.")
   }
 
   override def onDisable(): Unit = {
     super.onDisable()
+    Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).unload(p))
     getLogger.info("RyoServerAssist disabled.")
   }
 

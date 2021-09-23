@@ -40,4 +40,10 @@ object BossBar {
     }
   }
 
+  def unloadLevelBer(p:Player): Unit = {
+    val ber = bers(p)
+    ber.setVisible(false)
+    bers = bers.filterNot{case (player,_) => p == player}
+  }
+
 }
