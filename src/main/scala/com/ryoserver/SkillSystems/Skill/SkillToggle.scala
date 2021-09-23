@@ -1,7 +1,8 @@
 package com.ryoserver.SkillSystems.Skill
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.SkillData.skillMap
+import com.ryoserver.SkillSystems.Skill.PlayerSkillData.skillMap
+import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
 import com.ryoserver.SkillSystems.SkillPoint.skillPointConsumption
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -16,6 +17,15 @@ trait SkillToggle {
   val ryoServerAssist:RyoServerAssist
 
   def effect(effectType:PotionEffectType,level:Int,sp:Int,skillName:String): Unit = {
+    val openCheck = new SkillOpenCheck(ryoServerAssist)
+    if (!openCheck.isOpened(skillName,p) && !openCheck.isTrueOpen(skillName,p)) {
+      p.sendMessage(ChatColor.RED + "このスキルは開放できません！")
+      return
+    } else if (openCheck.isTrueOpen(skillName,p) && !openCheck.isOpened(skillName,p)) {
+      new SkillOpenData(ryoServerAssist).openSkill(p,skillName)
+      p.sendMessage(ChatColor.AQUA + "スキル:" + skillName + "を開放しました！")
+      return
+    }
     if (skillMap.contains(p.getName) && skillMap(p.getName).contains(skillName)) {
       p.removePotionEffect(effectType)
       skillMap(p.getName)(skillName).cancel()
@@ -40,15 +50,20 @@ trait SkillToggle {
   }
 
   def allEffectClear(p:Player): Unit = {
-    p.getActivePotionEffects.forEach(effect =>{
-      p.removePotionEffect(effect.getType)
-    })
-    skillMap(p.getName).foreach{case(skillName,_) => {
-      skillMap(p.getName)(skillName).cancel()
-      val runnableMap = skillMap(p.getName).filterNot{case (name,_) => name == skillName}
-      skillMap += (p.getName -> runnableMap)
-    }}
-    p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
+    if (skillMap.contains(p.getName)) {
+      p.getActivePotionEffects.forEach(effect => {
+        p.removePotionEffect(effect.getType)
+      })
+      skillMap(p.getName).foreach { case (skillName, _) => {
+        skillMap(p.getName)(skillName).cancel()
+        val runnableMap = skillMap(p.getName).filterNot { case (name, _) => name == skillName }
+        skillMap += (p.getName -> runnableMap)
+      }
+      }
+      p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
+    } else {
+      p.sendMessage(ChatColor.RED + "スキルが有効化されていないため、無効化できませんでした。")
+    }
   }
 
 }
