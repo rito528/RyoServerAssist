@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
+import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
 import org.bukkit.entity.Player
@@ -27,6 +28,7 @@ class SelectSkillEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 46 => toggle.effect(PotionEffectType.FIRE_RESISTANCE,0,600,SkillNames(8))
       case 48 => toggle.effect(PotionEffectType.WATER_BREATHING,0,600,SkillNames(9))
       case 50 => toggle.allEffectClear(p)
+      case 52 => p.openInventory(createMenu.menu())
       case _ =>
     }
   }
