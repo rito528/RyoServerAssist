@@ -4,6 +4,7 @@ import com.ryoserver.Distribution.Distribution
 import com.ryoserver.Gacha.getGachaTickets
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
 import org.bukkit.entity.Player
@@ -23,6 +24,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 4 => new QuestSelectInventory(ryoServerAssist).selectInventory(p)
       case 6 => new getGachaTickets(ryoServerAssist).receipt(p)
       case 8 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
+      case 9 => new RegionMenu().menu(p)
       case _ =>
     }
   }

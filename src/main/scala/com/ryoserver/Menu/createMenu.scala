@@ -1,10 +1,9 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Gacha.GachaPaperData
-import com.ryoserver.Inventory.Item
-import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
-import org.bukkit.{Bukkit, Material}
+import com.ryoserver.Inventory.Item.getItem
 import org.bukkit.inventory.Inventory
+import org.bukkit.{Bukkit, Material}
 
 import scala.jdk.CollectionConverters._
 
@@ -17,6 +16,7 @@ object createMenu {
     inv.setItem(4,getItem(Material.BOOK,"クエストを選択します。",List("クリックで開きます。").asJava))
     inv.setItem(6,GachaPaperData.menu)
     inv.setItem(8,getItem(Material.BEACON,"スキルを選択します。",List("クリックで開きます。").asJava))
+    inv.setItem(9,getItem(Material.WOODEN_AXE,"保護メニューを開きます。",List("クリックで開きます。").asJava))
     inv
   }
 }

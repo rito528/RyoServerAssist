@@ -1,0 +1,55 @@
+name: RyoServerAssist
+version: 1.0.0-BETA
+main: com.ryoserver.RyoServerAssist
+api-version: 1.17
+author: rito528
+
+default-permission-message: 権限がありません！
+commands:
+  home:
+    description: Use home command.
+    permission: ryoserverassist.home
+  gacha:
+    description: Gacha operation command.
+    permission: ryoserverassist.gacha
+  distribution:
+    description: Distribution operation command.
+    permission: ryoserverassist.distribution
+  menu:
+    description: Menu open command.
+    permission: ryoserverassist.menu
+  level:
+    description: level operation command.
+    permission: ryoserverassist.level
+  tpa:
+    description: tpa command.
+    permission: ryoserverassist.tpa
+  skill:
+    description: skill operation command.
+    permission: ryoserverassist.skill
+
+permissions:
+  ryoserverassist.*:
+    default: false
+    children:
+      - ryoserverassist.home
+      - ryoserverassist.gacha
+      - ryoserverassist.distribution
+      - ryoserverassist.menu
+      - ryoserverassist.level
+      - ryoserverassist.tpa
+      - ryoserverassist.skill
+  ryoserverassist.home:
+    default: true
+  ryoserverassist.gacha:
+    default: op
+  ryoserverassist.distribution:
+    default: op
+  ryoserverassist.menu:
+    default: true
+  ryoserverassist.level:
+    default: op
+  ryoserverassist.tpa:
+    default: true
+  ryoserverassist.skill:
+    default: op
