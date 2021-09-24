@@ -54,8 +54,8 @@ class RyoServerAssist extends JavaPlugin {
       "home" -> new Home(this),
       "gacha" -> new GachaCommand(),
       "distribution" -> new DistributionCommand(this),
-      "menu" -> new MenuCommand(),
-      "stick" -> new MenuCommand,
+      "menu" -> new MenuCommand(this),
+      "stick" -> new MenuCommand(this),
       "level" -> new LevelCommand(this),
       "tpa" -> new tpaCommand(this),
       "skill" -> new SkillCommands

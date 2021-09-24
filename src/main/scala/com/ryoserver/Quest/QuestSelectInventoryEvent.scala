@@ -45,7 +45,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
           new QuestSelectInventory(ryoServerAssist).selectInventory(p)
           p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
         case 26 =>
-          p.openInventory(createMenu.menu())
+          p.openInventory(createMenu.menu(p,ryoServerAssist))
           p.playSound(p.getLocation(), Sound.BLOCK_WOOL_PLACE, 1, 1)
         case _ =>
       }
