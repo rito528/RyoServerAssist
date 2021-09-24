@@ -48,7 +48,9 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     SkillPointBer.update(p,ryoServerAssist)
     new SkillPointData(ryoServerAssist).setSkillPoint(p,new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp)))
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p,nowLevel - old_level)
-    p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
-    p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
+    if (old_level < nowLevel) {
+      p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
+      p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
+    }
   }
 }
