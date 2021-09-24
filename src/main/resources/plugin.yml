@@ -30,7 +30,9 @@ commands:
   skill:
     description: skill operation command.
     permission: ryoserverassist.skill
-  test2:
+  stick:
+    description: add stick command.
+    permission: ryoserverassist.stick
 
 permissions:
   ryoserverassist.*:
@@ -43,6 +45,7 @@ permissions:
       - ryoserverassist.level
       - ryoserverassist.tpa
       - ryoserverassist.skill
+      - ryoserverassist.stick
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -57,3 +60,5 @@ permissions:
     default: true
   ryoserverassist.skill:
     default: op
+  ryoserverassist.stick:
+    default: true

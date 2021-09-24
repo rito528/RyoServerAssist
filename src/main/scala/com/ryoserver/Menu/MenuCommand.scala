@@ -1,8 +1,9 @@
 package com.ryoserver.Menu
 
-import org.bukkit.ChatColor
+import org.bukkit.{ChatColor, Material}
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 class MenuCommand extends CommandExecutor {
 
@@ -13,6 +14,10 @@ class MenuCommand extends CommandExecutor {
     }
     if (label.equalsIgnoreCase("menu")) {
       sender.asInstanceOf[Player].openInventory(createMenu.menu())
+      return true
+    } else if (label.equalsIgnoreCase("stick")) {
+      sender.asInstanceOf[Player].getInventory.addItem(new ItemStack(Material.STICK,1))
+      sender.sendMessage(ChatColor.AQUA + "木の棒をインベントリに配布しました。")
       return true
     }
     false
