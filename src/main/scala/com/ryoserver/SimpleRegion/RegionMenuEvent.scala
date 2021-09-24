@@ -44,6 +44,8 @@ class RegionMenuEvent extends Listener {
           regions.addRegion(region)
           p.sendMessage(ChatColor.AQUA + "保護が完了しました！")
         }
+      case 6 => new RegionSettingMenu().openMenu(p)
+      case _ =>
     }
   }
 
