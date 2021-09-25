@@ -1,0 +1,24 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/SimpleRegion/RegionCommand.scala:9:45: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Unit[0m
+[0m[[0m[31merror[0m] [0m[0m required: Boolean[0m
+[0m[[0m[31merror[0m] [0m[0m      if (args(0).equalsIgnoreCase("edit")) {[0m
+[0m[[0m[31merror[0m] [0m[0m                                            ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/SimpleRegion/RegionCommand.scala:9:7: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Unit[0m
+[0m[[0m[31merror[0m] [0m[0m required: Boolean[0m
+[0m[[0m[31merror[0m] [0m[0m      if (args(0).equalsIgnoreCase("edit")) {[0m
+[0m[[0m[31merror[0m] [0m[0m      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/rito/Desktop/Develop/RyoServerAssist/src/main/scala/com/ryoserver/SimpleRegion/RegionCommand.scala:8:5: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Unit[0m
+[0m[[0m[31merror[0m] [0m[0m required: Boolean[0m
+[0m[[0m[31merror[0m] [0m[0m    if (label.equalsIgnoreCase("sr")) {[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed 2021/09/25 15:37:07[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m

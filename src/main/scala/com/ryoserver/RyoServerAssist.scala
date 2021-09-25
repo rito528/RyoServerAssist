@@ -10,7 +10,7 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.{PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
-import com.ryoserver.SimpleRegion.{RegionMenuEvent, RegionSettingMenuEvent}
+import com.ryoserver.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -58,7 +58,8 @@ class RyoServerAssist extends JavaPlugin {
       "stick" -> new MenuCommand(this),
       "level" -> new LevelCommand(this),
       "tpa" -> new tpaCommand(this),
-      "skill" -> new SkillCommands
+      "skill" -> new SkillCommands,
+      "sr" -> new RegionCommand
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

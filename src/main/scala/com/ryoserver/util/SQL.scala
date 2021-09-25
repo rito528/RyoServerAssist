@@ -30,7 +30,6 @@ class SQL(ryoServerAssist: RyoServerAssist) {
     Class.forName(this.driver)
     this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
     this.stmt = this.con.createStatement()
-    stmt.setQueryTimeout(5)
     this.rs = this.stmt.executeQuery(query)
     this.rs
   }
