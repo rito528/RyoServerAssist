@@ -47,7 +47,7 @@ object GachaLoader {
   def listGachaItem(ryoServerAssist: RyoServerAssist,rarity:Int,p:Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
-    p.sendMessage("はずれアイテムリスト")
+    p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
     while (rs.next()) {
       val config:YamlConfiguration = new YamlConfiguration
