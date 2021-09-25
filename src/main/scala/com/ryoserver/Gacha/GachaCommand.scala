@@ -1,11 +1,12 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GachaCommand extends CommandExecutor {
+class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (label.equalsIgnoreCase("gacha")) {
@@ -29,6 +30,10 @@ class GachaCommand extends CommandExecutor {
         }
       } else if (args(0).equalsIgnoreCase("add") && args.length == 1) {
         new gachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
+        return true
+      } else if (args(0).equalsIgnoreCase("list") && args.length == 2) {
+        GachaLoader.listGachaItem(ryoServerAssist,args(1).toInt,sender.asInstanceOf[Player])
+        return true
       }
     }
     false

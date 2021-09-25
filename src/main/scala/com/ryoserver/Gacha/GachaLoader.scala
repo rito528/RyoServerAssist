@@ -3,6 +3,7 @@ package com.ryoserver.Gacha
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
 import org.bukkit.{Bukkit, Material}
 
@@ -40,6 +41,21 @@ object GachaLoader {
     config = new YamlConfiguration
     config.set("i",is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
+    sql.close()
+  }
+
+  def listGachaItem(ryoServerAssist: RyoServerAssist,rarity:Int,p:Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
+    p.sendMessage("はずれアイテムリスト")
+    p.sendMessage("+--------------------------+")
+    while (rs.next()) {
+      val config:YamlConfiguration = new YamlConfiguration
+      config.loadFromString(rs.getString("Material"))
+      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i",null).getItemMeta.hasDisplayName)
+        config.getItemStack("i",null).getItemMeta.getDisplayName else config.getItemStack("i",null).getType.name()))
+    }
+    p.sendMessage("+--------------------------+")
     sql.close()
   }
 

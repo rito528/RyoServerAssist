@@ -52,7 +52,7 @@ class RyoServerAssist extends JavaPlugin {
      */
     Map(
       "home" -> new Home(this),
-      "gacha" -> new GachaCommand(),
+      "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(this),
       "stick" -> new MenuCommand(this),
