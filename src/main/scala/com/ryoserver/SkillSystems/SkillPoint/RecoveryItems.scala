@@ -10,16 +10,16 @@ object RecoveryItems {
 
   val min:ItemStack = {
     val Lore = List(
-      ChatColor.WHITE + "飲むと少しスキルポイントが回復します。"
+      ChatColor.WHITE + "飲むと300だけスキルポイントが回復します。"
     ).asJava
-    getItem(Material.HONEY_BOTTLE,"スキル回復",Lore)
+    getItem(Material.HONEY_BOTTLE,"スキル回復(小)",Lore)
   }
 
   val max:ItemStack = {
     val Lore = List(
       ChatColor.WHITE + "飲むとスキルポイントが全回復します。"
     ).asJava
-    getGachaItem(Material.HONEY_BOTTLE,"スキル回復",Lore)
+    getGachaItem(Material.HONEY_BOTTLE,"スキル回復(大)",Lore)
   }
 
 }
