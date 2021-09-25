@@ -36,6 +36,9 @@ commands:
   sr:
     description: region operation command.
     permission: ryoserverassist.sr
+  hat:
+    description: hat command.
+    permission: ryoserverassist.hat
 
 permissions:
   ryoserverassist.*:
@@ -50,6 +53,7 @@ permissions:
       - ryoserverassist.skill
       - ryoserverassist.stick
       - ryoserverassist.sr
+      - ryoserverassist.hat
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -68,3 +72,5 @@ permissions:
     default: true
   ryoserverassist.sr:
     default: op
+  ryoserverassist.hat:
+    default: true
