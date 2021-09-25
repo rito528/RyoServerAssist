@@ -11,7 +11,7 @@ class playerDataLoader(ryoServerAssist: RyoServerAssist) {
   def load(p:Player): Unit = {
     val createData = new createData(ryoServerAssist)
     createData.createPlayerData(p)
-    new UpdateData(ryoServerAssist).update()
+    new UpdateData(ryoServerAssist).update(p)
     new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
     SkillPointBer.create(p,ryoServerAssist)
   }
