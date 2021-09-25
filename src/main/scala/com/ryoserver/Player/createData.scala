@@ -12,6 +12,7 @@ class createData(ryoServerAssist: RyoServerAssist) {
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
       p.sendMessage(ChatColor.RED + "プレイヤーデータの作成に失敗しました。")
+      sql.close()
       return
     }
     val table_rs = sql.executeQuery("SHOW TABLES LIKE 'Players';")

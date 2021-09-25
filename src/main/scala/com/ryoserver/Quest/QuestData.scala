@@ -28,8 +28,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     val sql = new SQL(ryoServerAssist)
     val check = sql.executeQuery(s"SELECT * FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
     var quests = Array.empty[String]
-    if (!check.next()) return Array.empty[String]
-    check.getString("QuestName").split(";").foreach(name => quests :+= name)
+    if (check.next()) check.getString("QuestName").split(";").foreach(name => quests :+= name)
     sql.close()
     quests
   }
@@ -54,17 +53,19 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     createQuestTable()
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT selectedQuest FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
-    if (rs.next()) return rs.getString("selectedQuest")
+    var selectedQuest:String = null
+    if (rs.next()) selectedQuest =  rs.getString("selectedQuest")
     sql.close()
-    null
+    selectedQuest
   }
 
   def getSelectedQuestRemaining(p:Player): String = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT remaining FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
-    if (rs.next()) return rs.getString("remaining")
+    var remaining:String = null
+    if (rs.next()) remaining =  rs.getString("remaining")
     sql.close()
-    null
+    remaining
   }
 
   def setSelectedQuestItemRemaining(p:Player,remaining:String): Unit = {
@@ -74,7 +75,6 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
   }
 
   def questClear(p:Player): Unit = {
-    val exp = new getPlayerData(ryoServerAssist).getPlayerExp(p)
     val lottery = new LotteryQuest(ryoServerAssist)
     lottery.questName = getSelectedQuest(p)
     lottery.getQuest()

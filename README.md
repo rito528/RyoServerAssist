@@ -18,7 +18,18 @@
 
 - 基本的に更新を行った際は再起動を行うようにお願いします。
 
+### 前提プラグイン
+
+- WorldGuard
+- WorldEdit
+
 ### このプラグインを新Minecraftバージョンに合わせるときに必ず更新するもの
 
 - plugin.ymlのapiVersionを利用バージョンに変更
 - resourcesディレクトリの中にあるja_jp.jsonを利用バージョンに変更する
+
+### 本番環境に移行する際に必要な設定
+
+- MySQLでset global wait_timeout=10;を実行してタイムアウト時間を変更(短く)する
+- MySQLでset global max_connections = 1000;を実行してコネクション数を変更する
+
