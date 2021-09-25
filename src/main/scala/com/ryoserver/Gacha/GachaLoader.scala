@@ -2,10 +2,10 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{Bukkit, Material}
 
 object GachaLoader {
 

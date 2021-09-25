@@ -37,9 +37,12 @@ class GachaAddItemInventoryEvent(ryoServerAssist: RyoServerAssist) extends Liste
 
   def add(inv:Inventory,rarity: Int): Unit = {
     inv.getContents.foreach(is => {
-      if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
-        is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
-        GachaLoader.addGachaItem(ryoServerAssist,is,rarity)
+      if (is != null && !GachaLoader.missItemList.contains(is) && !GachaLoader.perItemList.contains(is)
+        && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {
+        if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
+          is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
+          GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
+        }
       }
     })
   }
