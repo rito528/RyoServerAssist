@@ -24,6 +24,7 @@ trait SkillToggle {
     } else if (openCheck.isTrueOpen(skillName,p) && !openCheck.isOpened(skillName,p)) {
       new SkillOpenData(ryoServerAssist).openSkill(p,skillName)
       p.sendMessage(ChatColor.AQUA + "スキル:" + skillName + "を開放しました！")
+      new SelectSkillMenu(ryoServerAssist).openMenu(p)
       return
     }
     if (skillMap.contains(p.getName) && skillMap(p.getName).contains(skillName)) {
