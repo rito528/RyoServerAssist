@@ -1,6 +1,7 @@
 package com.ryoserver.Gacha
 
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 import java.security.SecureRandom
 import scala.util.Random
@@ -23,20 +24,20 @@ class GachaLottery extends Rarity {
   アイテムの抽選を行う
    */
   private val random = SecureRandom.getInstance("SHA1PRNG")
-  def itemLottery(rarity:Int): Material = {
+  def itemLottery(rarity:Int): ItemStack = {
     rarity match {
       case 1 =>
         val r = random.nextInt(GachaLoader.missItemList.length)
-        Material.matchMaterial(GachaLoader.missItemList(r))
+        GachaLoader.missItemList(r)
       case 2 =>
         val r = random.nextInt(GachaLoader.perItemList.length)
-        Material.matchMaterial(GachaLoader.perItemList(r))
+        GachaLoader.perItemList(r)
       case 3 =>
         val r = random.nextInt(GachaLoader.perItemList.length)
-        Material.matchMaterial(GachaLoader.bigPerItemList(r))
+        GachaLoader.bigPerItemList(r)
       case 4 =>
         val r = random.nextInt(GachaLoader.perItemList.length)
-        Material.matchMaterial(GachaLoader.specialItemList(r))
+        GachaLoader.specialItemList(r)
     }
   }
 

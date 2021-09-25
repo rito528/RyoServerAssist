@@ -4,19 +4,16 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.inventory.{Inventory, ItemStack}
+import org.bukkit.inventory.ItemStack
 import org.bukkit.{Bukkit, Material}
-
-import java.nio.file.{Files, Paths}
-import scala.io.Source
 
 object GachaLoader {
 
   // 1 = miss, 2 = per,3 = bigPer, 4 = special
-  var perItemList:Array[String] = Array.empty
-  var bigPerItemList:Array[String] = Array.empty
-  var specialItemList:Array[String] = Array.empty
-  var missItemList:Array[String] = Array.empty
+  var perItemList:Array[ItemStack] = Array.empty
+  var bigPerItemList:Array[ItemStack] = Array.empty
+  var specialItemList:Array[ItemStack] = Array.empty
+  var missItemList:Array[ItemStack] = Array.empty
 
   var per:Double = _ //あたり
   var bigPer:Double = _ //大当たり
@@ -25,6 +22,15 @@ object GachaLoader {
   def load(ryoServerAssist: RyoServerAssist): Unit = {
     gachaItemLoad(ryoServerAssist)
     gachaRarityLoad(ryoServerAssist)
+  }
+
+  def unload(ryoServerAssist: RyoServerAssist): Unit = {
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしています...")
+    perItemList = Array.empty
+    bigPerItemList = Array.empty
+    specialItemList = Array.empty
+    missItemList = Array.empty
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
   }
 
   def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
@@ -43,6 +49,8 @@ object GachaLoader {
     config.set("i",is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
     sql.close()
+    unload(ryoServerAssist)
+    load(ryoServerAssist)
   }
 
   def listGachaItem(ryoServerAssist: RyoServerAssist,rarity:Int,p:Player): Unit = {
@@ -69,29 +77,19 @@ object GachaLoader {
   private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
     createGachaTable(ryoServerAssist)
     Bukkit.getLogger.info("ガチャアイテムロード中....")
-    val gachaFile = Paths.get("plugins/RyoServerAssist/gachaItem.rsva")
-    if (Files.notExists(gachaFile)) gachaFile.toFile.createNewFile()
-
-      val gachaSource = Source.fromFile(gachaFile.toFile.getPath,"UTF-8")
-      gachaSource.getLines().foreach(line =>{
-        val material = line.split(",")(0)
-        val rarity = line.split(",")(1).toInt
-        if (Material.matchMaterial(material) == null) {
-          Bukkit.getLogger.warning(material + "という不明なガチャアイテムが指定されています！")
-          Bukkit.getLogger.warning("サーバーを停止します。")
-          Bukkit.shutdown()
-        } else if (!(rarity == 1 || rarity == 2 || rarity == 3 || rarity == 4)) {
-          Bukkit.getLogger.warning(rarity + "という不明なレアリティが指定されています！")
-          Bukkit.getLogger.warning("サーバーを停止します。")
-          Bukkit.shutdown()
-        } else {
-          if (rarity == 1) missItemList :+= material
-          else if (rarity == 2) perItemList :+= material
-          else if (rarity == 3) bigPerItemList :+= material
-          else if (rarity == 4) specialItemList :+= material
-        }
-      })
-      Bukkit.getLogger.info("ガチャアイテムロードが完了しました！")
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery("SELECT * FROM GachaItems")
+    while (rs.next()) {
+      val rarity = rs.getInt("Rarity")
+      val config = new YamlConfiguration
+      config.loadFromString(rs.getString("Material"))
+      if (rarity == 0) missItemList :+= config.getItemStack("i",null)
+      else if (rarity == 1) perItemList :+= config.getItemStack("i",null)
+      else if (rarity == 2) bigPerItemList :+= config.getItemStack("i",null)
+      else if (rarity == 3) specialItemList :+= config.getItemStack("i",null)
+    }
+    Bukkit.getLogger.info("ガチャアイテムロードが完了しました！")
+    sql.close()
   }
 
   private def gachaRarityLoad(ryoServerAssist: RyoServerAssist): Unit = {

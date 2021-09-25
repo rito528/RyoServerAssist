@@ -32,16 +32,16 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
           new GachaLottery().lottery() match {
             case rarity.special =>
               special += 1
-              p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(4)))
+              p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(4))
             case rarity.per =>
               per += 1
-              p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(2)))
+              p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(2))
             case rarity.bigPer =>
               bigPer += 1
-              p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(3)))
+              p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(3))
             case rarity.miss =>
               miss += 1
-              p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(1)))
+              p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(1))
           }
         }
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
@@ -58,16 +58,16 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         new GachaLottery().lottery() match {
           case rarity.special =>
             p.sendMessage(ChatColor.AQUA + "特賞！")
-            p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(4)))
+            p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(4))
           case rarity.per =>
             p.sendMessage(ChatColor.AQUA + "あたり！")
-            p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(2)))
+            p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(2))
           case rarity.bigPer =>
             p.sendMessage(ChatColor.AQUA + "大当たり！")
-            p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(3)))
+            p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(3))
           case rarity.miss =>
             p.sendMessage(ChatColor.AQUA + "はずれ！")
-            p.getWorld.dropItem(p.getLocation(), new ItemStack(new GachaLottery().itemLottery(1)))
+            p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(1))
         }
         pullCoolDownSet(p, ryoServerAssist)
       }
