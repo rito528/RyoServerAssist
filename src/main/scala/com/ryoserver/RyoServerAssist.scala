@@ -3,7 +3,7 @@ package com.ryoserver
 import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.File.createFiles
-import com.ryoserver.Gacha.{Gacha, GachaCommand, GachaLoader}
+import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
@@ -79,7 +79,8 @@ class RyoServerAssist extends JavaPlugin {
       new RecoverySkillPointEvent(this),
       new SelectSkillEvent(this),
       new RegionMenuEvent,
-      new RegionSettingMenuEvent
+      new RegionSettingMenuEvent,
+      new GachaAddItemInventoryEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

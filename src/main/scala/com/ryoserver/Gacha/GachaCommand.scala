@@ -27,6 +27,8 @@ class GachaCommand extends CommandExecutor {
           sender.asInstanceOf[Player].getInventory.addItem(is)
           return true
         }
+      } else if (args(0).equalsIgnoreCase("add") && args.length == 1) {
+        new gachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
       }
     }
     false

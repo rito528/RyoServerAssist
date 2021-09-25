@@ -1,6 +1,9 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.SQL
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.inventory.{Inventory, ItemStack}
 import org.bukkit.{Bukkit, Material}
 
 import java.nio.file.{Files, Paths}
@@ -19,11 +22,29 @@ object GachaLoader {
   var special:Double = _ //特等
 
   def load(ryoServerAssist: RyoServerAssist): Unit = {
-    gachaItemLoad()
+    gachaItemLoad(ryoServerAssist)
     gachaRarityLoad(ryoServerAssist)
   }
 
-  private def gachaItemLoad(): Unit = {
+  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery("SHOW TABLES LIKE 'GachaItems'")
+    if (!rs.next()) sql.executeSQL("CREATE TABLE GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
+    sql.close()
+  }
+
+  def addGachaItem(ryoServerAssist: RyoServerAssist, is:ItemStack, rarity: Int): Unit = {
+    createGachaTable(ryoServerAssist)
+    val sql = new SQL(ryoServerAssist)
+    var config:YamlConfiguration = null
+    config = new YamlConfiguration
+    config.set("i",is)
+    sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
+    sql.close()
+  }
+
+  private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
+    createGachaTable(ryoServerAssist)
     Bukkit.getLogger.info("ガチャアイテムロード中....")
     val gachaFile = Paths.get("plugins/RyoServerAssist/gachaItem.rsva")
     if (Files.notExists(gachaFile)) gachaFile.toFile.createNewFile()
