@@ -39,6 +39,7 @@ object GachaLoader {
     val sql = new SQL(ryoServerAssist)
     var config:YamlConfiguration = null
     config = new YamlConfiguration
+    is.setAmount(1)
     config.set("i",is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
     sql.close()
@@ -56,6 +57,12 @@ object GachaLoader {
         config.getItemStack("i",null).getItemMeta.getDisplayName else config.getItemStack("i",null).getType.name()))
     }
     p.sendMessage("+--------------------------+")
+    sql.close()
+  }
+
+  def removeGachaItem(id:Int,ryoServerAssist: RyoServerAssist): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
     sql.close()
   }
 
