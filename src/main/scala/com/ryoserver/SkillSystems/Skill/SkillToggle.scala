@@ -1,15 +1,12 @@
 package com.ryoserver.SkillSystems.Skill
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.PlayerSkillData.skillMap
+import com.ryoserver.SkillSystems.Skill.PlayerSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointData, skillPointConsumption}
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointData
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import org.bukkit.potion.{PotionEffect, PotionEffectType}
-import org.bukkit.scheduler.BukkitRunnable
-
-import scala.collection.mutable
+import org.bukkit.potion.PotionEffectType
 
 trait SkillToggle {
 
@@ -32,53 +29,23 @@ trait SkillToggle {
       p.sendMessage(ChatColor.RED + "スキルポイントが足りないためスキルを起動できませんでした！")
       return
     }
-    if (skillMap.contains(p.getName) && skillMap(p.getName).contains(skillName)) {
-      p.removePotionEffect(effectType)
-      skillMap(p.getName)(skillName).cancel()
-      val runnableMap = skillMap(p.getName).filterNot{case (name,_) => name == skillName}
-      skillMap += (p.getName -> runnableMap)
-      p.sendMessage(ChatColor.AQUA + "スキル:" + skillName + "を無効化しました。")
+    val operation = new SkillOperation(p,skillName,ryoServerAssist)
+    if (operation.isEnableSkill) {
+      //スキルを無効化する
+      operation.skillInvalidation()
+      p.sendMessage(ChatColor.AQUA + "スキルを無効化しました。")
     } else {
-      new BukkitRunnable {
-        override def run(): Unit = {
-          val runnable = this
-          new BukkitRunnable {
-            override def run(): Unit = {
-              val playerSP = new SkillPointData(ryoServerAssist).getSkillPoint(p)
-              new skillPointConsumption(ryoServerAssist).consumption(sp,p)
-              if (!skillMap.contains(p.getName)) skillMap += (p.getName -> mutable.Map(skillName -> runnable))
-              else skillMap(p.getName) += (skillName -> runnable)
-              if (playerSP >= sp) {
-                p.addPotionEffect(new PotionEffect(effectType, 20 * 60, level))
-              } else {
-                allEffectClear(p)
-                p.sendMessage(ChatColor.RED + "スキルポイントが足りないため、スキルがオフになりました。")
-                runnable.cancel()
-                val runnableMap = skillMap(p.getName).filterNot { case (name, _) => name == skillName }
-                skillMap += (p.getName -> runnableMap)
-              }
-            }
-          }.runTask(ryoServerAssist)
-        }
-      }.runTaskTimerAsynchronously(ryoServerAssist,0,20*60)
+      //スキルの有効化
+      operation.skillActivation(effectType,level,sp)
       p.sendMessage(ChatColor.AQUA + "スキル:" + skillName + "を有効化しました。")
     }
   }
 
   def allEffectClear(p:Player): Unit = {
-    if (skillMap.contains(p.getName)) {
-      p.getActivePotionEffects.forEach(effect => {
-        p.removePotionEffect(effect.getType)
-      })
-      skillMap(p.getName).foreach { case (skillName, _) => {
-        skillMap(p.getName)(skillName).cancel()
-        val runnableMap = skillMap(p.getName).filterNot { case (name, _) => name == skillName }
-        skillMap += (p.getName -> runnableMap)
-      }}
-      p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
-    } else {
-      p.sendMessage(ChatColor.RED + "スキルが有効化されていないため、無効化できませんでした。")
-    }
+    enableSkills(p.getName).foreach(skillName => {
+      new SkillOperation(p,skillName,ryoServerAssist).skillInvalidation()
+    })
+    p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
   }
 
 }

@@ -1,11 +1,15 @@
 package com.ryoserver.SkillSystems.Skill
 
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.entity.Player
 
 import scala.collection.mutable
 
 object PlayerSkillData {
 
-  var skillMap:mutable.Map[String,mutable.Map[String,BukkitRunnable]] = mutable.Map.empty
+  var enableSkills:mutable.Map[String,Array[String]] = mutable.Map.empty //プレイヤー名と有効なスキル名を紐付ける
+
+  def getSkills(p:Player): Unit = {
+    enableSkills(p.getName)
+  }
 
 }
