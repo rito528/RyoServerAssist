@@ -60,7 +60,8 @@ class RyoServerAssist extends JavaPlugin {
       "tpa" -> new tpaCommand(this),
       "skill" -> new SkillCommands,
       "sr" -> new RegionCommand,
-      "hat" -> new SubCommands
+      "hat" -> new SubCommands,
+      "spawn" -> new SubCommands
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

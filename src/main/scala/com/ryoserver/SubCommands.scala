@@ -1,5 +1,6 @@
 package com.ryoserver
 
+import org.bukkit.Bukkit
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 
@@ -14,6 +15,9 @@ class SubCommands extends CommandExecutor {
       p.getInventory.remove(handItem)
       p.getInventory.setHelmet(handItem)
       return true
+    } else if (label.equalsIgnoreCase("spawn")) {
+      val p = sender.asInstanceOf[Player]
+      p.teleport(Bukkit.getWorld("world").getSpawnLocation)
     }
     false
   }

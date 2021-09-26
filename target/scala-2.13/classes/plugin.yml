@@ -39,6 +39,9 @@ commands:
   hat:
     description: hat command.
     permission: ryoserverassist.hat
+  spawn:
+    description: spawn command.
+    permission: ryoserverassist.spawn
 
 permissions:
   ryoserverassist.*:
@@ -54,6 +57,7 @@ permissions:
       - ryoserverassist.stick
       - ryoserverassist.sr
       - ryoserverassist.hat
+      - ryoserverassist.spawn
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -73,4 +77,6 @@ permissions:
   ryoserverassist.sr:
     default: op
   ryoserverassist.hat:
+    default: true
+  ryoserverassist.spawn:
     default: true
