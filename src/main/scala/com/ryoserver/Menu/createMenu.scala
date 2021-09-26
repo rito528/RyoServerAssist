@@ -25,6 +25,7 @@ object createMenu {
       "次のガチャ券まであと" + (100 - new getPlayerData(ryoServerAssist).getPlayerExp(p) % 100)).asJava))
     inv.setItem(8,getItem(Material.BEACON,"スキルを選択します。",List("クリックで開きます。").asJava))
     inv.setItem(9,getItem(Material.WOODEN_AXE,"保護メニューを開きます。",List("クリックで開きます。").asJava))
+    inv.setItem(11,getItem(Material.LAVA_BUCKET,"ゴミ箱を開きます。",List("クリックで開きます。","取扱注意！").asJava))
     inv
   }
 }

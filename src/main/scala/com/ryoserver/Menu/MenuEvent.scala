@@ -1,6 +1,7 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Distribution.Distribution
+import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.getGachaTickets
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
@@ -28,6 +29,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 6 => new getGachaTickets(ryoServerAssist).receipt(p)
       case 8 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
       case 9 => new RegionMenu().menu(p)
+      case 11 => new DustBoxInventory().openDustBox(p)
       case _ =>
     }
   }
