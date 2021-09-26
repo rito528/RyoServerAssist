@@ -106,30 +106,4 @@ class RyoServerAssist extends JavaPlugin {
     getLogger.info("RyoServerAssist disabled.")
   }
 
-  @Override
-  override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
-    super.onCommand(sender, command, label, args)
-    if (label.equalsIgnoreCase("test2")) {
-      val container = WorldGuard.getInstance().getPlatform.getRegionContainer
-      val regions = container.get(BukkitAdapter.adapt(Bukkit.getWorld("world")))
-      val set = regions.getApplicableRegions(new Location(BukkitAdapter.adapt(Bukkit.getWorld("world")),-262,67,94).toVector.toBlockPoint)
-      set.forEach(e => println("a:" + e.getId))
-      val session = WorldEdit.getInstance().getSessionManager.get(BukkitAdapter.adapt(sender.asInstanceOf[Player]))
-      val min = session.getSelection.getMinimumPoint.toVector3.withY(0)
-      val max = session.getSelection().getMaximumPoint.toVector3.withY(256)
-      val region = new ProtectedCuboidRegion("testRegion",min.toBlockPoint,max.toBlockPoint)
-      val overlapping = region.getIntersectingRegions(regions.getRegions.values())
-      if (overlapping.size() > 0) {
-        sender.sendMessage(ChatColor.RED + "保護がかぶっています！")
-      } else {
-        val owners = region.getOwners
-        owners.addPlayer(UUID.fromString(sender.asInstanceOf[Player].getUniqueId.toString))
-        regions.addRegion(region)
-        sender.sendMessage(ChatColor.AQUA + "保護が完了しました！")
-      }
-      return true
-    }
-    false
-  }
-
 }
