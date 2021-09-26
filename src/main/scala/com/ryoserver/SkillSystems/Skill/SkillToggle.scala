@@ -42,10 +42,12 @@ trait SkillToggle {
   }
 
   def allEffectClear(p:Player): Unit = {
-    enableSkills(p.getName).foreach(skillName => {
-      new SkillOperation(p,skillName,ryoServerAssist).skillInvalidation()
-    })
-    p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
+    if (enableSkills.contains(p.getName)) {
+      enableSkills(p.getName).foreach(skillName => {
+        new SkillOperation(p, skillName, ryoServerAssist).skillInvalidation()
+      })
+      p.sendMessage(ChatColor.AQUA + "スキルをすべて無効化しました。")
+    }
   }
 
 }
