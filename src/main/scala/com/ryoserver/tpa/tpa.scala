@@ -16,6 +16,10 @@ object tpa {
       sendPlayer.sendMessage(ChatColor.RED + "送信したプレイヤーはすでにtpaを受けているためtpaを送信できませんでした。")
       return
     }
+    if (tpaList.values.exists(_ == sendPlayer.getName)) {
+      sendPlayer.sendMessage(ChatColor.RED + "あなたは既にtpaを送信しているため、tpaを送信できませんでした。")
+      return
+    }
     tpaList += (targetPlayer.getName -> sendPlayer.getName)
     targetPlayer.sendMessage(ChatColor.AQUA + sendPlayer.getName + "からtpaが送信されました。")
     targetPlayer.sendMessage(ChatColor.AQUA + "依頼を受ける場合は/tpa acceptを、断る場合は/tpa cancelを入力してください。")
