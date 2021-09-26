@@ -18,17 +18,8 @@ import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
-import com.sk89q.worldedit.WorldEdit
-import com.sk89q.worldedit.bukkit.BukkitAdapter
-import com.sk89q.worldedit.util.Location
-import com.sk89q.worldguard.WorldGuard
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion
-import org.bukkit.command.{Command, CommandSender}
-import org.bukkit.entity.Player
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.{Bukkit, ChatColor}
-
-import java.util.UUID
 
 class RyoServerAssist extends JavaPlugin {
 
