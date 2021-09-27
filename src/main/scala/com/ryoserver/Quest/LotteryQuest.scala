@@ -4,7 +4,7 @@ import com.ryoserver.RyoServerAssist
 
 import java.security.SecureRandom
 
-class LotteryQuest(ryoServerAssist: RyoServerAssist) {
+class LotteryQuest() {
 
   var questType: String = ""
   var questName:String = ""

@@ -4,10 +4,10 @@ import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Player.getData
 import com.ryoserver.RyoServerAssist
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
-import org.bukkit.{Bukkit, ChatColor, Material}
-import org.bukkit.ChatColor._
+import org.bukkit.{Bukkit, Material}
 
 import scala.jdk.CollectionConverters._
 

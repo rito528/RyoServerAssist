@@ -18,7 +18,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
       val p = e.getWhoClicked.asInstanceOf[Player]
       val questData = new QuestData(ryoServerAssist)
       val questNames = questData.loadQuest(p)
-      val lottery = new LotteryQuest(ryoServerAssist)
+      val lottery = new LotteryQuest()
       e.getSlot match {
         case 1 =>
           lottery.questName = questNames(0)

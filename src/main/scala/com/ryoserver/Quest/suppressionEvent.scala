@@ -14,7 +14,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     if (e.getEntity.getKiller.isInstanceOf[Player]) {
       val p = e.getEntity.getKiller
       val questData = new QuestData(ryoServerAssist)
-      val lottery = new LotteryQuest(ryoServerAssist)
+      val lottery = new LotteryQuest()
       var pause = false
       if (questData.getSelectedQuest(p) != null) {
         lottery.questName = questData.getSelectedQuest(p)

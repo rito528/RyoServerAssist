@@ -20,7 +20,7 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
       val inv = Bukkit.createInventory(null, 27, "クエスト選択")
       for (i <- 1 to 7 by 2) {
         val data = questData.loadQuest(p)
-        val lottery = new LotteryQuest(ryoServerAssist)
+        val lottery = new LotteryQuest()
         if (data.isEmpty) {
           var loop = true
           do {
@@ -66,7 +66,7 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
       new QuestData(ryoServerAssist).saveQuest(p, selectedQuests)
     } else {
       var deliveryInv:Inventory = null
-      val lottery = new LotteryQuest(ryoServerAssist)
+      val lottery = new LotteryQuest()
       lottery.questName = questData.getSelectedQuest(p)
       lottery.getQuest()
       val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"

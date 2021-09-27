@@ -1,11 +1,9 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 class getGachaTickets(ryoServerAssist: RyoServerAssist) {
 
