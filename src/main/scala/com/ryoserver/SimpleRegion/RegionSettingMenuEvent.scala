@@ -5,7 +5,6 @@ import com.sk89q.worldedit.util.Location
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.ApplicableRegionSet
 import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
-import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
