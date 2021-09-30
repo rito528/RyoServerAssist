@@ -1,6 +1,7 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
+import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
@@ -49,6 +50,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     new SkillPointData(ryoServerAssist).setSkillPoint(p,new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp)))
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p,nowLevel - old_level)
     if (old_level < nowLevel) {
+      new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
     }

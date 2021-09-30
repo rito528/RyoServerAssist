@@ -9,11 +9,11 @@ import org.bukkit.entity.Player
 class playerDataLoader(ryoServerAssist: RyoServerAssist) {
 
   def load(p:Player): Unit = {
-    val createData = new createData(ryoServerAssist)
-    createData.createPlayerData(p)
+    new createData(ryoServerAssist).createPlayerData(p)
     new UpdateData(ryoServerAssist).update(p)
     new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
     SkillPointBer.create(p,ryoServerAssist)
+    new Name(ryoServerAssist).updateName(p)
   }
 
   def unload(p:Player): Unit = {
