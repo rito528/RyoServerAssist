@@ -14,11 +14,15 @@ class LotteryQuest {
 
   def lottery(lv: Int): Unit = {
     val random = SecureRandom.getInstance("SHA1PRNG")
+    var counter = 0
     do {
+      counter += 1
       val r = random.nextInt(loadQuests.enableEvents.length)
       questName = loadQuests.enableEvents(r)
-      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel")) loadQuestData()
-    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") && lv > loadQuests.questConfig.getInt(questName + ".maxLevel"))
+      println(lv)
+      println(loadQuests.questConfig.getInt(questName + ".maxLevel"))
+      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel") && lv <= loadQuests.questConfig.getInt(questName + ".maxLevel")) loadQuestData()
+    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") || lv > loadQuests.questConfig.getInt(questName + ".maxLevel"))
   }
 
   def loadQuestData(): Unit = {
