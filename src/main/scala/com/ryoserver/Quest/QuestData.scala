@@ -77,7 +77,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
   def questClear(p:Player): Unit = {
     val lottery = new LotteryQuest()
     lottery.questName = getSelectedQuest(p)
-    lottery.getQuest()
+    lottery.loadQuestData()
     new updateLevel(ryoServerAssist).addExp(lottery.exp,p)
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)

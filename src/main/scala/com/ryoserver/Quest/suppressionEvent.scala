@@ -18,7 +18,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       var pause = false
       if (questData.getSelectedQuest(p) != null) {
         lottery.questName = questData.getSelectedQuest(p)
-        lottery.getQuest()
+        lottery.loadQuestData()
         if (lottery.questType == "suppression") {
           val remaining = questData.getSelectedQuestRemaining(p)
           var data: Array[String] = Array.empty[String]

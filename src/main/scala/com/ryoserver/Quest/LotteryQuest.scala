@@ -1,13 +1,11 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.RyoServerAssist
-
 import java.security.SecureRandom
 
-class LotteryQuest() {
+class LotteryQuest {
 
-  var questType: String = ""
-  var questName:String = ""
+  var questType = ""
+  var questName = ""
   var items:java.util.List[String] = _
   var mobs:java.util.List[String] = _
   var descriptions:java.util.List[String] = _
@@ -19,11 +17,11 @@ class LotteryQuest() {
     do {
       val r = random.nextInt(loadQuests.enableEvents.length)
       questName = loadQuests.enableEvents(r)
-      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel")) getQuest()
-    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel"))
+      if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel")) loadQuestData()
+    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") && lv > loadQuests.questConfig.getInt(questName + ".maxLevel"))
   }
 
-  def getQuest():Unit = {
+  def loadQuestData(): Unit = {
     questType = loadQuests.questConfig.getString(questName + ".type")
     items = loadQuests.questConfig.getStringList(questName + ".deliveryItems")
     mobs = loadQuests.questConfig.getStringList(questName + ".suppressionMobs")

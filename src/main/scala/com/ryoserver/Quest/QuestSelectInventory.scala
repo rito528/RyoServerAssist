@@ -32,7 +32,7 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
           } while (loop)
         } else {
           lottery.questName = data((i - 1) / 2)
-          lottery.getQuest()
+          lottery.loadQuestData()
           selectedQuests :+= lottery.questName
         }
         val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
@@ -68,7 +68,7 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
       var deliveryInv:Inventory = null
       val lottery = new LotteryQuest()
       lottery.questName = questData.getSelectedQuest(p)
-      lottery.getQuest()
+      lottery.loadQuestData()
       val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
       else if (lottery.questType.equalsIgnoreCase("suppression")) "討伐クエスト"
       val questDetails: java.util.List[String] = new util.ArrayList[String]()

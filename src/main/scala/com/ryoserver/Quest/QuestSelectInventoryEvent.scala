@@ -22,22 +22,22 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
       e.getSlot match {
         case 1 =>
           lottery.questName = questNames(0)
-          lottery.getQuest()
+          lottery.loadQuestData()
           questData.selectQuest(p, lottery)
           new QuestSelectInventory(ryoServerAssist).selectInventory(p)
         case 3 =>
           lottery.questName = questNames(1)
-          lottery.getQuest()
+          lottery.loadQuestData()
           questData.selectQuest(p, lottery)
           new QuestSelectInventory(ryoServerAssist).selectInventory(p)
         case 5 =>
           lottery.questName = questNames(2)
-          lottery.getQuest()
+          lottery.loadQuestData()
           questData.selectQuest(p, lottery)
           new QuestSelectInventory(ryoServerAssist).selectInventory(p)
         case 7 =>
           lottery.questName = questNames(3)
-          lottery.getQuest()
+          lottery.loadQuestData()
           questData.selectQuest(p, lottery)
           new QuestSelectInventory(ryoServerAssist).selectInventory(p)
         case 22 =>
