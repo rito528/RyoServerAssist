@@ -22,7 +22,8 @@ class LotteryQuest {
       println(lv)
       println(loadQuests.questConfig.getInt(questName + ".maxLevel"))
       if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel") && lv <= loadQuests.questConfig.getInt(questName + ".maxLevel")) loadQuestData()
-    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") || lv > loadQuests.questConfig.getInt(questName + ".maxLevel"))
+    } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") || lv > loadQuests.questConfig.getInt(questName + ".maxLevel") ||
+      ((loadQuests.questConfig.getInt(questName + ".minLevel") - lv) > 10 || counter > 10))
   }
 
   def loadQuestData(): Unit = {
