@@ -2,139 +2,47 @@
 [0m[[0m[0mdebug[0m] [0m[0mIncrementalCompile.incrementalCompile[0m
 [0m[[0m[0mdebug[0m] [0m[0mprevious = Stamps for: 94 products, 67 sources, 8 libraries[0m
 [0m[[0m[0mdebug[0m] [0m[0mcurrent source = Set(${BASE}/src/main/scala/com/ryoserver/Player/PlayerEvents.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/SkillPointBer.scala, ${BASE}/src/main/scala/com/ryoserver/DustBox/DustBoxInventory.scala, ${BASE}/src/main/scala/com/ryoserver/Distribution/Distribution.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Chat/JapaneseChat.scala, ${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionSettingMenu.scala, ${BASE}/src/main/scala/com/ryoserver/util/SQL.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/Rarity.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/skillPointConsumption.scala, ${BASE}/src/main/scala/com/ryoserver/DustBox/DustBoxInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/SubCommands.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/MenuCommand.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/MenuEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/Gacha.scala, ${BASE}/src/main/scala/com/ryoserver/Storage/StorageEvent.scala, ${BASE}/src/main/scala/com/ryoserver/File/createFiles.scala, ${BASE}/src/main/scala/com/ryoserver/Level/Player/LevelLoader.scala, ${BASE}/src/main/scala/com/ryoserver/Level/LevelCommand.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/createMenu.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaLoader.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/SelectSkillEvent.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/SkillToggle.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/SkillOperation.scala, ${BASE}/src/main/scala/com/ryoserver/tpa/tpaCommand.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaCommand.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaCoolDown.scala, ${BASE}/src/main/scala/com/ryoserver/Inventory/Item.scala, ${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionCommand.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/RecoveryItems.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaPaperData.scala, ${BASE}/src/main/scala/com/ryoserver/Player/UpdateData.scala, ${BASE}/src/main/scala/com/ryoserver/Storage/Storage.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/RecoverySkillPointEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Level/CalLv.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/SkillData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/loadQuests.scala, ${BASE}/src/main/scala/com/ryoserver/Distribution/DistributionCommand.scala, ${BASE}/src/main/scala/com/ryoserver/Player/playerDataLoader.scala, ${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionMenuEvent.scala, ${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionSettingMenuEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala, ${BASE}/src/main/scala/com/ryoserver/Player/createData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/LotteryQuest.scala, ${BASE}/src/main/scala/com/ryoserver/Level/Player/BossBar.scala, ${BASE}/src/main/scala/com/ryoserver/Tips/Tips.scala, ${BASE}/src/main/scala/com/ryoserver/Player/getData.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaLottery.scala, ${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionMenu.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillOpens/SkillOpenCheck.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/getGachaTickets.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/SelectSkillMenu.scala, ${BASE}/src/main/scala/com/ryoserver/Level/Player/updateLevel.scala, ${BASE}/src/main/scala/com/ryoserver/tpa/tpa.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillOpens/SkillOpenData.scala, ${BASE}/src/main/scala/com/ryoserver/Home/Home.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/SkillPointCal.scala, ${BASE}/src/main/scala/com/ryoserver/Level/Player/getPlayerData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestData.scala, ${BASE}/src/main/scala/com/ryoserver/RyoServerAssist.scala, ${BASE}/src/main/scala/com/ryoserver/Notification/Notification.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaAddItemInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/gachaAddItemInventory.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/Skill/PlayerSkillData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/suppressionEvent.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/SkillPointData.scala, ${BASE}/src/main/scala/com/ryoserver/SkillSystems/SkillCommands.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(), removed = Set(), changed = Set(${BASE}/src/main/scala/com/ryoserver/Quest/suppressionEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/createMenu.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestData.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaLottery.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/LotteryQuest.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/getGachaTickets.scala), unmodified = ...),Set(),Set(),API Changes: Set())[0m
+[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(), removed = Set(), changed = Set(${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionSettingMenuEvent.scala), unmodified = ...),Set(),Set(),API Changes: Set())[0m
 [0m[[0m[0mdebug[0m] [0m[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mInitial source changes:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	removed: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	added: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/createMenu.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/LotteryQuest.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaLottery.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/getGachaTickets.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/suppressionEvent.scala)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionSettingMenuEvent.scala)[0m
 [0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(com.ryoserver.Gacha.GachaLottery, com.ryoserver.Quest.QuestData, com.ryoserver.Gacha.getGachaTickets, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.LotteryQuest, com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.QuestSelectInventoryEvent, com.ryoserver.Menu.createMenu)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(com.ryoserver.SimpleRegion.RegionSettingMenuEvent)[0m
 [0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(com.ryoserver.Gacha.GachaLottery, com.ryoserver.Quest.QuestData, com.ryoserver.Gacha.getGachaTickets, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.LotteryQuest, com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.QuestSelectInventoryEvent, com.ryoserver.Menu.createMenu)[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventoryEvent.scala, ${BASE}/src/main/scala/com/ryoserver/Menu/createMenu.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestSelectInventory.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/LotteryQuest.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/GachaLottery.scala, ${BASE}/src/main/scala/com/ryoserver/Gacha/getGachaTickets.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/QuestData.scala, ${BASE}/src/main/scala/com/ryoserver/Quest/suppressionEvent.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Gacha.GachaLottery, com.ryoserver.Quest.QuestData, com.ryoserver.Gacha.getGachaTickets, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.LotteryQuest, com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.QuestSelectInventoryEvent, com.ryoserver.Menu.createMenu[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated classes: Set(com.ryoserver.SimpleRegion.RegionSettingMenuEvent)[0m
+[0m[[0m[0mdebug[0m] [0m[0mAll initially invalidated sources:Set(${BASE}/src/main/scala/com/ryoserver/SimpleRegion/RegionSettingMenuEvent.scala)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.SimpleRegion.RegionSettingMenuEvent[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 8 Scala sources to /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/classes ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.5.7:compile for Scala 2.13.6[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 49389134 for Scala compiler version 2.13.6[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler f89ef for Scala compiler version 2.13.6[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	/home/rito/Desktop/Develop/RyoServerAssist/target/scala-2.13/classes:/home/rito/.m2/repository/org/spigotmc/spigot-api/1.17.1-R0.1-SNAPSHOT/spigot-api-1.17.1-R0.1-SNAPSHOT.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.25/mysql-connector-java-8.0.25.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/rito/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.13.0-rc1/jackson-core-2.13.0-rc1.jar:/home/rito/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.13.0-rc1/jackson-databind-2.13.0-rc1.jar:/home/rito/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.13.0-rc1/jackson-annotations-2.13.0-rc1.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-bukkit/7.0.6/worldguard-bukkit-7.0.6.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-bukkit/7.2.6-SNAPSHOT/worldedit-bukkit-7.2.6-20210822.035144-44.jar:/home/rito/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/home/rito/.m2/repository/com/google/guava/guava/21.0/guava-21.0.jar:/home/rito/.m2/repository/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar:/home/rito/.m2/repository/net/md-5/bungeecord-chat/1.16-R0.4/bungeecord-chat-1.16-R0.4.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/yaml/snakeyaml/1.29/snakeyaml-1.29.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/home/rito/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/rito/.m2/repository/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-core/7.2.6-SNAPSHOT/worldedit-core-7.2.6-20210822.035144-44.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/bukkit/7.2.6-SNAPSHOT/bukkit-7.2.6-20210822.035144-48.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/io/papermc/paperlib/1.0.6/paperlib-1.0.6.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/bstats/bstats-bukkit/2.1.0/bstats-bukkit-2.1.0.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/it/unimi/dsi/fastutil/8.2.1/fastutil-8.2.1.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-libs/core/7.0.6/core-7.0.6.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/flywaydb/flyway-core/3.0/flyway-core-3.0.jar:/home/rito/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/core/7.2.6-SNAPSHOT/core-7.2.6-20210822.035144-48.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/antlr/antlr4/4.9.1/antlr4-4.9.1.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/mozilla/rhino-runtime/1.7.13/rhino-runtime-1.7.13.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.14.1/log4j-api-2.14.1.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.9.1/antlr4-runtime-4.9.1.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/bstats/bstats-base/2.1.0/bstats-base-2.1.0.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/antlr/ST4/4.3/ST4-4.3.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar:/home/rito/.cache/coursier/v1/https/repo1.maven.org/maven2/com/ibm/icu/icu4j/61.1/icu4j-61.1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from com.ryoserver.Gacha.getGachaTickets...[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Gacha.getGachaTickets[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(com.ryoserver.Gacha.getGachaTickets)[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.Menu.MenuEvent. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(com.ryoserver.Gacha.getGachaTickets,ModifiedNames(changes = UsedName(finalize,[Default]))) invalidates 1 classes due to The com.ryoserver.Gacha.getGachaTickets has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	UsedName(finalize,[Default]).[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > by transitive inheritance: Set(com.ryoserver.Gacha.getGachaTickets)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from com.ryoserver.SimpleRegion.RegionSettingMenuEvent...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.SimpleRegion.RegionSettingMenuEvent[0m
+[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(com.ryoserver.SimpleRegion.RegionSettingMenuEvent)[0m
+[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.RyoServerAssist. This dependency is not being considered for invalidation.[0m
+[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(com.ryoserver.SimpleRegion.RegionSettingMenuEvent,ModifiedNames(changes = UsedName(toggleFlag,[Default]))) invalidates 1 classes due to The com.ryoserver.SimpleRegion.RegionSettingMenuEvent has the following regular definitions changed:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	UsedName(toggleFlag,[Default]).[0m
+[0m[[0m[0mdebug[0m] [0m[0m  > by transitive inheritance: Set(com.ryoserver.SimpleRegion.RegionSettingMenuEvent)[0m
 [0m[[0m[0mdebug[0m] [0m[0m  > [0m
 [0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m        [0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from com.ryoserver.Gacha.GachaLottery...[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Gacha.GachaLottery[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(com.ryoserver.Gacha.GachaLottery)[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.Gacha.Gacha. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(com.ryoserver.Gacha.GachaLottery,ModifiedNames(changes = UsedName(finalize,[Default]))) invalidates 1 classes due to The com.ryoserver.Gacha.GachaLottery has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	UsedName(finalize,[Default]).[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > by transitive inheritance: Set(com.ryoserver.Gacha.GachaLottery)[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m        [0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from com.ryoserver.Menu.createMenu...[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Menu.createMenu[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(com.ryoserver.Menu.createMenu)[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.Quest.QuestSelectInventoryEvent. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.Menu.MenuCommand. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.SkillSystems.Skill.SelectSkillEvent. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mNone of the modified names appears in source file of com.ryoserver.Menu.MenuEvent. This dependency is not being considered for invalidation.[0m
-[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(com.ryoserver.Menu.createMenu,ModifiedNames(changes = UsedName(finalize,[Default]))) invalidates 1 classes due to The com.ryoserver.Menu.createMenu has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	UsedName(finalize,[Default]).[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > by transitive inheritance: Set(com.ryoserver.Menu.createMenu)[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m        [0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidating (transitively) by inheritance from com.ryoserver.Quest.LotteryQuest...[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Quest.LotteryQuest[0m
-[0m[[0m[0mdebug[0m] [0m[0mInvalidated by transitive inheritance dependency: Set(com.ryoserver.Quest.LotteryQuest)[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of com.ryoserver.Quest.QuestSelectInventory: Set(UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]))[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of com.ryoserver.Quest.suppressionEvent: Set(UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]))[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of com.ryoserver.Quest.QuestData: Set(UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]))[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of com.ryoserver.Quest.QuestSelectInventoryEvent: Set(UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]))[0m
-[0m[[0m[0mdebug[0m] [0m[0mChange NamesChange(com.ryoserver.Quest.LotteryQuest,ModifiedNames(changes = UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]), UsedName(finalize,[Default]))) invalidates 5 classes due to The com.ryoserver.Quest.LotteryQuest has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	UsedName(com;ryoserver;Quest;LotteryQuest;init;,[Default]), UsedName(finalize,[Default]).[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > by transitive inheritance: Set(com.ryoserver.Quest.LotteryQuest)[0m
-[0m[[0m[0mdebug[0m] [0m[0m  > [0m
-[0m[[0m[0mdebug[0m] [0m[0m  > by member reference: Set(com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.QuestData, com.ryoserver.Quest.QuestSelectInventoryEvent)[0m
 [0m[[0m[0mdebug[0m] [0m[0m        [0m
 [0m[[0m[0mdebug[0m] [0m[0mNew invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Quest.QuestData[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Quest.suppressionEvent[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Quest.QuestSelectInventory[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Quest.QuestSelectInventoryEvent[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: com.ryoserver.Quest.QuestData, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.QuestSelectInventoryEvent[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Quest.QuestSelectInventory by com.ryoserver.Quest.QuestData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Quest.suppressionEvent by com.ryoserver.Quest.QuestSelectInventory[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.RyoServerAssist by com.ryoserver.Quest.suppressionEvent[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.Skill.SkillOperation by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.Skill.SkillToggle by com.ryoserver.SkillSystems.Skill.SkillOperation[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Player.playerDataLoader by com.ryoserver.SkillSystems.Skill.SkillToggle[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Player.PlayerEvents by com.ryoserver.Player.playerDataLoader[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.Skill.SelectSkillEvent by com.ryoserver.SkillSystems.Skill.SkillToggle[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.GachaLoader by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.GachaLottery by com.ryoserver.Gacha.GachaLoader[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.Gacha by com.ryoserver.Gacha.GachaLottery[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.GachaAddItemInventoryEvent by com.ryoserver.Gacha.GachaLoader[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.GachaCommand by com.ryoserver.Gacha.GachaLoader[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Player.createData by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.Player.getPlayerData by com.ryoserver.Player.createData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillPoint.SkillPointBer by com.ryoserver.Level.Player.getPlayerData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.Player.updateLevel by com.ryoserver.SkillSystems.SkillPoint.SkillPointBer[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.LevelCommand by com.ryoserver.Level.Player.updateLevel[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillPoint.SkillPointData by com.ryoserver.SkillSystems.SkillPoint.SkillPointBer[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillPoint.skillPointConsumption by com.ryoserver.SkillSystems.SkillPoint.SkillPointData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent by com.ryoserver.SkillSystems.SkillPoint.SkillPointData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.Player.LevelLoader by com.ryoserver.Level.Player.getPlayerData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Menu.createMenu by com.ryoserver.Level.Player.getPlayerData[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Quest.QuestSelectInventoryEvent by com.ryoserver.Menu.createMenu[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Menu.MenuCommand by com.ryoserver.Menu.createMenu[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Menu.MenuEvent by com.ryoserver.Menu.createMenu[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.Player.BossBar by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.getGachaTickets by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.tpa.tpa by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.tpa.tpaCommand by com.ryoserver.tpa.tpa[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Distribution.Distribution by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Distribution.DistributionCommand by com.ryoserver.Distribution.Distribution[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Quest.loadQuests by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Quest.LotteryQuest by com.ryoserver.Quest.loadQuests[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Storage.StorageEvent by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Player.getData by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillOpens.SkillOpenCheck by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.Skill.SelectSkillMenu by com.ryoserver.SkillSystems.SkillOpens.SkillOpenCheck[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Tips.Tips by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Level.CalLv by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Home.Home by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.util.SQL by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Storage.Storage by com.ryoserver.util.SQL[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.SkillOpens.SkillOpenData by com.ryoserver.util.SQL[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Player.UpdateData by com.ryoserver.util.SQL[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Chat.JapaneseChat by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.SkillSystems.Skill.skillToggleClass by com.ryoserver.RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding com.ryoserver.Gacha.GachaCoolDown by com.ryoserver.RyoServerAssist[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: [0m
 [0m[[0m[0mdebug[0m] [0m[0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Gacha.GachaLottery[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Gacha.getGachaTickets[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Quest.LotteryQuest[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com.ryoserver.Menu.createMenu[0m
 [0m[[0m[0mdebug[0m] [0m[0mFinal step, transitive dependencies:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Set(com.ryoserver.Gacha.GachaLottery, com.ryoserver.Quest.QuestData, com.ryoserver.Gacha.getGachaTickets, com.ryoserver.Quest.suppressionEvent, com.ryoserver.Quest.LotteryQuest, com.ryoserver.Quest.QuestSelectInventory, com.ryoserver.Quest.QuestSelectInventoryEvent, com.ryoserver.Menu.createMenu)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mNo classes were invalidated.[0m
-[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 1.651156591 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 0.257407576 s[0m
 [0m[[0m[0minfo[0m] [0m[0mdone compiling[0m
