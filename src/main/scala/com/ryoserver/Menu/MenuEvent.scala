@@ -30,6 +30,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 8 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
       case 9 => new RegionMenu().menu(p)
       case 11 => new DustBoxInventory().openDustBox(p)
+      case 13 => p.openInventory(p.getEnderChest)
       case _ =>
     }
   }

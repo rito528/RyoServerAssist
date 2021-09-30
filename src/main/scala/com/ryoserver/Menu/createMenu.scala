@@ -26,6 +26,7 @@ object createMenu {
     inv.setItem(8,getItem(Material.BEACON,s"${GREEN}スキルを選択します。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(9,getItem(Material.WOODEN_AXE,s"${GREEN}保護メニューを開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(11,getItem(Material.LAVA_BUCKET,s"${GREEN}ゴミ箱を開きます。",List(s"${GRAY}クリックで開きます。",s"${GRAY}取扱注意！").asJava))
+    inv.setItem(13,getItem(Material.ENDER_CHEST,s"${GREEN}エンダーチェストを開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv
   }
 }
