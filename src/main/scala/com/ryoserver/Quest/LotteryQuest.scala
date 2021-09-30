@@ -19,8 +19,6 @@ class LotteryQuest {
       counter += 1
       val r = random.nextInt(loadQuests.enableEvents.length)
       questName = loadQuests.enableEvents(r)
-      println(lv)
-      println(loadQuests.questConfig.getInt(questName + ".maxLevel"))
       if (lv >= loadQuests.questConfig.getInt(questName + ".minLevel") && lv <= loadQuests.questConfig.getInt(questName + ".maxLevel")) loadQuestData()
     } while (lv < loadQuests.questConfig.getInt(questName + ".minLevel") || lv > loadQuests.questConfig.getInt(questName + ".maxLevel") &&
       ((loadQuests.questConfig.getInt(questName + ".minLevel") - lv) < 10 && counter < 10))
