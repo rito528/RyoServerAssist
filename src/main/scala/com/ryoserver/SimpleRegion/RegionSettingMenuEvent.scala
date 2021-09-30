@@ -35,8 +35,8 @@ class RegionSettingMenuEvent extends Listener {
       case 21 => toggleFlag(set,Flags.PLACE_VEHICLE,p)
       case 23 => toggleFlag(set,Flags.DESTROY_VEHICLE,p)
       case _ =>
-
     }
+    new RegionSettingMenu().openMenu(p)
   }
 
   def toggleFlag(set:ApplicableRegionSet, flag:StateFlag, p:Player): Unit = {
