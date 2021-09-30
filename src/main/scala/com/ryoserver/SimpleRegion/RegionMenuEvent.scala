@@ -1,5 +1,6 @@
 package com.ryoserver.SimpleRegion
 
+import com.ryoserver.RyoServerAssist
 import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldguard.WorldGuard
@@ -11,7 +12,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.{ChatColor, Material}
 
 
-class RegionMenuEvent extends Listener {
+class RegionMenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onClick(e: InventoryClickEvent): Unit = {
@@ -25,6 +26,10 @@ class RegionMenuEvent extends Listener {
         p.getInventory.addItem(new ItemStack(Material.WOODEN_AXE,1))
         p.sendMessage(ChatColor.AQUA + "保護用の木の斧を配布しました。")
       case 4 =>
+        if (!ryoServerAssist.getConfig.getStringList("protectionWorlds").contains(p.getWorld.getName.toLowerCase())) {
+          p.sendMessage(ChatColor.RED + "このワールドでは保護できません！")
+          return
+        }
         val container = WorldGuard.getInstance().getPlatform.getRegionContainer
         val regions = container.get(BukkitAdapter.adapt(p.getWorld))
         val session = WorldEdit.getInstance().getSessionManager.get(BukkitAdapter.adapt(p))

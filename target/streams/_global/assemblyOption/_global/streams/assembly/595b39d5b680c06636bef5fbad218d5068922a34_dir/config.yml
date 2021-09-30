@@ -37,3 +37,7 @@ enableQuests:
 
 #Tipsの表示頻度を設定してください。(秒)
 tipsTimer: 300
+
+#保護ができるワールドを指定してください。
+#すべて小文字で入力してください。
+protectionWorlds:
