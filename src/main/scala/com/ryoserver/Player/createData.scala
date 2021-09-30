@@ -22,7 +22,7 @@ class createData(ryoServerAssist: RyoServerAssist) {
     val user_rs = sql.executeQuery(s"SELECT UUID FROM Players WHERE UUID='${p.getUniqueId.toString}';")
     if (!user_rs.next()) sql.executeSQL(s"INSERT INTO Players (UUID,lastLogin,loginDays,consecutiveLoginDays," +
       s"lastDistributionReceived,EXP,Level,questClearTimes,gachaTickets,SkillPoint,SkillOpenPoint) " +
-      s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT last_insert_id() Distribution),0,0,0,0,${new SkillPointCal().getMaxSkillPoint(0)},0);")
+      s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT MAX(id) FROM Distribution),0,0,0,0,${new SkillPointCal().getMaxSkillPoint(0)},0);")
     sql.close()
   }
 
