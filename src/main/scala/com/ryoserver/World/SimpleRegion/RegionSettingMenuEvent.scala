@@ -1,4 +1,4 @@
-package com.ryoserver.SimpleRegion
+package com.ryoserver.World.SimpleRegion
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.util.Location

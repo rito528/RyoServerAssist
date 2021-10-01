@@ -1,4 +1,4 @@
-package com.ryoserver.SimpleRegion
+package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.RyoServerAssist
 import com.sk89q.worldedit.WorldEdit

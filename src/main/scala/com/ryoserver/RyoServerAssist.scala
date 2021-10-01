@@ -12,7 +12,7 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
-import com.ryoserver.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
+import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent

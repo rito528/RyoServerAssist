@@ -1,4 +1,4 @@
-package com.ryoserver.SimpleRegion
+package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Inventory.Item.getItem
 import org.bukkit.entity.Player

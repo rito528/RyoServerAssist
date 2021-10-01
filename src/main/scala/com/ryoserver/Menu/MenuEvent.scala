@@ -5,7 +5,7 @@ import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.getGachaTickets
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SimpleRegion.RegionMenu
+import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
 import org.bukkit.{Bukkit, Material}

@@ -1,4 +1,4 @@
-package com.ryoserver.SimpleRegion
+package com.ryoserver.World.SimpleRegion
 
 import org.bukkit.Bukkit
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
