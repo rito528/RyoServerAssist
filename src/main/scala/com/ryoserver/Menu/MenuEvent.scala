@@ -8,12 +8,13 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
-import org.bukkit.Material
+import org.bukkit.{Bukkit, Material}
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType}
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.CraftingInventory
 
 class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -31,6 +32,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 9 => new RegionMenu().menu(p)
       case 11 => new DustBoxInventory().openDustBox(p)
       case 13 => p.openInventory(p.getEnderChest)
+      case 15 => p.openInventory(Bukkit.createInventory(p,InventoryType.WORKBENCH))
       case _ =>
     }
   }
