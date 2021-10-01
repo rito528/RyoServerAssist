@@ -42,6 +42,9 @@ commands:
   spawn:
     description: spawn command.
     permission: ryoserverassist.spawn
+  player:
+    description: player operation command.
+    permission: ryoserverassist.player
 
 permissions:
   ryoserverassist.*:
@@ -58,6 +61,7 @@ permissions:
       - ryoserverassist.sr
       - ryoserverassist.hat
       - ryoserverassist.spawn
+      - ryoserverassist.player
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -80,3 +84,5 @@ permissions:
     default: true
   ryoserverassist.spawn:
     default: true
+  ryoserverassist.player:
+    default: op

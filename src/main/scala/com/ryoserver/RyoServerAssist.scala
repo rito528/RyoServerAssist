@@ -9,7 +9,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
-import com.ryoserver.Player.{PlayerEvents, playerDataLoader}
+import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
@@ -53,7 +53,8 @@ class RyoServerAssist extends JavaPlugin {
       "skill" -> new SkillCommands,
       "sr" -> new RegionCommand,
       "hat" -> new SubCommands,
-      "spawn" -> new SubCommands
+      "spawn" -> new SubCommands,
+      "player" -> new FirstJoinSettingCommand(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -76,7 +77,8 @@ class RyoServerAssist extends JavaPlugin {
       new RegionMenuEvent(this),
       new RegionSettingMenuEvent,
       new GachaAddItemInventoryEvent(this),
-      new DustBoxInventoryEvent
+      new DustBoxInventoryEvent,
+      new FirstJoinSettingEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
