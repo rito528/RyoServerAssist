@@ -3,6 +3,7 @@ package com.ryoserver
 import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
+import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.createFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaLoader}
 import com.ryoserver.Home.Home
@@ -78,7 +79,8 @@ class RyoServerAssist extends JavaPlugin {
       new RegionSettingMenuEvent,
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
-      new FirstJoinSettingEvent(this)
+      new FirstJoinSettingEvent(this),
+      new ElevatorEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
