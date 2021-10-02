@@ -37,6 +37,8 @@
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.google.guava:guava:21.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.protobuf:protobuf-java:3.11.4:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.ibm.icu:icu4j:61.1:jar" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="sbt: com.onarandombox.multiversecore:Multiverse-Core:4.3.2-SNAPSHOT:jar" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="sbt: com.onarandombox.multiverseportals:Multiverse-Portals:4.2.2-SNAPSHOT:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.sk89q.worldedit.worldedit-libs:bukkit:7.2.6-SNAPSHOT:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.sk89q.worldedit.worldedit-libs:core:7.2.6-SNAPSHOT:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: com.sk89q.worldedit:worldedit-bukkit:7.2.6-SNAPSHOT:jar" level="project" />

@@ -41,3 +41,12 @@ tipsTimer: 300
 #保護ができるワールドを指定してください。
 #すべて小文字で入力してください。
 protectionWorlds:
+
+#再生成を行うノーマルワールド名を指定してください。
+regenerationNormalWorlds:
+
+#再生成を行うネザーワールド名を指定してください。
+regenerationNetherWorlds:
+
+#再生成を行うエンドワールド名を指定してください。
+regenerationEndWorlds:

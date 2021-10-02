@@ -4,7 +4,7 @@ main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 description: RyoServerAssist
 depend: [WorldGuard]
-softdepend: [WorldGuard]
+softdepend: [WorldGuard,Multiverse-Core,Multiverse-Portals,dynmap]
 author: rito528
 
 
@@ -45,6 +45,9 @@ commands:
   player:
     description: player operation command.
     permission: ryoserverassist.player
+  portal:
+    description: portal operation command
+    permission: ryoserverassist.portal
 
 permissions:
   ryoserverassist.*:
@@ -62,6 +65,7 @@ permissions:
       - ryoserverassist.hat
       - ryoserverassist.spawn
       - ryoserverassist.player
+      - ryoserverassist.portal
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -85,4 +89,6 @@ permissions:
   ryoserverassist.spawn:
     default: true
   ryoserverassist.player:
+    default: op
+  ryoserverassist.portal:
     default: op

@@ -18,6 +18,7 @@ import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
+import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -93,7 +94,7 @@ class RyoServerAssist extends JavaPlugin {
     new Notification().createFile()
     new createFiles().createResourcesFile()
     new Tips(this).sendTips()
-
+    new Regeneration(this).regeneration()
     Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).load(p))
     getLogger.info("RyoServerAssist enabled.")
   }

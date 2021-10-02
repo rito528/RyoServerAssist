@@ -10,6 +10,8 @@ assemblyJarName := { s"${name.value}-${version.value}.jar" }
 
 resolvers += "spigot-repo" at "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
 resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
+resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
+
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
@@ -22,6 +24,8 @@ libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.0-rc1"
 libraryDependencies += "com.sk89q.worldguard" % "worldguard-bukkit"% "7.0.6" % "provided"
 libraryDependencies += "com.sk89q.worldedit" % "worldedit-bukkit" % "7.2.0-SNAPSHOT" % "provided"
+libraryDependencies += "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.2-SNAPSHOT" % "provided"
+libraryDependencies += "com.onarandombox.multiverseportals" % "Multiverse-Portals" % "4.2.2-SNAPSHOT" % "provided"
 
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
