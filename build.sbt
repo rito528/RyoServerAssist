@@ -8,8 +8,8 @@ mainClass := Some("com.ryoserver.RyoServerAssist")
 
 assemblyJarName := { s"${name.value}-${version.value}.jar" }
 
-//resolvers += "spigot-repo" at "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-resolvers += "papermc" at "https://papermc.io/repo/repository/maven-public/"
+resolvers += "maven.elmakers.com" at "https://maven.elmakers.com/repository/"
+//resolvers += "papermc" at "https://papermc.io/repo/repository/maven-public/"
 resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
 resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
 
@@ -17,8 +17,8 @@ resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
 
-//libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
-libraryDependencies += "io.papermc.paper" % "paper-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
+libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
+//libraryDependencies += "io.papermc.paper" % "paper-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.25"
 libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.13"
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.13.0-rc1"

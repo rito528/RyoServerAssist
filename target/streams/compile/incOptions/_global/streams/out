@@ -1,37 +1,8 @@
 [0m[[0m[0mdebug[0m] [0m[0mCreated transactional ClassFileManager with tempDir = /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes.bak[0m
 [0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$miss$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Rarity.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$per$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$special$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$bigPer$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaLottery.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	DustBoxInventoryEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$miss$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Rarity.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$per$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$special$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$bigPer$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaLottery.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	DustBoxInventoryEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$miss$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Rarity_trait.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$per$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$special$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	rarity$bigPer$.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaLottery.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Gacha.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaLottery.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Gacha.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaLottery.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	Gacha.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	DustBoxInventoryEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mRemoving the temporary directory used for backing up class files: /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes.bak[0m
