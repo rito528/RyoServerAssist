@@ -1,13 +1,13 @@
 package com.ryoserver.Gacha
 
-trait Rarity
+trait Rarity_trait
 
 object rarity {
-  object special extends Rarity
+  object special extends Rarity_trait
 
-  object bigPer extends Rarity
+  object bigPer extends Rarity_trait
 
-  object per extends Rarity
+  object per extends Rarity_trait
 
-  object miss extends Rarity
+  object miss extends Rarity_trait
 }

@@ -1,0 +1,94 @@
+name: RyoServerAssist
+version: 1.0.0-BETA
+main: com.ryoserver.RyoServerAssist
+api-version: 1.17
+description: RyoServerAssist
+depend: [WorldGuard]
+softdepend: [WorldGuard,Multiverse-Core,Multiverse-Portals,dynmap]
+author: rito528
+
+
+commands:
+  home:
+    description: Use home command.
+    permission: ryoserverassist.home
+  gacha:
+    description: Gacha operation command.
+    permission: ryoserverassist.gacha
+  distribution:
+    description: Distribution operation command.
+    permission: ryoserverassist.distribution
+  menu:
+    description: Menu open command.
+    permission: ryoserverassist.menu
+  level:
+    description: level operation command.
+    permission: ryoserverassist.level
+  tpa:
+    description: tpa command.
+    permission: ryoserverassist.tpa
+  skill:
+    description: skill operation command.
+    permission: ryoserverassist.skill
+  stick:
+    description: add stick command.
+    permission: ryoserverassist.stick
+  sr:
+    description: region operation command.
+    permission: ryoserverassist.sr
+  hat:
+    description: hat command.
+    permission: ryoserverassist.hat
+  spawn:
+    description: spawn command.
+    permission: ryoserverassist.spawn
+  player:
+    description: player operation command.
+    permission: ryoserverassist.player
+  portal:
+    description: portal operation command
+    permission: ryoserverassist.portal
+
+permissions:
+  ryoserverassist.*:
+    default: false
+    children:
+      - ryoserverassist.home
+      - ryoserverassist.gacha
+      - ryoserverassist.distribution
+      - ryoserverassist.menu
+      - ryoserverassist.level
+      - ryoserverassist.tpa
+      - ryoserverassist.skill
+      - ryoserverassist.stick
+      - ryoserverassist.sr
+      - ryoserverassist.hat
+      - ryoserverassist.spawn
+      - ryoserverassist.player
+      - ryoserverassist.portal
+  ryoserverassist.home:
+    default: true
+  ryoserverassist.gacha:
+    default: op
+  ryoserverassist.distribution:
+    default: op
+  ryoserverassist.menu:
+    default: true
+  ryoserverassist.level:
+    default: op
+  ryoserverassist.tpa:
+    default: true
+  ryoserverassist.skill:
+    default: op
+  ryoserverassist.stick:
+    default: true
+  ryoserverassist.sr:
+    default: op
+  ryoserverassist.hat:
+    default: true
+  ryoserverassist.spawn:
+    default: true
+  ryoserverassist.player:
+    default: op
+  ryoserverassist.portal:
+    default: op

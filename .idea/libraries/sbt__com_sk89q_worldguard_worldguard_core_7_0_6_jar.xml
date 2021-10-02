@@ -2,12 +2,15 @@
   <library name="sbt: com.sk89q.worldguard:worldguard-core:7.0.6:jar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldguard/worldguard-core/7.0.6/worldguard-core-7.0.6-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -5,12 +5,12 @@ import org.bukkit.inventory.ItemStack
 import java.security.SecureRandom
 import scala.util.Random
 
-class GachaLottery extends Rarity {
+class GachaLottery extends Rarity_trait {
 
   /*
     レアリティの抽選を行う
    */
-  def lottery(): Rarity = {
+  def lottery(): Rarity_trait = {
     val random = new Random()
     val r = random.nextDouble()
     if ((GachaLoader.special / 100) >= r) rarity.special

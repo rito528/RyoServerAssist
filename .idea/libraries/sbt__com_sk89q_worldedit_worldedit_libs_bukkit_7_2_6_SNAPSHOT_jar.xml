@@ -2,10 +2,12 @@
   <library name="sbt: com.sk89q.worldedit.worldedit-libs:bukkit:7.2.6-SNAPSHOT:jar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/bukkit/7.2.6-SNAPSHOT/bukkit-7.2.6-20210822.035144-48.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/bukkit/7.2.6-SNAPSHOT/bukkit-7.2.6-20210822.035144-48.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.cache/coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/bukkit/7.2.6-SNAPSHOT/bukkit-7.2.6-20210822.035144-48-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/maven.enginehub.org/repo/com/sk89q/worldedit/worldedit-libs/bukkit/7.2.6-SNAPSHOT/bukkit-7.2.6-20210822.035144-48-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
