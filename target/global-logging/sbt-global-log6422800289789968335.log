@@ -4,8 +4,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(onFailure loadFailed, None, None)[0m
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(loadp, None, None)[0m
 [0m[[0m[0minfo[0m] [0m[0mwelcome to sbt 1.5.5 (Azul Systems, Inc. Java 16.0.2)[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: plugins took 9.554792ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: defsScala took 0.001166ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: plugins took 15.644209ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: defsScala took 0.005958ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Scanning directory /Users/rito/.sbt/1.0/plugins[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Found non-root projects [0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/.sbt/1.0/plugins, returning: ()[0m
@@ -22,27 +22,27 @@
 [0m[[0m[0mdebug[0m] [0m[0mClause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))[0m
 [0m[[0m[0mdebug[0m] [0m[0mClause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))[0m
 [0m[[0m[0mdebug[0m] [0m[0m  :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)[0m
-[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.378458 ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m          Load.resolveProject(global-plugins) took 0.459292ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m        Load.loadTransitive: finalizeProject(Project(id global-plugins, base: /Users/rito/.sbt/1.0/plugins, plugins: List(<none>))) took 1.04ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.727459 ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Load.resolveProject(global-plugins) took 0.987584ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Load.loadTransitive: finalizeProject(Project(id global-plugins, base: /Users/rito/.sbt/1.0/plugins, plugins: List(<none>))) took 2.038417ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/.sbt/1.0/plugins, returning: (global-plugins)[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: loadedProjectsRaw took 1.350125ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: cleanEvalClasses took 0.003209ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit(file:/Users/rito/.sbt/1.0/plugins/, ...) took 11.066667ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: load took 11.463709ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: resolveProjects took 0.04525ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: finalTransforms took 2.032542ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: config.delegates took 0.124125ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: Def.make(settings)... took 28.546833ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: structureIndex took 7.002375ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: mkStreams took 0.003459ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: loadedProjectsRaw took 2.686667ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: cleanEvalClasses took 0.006ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit(file:/Users/rito/.sbt/1.0/plugins/, ...) took 18.614042ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: load took 19.617834ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: resolveProjects took 0.162958ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: finalTransforms took 69.011458ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: config.delegates took 0.203208ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: Def.make(settings)... took 29.148375ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: structureIndex took 12.535584ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.apply: mkStreams took 0.007542ms[0m
 [0m[[0m[0minfo[0m] [0m[0mloading global plugins from /Users/rito/.sbt/1.0/plugins[0m
 [0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.defaultLoad until apply took 111.880625ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: plugins took 7.889958ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: defsScala took 0.001542ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.defaultLoad until apply took 196.464292ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: plugins took 8.324917ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: defsScala took 0.002583ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Scanning directory /Users/rito/Desktop/develop/RyoServerAssist/project[0m
-[0m[[0m[0mdebug[0m] [0m[0m            Load.loadUnit: mkEval took 0.070125ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Load.loadUnit: mkEval took 0.209667ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Found non-root projects [0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/Desktop/develop/RyoServerAssist/project, returning: ()[0m
 [0m[[0m[0mdebug[0m] [0m[0mdeducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))[0m
@@ -58,27 +58,27 @@
 [0m[[0m[0mdebug[0m] [0m[0mClause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))[0m
 [0m[[0m[0mdebug[0m] [0m[0mClause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))[0m
 [0m[[0m[0mdebug[0m] [0m[0m  :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)[0m
-[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.310542 ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.267542 ms[0m
 [0m[[0m[0minfo[0m] [0m[0mloading settings for project ryoserverassist-build from plugins.sbt,idea.sbt ...[0m
-[0m[[0m[0mdebug[0m] [0m[0m              Load.resolveProject(ryoserverassist-build) took 0.63875ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m            Load.loadTransitive: finalizeProject(Project(id ryoserverassist-build, base: /Users/rito/Desktop/develop/RyoServerAssist/project, plugins: List(<none>))) took 1.103083ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m              Load.resolveProject(ryoserverassist-build) took 0.485333ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m            Load.loadTransitive: finalizeProject(Project(id ryoserverassist-build, base: /Users/rito/Desktop/develop/RyoServerAssist/project, plugins: List(<none>))) took 0.930166ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/Desktop/develop/RyoServerAssist/project, returning: (ryoserverassist-build)[0m
-[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: loadedProjectsRaw took 6.477208ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: cleanEvalClasses took 5.051292ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m        Load.loadUnit(file:/Users/rito/Desktop/develop/RyoServerAssist/project/, ...) took 19.60975ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: load took 20.375042ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: resolveProjects took 0.097708ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: finalTransforms took 3.22875ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: config.delegates took 0.162083ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: Def.make(settings)... took 20.633375ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: structureIndex took 4.324709ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: mkStreams took 0.003167ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: loadedProjectsRaw took 17.4975ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m          Load.loadUnit: cleanEvalClasses took 0.529542ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Load.loadUnit(file:/Users/rito/Desktop/develop/RyoServerAssist/project/, ...) took 26.533375ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: load took 26.775583ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: resolveProjects took 0.042625ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: finalTransforms took 2.433459ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: config.delegates took 0.136ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: Def.make(settings)... took 20.984417ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: structureIndex took 5.414666ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.apply: mkStreams took 0.001667ms[0m
 [0m[[0m[0minfo[0m] [0m[0mloading project definition from /Users/rito/Desktop/develop/RyoServerAssist/project[0m
 [0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
-[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: plugins took 123.912708ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: defsScala took 0.00225ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: plugins took 135.665833ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: defsScala took 0.001583ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Scanning directory /Users/rito/Desktop/develop/RyoServerAssist[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: mkEval took 0.115292ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadUnit: mkEval took 0.065208ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Found non-root projects [0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/Desktop/develop/RyoServerAssist, returning: ()[0m
 [0m[[0m[0mdebug[0m] [0m[0mdeducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))[0m
@@ -102,21 +102,21 @@
 [0m[[0m[0mdebug[0m] [0m[0mClause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.jetbrains.sbt.IdeaShellPlugin)))[0m
 [0m[[0m[0mdebug[0m] [0m[0mClause(And(Set(Atom(sbt.plugins.CorePlugin), Atom(sbt.plugins.JvmPlugin))),Set(Atom(org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin))))[0m
 [0m[[0m[0mdebug[0m] [0m[0m  :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.SemanticdbPlugin,org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin,sbt.plugins.JUnitXmlReportPlugin,sbtassembly.AssemblyPlugin,org.jetbrains.sbt.IdeaShellPlugin,org.jetbrains.sbt.StructurePlugin,sbt.plugins.MiniDependencyTreePlugin)[0m
-[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.906959 ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mPlugins.deducer#function took 0.492667 ms[0m
 [0m[[0m[0minfo[0m] [0m[0mloading settings for project ryoserverassist from build.sbt ...[0m
-[0m[[0m[0mdebug[0m] [0m[0m        Load.resolveProject(ryoserverassist) took 13.442375ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m      Load.loadTransitive: finalizeProject(Project(id ryoserverassist, base: /Users/rito/Desktop/develop/RyoServerAssist, plugins: List(<none>))) took 14.763333ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m        Load.resolveProject(ryoserverassist) took 10.438291ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m      Load.loadTransitive: finalizeProject(Project(id ryoserverassist, base: /Users/rito/Desktop/develop/RyoServerAssist, plugins: List(<none>))) took 11.172333ms[0m
 [0m[[0m[0mdebug[0m] [0m[0m[Loading] Done in /Users/rito/Desktop/develop/RyoServerAssist, returning: (ryoserverassist)[0m
-[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: loadedProjectsRaw took 359.287ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: cleanEvalClasses took 4.277042ms[0m
-[0m[[0m[0mdebug[0m] [0m[0m  Load.loadUnit(file:/Users/rito/Desktop/develop/RyoServerAssist/, ...) took 487.744666ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: load took 488.422208ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: resolveProjects took 0.0535ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: finalTransforms took 5.664667ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: config.delegates took 0.253792ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: Def.make(settings)... took 28.856291ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: structureIndex took 6.476958ms[0m
-[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: mkStreams took 0.003167ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: loadedProjectsRaw took 396.504333ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m    Load.loadUnit: cleanEvalClasses took 4.69475ms[0m
+[0m[[0m[0mdebug[0m] [0m[0m  Load.loadUnit(file:/Users/rito/Desktop/develop/RyoServerAssist/, ...) took 537.126625ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: load took 537.6675ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: resolveProjects took 0.051084ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: finalTransforms took 4.690125ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: config.delegates took 0.166708ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: Def.make(settings)... took 20.506333ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: structureIndex took 8.291583ms[0m
+[0m[[0m[0mdebug[0m] [0m[0mLoad.apply: mkStreams took 0.001959ms[0m
 [0m[[0m[33mwarn[0m] [0m[0mDiscarding 1 session setting.  Use 'session save' to persist session settings.[0m
 [0m[[0m[0minfo[0m] [0m[0mset current project to RyoServerAssist (in build file:/Users/rito/Desktop/develop/RyoServerAssist/)[0m
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(sbtPopOnFailure, None, None)[0m
@@ -139,7 +139,7 @@
 [0m[[0m[33mwarn[0m] [0m[0mUnrecognized repository Scala Plugin Bundled Repository, ignoring it[0m
 [0m[[0m[0minfo[0m] [0m[0mWriting structure to /private/var/folders/0_/y4yczntx78143kvdch0hb5xh0000gn/T/sbt-structure.xml...[0m
 [0m[[0m[0minfo[0m] [0m[0mDone.[0m
-[0m[[0m[32msuccess[0m] [0m[0mTotal time: 28 s, completed 2021/10/02 22:09:07[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 0 s, completed 2021/10/02 22:26:13[0m
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(session clear-all, None, None)[0m
 [0m[[0m[0minfo[0m] [0m[0mReapplying settings...[0m
 [0m[[0m[0minfo[0m] [0m[0mset current project to RyoServerAssist (in build file:/Users/rito/Desktop/develop/RyoServerAssist/)[0m
