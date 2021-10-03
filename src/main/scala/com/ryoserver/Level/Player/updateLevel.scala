@@ -6,8 +6,14 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.util.SQL
+import org.apache.commons.lang.time.DateUtils
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+
+import java.text.SimpleDateFormat
+import java.time.{LocalDateTime, ZoneId}
+import java.util.{Calendar, Date, TimeZone}
+import javax.xml.crypto.Data
 
 class updateLevel(ryoServerAssist: RyoServerAssist) {
 
@@ -21,7 +27,18 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
 
   def addExp(addExp: Double,p:Player): Unit = {
     //levelが上がったときに呼び出されるメソッド
-    val exp = addExp * 1.2
+    var exp = addExp
+    val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
+    val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+    val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 20:00")
+    val end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 21:00")
+    val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+    if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) {
+      p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
+      p.sendMessage(ChatColor.AQUA + "exp量が1.2倍になりました！")
+      exp *= 1.2
+      p.sendMessage(ChatColor.AQUA + addExp.toString + "->" + String.format("%.2f",exp))
+    }
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
     val data = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")

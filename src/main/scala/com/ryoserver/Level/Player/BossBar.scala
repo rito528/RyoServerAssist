@@ -14,10 +14,10 @@ object BossBar {
 
   def createLevelBer(ryoServerAssist: RyoServerAssist,exp:Double,p:Player): Unit = {
     val calLv = new CalLv(ryoServerAssist)
-    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + exp, BarColor.GREEN, BarStyle.SOLID)
+    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp), BarColor.GREEN, BarStyle.SOLID)
     val lv = calLv.getLevel(exp.toInt)
     if (calLv.MAX_LV > lv) {
-      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + exp + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
+      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp) + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
       bossBer.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
       bossBer.setProgress(1)
@@ -32,10 +32,10 @@ object BossBar {
     val lv = calLv.getLevel(exp.toInt)
     val bossBer = bers.get(p)
     if (calLv.MAX_LV > lv) {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + exp + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp) + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
       bossBer.get.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + exp)
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp))
       bossBer.get.setProgress(1)
     }
   }
