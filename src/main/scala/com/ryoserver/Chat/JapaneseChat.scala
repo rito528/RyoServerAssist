@@ -12,7 +12,6 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 class JapaneseChat(ryoServerAssist: RyoServerAssist) extends Listener {
-  ryoServerAssist.getServer.getPluginManager.registerEvents(this,ryoServerAssist)
 
   @EventHandler(priority = EventPriority.HIGHEST)
   def onChat(e: AsyncPlayerChatEvent): Unit = {
