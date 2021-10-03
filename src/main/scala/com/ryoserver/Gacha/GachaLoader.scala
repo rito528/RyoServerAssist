@@ -35,7 +35,7 @@ object GachaLoader {
 
   def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery("SHOW TABLES LIKE 'GachaItems'")
+    val rs = sql.executeQuery("SHOW TABLES LIKE 'GachaItems';")
     if (!rs.next()) sql.executeSQL("CREATE TABLE GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
     sql.close()
   }
