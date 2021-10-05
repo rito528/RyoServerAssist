@@ -11,7 +11,8 @@ class createFiles {
       指定したresourcesにあるファイルが存在しなかった場合に作成する
      */
     List(
-      "tips.yml"
+      "tips.yml",
+      "title.yml"
     ).foreach(f => {
       val is = getClass.getClassLoader.getResourceAsStream(f)
       val fileData = Source.fromInputStream(is).getLines().mkString("\n")
