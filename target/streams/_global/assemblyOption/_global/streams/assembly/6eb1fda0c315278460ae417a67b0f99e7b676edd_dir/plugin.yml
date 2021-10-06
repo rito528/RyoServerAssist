@@ -45,9 +45,9 @@ commands:
   player:
     description: player operation command.
     permission: ryoserverassist.player
-  portal:
-    description: portal operation command
-    permission: ryoserverassist.portal
+  title:
+    description: title operation command.
+    permission: ryoserverassist.title
 
 permissions:
   ryoserverassist.*:
@@ -65,7 +65,7 @@ permissions:
       - ryoserverassist.hat
       - ryoserverassist.spawn
       - ryoserverassist.player
-      - ryoserverassist.portal
+      - ryoserverassist.title
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -90,5 +90,5 @@ permissions:
     default: true
   ryoserverassist.player:
     default: op
-  ryoserverassist.portal:
+  ryoserverassist.title:
     default: op

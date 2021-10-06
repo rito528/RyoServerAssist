@@ -1,5 +1,7 @@
 package com.ryoserver.Title
 
+import com.ryoserver.RyoServerAssist
+
 object TitleData {
 
   var lv: Array[String] = Array.empty
@@ -11,5 +13,7 @@ object TitleData {
   var loginYear: Array[String] = Array.empty
   var loginPeriod: Array[String] = Array.empty
   var titleGetNumber: Array[String] = Array.empty
+
+  def isEnableTitle(ryoServerAssist: RyoServerAssist,title:String): Boolean = ryoServerAssist.getConfig.getStringList("enableTitles").contains(title)
 
 }
