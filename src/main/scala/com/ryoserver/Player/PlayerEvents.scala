@@ -1,6 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Title.TitleData.continuousLogin
 import com.ryoserver.Title.giveTitle
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
@@ -11,7 +12,9 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
   def onJoin(e: PlayerJoinEvent): Unit = {
     val p = e.getPlayer
     new playerDataLoader(ryoServerAssist).load(p)
-    new giveTitle(ryoServerAssist).continuousLogin(p)
+    val title = new giveTitle(ryoServerAssist)
+    title.continuousLogin(p)
+    title.loginDays(p)
   }
 
   @EventHandler
