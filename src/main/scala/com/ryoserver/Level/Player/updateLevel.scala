@@ -5,6 +5,7 @@ import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
+import com.ryoserver.Title.giveTitle
 import com.ryoserver.util.SQL
 import org.apache.commons.lang.time.DateUtils
 import org.bukkit.ChatColor
@@ -71,6 +72,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
+      new giveTitle(ryoServerAssist).lv(p)
     }
   }
 }
