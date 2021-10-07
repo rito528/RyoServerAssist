@@ -1,6 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Title.giveTitle
 import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
@@ -39,6 +40,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
             questData.questClear(p)
+            new giveTitle(ryoServerAssist).questClearNumber(p)
           } else {
             questData.setSelectedQuestItemRemaining(p, data.mkString(";"))
           }

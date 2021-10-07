@@ -2,6 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Title.giveTitle
 import org.bukkit.{ChatColor, Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
@@ -102,6 +103,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
             p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
             questData.questClear(p)
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)
+            new giveTitle(ryoServerAssist).questClearNumber(p)
           } else {
             p.sendMessage(ChatColor.AQUA + "納品しました。")
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)
