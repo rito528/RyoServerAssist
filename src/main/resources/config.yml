@@ -28,13 +28,6 @@ Special: 0.1
 #レベルの最大値を記載してください
 maxLv: 100
 
-#Quests.ymlで指定しているクエスト名の中で有効にするクエスト名を記載してください。
-#例
-#enableQuests:
-# - クエスト名1
-# - クエスト名2
-enableQuests:
-
 #Tipsの表示頻度を設定してください。(秒)
 tipsTimer: 300
 

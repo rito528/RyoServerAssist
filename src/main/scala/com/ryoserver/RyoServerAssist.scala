@@ -92,7 +92,7 @@ class RyoServerAssist extends JavaPlugin {
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
     loadQuests.createSetQuestFile()
-    loadQuests.checkQuest(this)
+    loadQuests.checkQuest()
     new Notification().createFile()
     new createFiles().createResourcesFile()
     new Tips(this).sendTips()

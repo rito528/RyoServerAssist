@@ -27,12 +27,10 @@ object loadQuests{
   var questConfig:FileConfiguration = _
   var langFile:JsonNode = _
 
-  def checkQuest(ryoServerAssist: RyoServerAssist): Unit = {
-    val quests = ryoServerAssist.getConfig.getStringList("enableQuests")
+  def checkQuest(): Unit = {
     questConfig = YamlConfiguration.loadConfiguration(Paths.get(QUEST_SETTING_FILE).toFile)
-    quests.forEach(questName => {
-      if (!questConfig.contains(questName)) ryoServerAssist.getLogger.warning(questName + "という不明なクエストが指定されています！")
-      else enableEvents :+= questName
+    questConfig.getConfigurationSection("").getKeys(false).forEach(questName => {
+      enableEvents :+= questName
     })
     val is = getClass.getClassLoader.getResourceAsStream("ja_jp.json")
     val mapper = new ObjectMapper()
