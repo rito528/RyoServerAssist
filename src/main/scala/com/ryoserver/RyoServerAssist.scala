@@ -98,7 +98,7 @@ class RyoServerAssist extends JavaPlugin {
     new Tips(this).sendTips()
     new Regeneration(this).regeneration()
     Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).load(p))
-    new TitleLoader(this).loadTitle()
+    new TitleLoader().loadTitle()
     getLogger.info("RyoServerAssist enabled.")
   }
 

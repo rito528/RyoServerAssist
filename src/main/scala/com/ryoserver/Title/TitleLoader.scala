@@ -5,11 +5,11 @@ import org.bukkit.configuration.file.YamlConfiguration
 
 import java.nio.file.Paths
 
-class TitleLoader(ryoServerAssist: RyoServerAssist) {
+class TitleLoader() {
 
   def loadTitle(): Unit = {
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
-    ryoServerAssist.getConfig.getStringList("enableTitles").forEach(title => {
+    titleConfig.getConfigurationSection("titles").getKeys(false).forEach(title => {
       titleConfig.getString(s"titles.$title.type").toLowerCase() match {
         case "lv" => TitleData.lv :+= title
         case "continuouslogin" => TitleData.continuousLogin :+= title
