@@ -53,6 +53,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         val sql = new SQL(ryoServerAssist)
         sql.executeSQL(s"UPDATE Players SET gachaPullNumber=gachaPullNumber+$getItemAmount WHERE UUID='${p.getUniqueId.toString}'")
         sql.close()
+        new giveTitle(ryoServerAssist).gachaPullNumber(p)
       } else if (((mainHand.getType == GachaPaperData.normal.getType && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta) || (mainHand.getType == GachaPaperData.fromAdmin.getType && mainHand.getItemMeta == GachaPaperData.fromAdmin.getItemMeta))
         && !getCoolDown(p)) {
         /*
@@ -78,6 +79,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         val sql = new SQL(ryoServerAssist)
         sql.executeSQL(s"UPDATE Players SET gachaPullNumber=gachaPullNumber+1 WHERE UUID='${p.getUniqueId.toString}'")
         sql.close()
+        new giveTitle(ryoServerAssist).gachaPullNumber(p)
       }
     }
   }

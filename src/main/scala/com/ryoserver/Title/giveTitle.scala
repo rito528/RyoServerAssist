@@ -65,4 +65,17 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     })
   }
 
+  def gachaPullNumber(p:Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT gachaPullNumber FROM Players WHERE UUID='${p.getUniqueId.toString}'")
+    var pullNumber = 0
+    if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
+    TitleData.gachaNumber.foreach(title => {
+      if (titleConfig.getInt(s"Titles.$title.gachaNumber") <= pullNumber && data.openTitle(p.getUniqueId.toString,title)) {
+        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
+  }
+
 }
