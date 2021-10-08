@@ -12,28 +12,28 @@ titles:
   常連:
     id: 2
     type: loginDays #ログイン日数に関する称号タイプ
-    confition: 30 #条件に達するログイン日数
+    confdition: 30 #条件に達するログイン日数
     secret: false #称号名、条件等を隠すか
   はじめてのおつかい:
     id: 3
     type: questClearNumber #クエスト達成回数に関する称号タイプ
-    confition: 1 #条件に達するクエスト達成回数
+    condition: 1 #条件に達するクエスト達成回数
     secret: false #称号名、条件等を隠すか
   はじめてのガチャ:
     id: 4
     type: gachaNumber #ガチャを引いた回数に関する称号タイプ
-    confition: 1 #条件に達するガチャを引いた回数
+    condition: 1 #条件に達するガチャを引いた回数
     secret: false #称号名、条件等を隠すか
   スキル使い:
     id: 5
     type: skillOpen #開放したスキルに関する称号タイプ
-    confition: #スキルIDを指定する。(複数指定可)
+    condition: #スキルIDを指定する。(複数指定可)
       - 1
     secret: false #称号名、条件等を隠すか
   2021年:
     id: 6
     type: loginYear #ログインした年に関する称号タイプ
-    confition: 2021 #開放する年
+    condition: 2021 #開放する年
     secret: false #称号名、条件等を隠すか
   お正月だよ？:
     id: 7
@@ -44,5 +44,5 @@ titles:
   コレクター:
     id: 8
     type: titleGetNumber #称号を獲得した回数に関する称号タイプ
-    confition: 10 #この称号を開放できる称号獲得回数
+    condition: 10 #この称号を開放できる称号獲得回数
     secret: false #称号名、条件等を隠すか

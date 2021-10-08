@@ -3,11 +3,13 @@ package com.ryoserver.Title
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.{ChatColor, Sound}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.{ChatColor, Sound}
 
 import java.nio.file.Paths
+import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 class giveTitle(ryoServerAssist: RyoServerAssist) {
 
@@ -37,6 +39,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
     })
+    sql.close()
   }
 
   def loginDays(p:Player): Unit = {
@@ -50,6 +53,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
     })
+    sql.close()
   }
 
   def questClearNumber(p:Player): Unit = {
@@ -63,6 +67,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
     })
+    sql.close()
   }
 
   def gachaPullNumber(p:Player): Unit = {
@@ -76,6 +81,30 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
     })
+    sql.close()
+  }
+
+  def skillOpenNumber(p:Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT OpenedSkills FROM Players WHERE UUID='${p.getUniqueId.toString}'")
+    var skillOpenData = ""
+    if (rs.next()) skillOpenData = rs.getString("OpenedSkills")
+    TitleData.skillOpen.foreach(title => {
+      val conditions:mutable.Map[Integer,Boolean] = mutable.Map.empty[Integer,Boolean]
+      titleConfig.getIntegerList(s"titles.$title.condition").asScala.foreach(titleCondition => conditions += (titleCondition -> false))
+      skillOpenData.split(",").foreach(openedSkill => {
+        if (conditions.contains(openedSkill.toInt)) conditions.update(openedSkill.toInt,true)
+      })
+      var allCheck = true
+      conditions.foreach({case (_,check) =>
+        if (!check) allCheck = false
+      })
+      if (allCheck && data.openTitle(p.getUniqueId.toString,title)) {
+        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
+    sql.close()
   }
 
 }
