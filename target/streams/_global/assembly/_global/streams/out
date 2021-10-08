@@ -17,7 +17,7 @@
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/versions/11/module-info.class' with strategy 'first'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'first' was applied to a file (Run the task at debug level to see details)[0m
-[0m[[0m[0mdebug[0m] [0m[0mSHA-1: fc0f349098a5005b70b64aa7312801be8c5d1fd0[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 66fa7703a20d46944d1dc7988ce202db1d67f7fc[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
 [0m[[0m[0mdebug[0m] [0m[0mPackaging /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.0.0-BETA.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m

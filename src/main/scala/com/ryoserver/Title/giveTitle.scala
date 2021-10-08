@@ -34,7 +34,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var continuousLoginDays = 0
     if (rs.next()) continuousLoginDays = rs.getInt("consecutiveLoginDays")
     TitleData.continuousLogin.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.condition") <= continuousLoginDays && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p.getUniqueId.toString,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -48,7 +48,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var LoginDays = 0
     if (rs.next()) LoginDays = rs.getInt("loginDays")
     TitleData.loginDays.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.loginDays") <= LoginDays && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p.getUniqueId.toString,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -62,7 +62,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var clearTimes = 0
     if (rs.next()) clearTimes = rs.getInt("questClearTimes")
     TitleData.questClearNumber.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.questClearTimes") <= clearTimes && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"Titles.$title.condition") <= clearTimes && data.openTitle(p.getUniqueId.toString,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -76,7 +76,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var pullNumber = 0
     if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
     TitleData.gachaNumber.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.gachaNumber") <= pullNumber && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"Titles.$title.condition") <= pullNumber && data.openTitle(p.getUniqueId.toString,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
