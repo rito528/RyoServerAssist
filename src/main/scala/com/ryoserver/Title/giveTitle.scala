@@ -23,7 +23,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     val level = new getPlayerData(ryoServerAssist).getPlayerLevel(p)
     TitleData.lv.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= level) {
-        if (data.openTitle(p.getUniqueId.toString,title)) {
+        if (data.openTitle(p,title)) {
           p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
           p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
         }
@@ -37,7 +37,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var continuousLoginDays = 0
     if (rs.next()) continuousLoginDays = rs.getInt("consecutiveLoginDays")
     TitleData.continuousLogin.foreach(title => {
-      if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -51,7 +51,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var LoginDays = 0
     if (rs.next()) LoginDays = rs.getInt("loginDays")
     TitleData.loginDays.foreach(title => {
-      if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -65,7 +65,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var clearTimes = 0
     if (rs.next()) clearTimes = rs.getInt("questClearTimes")
     TitleData.questClearNumber.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.condition") <= clearTimes && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"Titles.$title.condition") <= clearTimes && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -79,7 +79,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     var pullNumber = 0
     if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
     TitleData.gachaNumber.foreach(title => {
-      if (titleConfig.getInt(s"Titles.$title.condition") <= pullNumber && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"Titles.$title.condition") <= pullNumber && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -102,7 +102,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
       conditions.foreach({case (_,check) =>
         if (!check) allCheck = false
       })
-      if (allCheck && data.openTitle(p.getUniqueId.toString,title)) {
+      if (allCheck && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -113,7 +113,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
   def loginYear(p:Player): Unit = {
     val year = LocalDateTime.now(ZoneId.of("Asia/Tokyo")).getYear
     TitleData.loginYear.foreach(title => {
-      if (titleConfig.getInt(s"titles.$title.condition") == year && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getInt(s"titles.$title.condition") == year && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -126,7 +126,7 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
       val start = format.parse(s"${titleConfig.getString(s"titles.$title.start")} 00:00")
       val end = format.parse(s"${titleConfig.getString(s"titles.$title.end")} 00:00")
       val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) && data.openTitle(p.getUniqueId.toString,title)) {
+      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) && data.openTitle(p,title)) {
           p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
           p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
@@ -137,7 +137,18 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     val format = new SimpleDateFormat("yyyy/MM/dd")
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).getTime
     TitleData.loginDay.foreach(title => {
-      if (titleConfig.getString(s"titles.$title.condition") == format.format(nowCalender) && data.openTitle(p.getUniqueId.toString,title)) {
+      if (titleConfig.getString(s"titles.$title.condition") == format.format(nowCalender) && data.openTitle(p,title)) {
+        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
+  }
+
+  def titleGetNumber(p:Player): Unit = {
+    TitleData.titleGetNumber.foreach(title => {
+      println(data.getHasTitles(p.getUniqueId.toString).length)
+      println(titleConfig.getInt(s"titles.$title.condition"))
+      if (data.getHasTitles(p.getUniqueId.toString).length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }

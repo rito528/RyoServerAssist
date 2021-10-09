@@ -2,6 +2,7 @@ package com.ryoserver.Title
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.entity.Player
 
 class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
 
@@ -17,11 +18,13 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
 
   def hasTitle(uuid:String,title:String): Boolean = getHasTitles(uuid).contains(title)
 
-  def openTitle(uuid:String,title:String): Boolean = {
+  def openTitle(p:Player,title:String): Boolean = {
+    val uuid = p.getUniqueId.toString
     if (hasTitle(uuid,title)) return false
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).mkString(";") + ";" + title};' WHERE UUID='$uuid'")
+    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title};' WHERE UUID='$uuid'")
     sql.close()
+    new giveTitle(ryoServerAssist).titleGetNumber(p)
     true
   }
 

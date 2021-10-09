@@ -1,8 +1,10 @@
 package com.ryoserver.Title
 
 import com.ryoserver.RyoServerAssist
-import org.bukkit.ChatColor
+import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
+
+import java.util.UUID
 
 class TitleCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
 
@@ -14,7 +16,7 @@ class TitleCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
           return true
         }
         val playerTitleData = new PlayerTitleData(ryoServerAssist)
-        if (!playerTitleData.openTitle(args(2),args(1))) {
+        if (!playerTitleData.openTitle(Bukkit.getPlayer(UUID.fromString(args(2))),args(1))) {
           sender.sendMessage(ChatColor.RED + "指定したプレイヤーは指定した称号をすでに持っています！")
           return true
         }
