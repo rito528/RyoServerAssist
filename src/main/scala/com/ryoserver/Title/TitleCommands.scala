@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{Bukkit, ChatColor}
+import org.bukkit.ChatColor
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 
 class TitleCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor {

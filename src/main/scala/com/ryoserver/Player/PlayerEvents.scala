@@ -15,6 +15,7 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
     val title = new giveTitle(ryoServerAssist)
     title.continuousLogin(p)
     title.loginDays(p)
+    title.loginYear(p)
   }
 
   @EventHandler

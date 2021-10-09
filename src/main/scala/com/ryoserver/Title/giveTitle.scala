@@ -8,6 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.{ChatColor, Sound}
 
 import java.nio.file.Paths
+import java.time.{LocalDateTime, ZoneId}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -105,6 +106,16 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
       }
     })
     sql.close()
+  }
+
+  def loginYear(p:Player): Unit = {
+    val year = LocalDateTime.now(ZoneId.of("Asia/Tokyo")).getYear
+    TitleData.loginYear.foreach(title => {
+      if (titleConfig.getInt(s"titles.$title.condition") == year && data.openTitle(p.getUniqueId.toString,title)) {
+        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
   }
 
 }
