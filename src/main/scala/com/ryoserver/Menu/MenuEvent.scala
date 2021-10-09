@@ -8,6 +8,7 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
+import com.ryoserver.Title.TitleInventory
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
@@ -33,6 +34,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 11 => new DustBoxInventory().openDustBox(p)
       case 13 => p.openInventory(p.getEnderChest)
       case 15 => p.openWorkbench(null,true)
+      case 17 => new TitleInventory(ryoServerAssist).openInv(p)
       case _ =>
     }
   }

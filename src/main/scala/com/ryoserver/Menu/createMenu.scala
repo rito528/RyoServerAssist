@@ -28,6 +28,7 @@ object createMenu {
     inv.setItem(11,getItem(Material.LAVA_BUCKET,s"${GREEN}ゴミ箱を開きます。",List(s"${GRAY}クリックで開きます。",s"${GRAY}取扱注意！").asJava))
     inv.setItem(13,getItem(Material.ENDER_CHEST,s"${GREEN}エンダーチェストを開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(15,getItem(Material.CRAFTING_TABLE,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
+    inv.setItem(17,getItem(Material.NAME_TAG,s"${GREEN}称号一覧を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv
   }
 }
