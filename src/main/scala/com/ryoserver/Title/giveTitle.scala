@@ -8,7 +8,9 @@ import org.bukkit.entity.Player
 import org.bukkit.{ChatColor, Sound}
 
 import java.nio.file.Paths
+import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
+import java.util.{Calendar, TimeZone}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -114,6 +116,19 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
       if (titleConfig.getInt(s"titles.$title.condition") == year && data.openTitle(p.getUniqueId.toString,title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
+  }
+
+  def loginPeriod(p:Player): Unit = {
+    val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+    TitleData.loginPeriod.foreach(title => {
+      val start = format.parse(s"${titleConfig.getString(s"titles.$title.start")} 00:00")
+      val end = format.parse(s"${titleConfig.getString(s"titles.$title.end")} 00:00")
+      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) && data.openTitle(p.getUniqueId.toString,title)) {
+          p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+          p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
       }
     })
   }
