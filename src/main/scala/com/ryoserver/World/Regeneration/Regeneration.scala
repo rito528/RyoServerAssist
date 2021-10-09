@@ -3,9 +3,6 @@ package com.ryoserver.World.Regeneration
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiversePortals.MultiversePortals
 import com.ryoserver.RyoServerAssist
-import com.sk89q.worldedit.WorldEdit
-import com.sk89q.worldedit.bukkit.BukkitAdapter
-import com.sk89q.worldedit.math.BlockVector3
 import org.bukkit.Bukkit.getConsoleSender
 import org.bukkit.World.Environment
 import org.bukkit._
@@ -42,9 +39,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       val random = SecureRandom.getInstance("SHA1PRNG")
       val x = random.nextInt(500)
       val z = random.nextInt(500)
-//      worldManager.getMVWorld(world).getCBWorld.setSpawnLocation(new Location(worldManager.getMVWorld(world).getCBWorld,x,64,z))
       val landLocation = new Location(worldManager.getMVWorld(world).getCBWorld,x,64,z)
-      //val spawnLocation = worldManager.getMVWorld(world).getCBWorld.getSpawnLocation
       for (y <- 0 until 60) {
         for (x <- 0 until 40) {
           for (z <- 0 until 40) {
