@@ -48,6 +48,9 @@ commands:
   title:
     description: title operation command.
     permission: ryoserverassist.title
+  regeneration:
+    description: world regeneration command.
+    permission: ryoserverassist.title
 
 permissions:
   ryoserverassist.*:
@@ -66,6 +69,7 @@ permissions:
       - ryoserverassist.spawn
       - ryoserverassist.player
       - ryoserverassist.title
+      - ryoserverassist.regeneration
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -91,4 +95,6 @@ permissions:
   ryoserverassist.player:
     default: op
   ryoserverassist.title:
+    default: op
+  ryoserverassist.regeneration:
     default: op

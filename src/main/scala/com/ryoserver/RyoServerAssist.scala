@@ -19,7 +19,7 @@ import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleLoader}
-import com.ryoserver.World.Regeneration.Regeneration
+import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -58,7 +58,8 @@ class RyoServerAssist extends JavaPlugin {
       "hat" -> new SubCommands,
       "spawn" -> new SubCommands,
       "player" -> new FirstJoinSettingCommand(this),
-      "title" -> new TitleCommands(this)
+      "title" -> new TitleCommands(this),
+      "regeneration" -> new RegenerationCommand(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

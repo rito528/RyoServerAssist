@@ -62,8 +62,8 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
     })
   }
 
-  def regeneration(): Unit = {
-    if (!isFriday) return
+  def regeneration(isForce: Boolean = false): Unit = {
+    if (!isFriday && !isForce) return
     ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
     regenerationCommands("regenerationNormalWorlds",Environment.NORMAL)
     regenerationCommands("regenerationNetherWorlds",Environment.NETHER)
