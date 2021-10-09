@@ -54,6 +54,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) {
       }
       index += 1
     })
+    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻る",List(s"${GRAY}クリックでメニューに戻ります。").asJava))
     p.openInventory(inv)
   }
 

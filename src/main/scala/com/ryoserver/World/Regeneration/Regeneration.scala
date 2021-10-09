@@ -7,6 +7,7 @@ import org.bukkit.Bukkit.getConsoleSender
 import org.bukkit.World.Environment
 import org.bukkit._
 
+import java.security.SecureRandom
 import java.util.{Calendar, TimeZone}
 
 class Regeneration(ryoServerAssist: RyoServerAssist) {
@@ -14,7 +15,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
   private def isFriday: Boolean = {
     val calendar = Calendar.getInstance()
     calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
-    if (calendar.get(Calendar.DAY_OF_WEEK) == 6) return true
+    if (calendar.get(Calendar.DAY_OF_WEEK) == 7) return true
     false
   }
 
@@ -36,6 +37,8 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.KEEP_INVENTORY.asInstanceOf[GameRule[Any]],true)
       worldManager.getMVWorld(world).setDifficulty(Difficulty.HARD)
       val spawnLocation = worldManager.getMVWorld(world).getCBWorld.getSpawnLocation
+      val random = SecureRandom.getInstance("SHA1PRNG")
+      worldManager.getMVWorld(world).getCBWorld.setSpawnLocation(worldManager.getMVWorld(world).getCBWorld.getHighestBlockAt(random.nextInt(1000),random.nextInt(1000)).getLocation)
       spawnLocation.add(0,-1,0).getBlock.setType(Material.BEDROCK)
       worldManager.getMVWorld(world).getCBWorld.setSpawnLocation(spawnLocation)
       Bukkit.dispatchCommand(getConsoleSender,s"wb $world set 5000 5000 spawn")
