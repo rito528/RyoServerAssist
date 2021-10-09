@@ -12,6 +12,7 @@ object TitleData {
   var skillOpen: Array[String] = Array.empty
   var loginYear: Array[String] = Array.empty
   var loginPeriod: Array[String] = Array.empty
+  var loginDay: Array[String] = Array.empty
   var titleGetNumber: Array[String] = Array.empty
 
   def isEnableTitle(ryoServerAssist: RyoServerAssist,title:String): Boolean = ryoServerAssist.getConfig.getStringList("enableTitles").contains(title)

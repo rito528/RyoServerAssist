@@ -133,4 +133,15 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     })
   }
 
+  def loginDay(p:Player): Unit = {
+    val format = new SimpleDateFormat("yyyy/MM/dd")
+    val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).getTime
+    TitleData.loginDay.foreach(title => {
+      if (titleConfig.getString(s"titles.$title.condition") == format.format(nowCalender) && data.openTitle(p.getUniqueId.toString,title)) {
+        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      }
+    })
+  }
+
 }

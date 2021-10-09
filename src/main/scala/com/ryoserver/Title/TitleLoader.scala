@@ -1,6 +1,5 @@
 package com.ryoserver.Title
 
-import com.ryoserver.RyoServerAssist
 import org.bukkit.configuration.file.YamlConfiguration
 
 import java.nio.file.Paths
@@ -19,6 +18,7 @@ class TitleLoader() {
         case "skillopen" => TitleData.skillOpen :+= title
         case "loginyear" => TitleData.loginYear :+= title
         case "loginperiod" => TitleData.loginPeriod :+= title
+        case "loginday" => TitleData.loginDay :+= title
         case "titlegetnumber" => TitleData.titleGetNumber :+= title
       }
     })
