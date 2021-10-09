@@ -15,7 +15,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
   private def isFriday: Boolean = {
     val calendar = Calendar.getInstance()
     calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
-    if (calendar.get(Calendar.DAY_OF_WEEK) == 1) return true
+    if (calendar.get(Calendar.DAY_OF_WEEK) == 6) return true
     false
   }
 
