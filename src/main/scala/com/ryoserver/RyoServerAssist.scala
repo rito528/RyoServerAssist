@@ -10,6 +10,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
+import com.ryoserver.OriginalItem.{DamageEvent, OriginalItemCommands}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
@@ -59,7 +60,8 @@ class RyoServerAssist extends JavaPlugin {
       "spawn" -> new SubCommands,
       "player" -> new FirstJoinSettingCommand(this),
       "title" -> new TitleCommands(this),
-      "regeneration" -> new RegenerationCommand(this)
+      "regeneration" -> new RegenerationCommand(this),
+      "getoriginalitem" -> new OriginalItemCommands()
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -84,7 +86,8 @@ class RyoServerAssist extends JavaPlugin {
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(this),
-      new ElevatorEvent
+      new ElevatorEvent,
+      new DamageEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

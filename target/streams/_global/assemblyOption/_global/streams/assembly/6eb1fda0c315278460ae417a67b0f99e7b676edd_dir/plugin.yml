@@ -51,6 +51,9 @@ commands:
   regeneration:
     description: world regeneration command.
     permission: ryoserverassist.title
+  getoriginalitem:
+    description: original item give command.
+    permission: ryoserverassist.getoriginalitem
 
 permissions:
   ryoserverassist.*:
@@ -70,6 +73,7 @@ permissions:
       - ryoserverassist.player
       - ryoserverassist.title
       - ryoserverassist.regeneration
+      - ryoserverassist.getoriginalitem
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -97,4 +101,6 @@ permissions:
   ryoserverassist.title:
     default: op
   ryoserverassist.regeneration:
+    default: op
+  ryoserverassist.getoriginalitem:
     default: op
