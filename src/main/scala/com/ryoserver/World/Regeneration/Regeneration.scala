@@ -37,8 +37,12 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.KEEP_INVENTORY.asInstanceOf[GameRule[Any]],true)
       worldManager.getMVWorld(world).setDifficulty(Difficulty.HARD)
       val random = SecureRandom.getInstance("SHA1PRNG")
-      val x = random.nextInt(500)
-      val z = random.nextInt(500)
+      var x = random.nextInt(500)
+      var z = random.nextInt(500)
+      if (worldType == Environment.THE_END) {
+        x = -30
+        z = -62
+      }
       val landLocation = new Location(worldManager.getMVWorld(world).getCBWorld,x,64,z)
       for (y <- 0 until 60) {
         for (x <- 0 until 40) {
