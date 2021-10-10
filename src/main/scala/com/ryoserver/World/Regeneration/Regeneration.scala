@@ -39,11 +39,13 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       val random = SecureRandom.getInstance("SHA1PRNG")
       var x = random.nextInt(500)
       var z = random.nextInt(500)
+      var y = 64
       if (worldType == Environment.THE_END) {
-        x = -30
-        z = -62
+        x = -106
+        z = -60
+        y = 55
       }
-      val landLocation = new Location(worldManager.getMVWorld(world).getCBWorld,x,64,z)
+      val landLocation = new Location(worldManager.getMVWorld(world).getCBWorld,x,y,z)
       for (y <- 0 until 60) {
         for (x <- 0 until 40) {
           for (z <- 0 until 40) {
@@ -58,7 +60,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
           minusLoc.add(x, 0, z).getBlock.setType(Material.BEDROCK)
         }
       }
-      worldManager.getMVWorld(world).setSpawnLocation(new Location(worldManager.getMVWorld(world).getCBWorld,x,65,z))
+      worldManager.getMVWorld(world).setSpawnLocation(new Location(worldManager.getMVWorld(world).getCBWorld,x,y,z))
       Bukkit.dispatchCommand(getConsoleSender,s"wb $world set 5000 5000 spawn")
       Bukkit.dispatchCommand(getConsoleSender,"wb shape square")
       portals.getPortalManager.getPortal(s"worldTo$world").setExactDestination(Bukkit.getWorld(world).getSpawnLocation)
