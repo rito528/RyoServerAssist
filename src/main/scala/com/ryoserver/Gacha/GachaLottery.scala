@@ -7,11 +7,11 @@ import scala.util.Random
 
 class GachaLottery extends Rarity_trait {
 
+  private val random = SecureRandom.getInstance("SHA1PRNG")
   /*
     レアリティの抽選を行う
    */
   def lottery(): Rarity_trait = {
-    val random = new Random()
     val r = random.nextDouble()
     if ((GachaLoader.special / 100) >= r) rarity.special
     else if ((GachaLoader.bigPer / 100) >= r) rarity.bigPer
@@ -22,7 +22,6 @@ class GachaLottery extends Rarity_trait {
   /*
   アイテムの抽選を行う
    */
-  private val random = SecureRandom.getInstance("SHA1PRNG")
   def itemLottery(rarity:Int): ItemStack = {
     rarity match {
       case 1 =>
