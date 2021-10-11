@@ -1,8 +1,6 @@
 package com.ryoserver.OriginalItem
 
-import net.minecraft.network.protocol.game.PacketPlayOutEntityStatus
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 
 class OriginalItemCommands extends CommandExecutor {
@@ -50,9 +48,6 @@ class OriginalItemCommands extends CommandExecutor {
         p.getWorld.dropItem(p.getLocation(),OriginalItems.hienNoYumi)
         return true
       } else if (args(0).equalsIgnoreCase("oretaEiyuNoKen")) {
-//        val ep = p.asInstanceOf[CraftPlayer].getHandle
-//        val status = new PacketPlayOutEntityStatus(ep,35)
-//        ep.b.sendPacket(status)
         p.getWorld.dropItem(p.getLocation(),OriginalItems.oretaEiyuNoKen)
         return true
       }
