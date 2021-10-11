@@ -29,6 +29,7 @@ object createMenu {
     inv.setItem(13,getItem(Material.ENDER_CHEST,s"${GREEN}エンダーチェストを開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(15,getItem(Material.CRAFTING_TABLE,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(17,getItem(Material.NAME_TAG,s"${GREEN}称号一覧を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
+    inv.setItem(18,getItem(Material.FIREWORK_ROCKET,s"${GREEN}ロケット花火を配布します。",List(s"${GRAY}クリックで受け取ります。").asJava))
     inv
   }
 }

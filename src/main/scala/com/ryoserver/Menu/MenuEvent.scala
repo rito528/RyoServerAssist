@@ -15,7 +15,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType}
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.CraftingInventory
+import org.bukkit.inventory.{CraftingInventory, ItemStack}
 
 class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -35,6 +35,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 13 => p.openInventory(p.getEnderChest)
       case 15 => p.openWorkbench(null,true)
       case 17 => new TitleInventory(ryoServerAssist).openInv(p)
+      case 18 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
       case _ =>
     }
   }
