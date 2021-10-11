@@ -12,7 +12,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
     if (label.equalsIgnoreCase("level")) {
       val lv = new CalLv(ryoServerAssist)
       if (args(0).equalsIgnoreCase("getLevel")) {
-        sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt))
+        sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt,limit = false))
         return true
       } else if (args(0).equalsIgnoreCase("getExp")) {
         sender.sendMessage("Lv." + args(1) + "->Lv." + (args(1).toInt + 1) + "までに必要な経験値量:" + lv.getExp(args(1).toInt + 1))
