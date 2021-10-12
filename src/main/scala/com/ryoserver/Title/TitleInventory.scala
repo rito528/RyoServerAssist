@@ -3,14 +3,13 @@ package com.ryoserver.Title
 import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData
-import org.bukkit.{Bukkit, Material}
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, Material}
 
-import scala.jdk.CollectionConverters._
 import java.nio.file.Paths
-import scala.util.control.Breaks
+import scala.jdk.CollectionConverters._
 
 class TitleInventory(ryoServerAssist: RyoServerAssist) {
 
@@ -55,7 +54,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) {
               case "titlegetnumber" =>
                 lore = List(s"${GRAY}解放条件:${configCondition}回称号を解禁しよう。")
             }
-            inv.setItem(index, getItem(if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, GREEN + title, lore.asJava))
+            inv.setItem(index, getItem(if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, title, lore.asJava))
           }
         }
         index += 1

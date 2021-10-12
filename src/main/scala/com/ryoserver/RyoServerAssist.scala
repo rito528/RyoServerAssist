@@ -19,7 +19,7 @@ import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
-import com.ryoserver.Title.{TitleCommands, TitleLoader}
+import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
@@ -87,7 +87,8 @@ class RyoServerAssist extends JavaPlugin {
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(this),
       new ElevatorEvent,
-      new totemEffect
+      new totemEffect,
+      new TitleInventoryEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
