@@ -22,6 +22,9 @@
 
 - WorldGuard
 - WorldEdit
+- Multiverse-Core
+- Multiverse-Portals
+- dynmap
 
 ### このプラグインを新Minecraftバージョンに合わせるときに必ず更新するもの
 
