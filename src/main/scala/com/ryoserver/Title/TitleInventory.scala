@@ -19,6 +19,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) {
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     var index = 0
     titleConfig.getConfigurationSection("titles").getKeys(false).forEach(title => {
+
       val isHasTitle = hasTitles.contains(title)
       if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {
         inv.setItem(index,getItem(Material.BEDROCK,s"${GREEN}???",List("解放条件:???").asJava))

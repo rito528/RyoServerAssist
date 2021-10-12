@@ -101,7 +101,7 @@ object OriginalItems {
   val blackAxe:ItemStack = {
     val itemStack:ItemStack = new ItemStack(Material.NETHERITE_AXE)
     val itemMeta:ItemMeta = itemStack.getItemMeta
-    itemMeta.setDisplayName(s"$BLACK${BOLD}ブラックアックス")
+    itemMeta.setDisplayName(s"$RED${BOLD}ブラックアックス")
     itemMeta.setUnbreakable(true)
     itemMeta.addEnchant(Enchantment.DIG_SPEED,5,false)
     itemStack.setItemMeta(itemMeta)
