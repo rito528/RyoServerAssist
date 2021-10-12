@@ -10,7 +10,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
-import com.ryoserver.OriginalItem.{OriginalItemCommands, totemEffect}
+import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
@@ -88,7 +88,8 @@ class RyoServerAssist extends JavaPlugin {
       new FirstJoinSettingEvent(this),
       new ElevatorEvent,
       new totemEffect,
-      new TitleInventoryEvent(this)
+      new TitleInventoryEvent(this),
+      new AnvilRepairEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

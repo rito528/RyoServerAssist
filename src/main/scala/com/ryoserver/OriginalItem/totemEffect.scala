@@ -15,7 +15,10 @@ class totemEffect extends Listener {
     if (!e.getEntity.isInstanceOf[Player]) return
     val p = e.getEntity.asInstanceOf[Player]
     val item = p.getInventory.getItemInOffHand
-    if (p.getHealth - e.getDamage < 1 && item.getType == OriginalItems.oretaEiyuNoKen.getType && item.getItemMeta.getItemFlags == OriginalItems.oretaEiyuNoKen.getItemMeta.getItemFlags ) {
+    if (p.getHealth - e.getDamage < 1 && item.getType == OriginalItems.oretaEiyuNoKen.getType &&
+      item.getItemMeta.getItemFlags == OriginalItems.oretaEiyuNoKen.getItemMeta.getItemFlags &&
+      item.getItemMeta.getDisplayName == OriginalItems.oretaEiyuNoKen.getItemMeta.getDisplayName &&
+      item.getItemMeta.getLore == OriginalItems.oretaEiyuNoKen.getItemMeta.getLore) {
       e.setCancelled(true)
       p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20 * 40, 2))
       p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20 * 40, 2))

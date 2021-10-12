@@ -176,4 +176,27 @@ object OriginalItems {
     itemStack
   }
 
+  val itemList = List(
+    tiguruinoyaiba,
+    oretaEiyuNoKen,
+    elementalPickaxe,
+    blessingPickaxe,
+    ryoNoKen,
+    gram,
+    seikenTengeki,
+    blackAxe,
+    dignity,
+    harvestStar,
+    penginNoHane,
+    sugoiTurizao,
+    homura,
+    hienNoYumi
+  )
+
+  val metaList = List(
+    tiguruinoyaiba.getItemMeta.getItemFlags,
+    oretaEiyuNoKen.getItemMeta.getItemFlags,
+    ryoNoKen.getItemMeta.getItemFlags
+  )
+
 }
