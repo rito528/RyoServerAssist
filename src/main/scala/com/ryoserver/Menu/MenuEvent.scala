@@ -34,7 +34,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 11 => new DustBoxInventory().openDustBox(p)
       case 13 => p.openInventory(p.getEnderChest)
       case 15 => p.openWorkbench(null,true)
-      case 17 => new TitleInventory(ryoServerAssist).openInv(p)
+      case 17 => new TitleInventory(ryoServerAssist).openInv(p,1)
       case 18 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
       case _ =>
     }
