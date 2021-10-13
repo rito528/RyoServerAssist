@@ -7,6 +7,7 @@ import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
+import com.ryoserver.Stack.StackGUI
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleInventory
 import org.bukkit.{Bukkit, Material}
@@ -36,6 +37,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 15 => p.openWorkbench(null,true)
       case 17 => new TitleInventory(ryoServerAssist).openInv(p,1)
       case 18 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
+      case 20 => new StackGUI(ryoServerAssist).openCategorySelectGUI(p)
       case _ =>
     }
   }

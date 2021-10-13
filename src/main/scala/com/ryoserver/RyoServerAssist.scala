@@ -17,6 +17,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
+import com.ryoserver.Stack.StackCommands
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -61,7 +62,8 @@ class RyoServerAssist extends JavaPlugin {
       "player" -> new FirstJoinSettingCommand(this),
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
-      "getoriginalitem" -> new OriginalItemCommands()
+      "getoriginalitem" -> new OriginalItemCommands,
+      "stack" -> new StackCommands(this)
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

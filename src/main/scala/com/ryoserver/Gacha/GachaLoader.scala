@@ -43,8 +43,7 @@ object GachaLoader {
   def addGachaItem(ryoServerAssist: RyoServerAssist, is:ItemStack, rarity: Int): Unit = {
     createGachaTable(ryoServerAssist)
     val sql = new SQL(ryoServerAssist)
-    var config:YamlConfiguration = null
-    config = new YamlConfiguration
+    val config:YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
     config.set("i",is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
