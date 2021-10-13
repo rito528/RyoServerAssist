@@ -17,7 +17,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.Stack.{StackCommands, StackGUIEvent}
+import com.ryoserver.Stack.StackGUIEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
