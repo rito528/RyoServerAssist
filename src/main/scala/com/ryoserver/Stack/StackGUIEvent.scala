@@ -29,6 +29,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           case 15 =>
             gui.openStack(p, 1, "gachaItem", isEdit)
              setSelectedCategory(p,"gachaItem")
+          case _ =>
         }
       } else if (title.contains("stack")) {
         val nowPage = title.replace("stack:","").replace("[Edit]","").toInt
@@ -37,6 +38,9 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             val backPage = nowPage - 1
             if (backPage == 0) gui.openCategorySelectGUI(p)
             else gui.openStack(p,backPage,getSelectedCategory(p),isEdit)
+          case 53 =>
+            gui.openStack(p,nowPage + 1,getSelectedCategory(p),isEdit)
+          case _ =>
         }
       }
   }
