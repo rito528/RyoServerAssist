@@ -27,11 +27,25 @@ class SQL(ryoServerAssist: RyoServerAssist) {
   }
 
   def executeQuery(query:String): ResultSet = {
+//    Class.forName(this.driver)
+//    this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
+//    this.stmt = this.con.prepareStatement(query)
+//    this.rs = this.stmt.executeQuery(query)
+//    this.rs
     Class.forName(this.driver)
     this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
-    this.stmt = this.con.createStatement()
-    this.rs = this.stmt.executeQuery(query)
-    this.rs
+    this.ps = this.con.prepareStatement(query)
+    this.rs = this.ps.executeQuery()
+    rs
+  }
+
+  def executeQueryPurseFolder(query:String,purseFolder:String): Unit = {
+    Class.forName(this.driver)
+    this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
+    this.ps = this.con.prepareStatement(query)
+    ps.setString(1,purseFolder)
+    this.rs = this.ps.executeQuery()
+    rs
   }
 
   def executeSQL(sql:String): Unit = {

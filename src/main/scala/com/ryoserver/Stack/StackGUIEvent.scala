@@ -12,6 +12,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onClick(e:InventoryClickEvent): Unit = {
     val title = e.getView.getTitle
+    val inv = e.getView.getTopInventory
     if (e.getClickedInventory != e.getView.getTopInventory) return
     e.setCancelled(true)
     val gui = new StackGUI(ryoServerAssist)
@@ -25,7 +26,6 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           case 11 =>
             gui.openStack(p, 1, "block", isEdit)
             setSelectedCategory(p,"block")
-            println(getSelectedCategory(p))
           case 13 =>
             gui.openStack(p, 1, "item", isEdit)
             setSelectedCategory(p,"item")
@@ -38,7 +38,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         index match {
           case 49 =>
             var index = 0
-            e.getInventory.getContents.foreach(is => {
+            inv.getContents.foreach(is => {
               if (index != 49 && is != null) {
                 is.setAmount(1)
                 new StackData(ryoServerAssist).addItemList(is, getSelectedCategory(p))
@@ -62,6 +62,16 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           case 53 =>
             gui.openStack(p,nowPage + 1,getSelectedCategory(p),isEdit)
           case _ =>
+            val is = inv.getItem(index)
+            if (title.contains("Edit") && isEdit && is != null) {
+              new StackData(ryoServerAssist).removeItemList(is)
+            } else {
+              if (e.getClick.isRightClick) {
+
+              } else if (e.getClick.isLeftClick) {
+
+              }
+            }
         }
       }
   }
