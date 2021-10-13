@@ -12,11 +12,11 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
 
   def openStack(p:Player,page:Int,category:String,isEdit:Boolean): Unit = {
     val data = new StackData(ryoServerAssist)
-    val items = data.getSetItems(p.getUniqueId.toString)
+    val items = data.getSetItems(p.getUniqueId.toString,category)
     val maxPage = items.length / 45 + 1
     var selectPage = page
     if (page >= maxPage) selectPage = maxPage
-    val inv = Bukkit.createInventory(null,54,"stack:" + selectPage)
+    val inv = Bukkit.createInventory(null,54,(if (isEdit) "[Edit]" else "") + "stack:" + selectPage)
     var index = 0
     items.foreach(item => {
       if (selectPage * 45 >= index && (selectPage - 1) * 45 <= index) inv.setItem(index,item)

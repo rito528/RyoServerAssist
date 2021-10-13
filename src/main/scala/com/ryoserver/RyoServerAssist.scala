@@ -17,7 +17,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.Stack.StackCommands
+import com.ryoserver.Stack.{StackCommands, StackGUIEvent}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -91,7 +91,8 @@ class RyoServerAssist extends JavaPlugin {
       new ElevatorEvent,
       new totemEffect,
       new TitleInventoryEvent(this),
-      new AnvilRepairEvent
+      new AnvilRepairEvent,
+      new StackGUIEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
