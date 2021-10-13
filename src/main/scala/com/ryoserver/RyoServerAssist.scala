@@ -62,8 +62,7 @@ class RyoServerAssist extends JavaPlugin {
       "player" -> new FirstJoinSettingCommand(this),
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
-      "getoriginalitem" -> new OriginalItemCommands,
-      "stack" -> new StackCommands(this)
+      "getoriginalitem" -> new OriginalItemCommands
     ).foreach({case (cmd,executor) =>
       getCommand(cmd).setExecutor(executor)
     })

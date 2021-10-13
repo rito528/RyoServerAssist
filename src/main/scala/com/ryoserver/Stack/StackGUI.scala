@@ -47,7 +47,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
   }
 
   def openAddGUI(p:Player): Unit = {
-    val inv = Bukkit.createInventory(null,54,"アイテム追加メニュー")
+    val inv = Bukkit.createInventory(null,54,"stackアイテム追加メニュー")
     inv.setItem(49,getItem(Material.NETHER_STAR,"クリックでアイテムを追加します。",List("カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加します").asJava))
     p.openInventory(inv)
   }

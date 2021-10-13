@@ -54,9 +54,6 @@ commands:
   getoriginalitem:
     description: original item give command.
     permission: ryoserverassist.getoriginalitem
-  stack:
-    description: stack operation command.
-    permission: ryoserverassist.stack
 
 permissions:
   ryoserverassist.*:
@@ -77,7 +74,6 @@ permissions:
       - ryoserverassist.title
       - ryoserverassist.regeneration
       - ryoserverassist.getoriginalitem
-      - ryoserverassist.stack
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -107,6 +103,4 @@ permissions:
   ryoserverassist.regeneration:
     default: op
   ryoserverassist.getoriginalitem:
-    default: op
-  ryoserverassist.stack:
     default: op

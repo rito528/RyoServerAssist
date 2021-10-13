@@ -2,6 +2,7 @@ package com.ryoserver.Stack
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Stack.PlayerData.{getSelectedCategory, setSelectedCategory}
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -24,6 +25,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           case 11 =>
             gui.openStack(p, 1, "block", isEdit)
             setSelectedCategory(p,"block")
+            println(getSelectedCategory(p))
           case 13 =>
             gui.openStack(p, 1, "item", isEdit)
             setSelectedCategory(p,"item")
@@ -31,6 +33,22 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             gui.openStack(p, 1, "gachaItem", isEdit)
              setSelectedCategory(p,"gachaItem")
           case _ =>
+        }
+      } else if (title.equalsIgnoreCase("stackアイテム追加メニュー")) {
+        index match {
+          case 49 =>
+            var index = 0
+            e.getInventory.getContents.foreach(is => {
+              if (index != 49 && is != null) {
+                is.setAmount(1)
+                new StackData(ryoServerAssist).addItemList(is, getSelectedCategory(p))
+              }
+              index += 1
+            })
+            gui.openAddGUI(p)
+            p.sendMessage(ChatColor.AQUA  + "カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加しました。")
+          case _ =>
+            e.setCancelled(false)
         }
       } else if (title.contains("stack")) {
         val nowPage = title.replace("stack:","").replace("[Edit]","").toInt
