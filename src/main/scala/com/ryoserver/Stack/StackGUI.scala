@@ -22,6 +22,8 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       if (selectPage * 45 >= index && (selectPage - 1) * 45 <= index) inv.setItem(index,item)
       index += 1
     })
+    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,"前のページに戻ります。",List("クリックで戻ります。").asJava))
+    inv.setItem(53,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,"次のページに移動します。",List("クリックで移動します。").asJava))
     p.openInventory(inv)
   }
 
