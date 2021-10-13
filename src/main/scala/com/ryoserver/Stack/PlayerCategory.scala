@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 
 import scala.collection.mutable
 
-object PlayerData {
+object PlayerCategory {
 
   private var selectedCategory = mutable.Map.empty[String,String]
 

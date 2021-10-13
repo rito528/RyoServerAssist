@@ -2,7 +2,7 @@ package com.ryoserver.Stack
 
 import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Stack.PlayerData.getSelectedCategory
+import com.ryoserver.Stack.PlayerCategory.getSelectedCategory
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.ChatColor._
@@ -30,7 +30,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
   }
 
   def openCategorySelectGUI(p:Player): Unit = {
-    val inv = Bukkit.createInventory(null,27,"stackカテゴリ選択")
+    val inv = Bukkit.createInventory(null,36,"stackカテゴリ選択")
     inv.setItem(11,getItem(Material.GRASS_BLOCK,s"${GREEN}主要ブロック",List(
       s"${AQUA}左クリックで開きます。",
       if (p.hasPermission("ryoserverassist.stack")) s"${RED}右クリックで編集メニューを開きます。" else ""
@@ -43,6 +43,9 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       s"${AQUA}左クリックで開きます。",
       if (p.hasPermission("ryoserverassist.stack")) s"${RED}右クリックで編集メニューを開きます。" else ""
     ).asJava))
+    inv.setItem(27,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
+    inv.setItem(31,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+      List(s"${AQUA}クリックで切り替えます。").asJava))
     p.openInventory(inv)
   }
 

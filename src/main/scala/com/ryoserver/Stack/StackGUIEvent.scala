@@ -1,7 +1,8 @@
 package com.ryoserver.Stack
 
+import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Stack.PlayerData.{getSelectedCategory, setSelectedCategory}
+import com.ryoserver.Stack.PlayerCategory.{getSelectedCategory, setSelectedCategory}
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -32,6 +33,11 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           case 15 =>
             gui.openStack(p, 1, "gachaItem", isEdit)
              setSelectedCategory(p,"gachaItem")
+          case 27 =>
+            p.openInventory(createMenu.menu(p, ryoServerAssist))
+          case 31 =>
+            new StackData(ryoServerAssist).toggleAutoStack(p)
+            gui.openCategorySelectGUI(p)
           case _ =>
         }
       } else if (title.equalsIgnoreCase("stackアイテム追加メニュー")) {

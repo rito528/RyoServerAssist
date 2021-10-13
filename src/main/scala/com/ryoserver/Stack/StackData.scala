@@ -65,7 +65,24 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     if (realAmount >= amount) realAmount = amount
     itemStack.setAmount(realAmount)
     if (itemStack.getAmount != 0) p.getWorld.dropItemNaturally(p.getLocation(),itemStack)
+    sql.close()
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
+  }
+
+  def toggleAutoStack(p:Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    if (isAutoStackEnabled(p)) sql.executeSQL(s"UPDATE Players SET autoStack=false WHERE UUID='${p.getUniqueId.toString}'")
+    else sql.executeSQL(s"UPDATE Players SET autoStack=true WHERE UUID='${p.getUniqueId.toString}'")
+    sql.close()
+  }
+
+  def isAutoStackEnabled(p:Player): Boolean = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT autoStack FROM Players WHERE UUID='${p.getUniqueId.toString}'")
+    var enabled = false
+    if (rs.next()) enabled = rs.getBoolean("autoStack")
+    sql.close()
+    enabled
   }
 
 }

@@ -20,12 +20,12 @@ class createData(ryoServerAssist: RyoServerAssist) {
     //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
     if (!table_rs.next()) sql.executeSQL("CREATE TABLE Players(UUID Text,lastLogin DATETIME,loginDays INT,consecutiveLoginDays INT," +
       "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
-      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT);")
+      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN);")
     val user_rs = sql.executeQuery(s"SELECT UUID FROM Players WHERE UUID='${p.getUniqueId.toString}';")
     if (!user_rs.next()) {
       sql.executeSQL(s"INSERT INTO Players (UUID,lastLogin,loginDays,consecutiveLoginDays," +
-        s"lastDistributionReceived,EXP,Level,questClearTimes,gachaTickets,gachaPullNumber,SkillPoint,SkillOpenPoint) " +
-        s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT MAX(id) FROM Distribution),0,0,0,0,0,${new SkillPointCal().getMaxSkillPoint(0)},0);")
+        s"lastDistributionReceived,EXP,Level,questClearTimes,gachaTickets,gachaPullNumber,SkillPoint,SkillOpenPoint,autoStack) " +
+        s"VALUES ('${p.getUniqueId}',NOW(),1,1,(SELECT MAX(id) FROM Distribution),0,0,0,0,0,${new SkillPointCal().getMaxSkillPoint(0)},0,false);")
       val inv = p.getInventory
       val rs = sql.executeQuery("SHOW TABLES LIKE 'firstJoinItems';")
       if (!rs.next()) sql.executeSQL("CREATE TABLE firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
