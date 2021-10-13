@@ -2,6 +2,7 @@ package com.ryoserver.Stack
 
 import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Stack.PlayerData.getSelectedCategory
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.ChatColor._
@@ -22,8 +23,9 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       if (selectPage * 45 >= index && (selectPage - 1) * 45 <= index) inv.setItem(index,item)
       index += 1
     })
-    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,"前のページに戻ります。",List("クリックで戻ります。").asJava))
-    inv.setItem(53,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,"次のページに移動します。",List("クリックで移動します。").asJava))
+    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}前のページに戻ります。",List(s"${GRAY}クリックで戻ります。").asJava))
+    if (isEdit) inv.setItem(49,getItem(Material.CHEST,s"${AQUA}アイテムを追加します。",List(s"${GRAY}クリックで追加メニューを開きます。").asJava))
+    inv.setItem(53,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}次のページに移動します。",List(s"${GRAY}クリックで移動します。").asJava))
     p.openInventory(inv)
   }
 
@@ -41,6 +43,12 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       s"${AQUA}左クリックで開きます。",
       if (p.hasPermission("ryoserverassist.stack")) s"${RED}右クリックで編集メニューを開きます。" else ""
     ).asJava))
+    p.openInventory(inv)
+  }
+
+  def openAddGUI(p:Player): Unit = {
+    val inv = Bukkit.createInventory(null,54,"アイテム追加メニュー")
+    inv.setItem(49,getItem(Material.NETHER_STAR,"クリックでアイテムを追加します。",List("カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加します").asJava))
     p.openInventory(inv)
   }
 

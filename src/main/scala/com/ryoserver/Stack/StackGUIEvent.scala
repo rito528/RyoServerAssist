@@ -16,7 +16,8 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val gui = new StackGUI(ryoServerAssist)
     val p = e.getWhoClicked.asInstanceOf[Player]
     val isRightClick = e.getClick.isRightClick
-    val isEdit = isRightClick && p.hasPermission("ryoserverassist.stack")
+    val permission = p.hasPermission("ryoserverassist.stack")
+    val isEdit = isRightClick && permission
     val index = e.getSlot
       if (title.equalsIgnoreCase("stackカテゴリ選択")) {
          index match {
@@ -38,6 +39,8 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             val backPage = nowPage - 1
             if (backPage == 0) gui.openCategorySelectGUI(p)
             else gui.openStack(p,backPage,getSelectedCategory(p),isEdit)
+          case 49 =>
+            if (title.contains("Edit")) gui.openAddGUI(p)
           case 53 =>
             gui.openStack(p,nowPage + 1,getSelectedCategory(p),isEdit)
           case _ =>
