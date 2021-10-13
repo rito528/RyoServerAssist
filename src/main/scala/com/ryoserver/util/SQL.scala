@@ -39,7 +39,7 @@ class SQL(ryoServerAssist: RyoServerAssist) {
     rs
   }
 
-  def executeQueryPurseFolder(query:String,purseFolder:String): Unit = {
+  def executeQueryPurseFolder(query:String,purseFolder:String): ResultSet = {
     Class.forName(this.driver)
     this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
     this.ps = this.con.prepareStatement(query)

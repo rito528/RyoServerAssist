@@ -67,9 +67,9 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
               new StackData(ryoServerAssist).removeItemList(is)
             } else {
               if (e.getClick.isRightClick) {
-
+                new StackData(ryoServerAssist).addItemToPlayer(p,is,1)
               } else if (e.getClick.isLeftClick) {
-
+                new StackData(ryoServerAssist).addItemToPlayer(p,is,64)
               }
             }
         }

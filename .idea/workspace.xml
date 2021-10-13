@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.12/output_dsp" beforeDir="false" afterPath="$PROJECT_DIR$/project/target/streams/_global/dependencyPositions/_global/streams/update_cache_2.12/output_dsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackData.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackGUIEvent.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackGUIEvent.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/util/SQL.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/util/SQL.scala" afterDir="false" />
