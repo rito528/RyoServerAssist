@@ -153,4 +153,24 @@ class giveTitle(ryoServerAssist: RyoServerAssist) {
     })
   }
 
+  def continuousLoginAndQuestClearNumber(p:Player): Unit = {
+    TitleData.continuousLoginAndQuestClearNumber.foreach(title => {
+      val conditionLogin = titleConfig.getString(s"titles.$title.condition").split(",")(0).toInt
+      val conditionQuest = titleConfig.getString(s"titles.$title.condition").split(",")(1).toInt
+      val sql = new SQL(ryoServerAssist)
+      val loginRs = sql.executeQuery(s"SELECT consecutiveLoginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
+      val questRs = sql.executeQuery(s"SELECT questClearTimes FROM Players WHERE UUID='${p.getUniqueId.toString}'")
+      var login = 0
+      var quest = 0
+      if (loginRs.next()) login = loginRs.getInt("consecutiveLoginDays")
+      if (questRs.next()) quest = questRs.getInt("questClearTimes")
+      if (conditionLogin <= login && conditionQuest <= quest) {
+        if (data.openTitle(p,title)) {
+          p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+          p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+        }
+      }
+    })
+  }
+
 }

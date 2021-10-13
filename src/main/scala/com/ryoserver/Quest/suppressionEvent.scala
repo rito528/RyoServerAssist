@@ -41,6 +41,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
             questData.questClear(p)
             new giveTitle(ryoServerAssist).questClearNumber(p)
+            new giveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
           } else {
             questData.setSelectedQuestItemRemaining(p, data.mkString(";"))
           }

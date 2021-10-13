@@ -104,6 +104,7 @@ class QuestSelectInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listen
             questData.questClear(p)
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)
             new giveTitle(ryoServerAssist).questClearNumber(p)
+            new giveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
           } else {
             p.sendMessage(ChatColor.AQUA + "納品しました。")
             new QuestSelectInventory(ryoServerAssist).selectInventory(p)

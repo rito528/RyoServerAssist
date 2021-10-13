@@ -18,6 +18,7 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
     title.loginYear(p)
     title.loginPeriod(p)
     title.loginDay(p)
+    title.continuousLoginAndQuestClearNumber(p)
   }
 
   @EventHandler

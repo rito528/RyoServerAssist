@@ -20,6 +20,7 @@ class TitleLoader() {
         case "loginperiod" => TitleData.loginPeriod :+= title
         case "loginday" => TitleData.loginDay :+= title
         case "titlegetnumber" => TitleData.titleGetNumber :+= title
+        case "continuousloginandquestclearnumber" => TitleData.continuousLoginAndQuestClearNumber :+= title
       }
     })
   }
