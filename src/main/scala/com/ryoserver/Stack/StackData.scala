@@ -44,6 +44,43 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
+  def checkItemList(itemStack: ItemStack): Boolean = {
+    val sql = new SQL(ryoServerAssist)
+    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackList';")
+    if (!checkTable.next()) sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,item TEXT,PRIMARY KEY(`id`));")
+    val config:YamlConfiguration = new YamlConfiguration
+    val is = itemStack.clone()
+    is.setAmount(1)
+    config.set("i",is)
+    val checkIs = sql.executeQueryPurseFolder("SELECT item FROM StackList WHERE item=?",config.saveToString())
+    var rs = false
+    if (checkIs.next()) rs = true
+    rs
+  }
+
+  def addStack(itemStack: ItemStack,p: Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackData';")
+    if (!checkTable.next()) {
+      sql.executeSQL("CREATE TABLE StackData(id INT AUTO_INCREMENT,UUID TEXT,category TEXT,item TEXT,amount INT,PRIMARY KEY(`id`))")
+    }
+    val is = itemStack.clone()
+    is.setAmount(1)
+    val config = new YamlConfiguration
+    config.set("i",is)
+    val playerData = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
+    if (playerData.next()) sql.purseFolder(s"UPDATE StackData SET amount = amount + ${itemStack.getAmount} WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
+    else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('${p.getUniqueId.toString}','${getCategory(config.saveToString())}',?,${itemStack.getAmount})",config.saveToString())
+    sql.close()
+  }
+
+  def getCategory(is:String): String = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQueryPurseFolder("SELECT category FROM StackList WHERE item=?",is)
+    if (rs.next()) return rs.getString("category")
+    null
+  }
+
   def removeItemList(itemStack: ItemStack): Unit = {
     val sql = new SQL(ryoServerAssist)
     val config = new YamlConfiguration
@@ -64,7 +101,15 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     if (getAmount.next()) realAmount = getAmount.getInt("amount")
     if (realAmount >= amount) realAmount = amount
     itemStack.setAmount(realAmount)
-    if (itemStack.getAmount != 0) p.getWorld.dropItemNaturally(p.getLocation(),itemStack)
+    sql.purseFolder(s"UPDATE StackData SET amount=amount - $realAmount WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
+    if (itemStack.getAmount != 0) {
+      var emptyCheck = false
+      p.getInventory.getContents.foreach(item =>{
+        if (item == null) emptyCheck = true
+        else if ((item.getType == is.getType && itemStack.getAmount < is.getMaxStackSize)) emptyCheck = true
+      })
+      p.getInventory.addItem(itemStack)
+    }
     sql.close()
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
   }
