@@ -46,6 +46,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     inv.setItem(31,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
       List(s"${AQUA}クリックで切り替えます。",
       s"${WHITE}現在の状態:${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
+    inv.setItem(35,getItem(Material.CHEST_MINECART,s"${GREEN}stack収納インベントリを開きます。",List("クリックで開きます。").asJava))
     p.openInventory(inv)
   }
 

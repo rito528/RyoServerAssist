@@ -37,6 +37,16 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         case 31 =>
           new StackData(ryoServerAssist).toggleAutoStack(p)
           gui.openCategorySelectGUI(p)
+        case 35 =>
+          p.getInventory.getContents.foreach(item =>{
+            if (item != null) {
+              if (new StackData(ryoServerAssist).checkItemList(item)) {
+                new StackData(ryoServerAssist).addStack(item,p)
+                p.getInventory.removeItem(item)
+              }
+            }
+          })
+          p.sendMessage(ChatColor.AQUA + "インベントリ内のアイテムをすべてStackに収納しました。")
         case _ =>
       }
     } else if (title.equalsIgnoreCase("stackアイテム追加メニュー") && e.getClickedInventory == e.getView.getTopInventory) {
