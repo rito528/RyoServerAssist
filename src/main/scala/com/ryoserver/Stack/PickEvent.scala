@@ -14,7 +14,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val itemStack = e.getItem.getItemStack
     val data = new StackData(ryoServerAssist)
     val p = e.getEntity.asInstanceOf[Player]
-    if (!data.checkItemList(itemStack)) return
+    if (!data.checkItemList(itemStack) || !data.isAutoStackEnabled(p)) return
     data.addStack(itemStack,p)
     new BukkitRunnable {
       override def run(): Unit = {
