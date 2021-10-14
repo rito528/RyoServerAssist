@@ -22,7 +22,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     var index = 0
     var counter = 0
     items.foreach(item => {
-      if (selectPage * 45 >= counter && (selectPage - 1) * 45 < counter) {
+      if (selectPage * 45 >= counter && (selectPage - 1) * 45 <= counter) {
         inv.setItem(index,item)
         index += 1
       }
