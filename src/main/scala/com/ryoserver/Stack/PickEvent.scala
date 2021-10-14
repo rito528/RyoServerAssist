@@ -20,7 +20,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       override def run(): Unit = {
         p.getInventory.removeItem(itemStack)
       }
-    }.runTaskLater(ryoServerAssist,5)
+    }.runTaskLater(ryoServerAssist,2)
   }
 
 
