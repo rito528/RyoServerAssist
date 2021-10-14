@@ -16,11 +16,8 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val p = e.getEntity.asInstanceOf[Player]
     if (!data.checkItemList(itemStack) || !data.isAutoStackEnabled(p)) return
     data.addStack(itemStack,p)
-    new BukkitRunnable {
-      override def run(): Unit = {
-        p.getInventory.removeItem(itemStack)
-      }
-    }.runTaskLater(ryoServerAssist,2)
+    e.setCancelled(true)
+    e.getItem.remove()
   }
 
 
