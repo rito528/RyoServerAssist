@@ -1,6 +1,7 @@
 package com.ryoserver.Stack
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Stack.PlayerData.playerData
 import com.ryoserver.util.SQL
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
@@ -13,14 +14,6 @@ class StackData(ryoServerAssist: RyoServerAssist) {
 
   def getSetItems(category:String): Array[ItemStack] = {
     val sql = new SQL(ryoServerAssist)
-    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackData';")
-    if (!checkTable.next()) {
-      sql.executeSQL("CREATE TABLE StackData(id INT AUTO_INCREMENT,UUID TEXT,category TEXT,item TEXT,amount INT,PRIMARY KEY(`id`))")
-    }
-    val checkList = sql.executeQuery("SHOW TABLES LIKE 'StackList';")
-    if (!checkList.next()) {
-      sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,item TEXT,PRIMARY KEY(`id`));")
-    }
     val rs = sql.executeQuery(s"SELECT item FROM StackList WHERE category='$category';")
     var items: Array[ItemStack] = Array.empty
     while (rs.next()) {
@@ -34,8 +27,6 @@ class StackData(ryoServerAssist: RyoServerAssist) {
 
   def addItemList(itemStack: ItemStack,category: String): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackList';")
-    if (!checkTable.next()) sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,item TEXT,PRIMARY KEY(`id`));")
     val config:YamlConfiguration = new YamlConfiguration
     itemStack.setAmount(1)
     config.set("i",itemStack)
@@ -48,8 +39,6 @@ class StackData(ryoServerAssist: RyoServerAssist) {
 
   def checkItemList(itemStack: ItemStack): Boolean = {
     val sql = new SQL(ryoServerAssist)
-    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackList';")
-    if (!checkTable.next()) sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,item TEXT,PRIMARY KEY(`id`));")
     val config:YamlConfiguration = new YamlConfiguration
     val is = itemStack.clone()
     is.setAmount(1)
@@ -62,17 +51,19 @@ class StackData(ryoServerAssist: RyoServerAssist) {
 
   def addStack(itemStack: ItemStack,p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackData';")
-    if (!checkTable.next()) {
-      sql.executeSQL("CREATE TABLE StackData(id INT AUTO_INCREMENT,UUID TEXT,category TEXT,item TEXT,amount INT,PRIMARY KEY(`id`))")
-    }
     val is = itemStack.clone()
     is.setAmount(1)
     val config = new YamlConfiguration
     config.set("i",is)
-    val playerData = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
-    if (playerData.next()) sql.purseFolder(s"UPDATE StackData SET amount = amount + ${itemStack.getAmount} WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
-    else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('${p.getUniqueId.toString}','${getCategory(config.saveToString())}',?,${itemStack.getAmount})",config.saveToString())
+    val uuid = p.getUniqueId.toString
+    if (PlayerData.playerData.contains(uuid)) {
+      PlayerData.playerData(uuid) += (is -> (PlayerData.playerData(uuid)(is) + itemStack.getAmount))
+    } else {
+      val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
+      var playerHasAmount = 0
+      if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
+      PlayerData.playerData += (uuid -> mutable.Map(is -> (playerHasAmount + itemStack.getAmount)))
+    }
     sql.close()
   }
 
@@ -109,17 +100,25 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     val itemStack = is.clone()
     val sql = new SQL(ryoServerAssist)
     val config = new YamlConfiguration
+    val uuid = p.getUniqueId.toString
     config.set("i",is)
-    val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
-    var realAmount = 0
-    if (getAmount.next()) realAmount = getAmount.getInt("amount")
-    if (realAmount >= amount) realAmount = amount
-    itemStack.setAmount(realAmount)
-    if (itemStack.getAmount != 0) {
-      if (p.getInventory.firstEmpty() != -1) {
-        sql.purseFolder(s"UPDATE StackData SET amount=amount - $realAmount WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
-        p.getInventory.addItem(itemStack)
-      }
+    var selectAmount = amount
+    var playerHasAmount = 0
+    if (!(playerData.contains(p.getUniqueId.toString) && playerData(p.getUniqueId.toString).contains(is))) {
+      val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
+      if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
+    } else {
+      playerHasAmount = playerData(uuid)(is)
+    }
+    if (playerHasAmount <= amount) selectAmount = playerHasAmount
+    itemStack.setAmount(selectAmount)
+    if (!playerData.contains(p.getUniqueId.toString)) {
+      playerData += (p.getUniqueId.toString -> mutable.Map(is -> (playerHasAmount - selectAmount)))
+    } else {
+      playerData(p.getUniqueId.toString) += (is -> (playerHasAmount - selectAmount))
+    }
+    if (itemStack.getAmount != 0 && p.getInventory.firstEmpty() != -1) {
+      p.getInventory.addItem(itemStack)
     }
     sql.close()
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)

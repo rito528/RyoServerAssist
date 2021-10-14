@@ -3,11 +3,12 @@ package com.ryoserver.Stack
 import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Stack.PlayerCategory.getSelectedCategory
+import com.ryoserver.Stack.PlayerData.playerData
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.ChatColor._
-import scala.collection.mutable
 
+import scala.collection.mutable
 import java.util
 import scala.jdk.CollectionConverters._
 
@@ -28,6 +29,13 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       val cloneItem = item.clone()
       val meta = item.getItemMeta
       if (amounts.contains(item)) amount = amounts(item)
+      if (playerData.contains(p.getUniqueId.toString)) {
+      playerData(p.getUniqueId.toString).foreach { case (itemStack, amountData) =>
+        if (item.getType == itemStack.getType && item.getItemMeta.getDisplayName == itemStack.getItemMeta.getDisplayName) {
+          amount = amountData
+        }
+      }
+      }
       meta.setLore(List(
         s"${BLUE}${BOLD}保有数:${UNDERLINE}${amount}個",
         s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"

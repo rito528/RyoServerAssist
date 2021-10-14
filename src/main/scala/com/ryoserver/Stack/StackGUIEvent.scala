@@ -96,7 +96,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             }
             val config = new YamlConfiguration
             config.set("i",ItemData.itemData(p.getName)(is))
-            gui.openStack(p,nowPage,new StackData(ryoServerAssist).getCategory(config.saveToString()),title.contains("Edit"))
+            gui.openStack(p,nowPage,getSelectedCategory(p),title.contains("Edit"))
           }
         }
       }
