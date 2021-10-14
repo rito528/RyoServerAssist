@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackGUI.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Stack/StackGUI.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Stack/StackGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Stack/StackGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/595b39d5b680c06636bef5fbad218d5068922a34_dir/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Stack/StackGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Stack/StackGUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/e5c8cb691a25d5dda2365643be1130b2c5a5da10_cef1c87acfb0fb2e7c0595b39ceb67b4be3dcc8a_da39a3ee5e6b4b0d3255bfef95601890afd80709/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assemblyOption/_global/streams/assembly/e5c8cb691a25d5dda2365643be1130b2c5a5da10_cef1c87acfb0fb2e7c0595b39ceb67b4be3dcc8a_da39a3ee5e6b4b0d3255bfef95601890afd80709/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/compileIncremental/_global/streams/out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

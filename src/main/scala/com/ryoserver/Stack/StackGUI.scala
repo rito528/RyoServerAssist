@@ -19,9 +19,13 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     if (page >= maxPage) selectPage = maxPage
     val inv = Bukkit.createInventory(null,54,(if (isEdit) "[Edit]" else "") + "stack:" + selectPage)
     var index = 0
+    var counter = 0
     items.foreach(item => {
-      if (selectPage * 45 >= index && (selectPage - 1) * 45 <= index) inv.setItem(index,item)
-      index += 1
+      if (selectPage * 45 >= counter && (selectPage - 1) * 45 < counter) {
+        inv.setItem(index,item)
+        index += 1
+      }
+      counter += 1
     })
     inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}前のページに戻ります。",List(s"${GRAY}クリックで戻ります。").asJava))
     if (isEdit) inv.setItem(49,getItem(Material.CHEST,s"${AQUA}アイテムを追加します。",List(s"${GRAY}クリックで追加メニューを開きます。").asJava))
