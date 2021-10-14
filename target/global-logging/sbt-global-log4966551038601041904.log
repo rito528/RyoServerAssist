@@ -1,0 +1,11 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Stack/StackGUI.scala:38:54: class java.util.List is not a value[0m
+[0m[[0m[31merror[0m] [0m[0m    val lore:java.util.ArrayList[String] = java.util.List[String][0m
+[0m[[0m[31merror[0m] [0m[0m                                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed 2021/10/14 17:54:41[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
