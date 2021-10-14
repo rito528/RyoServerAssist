@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
+import scala.collection.mutable
+
 class StackData(ryoServerAssist: RyoServerAssist) {
 
   def getSetItems(category:String): Array[ItemStack] = {
@@ -74,6 +76,18 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
+  def getItemAmount(category:String,p: Player): mutable.Map[ItemStack,Int] = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE category='$category' AND UUID='${p.getUniqueId.toString}'")
+    val amount = mutable.Map.empty[ItemStack,Int]
+    while (rs.next()) {
+      val config = new YamlConfiguration
+      config.loadFromString(rs.getString("item"))
+      amount += (config.getItemStack("i",null) -> rs.getInt("amount"))
+    }
+    amount
+  }
+
   def getCategory(is:String): String = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQueryPurseFolder("SELECT category FROM StackList WHERE item=?",is)
@@ -102,7 +116,6 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     if (realAmount >= amount) realAmount = amount
     itemStack.setAmount(realAmount)
     if (itemStack.getAmount != 0) {
-      var emptyCheck = false
       if (p.getInventory.firstEmpty() != -1) {
         sql.purseFolder(s"UPDATE StackData SET amount=amount - $realAmount WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
         p.getInventory.addItem(itemStack)

@@ -4,9 +4,13 @@ import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Stack.PlayerCategory.{getSelectedCategory, setSelectedCategory}
 import org.bukkit.ChatColor
+import org.bukkit.ChatColor.{BLUE, BOLD, GRAY, UNDERLINE}
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
+
+import scala.jdk.CollectionConverters._
 
 class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -38,7 +42,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           new StackData(ryoServerAssist).toggleAutoStack(p)
           gui.openCategorySelectGUI(p)
         case 35 =>
-          p.getInventory.getContents.foreach(item =>{
+          p.getInventory.getContents.foreach(item => {
             if (item != null) {
               if (new StackData(ryoServerAssist).checkItemList(item)) {
                 new StackData(ryoServerAssist).addStack(item,p)
@@ -81,13 +85,26 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         case _ =>
           val is = inv.getItem(index)
           if (title.contains("Edit") && isEdit && is != null) {
-            new StackData(ryoServerAssist).removeItemList(is)
+            new StackData(ryoServerAssist).removeItemList(ItemData.itemData(p.getName)(is))
           } else {
             if (e.getClick.isRightClick) {
-              new StackData(ryoServerAssist).addItemToPlayer(p,is,1)
+              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),1)
             } else if (e.getClick.isLeftClick) {
-              new StackData(ryoServerAssist).addItemToPlayer(p,is,64)
+              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),64)
             }
+            val config = new YamlConfiguration
+            config.set("i",ItemData.itemData(p.getName)(is))
+            val amounts = new StackData(ryoServerAssist).getItemAmount(new StackData(ryoServerAssist).getCategory(config.saveToString()),p)
+            val meta = is.getItemMeta
+            meta.setLore(List(
+              s"${BLUE}${BOLD}保有数:${UNDERLINE}${amounts(ItemData.itemData(p.getName)(is))}",
+              s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
+            ).asJava)
+            val savedIs = ItemData.itemData(p.getName)(is)
+            ItemData.itemData(p.getName) = ItemData.itemData(p.getName)
+              .filterNot{case (oldIs,_) => oldIs == is}
+            is.setItemMeta(meta)
+            ItemData.itemData(p.getName) += (savedIs -> is)
           }
         }
       }

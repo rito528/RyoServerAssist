@@ -6,6 +6,7 @@ import com.ryoserver.Stack.PlayerCategory.getSelectedCategory
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.ChatColor._
+import scala.collection.mutable
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -21,9 +22,24 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     val inv = Bukkit.createInventory(null,54,(if (isEdit) "[Edit]" else "") + "stack:" + selectPage)
     var index = 0
     var counter = 0
+    val amounts = data.getItemAmount(category,p)
     items.foreach(item => {
+      var amount = 0
+      val cloneItem = item.clone()
+      val meta = item.getItemMeta
+      if (amounts.contains(item)) amount = amounts(item)
+      meta.setLore(List(
+        s"${BLUE}${BOLD}保有数:${UNDERLINE}${amount}個",
+        s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
+      ).asJava)
+      cloneItem.setItemMeta(meta)
+      if (!ItemData.itemData.contains(p.getName)) {
+        ItemData.itemData += (p.getName -> mutable.Map(cloneItem -> item))
+      } else {
+        ItemData.itemData(p.getName) += (cloneItem -> item)
+      }
       if (selectPage * 45 >= counter && (selectPage - 1) * 45 <= counter) {
-        inv.setItem(index,item)
+        inv.setItem(index,cloneItem)
         index += 1
       }
       counter += 1
@@ -46,7 +62,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     inv.setItem(31,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
       List(s"${AQUA}クリックで切り替えます。",
       s"${WHITE}現在の状態:${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
-    inv.setItem(35,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。。").asJava))
+    inv.setItem(35,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
     p.openInventory(inv)
   }
 
