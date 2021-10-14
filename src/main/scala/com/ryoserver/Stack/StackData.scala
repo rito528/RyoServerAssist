@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack
 
 class StackData(ryoServerAssist: RyoServerAssist) {
 
-  def getSetItems(uuid:String,category:String): Array[ItemStack] = {
+  def getSetItems(category:String): Array[ItemStack] = {
     val sql = new SQL(ryoServerAssist)
     val checkTable = sql.executeQuery("SHOW TABLES LIKE 'StackData';")
     if (!checkTable.next()) {

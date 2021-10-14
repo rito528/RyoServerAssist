@@ -14,7 +14,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
 
   def openStack(p:Player,page:Int,category:String,isEdit:Boolean): Unit = {
     val data = new StackData(ryoServerAssist)
-    val items = data.getSetItems(p.getUniqueId.toString,category)
+    val items = data.getSetItems(p.getUniqueId.toString)
     val maxPage = items.length / 45 + 1
     var selectPage = page
     if (page >= maxPage) selectPage = maxPage
