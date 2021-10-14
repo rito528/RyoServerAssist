@@ -2,6 +2,7 @@ package com.ryoserver.Stack
 
 import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.Stack.ItemData.itemData
 import com.ryoserver.Stack.PlayerCategory.{getSelectedCategory, setSelectedCategory}
 import org.bukkit.ChatColor
 import org.bukkit.ChatColor.{BLUE, BOLD, GRAY, UNDERLINE}
@@ -87,24 +88,15 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           if (title.contains("Edit") && isEdit && is != null) {
             new StackData(ryoServerAssist).removeItemList(ItemData.itemData(p.getName)(is))
           } else {
+            if (!itemData(p.getName).contains(is)) return
             if (e.getClick.isRightClick) {
               new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),1)
             } else if (e.getClick.isLeftClick) {
-              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),64)
+              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),is.getType.getMaxStackSize)
             }
             val config = new YamlConfiguration
             config.set("i",ItemData.itemData(p.getName)(is))
-            val amounts = new StackData(ryoServerAssist).getItemAmount(new StackData(ryoServerAssist).getCategory(config.saveToString()),p)
-            val meta = is.getItemMeta
-            meta.setLore(List(
-              s"${BLUE}${BOLD}保有数:${UNDERLINE}${amounts(ItemData.itemData(p.getName)(is))}",
-              s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
-            ).asJava)
-            val savedIs = ItemData.itemData(p.getName)(is)
-            ItemData.itemData(p.getName) = ItemData.itemData(p.getName)
-              .filterNot{case (oldIs,_) => oldIs == is}
-            is.setItemMeta(meta)
-            ItemData.itemData(p.getName) += (savedIs -> is)
+            gui.openStack(p,nowPage,new StackData(ryoServerAssist).getCategory(config.saveToString()),title.contains("Edit"))
           }
         }
       }
