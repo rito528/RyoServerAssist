@@ -101,14 +101,12 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     if (getAmount.next()) realAmount = getAmount.getInt("amount")
     if (realAmount >= amount) realAmount = amount
     itemStack.setAmount(realAmount)
-    sql.purseFolder(s"UPDATE StackData SET amount=amount - $realAmount WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
     if (itemStack.getAmount != 0) {
       var emptyCheck = false
-      p.getInventory.getContents.foreach(item =>{
-        if (item == null) emptyCheck = true
-        else if ((item.getType == is.getType && itemStack.getAmount < is.getMaxStackSize)) emptyCheck = true
-      })
-      p.getInventory.addItem(itemStack)
+      if (p.getInventory.firstEmpty() != -1) {
+        sql.purseFolder(s"UPDATE StackData SET amount=amount - $realAmount WHERE UUID='${p.getUniqueId.toString}' AND item=?",config.saveToString())
+        p.getInventory.addItem(itemStack)
+      }
     }
     sql.close()
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
