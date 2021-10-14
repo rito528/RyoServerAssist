@@ -1,6 +1,7 @@
 package com.ryoserver.Stack
 
 import com.ryoserver.RyoServerAssist
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.entity.EntityPickupItemEvent
@@ -18,6 +19,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     data.addStack(itemStack,p)
     e.setCancelled(true)
     e.getItem.remove()
+    p.playSound(p.getLocation,Sound.ENTITY_ITEM_PICKUP,1,1)
   }
 
 
