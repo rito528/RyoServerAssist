@@ -18,16 +18,19 @@ object PlayerData {
   def save(ryoServerAssist: RyoServerAssist): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
-        playerData.foreach{case (uuid,_) =>
-          playerData(uuid).foreach{case (itemStack,amount) =>
+        playerData.foreach { case (uuid, _) =>
+          playerData(uuid).foreach { case (itemStack, amount) =>
             val sql = new SQL(ryoServerAssist)
             val config = new YamlConfiguration
-            config.set("i",itemStack)
-            println(amount)
-            val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?",config.saveToString())
-            if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?",config.saveToString())
-            else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid',(SELECT category FROM StackList WHERE item=?),?,$amount)",config.saveToString())
+            config.set("i", itemStack)
+            val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", config.saveToString())
+            if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?", config.saveToString())
+            else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid',(SELECT category FROM StackList WHERE item=?),?,$amount)", config.saveToString())
             sql.close()
+          }
+          if (!Bukkit.getOfflinePlayer(UUID.fromString(uuid)).isOnline) {
+            playerData = playerData
+              .filterNot{case (uuidData,_) => uuidData == uuid}
           }
         }
         println("saved")
