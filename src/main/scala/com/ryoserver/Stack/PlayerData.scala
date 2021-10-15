@@ -23,10 +23,14 @@ object PlayerData {
             val sql = new SQL(ryoServerAssist)
             val config = new YamlConfiguration
             config.set("i",itemStack)
-            sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?",config.saveToString())
+            println(amount)
+            val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?",config.saveToString())
+            if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?",config.saveToString())
+            else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid',(SELECT category FROM StackList WHERE item=?),?,$amount)",config.saveToString())
             sql.close()
           }
         }
+        println("saved")
       }
     }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
   }

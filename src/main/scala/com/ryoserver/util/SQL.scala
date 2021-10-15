@@ -27,11 +27,6 @@ class SQL(ryoServerAssist: RyoServerAssist) {
   }
 
   def executeQuery(query:String): ResultSet = {
-//    Class.forName(this.driver)
-//    this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
-//    this.stmt = this.con.prepareStatement(query)
-//    this.rs = this.stmt.executeQuery(query)
-//    this.rs
     Class.forName(this.driver)
     this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
     this.ps = this.con.prepareStatement(query)
@@ -62,6 +57,7 @@ class SQL(ryoServerAssist: RyoServerAssist) {
     this.con = DriverManager.getConnection(this.URL,this.USER,this.PASS)
     this.ps = this.con.prepareStatement(sql)
     ps.setString(1,quote)
+    if (sql.split('?').length == 3) ps.setString(2,quote)
     this.ps.executeUpdate()
     this.ps.close()
     this.con.close()
