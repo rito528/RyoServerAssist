@@ -26,10 +26,6 @@ object PlayerData {
             sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?",config.saveToString())
             sql.close()
           }
-          if (!Bukkit.getPlayer(UUID.fromString(uuid)).isOnline) {
-            playerData = playerData
-              .filterNot { case (dataUUID, _) => uuid == dataUUID }
-          }
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
