@@ -59,18 +59,18 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
   }
 
   def openCategorySelectGUI(p:Player): Unit = {
-    val inv = Bukkit.createInventory(null,36,"stackカテゴリ選択")
+    val inv = Bukkit.createInventory(null,45,"stackカテゴリ選択")
     val lore:java.util.List[String] = new util.ArrayList[String]()
     lore.add(s"${AQUA}左クリックで開きます。")
     if (p.hasPermission("ryoserverassist.stack")) lore.add(s"${RED}右クリックで編集メニューを開きます。")
     inv.setItem(11,getItem(Material.GRASS_BLOCK,s"${GREEN}主要ブロック",lore))
     inv.setItem(13,getItem(Material.OAK_SAPLING,s"${AQUA}主要アイテム",lore))
     inv.setItem(15,getItem(Material.HONEY_BOTTLE,s"${YELLOW}ガチャアイテム",lore))
-    inv.setItem(27,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
-    inv.setItem(31,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+    inv.setItem(36,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
+    inv.setItem(40,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
       List(s"${AQUA}クリックで切り替えます。",
       s"${WHITE}現在の状態:${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
-    inv.setItem(35,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
+    inv.setItem(44,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
     p.openInventory(inv)
   }
 
