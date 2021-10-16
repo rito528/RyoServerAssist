@@ -33,8 +33,13 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
     val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 20:00")
     val end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 21:00")
+    val holiday_start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 14:00")
+    val holiday_end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 15:00")
+    val calendar = Calendar.getInstance()
+    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-    if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) {
+    if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) ||
+      ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && nowCalender.getTime.after(holiday_start) && nowCalender.getTime.before(holiday_end))) {
       p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
       p.sendMessage(ChatColor.AQUA + "exp量が1.2倍になりました！")
       exp *= 1.2

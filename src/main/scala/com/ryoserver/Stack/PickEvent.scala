@@ -3,9 +3,8 @@ package com.ryoserver.Stack
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Sound
 import org.bukkit.entity.Player
-import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.entity.EntityPickupItemEvent
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.event.{EventHandler, Listener}
 
 class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 

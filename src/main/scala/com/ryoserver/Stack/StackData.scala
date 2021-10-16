@@ -38,7 +38,6 @@ class StackData(ryoServerAssist: RyoServerAssist) {
   }
 
   def checkItemList(itemStack: ItemStack): Boolean = {
-    val config:YamlConfiguration = new YamlConfiguration
     val is = itemStack.clone()
     is.setAmount(1)
     ItemList.stackList.contains(is)
