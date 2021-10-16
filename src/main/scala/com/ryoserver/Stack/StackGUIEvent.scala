@@ -4,11 +4,14 @@ import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Stack.ItemData.itemData
 import com.ryoserver.Stack.PlayerCategory.{getSelectedCategory, setSelectedCategory}
+import com.ryoserver.Stack.PlayerData.playerData
 import org.bukkit.ChatColor
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
+
+import scala.collection.mutable
 
 class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -22,6 +25,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val permission = p.hasPermission("ryoserverassist.stack")
     val isEdit = isRightClick && permission
     val index = e.getSlot
+    val data = new StackData(ryoServerAssist)
     if (title.equalsIgnoreCase("stackカテゴリ選択") && e.getClickedInventory == e.getView.getTopInventory) {
       e.setCancelled(true)
        index match {
@@ -49,13 +53,13 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         case 36 =>
           p.openInventory(createMenu.menu(p, ryoServerAssist))
         case 40 =>
-          new StackData(ryoServerAssist).toggleAutoStack(p)
+          data.toggleAutoStack(p)
           gui.openCategorySelectGUI(p)
         case 44 =>
           p.getInventory.getContents.foreach(item => {
             if (item != null) {
               if (new StackData(ryoServerAssist).checkItemList(item)) {
-                new StackData(ryoServerAssist).addStack(item,p)
+                data.addStack(item,p)
                 p.getInventory.removeItem(item)
               }
             }
@@ -63,24 +67,33 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           p.sendMessage(ChatColor.AQUA + "インベントリ内のアイテムをすべてStackに収納しました。")
         case _ =>
       }
-    } else if (title.equalsIgnoreCase("stackアイテム追加メニュー") && e.getClickedInventory == e.getView.getTopInventory) {
-      e.setCancelled(true)
-      index match {
-        case 49 =>
-          var index = 0
-          inv.getContents.foreach(is => {
-            if (index != 49 && is != null) {
-              is.setAmount(1)
-              new StackData(ryoServerAssist).addItemList(is, getSelectedCategory(p))
-            }
-            index += 1
-          })
-          gui.openAddGUI(p)
-          ItemList.stackList = Array.empty
-          ItemList.loadItemList(ryoServerAssist)
-          p.sendMessage(ChatColor.AQUA  + "カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加しました。")
-        case _ =>
-          e.setCancelled(false)
+    } else if (title.contains("stackアイテム追加メニュー:") && e.getClickedInventory == e.getView.getTopInventory) {
+      val nowPage = title.replace("stackアイテム追加メニュー:","").toInt
+      if (index == 49) {
+        e.setCancelled(true)
+        var invIndex = 0
+        var invItem = ""
+        inv.getContents.foreach(is => {
+          if (invIndex < 45) {
+            val config = new YamlConfiguration
+            config.set("i",is)
+            invItem += config.saveToString() + ";"
+          }
+          invIndex += 1
+        })
+        data.editItemList(getSelectedCategory(p),nowPage,invItem)
+        p.sendMessage(ChatColor.AQUA  + "カテゴリリスト:" + getSelectedCategory(p) + "を編集しました。")
+        new StackGUI(ryoServerAssist).loadStackPage()
+        ItemList.stackList = mutable.Map.empty
+        ItemList.loadItemList(ryoServerAssist)
+      } else if (index == 45) {
+        if (nowPage != 1) {
+          gui.openAddGUI(p,nowPage - 1,getSelectedCategory(p))
+        } else if (nowPage == 1) {
+          p.openInventory(createMenu.menu(p,ryoServerAssist))
+        }
+      } else if (index == 53) {
+        gui.openAddGUI(p,nowPage + 1,getSelectedCategory(p))
       }
     } else if (title.contains("stack") && e.getClickedInventory == e.getView.getTopInventory) {
       e.setCancelled(true)
@@ -91,24 +104,20 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           if (backPage == 0) gui.openCategorySelectGUI(p)
           else gui.openStack(p,backPage,getSelectedCategory(p),isEdit)
         case 49 =>
-          if (title.contains("Edit")) gui.openAddGUI(p)
+          if (title.contains("Edit")) gui.openAddGUI(p,1,getSelectedCategory(p))
         case 53 =>
           gui.openStack(p,nowPage + 1,getSelectedCategory(p),isEdit)
         case _ =>
           val is = inv.getItem(index)
-          if (title.contains("Edit") && isEdit && is != null) {
-            new StackData(ryoServerAssist).removeItemList(ItemData.itemData(p.getName)(is))
-          } else {
-            if (!itemData.contains(p.getName) || !itemData(p.getName).contains(is)) return
-            if (e.getClick.isRightClick) {
-              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),1)
-            } else if (e.getClick.isLeftClick) {
-              new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),is.getType.getMaxStackSize)
-            }
-            val config = new YamlConfiguration
-            config.set("i",ItemData.itemData(p.getName)(is))
-            gui.openStack(p,nowPage,getSelectedCategory(p),title.contains("Edit"))
+          if (!itemData.contains(p.getName) || !itemData(p.getName).contains(is)) return
+          if (e.getClick.isRightClick) {
+            data.addItemToPlayer(p,ItemData.itemData(p.getName)(is),1)
+          } else if (e.getClick.isLeftClick) {
+            data.addItemToPlayer(p,ItemData.itemData(p.getName)(is),is.getType.getMaxStackSize)
           }
+          val config = new YamlConfiguration
+          config.set("i",ItemData.itemData(p.getName)(is))
+          gui.openStack(p,nowPage,getSelectedCategory(p),title.contains("Edit"))
         }
       }
   }

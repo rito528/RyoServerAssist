@@ -17,7 +17,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.Stack.{ItemList, PickEvent, StackGUIEvent, TableCheck}
+import com.ryoserver.Stack.{ItemList, PickEvent, StackGUI, StackGUIEvent, TableCheck}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -110,13 +110,15 @@ class RyoServerAssist extends JavaPlugin {
     new TitleLoader().loadTitle()
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
-    Stack.PlayerData.save(this)
+    Stack.PlayerData.runnableSaver(this)
+    new StackGUI(this).loadStackPage()
     getLogger.info("RyoServerAssist enabled.")
   }
 
   override def onDisable(): Unit = {
     super.onDisable()
     Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).unload(p))
+    Stack.PlayerData.save(this)
     getLogger.info("RyoServerAssist disabled.")
   }
 

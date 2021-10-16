@@ -13,7 +13,7 @@ class TableCheck(ryoServerAssist: RyoServerAssist) {
     }
     val checkStackList = sql.executeQuery("SHOW TABLES LIKE 'StackList';")
     if (!checkStackList.next()) {
-      sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,item TEXT,PRIMARY KEY(`id`));")
+      sql.executeSQL("CREATE TABLE StackList(id INT AUTO_INCREMENT,category TEXT,page INT,invItem TEXT,PRIMARY KEY(`id`));")
     }
     sql.close()
   }

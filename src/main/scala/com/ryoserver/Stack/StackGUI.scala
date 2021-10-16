@@ -4,53 +4,67 @@ import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Stack.PlayerCategory.getSelectedCategory
 import com.ryoserver.Stack.PlayerData.playerData
+import com.ryoserver.Stack.StackPageData.stackPageData
+import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Material}
-import org.bukkit.ChatColor._
 
-import scala.collection.mutable
 import java.util
+import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 class StackGUI(ryoServerAssist: RyoServerAssist) {
 
+  def loadStackPage(): Unit = {
+    ryoServerAssist.getLogger.info("stackページをロード中...")
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT * FROM StackList")
+    stackPageData = mutable.Map.empty
+    while (rs.next()) {
+      val category = rs.getString("category")
+      val invItems = rs.getString("invItem")
+      val page = rs.getInt("page")
+      stackPageData += (category -> mutable.Map(page -> invItems))
+    }
+    sql.close()
+    ryoServerAssist.getLogger.info("stackページのロードが完了しました。")
+  }
+
   def openStack(p:Player,page:Int,category:String,isEdit:Boolean): Unit = {
-    val data = new StackData(ryoServerAssist)
-    val items = data.getSetItems(category)
-    val maxPage = items.length / 45 + 1
-    var selectPage = page
-    if (page >= maxPage) selectPage = maxPage
-    val inv = Bukkit.createInventory(null,54,(if (isEdit) "[Edit]" else "") + "stack:" + selectPage)
+    val inv = Bukkit.createInventory(null,54,(if (isEdit) "[Edit]" else "") + "stack:" + page)
+    val uuid = p.getUniqueId.toString
     var index = 0
-    var counter = 0
-    val amounts = data.getItemAmount(category,p)
-    items.foreach(item => {
-      var amount = 0
-      val cloneItem = item.clone()
-      val meta = item.getItemMeta
-      if (amounts.contains(item)) amount = amounts(item)
-      if (playerData.contains(p.getUniqueId.toString)) {
-      playerData(p.getUniqueId.toString).foreach { case (itemStack, amountData) =>
-        if (item.getType == itemStack.getType && item.getItemMeta.getDisplayName == itemStack.getItemMeta.getDisplayName) {
-          amount = amountData
+    var invItems = ""
+    if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
+    invItems.split(";").foreach(item => {
+      val config = new YamlConfiguration
+      config.loadFromString(item)
+      val is = config.getItemStack("i",null)
+      if (is != null) {
+        is.setAmount(1)
+        val setItem = is.clone()
+        val meta = is.getItemMeta
+        var amount = 0
+        if (playerData.contains(uuid) && playerData(uuid).contains(is)) {
+          amount = playerData(uuid)(is)
+        } else {
+          val data = new StackData(ryoServerAssist).getItemAmount(category,p)
+          if (data.contains(is)) amount = data(is)
         }
+        meta.setLore(List(
+          s"${BLUE}${BOLD}保有数:$UNDERLINE${amount}個",
+          s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
+        ).asJava)
+        is.setItemMeta(meta)
+        if (!ItemData.itemData.contains(p.getName)) ItemData.itemData += (p.getName -> mutable.Map(is -> setItem))
+        else ItemData.itemData(p.getName) += (is -> setItem)
+        if (!playerData.contains(p.getUniqueId.toString)) playerData += (p.getUniqueId.toString -> mutable.Map(setItem -> amount))
+        else playerData(p.getUniqueId.toString) += (setItem -> amount)
+        inv.setItem(index, is)
       }
-      }
-      meta.setLore(List(
-        s"${BLUE}${BOLD}保有数:${UNDERLINE}${amount}個",
-        s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
-      ).asJava)
-      cloneItem.setItemMeta(meta)
-      if (!ItemData.itemData.contains(p.getName)) {
-        ItemData.itemData += (p.getName -> mutable.Map(cloneItem -> item))
-      } else {
-        ItemData.itemData(p.getName) += (cloneItem -> item)
-      }
-      if (selectPage * 45 >= counter && (selectPage - 1) * 45 <= counter) {
-        inv.setItem(index,cloneItem)
-        index += 1
-      }
-      counter += 1
+      index += 1
     })
     inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}前のページに戻ります。",List(s"${GRAY}クリックで戻ります。").asJava))
     if (isEdit) inv.setItem(49,getItem(Material.CHEST,s"${AQUA}アイテムを追加します。",List(s"${GRAY}クリックで追加メニューを開きます。").asJava))
@@ -78,9 +92,24 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     p.openInventory(inv)
   }
 
-  def openAddGUI(p:Player): Unit = {
-    val inv = Bukkit.createInventory(null,54,"stackアイテム追加メニュー")
-    inv.setItem(49,getItem(Material.NETHER_STAR,"クリックでアイテムを追加します。",List("カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加します").asJava))
+  def openAddGUI(p:Player,page:Int,category:String): Unit = {
+    val inv = Bukkit.createInventory(null,54,"stackアイテム追加メニュー:" + page)
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
+    var invContents = ""
+    if (rs.next()) invContents = rs.getString("invItem")
+    var index = 0
+    invContents.split(';').foreach(invContent => {
+      val config = new YamlConfiguration
+      config.loadFromString(invContent)
+      if (invContent != null) {
+        inv.setItem(index, config.getItemStack("i", null))
+      }
+      index += 1
+    })
+    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
+    inv.setItem(49,getItem(Material.NETHER_STAR,"クリックでリストを保存します。",List("カテゴリ:" + getSelectedCategory(p) + "のリストを保存します。").asJava))
+    inv.setItem(53,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}次のページに移動します",List(s"${AQUA}クリックで移動します。").asJava))
     p.openInventory(inv)
   }
 

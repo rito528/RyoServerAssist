@@ -1,7 +1,7 @@
 package com.ryoserver.Stack
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Stack.PlayerData.playerData
+import com.ryoserver.Stack.PlayerData.{changedData, playerData}
 import com.ryoserver.util.SQL
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
@@ -13,27 +13,18 @@ import scala.collection.mutable
 class StackData(ryoServerAssist: RyoServerAssist) {
 
   def getSetItems(category:String): Array[ItemStack] = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT item FROM StackList WHERE category='$category';")
     var items: Array[ItemStack] = Array.empty
-    while (rs.next()) {
-      val config:YamlConfiguration = new YamlConfiguration
-      config.loadFromString(rs.getString("item"))
-      items :+= config.getItemStack("i",null)
-    }
-    sql.close()
+    ItemList.stackList.foreach{case (is,categoryData) => {
+      if (category.equalsIgnoreCase(categoryData)) items :+= is
+    }}
     items
   }
 
-  def addItemList(itemStack: ItemStack,category: String): Unit = {
+  def editItemList(category: String,page: Int,invContents: String): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val config:YamlConfiguration = new YamlConfiguration
-    itemStack.setAmount(1)
-    config.set("i",itemStack)
-    val checkItem = sql.executeQuery("SELECT item FROM StackList")
-    var exist = false
-    while (checkItem.next()) if (config.saveToString() == checkItem.getString("item")) exist = true
-    if (!exist) sql.purseFolder(s"INSERT INTO StackList (category,item) VALUES ('$category',?)",config.saveToString())
+    val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
+    if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;",invContents)
+    else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);",invContents)
     sql.close()
   }
 
@@ -54,8 +45,8 @@ class StackData(ryoServerAssist: RyoServerAssist) {
       PlayerData.playerData(uuid) += (is -> (PlayerData.playerData(uuid)(is) + itemStack.getAmount))
     } else if (PlayerData.playerData.contains(uuid) && !PlayerData.playerData(uuid).contains(is)) {
       var amount = 0
-      if (getItemAmount(getCategory(config.saveToString()),p).contains(is)) {
-        amount = getItemAmount(getCategory(config.saveToString()),p)(is)
+      if (getItemAmount(getCategory(itemStack),p).contains(is)) {
+        amount = getItemAmount(getCategory(itemStack),p)(is)
       }
       PlayerData.playerData(uuid) += (is -> (amount + itemStack.getAmount))
     } else {
@@ -63,6 +54,13 @@ class StackData(ryoServerAssist: RyoServerAssist) {
       var playerHasAmount = 0
       if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
       PlayerData.playerData += (uuid -> mutable.Map(is -> (playerHasAmount + itemStack.getAmount)))
+    }
+    if (!PlayerData.changedData.contains(uuid)) {
+      var changedList = Array.empty[ItemStack]
+      changedList :+= is
+      PlayerData.changedData += (uuid -> changedList)
+    } else {
+      PlayerData.changedData(uuid) :+= is
     }
     sql.close()
   }
@@ -79,10 +77,30 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     amount
   }
 
-  def getCategory(is:String): String = {
+  def getCategory(is:ItemStack): String = {
     val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQueryPurseFolder("SELECT category FROM StackList WHERE item=?",is)
-    if (rs.next()) return rs.getString("category")
+    val cloneIs = is.clone()
+    cloneIs.setAmount(1)
+    val config = new YamlConfiguration
+    config.set("i",cloneIs)
+    val rs = sql.executeQuery("SELECT category,invItem FROM StackList")
+    while (rs.next()) {
+      val category = rs.getString("category")
+      val items = rs.getString("invItem").split(';')
+      items.foreach(item => {
+        val itemConfig = new YamlConfiguration
+        itemConfig.loadFromString(item)
+        val itemIs = itemConfig.getItemStack("i",null)
+        if (itemIs != null) {
+          itemIs.setAmount(1)
+          if (is == itemIs && item != "") {
+            sql.close()
+            return category
+          }
+        }
+      })
+    }
+    sql.close()
     null
   }
 
@@ -121,6 +139,13 @@ class StackData(ryoServerAssist: RyoServerAssist) {
       p.getInventory.addItem(itemStack)
     }
     sql.close()
+    if (!PlayerData.changedData.contains(uuid)) {
+      var changedList = Array.empty[ItemStack]
+      changedList :+= is
+      PlayerData.changedData += (uuid -> changedList)
+    } else {
+      PlayerData.changedData(uuid) :+= is
+    }
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
   }
 
