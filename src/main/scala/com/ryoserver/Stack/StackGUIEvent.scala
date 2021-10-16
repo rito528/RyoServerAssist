@@ -34,6 +34,18 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         case 15 =>
           gui.openStack(p, 1, "gachaItem", isEdit)
            setSelectedCategory(p,"gachaItem")
+        case 19 =>
+          gui.openStack(p, 1, "tool", isEdit)
+          setSelectedCategory(p,"tool")
+        case 21 =>
+          gui.openStack(p, 1, "food", isEdit)
+          setSelectedCategory(p,"food")
+        case 23 =>
+          gui.openStack(p, 1, "redstone", isEdit)
+          setSelectedCategory(p,"redstone")
+        case 25 =>
+          gui.openStack(p, 1, "plant", isEdit)
+          setSelectedCategory(p,"plant")
         case 36 =>
           p.openInventory(createMenu.menu(p, ryoServerAssist))
         case 40 =>
@@ -87,7 +99,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           if (title.contains("Edit") && isEdit && is != null) {
             new StackData(ryoServerAssist).removeItemList(ItemData.itemData(p.getName)(is))
           } else {
-            if (!itemData(p.getName).contains(is)) return
+            if (!itemData.contains(p.getName) || !itemData(p.getName).contains(is)) return
             if (e.getClick.isRightClick) {
               new StackData(ryoServerAssist).addItemToPlayer(p,ItemData.itemData(p.getName)(is),1)
             } else if (e.getClick.isLeftClick) {
