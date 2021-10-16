@@ -38,15 +38,10 @@ class StackData(ryoServerAssist: RyoServerAssist) {
   }
 
   def checkItemList(itemStack: ItemStack): Boolean = {
-    val sql = new SQL(ryoServerAssist)
     val config:YamlConfiguration = new YamlConfiguration
     val is = itemStack.clone()
     is.setAmount(1)
-    config.set("i",is)
-    val checkIs = sql.executeQueryPurseFolder("SELECT item FROM StackList WHERE item=?",config.saveToString())
-    var rs = false
-    if (checkIs.next()) rs = true
-    rs
+    ItemList.stackList.contains(is)
   }
 
   def addStack(itemStack: ItemStack,p: Player): Unit = {
@@ -56,8 +51,14 @@ class StackData(ryoServerAssist: RyoServerAssist) {
     val config = new YamlConfiguration
     config.set("i",is)
     val uuid = p.getUniqueId.toString
-    if (PlayerData.playerData.contains(uuid)) {
+    if (PlayerData.playerData.contains(uuid) && PlayerData.playerData(uuid).contains(is)) {
       PlayerData.playerData(uuid) += (is -> (PlayerData.playerData(uuid)(is) + itemStack.getAmount))
+    } else if (PlayerData.playerData.contains(uuid) && !PlayerData.playerData(uuid).contains(is)) {
+      var amount = 0
+      if (getItemAmount(getCategory(config.saveToString()),p).contains(is)) {
+        amount = getItemAmount(getCategory(config.saveToString()),p)(is)
+      }
+      PlayerData.playerData(uuid) += (is -> (amount + itemStack.getAmount))
     } else {
       val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
       var playerHasAmount = 0

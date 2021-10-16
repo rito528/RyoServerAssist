@@ -67,6 +67,8 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             index += 1
           })
           gui.openAddGUI(p)
+          ItemList.stackList = Array.empty
+          ItemList.loadItemList(ryoServerAssist)
           p.sendMessage(ChatColor.AQUA  + "カテゴリ:" + getSelectedCategory(p) + "にアイテムを追加しました。")
         case _ =>
           e.setCancelled(false)

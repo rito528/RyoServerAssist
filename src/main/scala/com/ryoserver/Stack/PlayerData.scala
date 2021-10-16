@@ -33,7 +33,6 @@ object PlayerData {
               .filterNot{case (uuidData,_) => uuidData == uuid}
           }
         }
-        println("saved")
       }
     }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
   }

@@ -17,7 +17,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.Stack.{PickEvent, StackGUIEvent}
+import com.ryoserver.Stack.{ItemList, PickEvent, StackGUIEvent, TableCheck}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -108,6 +108,8 @@ class RyoServerAssist extends JavaPlugin {
     new Regeneration(this).regeneration()
     Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).load(p))
     new TitleLoader().loadTitle()
+    new TableCheck(this).stackTableCheck()
+    ItemList.loadItemList(this)
     Stack.PlayerData.save(this)
     getLogger.info("RyoServerAssist enabled.")
   }
