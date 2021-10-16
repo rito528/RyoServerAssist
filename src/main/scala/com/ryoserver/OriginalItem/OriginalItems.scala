@@ -53,7 +53,7 @@ object OriginalItems {
     itemMeta.setDisplayName(s"$YELLOW${BOLD}ブレッシングピッケル")
     itemMeta.setUnbreakable(true)
     itemMeta.addEnchant(Enchantment.DIG_SPEED,5,false)
-    itemMeta.addEnchant(Enchantment.LUCK,3,false)
+    itemMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS,3,false)
     itemStack.setItemMeta(itemMeta)
     itemStack
   }
