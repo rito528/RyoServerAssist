@@ -2,6 +2,7 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.{Bukkit, ChatColor, Material}
@@ -20,15 +21,20 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener {
     val inv = Bukkit.createInventory(null,54,title)
     inv.setItem(49,getItem(Material.NETHER_STAR,"クリックでインベントリ内の特等アイテムを交換します。",
       List("クリックでガチャアイテムを交換します。",s"特等アイテム1個 -> スキル回復(大)${RETE}個").asJava))
+    inv.setItem(45,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,"menuに戻る",List("クリックでmemuに戻ります。").asJava))
     p.openInventory(inv)
   }
 
   @EventHandler
   def onClick(e:InventoryClickEvent): Unit = {
     if (e.getView.getTitle != title && e.getClickedInventory != e.getView.getTopInventory) return
-    if (e.getSlot == 49) e.setCancelled(true)
+    if (e.getSlot == 49 || e.getSlot == 45) e.setCancelled(true)
     var changeAmount = 0
     val p = e.getWhoClicked.asInstanceOf[Player]
+    if (e.getSlot == 45) {
+      p.openInventory(createMenu.menu(p, ryoServerAssist))
+      return
+    }
     e.getClickedInventory.getContents.foreach(itemStack => {
       if (itemStack != null && items.contains(itemStack)) {
         changeAmount += RETE
@@ -51,7 +57,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener {
     val p = e.getPlayer
     var check = false
     e.getInventory.getContents.foreach(item => {
-      if (item != null && index != 49) {
+      if (item != null && index != 49 && index != 45) {
         p.getWorld.dropItem(p.getLocation,item)
         check = true
       }
