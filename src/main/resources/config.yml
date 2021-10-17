@@ -46,3 +46,13 @@ regenerationEndWorlds:
 
 #ガチャ特等アイテムとスキル回復(大)と交換するレートを指定してください。
 gachaChangeRete: 4
+
+#WebサイトのURLを指定してください。
+webSite: ''
+
+#DynmapのURLを指定してください。
+dynmap: ''
+
+#投票サイトのURLを指定してください
+voteSite:
+  - ''

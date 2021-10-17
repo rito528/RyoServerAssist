@@ -3,6 +3,7 @@ package com.ryoserver.Menu
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.{GachaItemChangeGUI, getGachaTickets}
+import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
@@ -11,7 +12,7 @@ import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleInventory
-import org.bukkit.{Bukkit, ChatColor, Material}
+import org.bukkit.{Bukkit, ChatColor, Material, World}
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.{EventHandler, Listener}
@@ -48,10 +49,25 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           p.sendMessage(ChatColor.RED + "ネオスタック機能はLv.20以上になると使うことができます。")
         }
       case 24 => new DustBoxInventory().openDustBox(p)
+      case 26 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
       case 36 => new Distribution(ryoServerAssist).receipt(p)
       case 38 => new getGachaTickets(ryoServerAssist).receipt(p)
       case 40 => new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
-      case 44 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
+      case 45 =>
+        p.teleport(p.getWorld.getSpawnLocation)
+        p.sendMessage(ChatColor.AQUA + "スポーン地点にテレポートしました！")
+      case 46 =>
+        p.teleport(Bukkit.getWorld("world").getSpawnLocation)
+        p.sendMessage(ChatColor.AQUA + "worldのスポーン地点にテレポートしました！")
+      case 48 =>
+        new Home(ryoServerAssist).homeInventory(p)
+      case 51 =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("webSite"))
+      case 52 =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("dynmap"))
+      case 53 =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).toString)
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).toString)
       case _ =>
     }
   }
