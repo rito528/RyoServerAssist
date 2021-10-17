@@ -12,7 +12,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   def playerPickEvent(e:EntityPickupItemEvent): Unit = {
     if (!e.getEntity.isInstanceOf[Player]) return
     val itemStack = e.getItem.getItemStack
-    val data = new StackData(ryoServerAssist)
+    val data = new NeoStackData(ryoServerAssist)
     val p = e.getEntity.asInstanceOf[Player]
     if (!data.checkItemList(itemStack) || !data.isAutoStackEnabled(p)) return
     data.addStack(itemStack,p)

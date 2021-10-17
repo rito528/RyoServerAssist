@@ -7,7 +7,7 @@ import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
-import com.ryoserver.NeoStack.StackGUI
+import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleInventory
 import org.bukkit.{Bukkit, Material}
@@ -27,19 +27,19 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     if (e.getClickedInventory != e.getView.getTopInventory) return
     val p = e.getWhoClicked.asInstanceOf[Player]
     e.getSlot match {
-      case 0 => new Distribution(ryoServerAssist).receipt(p)
-      case 2 => new Storage(ryoServerAssist).load(p)
+      case 0 => p.openWorkbench(null,true)
+      case 2 => new RegionMenu().menu(p)
       case 4 => new QuestSelectInventory(ryoServerAssist).selectInventory(p)
-      case 6 => new getGachaTickets(ryoServerAssist).receipt(p)
-      case 8 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
-      case 9 => new RegionMenu().menu(p)
-      case 11 => new DustBoxInventory().openDustBox(p)
-      case 13 => p.openInventory(p.getEnderChest)
-      case 15 => p.openWorkbench(null,true)
-      case 17 => new TitleInventory(ryoServerAssist).openInv(p,1)
-      case 18 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
-      case 20 => new StackGUI(ryoServerAssist).openCategorySelectGUI(p)
-      case 22 => new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
+      case 6 => new SelectSkillMenu(ryoServerAssist).openMenu(p)
+      case 8 => new TitleInventory(ryoServerAssist).openInv(p,1)
+      case 18 => new Storage(ryoServerAssist).load(p)
+      case 20 => p.openInventory(p.getEnderChest)
+      case 22 => new NeoStackGUI(ryoServerAssist).openCategorySelectGUI(p)
+      case 24 => new DustBoxInventory().openDustBox(p)
+      case 36 => new Distribution(ryoServerAssist).receipt(p)
+      case 38 => new getGachaTickets(ryoServerAssist).receipt(p)
+      case 40 => new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
+      case 44 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
       case _ =>
     }
   }

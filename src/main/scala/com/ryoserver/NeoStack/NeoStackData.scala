@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack
 
 import scala.collection.mutable
 
-class StackData(ryoServerAssist: RyoServerAssist) {
+class NeoStackData(ryoServerAssist: RyoServerAssist) {
 
   def getSetItems(category:String): Array[ItemStack] = {
     var items: Array[ItemStack] = Array.empty

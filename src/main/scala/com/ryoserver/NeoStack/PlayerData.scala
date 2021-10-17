@@ -22,7 +22,7 @@ object PlayerData {
           val sql = new SQL(ryoServerAssist)
           val config = new YamlConfiguration
           config.set("i",itemStack)
-          val data = new StackData(ryoServerAssist)
+          val data = new NeoStackData(ryoServerAssist)
           val category = data.getCategory(itemStack)
           val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", config.saveToString())
           if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=$amount WHERE UUID='$uuid' AND item=?", config.saveToString())

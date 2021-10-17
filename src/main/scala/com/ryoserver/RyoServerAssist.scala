@@ -18,7 +18,7 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.NeoStack.{ItemList, PickEvent, StackGUI, StackGUIEvent, TableCheck}
+import com.ryoserver.NeoStack.{ItemList, PickEvent, NeoStackGUI, NeoStackGUIEvent, TableCheck}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -92,7 +92,7 @@ class RyoServerAssist extends JavaPlugin {
       new totemEffect,
       new TitleInventoryEvent(this),
       new AnvilRepairEvent,
-      new StackGUIEvent(this),
+      new NeoStackGUIEvent(this),
       new PickEvent(this),
       new GachaItemChangeGUI(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
@@ -113,7 +113,7 @@ class RyoServerAssist extends JavaPlugin {
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
     NeoStack.PlayerData.runnableSaver(this)
-    new StackGUI(this).loadStackPage()
+    new NeoStackGUI(this).loadStackPage()
 //    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")
   }

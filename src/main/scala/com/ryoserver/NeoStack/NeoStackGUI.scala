@@ -4,7 +4,7 @@ import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.PlayerData.playerData
-import com.ryoserver.NeoStack.StackPageData.stackPageData
+import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
@@ -15,7 +15,7 @@ import java.util
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-class StackGUI(ryoServerAssist: RyoServerAssist) {
+class NeoStackGUI(ryoServerAssist: RyoServerAssist) {
 
   def loadStackPage(): Unit = {
     ryoServerAssist.getLogger.info("neoStackページをロード中...")
@@ -41,7 +41,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     val uuid = p.getUniqueId.toString
     var index = 0
     var invItems = ""
-    val data = new StackData(ryoServerAssist).getItemAmount(category,p)
+    val data = new NeoStackData(ryoServerAssist).getItemAmount(category,p)
     if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
     invItems.split(";").foreach(item => {
       val config = new YamlConfiguration
@@ -89,15 +89,15 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     inv.setItem(23,getItem(Material.REDSTONE,s"${YELLOW}レッドストーン系",lore))
     inv.setItem(25,getItem(Material.OAK_SAPLING,s"${YELLOW}植物系",lore))
     inv.setItem(36,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
-    inv.setItem(40,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+    inv.setItem(40,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
       List(s"${AQUA}クリックで切り替えます。",
-      s"${WHITE}現在の状態:${if (new StackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
+      s"${WHITE}現在の状態:${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
     inv.setItem(44,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
     p.openInventory(inv)
   }
 
   def openAddGUI(p:Player,page:Int,category:String): Unit = {
-    val inv = Bukkit.createInventory(null,54,"stackアイテム追加メニュー:" + page)
+    val inv = Bukkit.createInventory(null,54,"neoStackアイテム追加メニュー:" + page)
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
     var invContents = ""

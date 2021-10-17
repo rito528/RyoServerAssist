@@ -13,19 +13,19 @@ import org.bukkit.event.{EventHandler, Listener}
 
 import scala.collection.mutable
 
-class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class NeoStackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onClick(e:InventoryClickEvent): Unit = {
     val title = e.getView.getTitle
     val inv = e.getView.getTopInventory
-    val gui = new StackGUI(ryoServerAssist)
+    val gui = new NeoStackGUI(ryoServerAssist)
     val p = e.getWhoClicked.asInstanceOf[Player]
     val isRightClick = e.getClick.isRightClick
     val permission = p.hasPermission("ryoserverassist.neoStack")
     val isEdit = isRightClick && permission
     val index = e.getSlot
-    val data = new StackData(ryoServerAssist)
+    val data = new NeoStackData(ryoServerAssist)
     if (title.equalsIgnoreCase("neoStackカテゴリ選択") && e.getClickedInventory == e.getView.getTopInventory) {
       e.setCancelled(true)
        index match {
@@ -58,7 +58,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         case 44 =>
           p.getInventory.getContents.foreach(item => {
             if (item != null) {
-              if (new StackData(ryoServerAssist).checkItemList(item)) {
+              if (new NeoStackData(ryoServerAssist).checkItemList(item)) {
                 data.addStack(item,p)
                 p.getInventory.removeItem(item)
               }
@@ -83,7 +83,7 @@ class StackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         })
         data.editItemList(getSelectedCategory(p),nowPage,invItem)
         p.sendMessage(ChatColor.AQUA  + "カテゴリリスト:" + getSelectedCategory(p) + "を編集しました。")
-        new StackGUI(ryoServerAssist).loadStackPage()
+        new NeoStackGUI(ryoServerAssist).loadStackPage()
         ItemList.stackList = mutable.Map.empty
         ItemList.loadItemList(ryoServerAssist)
       } else if (index == 45) {
