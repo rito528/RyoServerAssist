@@ -17,7 +17,7 @@ object loadQuests{
       ymlFile.toFile.createNewFile()
       val pw = new PrintWriter(ymlFile.toFile.getPath)
       pw.println("#クエスト設定用ファイルです。")
-      pw.println("#設定方法はRedMine(http://192.168.0.51/issues/83)を参照してください。")
+      pw.println("#設定方法はRedmine(http://192.168.0.51/issues/83)を参照してください。")
       pw.println("#また、クエストを有効化するにはconfig.ymlのenableQuestsにクエスト名を記載してください。")
       pw.close()
     }

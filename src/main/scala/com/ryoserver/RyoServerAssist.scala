@@ -12,6 +12,7 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent}
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
+import com.ryoserver.Quest.Event.LoadEvent
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
@@ -113,6 +114,7 @@ class RyoServerAssist extends JavaPlugin {
     ItemList.loadItemList(this)
     Stack.PlayerData.runnableSaver(this)
     new StackGUI(this).loadStackPage()
+//    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")
   }
 
