@@ -18,7 +18,7 @@ object PlayerData {
   def save(ryoServerAssist: RyoServerAssist): Unit = {
     playerData.foreach { case (uuid, _) =>
       playerData(uuid).foreach { case (itemStack, amount) =>
-        if (itemStack != null && changedData(uuid).contains(itemStack)) {
+        if (itemStack != null && changedData.contains(uuid) && changedData(uuid).contains(itemStack)) {
           val sql = new SQL(ryoServerAssist)
           val config = new YamlConfiguration
           config.set("i",itemStack)
