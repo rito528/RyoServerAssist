@@ -24,6 +24,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   def onClick(e: InventoryClickEvent): Unit = {
     if (!e.getView.getTitle.equalsIgnoreCase("りょう鯖メニュー")) return
     e.setCancelled(true)
+    if (e.getClickedInventory != e.getView.getTopInventory) return
     val p = e.getWhoClicked.asInstanceOf[Player]
     e.getSlot match {
       case 0 => new Distribution(ryoServerAssist).receipt(p)
