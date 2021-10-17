@@ -74,6 +74,7 @@ class StackData(ryoServerAssist: RyoServerAssist) {
       config.loadFromString(rs.getString("item"))
       amount += (config.getItemStack("i",null) -> rs.getInt("amount"))
     }
+    sql.close()
     amount
   }
 

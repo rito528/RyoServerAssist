@@ -26,7 +26,11 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
       val category = rs.getString("category")
       val invItems = rs.getString("invItem")
       val page = rs.getInt("page")
-      stackPageData += (category -> mutable.Map(page -> invItems))
+      if (!stackPageData.contains(category)) {
+        stackPageData += (category -> mutable.Map(page -> invItems))
+      } else {
+        stackPageData(category) += (page -> invItems)
+      }
     }
     sql.close()
     ryoServerAssist.getLogger.info("stackページのロードが完了しました。")
@@ -37,6 +41,7 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
     val uuid = p.getUniqueId.toString
     var index = 0
     var invItems = ""
+    val data = new StackData(ryoServerAssist).getItemAmount(category,p)
     if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
     invItems.split(";").foreach(item => {
       val config = new YamlConfiguration
@@ -50,7 +55,6 @@ class StackGUI(ryoServerAssist: RyoServerAssist) {
         if (playerData.contains(uuid) && playerData(uuid).contains(is)) {
           amount = playerData(uuid)(is)
         } else {
-          val data = new StackData(ryoServerAssist).getItemAmount(category,p)
           if (data.contains(is)) amount = data(is)
         }
         meta.setLore(List(
