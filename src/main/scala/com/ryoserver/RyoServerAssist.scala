@@ -18,10 +18,11 @@ import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionS
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.NeoStack.{ItemList, PickEvent, NeoStackGUI, NeoStackGUIEvent, TableCheck}
+import com.ryoserver.NeoStack.{ItemList, NeoStackGUI, NeoStackGUIEvent, PickEvent, TableCheck}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
+import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
@@ -94,7 +95,8 @@ class RyoServerAssist extends JavaPlugin {
       new AnvilRepairEvent,
       new NeoStackGUIEvent(this),
       new PickEvent(this),
-      new GachaItemChangeGUI(this)
+      new GachaItemChangeGUI(this),
+      new Vote(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

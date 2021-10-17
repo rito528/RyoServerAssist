@@ -11,6 +11,7 @@ assemblyJarName := { s"${name.value}-${version.value}.jar" }
 resolvers += "maven.elmakers.com" at "https://maven.elmakers.com/repository/"
 resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
 resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
+resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
@@ -25,6 +26,7 @@ libraryDependencies += "com.sk89q.worldguard" % "worldguard-bukkit"% "7.0.6" % "
 libraryDependencies += "com.sk89q.worldedit" % "worldedit-bukkit" % "7.2.0-SNAPSHOT" % "provided"
 libraryDependencies += "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.2-SNAPSHOT" % "provided"
 libraryDependencies += "com.onarandombox.multiverseportals" % "Multiverse-Portals" % "4.2.2-SNAPSHOT" % "provided"
+libraryDependencies += "com.github.nuvotifier.nuvotifier" % "nuvotifier-bukkit" % "2.6.0" % "provided"
 
 assemblyMergeStrategy in assembly := {
   case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
