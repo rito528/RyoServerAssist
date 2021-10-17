@@ -29,6 +29,17 @@ object Item {
     itemStack
   }
 
+  val getEnchantEffectItem:(Material,String,java.util.List[String]) => ItemStack = (material: Material,name:String,lore: java.util.List[String]) => {
+    val itemStack:ItemStack = new ItemStack(material)
+    val itemMeta:ItemMeta = itemStack.getItemMeta
+    itemMeta.setDisplayName(name)
+    itemMeta.setLore(lore)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
+    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+    itemStack.setItemMeta(itemMeta)
+    itemStack
+  }
+
   val getPlayerSkull:(Player,String,List[String]) => ItemStack = (p:Player,displayName:String,lore:List[String]) => {
     val is = new ItemStack(Material.PLAYER_HEAD)
     val meta = is.getItemMeta.asInstanceOf[SkullMeta]

@@ -7,7 +7,7 @@ import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
-import com.ryoserver.Stack.StackGUI
+import com.ryoserver.NeoStack.StackGUI
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleInventory
 import org.bukkit.{Bukkit, Material}
