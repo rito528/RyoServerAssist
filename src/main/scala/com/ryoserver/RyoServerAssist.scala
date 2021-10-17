@@ -5,7 +5,7 @@ import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.createFiles
-import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaLoader}
+import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
@@ -92,7 +92,8 @@ class RyoServerAssist extends JavaPlugin {
       new TitleInventoryEvent(this),
       new AnvilRepairEvent,
       new StackGUIEvent(this),
-      new PickEvent(this)
+      new PickEvent(this),
+      new GachaItemChangeGUI(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*

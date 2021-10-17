@@ -48,7 +48,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         }
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
         p.sendMessage(ChatColor.AQUA + getItemAmount.toString + "回ガチャを引きました！")
-        p.sendMessage(ChatColor.AQUA + s"特賞x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
+        p.sendMessage(ChatColor.AQUA + s"特等x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
         pullCoolDownSet(p, ryoServerAssist)
         val sql = new SQL(ryoServerAssist)
         sql.executeSQL(s"UPDATE Players SET gachaPullNumber=gachaPullNumber+$getItemAmount WHERE UUID='${p.getUniqueId.toString}'")
@@ -63,7 +63,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
         new GachaLottery().lottery() match {
           case rarity.special =>
-            p.sendMessage(ChatColor.AQUA + "特賞！")
+            p.sendMessage(ChatColor.AQUA + "特等！")
             p.getWorld.dropItem(p.getLocation(),new GachaLottery().itemLottery(4))
           case rarity.per =>
             p.sendMessage(ChatColor.AQUA + "あたり！")

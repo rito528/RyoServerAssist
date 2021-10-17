@@ -43,3 +43,6 @@ regenerationNetherWorlds:
 
 #再生成を行うエンドワールド名を指定してください。
 regenerationEndWorlds:
+
+#ガチャ特等アイテムとスキル回復(大)と交換するレートを指定してください。
+gachaChangeRete: 4

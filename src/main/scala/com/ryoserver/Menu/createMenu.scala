@@ -31,6 +31,7 @@ object createMenu {
     inv.setItem(17,getItem(Material.NAME_TAG,s"${GREEN}称号一覧を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv.setItem(18,getItem(Material.FIREWORK_ROCKET,s"${GREEN}ロケット花火を配布します。",List(s"${GRAY}クリックで受け取ります。").asJava))
     inv.setItem(20,getItem(Material.CHEST,s"${GREEN}stackを開きます。",List(s"${GRAY}クリックで開きます").asJava))
+    inv.setItem(22,getGachaItem(Material.HONEY_BOTTLE,s"${GREEN}ガチャ特等アイテム交換画面を開きます。",List(s"${GRAY}クリックで開きます。").asJava))
     inv
   }
 }

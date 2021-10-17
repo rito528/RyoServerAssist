@@ -2,7 +2,7 @@ package com.ryoserver.Menu
 
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
-import com.ryoserver.Gacha.getGachaTickets
+import com.ryoserver.Gacha.{GachaItemChangeGUI, getGachaTickets}
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.SimpleRegion.RegionMenu
@@ -38,6 +38,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 17 => new TitleInventory(ryoServerAssist).openInv(p,1)
       case 18 => p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
       case 20 => new StackGUI(ryoServerAssist).openCategorySelectGUI(p)
+      case 22 => new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
       case _ =>
     }
   }
