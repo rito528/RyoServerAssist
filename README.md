@@ -25,6 +25,7 @@
 - Multiverse-Core
 - Multiverse-Portals
 - dynmap
+- Votifier
 
 ### このプラグインを新Minecraftバージョンに合わせるときに必ず更新するもの
 
