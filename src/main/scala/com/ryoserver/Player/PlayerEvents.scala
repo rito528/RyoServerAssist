@@ -3,6 +3,7 @@ package com.ryoserver.Player
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.TitleData.continuousLogin
 import com.ryoserver.Title.giveTitle
+import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
 
@@ -24,6 +25,9 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onQuit(e: PlayerQuitEvent): Unit = {
     new playerDataLoader(ryoServerAssist).unload(e.getPlayer)
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET lastLogout=NOW() WHERE UUID='${e.getPlayer.getUniqueId.toString}'")
+    sql.close()
   }
 
 }

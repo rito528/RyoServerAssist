@@ -18,7 +18,7 @@ class createData(ryoServerAssist: RyoServerAssist) {
     }
     val table_rs = sql.executeQuery("SHOW TABLES LIKE 'Players';")
     //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
-    if (!table_rs.next()) sql.executeSQL("CREATE TABLE Players(UUID Text,lastLogin DATETIME,loginDays INT,consecutiveLoginDays INT," +
+    if (!table_rs.next()) sql.executeSQL("CREATE TABLE Players(UUID Text,lastLogin DATETIME,lastLogout DATETIME,loginDays INT,consecutiveLoginDays INT," +
       "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
       "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN);")
     val user_rs = sql.executeQuery(s"SELECT UUID FROM Players WHERE UUID='${p.getUniqueId.toString}';")
