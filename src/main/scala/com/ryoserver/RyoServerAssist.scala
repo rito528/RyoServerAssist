@@ -27,6 +27,7 @@ import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
+import org.bukkit.Bukkit.getServer
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -102,6 +103,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       各種ロード処理
      */
+    getServer.getMessenger.registerOutgoingPluginChannel(this,"BungeeCord")
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
     loadQuests.createSetQuestFile()

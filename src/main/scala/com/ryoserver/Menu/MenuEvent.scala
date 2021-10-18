@@ -1,24 +1,25 @@
 package com.ryoserver.Menu
 
+import com.google.common.io.ByteStreams
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.{GachaItemChangeGUI, getGachaTickets}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.getPlayerData
+import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.World.SimpleRegion.RegionMenu
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
-import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleInventory
-import org.bukkit.{Bukkit, ChatColor, Material, World}
+import com.ryoserver.World.SimpleRegion.RegionMenu
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
-import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType}
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.{CraftingInventory, ItemStack}
+import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.inventory.ItemStack
+import org.bukkit.{Bukkit, ChatColor, Material}
 
 class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -59,8 +60,13 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 46 =>
         p.teleport(Bukkit.getWorld("world").getSpawnLocation)
         p.sendMessage(ChatColor.AQUA + "worldのスポーン地点にテレポートしました！")
-      case 48 =>
+      case 47 =>
         new Home(ryoServerAssist).homeInventory(p)
+      case 49 =>
+        val out = ByteStreams.newDataOutput
+        out.writeUTF("Connect")
+        out.writeUTF("lobby")
+        p.sendPluginMessage(ryoServerAssist,"BungeeCord",out.toByteArray)
       case 51 =>
         p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("webSite"))
       case 52 =>
