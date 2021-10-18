@@ -54,6 +54,30 @@ commands:
   getoriginalitem:
     description: original item give command.
     permission: ryoserverassist.getoriginalitem
+  playerStatus:
+    description: player status check command.
+    permission: ryoserverassist.playerstatus
+  openInventory:
+    description: player inventory check command.
+    permission: ryoserverassist.openinventory
+  openEnderChest:
+    description: player enderChest check command.
+    permission: ryoserverassist.openenderchest
+  hide:
+    description: hide command.
+    permission: ryoserverassist.hide
+  show:
+    description: show command.
+    permission: ryoserverassist.show
+  freeze:
+    description: freeze command.
+    permission: ryoserverassist.freeze
+  unfreeze:
+    description: unfreeze command.
+    permission: ryoserverassist.unfreeze
+  security:
+    description: security command.
+    permission: ryoserverassist.security
 
 permissions:
   ryoserverassist.*:
@@ -74,6 +98,14 @@ permissions:
       - ryoserverassist.title
       - ryoserverassist.regeneration
       - ryoserverassist.getoriginalitem
+      - ryoserverassist.playerstatus
+      - ryoserverassist.openinventory
+      - ryoserverassist.openenderchest
+      - ryoserverassist.hide
+      - ryoserverassist.show
+      - ryoserverassist.freeze
+      - ryoserverassist.unfreeze
+      - ryoserverassist.security
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -103,4 +135,20 @@ permissions:
   ryoserverassist.regeneration:
     default: op
   ryoserverassist.getoriginalitem:
+    default: op
+  ryoserverassist.playerstatus:
+    default: op
+  ryoserverassist.openinventory:
+    default: op
+  ryoserverassist.openenderchest:
+    default: op
+  ryoserverassist.hide:
+    default: op
+  ryoserverassist.show:
+    default: op
+  ryoserverassist.freeze:
+    default: op
+  ryoserverassist.unfreeze:
+    default: op
+  ryoserverassist.security:
     default: op

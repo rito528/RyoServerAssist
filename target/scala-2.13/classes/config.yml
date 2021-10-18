@@ -56,3 +56,30 @@ dynmap: ''
 #投票サイトのURLを指定してください
 voteSite:
   - ''
+
+#IPHunterのAPIKeyを記載してください。
+IPHunterAPIKey:
+
+#ログイン時のIP確認等をしないプレイヤー(除外プレイヤー)を記載してください。
+#例
+#exclusion
+# - rito_5289
+exclusion:
+
+#オペレーターの監視を行うプレイヤーのUUIDを記載してください。
+#例
+#authority
+# - 18b4a87fa07a47d5a96473fe7fa6ba81
+authority:
+
+#IPに関する情報をplayerStatusコマンドで表示するかどうかの設定
+ipInfo: true
+
+#権限がないユーザーが実行できるコマンドを記載してください
+#例
+#enableCommands:
+# - /pl
+enableCommands:
+
+#ウィーザーやエンダードラゴンの召喚を許可するワールド名を記載してください
+worldDoNotProtection:

@@ -19,6 +19,7 @@ import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.NeoStack.{ItemList, NeoStackGUI, NeoStackGUIEvent, PickEvent, TableCheck}
+import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
@@ -70,6 +71,19 @@ class RyoServerAssist extends JavaPlugin {
       getCommand(cmd).setExecutor(executor)
     })
 
+    List(
+      "playerStatus",
+      "openInventory",
+      "openEnderChest",
+      "hide",
+      "show",
+      "freeze",
+      "unfreeze",
+      "security"
+    ).foreach(cmd =>
+      getCommand(cmd).setExecutor(new SecurityCommands(this))
+    )
+
     /*
       Bukkitイベントの有効化
      */
@@ -97,12 +111,14 @@ class RyoServerAssist extends JavaPlugin {
       new NeoStackGUIEvent(this),
       new PickEvent(this),
       new GachaItemChangeGUI(this),
-      new Vote(this)
+      new Vote(this),
+      new SecurityEvent(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
     /*
       各種ロード処理
      */
+    Config.config = this.getConfig
     getServer.getMessenger.registerOutgoingPluginChannel(this,"BungeeCord")
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
@@ -118,6 +134,7 @@ class RyoServerAssist extends JavaPlugin {
     ItemList.loadItemList(this)
     NeoStack.PlayerData.runnableSaver(this)
     new NeoStackGUI(this).loadStackPage()
+    Operator.checkOp(this)
 //    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")
   }
