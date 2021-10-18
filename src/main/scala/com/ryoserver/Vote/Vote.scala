@@ -19,6 +19,9 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
     sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 16 WHERE UUID='$uuid';")
     sql.close()
     Bukkit.broadcastMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
+    Bukkit.broadcastMessage("投票はこちら！")
+    Bukkit.broadcastMessage(ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).asInstanceOf[String])
+    Bukkit.broadcastMessage(ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).asInstanceOf[String])
   }
 
 }
