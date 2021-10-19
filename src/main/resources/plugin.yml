@@ -106,6 +106,7 @@ permissions:
       - ryoserverassist.freeze
       - ryoserverassist.unfreeze
       - ryoserverassist.security
+      - ryoserverassist.commandExecuter
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -151,4 +152,6 @@ permissions:
   ryoserverassist.unfreeze:
     default: op
   ryoserverassist.security:
+    default: op
+  ryoserverassist.commandExecuter:
     default: op

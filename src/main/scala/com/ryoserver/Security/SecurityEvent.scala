@@ -36,7 +36,7 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler(priority = EventPriority.HIGHEST)
   def playerCommandProcess(e: PlayerCommandPreprocessEvent): Unit = {
     val cmd = e.getMessage.split(" ")(0)
-    if (!e.getPlayer.isOp && !Config.getBanCommands(cmd)) {
+    if (!e.getPlayer.isOp && !e.getPlayer.hasPermission("ryoserverassist.commandExecuter") && !Config.getBanCommands(cmd)) {
       e.getPlayer.sendMessage(ChatColor.RED + "このコマンドを実行できません！")
       e.setCancelled(true)
     }
