@@ -9,6 +9,7 @@ class TitleLoader() {
   def loadTitle(): Unit = {
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     titleConfig.getConfigurationSection("titles").getKeys(false).forEach(title => {
+      println("ロード中:" + title)
       titleConfig.getString(s"titles.$title.type").toLowerCase() match {
         case "lv" => TitleData.lv :+= title
         case "continuouslogin" => TitleData.continuousLogin :+= title

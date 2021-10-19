@@ -1,1 +1,161 @@
 titles:
+  おはつ:
+    type: lv
+    condition: 1
+    secret: false
+  はじめてのスキル:
+    type: lv
+    condition: 10
+    secret: false
+  半人前:
+    type: lv
+    condition: 50
+    secret: false
+  あと一歩:
+    type: lv
+    condition: 90
+    secret: false
+  極めし者:
+    type: lv
+    condition: 100
+    secret: false
+  りょう鯖応援隊:
+    type: continuousLogin
+    condition: 7
+    secret: false
+  継続は力なり:
+    type: continuousLogin
+    condition: 30
+    secret: false
+  季節を超えて:
+    type: continuousLogin
+    condition: 100
+    secret: false
+  りょう鯖マスター:
+    type: continuousLogin
+    condition: 365
+    secret: true
+  常連:
+    type: loginDays
+    condition: 30
+    secret: false
+  顔見知り:
+    type: loginDays
+    condition: 60
+    secret: false
+  全知:
+    type: loginDays
+    condition: 100
+    secret: false
+  一年の重み:
+    type: loginDays
+    condition: 365
+    secret: false
+  はじめてのおつかい:
+    type: questClearNumber
+    condition: 1
+    secret: false
+  なれてきた？:
+    type: questClearNumber
+    condition: 10
+    secret: false
+  百戦錬磨:
+    type: questClearNumber
+    condition: 100
+    secret: false
+  クエストの悪魔:
+    type: questClearNumber
+    condition: 666
+    secret: false
+  クエストマスター:
+    type: questClearNumber
+    condition: 1000
+    secret: false
+  りょうの分身:
+    type: questClearNumber
+    condition: 6666
+    secret: false
+  りょう鯖の住民:
+    type: continuousLoginAndQuestClearNumber
+    condition: 30,500
+    secret: false
+  はじめてのガチャ:
+    type: gachaNumber
+    condition: 1
+    secret: false
+  1スタックのガチャ券:
+    type: gachaNumber
+    condition: 64
+    secret: false
+  ガチャは日常:
+    type: gachaNumber
+    condition: 1000
+    secret: false
+  ガチャ依存症:
+    type: gachaNumber
+    condition: 5000
+    secret: false
+  スキル使い:
+    type: skillOpen
+    condition:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    secret: false
+  重力に抗うもの:
+    type: skillOpen
+    condition:
+      - 6
+    secret: false
+  焼けぬ体:
+    type: skillOpen
+    condition:
+      - 8
+    secret: false
+  夜行性:
+    type: skillOpen
+    condition:
+      - 7
+    secret: false
+  潜水艦:
+    type: skillOpen
+    condition:
+      - 9
+    secret: false
+  スキルマスター:
+    type: skillOpen
+    condition:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+    secret: false
+  2021年:
+    type: loginYear
+    condition: 2021
+    secret: false
+  お菓子をちょうだい:
+    type: loginDay
+    condition: 2021/10/31
+    secret: false
+  七五三:
+    type: loginDay
+    condition: 2021/11/15
+    secret: false
+  コレクター:
+    type: titleGetNumber
+    condition: 10
+    secret: false
+  マニア:
+    type: titleGetNumber
+    condition: 20
+    secret: false

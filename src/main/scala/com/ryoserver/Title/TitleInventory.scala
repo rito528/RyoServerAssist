@@ -53,6 +53,9 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) {
                 lore = List(s"${GRAY}解放条件:${titleConfig.getString(s"titles.$title.condition")}にログインしよう。")
               case "titlegetnumber" =>
                 lore = List(s"${GRAY}解放条件:${configCondition}回称号を解禁しよう。")
+              case "continuousloginandquestclearnumber" =>
+                lore = List(s"${GRAY}解放条件:${titleConfig.getString(s"titles.$title.condition").split(",")(0)}日ログインと、" +
+                  s"${titleConfig.getString(s"titles.$title.condition").split(",")(1)}回クエストをクリアしよう。")
             }
             inv.setItem(index, getItem(if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, title, lore.asJava))
           }
