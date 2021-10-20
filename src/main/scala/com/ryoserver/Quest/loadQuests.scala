@@ -4,33 +4,21 @@ import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.configuration.file.{FileConfiguration, YamlConfiguration}
 
-import java.io.PrintWriter
+import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Paths}
 import scala.io.Source
 object loadQuests{
 
-  private val QUEST_SETTING_FILE = "plugins/RyoServerAssist/Quests.yml"
-
-  def createSetQuestFile(): Unit = {
-    val ymlFile = Paths.get(QUEST_SETTING_FILE)
-    if (Files.notExists(ymlFile)){
-      ymlFile.toFile.createNewFile()
-      val pw = new PrintWriter(ymlFile.toFile.getPath)
-      pw.println("#クエスト設定用ファイルです。")
-      pw.println("#設定方法はRedmine(http://192.168.0.51/issues/83)を参照してください。")
-      pw.println("#また、クエストを有効化するにはconfig.ymlのenableQuestsにクエスト名を記載してください。")
-      pw.close()
-    }
-  }
+  val QUEST_SETTING_FILES = "plugins/RyoServerAssist/Quests/"
 
   var enableEvents: Array[String] = Array.empty
   var questConfig:FileConfiguration = _
   var langFile:JsonNode = _
 
   def checkQuest(): Unit = {
-    questConfig = YamlConfiguration.loadConfiguration(Paths.get(QUEST_SETTING_FILE).toFile)
-    questConfig.getConfigurationSection("").getKeys(false).forEach(questName => {
-      enableEvents :+= questName
+    new File(QUEST_SETTING_FILES).listFiles().foreach(file => {
+      println("クエストロード中:" + file.getName)
+      enableEvents +:= file.getName.replace(".json","")
     })
     val is = getClass.getClassLoader.getResourceAsStream("ja_jp.json")
     val mapper = new ObjectMapper()
