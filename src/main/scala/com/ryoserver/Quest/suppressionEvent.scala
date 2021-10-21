@@ -46,8 +46,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
             questData.setSelectedQuestItemRemaining(p, data.mkString(";"))
           }
           if (!questDone && pause) {
-            p.sendMessage(ChatColor.AQUA + "選択されているクエストの一部が完了しました！")
-            p.sendMessage("[達成まで]")
+            p.sendMessage("[進行状況]")
             data.foreach(e => {
               p.sendMessage(loadQuests.langFile.get("entity." + new QuestSelectInventory(ryoServerAssist)
                 .getEntity(e.split(":")(0)).getKey.toString.replace(":",".")).textValue() + "->" + e.split(":")(1) + "体")
