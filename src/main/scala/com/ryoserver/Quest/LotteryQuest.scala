@@ -6,7 +6,6 @@ import com.ryoserver.Quest.loadQuests.QUEST_SETTING_FILES
 import java.security.SecureRandom
 import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
-import scala.jdk.CollectionConverters._
 
 class LotteryQuest {
 

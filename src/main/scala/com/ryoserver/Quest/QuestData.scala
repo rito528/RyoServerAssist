@@ -82,6 +82,11 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")
+    val checkTable = sql.executeQuery(s"SHOW TABLES LIKE 'QuestClears'")
+    if (!checkTable.next()) sql.executeSQL("CREATE TABLE QuestClears(QuestName TEXT,ClearNumber INT)")
+    val checkQuest = sql.executeQuery(s"SELECT QuestName FROM QuestClears WHERE QuestName='${lottery.questName}'")
+    if (!checkQuest.next()) sql.executeSQL(s"INSERT INTO QuestClears (QuestName,ClearNumber) VALUES ('${lottery.questName}',1)")
+    else sql.executeSQL(s"UPDATE QuestClears SET ClearNumber=ClearNumber+1 WHERE QuestName='${lottery.questName}'")
     sql.close()
   }
 
