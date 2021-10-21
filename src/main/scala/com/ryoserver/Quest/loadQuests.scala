@@ -18,7 +18,7 @@ object loadQuests{
   def checkQuest(): Unit = {
     new File(QUEST_SETTING_FILES).listFiles().foreach(file => {
       println("クエストロード中:" + file.getName)
-      enableEvents +:= file.getName.replace(".json","")
+      if (file.getName.contains(".json")) enableEvents +:= file.getName.replace(".json","")
     })
     val is = getClass.getClassLoader.getResourceAsStream("ja_jp.json")
     val mapper = new ObjectMapper()
