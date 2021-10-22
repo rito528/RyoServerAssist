@@ -26,39 +26,35 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
       skillList :+= skillName
       enableSkills += (name -> skillList)
     }
+    var runnable:BukkitRunnable = null
+    //エフェクトをつける
+    new BukkitRunnable {
+      override def run(): Unit = {
+        runnable = this
+        new BukkitRunnable {
+          override def run(): Unit = {
+            p.addPotionEffect(new PotionEffect(skillEffect,40, level))
+          }
+        }.runTask(ryoServerAssist)
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,0,20)
+
     new BukkitRunnable {
       override def run(): Unit = {
         //60秒ごとにスキルポイントを更新
         if (!isEnableSkill) {
           this.cancel()
           skillInvalidation()
+        } else if (new SkillPointData(ryoServerAssist).getSkillPoint(p) < sp) {
+          runnable.cancel()
+          this.cancel()
+          skillInvalidation()
+          p.sendMessage(ChatColor.DARK_RED + "スキルポイントが不足したため、スキルを無効化しました。")
         } else {
           new skillPointConsumption(ryoServerAssist).consumption(sp, p)
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist,0,20*60)
-
-    //エフェクトをつける
-    new BukkitRunnable {
-      override def run(): Unit = {
-        val runnable = this
-        new BukkitRunnable {
-          override def run(): Unit = {
-            if (!isEnableSkill) {
-              runnable.cancel()
-              skillInvalidation()
-              p.sendMessage(ChatColor.AQUA + "スキルを無効化しました。")
-            } else if (new SkillPointData(ryoServerAssist).getSkillPoint(p) < sp) {
-              runnable.cancel()
-              skillInvalidation()
-              p.sendMessage(ChatColor.DARK_RED + "スキルポイントが不足したため、スキルを無効化しました。")
-            } else {
-              p.addPotionEffect(new PotionEffect(skillEffect,40, level))
-            }
-          }
-        }.runTask(ryoServerAssist)
-      }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,20)
   }
 
   def skillInvalidation(): Unit = {

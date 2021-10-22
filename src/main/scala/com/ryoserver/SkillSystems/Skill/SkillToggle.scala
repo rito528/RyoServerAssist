@@ -46,7 +46,6 @@ trait SkillToggle {
       enableSkills(p.getName).foreach(skillName => {
         new SkillOperation(p, skillName, ryoServerAssist).skillInvalidation()
       })
-      p.sendMessage(AQUA + "スキルをすべて無効化しました。")
     }
   }
 

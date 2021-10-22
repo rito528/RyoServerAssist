@@ -3,6 +3,7 @@ package com.ryoserver.SkillSystems.Skill
 import com.ryoserver.Menu.createMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
+import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -27,7 +28,9 @@ class SelectSkillEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 34 => toggle.effect(PotionEffectType.NIGHT_VISION,0,600,SkillNames(7))
       case 46 => toggle.effect(PotionEffectType.FIRE_RESISTANCE,0,600,SkillNames(8))
       case 48 => toggle.effect(PotionEffectType.WATER_BREATHING,0,600,SkillNames(9))
-      case 50 => toggle.allEffectClear(p)
+      case 50 =>
+        toggle.allEffectClear(p)
+        p.sendMessage(AQUA + "スキルをすべて無効化しました。")
       case 52 => p.openInventory(createMenu.menu(p, ryoServerAssist))
       case _ =>
     }

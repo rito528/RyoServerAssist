@@ -16,38 +16,49 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) {
     val check = new SkillOpenCheck(ryoServerAssist)
     val skillData = new SkillOpenData(ryoServerAssist)
     val inv = Bukkit.createInventory(null,54,"スキル選択")
-    inv.setItem(10,getItem(Material.SHIELD,s"${GREEN}[基本スキル]${SkillNames.head}",List(s"${GRAY}耐性１の効果が付与されます。",
+    inv.setItem(10,getItem((if (check.isOpened(SkillNames.head,p)) Material.SHIELD else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames.head}",List(s"${GRAY}耐性１の効果が付与されます。",
       GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(12,getItem(Material.IRON_BOOTS,s"${GREEN}[基本スキル]${SkillNames(1)}",List(s"${GRAY}移動速度上昇1の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(12,getItem((if (check.isOpened(SkillNames(1),p)) Material.IRON_BOOTS else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames(1)}",List(s"${GRAY}移動速度上昇1の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(1),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(14,getItem(Material.RABBIT_FOOT,s"${GREEN}[基本スキル]${SkillNames(2)}",List(s"${GRAY}跳躍力上昇1の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(14,getItem((if (check.isOpened(SkillNames(2),p)) Material.RABBIT_FOOT else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames(2)}",List(s"${GRAY}跳躍力上昇1の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(2),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(16,getItem(Material.IRON_SWORD,s"${GREEN}[基本スキル]${SkillNames(3)}",List(s"${GRAY}攻撃力上昇1の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(16,getItem((if (check.isOpened(SkillNames(3),p)) Material.IRON_SWORD else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames(3)}",List(s"${GRAY}攻撃力上昇1の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(3),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(28,getItem(Material.IRON_PICKAXE,s"${GREEN}[基本スキル]${SkillNames(4)}",List(s"${GRAY}採掘速度上昇1の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(28,getItem((if (check.isOpened(SkillNames(4),p)) Material.IRON_PICKAXE else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames(4)}",List(s"${GRAY}採掘速度上昇1の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(4),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(30,getItem(Material.ENCHANTED_GOLDEN_APPLE,s"${GREEN}[基本スキル]${SkillNames(5)}",List(s"${GRAY}再生能力1の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(30,getItem((if (check.isOpened(SkillNames(5),p)) Material.ENCHANTED_GOLDEN_APPLE else Material.BEDROCK),
+      s"${GREEN}[基本スキル]${SkillNames(5)}",List(s"${GRAY}再生能力1の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(5),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       s"${GRAY}スキルポイントコスト:300").asJava))
-    inv.setItem(32,getItem(Material.ELYTRA,s"${GREEN}${SkillNames(6)}",List(s"${GRAY}低速落下の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(32,getItem((if (check.isOpened(SkillNames(6),p)) Material.ELYTRA else Material.BEDROCK),
+      s"${GREEN}${SkillNames(6)}",
+      List(s"${GRAY}低速落下の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(6),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       if (!check.isOpened(SkillNames(6),p)) s"${GRAY}基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:600").asJava))
-    inv.setItem(34,getItem(Material.ENDER_EYE,s"${GREEN}${SkillNames(7)}",List(s"${GRAY}暗視の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(34,getItem(if (check.isOpened(SkillNames(7),p))Material.ENDER_EYE else Material.BEDROCK,s"${GREEN}${SkillNames(7)}",
+      List(s"${GRAY}暗視の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(7),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       if (!check.isOpened(SkillNames(7),p)) s"${GRAY}基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:600").asJava))
-    inv.setItem(46,getItem(Material.LAVA_BUCKET,s"${GREEN}${SkillNames(8)}",List(s"${GRAY}耐火の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(46,getItem((if (check.isOpened(SkillNames(8),p)) Material.LAVA_BUCKET else Material.BEDROCK),s"${GREEN}${SkillNames(8)}",
+      List(s"${GRAY}耐火の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(8),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       if (!check.isOpened(SkillNames(8),p)) s"${GRAY}基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:600").asJava))
-    inv.setItem(48,getItem(Material.WATER_BUCKET,s"${GREEN}${SkillNames(9)}",List(s"${GRAY}水中呼吸の効果が付与されます。",
-      GRAY + (if (check.isOpened(SkillNames.head,p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
+    inv.setItem(48,getItem((if (check.isOpened(SkillNames(9),p)) Material.WATER_BUCKET else Material.BEDROCK),s"${GREEN}${SkillNames(9)}",
+      List(s"${GRAY}水中呼吸の効果が付与されます。",
+      GRAY + (if (check.isOpened(SkillNames(9),p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費") ,
       if (!check.isOpened(SkillNames(9),p)) s"${GRAY}基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:600").asJava))
     inv.setItem(50,getPlayerSkull(p,s"${GREEN}クリックですべてのスキル選択を解除できます。",List(
