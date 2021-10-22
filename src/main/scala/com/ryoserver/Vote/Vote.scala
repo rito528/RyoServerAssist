@@ -16,7 +16,7 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
       onlinePlayer.playSound(onlinePlayer.getLocation,Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
     })
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 16 WHERE UUID='$uuid';")
+    sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 16,VoteNumber=VoteNumber+1 WHERE UUID='$uuid';")
     sql.close()
     Bukkit.broadcastMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
     Bukkit.broadcastMessage("投票はこちら！")

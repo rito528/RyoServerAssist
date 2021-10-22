@@ -16,6 +16,7 @@ object loadQuests{
   var langFile:JsonNode = _
 
   def checkQuest(): Unit = {
+    if (new File(QUEST_SETTING_FILES).listFiles() == null) return
     new File(QUEST_SETTING_FILES).listFiles().foreach(file => {
       println("クエストロード中:" + file.getName)
       if (file.getName.contains(".json")) enableEvents +:= file.getName.replace(".json","")
