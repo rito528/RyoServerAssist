@@ -56,7 +56,6 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
           })
         }
         questDetails.add(ChatColor.WHITE + "【説明】")
-        lottery.descriptions.forEach(description => questDetails.add(ChatColor.WHITE + "・" + description))
         questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
         inv.setItem(i, getItem(Material.BOOK, s"[$questType]" + lottery.questName, questDetails))
       }
@@ -92,7 +91,6 @@ class QuestSelectInventory(ryoServerAssist: RyoServerAssist) {
         })
       }
       questDetails.add(ChatColor.WHITE + "【説明】")
-      lottery.descriptions.forEach(description => questDetails.add(ChatColor.WHITE + "・" + description))
       questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
       deliveryInv.setItem(45, getItem(Material.BOOK, s"[$questType]" + lottery.questName, questDetails))
       if (questType == "納品クエスト") deliveryInv.setItem(46,getItem(Material.NETHER_STAR,"納品する",List("クリックで納品します。").asJava))

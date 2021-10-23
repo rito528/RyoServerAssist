@@ -122,7 +122,7 @@ class RyoServerAssist extends JavaPlugin {
     getServer.getMessenger.registerOutgoingPluginChannel(this,"BungeeCord")
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
-    loadQuests.checkQuest()
+    loadQuests.checkQuest(this)
     new Notification().createFile()
     new createFiles().createResourcesFile()
     new Tips(this).sendTips()

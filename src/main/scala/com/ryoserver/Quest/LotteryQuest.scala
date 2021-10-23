@@ -13,7 +13,6 @@ class LotteryQuest {
   var questName = ""
   var items:java.util.List[String] = _
   var mobs:java.util.List[String] = _
-  var descriptions:java.util.List[String] = _
   var exp:Int = 0
 
 
@@ -34,7 +33,7 @@ class LotteryQuest {
       min = json.get("minLevel").textValue().toInt
       max = json.get("maxLevel").textValue().toInt
       if (lv >= min && lv <= max) loadQuestData()
-    } while (lv < min || lv > max && ((min - lv) < 10 && counter < 10))
+    } while (lv < min || lv > max)
   }
 
   def loadQuestData(): Unit = {
@@ -51,12 +50,6 @@ class LotteryQuest {
         })
       .collect(Collectors.toList[String])
     mobs = StreamSupport.stream(json.get("condition").spliterator(),false)
-      .map(
-        e => {
-          e.asText
-        })
-      .collect(Collectors.toList[String])
-    descriptions = StreamSupport.stream(json.get("discription").spliterator(),false)
       .map(
         e => {
           e.asText
