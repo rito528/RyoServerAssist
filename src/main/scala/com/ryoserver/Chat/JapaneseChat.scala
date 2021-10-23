@@ -10,6 +10,7 @@ import org.bukkit.event.{EventHandler, EventPriority, Listener}
 
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import com.ibm.icu.text.Transliterator
 
 class JapaneseChat(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -36,6 +37,7 @@ class JapaneseChat(ryoServerAssist: RyoServerAssist) extends Listener {
     })
     e.setMessage(s"$msg ${ChatColor.YELLOW}($changedMsg)")
   }
+
 
   val getURL: (String, String) => String = (api:String, msg: String) => {
     api match {

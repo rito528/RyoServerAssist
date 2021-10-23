@@ -5,6 +5,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.player.{PlayerCommandPreprocessEvent, PlayerJoinEvent, PlayerMoveEvent}
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}
 
 class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
@@ -48,7 +49,11 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       if (e.getEntity.getType == EntityType.WITHER) {
         e.setCancelled(true)
       } else if (e.getEntity.getType == EntityType.ENDER_DRAGON) {
-        e.setCancelled(true)
+        new BukkitRunnable {
+          override def run(): Unit = {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender,"kill @e[type=minecraft:ender_dragon]")
+          }
+        }.runTaskLater(ryoServerAssist,60)
       }
     }
   }
