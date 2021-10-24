@@ -1,6 +1,5 @@
 package com.ryoserver
 
-import com.ryoserver.Chat.JapaneseChat
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -9,26 +8,24 @@ import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, Gac
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent}
+import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
-import com.ryoserver.Quest.Event.LoadEvent
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
-import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
+import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
-import com.ryoserver.NeoStack.{ItemList, NeoStackGUI, NeoStackGUIEvent, PickEvent, TableCheck}
-import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
+import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
-import org.bukkit.Bukkit.getServer
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -89,7 +86,6 @@ class RyoServerAssist extends JavaPlugin {
      */
     List(
       new Home(this),
-      new JapaneseChat(this),
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),

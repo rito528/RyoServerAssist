@@ -11,21 +11,6 @@ import org.bukkit.{Bukkit, ChatColor}
 class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
-  def onJoin(e: PlayerJoinEvent): Unit = {
-    val checkVPN = new CheckVPNAndProxy
-    val p = e.getPlayer
-    //VPN検出
-    if (!Config.isExclusionUsers(p) && !checkVPN.loginCheck(p,ryoServerAssist)) {
-      checkVPN.notification(p.getName)
-      p.kickPlayer("[VPN,Proxy検知]\nVPN、Proxyを検知しました。\nVPNやProxyを利用してりょう鯖にアクセスすることはできません。")
-    }
-    //hide系
-    players.hideList.foreach(HP => {
-      p.hidePlayer(ryoServerAssist,HP)
-    })
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST)
   def onMove(e: PlayerMoveEvent): Unit = {
     val p = e.getPlayer
     if (players.freezeList.contains(p.getName)) {
