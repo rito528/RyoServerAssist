@@ -27,7 +27,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onClick(e:InventoryClickEvent): Unit = {
-    if (e.getView.getTitle != title && e.getClickedInventory != e.getView.getTopInventory) return
+    if (e.getView.getTitle != title || e.getClickedInventory != e.getView.getTopInventory) return
     if (e.getSlot == 49 || e.getSlot == 45) e.setCancelled(true)
     var changeAmount = 0
     val p = e.getWhoClicked.asInstanceOf[Player]

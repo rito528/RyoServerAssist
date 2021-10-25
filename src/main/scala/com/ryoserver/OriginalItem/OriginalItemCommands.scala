@@ -50,6 +50,18 @@ class OriginalItemCommands extends CommandExecutor {
       } else if (args(0).equalsIgnoreCase("oretaEiyuNoKen")) {
         p.getWorld.dropItem(p.getLocation(),OriginalItems.oretaEiyuNoKen)
         return true
+      } else if (args(0).equalsIgnoreCase("kabuto")) {
+        p.getWorld.dropItem(p.getLocation(),OriginalItems.kabuto)
+        return true
+      } else if (args(0).equalsIgnoreCase("yoroi")) {
+        p.getWorld.dropItem(p.getLocation(),OriginalItems.yoroi)
+        return true
+      } else if (args(0).equalsIgnoreCase("asi")) {
+        p.getWorld.dropItem(p.getLocation(),OriginalItems.asi)
+        return true
+      } else if (args(0).equalsIgnoreCase("kutu")) {
+        p.getWorld.dropItem(p.getLocation(),OriginalItems.boots)
+        return true
       }
     }
     false

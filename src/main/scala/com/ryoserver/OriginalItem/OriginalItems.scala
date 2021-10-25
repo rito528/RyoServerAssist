@@ -176,6 +176,57 @@ object OriginalItems {
     itemStack
   }
 
+  val kabuto:ItemStack = {
+    val itemStack:ItemStack = new ItemStack(Material.NETHERITE_HELMET)
+    val itemMeta:ItemMeta = itemStack.getItemMeta
+    itemMeta.setDisplayName(s"$RED${YELLOW}テクト -兜-")
+    itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
+    itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,4,false)
+    itemMeta.addEnchant(Enchantment.WATER_WORKER,1,false)
+    itemMeta.addEnchant(Enchantment.OXYGEN,3,false)
+    itemMeta.addEnchant(Enchantment.MENDING,1,false)
+    itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,10)
+    itemStack
+  }
+
+  val yoroi:ItemStack = {
+    val itemStack:ItemStack = new ItemStack(Material.NETHERITE_CHESTPLATE)
+    val itemMeta:ItemMeta = itemStack.getItemMeta
+    itemMeta.setDisplayName(s"$RED${YELLOW}テクト -鎧-")
+    itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
+    itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,4,false)
+    itemMeta.addEnchant(Enchantment.MENDING,1,false)
+    itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,10)
+    itemStack
+  }
+
+  val asi:ItemStack = {
+    val itemStack:ItemStack = new ItemStack(Material.NETHERITE_LEGGINGS)
+    val itemMeta:ItemMeta = itemStack.getItemMeta
+    itemMeta.setDisplayName(s"$RED${YELLOW}テクト -脚-")
+    itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
+    itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,4,false)
+    itemMeta.addEnchant(Enchantment.MENDING,1,false)
+    itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,10)
+    itemStack
+  }
+
+  val boots:ItemStack = {
+    val itemStack:ItemStack = new ItemStack(Material.NETHERITE_BOOTS)
+    val itemMeta:ItemMeta = itemStack.getItemMeta
+    itemMeta.setDisplayName(s"$RED${YELLOW}テクト -靴-")
+    itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
+    itemMeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL,4,false)
+    itemMeta.addEnchant(Enchantment.PROTECTION_FALL,4,false)
+    itemMeta.addEnchant(Enchantment.MENDING,1,false)
+    itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,10)
+    itemStack
+  }
+
   val itemList = List(
     tiguruinoyaiba,
     oretaEiyuNoKen,
@@ -196,7 +247,8 @@ object OriginalItems {
   val metaList = List(
     tiguruinoyaiba.getItemMeta.getItemFlags,
     oretaEiyuNoKen.getItemMeta.getItemFlags,
-    ryoNoKen.getItemMeta.getItemFlags
+    ryoNoKen.getItemMeta.getItemFlags,
+    kabuto.getItemMeta.getItemFlags
   )
 
 }
