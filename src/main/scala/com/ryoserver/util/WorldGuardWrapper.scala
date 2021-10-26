@@ -2,8 +2,9 @@ package com.ryoserver.util
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldguard.WorldGuard
+import com.sk89q.worldguard.protection.flags.StateFlag
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
-import org.bukkit.Location
+import org.bukkit.{ChatColor, Location}
 import org.bukkit.entity.Player
 import org.jetbrains.annotations.NotNull
 
@@ -28,6 +29,20 @@ class WorldGuardWrapper {
       if (region.getOwners.contains(p.getUniqueId)) return true
     )
     false
+  }
+
+  def removeRegion(@NotNull p:Player): Unit = {
+    plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(p.getWorld)).removeRegion(getRegion(p.getLocation()).head.getId)
+  }
+
+  def toggleFlag(region :ProtectedRegion, flag:StateFlag,p:Player): Unit = {
+    if (region.getFlags.getOrDefault(flag,"DENY").toString == "DENY") {
+      region.setFlag(flag, StateFlag.State.ALLOW)
+      p.sendMessage(ChatColor.AQUA + "フラグ:" + flag.getName + "を有効にしました。")
+    } else {
+      region.setFlag(flag, StateFlag.State.DENY)
+      p.sendMessage(ChatColor.AQUA + "フラグ:" + flag.getName + "を無効にしました。")
+    }
   }
 
 }
