@@ -1,12 +1,14 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.util.WorldGuardWrapper
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.util.Location
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.ApplicableRegionSet
 import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
-import org.bukkit.{Bukkit, Material}
+import com.sk89q.worldguard.protection.regions.ProtectedRegion
+import org.bukkit.{Bukkit, ChatColor, Material}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
@@ -15,22 +17,13 @@ import scala.jdk.CollectionConverters._
 class RegionSettingMenu {
 
   def openMenu(p:Player): Unit = {
-    val container = WorldGuard.getInstance().getPlatform.getRegionContainer
-    val regions = container.get(BukkitAdapter.adapt(p.getWorld))
-    val set = regions.getApplicableRegions(new Location(BukkitAdapter.adapt(p.getWorld),p.getLocation().getX,p.getLocation().getY,
-      p.getLocation().getZ).toVector.toBlockPoint)
-    if (set.size() == 0) {
-      p.sendMessage(RED + "この場所は保護されていません！")
+    val worldGuard = new WorldGuardWrapper
+    val loc = p.getLocation()
+    if (!worldGuard.isProtected(loc) || !worldGuard.isOwner(p,loc)) {
+      p.sendMessage(ChatColor.RED + "この場所はあなたの保護ではありません！")
       return
     }
-    var isOwner = false
-    set.forEach(e => {
-      if (e.getOwners.contains(p.getUniqueId)) isOwner = true
-    })
-    if (!isOwner) {
-      p.sendMessage(RED + "あなたの保護範囲ではありません！")
-      return
-    }
+    val set = worldGuard.getRegion(loc).head
     val inv = Bukkit.createInventory(null,54,"保護設定メニュー")
     inv.setItem(1,getItem(Material.TNT,s"${RED}${BOLD}保護を削除します。",
       List(s"${RED}${BOLD}取扱注意！",s"${RED}${BOLD}保護範囲を削除します。").asJava))
@@ -55,11 +48,8 @@ class RegionSettingMenu {
     p.openInventory(inv)
   }
 
-  def getFlagStatus(set:ApplicableRegionSet,flag:StateFlag): Boolean = {
-    set.forEach(region => {
-      return region.getFlags.getOrDefault(flag,"DENY").toString == "ALLOW"
-    })
-    false
+  def getFlagStatus(set:ProtectedRegion, flag:StateFlag): Boolean = {
+    set.getFlags.getOrDefault(flag,"DENY").toString == "ALLOW"
   }
 
 }
