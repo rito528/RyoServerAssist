@@ -14,7 +14,7 @@ class MenuCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
       return true
     }
     if (label.equalsIgnoreCase("menu")) {
-      sender.asInstanceOf[Player].openInventory(createMenu.menu(sender.asInstanceOf[Player],ryoServerAssist))
+      createMenu.menu(sender.asInstanceOf[Player],ryoServerAssist)
       return true
     } else if (label.equalsIgnoreCase("stick")) {
       sender.asInstanceOf[Player].getInventory.addItem(new ItemStack(Material.STICK,1))

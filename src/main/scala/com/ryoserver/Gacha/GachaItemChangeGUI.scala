@@ -32,7 +32,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener {
     var changeAmount = 0
     val p = e.getWhoClicked.asInstanceOf[Player]
     if (e.getSlot == 45) {
-      p.openInventory(createMenu.menu(p, ryoServerAssist))
+      createMenu.menu(p, ryoServerAssist)
       return
     }
     e.getClickedInventory.getContents.foreach(itemStack => {

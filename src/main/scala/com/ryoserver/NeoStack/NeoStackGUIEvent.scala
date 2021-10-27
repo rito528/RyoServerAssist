@@ -51,7 +51,7 @@ class NeoStackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           gui.openStack(p, 1, "plant", isEdit)
           setSelectedCategory(p,"plant")
         case 36 =>
-          p.openInventory(createMenu.menu(p, ryoServerAssist))
+          createMenu.menu(p, ryoServerAssist)
         case 40 =>
           data.toggleAutoStack(p)
           gui.openCategorySelectGUI(p)
@@ -90,7 +90,7 @@ class NeoStackGUIEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         if (nowPage != 1) {
           gui.openAddGUI(p,nowPage - 1,getSelectedCategory(p))
         } else if (nowPage == 1) {
-          p.openInventory(createMenu.menu(p,ryoServerAssist))
+          createMenu.menu(p,ryoServerAssist)
         }
       } else if (index == 53) {
         gui.openAddGUI(p,nowPage + 1,getSelectedCategory(p))

@@ -19,7 +19,7 @@ class TitleInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val index = e.getSlot
     val inv = e.getInventory
     if (index == 45) {
-      p.openInventory(createMenu.menu(p, ryoServerAssist))
+      createMenu.menu(p, ryoServerAssist)
     } else if (index == 53) {
       new TitleInventory(ryoServerAssist).openInv(p,page + 1)
     } else if (0 <= index && 44 >= index && inv.getItem(index).getType == Material.NAME_TAG) {
