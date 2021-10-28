@@ -1,6 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.PlayerData.playerData
@@ -9,7 +10,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, Material}
+import org.bukkit.{Bukkit, ChatColor, Material}
 
 import java.util
 import scala.collection.mutable
@@ -77,23 +78,28 @@ class NeoStackGUI(ryoServerAssist: RyoServerAssist) {
   }
 
   def openCategorySelectGUI(p:Player): Unit = {
-    val inv = Bukkit.createInventory(null,45,"neoStackカテゴリ選択")
-    val lore:java.util.List[String] = new util.ArrayList[String]()
-    lore.add(s"${AQUA}左クリックで開きます。")
-    if (p.hasPermission("ryoserverassist.neoStack")) lore.add(s"${RED}右クリックで編集メニューを開きます。")
-    inv.setItem(11,getItem(Material.GRASS_BLOCK,s"${GREEN}主要ブロック",lore))
-    inv.setItem(13,getItem(Material.OAK_SAPLING,s"${AQUA}主要アイテム",lore))
-    inv.setItem(15,getItem(Material.HONEY_BOTTLE,s"${YELLOW}ガチャアイテム",lore))
-    inv.setItem(19,getItem(Material.DIAMOND_PICKAXE,s"${YELLOW}ツール系",lore))
-    inv.setItem(21,getItem(Material.BREAD,s"${YELLOW}食料系",lore))
-    inv.setItem(23,getItem(Material.REDSTONE,s"${YELLOW}レッドストーン系",lore))
-    inv.setItem(25,getItem(Material.OAK_SAPLING,s"${YELLOW}植物系",lore))
-    inv.setItem(36,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
-    inv.setItem(40,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
-      List(s"${AQUA}クリックで切り替えます。",
-      s"${WHITE}現在の状態:${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
-    inv.setItem(44,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
-    p.openInventory(inv)
+    val data = new getPlayerData(ryoServerAssist)
+    if (data.getPlayerLevel(p) >= 20) {
+      val inv = Bukkit.createInventory(null,45,"neoStackカテゴリ選択")
+      val lore:java.util.List[String] = new util.ArrayList[String]()
+      lore.add(s"${AQUA}左クリックで開きます。")
+      if (p.hasPermission("ryoserverassist.neoStack")) lore.add(s"${RED}右クリックで編集メニューを開きます。")
+      inv.setItem(11,getItem(Material.GRASS_BLOCK,s"${GREEN}主要ブロック",lore))
+      inv.setItem(13,getItem(Material.OAK_SAPLING,s"${AQUA}主要アイテム",lore))
+      inv.setItem(15,getItem(Material.HONEY_BOTTLE,s"${YELLOW}ガチャアイテム",lore))
+      inv.setItem(19,getItem(Material.DIAMOND_PICKAXE,s"${YELLOW}ツール系",lore))
+      inv.setItem(21,getItem(Material.BREAD,s"${YELLOW}食料系",lore))
+      inv.setItem(23,getItem(Material.REDSTONE,s"${YELLOW}レッドストーン系",lore))
+      inv.setItem(25,getItem(Material.OAK_SAPLING,s"${YELLOW}植物系",lore))
+      inv.setItem(36,getItem(Material.MAGENTA_GLAZED_TERRACOTTA,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。").asJava))
+      inv.setItem(40,getItem(Material.HOPPER,s"${WHITE}自動収納を${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+        List(s"${AQUA}クリックで切り替えます。",
+          s"${WHITE}現在の状態:${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
+      inv.setItem(44,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
+      p.openInventory(inv)
+    } else {
+      p.sendMessage(ChatColor.RED + "ネオスタック機能はLv.20以上になると使うことができます。")
+    }
   }
 
   def openAddGUI(p:Player,page:Int,category:String): Unit = {

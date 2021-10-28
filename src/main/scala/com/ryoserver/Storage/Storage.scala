@@ -1,8 +1,9 @@
 package com.ryoserver.Storage
 
+import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.Bukkit
+import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
@@ -24,22 +25,27 @@ class Storage(ryoServerAssist: RyoServerAssist) {
   }
 
   def load(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val tableCheck_rs = sql.executeQuery("SHOW TABLES LIKE 'Storage';")
-    if (!tableCheck_rs.next()) sql.executeSQL("CREATE TABLE Storage(UUID TEXT,invData TEXT);")
-    val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")
-    val inv = Bukkit.createInventory(null,54,"Storage")
-    var counter = 0
-    if (invData_rs.next()) {
-      val invData = invData_rs.getString("invData").split(";")
-      val config = new YamlConfiguration
-      invData.foreach(material => {
-        config.loadFromString(material)
-        inv.setItem(counter,config.getItemStack("i",null))
-        counter += 1
-      })
+    val data = new getPlayerData(ryoServerAssist)
+    if (data.getPlayerLevel(p) >= 10) {
+      val sql = new SQL(ryoServerAssist)
+      val tableCheck_rs = sql.executeQuery("SHOW TABLES LIKE 'Storage';")
+      if (!tableCheck_rs.next()) sql.executeSQL("CREATE TABLE Storage(UUID TEXT,invData TEXT);")
+      val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")
+      val inv = Bukkit.createInventory(null,54,"Storage")
+      var counter = 0
+      if (invData_rs.next()) {
+        val invData = invData_rs.getString("invData").split(";")
+        val config = new YamlConfiguration
+        invData.foreach(material => {
+          config.loadFromString(material)
+          inv.setItem(counter,config.getItemStack("i",null))
+          counter += 1
+        })
+      }
+      p.openInventory(inv)
+    } else {
+      p.sendMessage(ChatColor.RED + "ストレージ機能はLv.10以上になると使うことができます。")
     }
-    p.openInventory(inv)
   }
 
 }

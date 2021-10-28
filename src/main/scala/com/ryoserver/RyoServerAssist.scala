@@ -109,7 +109,7 @@ class RyoServerAssist extends JavaPlugin {
       new GachaItemChangeGUI(this),
       new Vote(this),
       new SecurityEvent(this),
-      new MenuHandler(this)
+      new MenuHandler
       //new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 

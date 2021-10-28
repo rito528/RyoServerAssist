@@ -1,12 +1,11 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuSessions.session
-import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
+class MenuHandler extends Listener {
 
   @EventHandler
   def inventoryClick(e:InventoryClickEvent): Unit = {
