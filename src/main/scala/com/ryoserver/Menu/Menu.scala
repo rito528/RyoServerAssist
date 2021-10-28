@@ -12,7 +12,7 @@ trait Menu {
 
   val name: String
   val slot: Int
-  var p:Player
+  var p: Player
 
   var inv: Option[Inventory] = None
 
@@ -25,7 +25,8 @@ trait Menu {
       case None =>
         inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
         inv.get.setItem(MenuLayout.getLayOut(x,y),if (effect) getGachaItem(item,title,lore.asJava) else getItem(item,title,lore.asJava))
-      case Some(inv) => inv.setItem(MenuLayout.getLayOut(x,y),if (effect) getGachaItem(item,title,lore.asJava) else getItem(item,title,lore.asJava))
+      case Some(inv) =>
+        inv.setItem(MenuLayout.getLayOut(x,y),if (effect) getGachaItem(item,title,lore.asJava) else getItem(item,title,lore.asJava))
     }
   }
 

@@ -22,7 +22,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val name = "りょう鯖メニュー"
   val slot = 6
-  var p: Player = null
+  var p: Player = _
 
   def menu(player:Player,ryoServerAssist: RyoServerAssist): Unit = {
     p = player
@@ -58,7 +58,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val motion = new MenuMotion(ryoServerAssist)
     val motions = Map[Int, Player => Unit](
       getLayOut(1, 1) -> motion.openWorkBench,
-      getLayOut(3, 1) -> new RegionMenu().menu _,
+      getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
       getLayOut(5, 1) -> new QuestSelectInventory(ryoServerAssist).selectInventory _,
       getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
       getLayOut(9, 1) -> {new TitleInventory(ryoServerAssist).openInv(_: Player, 1)},

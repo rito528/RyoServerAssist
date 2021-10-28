@@ -14,7 +14,7 @@ import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totem
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
-import com.ryoserver.SkillSystems.Skill.SelectSkillEvent
+import com.ryoserver.SkillSystems.Skill.{DestructionSkill, SelectSkillEvent}
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -22,7 +22,7 @@ import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
-import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionMenuEvent, RegionSettingMenuEvent}
+import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionSettingMenuEvent}
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -109,7 +109,7 @@ class RyoServerAssist extends JavaPlugin {
       new GachaItemChangeGUI(this),
       new Vote(this),
       new SecurityEvent(this),
-      new MenuHandler
+      new MenuHandler,
       //new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
