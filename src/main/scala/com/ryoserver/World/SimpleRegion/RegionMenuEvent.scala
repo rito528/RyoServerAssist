@@ -1,8 +1,9 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.RyoServerAssist
-import com.sk89q.worldedit.WorldEdit
+import com.sk89q.worldedit.{IncompleteRegionException, WorldEdit}
 import com.sk89q.worldedit.bukkit.BukkitAdapter
+import com.sk89q.worldedit.math.Vector3
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion
 import org.bukkit.entity.Player
@@ -33,8 +34,16 @@ class RegionMenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
         val container = WorldGuard.getInstance().getPlatform.getRegionContainer
         val regions = container.get(BukkitAdapter.adapt(p.getWorld))
         val session = WorldEdit.getInstance().getSessionManager.get(BukkitAdapter.adapt(p))
-        val min = session.getSelection.getMinimumPoint.toVector3.withY(0)
-        val max = session.getSelection().getMaximumPoint.toVector3.withY(256)
+        var min:Vector3 = null
+        var max:Vector3 = null
+        try {
+          min = session.getSelection.getMinimumPoint.toVector3.withY(0)
+          max = session.getSelection().getMaximumPoint.toVector3.withY(256)
+        } catch {
+          case e:IncompleteRegionException =>
+            p.sendMessage(ChatColor.RED + "保護範囲が指定されていないため、保護できませんでした。")
+            return
+        }
         var counter = 1
         while (regions.getRegions.containsKey(p.getName + "_" + counter)) {
           counter += 1
