@@ -1,22 +1,33 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.Inventory.Item.{getEnchantEffectItem, getGachaItem, getItem}
+import com.google.common.io.ByteStreams
+import com.ryoserver.Distribution.Distribution
+import com.ryoserver.DustBox.DustBoxInventory
+import com.ryoserver.Gacha.{GachaItemChangeGUI, getGachaTickets}
+import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.getPlayerData
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Player.getData
+import com.ryoserver.Quest.QuestSelectInventory
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
+import com.ryoserver.Storage.Storage
+import com.ryoserver.Title.TitleInventory
+import com.ryoserver.World.SimpleRegion.RegionMenu
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
-import org.bukkit.{Bukkit, Material}
+import org.bukkit.inventory.ItemStack
+import org.bukkit.{Bukkit, ChatColor, Material}
 
-import scala.jdk.CollectionConverters._
-
-object createMenu extends Menu {
+class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val name = "りょう鯖メニュー"
   val slot = 6
+  var p: Player = null
 
-  def menu(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
+  def menu(player:Player,ryoServerAssist: RyoServerAssist): Unit = {
+    p = player
     setItem(1,1,Material.CRAFTING_TABLE,effect = false,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。"))
     setItem(3,1,Material.WOODEN_AXE,effect = false,s"${GREEN}保護メニューを開きます。",List(s"${GRAY}クリックで開きます。"))
     setItem(5,1,Material.BOOK,effect = false,s"${GREEN}クエストを選択します。",List(s"${GRAY}クリックで開きます。"))
@@ -41,6 +52,75 @@ object createMenu extends Menu {
     setItem(7,6,Material.FLOWER_BANNER_PATTERN,effect = false,s"${GREEN}Webサイトのリンクを表示します。",List("クリックで表示します。"))
     setItem(8,6,Material.FLOWER_BANNER_PATTERN,effect = false,s"${GREEN}Dynmapサイトのリンクを表示します。",List("クリックで表示します。"))
     setItem(9,6,Material.FLOWER_BANNER_PATTERN,effect = false,s"${GREEN}投票サイトのリンクを表示します。",List("クリックで表示します。"))
-    open(p)
+    registerMotion(registerMenu)
+    open()
   }
+
+  private def openWorkBench(p:Player): Unit = {
+    p.openWorkbench(null,true)
+  }
+
+  private def openEnderChest(p:Player): Unit = {
+    p.openInventory(p.getEnderChest)
+  }
+
+  private def giveFirework(p:Player): Unit = {
+    p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET,64))
+  }
+
+  private def worldTeleport(p:Player,world:Boolean): Unit = {
+    if (world) {
+      p.teleport(Bukkit.getWorld("world").getSpawnLocation)
+      p.sendMessage(ChatColor.AQUA + "worldのスポーン地点にテレポートしました！")
+    } else {
+      p.teleport(p.getWorld.getSpawnLocation)
+      p.sendMessage(ChatColor.AQUA + "スポーン地点にテレポートしました！")
+    }
+  }
+
+  private def teleportToHub(p:Player): Unit = {
+    val out = ByteStreams.newDataOutput
+    out.writeUTF("Connect")
+    out.writeUTF("lobby")
+    p.sendPluginMessage(ryoServerAssist,"BungeeCord",out.toByteArray)
+  }
+
+  private def sendSiteURL(p:Player,webType:String): Unit = {
+    webType match {
+      case "web" =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("webSite"))
+      case "dynmap" =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("dynmap"))
+      case "vote" =>
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).toString)
+        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).toString)
+    }
+  }
+
+  def registerMenu(player: Player,index:Int): Unit = {
+    val motions = Map[Int, Player => Unit](
+      getLayOut(1, 1) -> openWorkBench,
+      getLayOut(3, 1) -> new RegionMenu().menu _,
+      getLayOut(5, 1) -> new QuestSelectInventory(ryoServerAssist).selectInventory _,
+      getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
+      getLayOut(9, 1) -> {new TitleInventory(ryoServerAssist).openInv(_: Player, 1)},
+      getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
+      getLayOut(3, 3) -> openEnderChest,
+      getLayOut(5, 3) -> new NeoStackGUI(ryoServerAssist).openCategorySelectGUI _,
+      getLayOut(7,3) -> new DustBoxInventory().openDustBox _,
+      getLayOut(9,3) -> giveFirework,
+      getLayOut(1,5) -> new Distribution(ryoServerAssist).receipt _,
+      getLayOut(3,5) -> new getGachaTickets(ryoServerAssist).receipt _,
+      getLayOut(5,5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
+      getLayOut(1,6) -> {worldTeleport(_:Player,world = false)},
+      getLayOut(2,6) -> {worldTeleport(_:Player,world = true)},
+      getLayOut(3,6) -> new Home(ryoServerAssist).homeInventory _,
+      getLayOut(5,6) -> teleportToHub,
+      getLayOut(7,6) -> {sendSiteURL(_:Player,"web")},
+      getLayOut(8,6) -> {sendSiteURL(_:Player,"dynmap")},
+      getLayOut(9,6) -> {sendSiteURL(_:Player,"vote")}
+    )
+    if (motions.contains(index)) motions(index)(player)
+  }
+
 }

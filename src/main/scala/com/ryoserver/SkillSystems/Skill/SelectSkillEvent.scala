@@ -31,7 +31,7 @@ class SelectSkillEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       case 50 =>
         toggle.allEffectClear(p)
         p.sendMessage(AQUA + "スキルをすべて無効化しました。")
-      case 52 => createMenu.menu(p, ryoServerAssist)
+      case 52 => new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
       case _ =>
     }
   }

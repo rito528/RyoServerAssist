@@ -7,7 +7,7 @@ import com.ryoserver.File.createFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
-import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuLayout}
+import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler, MenuLayout}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
@@ -109,6 +109,7 @@ class RyoServerAssist extends JavaPlugin {
       new GachaItemChangeGUI(this),
       new Vote(this),
       new SecurityEvent(this),
+      new MenuHandler(this)
       //new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
 
