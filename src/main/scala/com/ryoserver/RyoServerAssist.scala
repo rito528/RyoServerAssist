@@ -22,7 +22,7 @@ import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
-import com.ryoserver.World.SimpleRegion.{RegionCommand, RegionSettingMenuEvent}
+import com.ryoserver.World.SimpleRegion.RegionCommand
 import com.ryoserver.tpa.tpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -95,7 +95,6 @@ class RyoServerAssist extends JavaPlugin {
       new Notification,
       new RecoverySkillPointEvent(this),
       new SelectSkillEvent(this),
-      new RegionSettingMenuEvent,
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(this),

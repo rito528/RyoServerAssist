@@ -248,7 +248,10 @@ object OriginalItems {
     tiguruinoyaiba.getItemMeta.getItemFlags,
     oretaEiyuNoKen.getItemMeta.getItemFlags,
     ryoNoKen.getItemMeta.getItemFlags,
-    kabuto.getItemMeta.getItemFlags
+    kabuto.getItemMeta.getItemFlags,
+    yoroi.getItemMeta.getItemFlags,
+    asi.getItemMeta.getItemFlags,
+    boots.getItemMeta.getItemFlags
   )
 
 }

@@ -1,6 +1,7 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuHandler}
 import com.ryoserver.util.WorldGuardWrapper
 import com.sk89q.worldedit.bukkit.BukkitAdapter
@@ -15,9 +16,14 @@ import org.bukkit.entity.Player
 
 import scala.jdk.CollectionConverters._
 
-class RegionSettingMenu {
+class RegionSettingMenu extends Menu {
 
-  def openMenu(p:Player): Unit = {
+  val name: String = "保護設定メニュー"
+  val slot: Int = 6
+  var p: Player = _
+
+  def openMenu(player:Player): Unit = {
+    p = player
     val worldGuard = new WorldGuardWrapper
     val loc = p.getLocation()
     if (!worldGuard.isProtected(loc) || !worldGuard.isOwner(p,loc)) {
@@ -25,28 +31,50 @@ class RegionSettingMenu {
       return
     }
     val set = worldGuard.getRegion(loc).head
-    val inv = Bukkit.createInventory(null,54,"保護設定メニュー")
-    inv.setItem(1,getItem(Material.TNT,s"${RED}${BOLD}保護を削除します。",
-      List(s"${RED}${BOLD}取扱注意！",s"${RED}${BOLD}保護範囲を削除します。").asJava))
-    inv.setItem(3,getItem(Material.OAK_DOOR,s"${GREEN}フラグ:useを切り替えます。",
-      List(s"${GRAY}ドアやボタンの使用を許可します。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.USE)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    inv.setItem(5,getItem(Material.OAK_BUTTON,s"${GREEN}フラグ:interactを切り替えます。",
+    setItem(2,1,Material.TNT,effect = false,s"${RED}${BOLD}保護を削除します。", List(s"${RED}${BOLD}取扱注意！",s"${RED}${BOLD}保護範囲を削除します。"))
+    setItem(4,1,Material.OAK_DOOR,effect = false,s"${GREEN}フラグ:useを切り替えます。", List(s"${GRAY}ドアやボタンの使用を許可します。"))
+    setItem(6,1,Material.OAK_BUTTON,effect = false,s"${GREEN}フラグ:interactを切り替えます。",
       List(s"${GRAY}スイッチの使用を許可します。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.INTERACT)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    inv.setItem(7,getItem(Material.CHEST,s"${GREEN}フラグ:chest-accessを切り替えます。",
+        s"${GRAY}状態:${if (getFlagStatus(set,Flags.INTERACT)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    setItem(8,1,Material.CHEST,effect = false,s"${GREEN}フラグ:chest-accessを切り替えます。",
       List(s"${GRAY}チェストの使用を許可します。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.CHEST_ACCESS)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    inv.setItem(19,getItem(Material.WHITE_BED,s"${GREEN}フラグ:sleepを許可します。",
+        s"${GRAY}状態:${if (getFlagStatus(set,Flags.CHEST_ACCESS)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    setItem(2,2,Material.WHITE_BED,effect = false,s"${GREEN}フラグ:sleepを許可します。",
       List(s"${GRAY}ベットで眠る許可をします。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.SLEEP)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    inv.setItem(21,getItem(Material.MINECART,s"${GREEN}フラグ:vehicle-placeを許可します。",
+        s"${GRAY}状態:${if (getFlagStatus(set,Flags.SLEEP)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    setItem(4,2,Material.MINECART,effect = false,s"${GREEN}フラグ:vehicle-placeを許可します。",
       List(s"${GRAY}トロッコ、ボードの設置を許可します。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.PLACE_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    inv.setItem(23,getItem(Material.OAK_BOAT,s"${GREEN}フラグ:vehicle-destroyを許可します。",
+        s"${GRAY}状態:${if (getFlagStatus(set,Flags.PLACE_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    setItem(6,2,Material.OAK_BOAT,effect = false,s"${GREEN}フラグ:vehicle-destroyを許可します。",
       List(s"${GRAY}トロッコ、ボードの破壊を許可します。",
-        s"${GRAY}状態:${if (getFlagStatus(set,Flags.DESTROY_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}").asJava))
-    p.openInventory(inv)
+        s"${GRAY}状態:${if (getFlagStatus(set,Flags.DESTROY_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    registerMotion(motion)
+    open()
+  }
+
+  def deleteRegion(p:Player): Unit = {
+    val worldGuard = new WorldGuardWrapper
+    val region = worldGuard.getRegion(p.getLocation()).head
+    worldGuard.removeRegion(p)
+    p.sendMessage(AQUA + "保護:" + region.getId + "を削除しました。")
+  }
+
+  def motion(p:Player,index:Int): Unit = {
+    val worldGuard = new WorldGuardWrapper
+    val region = worldGuard.getRegion(p.getLocation()).head
+    val motions = Map[Int,Player => Unit](
+      getLayOut(2,1) -> deleteRegion,
+      getLayOut(4,1) -> {worldGuard.toggleFlag(region,Flags.USE,_)},
+      getLayOut(6,1) -> {worldGuard.toggleFlag(region,Flags.INTERACT,_)},
+      getLayOut(8,1) -> {worldGuard.toggleFlag(region,Flags.CHEST_ACCESS,_)},
+      getLayOut(2,2) -> {worldGuard.toggleFlag(region,Flags.SLEEP,_)},
+      getLayOut(4,2) -> {worldGuard.toggleFlag(region,Flags.PLACE_VEHICLE,_)},
+      getLayOut(6,2) -> {worldGuard.toggleFlag(region,Flags.DESTROY_VEHICLE,_)}
+    )
+    if (motions.contains(index)) {
+      motions(index)(p)
+      openMenu(p)
+    }
   }
 
   def getFlagStatus(set:ProtectedRegion, flag:StateFlag): Boolean = {
