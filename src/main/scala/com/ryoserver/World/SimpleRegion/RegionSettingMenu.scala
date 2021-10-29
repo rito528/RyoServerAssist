@@ -1,6 +1,7 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Menu.{Menu, MenuHandler}
 import com.ryoserver.util.WorldGuardWrapper
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.util.Location

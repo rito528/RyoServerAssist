@@ -20,6 +20,10 @@ class TitleInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val inv = e.getInventory
     if (index == 45) {
       new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
+    } else if (index == 49) {
+      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
+      new Name(ryoServerAssist).updateName(p)
+      p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
     } else if (index == 53) {
       new TitleInventory(ryoServerAssist).openInv(p,page + 1)
     } else if (0 <= index && 44 >= index && inv.getItem(index).getType == Material.NAME_TAG) {

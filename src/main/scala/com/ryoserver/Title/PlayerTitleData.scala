@@ -51,4 +51,10 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
+  def resetSelectTitle(uuid:String): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET selectedTitle=NULL WHERE UUID='$uuid';")
+    sql.close()
+  }
+
 }
