@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Gacha/GachaLoader.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Gacha/GachaLoader.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Home/Home.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Home/Home.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/NeoStack/TableCheck.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/NeoStack/TableCheck.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/FirstJoinSettingCommand.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/FirstJoinSettingCommand.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/createData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/createData.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/QuestData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/QuestData.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Storage/Storage.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Storage/Storage.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/zinc/inc_compile_2.13.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/assembly/_global/streams/assembly-inputs" afterDir="false" />
