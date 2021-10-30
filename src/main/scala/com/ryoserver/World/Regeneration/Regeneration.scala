@@ -41,6 +41,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       var z = random.nextInt(500)
       var y = 64
       if (worldType == Environment.THE_END) {
+        worldManager.getMVWorld(world).setRespawnToWorld("world")
         x = -106
         z = -60
         y = 55
