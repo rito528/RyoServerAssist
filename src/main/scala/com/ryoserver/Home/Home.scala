@@ -34,8 +34,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
           sql.close()
           return
         }
-        val rs = sql.executeQuery(s"SHOW TABLES LIKE 'Homes';")
-        if (!rs.next()) sql.executeSQL(s"CREATE TABLE `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
+        sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
         val inv = Bukkit.createInventory(null,27,"HomeSystem")
         inv.setItem(2,getItem(Material.WHITE_BED,"ホーム1を設定します。",util.Arrays.asList()))
         inv.setItem(4,getItem(Material.BLUE_BED,"ホーム2を設定します。",util.Arrays.asList()))

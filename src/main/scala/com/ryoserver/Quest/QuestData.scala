@@ -9,8 +9,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
 
   private def createQuestTable(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val checkTable = sql.executeQuery("SHOW TABLES LIKE 'Quests';")
-    if (!checkTable.next()) sql.executeSQL("CREATE TABLE Quests(id INT AUTO_INCREMENT,UUID TEXT,QuestName TEXT,selectedQuest TEXT,remaining TEXT,PRIMARY KEY(id));")
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS Quests(id INT AUTO_INCREMENT,UUID TEXT,QuestName TEXT,selectedQuest TEXT,remaining TEXT,PRIMARY KEY(id));")
     sql.close()
   }
 
@@ -82,8 +81,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")
-    val checkTable = sql.executeQuery(s"SHOW TABLES LIKE 'QuestClears'")
-    if (!checkTable.next()) sql.executeSQL("CREATE TABLE QuestClears(QuestName TEXT,ClearNumber INT)")
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS QuestClears(QuestName TEXT,ClearNumber INT)")
     val checkQuest = sql.executeQuery(s"SELECT QuestName FROM QuestClears WHERE QuestName='${lottery.questName}'")
     if (!checkQuest.next()) sql.executeSQL(s"INSERT INTO QuestClears (QuestName,ClearNumber) VALUES ('${lottery.questName}',1)")
     else sql.executeSQL(s"UPDATE QuestClears SET ClearNumber=ClearNumber+1 WHERE QuestName='${lottery.questName}'")

@@ -28,8 +28,7 @@ class Storage(ryoServerAssist: RyoServerAssist) {
     val data = new getPlayerData(ryoServerAssist)
     if (data.getPlayerLevel(p) >= 10) {
       val sql = new SQL(ryoServerAssist)
-      val tableCheck_rs = sql.executeQuery("SHOW TABLES LIKE 'Storage';")
-      if (!tableCheck_rs.next()) sql.executeSQL("CREATE TABLE Storage(UUID TEXT,invData TEXT);")
+       sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
       val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")
       val inv = Bukkit.createInventory(null,54,"Storage")
       var counter = 0

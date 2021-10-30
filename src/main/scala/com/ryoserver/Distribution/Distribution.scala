@@ -12,8 +12,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
 
   def createDistributionTable(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery("SHOW TABLES LIKE 'Distribution';")
-    if (!rs.next()) sql.executeSQL("CREATE TABLE Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
     sql.close()
   }
 
