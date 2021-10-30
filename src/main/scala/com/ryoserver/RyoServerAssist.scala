@@ -90,7 +90,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents(this),
       new MenuEvent(this),
       new StorageEvent(this),
-      new QuestSelectInventoryEvent(this),
+      new QuestSelectInventoryEvent(),
       new suppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent(this),

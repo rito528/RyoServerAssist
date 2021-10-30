@@ -2,6 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.giveTitle
+import com.ryoserver.util.Entity.getEntity
 import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
@@ -25,7 +26,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           var data: Array[String] = Array.empty[String]
           remaining.split(";").foreach(questEntity => {
             data :+= questEntity
-            if (new QuestSelectInventory(ryoServerAssist).getEntity(questEntity.split(":")(0)) == entity) {
+            if (getEntity(questEntity.split(":")(0)) == entity) {
               data = data.filterNot(_ == questEntity)
               var amount = questEntity.split(":")(1).toInt - 1
               if (amount < 0) amount = 0
@@ -48,8 +49,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           if (!questDone && pause) {
             p.sendMessage("[進行状況]")
             data.foreach(e => {
-              p.sendMessage(loadQuests.langFile.get("entity." + new QuestSelectInventory(ryoServerAssist)
-                .getEntity(e.split(":")(0)).getKey.toString.replace(":",".")).textValue() + "->" + e.split(":")(1) + "体")
+              p.sendMessage(loadQuests.langFile.get("entity." + getEntity(e.split(":")(0)).getKey.toString.replace(":",".")).textValue() + "->" + e.split(":")(1) + "体")
             })
           }
 

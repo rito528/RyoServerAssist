@@ -1,24 +1,17 @@
 package com.ryoserver.World.SimpleRegion
 
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuHandler}
 import com.ryoserver.util.WorldGuardWrapper
-import com.sk89q.worldedit.bukkit.BukkitAdapter
-import com.sk89q.worldedit.util.Location
-import com.sk89q.worldguard.WorldGuard
-import com.sk89q.worldguard.protection.ApplicableRegionSet
 import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
-import org.bukkit.{Bukkit, ChatColor, Material}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-
-import scala.jdk.CollectionConverters._
+import org.bukkit.{ChatColor, Material}
 
 class RegionSettingMenu extends Menu {
 
-  val name: String = "保護設定メニュー"
+  var name: String = "保護設定メニュー"
   val slot: Int = 6
   var p: Player = _
 

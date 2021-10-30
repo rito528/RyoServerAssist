@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack
 
 class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  val name: String = "保護メニュー"
+  var name: String = "保護メニュー"
   val slot: Int = 1
   var p:Player = _
   def menu(player:Player): Unit = {

@@ -25,12 +25,10 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
     val worldManager = core.getMVWorldManager
     ryoServerAssist.getConfig.getStringList(listName).forEach(world => {
       List(
-        s"dynmap purgemap $world cave",
-        s"dynmap purgemap $world Surface",
+        "dynmap pause all",
         s"dynmap purgemap $world Flat",
-        s"dmap mapdelete $world:cave",
-        s"dmap mapdelete $world:Surface",
-        s"dmap mapdelete $world:Flat"
+        s"dmap mapdelete $world:Flat",
+        "dynmap pause none"
       ).foreach(cmd => Bukkit.dispatchCommand(getConsoleSender,cmd))
       worldManager.deleteWorld(world)
       worldManager.addWorld(world,worldType,null,WorldType.NORMAL,true,null)
@@ -65,7 +63,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       Bukkit.dispatchCommand(getConsoleSender,s"wb $world set 5000 5000 spawn")
       Bukkit.dispatchCommand(getConsoleSender,"wb shape square")
       portals.getPortalManager.getPortal(s"worldTo$world").setExactDestination(Bukkit.getWorld(world).getSpawnLocation)
-      Bukkit.dispatchCommand(getConsoleSender,s"dynmap fullrender $world")
+      Bukkit.dispatchCommand(getConsoleSender,s"dynmap fullrender $world:Flat")
     })
   }
 

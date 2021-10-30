@@ -8,7 +8,7 @@ import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGUI
 import com.ryoserver.Player.getData
-import com.ryoserver.Quest.QuestSelectInventory
+import com.ryoserver.Quest.QuestInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
@@ -20,7 +20,7 @@ import org.bukkit.entity.Player
 
 class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  val name = "りょう鯖メニュー"
+  var name = "りょう鯖メニュー"
   val slot = 6
   var p: Player = _
 
@@ -59,7 +59,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val motions = Map[Int, Player => Unit](
       getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
-      getLayOut(5, 1) -> new QuestSelectInventory(ryoServerAssist).selectInventory _,
+      getLayOut(5, 1) -> new QuestInventory(ryoServerAssist).selectInventory _,
       getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
       getLayOut(9, 1) -> {new TitleInventory(ryoServerAssist).openInv(_: Player, 1)},
       getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,

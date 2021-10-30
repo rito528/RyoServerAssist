@@ -73,7 +73,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
     e.setCancelled(true)
     val p = e.getWhoClicked.asInstanceOf[Player]
     val index = e.getSlot
-    if (index == 2 || index == 4 || index == 6) setHome(p,index / 2);println("q")
+    if (index == 2 || index == 4 || index == 6) setHome(p,index / 2)
     if (index == 11 || index == 13 || index == 15) teleportHome(p,(index - 9) / 2)
     if (index == 20 || index == 22 || index == 24) homeLock(p,(index-18)/2)
   }
