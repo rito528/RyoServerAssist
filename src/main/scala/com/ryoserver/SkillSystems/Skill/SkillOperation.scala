@@ -33,7 +33,8 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
         runnable = this
         new BukkitRunnable {
           override def run(): Unit = {
-            p.addPotionEffect(new PotionEffect(skillEffect,40, level))
+            if (!isEnableSkill) runnable.cancel()
+            else p.addPotionEffect(new PotionEffect(skillEffect,40, level))
           }
         }.runTask(ryoServerAssist)
       }
@@ -43,6 +44,7 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
       override def run(): Unit = {
         //60秒ごとにスキルポイントを更新
         if (!isEnableSkill) {
+          runnable.cancel()
           this.cancel()
           skillInvalidation()
         } else if (new SkillPointData(ryoServerAssist).getSkillPoint(p) < sp) {

@@ -1,5 +1,5 @@
 name: RyoServerAssist
-version: 1.1.2
+version: 1.1.3
 main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 description: RyoServerAssist
