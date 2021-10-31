@@ -14,7 +14,7 @@ import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totem
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
-import com.ryoserver.SkillSystems.Skill.{DestructionSkill, SelectSkillEvent}
+import com.ryoserver.SkillSystems.Skill.DestructionSkill
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -94,7 +94,6 @@ class RyoServerAssist extends JavaPlugin {
       new suppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent(this),
-      new SelectSkillEvent(this),
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(this),
