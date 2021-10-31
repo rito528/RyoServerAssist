@@ -26,8 +26,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
     ryoServerAssist.getConfig.getStringList(listName).forEach(world => {
       List(
         "dynmap pause all",
-        s"dynmap purgemap $world Flat",
-        s"dmap mapdelete $world:Flat",
+        s"dynmap purgemap $world flat",
         "dynmap pause none"
       ).foreach(cmd => Bukkit.dispatchCommand(getConsoleSender,cmd))
       worldManager.deleteWorld(world)

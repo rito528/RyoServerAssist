@@ -3,6 +3,7 @@ package com.ryoserver.Player
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.PlayerTitleData
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 class Name(ryoServerAssist: RyoServerAssist) {
@@ -11,7 +12,8 @@ class Name(ryoServerAssist: RyoServerAssist) {
     var title = ""
     val selectedTitle = new PlayerTitleData(ryoServerAssist).getSelectedTitle(p.getUniqueId.toString)
     if (selectedTitle != null) title = "[" + selectedTitle + "]"
-    val name = s"$title[Lv.${new getPlayerData(ryoServerAssist).getPlayerLevel(p)}]${p.getName}"
+    val prefix = if (p.hasPermission("minecraft.command.gamemode")) ChatColor.LIGHT_PURPLE else ""
+    val name = s"$title[Lv.${new getPlayerData(ryoServerAssist).getPlayerLevel(p)}]$prefix${p.getName}" + ChatColor.RESET
     p.setDisplayName(name)
     p.setPlayerListName(name)
   }

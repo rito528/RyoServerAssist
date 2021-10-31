@@ -25,11 +25,11 @@ object loadQuests {
       if (file.getName.contains(".json")) {
         val mapper = new ObjectMapper()
         var readLine = ""
-        val questName = file.getName.replace(".json", "")
-        enableEvents +:= questName
-        val source = Source.fromFile(QUEST_SETTING_FILES + "/" + questName + ".json", "UTF-8")
+        val source = Source.fromFile(QUEST_SETTING_FILES + "/" + file.getName, "UTF-8")
         source.getLines().foreach(line => readLine = line)
         val json = mapper.readTree(readLine)
+        val questName = json.get("questName").textValue()
+          enableEvents +:= questName
         val items = StreamSupport.stream(json.get("condition").spliterator(), false)
           .map(
             e => {
