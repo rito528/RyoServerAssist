@@ -9,9 +9,11 @@ import com.sk89q.worldedit.math.Vector3
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+
+import java.util.UUID
 
 class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -71,9 +73,10 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       p.sendMessage(RED + "他の保護範囲と重なっています！")
     } else {
       val owners = region.getOwners
-      owners.addPlayer(uuid)
+      owners.addPlayer(UUID.fromString(uuid))
       regions.addRegion(region)
       p.sendMessage(AQUA + "保護が完了しました！")
+      p.playSound(p.getLocation,Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
     }
   }
 

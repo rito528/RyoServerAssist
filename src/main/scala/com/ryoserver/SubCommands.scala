@@ -18,6 +18,7 @@ class SubCommands extends CommandExecutor {
     } else if (label.equalsIgnoreCase("spawn")) {
       val p = sender.asInstanceOf[Player]
       p.teleport(Bukkit.getWorld("world").getSpawnLocation)
+      return true
     }
     false
   }

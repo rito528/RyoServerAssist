@@ -13,6 +13,7 @@ class QuestSelectInventoryMotions(ryoServerAssist: RyoServerAssist) {
     lottery.questName = questNames(index)
     lottery.loadQuestData()
     questData.selectQuest(p, lottery)
+    p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
     new QuestInventory(ryoServerAssist).selectInventory(p)
   }
 

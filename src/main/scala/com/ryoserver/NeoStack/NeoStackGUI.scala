@@ -10,7 +10,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor, Material}
+import org.bukkit.{Bukkit, ChatColor, Material, Sound}
 
 import java.util
 import scala.collection.mutable
@@ -97,6 +97,7 @@ class NeoStackGUI(ryoServerAssist: RyoServerAssist) {
           s"${WHITE}現在の状態:${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}").asJava))
       inv.setItem(44,getItem(Material.CHEST_MINECART,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。").asJava))
       p.openInventory(inv)
+      p.playSound(p.getLocation,Sound.BLOCK_SHULKER_BOX_OPEN,1,1)
     } else {
       p.sendMessage(ChatColor.RED + "ネオスタック機能はLv.20以上になると使うことができます。")
     }

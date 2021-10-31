@@ -1,6 +1,6 @@
 package com.ryoserver.DustBox
 
-import org.bukkit.ChatColor
+import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
@@ -14,6 +14,8 @@ class DustBoxInventoryEvent extends Listener {
       case 49 =>
         e.setCancelled(true)
         e.getInventory.clear()
+        val p = e.getWhoClicked.asInstanceOf[Player]
+        p.playSound(p.getLocation,Sound.ITEM_BUCKET_FILL_LAVA,1,1)
         new DustBoxInventory().openDustBox(e.getWhoClicked.asInstanceOf[Player])
       case _ =>
     }

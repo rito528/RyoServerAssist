@@ -55,7 +55,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       gachaPaper.setAmount(stack)
       p.getWorld.dropItem(p.getLocation(), gachaPaper)
       p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
-      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      p.playSound(p.getLocation,Sound.ENTITY_ARROW_HIT_PLAYER,1,1)
     }
   }
 

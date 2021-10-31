@@ -1,6 +1,6 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Level.Player.{getPlayerData, updateLevel}
+import com.ryoserver.Level.Player.updateLevel
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player

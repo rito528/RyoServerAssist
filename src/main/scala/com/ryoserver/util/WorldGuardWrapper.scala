@@ -4,7 +4,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.flags.StateFlag
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
-import org.bukkit.{ChatColor, Location}
+import org.bukkit.{ChatColor, Location, Sound}
 import org.bukkit.entity.Player
 import org.jetbrains.annotations.NotNull
 
@@ -43,6 +43,7 @@ class WorldGuardWrapper {
       region.setFlag(flag, StateFlag.State.DENY)
       p.sendMessage(ChatColor.AQUA + "フラグ:" + flag.getName + "を無効にしました。")
     }
+    p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
   }
 
 }

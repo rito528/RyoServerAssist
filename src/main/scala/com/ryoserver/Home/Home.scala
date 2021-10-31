@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{Bukkit, ChatColor, Location, Material}
+import org.bukkit.{Bukkit, ChatColor, Location, Material, Sound}
 
 import java.util
 
@@ -125,6 +125,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
           s"[${location(0)},${location(1)},${location(2)},${location(3)}]にテレポートしました！")
       p.teleport(new Location(Bukkit.getWorld(location(0)), location(1).toInt, location(2).toInt, location(3).toInt))
       p.sendMessage(ChatColor.AQUA + "ホーム" + point + "にテレポートしました！")
+      p.playSound(p.getLocation,Sound.ENTITY_ENDERMAN_TELEPORT,1,1)
       sql.close()
       return
     }

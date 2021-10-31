@@ -7,7 +7,7 @@ import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material}
+import org.bukkit.{ChatColor, Material, Sound}
 
 class RegionSettingMenu extends Menu {
 
@@ -25,7 +25,8 @@ class RegionSettingMenu extends Menu {
     }
     val set = worldGuard.getRegion(loc).head
     setItem(2,1,Material.TNT,effect = false,s"${RED}${BOLD}保護を削除します。", List(s"${RED}${BOLD}取扱注意！",s"${RED}${BOLD}保護範囲を削除します。"))
-    setItem(4,1,Material.OAK_DOOR,effect = false,s"${GREEN}フラグ:useを切り替えます。", List(s"${GRAY}ドアやボタンの使用を許可します。"))
+    setItem(4,1,Material.OAK_DOOR,effect = false,s"${GREEN}フラグ:useを切り替えます。", List(s"${GRAY}ドアやボタンの使用を許可します。",
+      s"${GRAY}状態:${if (getFlagStatus(set,Flags.USE)) s"${AQUA}許可" else s"${RED}拒否"}"))
     setItem(6,1,Material.OAK_BUTTON,effect = false,s"${GREEN}フラグ:interactを切り替えます。",
       List(s"${GRAY}スイッチの使用を許可します。",
         s"${GRAY}状態:${if (getFlagStatus(set,Flags.INTERACT)) s"${AQUA}許可" else s"${RED}拒否"}"))
@@ -50,6 +51,7 @@ class RegionSettingMenu extends Menu {
     val region = worldGuard.getRegion(p.getLocation()).head
     worldGuard.removeRegion(p)
     p.sendMessage(AQUA + "保護:" + region.getId + "を削除しました。")
+    p.playSound(p.getLocation,Sound.ITEM_BUCKET_FILL_LAVA,1,1)
   }
 
   def motion(p:Player,index:Int): Unit = {

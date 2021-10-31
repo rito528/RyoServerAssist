@@ -3,11 +3,10 @@ package com.ryoserver.Quest
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Material
-import org.bukkit.configuration.file.{FileConfiguration, YamlConfiguration}
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.EntityType
 
-import java.io.{File, PrintWriter}
-import java.nio.file.{Files, Paths}
+import java.io.File
 import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
 object loadQuests {

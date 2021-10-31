@@ -2,7 +2,7 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.ChatColor
+import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 
 class getGachaTickets(ryoServerAssist: RyoServerAssist) {
@@ -37,6 +37,7 @@ class getGachaTickets(ryoServerAssist: RyoServerAssist) {
       gachaTicket.setAmount(number)
       p.getWorld.dropItemNaturally(p.getLocation(), gachaTicket)
       p.sendMessage(ChatColor.AQUA + "ガチャ券を受け取りました。")
+      p.playSound(p.getLocation,Sound.ENTITY_ARROW_HIT_PLAYER,1,1)
     } else {
       p.sendMessage(ChatColor.RED + "受け取れるガチャ券がありません！")
     }
