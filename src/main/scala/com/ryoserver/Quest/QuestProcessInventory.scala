@@ -64,10 +64,10 @@ class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def motion(player:Player,index:Int): Unit = {
     val motions = Map[Int,Player => Unit](
-      if (inv.get.getItem(getLayOut(2,6)) != null) getLayOut(2,6) -> {new QuestProcessInventoryMotions(ryoServerAssist).delivery(_,inv.get)} else null,
       getLayOut(9,6) -> {new QuestProcessInventoryMotions(ryoServerAssist).questDestroy}
     )
     if (motions.contains(index) && motions(index) != null) motions(index)(player)
+    if (inv.get.getItem(getLayOut(2,6)) != null && index == getLayOut(2,6)) getLayOut(2,6) -> new QuestProcessInventoryMotions(ryoServerAssist).delivery(player,inv.get)
   }
 
 }

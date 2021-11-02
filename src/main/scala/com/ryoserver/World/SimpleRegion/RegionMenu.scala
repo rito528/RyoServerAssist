@@ -84,7 +84,7 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     Map[Int,(Player) => Unit](
       getLayOut(3,1) -> giveAxe,
       getLayOut(5,1) -> createRegion,
-      getLayOut(7,1) -> new RegionSettingMenu().openMenu _
+      getLayOut(7,1) -> new RegionSettingMenu(ryoServerAssist).openMenu _
     )(index)(p)
   }
 

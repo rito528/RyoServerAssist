@@ -2,7 +2,7 @@ package com.ryoserver.util
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldguard.WorldGuard
-import com.sk89q.worldguard.protection.flags.StateFlag
+import com.sk89q.worldguard.protection.flags.{RegionGroup, StateFlag}
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.{ChatColor, Location, Sound}
 import org.bukkit.entity.Player
@@ -40,7 +40,7 @@ class WorldGuardWrapper {
       region.setFlag(flag, StateFlag.State.ALLOW)
       p.sendMessage(ChatColor.AQUA + "フラグ:" + flag.getName + "を有効にしました。")
     } else {
-      region.setFlag(flag, StateFlag.State.DENY)
+      region.setFlag(flag,flag.getDefault)
       p.sendMessage(ChatColor.AQUA + "フラグ:" + flag.getName + "を無効にしました。")
     }
     p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
