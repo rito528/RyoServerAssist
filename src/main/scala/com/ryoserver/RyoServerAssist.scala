@@ -100,7 +100,6 @@ class RyoServerAssist extends JavaPlugin {
       new ElevatorEvent,
       new totemEffect,
       new AnvilRepairEvent,
-      new NeoStackGUIEvent(this),
       new PickEvent(this),
       new GachaItemChangeGUI(this),
       new Vote(this),
@@ -126,7 +125,7 @@ class RyoServerAssist extends JavaPlugin {
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
     NeoStack.PlayerData.runnableSaver(this)
-    new NeoStackGUI(this).loadStackPage()
+    new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
 //    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")

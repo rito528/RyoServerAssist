@@ -3,7 +3,7 @@ package com.ryoserver.Menu
 import com.ryoserver.Inventory.Item.{getGachaItem, getItem, getPlayerSkull}
 import com.ryoserver.Menu.MenuSessions.session
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.{Inventory, ItemStack}
 import org.bukkit.{Bukkit, Material}
 
 import scala.jdk.CollectionConverters._
@@ -51,6 +51,17 @@ trait Menu {
         inv.get.setItem(index,getPlayerSkull(p,title,lore))
       case Some(inv) =>
         inv.setItem(index,getPlayerSkull(p,title,lore))
+    }
+  }
+
+  def setItemStack(x:Int, y:Int, item:ItemStack): Unit = {
+    val index = MenuLayout.getLayOut(x,y)
+    inv match {
+      case None =>
+        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
+        inv.get.setItem(index,item)
+      case Some(inv) =>
+        inv.setItem(index,item)
     }
   }
 

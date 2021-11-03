@@ -6,7 +6,7 @@ import com.ryoserver.Gacha.{GachaItemChangeGUI, getGachaTickets}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.NeoStack.NeoStackGUI
+import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.getData
 import com.ryoserver.Quest.QuestInventory
 import com.ryoserver.RyoServerAssist
@@ -34,7 +34,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(1,3,Material.CHEST,effect = false,s"${GREEN}ストレージを開きます。",List(s"${GRAY}クリックで開きます。"))
     setItem(3,3,Material.ENDER_CHEST,effect = false,s"${GREEN}エンダーチェストを開きます。",List(s"${GRAY}クリックで開きます。"))
     setItem(5,3,Material.SHULKER_BOX,effect = false,s"${GREEN}ネオスタックを開きます。",List(s"${GRAY}クリックで開きます"))
-    setItem(7,3,Material.LAVA_BUCKET,effect = false,s"${GREEN}ゴミ箱を開きます。",List(s"${GRAY}クリックで開きます。",s"${RED}${BOLD}取扱注意！"))
+    setItem(7,3,Material.LAVA_BUCKET,effect = false,s"${GREEN}ゴミ箱を開きます。",List(s"${GRAY}クリックで開きます。",s"$RED${BOLD}取扱注意！"))
     setItem(9,3,Material.FIREWORK_ROCKET,effect = false,s"${GREEN}ロケット花火を受け取ります。",List(s"${GRAY}クリックで受け取ります。"))
     setItem(1,5,Material.CHEST_MINECART,effect = false,s"${GREEN}運営からのガチャ券を受け取ります。",List(s"${GRAY}クリックで受け取ります。"))
     setItem(3,5,Material.PAPER,effect = true,s"${GREEN}ガチャ券を受け取ります。",List(s"${GRAY}クリックで受け取ります。",
@@ -64,7 +64,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(9, 1) -> {new TitleInventory(ryoServerAssist).openInv(_: Player, 1)},
       getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
       getLayOut(3, 3) -> motion.openEnderChest,
-      getLayOut(5, 3) -> new NeoStackGUI(ryoServerAssist).openCategorySelectGUI _,
+      getLayOut(5, 3) -> new CategorySelectMenu(ryoServerAssist).openCategorySelectMenu _,
       getLayOut(7,3) -> new DustBoxInventory().openDustBox _,
       getLayOut(9,3) -> motion.giveFirework,
       getLayOut(1,5) -> new Distribution(ryoServerAssist).receipt _,
