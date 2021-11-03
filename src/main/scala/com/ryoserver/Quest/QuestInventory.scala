@@ -10,7 +10,7 @@ class QuestInventory(ryoServerAssist: RyoServerAssist) {
     val questData = new QuestData(ryoServerAssist)
     if (questData.getSelectedQuest(player) == null) {
       new SelectQuestInventory(ryoServerAssist).inventory(player)
-      player.playSound(player.getLocation,Sound.ENTITY_ARROW_SHOOT,1,1)
+      player.playSound(player.getLocation,Sound.ITEM_BOOK_PAGE_TURN,1,1)
     }
     else new QuestProcessInventory(ryoServerAssist).inventory(player)
   }
