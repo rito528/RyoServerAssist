@@ -64,10 +64,10 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         return
     }
     var counter = 1
-    while (regions.getRegions.containsKey(p.getName + "_" + counter)) {
+    while (regions.getRegions.containsKey(p.getName.toLowerCase() + "_" + counter)) {
       counter += 1
     }
-    val region = new ProtectedCuboidRegion(p.getName + "_" + counter,min.toBlockPoint,max.toBlockPoint)
+    val region = new ProtectedCuboidRegion(p.getName.toLowerCase() + "_" + counter,min.toBlockPoint,max.toBlockPoint)
     val overlapping = region.getIntersectingRegions(regions.getRegions.values())
     if (overlapping.size() > 0) {
       p.sendMessage(RED + "他の保護範囲と重なっています！")
