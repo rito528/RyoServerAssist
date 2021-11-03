@@ -10,12 +10,21 @@ import scala.jdk.CollectionConverters._
 
 trait Menu {
 
+  /*
+    各Menuで定義必須
+   */
   var name: String
   val slot: Int
   var p: Player
 
-  var partButton = false //一部のスロットだけクリックを無効化する場合はtrueにする
-  var buttons:Array[Int] = Array.empty //一部をボタンとする場合、ボタンとして認識するSlotを入れる
+  /*
+    一部のスロットだけクリックを無効化する場合はtrueにする
+   */
+  var partButton = false
+  /*
+    一部をボタンとする場合、ボタンとして認識するSlotを入れる
+   */
+  var buttons:Array[Int] = Array.empty
 
   var inv: Option[Inventory] = None
 

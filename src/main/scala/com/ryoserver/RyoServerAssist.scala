@@ -19,7 +19,7 @@ import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
-import com.ryoserver.Title.{TitleCommands, TitleInventoryEvent, TitleLoader}
+import com.ryoserver.Title.{TitleCommands, TitleLoader}
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.World.SimpleRegion.RegionCommand
@@ -99,7 +99,6 @@ class RyoServerAssist extends JavaPlugin {
       new FirstJoinSettingEvent(this),
       new ElevatorEvent,
       new totemEffect,
-      new TitleInventoryEvent(this),
       new AnvilRepairEvent,
       new NeoStackGUIEvent(this),
       new PickEvent(this),

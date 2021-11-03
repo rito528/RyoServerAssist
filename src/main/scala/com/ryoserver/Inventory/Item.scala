@@ -23,9 +23,9 @@ object Item {
     val itemMeta:ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(name)
     itemMeta.setLore(lore)
-    itemMeta.addEnchant(Enchantment.DURABILITY,1,false)
     itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
     itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
     itemStack
   }
 
