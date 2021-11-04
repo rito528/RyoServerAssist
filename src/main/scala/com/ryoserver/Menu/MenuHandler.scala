@@ -2,12 +2,13 @@ package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuData._
 import com.ryoserver.Menu.MenuSessions.session
+import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
-import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.scheduler.BukkitRunnable
 
-class MenuHandler extends Listener {
+class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def inventoryClick(e:InventoryClickEvent): Unit = {
@@ -34,8 +35,12 @@ class MenuHandler extends Listener {
     }
     //すべてがボタンとなる、もしくは一部がボタンとなる場合でスロットが一致していた場合はクリックをキャンセル
     if (!isPartButton || Buttons(title).contains(slot)) e.setCancelled(true)
-    if (data.contains(title)) data(title)(p,slot)
-    else if (dataNeedClick.contains(title)) dataNeedClick(title)(p,slot,e.getClick.isRightClick)
+    new BukkitRunnable {
+      override def run(): Unit = {
+        if (data.contains(title)) data(title)(p,slot)
+        else if (dataNeedClick.contains(title)) dataNeedClick(title)(p,slot,e.getClick.isRightClick)
+      }
+    }.runTask(ryoServerAssist)
   }
 
 }

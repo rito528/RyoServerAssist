@@ -8,6 +8,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.scheduler.BukkitRunnable
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -63,11 +64,15 @@ class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   def motion(player:Player,index:Int): Unit = {
-    val motions = Map[Int,Player => Unit](
-      getLayOut(9,6) -> {new QuestProcessInventoryMotions(ryoServerAssist).questDestroy}
-    )
-    if (motions.contains(index) && motions(index) != null) motions(index)(player)
-    if (inv.get.getItem(getLayOut(2,6)) != null && index == getLayOut(2,6)) getLayOut(2,6) -> new QuestProcessInventoryMotions(ryoServerAssist).delivery(player,inv.get)
+    new BukkitRunnable {
+      override def run(): Unit = {
+        val motions = Map[Int,Player => Unit](
+          getLayOut(9,6) -> {new QuestProcessInventoryMotions(ryoServerAssist).questDestroy}
+        )
+        if (motions.contains(index) && motions(index) != null) motions(index)(player)
+        if (player.getOpenInventory.getTopInventory.getItem(getLayOut(2,6)) != null && index == getLayOut(2,6)) getLayOut(2,6) -> new QuestProcessInventoryMotions(ryoServerAssist).delivery(player,player.getOpenInventory.getTopInventory)
+      }
+    }.runTask(ryoServerAssist)
   }
 
 }
