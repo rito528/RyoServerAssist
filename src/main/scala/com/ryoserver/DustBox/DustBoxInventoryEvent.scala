@@ -8,20 +8,6 @@ import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 class DustBoxInventoryEvent extends Listener {
 
   @EventHandler
-  def onClick(e: InventoryClickEvent): Unit = {
-    if (e.getView.getTitle != "ゴミ箱") return
-    e.getSlot match {
-      case 49 =>
-        e.setCancelled(true)
-        e.getInventory.clear()
-        val p = e.getWhoClicked.asInstanceOf[Player]
-        p.playSound(p.getLocation,Sound.ITEM_BUCKET_FILL_LAVA,1,1)
-        new DustBoxInventory().openDustBox(e.getWhoClicked.asInstanceOf[Player])
-      case _ =>
-    }
-  }
-
-  @EventHandler
   def onClose(e:InventoryCloseEvent): Unit = {
     var isSend = false
     val inv = e.getInventory
