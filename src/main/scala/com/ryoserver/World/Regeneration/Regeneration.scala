@@ -32,6 +32,7 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       worldManager.deleteWorld(world)
       worldManager.addWorld(world,worldType,null,WorldType.NORMAL,true,null)
       worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.KEEP_INVENTORY.asInstanceOf[GameRule[Any]],true)
+      worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.DO_INSOMNIA.asInstanceOf[GameRule[Any]],false)
       worldManager.getMVWorld(world).setDifficulty(Difficulty.HARD)
       val random = SecureRandom.getInstance("SHA1PRNG")
       var x = random.nextInt(500)

@@ -1,15 +1,14 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Inventory.Item.getItem
 import com.ryoserver.Menu.{Menu, createMenu}
-import com.ryoserver.NeoStack.{ItemList, NeoStackData, LoadNeoStackPage}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
+import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.ChatColor.{AQUA, GRAY, GREEN}
-import org.bukkit.{Bukkit, ChatColor, Material}
+import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.{ChatColor, Material}
 
 import scala.collection.mutable
 
@@ -53,7 +52,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     if (index == 49) {
       var invIndex = 0
       var invItem = ""
-      inv.get.getContents.foreach(is => {
+      p.getOpenInventory.getTopInventory.getContents.foreach(is => {
         if (invIndex < 45) {
           val config = new YamlConfiguration
           config.set("i",is)

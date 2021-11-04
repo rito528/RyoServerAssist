@@ -23,7 +23,10 @@ class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
       return
     }
     //右クリック、左クリック以外を排除
-    if (!e.getClick.isLeftClick && !e.getClick.isRightClick) return
+    if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
+      e.setCancelled(true)
+      return
+    }
 
     val slot = e.getSlot
     val isPartButton = partButton(e.getView.getTitle)
