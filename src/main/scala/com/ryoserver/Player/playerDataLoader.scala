@@ -1,6 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
+import com.ryoserver.NeoStack.PlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.skillToggleClass
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
@@ -14,6 +15,7 @@ class playerDataLoader(ryoServerAssist: RyoServerAssist) {
     new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
     SkillPointBer.create(p,ryoServerAssist)
     new Name(ryoServerAssist).updateName(p)
+    PlayerData.loadNeoStackPlayerData(ryoServerAssist,p)
   }
 
   def unload(p:Player): Unit = {

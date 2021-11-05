@@ -5,6 +5,7 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.scheduler.BukkitRunnable
 
 class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -15,10 +16,14 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val data = new NeoStackData(ryoServerAssist)
     val p = e.getEntity.asInstanceOf[Player]
     if (!data.checkItemList(itemStack) || !data.isAutoStackEnabled(p)) return
-    data.addStack(itemStack,p)
     e.setCancelled(true)
     e.getItem.remove()
-    p.playSound(p.getLocation,Sound.ENTITY_ITEM_PICKUP,1,1)
+    new BukkitRunnable {
+      override def run(): Unit = {
+        data.addStack(itemStack,p)
+        p.playSound(p.getLocation,Sound.ENTITY_ITEM_PICKUP,1,1)
+      }
+    }.runTaskLater(ryoServerAssist,5)
   }
 
 

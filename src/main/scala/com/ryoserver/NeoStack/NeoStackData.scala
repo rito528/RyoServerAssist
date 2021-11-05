@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack
 
+import com.ryoserver.NeoStack.PlayerData.playerData
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.NeoStack.PlayerData.{changedData, playerData}
 import com.ryoserver.util.SQL
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
@@ -68,6 +68,19 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
   def getItemAmount(category:String,p: Player): mutable.Map[ItemStack,Int] = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE category='$category' AND UUID='${p.getUniqueId.toString}'")
+    val amount = mutable.Map.empty[ItemStack,Int]
+    while (rs.next()) {
+      val config = new YamlConfiguration
+      config.loadFromString(rs.getString("item"))
+      amount += (config.getItemStack("i",null) -> rs.getInt("amount"))
+    }
+    sql.close()
+    amount
+  }
+
+  def getAllItemAmount(p: Player): mutable.Map[ItemStack,Int] = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE UUID='${p.getUniqueId.toString}'")
     val amount = mutable.Map.empty[ItemStack,Int]
     while (rs.next()) {
       val config = new YamlConfiguration

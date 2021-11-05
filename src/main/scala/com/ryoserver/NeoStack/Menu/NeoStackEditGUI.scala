@@ -48,7 +48,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def motion(p: Player,index:Int): Unit = {
     val data = new NeoStackData(ryoServerAssist)
-    val nowPage = name.replace("neoStackアイテム追加メニュー:","").toInt
+    val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:","").toInt
     if (index == 49) {
       var invIndex = 0
       var invItem = ""

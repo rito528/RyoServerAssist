@@ -72,7 +72,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   def motion(p:Player,index: Int,isRightClick:Boolean): Unit = {
-    val nowPage = name.replace("neoStack:","").replace("[Edit]","").toInt
+    val nowPage = p.getOpenInventory.getTitle.replace("neoStack:","").replace("[Edit]","").toInt
     val categoryMenu = new CategorySelectMenu(ryoServerAssist)
     index match {
       case 45 =>
