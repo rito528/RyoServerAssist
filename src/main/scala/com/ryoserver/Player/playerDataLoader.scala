@@ -9,19 +9,19 @@ import org.bukkit.entity.Player
 
 class playerDataLoader(ryoServerAssist: RyoServerAssist) {
 
-  def load(p:Player): Unit = {
+  def load(p: Player): Unit = {
     new createData(ryoServerAssist).createPlayerData(p)
     new UpdateData(ryoServerAssist).update(p)
     new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
-    SkillPointBer.create(p,ryoServerAssist)
+    SkillPointBer.create(p, ryoServerAssist)
     new Name(ryoServerAssist).updateName(p)
-    PlayerData.loadNeoStackPlayerData(ryoServerAssist,p)
+    PlayerData.loadNeoStackPlayerData(ryoServerAssist, p)
   }
 
-  def unload(p:Player): Unit = {
+  def unload(p: Player): Unit = {
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
-    new skillToggleClass(p,ryoServerAssist).allEffectClear(p)
+    new skillToggleClass(p, ryoServerAssist).allEffectClear(p)
   }
 
 }

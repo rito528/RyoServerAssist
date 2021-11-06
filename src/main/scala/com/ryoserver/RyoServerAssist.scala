@@ -7,14 +7,13 @@ import com.ryoserver.File.createFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
-import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler, MenuLayout}
+import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
-import com.ryoserver.SkillSystems.Skill.DestructionSkill
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -64,7 +63,7 @@ class RyoServerAssist extends JavaPlugin {
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommands
-    ).foreach({case (cmd,executor) =>
+    ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
 
@@ -106,13 +105,13 @@ class RyoServerAssist extends JavaPlugin {
       new SecurityEvent(this),
       new MenuHandler(this),
       //new DestructionSkill
-    ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener,this))
+    ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
       各種ロード処理
      */
     Config.config = this.getConfig
-    getServer.getMessenger.registerOutgoingPluginChannel(this,"BungeeCord")
+    getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
     loadQuests.checkQuest(this)
@@ -127,7 +126,7 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.runnableSaver(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
-//    new LoadEvent(this).load()
+    //    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")
   }
 

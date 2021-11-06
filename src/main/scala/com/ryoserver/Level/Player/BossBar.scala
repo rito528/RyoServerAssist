@@ -10,14 +10,14 @@ import scala.collection.mutable
 
 object BossBar {
 
-  private var bers:mutable.Map[Player,org.bukkit.boss.BossBar] = mutable.Map.empty
+  private var bers: mutable.Map[Player, org.bukkit.boss.BossBar] = mutable.Map.empty
 
-  def createLevelBer(ryoServerAssist: RyoServerAssist,exp:Double,p:Player): Unit = {
+  def createLevelBer(ryoServerAssist: RyoServerAssist, exp: Double, p: Player): Unit = {
     val calLv = new CalLv(ryoServerAssist)
-    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp), BarColor.GREEN, BarStyle.SOLID)
+    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp), BarColor.GREEN, BarStyle.SOLID)
     val lv = calLv.getLevel(exp.toInt)
     if (calLv.MAX_LV > lv) {
-      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp) + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
+      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp) + " 次のレベルまで残り: " + String.format("%.1f", (calLv.getSumTotal(lv + 1) - exp)))
       bossBer.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
       bossBer.setProgress(1)
@@ -27,23 +27,23 @@ object BossBar {
     bers = bers + (p -> bossBer)
   }
 
-  def updateLevelBer(ryoServerAssist:RyoServerAssist,exp: Double,p:Player): Unit = {
+  def updateLevelBer(ryoServerAssist: RyoServerAssist, exp: Double, p: Player): Unit = {
     val calLv = new CalLv(ryoServerAssist)
     val lv = calLv.getLevel(exp.toInt)
     val bossBer = bers.get(p)
     if (calLv.MAX_LV > lv) {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp) + " 次のレベルまで残り: " + String.format("%.1f",(calLv.getSumTotal(lv + 1) - exp)))
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp) + " 次のレベルまで残り: " + String.format("%.1f", (calLv.getSumTotal(lv + 1) - exp)))
       bossBer.get.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f",exp))
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp))
       bossBer.get.setProgress(1)
     }
   }
 
-  def unloadLevelBer(p:Player): Unit = {
+  def unloadLevelBer(p: Player): Unit = {
     val ber = bers(p)
     ber.setVisible(false)
-    bers = bers.filterNot{case (player,_) => p == player}
+    bers = bers.filterNot { case (player, _) => p == player }
   }
 
 }

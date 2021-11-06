@@ -9,7 +9,7 @@ class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandExecu
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (label.equalsIgnoreCase("distribution")) {
       if (args(0).equalsIgnoreCase("give") && args.length == 3) {
-        new Distribution(ryoServerAssist).addDistribution(args(1),args(2).toInt,sender)
+        new Distribution(ryoServerAssist).addDistribution(args(1), args(2).toInt, sender)
         return true
       } else if (args(0).equalsIgnoreCase("help") && args.length == 1) {
         sender.sendMessage("+-------------------------------------+")

@@ -6,16 +6,16 @@ import org.bukkit.entity.Player
 
 class UpdateData(ryoServerAssist: RyoServerAssist) {
 
-  def update(p:Player): Unit = {
+  def update(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val query = "UPDATE Players SET loginDays = CASE WHEN DATEDIFF(lastLogin, NOW()) <= -1 THEN loginDays + 1 ELSE loginDays " +
-    "END," +
-    "consecutiveLoginDays = CASE WHEN DATEDIFF(lastLogin, NOW()) = -1 THEN consecutiveLoginDays + 1 " +
-    "WHEN DATEDIFF(lastLogin, NOW()) <> 0 AND DATEDIFF(lastLogin, NOW()) <= -1 THEN 0 " +
-    "ELSE consecutiveLoginDays " +
-    "END," +
-    "lastLogin = NOW() " +
-    s"WHERE UUID='${p.getUniqueId.toString}';"
+      "END," +
+      "consecutiveLoginDays = CASE WHEN DATEDIFF(lastLogin, NOW()) = -1 THEN consecutiveLoginDays + 1 " +
+      "WHEN DATEDIFF(lastLogin, NOW()) <> 0 AND DATEDIFF(lastLogin, NOW()) <= -1 THEN 0 " +
+      "ELSE consecutiveLoginDays " +
+      "END," +
+      "lastLogin = NOW() " +
+      s"WHERE UUID='${p.getUniqueId.toString}';"
     sql.executeSQL(query)
     sql.close()
   }

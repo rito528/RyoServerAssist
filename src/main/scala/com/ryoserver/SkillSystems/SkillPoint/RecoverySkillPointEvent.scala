@@ -17,13 +17,13 @@ class RecoverySkillPointEvent(ryoServerAssist: RyoServerAssist) extends Listener
       val playerLevel = new getPlayerData(ryoServerAssist).getPlayerLevel(p)
       val playerSP = skillPointData.getSkillPoint(p)
       val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
-      if (playerSP + 300 >= maxSP) skillPointData.setSkillPoint(p,maxSP)
-      else skillPointData.setSkillPoint(p,playerSP + 300)
+      if (playerSP + 300 >= maxSP) skillPointData.setSkillPoint(p, maxSP)
+      else skillPointData.setSkillPoint(p, playerSP + 300)
     } else if (item == RecoveryItems.max) {
       val skillPointData = new SkillPointData(ryoServerAssist)
       val playerLevel = new getPlayerData(ryoServerAssist).getPlayerLevel(p)
       val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
-      skillPointData.setSkillPoint(p,maxSP)
+      skillPointData.setSkillPoint(p, maxSP)
     }
   }
 

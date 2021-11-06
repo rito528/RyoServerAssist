@@ -32,10 +32,10 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
         new gachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
         return true
       } else if (args(0).equalsIgnoreCase("list") && args.length == 2) {
-        GachaLoader.listGachaItem(ryoServerAssist,args(1).toInt,sender.asInstanceOf[Player])
+        GachaLoader.listGachaItem(ryoServerAssist, args(1).toInt, sender.asInstanceOf[Player])
         return true
       } else if (args(0).equalsIgnoreCase("remove") && args.length == 2) {
-        GachaLoader.removeGachaItem(args(1).toInt,ryoServerAssist)
+        GachaLoader.removeGachaItem(args(1).toInt, ryoServerAssist)
         sender.sendMessage("ガチャアイテムID:" + args(1) + "を削除しました。")
         return true
       }

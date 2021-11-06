@@ -23,7 +23,7 @@ class DestructionSkill extends Listener {
             val cloneLocation = breakBlockLocation.clone()
             cloneLocation.add(x, y, 0)
             if (cloneLocation.getBlock.getType != Material.AIR && cloneLocation.getBlock.getType != Material.CAVE_AIR && cloneLocation.getBlock.getType != Material.VOID_AIR &&
-              cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON  && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
+              cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
               p.getWorld.dropItem(p.getLocation, new ItemStack(cloneLocation.getBlock.getType, 1))
             }
             cloneLocation.getBlock.setType(Material.AIR)
@@ -37,7 +37,7 @@ class DestructionSkill extends Listener {
             val cloneLocation = breakBlockLocation.clone()
             cloneLocation.add(x, y, 0)
             if (cloneLocation.getBlock.getType != Material.AIR && cloneLocation.getBlock.getType != Material.CAVE_AIR && cloneLocation.getBlock.getType != Material.VOID_AIR &&
-             cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON  && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
+              cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
               p.getWorld.dropItem(p.getLocation, new ItemStack(cloneLocation.getBlock.getType, 1))
             }
             cloneLocation.getBlock.setType(Material.AIR)
@@ -65,7 +65,7 @@ class DestructionSkill extends Listener {
             val cloneLocation = breakBlockLocation.clone()
             cloneLocation.add(0, y, z)
             if (cloneLocation.getBlock.getType != Material.AIR && cloneLocation.getBlock.getType != Material.CAVE_AIR && cloneLocation.getBlock.getType != Material.VOID_AIR &&
-              cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON  && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
+              cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.WATER_CAULDRON && cloneLocation.getBlock.getType != Material.WATER && cloneLocation.getBlock.getType != Material.LAVA) {
               p.getWorld.dropItem(p.getLocation, new ItemStack(cloneLocation.getBlock.getType, 1))
             }
             cloneLocation.getBlock.setType(Material.AIR)

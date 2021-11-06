@@ -8,12 +8,12 @@ import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 class DustBoxInventoryEvent extends Listener {
 
   @EventHandler
-  def onClose(e:InventoryCloseEvent): Unit = {
+  def onClose(e: InventoryCloseEvent): Unit = {
     var isSend = false
     val inv = e.getInventory
     val p = e.getPlayer
     if (e.getView.getTitle != "ゴミ箱") return
-    inv.getContents.foreach(is=> {
+    inv.getContents.foreach(is => {
       if (is != null) {
         if (is.getItemMeta != inv.getItem(49).getItemMeta) {
           p.getWorld.dropItem(p.getLocation(), is)

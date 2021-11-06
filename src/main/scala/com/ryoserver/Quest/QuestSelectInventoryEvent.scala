@@ -11,12 +11,12 @@ class QuestSelectInventoryEvent extends Listener {
 
   @EventHandler
   def closeInventory(e: InventoryCloseEvent): Unit = {
-    if (e.getView.getTitle == "納品") returnItem(e.getInventory,e.getPlayer.asInstanceOf[Player])
+    if (e.getView.getTitle == "納品") returnItem(e.getInventory, e.getPlayer.asInstanceOf[Player])
   }
 
-  def returnItem(inv:Inventory,p: Player): Unit = {
+  def returnItem(inv: Inventory, p: Player): Unit = {
     var isSend = false
-    inv.getContents.foreach(is=> {
+    inv.getContents.foreach(is => {
       if (is != null) {
         if (is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta
           && is.getItemMeta != inv.getItem(53).getItemMeta) {

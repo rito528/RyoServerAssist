@@ -15,32 +15,32 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val slot: Int = 5
   override var p: Player = _
 
-  def openCategorySelectMenu(player :Player): Unit = {
+  def openCategorySelectMenu(player: Player): Unit = {
     p = player
     val data = new getPlayerData(ryoServerAssist)
     if (data.getPlayerLevel(p) >= 20) {
-      val lore:List[String] = List(s"${AQUA}左クリックで開きます。")
-      setItem(3,2,Material.GRASS_BLOCK,effect = false,s"${YELLOW}主要ブロック",lore)
-      setItem(5,2,Material.LEATHER,effect = false,s"${YELLOW}主要アイテム",lore)
-      setItem(7,2,Material.HONEY_BOTTLE,effect = false,s"${YELLOW}ガチャアイテム",lore)
-      setItem(2,3,Material.DIAMOND_PICKAXE,effect = false,s"${YELLOW}ツール系",lore)
-      setItem(4,3,Material.BREAD,effect = false,s"${YELLOW}食料系",lore)
-      setItem(6,3,Material.REDSTONE,effect = false,s"${YELLOW}レッドストーン系",lore)
-      setItem(8,3,Material.OAK_SAPLING,effect = false,s"${YELLOW}植物系",lore)
-      setItem(1,5,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}メニューに戻ります。",List(s"${AQUA}クリックで戻ります。"))
-      setItem(5,5,Material.HOPPER,effect = false,s"${WHITE}自動収納を${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+      val lore: List[String] = List(s"${AQUA}左クリックで開きます。")
+      setItem(3, 2, Material.GRASS_BLOCK, effect = false, s"${YELLOW}主要ブロック", lore)
+      setItem(5, 2, Material.LEATHER, effect = false, s"${YELLOW}主要アイテム", lore)
+      setItem(7, 2, Material.HONEY_BOTTLE, effect = false, s"${YELLOW}ガチャアイテム", lore)
+      setItem(2, 3, Material.DIAMOND_PICKAXE, effect = false, s"${YELLOW}ツール系", lore)
+      setItem(4, 3, Material.BREAD, effect = false, s"${YELLOW}食料系", lore)
+      setItem(6, 3, Material.REDSTONE, effect = false, s"${YELLOW}レッドストーン系", lore)
+      setItem(8, 3, Material.OAK_SAPLING, effect = false, s"${YELLOW}植物系", lore)
+      setItem(1, 5, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻ります。", List(s"${AQUA}クリックで戻ります。"))
+      setItem(5, 5, Material.HOPPER, effect = false, s"${WHITE}自動収納を${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
         List(s"${AQUA}クリックで切り替えます。",
           s"${WHITE}現在の状態:${if (new NeoStackData(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}"))
-      setItem(9,5,Material.CHEST_MINECART,effect = false,s"${GREEN}インベントリ内のアイテムをstackに収納します。",List("クリックで収納します。"))
+      setItem(9, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}インベントリ内のアイテムをstackに収納します。", List("クリックで収納します。"))
       registerMotion(motion)
       open()
-      p.playSound(p.getLocation,Sound.BLOCK_SHULKER_BOX_OPEN,1,1)
+      p.playSound(p.getLocation, Sound.BLOCK_SHULKER_BOX_OPEN, 1, 1)
     } else {
       p.sendMessage(ChatColor.RED + "neoStackはLv.20以上になると使うことができます。")
     }
   }
 
-  def motion(p: Player,index: Int): Unit = {
+  def motion(p: Player, index: Int): Unit = {
     val data = new NeoStackData(ryoServerAssist)
     val gui = new StackMenu(ryoServerAssist)
     index match {

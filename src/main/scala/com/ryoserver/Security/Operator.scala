@@ -54,7 +54,7 @@ object Operator {
           }
         })
       }
-    }.runTaskTimer(plugin,0,20)
+    }.runTaskTimer(plugin, 0, 20)
   }
 
 }

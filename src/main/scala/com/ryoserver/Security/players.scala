@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 object players {
 
-  var vpnCounter = mutable.Map[String,Int]()
+  var vpnCounter = mutable.Map[String, Int]()
   var freezeList: Array[String] = Array.empty
   var hideList: Array[Player] = Array.empty
 
@@ -36,7 +36,7 @@ object players {
   }
 
   val getPlayerIP: Player => String = (p: Player) =>
-    p.getAddress.toString.replace("/","").replace(s":${p.getAddress.getPort}","")
+    p.getAddress.toString.replace("/", "").replace(s":${p.getAddress.getPort}", "")
 
   val getPlayerStatus: Player => String = (target: Player) => {
     var msg = ChatColor.YELLOW + "---------------プレイヤー情報---------------\n" +

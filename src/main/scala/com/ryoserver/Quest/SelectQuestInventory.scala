@@ -16,7 +16,7 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
 
   var name: String = "クエスト選択"
   val slot: Int = 3
-  var p:Player = _
+  var p: Player = _
 
   def inventory(player: Player): Unit = {
     p = player
@@ -56,29 +56,39 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       } else if (questType == "討伐クエスト") {
         lottery.mobs.forEach(i => {
           val entity = getEntity(i.split(":")(0))
-          questDetails.add(ChatColor.WHITE + "・" + loadQuests.langFile.get("entity." + entity.getKey.toString.replace(":",".")).textValue() +
+          questDetails.add(ChatColor.WHITE + "・" + loadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
             ":" + i.split(":")(1) + "体")
         })
       }
       questDetails.add(ChatColor.WHITE + "【説明】")
       questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
-      setItem(i + 1,1,Material.BOOK,effect = false,s"[$questType]" + lottery.questName, questDetails.asScala.toList)
+      setItem(i + 1, 1, Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
     }
-    setItem(5,3,Material.NETHER_STAR,effect = false,"クエスト更新",List("クリックでクエストを更新します。"))
-    setItem(9,3,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,"メニューに戻る",List("クリックでメニューに戻ります。"))
+    setItem(5, 3, Material.NETHER_STAR, effect = false, "クエスト更新", List("クリックでクエストを更新します。"))
+    setItem(9, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, "メニューに戻る", List("クリックでメニューに戻ります。"))
     new QuestData(ryoServerAssist).saveQuest(p, selectedQuests)
     registerMotion(motion)
     open()
   }
 
-  def motion(p:Player,index:Int): Unit = {
-    val motions = Map[Int,Player => Unit](
-      getLayOut(2,1) -> {new QuestSelectInventoryMotions(ryoServerAssist).Select(_,0)},
-      getLayOut(4,1) -> {new QuestSelectInventoryMotions(ryoServerAssist).Select(_,1)},
-      getLayOut(6,1) -> {new QuestSelectInventoryMotions(ryoServerAssist).Select(_,2)},
-      getLayOut(8,1) -> {new QuestSelectInventoryMotions(ryoServerAssist).Select(_,3)},
-      getLayOut(5,3) -> new QuestSelectInventoryMotions(ryoServerAssist).resetQuest,
-      getLayOut(9,3) -> {new createMenu(ryoServerAssist).menu(_,ryoServerAssist)}
+  def motion(p: Player, index: Int): Unit = {
+    val motions = Map[Int, Player => Unit](
+      getLayOut(2, 1) -> {
+        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 0)
+      },
+      getLayOut(4, 1) -> {
+        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 1)
+      },
+      getLayOut(6, 1) -> {
+        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 2)
+      },
+      getLayOut(8, 1) -> {
+        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 3)
+      },
+      getLayOut(5, 3) -> new QuestSelectInventoryMotions(ryoServerAssist).resetQuest,
+      getLayOut(9, 3) -> {
+        new createMenu(ryoServerAssist).menu(_, ryoServerAssist)
+      }
     )
     if (motions.contains(index)) motions(index)(p)
   }

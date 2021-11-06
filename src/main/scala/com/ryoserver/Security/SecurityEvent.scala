@@ -36,9 +36,9 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
       } else if (e.getEntity.getType == EntityType.ENDER_DRAGON) {
         new BukkitRunnable {
           override def run(): Unit = {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender,"kill @e[type=minecraft:ender_dragon]")
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender, "kill @e[type=minecraft:ender_dragon]")
           }
-        }.runTaskLater(ryoServerAssist,60)
+        }.runTaskLater(ryoServerAssist, 60)
       }
     }
   }

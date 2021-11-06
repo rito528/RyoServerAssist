@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable
 class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
-  def inventoryClick(e:InventoryClickEvent): Unit = {
+  def inventoryClick(e: InventoryClickEvent): Unit = {
     val p = e.getWhoClicked match {
       case player: Player => player
       case _ => return
@@ -40,8 +40,8 @@ class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
     if (!isPartButton || Buttons(title).contains(slot)) e.setCancelled(true)
     new BukkitRunnable {
       override def run(): Unit = {
-        if (data.contains(title)) data(title)(p,slot)
-        else if (dataNeedClick.contains(title)) dataNeedClick(title)(p,slot,e.getClick.isRightClick)
+        if (data.contains(title)) data(title)(p, slot)
+        else if (dataNeedClick.contains(title)) dataNeedClick(title)(p, slot, e.getClick.isRightClick)
       }
     }.runTask(ryoServerAssist)
   }

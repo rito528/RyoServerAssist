@@ -16,17 +16,17 @@ import java.time.{LocalDateTime, ZoneId}
 import java.util.{Calendar, Date, TimeZone}
 import javax.xml.crypto.Data
 
-class    updateLevel(ryoServerAssist: RyoServerAssist) {
+class updateLevel(ryoServerAssist: RyoServerAssist) {
 
-  def updateExp(exp: Int,p:Player): Unit = {
+  def updateExp(exp: Int, p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${calLv.getLevel(exp)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
-    BossBar.updateLevelBer(ryoServerAssist,exp, p)
+    BossBar.updateLevelBer(ryoServerAssist, exp, p)
   }
 
-  def addExp(addExp: Double,p:Player): Unit = {
+  def addExp(addExp: Double, p: Player): Unit = {
     //levelが上がったときに呼び出されるメソッド
     var exp = addExp
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
@@ -43,7 +43,7 @@ class    updateLevel(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
       p.sendMessage(ChatColor.AQUA + "exp量が1.2倍になりました！")
       exp *= 1.2
-      p.sendMessage(ChatColor.AQUA + addExp.toString + "->" + String.format("%.2f",exp))
+      p.sendMessage(ChatColor.AQUA + addExp.toString + "->" + String.format("%.2f", exp))
     }
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
@@ -67,10 +67,10 @@ class    updateLevel(ryoServerAssist: RyoServerAssist) {
     }
     sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp.toInt)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
-    BossBar.updateLevelBer(ryoServerAssist,sumExp, p)
-    SkillPointBer.update(p,ryoServerAssist)
-    new SkillPointData(ryoServerAssist).setSkillPoint(p,new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
-    new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p,nowLevel - old_level)
+    BossBar.updateLevelBer(ryoServerAssist, sumExp, p)
+    SkillPointBer.update(p, ryoServerAssist)
+    new SkillPointData(ryoServerAssist).setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
+    new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p, nowLevel - old_level)
     if (old_level < nowLevel) {
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")

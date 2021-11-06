@@ -10,17 +10,17 @@ import org.bukkit.inventory.Inventory
 
 
 class Storage(ryoServerAssist: RyoServerAssist) {
-  def save(inv: Inventory,p:Player): Unit = {
+  def save(inv: Inventory, p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     var itemList = ""
     inv.getContents.foreach(is => {
       val config = new YamlConfiguration
-      config.set("i",is)
+      config.set("i", is)
       itemList += config.saveToString() + ";"
     })
     val checkRs = sql.executeQuery(s"SELECT UUID FROM Storage WHERE UUID='${p.getUniqueId.toString}'")
-    if (checkRs.next()) sql.purseFolder(s"UPDATE Storage SET invData=? WHERE UUID='${p.getUniqueId.toString}'",itemList)
-    else sql.purseFolder(s"INSERT INTO Storage(UUID,invData) VALUES ('${p.getUniqueId.toString}',?);",itemList)
+    if (checkRs.next()) sql.purseFolder(s"UPDATE Storage SET invData=? WHERE UUID='${p.getUniqueId.toString}'", itemList)
+    else sql.purseFolder(s"INSERT INTO Storage(UUID,invData) VALUES ('${p.getUniqueId.toString}',?);", itemList)
     sql.close()
   }
 
@@ -28,21 +28,21 @@ class Storage(ryoServerAssist: RyoServerAssist) {
     val data = new getPlayerData(ryoServerAssist)
     if (data.getPlayerLevel(p) >= 10) {
       val sql = new SQL(ryoServerAssist)
-       sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
+      sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
       val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")
-      val inv = Bukkit.createInventory(null,54,"Storage")
+      val inv = Bukkit.createInventory(null, 54, "Storage")
       var counter = 0
       if (invData_rs.next()) {
         val invData = invData_rs.getString("invData").split(";")
         val config = new YamlConfiguration
         invData.foreach(material => {
           config.loadFromString(material)
-          inv.setItem(counter,config.getItemStack("i",null))
+          inv.setItem(counter, config.getItemStack("i", null))
           counter += 1
         })
       }
       p.openInventory(inv)
-      p.playSound(p.getLocation,Sound.BLOCK_CHEST_OPEN,1,1)
+      p.playSound(p.getLocation, Sound.BLOCK_CHEST_OPEN, 1, 1)
     } else {
       p.sendMessage(ChatColor.RED + "ストレージ機能はLv.10以上になると使うことができます。")
     }

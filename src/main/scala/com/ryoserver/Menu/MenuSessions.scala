@@ -2,6 +2,6 @@ package com.ryoserver.Menu
 
 object MenuSessions {
 
-  val session:OriginalHolder = new OriginalHolder
+  val session: OriginalHolder = new OriginalHolder
 
 }

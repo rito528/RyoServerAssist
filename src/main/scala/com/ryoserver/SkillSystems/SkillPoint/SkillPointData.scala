@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 class SkillPointData(ryoServerAssist: RyoServerAssist) {
 
-  def getSkillPoint(p:Player): Int = {
+  def getSkillPoint(p: Player): Int = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT SkillPoint FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var sp = 0
@@ -17,11 +17,11 @@ class SkillPointData(ryoServerAssist: RyoServerAssist) {
     sp
   }
 
-  def setSkillPoint(p:Player,point: Int): Unit = {
+  def setSkillPoint(p: Player, point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET SkillPoint='${point}' WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
-    SkillPointBer.update(p,ryoServerAssist)
+    SkillPointBer.update(p, ryoServerAssist)
   }
 
 }

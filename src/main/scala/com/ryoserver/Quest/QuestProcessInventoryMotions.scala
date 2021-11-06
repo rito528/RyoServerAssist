@@ -8,14 +8,14 @@ import org.bukkit.inventory.{Inventory, ItemStack}
 
 class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
 
-  def delivery(p:Player,inv:Inventory): Unit = {
+  def delivery(p: Player, inv: Inventory): Unit = {
     val questData = new QuestData(ryoServerAssist)
-    var remainingItems:Array[ItemStack] = Array.empty
-    var invItems:Array[ItemStack] = Array.empty
+    var remainingItems: Array[ItemStack] = Array.empty
+    var invItems: Array[ItemStack] = Array.empty
     //クエスト終了に必要な残りの納品アイテムを取得する
     questData.getSelectedQuestRemaining(p).split(";").foreach(remainingItem => {
       val itemData = remainingItem.split(":")
-      remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)),itemData(1).toInt)
+      remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)), itemData(1).toInt)
     })
     //インベントリの中身をすべて取得
     inv.getContents.foreach(invItem => {
@@ -48,11 +48,11 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       remainingItem_str += remainingItem.getType.name() + ":" + remainingItem.getAmount + ";"
       if (remainingItem.getAmount != 0) questDone = false
     })
-    questData.setSelectedQuestItemRemaining(p,remainingItem_str)
+    questData.setSelectedQuestItemRemaining(p, remainingItem_str)
 
     if (questDone) {
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
-      p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1)
+      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
       new QuestInventory(ryoServerAssist).selectInventory(p)
       new giveTitle(ryoServerAssist).questClearNumber(p)
@@ -63,7 +63,7 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  def questDestroy(p:Player): Unit = {
+  def questDestroy(p: Player): Unit = {
     val questData = new QuestData(ryoServerAssist)
     questData.resetQuest(p)
     new QuestInventory(ryoServerAssist).selectInventory(p)

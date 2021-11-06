@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable
 class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
-  def playerPickEvent(e:EntityPickupItemEvent): Unit = {
+  def playerPickEvent(e: EntityPickupItemEvent): Unit = {
     if (!e.getEntity.isInstanceOf[Player]) return
     val itemStack = e.getItem.getItemStack
     val data = new NeoStackData(ryoServerAssist)
@@ -20,12 +20,11 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     e.getItem.remove()
     new BukkitRunnable {
       override def run(): Unit = {
-        data.addStack(itemStack,p)
-        p.playSound(p.getLocation,Sound.ENTITY_ITEM_PICKUP,1,1)
+        data.addStack(itemStack, p)
+        p.playSound(p.getLocation, Sound.ENTITY_ITEM_PICKUP, 1, 1)
       }
-    }.runTaskLater(ryoServerAssist,5)
+    }.runTaskLater(ryoServerAssist, 5)
   }
-
 
 
 }

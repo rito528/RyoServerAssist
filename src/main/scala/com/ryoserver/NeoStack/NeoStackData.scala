@@ -12,19 +12,20 @@ import scala.collection.mutable
 
 class NeoStackData(ryoServerAssist: RyoServerAssist) {
 
-  def getSetItems(category:String): Array[ItemStack] = {
+  def getSetItems(category: String): Array[ItemStack] = {
     var items: Array[ItemStack] = Array.empty
-    ItemList.stackList.foreach{case (is,categoryData) => {
+    ItemList.stackList.foreach { case (is, categoryData) => {
       if (category.equalsIgnoreCase(categoryData)) items :+= is
-    }}
+    }
+    }
     items
   }
 
-  def editItemList(category: String,page: Int,invContents: String): Unit = {
+  def editItemList(category: String, page: Int, invContents: String): Unit = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
-    if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;",invContents)
-    else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);",invContents)
+    if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;", invContents)
+    else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);", invContents)
     sql.close()
   }
 
@@ -34,19 +35,19 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     ItemList.stackList.contains(is)
   }
 
-  def addStack(itemStack: ItemStack,p: Player): Unit = {
+  def addStack(itemStack: ItemStack, p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val is = itemStack.clone()
     is.setAmount(1)
     val config = new YamlConfiguration
-    config.set("i",is)
+    config.set("i", is)
     val uuid = p.getUniqueId.toString
     if (PlayerData.playerData.contains(uuid) && PlayerData.playerData(uuid).contains(is)) {
       PlayerData.playerData(uuid) += (is -> (PlayerData.playerData(uuid)(is) + itemStack.getAmount))
     } else if (PlayerData.playerData.contains(uuid) && !PlayerData.playerData(uuid).contains(is)) {
       var amount = 0
-      if (getItemAmount(getCategory(itemStack),p).contains(is)) {
-        amount = getItemAmount(getCategory(itemStack),p)(is)
+      if (getItemAmount(getCategory(itemStack), p).contains(is)) {
+        amount = getItemAmount(getCategory(itemStack), p)(is)
       }
       PlayerData.playerData(uuid) += (is -> (amount + itemStack.getAmount))
     } else {
@@ -65,38 +66,38 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
-  def getItemAmount(category:String,p: Player): mutable.Map[ItemStack,Int] = {
+  def getItemAmount(category: String, p: Player): mutable.Map[ItemStack, Int] = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE category='$category' AND UUID='${p.getUniqueId.toString}'")
-    val amount = mutable.Map.empty[ItemStack,Int]
+    val amount = mutable.Map.empty[ItemStack, Int]
     while (rs.next()) {
       val config = new YamlConfiguration
       config.loadFromString(rs.getString("item"))
-      amount += (config.getItemStack("i",null) -> rs.getInt("amount"))
+      amount += (config.getItemStack("i", null) -> rs.getInt("amount"))
     }
     sql.close()
     amount
   }
 
-  def getAllItemAmount(p: Player): mutable.Map[ItemStack,Int] = {
+  def getAllItemAmount(p: Player): mutable.Map[ItemStack, Int] = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE UUID='${p.getUniqueId.toString}'")
-    val amount = mutable.Map.empty[ItemStack,Int]
+    val amount = mutable.Map.empty[ItemStack, Int]
     while (rs.next()) {
       val config = new YamlConfiguration
       config.loadFromString(rs.getString("item"))
-      amount += (config.getItemStack("i",null) -> rs.getInt("amount"))
+      amount += (config.getItemStack("i", null) -> rs.getInt("amount"))
     }
     sql.close()
     amount
   }
 
-  def getCategory(is:ItemStack): String = {
+  def getCategory(is: ItemStack): String = {
     val sql = new SQL(ryoServerAssist)
     val cloneIs = is.clone()
     cloneIs.setAmount(1)
     val config = new YamlConfiguration
-    config.set("i",cloneIs)
+    config.set("i", cloneIs)
     val rs = sql.executeQuery("SELECT category,invItem FROM StackList")
     while (rs.next()) {
       val category = rs.getString("category")
@@ -104,7 +105,7 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
       items.foreach(item => {
         val itemConfig = new YamlConfiguration
         itemConfig.loadFromString(item)
-        val itemIs = itemConfig.getItemStack("i",null)
+        val itemIs = itemConfig.getItemStack("i", null)
         if (itemIs != null) {
           itemIs.setAmount(1)
           if (is == itemIs && item != "") {
@@ -121,19 +122,19 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
   def removeItemList(itemStack: ItemStack): Unit = {
     val sql = new SQL(ryoServerAssist)
     val config = new YamlConfiguration
-    config.set("i",itemStack)
-    sql.purseFolder("DELETE FROM StackList WHERE item=?",config.saveToString())
-    sql.purseFolder("DELETE FROM StackData WHERE item=?",config.saveToString())
+    config.set("i", itemStack)
+    sql.purseFolder("DELETE FROM StackList WHERE item=?", config.saveToString())
+    sql.purseFolder("DELETE FROM StackData WHERE item=?", config.saveToString())
     sql.close()
   }
 
-  def addItemToPlayer(p:Player,is:ItemStack,amount:Int): Unit = {
+  def addItemToPlayer(p: Player, is: ItemStack, amount: Int): Unit = {
     if (is == null || amount == 0) return
     val itemStack = is.clone()
     val sql = new SQL(ryoServerAssist)
     val config = new YamlConfiguration
     val uuid = p.getUniqueId.toString
-    config.set("i",is)
+    config.set("i", is)
     var selectAmount = amount
     var playerHasAmount = 0
     if (!(playerData.contains(p.getUniqueId.toString) && playerData(p.getUniqueId.toString).contains(is))) {
@@ -160,17 +161,17 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     } else {
       PlayerData.changedData(uuid) :+= is
     }
-    p.playSound(p.getLocation,Sound.UI_BUTTON_CLICK,1,1)
+    p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
   }
 
-  def toggleAutoStack(p:Player): Unit = {
+  def toggleAutoStack(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (isAutoStackEnabled(p)) sql.executeSQL(s"UPDATE Players SET autoStack=false WHERE UUID='${p.getUniqueId.toString}'")
     else sql.executeSQL(s"UPDATE Players SET autoStack=true WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()
   }
 
-  def isAutoStackEnabled(p:Player): Boolean = {
+  def isAutoStackEnabled(p: Player): Boolean = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT autoStack FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var enabled = false

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class getPlayerData(ryoServerAssist: RyoServerAssist) {
 
-  def getPlayerExp(p: Player):Double = {
+  def getPlayerExp(p: Player): Double = {
     new createData(ryoServerAssist).createPlayerData(p)
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
@@ -17,6 +17,6 @@ class getPlayerData(ryoServerAssist: RyoServerAssist) {
     0
   }
 
-  def getPlayerLevel(p: Player):Int = new CalLv(ryoServerAssist).getLevel(getPlayerExp(p).toInt)
+  def getPlayerLevel(p: Player): Int = new CalLv(ryoServerAssist).getLevel(getPlayerExp(p).toInt)
 
 }

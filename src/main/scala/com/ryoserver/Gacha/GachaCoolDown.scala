@@ -10,17 +10,17 @@ object GachaCoolDown {
   /*
   ガチャを引くごとにクールタイムを設けないと2回同時に引いたりしてしまう
  */
-  def pullCoolDownSet(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    setPullCoolDown(flag = true,p,ryoServerAssist)
+  def pullCoolDownSet(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
+    setPullCoolDown(flag = true, p, ryoServerAssist)
     new BukkitRunnable {
       override def run(): Unit = {
-        setPullCoolDown(flag = false,p,ryoServerAssist)
+        setPullCoolDown(flag = false, p, ryoServerAssist)
       }
-    }.runTaskLater(ryoServerAssist,5)
+    }.runTaskLater(ryoServerAssist, 5)
   }
 
-  def setPullCoolDown(flag: Boolean,p:Player,ryoServerAssist: RyoServerAssist): Unit = {
-    p.setMetadata("GachaCoolDown",new FixedMetadataValue(ryoServerAssist,flag))
+  def setPullCoolDown(flag: Boolean, p: Player, ryoServerAssist: RyoServerAssist): Unit = {
+    p.setMetadata("GachaCoolDown", new FixedMetadataValue(ryoServerAssist, flag))
   }
 
   def getCoolDown(p: Player): Boolean = {

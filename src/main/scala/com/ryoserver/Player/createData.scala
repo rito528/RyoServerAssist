@@ -9,7 +9,7 @@ import org.bukkit.{Bukkit, ChatColor, Sound}
 
 class createData(ryoServerAssist: RyoServerAssist) {
 
-  def createPlayerData(p:Player): Unit = {
+  def createPlayerData(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
       p.sendMessage(ChatColor.RED + "プレイヤーデータの作成に失敗しました。")
@@ -34,12 +34,12 @@ class createData(ryoServerAssist: RyoServerAssist) {
         val config = new YamlConfiguration
         invData.foreach(material => {
           config.loadFromString(material)
-          inv.setItem(counter,config.getItemStack("i",null))
+          inv.setItem(counter, config.getItemStack("i", null))
           counter += 1
         })
       }
       Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんが初参加しました！")
-      Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(),Sound.BLOCK_NOTE_BLOCK_BELL,1,1))
+      Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }
     sql.close()
   }

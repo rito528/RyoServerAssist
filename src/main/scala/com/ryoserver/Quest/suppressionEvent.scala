@@ -49,7 +49,7 @@ class suppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
           if (!questDone && pause) {
             p.sendMessage("[進行状況]")
             data.foreach(e => {
-              p.sendMessage(loadQuests.langFile.get("entity." + getEntity(e.split(":")(0)).getKey.toString.replace(":",".")).textValue() + "->" + e.split(":")(1) + "体")
+              p.sendMessage(loadQuests.langFile.get("entity." + getEntity(e.split(":")(0)).getKey.toString.replace(":", ".")).textValue() + "->" + e.split(":")(1) + "体")
             })
           }
 

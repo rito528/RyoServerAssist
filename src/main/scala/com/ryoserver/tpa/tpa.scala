@@ -9,9 +9,9 @@ import scala.collection.mutable
 
 object tpa {
 
-  var tpaList:mutable.Map[String,String] = mutable.Map.empty[String,String]
+  var tpaList: mutable.Map[String, String] = mutable.Map.empty[String, String]
 
-  def sendTpa(sendPlayer:Player,targetPlayer:Player,ryoServerAssist: RyoServerAssist): Unit = {
+  def sendTpa(sendPlayer: Player, targetPlayer: Player, ryoServerAssist: RyoServerAssist): Unit = {
     if (tpaList.contains(targetPlayer.getName)) {
       sendPlayer.sendMessage(ChatColor.RED + "送信したプレイヤーはすでにtpaを受けているためtpaを送信できませんでした。")
       return
@@ -32,10 +32,10 @@ object tpa {
         sendPlayer.sendMessage(ChatColor.RED + "tpa依頼を自動キャンセルしました。")
         targetPlayer.sendMessage(ChatColor.RED + "tpa依頼を自動キャンセルしました。")
       }
-    }.runTaskLater(ryoServerAssist,20 * 60 * 5)
+    }.runTaskLater(ryoServerAssist, 20 * 60 * 5)
   }
 
-  def acceptTpa(acceptPlayer:Player): Unit = {
+  def acceptTpa(acceptPlayer: Player): Unit = {
     if (!tpaList.contains(acceptPlayer.getName)) {
       acceptPlayer.sendMessage(ChatColor.RED + "現在tpa依頼を受けていません！")
       return
@@ -46,12 +46,12 @@ object tpa {
       case Some(player) =>
         Bukkit.getPlayer(player).teleport(acceptPlayer.getLocation())
         Bukkit.getPlayer(player).sendMessage(ChatColor.AQUA + acceptPlayer.getName + "にテレポートしました！")
-        tpaList = tpaList.filterNot{case (target,_) =>target == acceptPlayer.getName}
+        tpaList = tpaList.filterNot { case (target, _) => target == acceptPlayer.getName }
       case None =>
     }
   }
 
-  def cancelTpa(cancelPlayer:Player): Unit = {
+  def cancelTpa(cancelPlayer: Player): Unit = {
     if (!tpaList.contains(cancelPlayer.getName)) {
       cancelPlayer.sendMessage(ChatColor.RED + "現在tpa依頼を受けていないため、キャンセルできませんでした。")
       return
@@ -59,7 +59,7 @@ object tpa {
     val sendPlayer = tpaList.get(cancelPlayer.getName)
     sendPlayer match {
       case Some(player) =>
-        tpaList = tpaList.filterNot{case (target,_) =>target == cancelPlayer.getName}
+        tpaList = tpaList.filterNot { case (target, _) => target == cancelPlayer.getName }
         cancelPlayer.sendMessage(ChatColor.AQUA + "tpa依頼をキャンセルしました。")
         Bukkit.getPlayer(player).sendMessage(ChatColor.RED + "tpa依頼がキャンセルされました。")
       case None =>

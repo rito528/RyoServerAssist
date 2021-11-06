@@ -20,18 +20,18 @@ class totemEffect extends Listener {
       item.getItemMeta.getDisplayName == OriginalItems.oretaEiyuNoKen.getItemMeta.getDisplayName &&
       item.getItemMeta.getLore == OriginalItems.oretaEiyuNoKen.getItemMeta.getLore) {
       e.setCancelled(true)
-      p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,20 * 40, 2))
-      p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,20 * 40, 2))
+      p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 40, 2))
+      p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 40, 2))
       p.setHealth(5.0)
       val meta = item.getItemMeta
       if (meta.asInstanceOf[Damageable].getDamage >= 250) {
-        p.getInventory.setItemInOffHand(new ItemStack(Material.AIR,0))
-        p.playSound(p.getLocation,Sound.ENTITY_ITEM_BREAK,1,1)
+        p.getInventory.setItemInOffHand(new ItemStack(Material.AIR, 0))
+        p.playSound(p.getLocation, Sound.ENTITY_ITEM_BREAK, 1, 1)
       } else {
         meta.asInstanceOf[Damageable].setDamage(meta.asInstanceOf[Damageable].getDamage + 1)
       }
       item.setItemMeta(meta)
-      p.playSound(p.getLocation,Sound.ITEM_TOTEM_USE,1,1)
+      p.playSound(p.getLocation, Sound.ITEM_TOTEM_USE, 1, 1)
     }
   }
 

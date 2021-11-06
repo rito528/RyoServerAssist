@@ -16,7 +16,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
-  def addDistribution(gachaPaperType: String, count:Int,sendPlayer:CommandSender): Unit = {
+  def addDistribution(gachaPaperType: String, count: Int, sendPlayer: CommandSender): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {
       sendPlayer.sendMessage(ChatColor.RED + "不明なガチャ券のタイプが指定されました。")
@@ -32,7 +32,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
     Bukkit.broadcastMessage(ChatColor.YELLOW + s"[お知らせ]${ChatColor.RESET}運営よりガチャ券が配布されました。")
   }
 
-  def receipt(p:Player): Unit = {
+  def receipt(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     var stack = 0
     var id = 0
@@ -55,7 +55,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       gachaPaper.setAmount(stack)
       p.getWorld.dropItem(p.getLocation(), gachaPaper)
       p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
-      p.playSound(p.getLocation,Sound.ENTITY_ARROW_HIT_PLAYER,1,1)
+      p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     }
   }
 

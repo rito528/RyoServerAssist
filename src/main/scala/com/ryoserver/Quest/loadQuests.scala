@@ -9,13 +9,14 @@ import org.bukkit.entity.EntityType
 import java.io.File
 import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
+
 object loadQuests {
 
   val QUEST_SETTING_FILES = "plugins/RyoServerAssist/Quests/"
 
   var enableEvents: Array[String] = Array.empty
-  var questConfig:FileConfiguration = _
-  var langFile:JsonNode = _
+  var questConfig: FileConfiguration = _
+  var langFile: JsonNode = _
 
   def checkQuest(ryoServerAssist: RyoServerAssist): Unit = {
     if (new File(QUEST_SETTING_FILES).listFiles() == null) return
@@ -28,7 +29,7 @@ object loadQuests {
         source.getLines().foreach(line => readLine = line)
         val json = mapper.readTree(readLine)
         val questName = json.get("questName").textValue()
-          enableEvents +:= questName
+        enableEvents +:= questName
         val items = StreamSupport.stream(json.get("condition").spliterator(), false)
           .map(
             e => {
@@ -48,7 +49,7 @@ object loadQuests {
     langFile = mapper.readTree(Source.fromInputStream(is).getLines().mkString)
   }
 
-  def checkEntity(entityName:String): Boolean = {
+  def checkEntity(entityName: String): Boolean = {
     val entities: Seq[String] = for {
       entity <- EntityType.values()
       if (entity.name() == entityName)

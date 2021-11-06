@@ -16,12 +16,12 @@ class FirstJoinSettingEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     var itemList = ""
     inv.getContents.foreach(is => {
       val config = new YamlConfiguration
-      config.set("i",is)
+      config.set("i", is)
       itemList += config.saveToString() + ";"
     })
     val checkRs = sql.executeQuery(s"SELECT * FROM firstJoinItems")
-    if (checkRs.next()) sql.purseFolder(s"UPDATE firstJoinItems SET ItemStack=?",itemList)
-    else sql.purseFolder(s"INSERT INTO firstJoinItems(ItemStack) VALUES (?);",itemList)
+    if (checkRs.next()) sql.purseFolder(s"UPDATE firstJoinItems SET ItemStack=?", itemList)
+    else sql.purseFolder(s"INSERT INTO firstJoinItems(ItemStack) VALUES (?);", itemList)
     sql.close()
   }
 

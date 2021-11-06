@@ -21,18 +21,18 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val slot: Int = 6
   override var p: Player = _
 
-  def openStack(player:Player,page:Int,category:String): Unit = {
+  def openStack(player: Player, page: Int, category: String): Unit = {
     name = "neoStack:" + page
     p = player
     val uuid = p.getUniqueId.toString
     var index = 0
     var invItems = ""
-    val data = new NeoStackData(ryoServerAssist).getItemAmount(category,p)
+    val data = new NeoStackData(ryoServerAssist).getItemAmount(category, p)
     if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
     invItems.split(";").foreach(item => {
       val config = new YamlConfiguration
       config.loadFromString(item)
-      val is = config.getItemStack("i",null)
+      val is = config.getItemStack("i", null)
       if (is != null) {
         is.setAmount(1)
         val setItem = is.clone()
@@ -52,27 +52,27 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         else ItemData.itemData(p.getName) += (is -> setItem)
         if (!playerData.contains(p.getUniqueId.toString)) playerData += (p.getUniqueId.toString -> mutable.Map(setItem -> amount))
         else playerData(p.getUniqueId.toString) += (setItem -> amount)
-        setItemStack(index % 9 + 1,(index / 9) + 1,is)
+        setItemStack(index % 9 + 1, (index / 9) + 1, is)
       }
       index += 1
     })
-    setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}前のページに戻ります。",List(s"${GRAY}クリックで戻ります。"))
+    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
     if (p.hasPermission("ryoserverassist.neoStack")) {
-      setItem(5,6,Material.CHEST,effect = false,s"${AQUA}アイテムを追加します。",List(s"${GRAY}クリックで追加メニューを開きます。"))
+      setItem(5, 6, Material.CHEST, effect = false, s"${AQUA}アイテムを追加します。", List(s"${GRAY}クリックで追加メニューを開きます。"))
     }
-    setItem(9,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}次のページに移動します。",List(s"${GRAY}クリックで移動します。"))
+    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerNeedClickMotion(motion)
     open()
   }
 
-  def registerNeedClickMotion(func:(Player,Int,Boolean) => Unit): Unit = {
+  def registerNeedClickMotion(func: (Player, Int, Boolean) => Unit): Unit = {
     MenuData.dataNeedClick += (name -> func)
     MenuData.partButton += (name -> partButton)
     MenuData.Buttons += (name -> buttons)
   }
 
-  def motion(p:Player,index: Int,isRightClick:Boolean): Unit = {
-    val nowPage = p.getOpenInventory.getTitle.replace("neoStack:","").replace("[Edit]","").toInt
+  def motion(p: Player, index: Int, isRightClick: Boolean): Unit = {
+    val nowPage = p.getOpenInventory.getTitle.replace("neoStack:", "").replace("[Edit]", "").toInt
     val categoryMenu = new CategorySelectMenu(ryoServerAssist)
     index match {
       case 45 =>
@@ -92,7 +92,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         } else if (!isRightClick) {
           data.addItemToPlayer(p, ItemData.itemData(p.getName)(is), is.getType.getMaxStackSize)
         }
-        new StackMenu(ryoServerAssist).openStack(p,nowPage,getSelectedCategory(p))
+        new StackMenu(ryoServerAssist).openStack(p, nowPage, getSelectedCategory(p))
     }
   }
 

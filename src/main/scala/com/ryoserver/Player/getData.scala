@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 class getData(ryoServerAssist: RyoServerAssist) {
 
-  def getTickets(p:Player): Int = {
+  def getTickets(p: Player): Int = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT gachaTickets FROM Players WHERE UUID='${p.getUniqueId.toString}';")
     var tickets = 0

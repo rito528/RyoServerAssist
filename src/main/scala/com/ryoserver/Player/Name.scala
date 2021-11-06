@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class Name(ryoServerAssist: RyoServerAssist) {
 
-  def updateName(p:Player): Unit = {
+  def updateName(p: Player): Unit = {
     var title = ""
     val selectedTitle = new PlayerTitleData(ryoServerAssist).getSelectedTitle(p.getUniqueId.toString)
     if (selectedTitle != null) title = "[" + selectedTitle + "]"

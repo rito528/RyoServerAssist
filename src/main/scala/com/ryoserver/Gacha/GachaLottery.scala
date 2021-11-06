@@ -7,6 +7,7 @@ import java.security.SecureRandom
 class GachaLottery extends Rarity_trait {
 
   private val random = SecureRandom.getInstance("SHA1PRNG")
+
   /*
     レアリティの抽選を行う
    */
@@ -21,7 +22,7 @@ class GachaLottery extends Rarity_trait {
   /*
   アイテムの抽選を行う
    */
-  def itemLottery(rarity:Int): ItemStack = {
+  def itemLottery(rarity: Int): ItemStack = {
     rarity match {
       case 1 =>
         val r = (Math.random() * GachaLoader.missItemList.length).toInt

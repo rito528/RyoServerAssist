@@ -29,7 +29,7 @@ class SecurityCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor
     } else if (label.equalsIgnoreCase("hide") && args.length == 0) {
       sender match {
         case p: Player =>
-          Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist,sp))
+          Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist, sp))
           players.hideList :+= p
           Bukkit.broadcastMessage(ChatColor.YELLOW + p.getName + " left the game")
         case _ =>
@@ -58,10 +58,10 @@ class SecurityCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor
           sender.sendMessage(ChatColor.AQUA + "configをリロードしました。")
         case "bind" =>
           if (args(1).equalsIgnoreCase("on")) {
-            ryoServerAssist.getConfig.set("ipInfo",true)
+            ryoServerAssist.getConfig.set("ipInfo", true)
             sender.sendMessage(ChatColor.AQUA + "PlayerStatusコマンドでのIP情報表示機能を有効化しました。")
           } else if (args(1).equalsIgnoreCase("off")) {
-            ryoServerAssist.getConfig.set("ipInfo",false)
+            ryoServerAssist.getConfig.set("ipInfo", false)
             sender.sendMessage(ChatColor.AQUA + "PlayerStatusコマンドでのIP情報表示機能を無効化しました。")
           }
         case "help" =>

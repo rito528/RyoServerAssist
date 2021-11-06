@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class SkillOpenData(ryoServerAssist: RyoServerAssist) {
 
-  def getSkillOpenPoint(p:Player): Int = {
+  def getSkillOpenPoint(p: Player): Int = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT SkillOpenPoint FROM Players WHERE UUID='${p.getUniqueId}'")
     var pt = 0
@@ -17,11 +17,11 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     pt
   }
 
-  def getOpenedSkill(p:Player): Array[String] = {
+  def getOpenedSkill(p: Player): Array[String] = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT OpenedSkills FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var openedSkills:Array[String] = Array.empty
-    if (rs.next()){
+    var openedSkills: Array[String] = Array.empty
+    if (rs.next()) {
       val skills = rs.getString("OpenedSkills")
       if (skills != null) {
         openedSkills = skills.split(",")
@@ -31,16 +31,16 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     openedSkills
   }
 
-  def openSkill(p:Player,skillName:String): Unit = {
+  def openSkill(p: Player, skillName: String): Unit = {
     val sql = new SQL(ryoServerAssist)
     val alreadyOpenedSkill = getOpenedSkill(p).mkString(",")
-    sql.executeSQL(s"UPDATE Players SET OpenedSkills='${alreadyOpenedSkill + (if (alreadyOpenedSkill != "")"," else "") + SkillNames.indexOf(skillName)}',SkillOpenPoint=SkillOpenPoint - 10" +
+    sql.executeSQL(s"UPDATE Players SET OpenedSkills='${alreadyOpenedSkill + (if (alreadyOpenedSkill != "") "," else "") + SkillNames.indexOf(skillName)}',SkillOpenPoint=SkillOpenPoint - 10" +
       s" WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()
     new giveTitle(ryoServerAssist).skillOpenNumber(p)
   }
 
-  def addSkillOpenPoint(p:Player,point:Int): Unit = {
+  def addSkillOpenPoint(p: Player, point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()

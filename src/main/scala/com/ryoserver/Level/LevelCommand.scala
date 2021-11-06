@@ -12,7 +12,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
     if (label.equalsIgnoreCase("level")) {
       val lv = new CalLv(ryoServerAssist)
       if (args(0).equalsIgnoreCase("getLevel")) {
-        sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt,limit = false))
+        sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt, limit = false))
         return true
       } else if (args(0).equalsIgnoreCase("getExp")) {
         sender.sendMessage("Lv." + args(1) + "->Lv." + (args(1).toInt + 1) + "までに必要な経験値量:" + lv.getExp(args(1).toInt + 1))
@@ -21,7 +21,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
         sender.sendMessage("Lv." + args(1) + "までに必要な経験値総量:" + lv.getSumTotal(args(1).toInt))
         return true
       } else if (args(0).equalsIgnoreCase("setExp")) {
-        new updateLevel(ryoServerAssist).updateExp(args(1).toInt,sender.asInstanceOf[Player])
+        new updateLevel(ryoServerAssist).updateExp(args(1).toInt, sender.asInstanceOf[Player])
         sender.sendMessage(ChatColor.AQUA + "更新しました。")
         return true
       } else if (args(0).equalsIgnoreCase("help")) {

@@ -43,7 +43,7 @@ class LoadEvent(ryoServerAssist: RyoServerAssist) {
           }
         })
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,20*60)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
   }
 
 }

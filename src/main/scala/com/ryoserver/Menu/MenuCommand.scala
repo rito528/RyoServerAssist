@@ -14,10 +14,10 @@ class MenuCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
       return true
     }
     if (label.equalsIgnoreCase("menu")) {
-      new createMenu(ryoServerAssist).menu(sender.asInstanceOf[Player],ryoServerAssist)
+      new createMenu(ryoServerAssist).menu(sender.asInstanceOf[Player], ryoServerAssist)
       return true
     } else if (label.equalsIgnoreCase("stick")) {
-      sender.asInstanceOf[Player].getInventory.addItem(new ItemStack(Material.STICK,1))
+      sender.asInstanceOf[Player].getInventory.addItem(new ItemStack(Material.STICK, 1))
       sender.sendMessage(ChatColor.AQUA + "木の棒をインベントリに配布しました。")
       return true
     }

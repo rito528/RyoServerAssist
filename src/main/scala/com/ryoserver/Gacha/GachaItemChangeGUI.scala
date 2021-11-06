@@ -20,20 +20,20 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   override val slot: Int = 6
   override var p: Player = _
 
-  def openChangeGUI(player:Player): Unit = {
+  def openChangeGUI(player: Player): Unit = {
     p = player
-    setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,"menuに戻る",List("クリックでmenuに戻ります。"))
-    setItem(5,6,Material.NETHER_STAR,effect = false,"クリックでインベントリ内の特等アイテムを交換します。",List(
-      "クリックでガチャアイテムを交換します。",s"特等アイテム1個 -> スキル回復(大)${RETE}個"
+    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, "menuに戻る", List("クリックでmenuに戻ります。"))
+    setItem(5, 6, Material.NETHER_STAR, effect = false, "クリックでインベントリ内の特等アイテムを交換します。", List(
+      "クリックでガチャアイテムを交換します。", s"特等アイテム1個 -> スキル回復(大)${RETE}個"
     ))
     partButton = true
-    buttons :+= getLayOut(1,6)
-    buttons :+= getLayOut(5,6)
+    buttons :+= getLayOut(1, 6)
+    buttons :+= getLayOut(5, 6)
     registerMotion(motion)
     open()
   }
 
-  def motion(p:Player,index:Int): Unit = {
+  def motion(p: Player, index: Int): Unit = {
     var changeAmount = 0
     if (index == 45) {
       new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
@@ -55,14 +55,14 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   }
 
   @EventHandler
-  def onClose(e:InventoryCloseEvent): Unit = {
+  def onClose(e: InventoryCloseEvent): Unit = {
     if (e.getView.getTitle != name) return
     var index = 0
     val p = e.getPlayer
     var check = false
     e.getInventory.getContents.foreach(item => {
       if (item != null && index != 49 && index != 45) {
-        p.getWorld.dropItem(p.getLocation,item)
+        p.getWorld.dropItem(p.getLocation, item)
         check = true
       }
       index += 1

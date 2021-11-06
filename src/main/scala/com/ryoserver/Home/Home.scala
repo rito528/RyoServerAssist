@@ -24,10 +24,10 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
     false
   }
 
-  def homeInventory(p:Player): Unit = {
+  def homeInventory(p: Player): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
-        val uuid = p.getUniqueId.toString.replace("-","")
+        val uuid = p.getUniqueId.toString.replace("-", "")
         val sql = new SQL(ryoServerAssist)
         if (!sql.connectionTest()) {
           p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
@@ -35,27 +35,27 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
           return
         }
         sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
-        val inv = Bukkit.createInventory(null,27,"HomeSystem")
-        inv.setItem(2,getItem(Material.WHITE_BED,"ホーム1を設定します。",util.Arrays.asList()))
-        inv.setItem(4,getItem(Material.BLUE_BED,"ホーム2を設定します。",util.Arrays.asList()))
-        inv.setItem(6,getItem(Material.BLACK_BED,"ホーム3を設定します。",util.Arrays.asList()))
+        val inv = Bukkit.createInventory(null, 27, "HomeSystem")
+        inv.setItem(2, getItem(Material.WHITE_BED, "ホーム1を設定します。", util.Arrays.asList()))
+        inv.setItem(4, getItem(Material.BLUE_BED, "ホーム2を設定します。", util.Arrays.asList()))
+        inv.setItem(6, getItem(Material.BLACK_BED, "ホーム3を設定します。", util.Arrays.asList()))
         for (i <- 11 to 15 by 2) {
-          val point = (i-9)/2
+          val point = (i - 9) / 2
           val home_loc_rs = sql.executeQuery(s"SELECT Location FROM `Homes` WHERE point = $point AND UUID='$uuid'")
           var homeLoc = "現在ホームポイントが設定されていません。"
           if (home_loc_rs.next()) homeLoc = home_loc_rs.getString("Location")
-          inv.setItem(i,getItem(Material.COMPASS,s"ホーム${point}にテレポートします。",util.Arrays.asList(homeLoc)))
+          inv.setItem(i, getItem(Material.COMPASS, s"ホーム${point}にテレポートします。", util.Arrays.asList(homeLoc)))
         }
         for (i <- 20 to 24 by 2) {
-          val point = (i-18)/2
+          val point = (i - 18) / 2
           val rs = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID = '$uuid'")
-          var wool:Material = Material.LIGHT_BLUE_WOOL
-          var msg:String = s"クリックでホーム${point}をロックします。"
+          var wool: Material = Material.LIGHT_BLUE_WOOL
+          var msg: String = s"クリックでホーム${point}をロックします。"
           if (rs.next() && rs.getBoolean("Locked")) {
             wool = Material.RED_WOOL
             msg = s"クリックでホーム${point}のロックを解除します。"
           }
-          inv.setItem(i,getItem(wool,msg,util.Arrays.asList("")))
+          inv.setItem(i, getItem(wool, msg, util.Arrays.asList("")))
         }
         sql.close()
         new BukkitRunnable {
@@ -73,13 +73,13 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
     e.setCancelled(true)
     val p = e.getWhoClicked.asInstanceOf[Player]
     val index = e.getSlot
-    if (index == 2 || index == 4 || index == 6) setHome(p,index / 2)
-    if (index == 11 || index == 13 || index == 15) teleportHome(p,(index - 9) / 2)
-    if (index == 20 || index == 22 || index == 24) homeLock(p,(index-18)/2)
+    if (index == 2 || index == 4 || index == 6) setHome(p, index / 2)
+    if (index == 11 || index == 13 || index == 15) teleportHome(p, (index - 9) / 2)
+    if (index == 20 || index == 22 || index == 24) homeLock(p, (index - 18) / 2)
   }
 
-  def setHome(p: Player,point: Int): Unit = {
-    val uuid = p.getUniqueId.toString.replace("-","")
+  def setHome(p: Player, point: Int): Unit = {
+    val uuid = p.getUniqueId.toString.replace("-", "")
     val locate = p.getLocation()
     val location = s"${locate.getWorld.getName},${locate.getX.toInt},${locate.getY.toInt},${locate.getZ.toInt}"
     val sql = new SQL(ryoServerAssist)
@@ -101,9 +101,9 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
     p.sendMessage(ChatColor.AQUA + "ホームポイント" + point + "を設定しました。")
   }
 
-  def teleportHome(p: Player,point: Int): Unit = {
+  def teleportHome(p: Player, point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val uuid = p.getUniqueId.toString.replace("-","")
+    val uuid = p.getUniqueId.toString.replace("-", "")
     if (!sql.connectionTest()) {
       p.sendMessage(ChatColor.RED + "現在ホーム機能を利用できません！")
       sql.close()
@@ -125,15 +125,15 @@ class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listen
           s"[${location(0)},${location(1)},${location(2)},${location(3)}]にテレポートしました！")
       p.teleport(new Location(Bukkit.getWorld(location(0)), location(1).toInt, location(2).toInt, location(3).toInt))
       p.sendMessage(ChatColor.AQUA + "ホーム" + point + "にテレポートしました！")
-      p.playSound(p.getLocation,Sound.ENTITY_ENDERMAN_TELEPORT,1,1)
+      p.playSound(p.getLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1)
       sql.close()
       return
     }
     sql.close()
   }
 
-  def homeLock(p:Player, index:Int): Unit = {
-    val uuid = p.getUniqueId.toString.replace("-","")
+  def homeLock(p: Player, index: Int): Unit = {
+    val uuid = p.getUniqueId.toString.replace("-", "")
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
       p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.potion.{PotionEffect, PotionEffectType}
 import org.bukkit.scheduler.BukkitRunnable
 
-class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist) {
+class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAssist) {
 
   def isEnableSkill: Boolean = {
     val name = p.getName
@@ -17,16 +17,16 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
     true
   }
 
-  def skillActivation(skillEffect:PotionEffectType,level:Int,sp:Int): Unit = {
+  def skillActivation(skillEffect: PotionEffectType, level: Int, sp: Int): Unit = {
     val name = p.getName
     if (enableSkills.contains(name)) {
       enableSkills(name) :+= skillName
     } else {
-      var skillList:Array[String] = Array.empty
+      var skillList: Array[String] = Array.empty
       skillList :+= skillName
       enableSkills += (name -> skillList)
     }
-    var runnable:BukkitRunnable = null
+    var runnable: BukkitRunnable = null
     //エフェクトをつける
     new BukkitRunnable {
       override def run(): Unit = {
@@ -34,11 +34,11 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
         new BukkitRunnable {
           override def run(): Unit = {
             if (!isEnableSkill) runnable.cancel()
-            else p.addPotionEffect(new PotionEffect(skillEffect,40, level))
+            else p.addPotionEffect(new PotionEffect(skillEffect, 40, level))
           }
         }.runTask(ryoServerAssist)
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,20)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20)
 
     new BukkitRunnable {
       override def run(): Unit = {
@@ -56,7 +56,7 @@ class SkillOperation(p:Player,skillName:String,ryoServerAssist: RyoServerAssist)
           new skillPointConsumption(ryoServerAssist).consumption(sp, p)
         }
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,20*60)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
   }
 
   def skillInvalidation(): Unit = {

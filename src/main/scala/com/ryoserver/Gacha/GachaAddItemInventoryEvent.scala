@@ -10,32 +10,32 @@ import org.bukkit.inventory.Inventory
 class GachaAddItemInventoryEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
-  def onClick(e:InventoryClickEvent): Unit = {
+  def onClick(e: InventoryClickEvent): Unit = {
     if (e.getView.getTitle != "ガチャアイテム追加メニュー") return
     val inv = e.getInventory
     val p = e.getWhoClicked.asInstanceOf[Player]
     e.getSlot match {
       case 46 =>
         e.setCancelled(true)
-        add(inv,0)
+        add(inv, 0)
         p.sendMessage(ChatColor.AQUA + "はずれガチャアイテムを追加しました。")
       case 48 =>
         e.setCancelled(true)
-        add(inv,1)
+        add(inv, 1)
         p.sendMessage(ChatColor.AQUA + "あたりガチャアイテムを追加しました。")
       case 50 =>
         e.setCancelled(true)
-        add(inv,2)
+        add(inv, 2)
         p.sendMessage(ChatColor.AQUA + "大当たりガチャアイテムを追加しました。")
       case 52 =>
         e.setCancelled(true)
-        add(inv,3)
+        add(inv, 3)
         p.sendMessage(ChatColor.AQUA + "特等ガチャアイテムを追加しました。")
       case _ =>
     }
   }
 
-  def add(inv:Inventory,rarity: Int): Unit = {
+  def add(inv: Inventory, rarity: Int): Unit = {
     inv.getContents.foreach(is => {
       if (is != null && !GachaLoader.missItemList.contains(is) && !GachaLoader.perItemList.contains(is)
         && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {

@@ -15,7 +15,7 @@ class tpaCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
           sender.sendMessage(ChatColor.RED + args(1) + "は現在オフラインのため、tpaを行うことができません！")
           return true
         } else {
-          tpa.sendTpa(sender.asInstanceOf[Player],target,ryoServerAssist)
+          tpa.sendTpa(sender.asInstanceOf[Player], target, ryoServerAssist)
           return true
         }
       } else if (args(0).equalsIgnoreCase("accept")) {

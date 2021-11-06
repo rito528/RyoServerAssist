@@ -9,7 +9,7 @@ import scala.collection.mutable
 
 object ItemList {
 
-  var stackList:mutable.Map[ItemStack,String] = mutable.Map.empty
+  var stackList: mutable.Map[ItemStack, String] = mutable.Map.empty
 
   def loadItemList(ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("neoStackアイテムロード中...")
@@ -20,7 +20,7 @@ object ItemList {
       val category = rs.getString("category")
       rs.getString("invItem").split(";").foreach(item => {
         config.loadFromString(item)
-        val is = config.getItemStack("i",null)
+        val is = config.getItemStack("i", null)
         if (is != null) {
           is.setAmount(1)
           stackList += (is -> category)

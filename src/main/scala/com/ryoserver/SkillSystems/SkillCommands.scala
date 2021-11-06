@@ -11,10 +11,10 @@ class SkillCommands extends CommandExecutor {
     if (label.equalsIgnoreCase("skill")) {
       if (args(0).equalsIgnoreCase("getItem")) {
         if (args(1).equalsIgnoreCase("min")) {
-          sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation,RecoveryItems.min)
+          sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.min)
           return true
         } else if (args(1).equalsIgnoreCase("max")) {
-          sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation,RecoveryItems.max)
+          sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
           return true
         }
       }

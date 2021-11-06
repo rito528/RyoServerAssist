@@ -10,14 +10,14 @@ import org.bukkit.inventory.ItemStack
 object GachaLoader {
 
   // 1 = miss, 2 = per,3 = bigPer, 4 = special
-  var perItemList:Array[ItemStack] = Array.empty
-  var bigPerItemList:Array[ItemStack] = Array.empty
-  var specialItemList:Array[ItemStack] = Array.empty
-  var missItemList:Array[ItemStack] = Array.empty
+  var perItemList: Array[ItemStack] = Array.empty
+  var bigPerItemList: Array[ItemStack] = Array.empty
+  var specialItemList: Array[ItemStack] = Array.empty
+  var missItemList: Array[ItemStack] = Array.empty
 
-  var per:Double = _ //あたり
-  var bigPer:Double = _ //大当たり
-  var special:Double = _ //特等
+  var per: Double = _ //あたり
+  var bigPer: Double = _ //大当たり
+  var special: Double = _ //特等
 
   def load(ryoServerAssist: RyoServerAssist): Unit = {
     gachaItemLoad(ryoServerAssist)
@@ -39,34 +39,34 @@ object GachaLoader {
     sql.close()
   }
 
-  def addGachaItem(ryoServerAssist: RyoServerAssist, is:ItemStack, rarity: Int): Unit = {
+  def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
     createGachaTable(ryoServerAssist)
     val sql = new SQL(ryoServerAssist)
-    val config:YamlConfiguration = new YamlConfiguration
+    val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
-    config.set("i",is)
-    sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);",config.saveToString())
+    config.set("i", is)
+    sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);", config.saveToString())
     sql.close()
     unload(ryoServerAssist)
     load(ryoServerAssist)
   }
 
-  def listGachaItem(ryoServerAssist: RyoServerAssist,rarity:Int,p:Player): Unit = {
+  def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
     while (rs.next()) {
-      val config:YamlConfiguration = new YamlConfiguration
+      val config: YamlConfiguration = new YamlConfiguration
       config.loadFromString(rs.getString("Material"))
-      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i",null).getItemMeta.hasDisplayName)
-        config.getItemStack("i",null).getItemMeta.getDisplayName else config.getItemStack("i",null).getType.name()))
+      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i", null).getItemMeta.hasDisplayName)
+        config.getItemStack("i", null).getItemMeta.getDisplayName else config.getItemStack("i", null).getType.name()))
     }
     p.sendMessage("+--------------------------+")
     sql.close()
   }
 
-  def removeGachaItem(id:Int,ryoServerAssist: RyoServerAssist): Unit = {
+  def removeGachaItem(id: Int, ryoServerAssist: RyoServerAssist): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
     sql.close()
@@ -81,10 +81,10 @@ object GachaLoader {
       val rarity = rs.getInt("Rarity")
       val config = new YamlConfiguration
       config.loadFromString(rs.getString("Material"))
-      if (rarity == 0) missItemList :+= config.getItemStack("i",null)
-      else if (rarity == 1) perItemList :+= config.getItemStack("i",null)
-      else if (rarity == 2) bigPerItemList :+= config.getItemStack("i",null)
-      else if (rarity == 3) specialItemList :+= config.getItemStack("i",null)
+      if (rarity == 0) missItemList :+= config.getItemStack("i", null)
+      else if (rarity == 1) perItemList :+= config.getItemStack("i", null)
+      else if (rarity == 2) bigPerItemList :+= config.getItemStack("i", null)
+      else if (rarity == 3) specialItemList :+= config.getItemStack("i", null)
     }
     Bukkit.getLogger.info("ガチャアイテムロードが完了しました！")
     sql.close()
