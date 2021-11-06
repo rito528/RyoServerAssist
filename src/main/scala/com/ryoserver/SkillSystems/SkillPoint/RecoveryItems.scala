@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
-import com.ryoserver.Inventory.Item.{getGachaItem, getItem}
+import com.ryoserver.Inventory.Item.{getEnchantEffectItem, getItem}
 import org.bukkit.{ChatColor, Material}
 import org.bukkit.inventory.ItemStack
 
@@ -19,7 +19,7 @@ object RecoveryItems {
     val Lore = List(
       ChatColor.WHITE + "飲むとスキルポイントが全回復します。"
     ).asJava
-    getGachaItem(Material.HONEY_BOTTLE,"スキル回復(大)",Lore)
+    getEnchantEffectItem(Material.HONEY_BOTTLE,"スキル回復(大)",Lore)
   }
 
 }

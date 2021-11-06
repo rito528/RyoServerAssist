@@ -18,25 +18,14 @@ object Item {
     itemStack
   }
 
-  val getGachaItem:(Material,String,java.util.List[String]) => ItemStack = (material: Material,name:String,lore: java.util.List[String]) => {
-    val itemStack:ItemStack = new ItemStack(material)
-    val itemMeta:ItemMeta = itemStack.getItemMeta
-    itemMeta.setDisplayName(name)
-    itemMeta.setLore(lore)
-    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-    itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
-    itemStack
-  }
-
   val getEnchantEffectItem:(Material,String,java.util.List[String]) => ItemStack = (material: Material,name:String,lore: java.util.List[String]) => {
     val itemStack:ItemStack = new ItemStack(material)
     val itemMeta:ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(name)
     itemMeta.setLore(lore)
-    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
     itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
     itemStack.setItemMeta(itemMeta)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
     itemStack
   }
 

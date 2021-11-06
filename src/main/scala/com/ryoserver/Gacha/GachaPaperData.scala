@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.getGachaItem
+import com.ryoserver.Inventory.Item.getEnchantEffectItem
 import org.bukkit.inventory.ItemStack
 import org.bukkit.{ChatColor, Material}
 
@@ -12,7 +12,7 @@ object GachaPaperData {
     val Lore = List(
       ChatColor.WHITE + "手に持って右クリックで引けます"
     ).asJava
-    getGachaItem(Material.PAPER,"ガチャ券",Lore)
+    getEnchantEffectItem(Material.PAPER,"ガチャ券",Lore)
   }
 
   val fromAdmin:ItemStack = {
@@ -20,14 +20,14 @@ object GachaPaperData {
       ChatColor.WHITE + "手に持って右クリックで引けます",
       ChatColor.WHITE + "運営からのお詫びです"
     ).asJava
-    getGachaItem(Material.PAPER,"ガチャ券",Lore)
+    getEnchantEffectItem(Material.PAPER,"ガチャ券",Lore)
   }
 
   val menu:ItemStack = {
     val Lore = List(
       ChatColor.WHITE + "クリックで入手します。"
     ).asJava
-    getGachaItem(Material.PAPER,"ガチャ券を受け取ります。",Lore)
+    getEnchantEffectItem(Material.PAPER,"ガチャ券を受け取ります。",Lore)
   }
 
 }
