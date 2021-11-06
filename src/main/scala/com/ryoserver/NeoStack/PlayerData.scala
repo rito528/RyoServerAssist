@@ -52,7 +52,6 @@ object PlayerData {
       if (!playerData.contains(p.getUniqueId.toString)) playerData += (p.getUniqueId.toString -> mutable.Map(is -> amount))
       else playerData(p.getUniqueId.toString) += (is -> amount)
     }
-    println(playerData)
   }
 
 }

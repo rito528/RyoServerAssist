@@ -16,7 +16,7 @@ import java.time.{LocalDateTime, ZoneId}
 import java.util.{Calendar, Date, TimeZone}
 import javax.xml.crypto.Data
 
-class updateLevel(ryoServerAssist: RyoServerAssist) {
+class    updateLevel(ryoServerAssist: RyoServerAssist) {
 
   def updateExp(exp: Int,p:Player): Unit = {
     val sql = new SQL(ryoServerAssist)
@@ -61,7 +61,7 @@ class updateLevel(ryoServerAssist: RyoServerAssist) {
     //レベル毎にもらうガチャ券の算出
     val nowLevel = calLv.getLevel(sumExp.toInt)
     if (nowLevel > old_level && old_level != 0) {
-      for (i <- old_level to nowLevel) {
+      for (i <- old_level + 1 to nowLevel) {
         if (i % 10 == 0) sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 32 WHERE UUID='${p.getUniqueId.toString}'")
       }
     }
