@@ -1,6 +1,6 @@
 package com.ryoserver.Home
 
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.util.Item.getItem
 import com.ryoserver.Menu.Menu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL

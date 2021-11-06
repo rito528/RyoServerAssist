@@ -1,6 +1,6 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.Inventory.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
+import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import com.ryoserver.Menu.MenuSessions.session
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}

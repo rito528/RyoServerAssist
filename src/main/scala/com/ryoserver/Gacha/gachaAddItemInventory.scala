@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.util.Item.getItem
 import org.bukkit.{Bukkit, Material}
 import org.bukkit.entity.Player
 

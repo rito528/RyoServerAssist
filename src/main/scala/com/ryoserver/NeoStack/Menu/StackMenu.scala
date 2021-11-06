@@ -44,7 +44,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           if (data.contains(is)) amount = data(is)
         }
         meta.setLore(List(
-          s"${BLUE}${BOLD}保有数:$UNDERLINE${amount}個",
+          s"$BLUE${BOLD}保有数:$UNDERLINE${amount}個",
           s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
         ).asJava)
         is.setItemMeta(meta)

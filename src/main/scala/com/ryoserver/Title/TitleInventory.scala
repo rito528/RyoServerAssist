@@ -1,6 +1,6 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.util.Item.getItem
 import com.ryoserver.Menu.{Menu, createMenu}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist

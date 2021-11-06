@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Inventory.Item.getEnchantEffectItem
+import com.ryoserver.util.Item.getEnchantEffectItem
 import org.bukkit.inventory.ItemStack
 import org.bukkit.{ChatColor, Material}
 

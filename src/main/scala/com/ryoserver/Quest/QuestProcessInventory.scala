@@ -52,12 +52,16 @@ class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
     questDetails.add(WHITE + "【説明】")
     questDetails.add(WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
     setItem(1, 6, Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
-    if (questType == "納品クエスト") setItem(2, 6, Material.NETHER_STAR, effect = false, "納品する", List("クリックで納品します。"))
-    setItem(9, 6, Material.RED_WOOL, effect = false, s"${RED}${BOLD}クエストを中止する",
-      List(s"${RED}${BOLD}クリックでクエストを中止します。",
-        s"${RED}${BOLD}${UNDERLINE}納品したアイテムは戻りません！"))
+    if (questType == "納品クエスト") {
+      setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
+      setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。", List(s"${GRAY}クリックでneoStackから納品します。"))
+    }
+    setItem(9, 6, Material.RED_WOOL, effect = false, s"$RED${BOLD}クエストを中止する",
+      List(s"$RED${BOLD}クリックでクエストを中止します。",
+        s"$RED$BOLD${UNDERLINE}納品したアイテムは戻りません！"))
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(2, 6)
+    buttons :+= getLayOut(3, 6)
     buttons :+= getLayOut(9, 6)
     registerMotion(motion)
     open()
@@ -72,7 +76,8 @@ class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
           }
         )
         if (motions.contains(index) && motions(index) != null) motions(index)(player)
-        if (index == getLayOut(2, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(2, 6)) != null) getLayOut(2, 6) -> new QuestProcessInventoryMotions(ryoServerAssist).delivery(player, player.getOpenInventory.getTopInventory)
+        if (index == getLayOut(2, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(2, 6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).delivery(player, player.getOpenInventory.getTopInventory)
+        else if (index == getLayOut(3,6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(3,6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player,player.getOpenInventory.getTopInventory)
       }
     }.runTask(ryoServerAssist)
   }

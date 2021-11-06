@@ -1,5 +1,6 @@
 package com.ryoserver.Quest
 
+import com.ryoserver.NeoStack.NeoStackData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.giveTitle
 import org.bukkit.entity.Player
@@ -62,6 +63,62 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       new QuestInventory(ryoServerAssist).selectInventory(p)
     }
   }
+
+  def deliveryFromNeoStack(p: Player, inv: Inventory): Unit = {
+    val questData = new QuestData(ryoServerAssist)
+    var remainingItems: Array[ItemStack] = Array.empty
+    var invItems: Array[ItemStack] = Array.empty
+    //クエスト終了に必要な残りの納品アイテムを取得する
+    questData.getSelectedQuestRemaining(p).split(";").foreach(remainingItem => {
+      val itemData = remainingItem.split(":")
+      remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)), itemData(1).toInt)
+    })
+    //インベントリの中身をすべて取得
+    inv.getContents.foreach(invItem => {
+      invItems :+= invItem
+    })
+
+    //neoStackからアイテムを納品
+    val neoStack = new NeoStackData(ryoServerAssist)
+    remainingItems.foreach(item => {
+      if (item.getAmount > 0) {
+        val requiredAmount = item.getAmount //クエストを達成するのに必要なアイテムの数
+        val removedAmount = neoStack.removeNeoStack(p, item, requiredAmount) //実際にneoStackから引き出された数
+        remainingItems = remainingItems
+          .filterNot(_ == item)
+        if (requiredAmount == removedAmount) {
+          item.setAmount(0)
+        } else {
+          item.setAmount(requiredAmount - removedAmount)
+        }
+        remainingItems :+= item
+      }
+    })
+    println(remainingItems.mkString("Array(", ", ", ")"))
+
+    //残りの数を設定
+    var questDone = true
+    var remainingItem_str = ""
+    remainingItems.foreach(remainingItem => {
+      remainingItem_str += remainingItem.getType.name() + ":" + remainingItem.getAmount + ";"
+      if (remainingItem.getAmount != 0) questDone = false
+    })
+    questData.setSelectedQuestItemRemaining(p, remainingItem_str)
+
+    if (questDone) {
+      p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
+      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      questData.questClear(p)
+      new QuestInventory(ryoServerAssist).selectInventory(p)
+      new giveTitle(ryoServerAssist).questClearNumber(p)
+      new giveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+    } else {
+      p.sendMessage(ChatColor.AQUA + "納品しました。")
+      new QuestInventory(ryoServerAssist).selectInventory(p)
+    }
+  }
+
+
 
   def questDestroy(p: Player): Unit = {
     val questData = new QuestData(ryoServerAssist)

@@ -1,7 +1,8 @@
 package com.ryoserver.NeoStack
 
-import com.ryoserver.NeoStack.PlayerData.playerData
+import com.ryoserver.NeoStack.PlayerData.{changedData, playerData}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Item.getStringFromItemStack
 import com.ryoserver.util.SQL
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
@@ -14,9 +15,8 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
 
   def getSetItems(category: String): Array[ItemStack] = {
     var items: Array[ItemStack] = Array.empty
-    ItemList.stackList.foreach { case (is, categoryData) => {
+    ItemList.stackList.foreach { case (is, categoryData) =>
       if (category.equalsIgnoreCase(categoryData)) items :+= is
-    }
     }
     items
   }
@@ -90,6 +90,30 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     }
     sql.close()
     amount
+  }
+
+  def removeNeoStack(p:Player,is:ItemStack,amount:Int): Int = {
+    val itemStack = is.clone()
+    itemStack.setAmount(1)
+    val uuid = p.getUniqueId.toString
+    if (!playerData(uuid).contains(itemStack)) return 0
+    val hasAmount = playerData(uuid)(itemStack)
+    playerData(uuid) = playerData(uuid).filterNot{case (oldIs,_) => oldIs == itemStack}
+    if (amount > hasAmount) {
+      playerData(uuid) += (itemStack -> hasAmount)
+      addChangedData(p,itemStack)
+      hasAmount
+    } else {
+      playerData(uuid) += (itemStack -> (hasAmount - amount))
+      addChangedData(p,itemStack)
+      amount
+    }
+  }
+
+  private def addChangedData(p:Player,is:ItemStack): Unit = {
+    val uuid = p.getUniqueId.toString
+    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
+    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def getCategory(is: ItemStack): String = {

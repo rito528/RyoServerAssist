@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
-import com.ryoserver.Inventory.Item.{getEnchantEffectItem, getItem}
+import com.ryoserver.util.Item.{getEnchantEffectItem, getItem}
 import org.bukkit.{ChatColor, Material}
 import org.bukkit.inventory.ItemStack
 

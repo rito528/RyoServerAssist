@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaItemChangeItems.items
-import com.ryoserver.Inventory.Item.getItem
+import com.ryoserver.util.Item.getItem
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, createMenu}
 import com.ryoserver.RyoServerAssist
