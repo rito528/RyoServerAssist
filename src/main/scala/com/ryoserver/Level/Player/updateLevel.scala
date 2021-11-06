@@ -55,7 +55,7 @@ class    updateLevel(ryoServerAssist: RyoServerAssist) {
       old_level = data.getInt("Level")
     }
     val sumExp = exp + old_exp
-    val ticketAmountCal = (old_exp % 100 + exp) / 100
+    val ticketAmountCal = (((old_exp % 100) + exp) / 100).toInt
     //経験値毎にもらうガチャ券の算出
     if (ticketAmountCal > 0) sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + $ticketAmountCal WHERE UUID='${p.getUniqueId.toString}';")
     //レベル毎にもらうガチャ券の算出
