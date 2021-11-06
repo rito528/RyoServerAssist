@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
-import com.ryoserver.Player.getData
+import com.ryoserver.Player.{Data, getData}
 import com.ryoserver.Quest.QuestInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
@@ -47,6 +47,16 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(2, 6, Material.COMPASS, effect = false, s"${GREEN}スポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(3, 6, Material.WHITE_BED, effect = false, s"${GREEN}ホームメニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 6, Material.OAK_DOOR, effect = false, s"${GREEN}ロビーに戻ります。", List(s"${GRAY}クリックでロビーに戻ります。"))
+    val playerData = Data.playerData(p.getUniqueId.toString)
+    setSkullItem(7, 5,p,p.getName + "の情報",List(
+      s"${WHITE}レベル: Lv.${playerData.level}",
+      s"${WHITE}EXP: ${playerData.exp}",
+      s"${WHITE}ランキング: ${playerData.ranking}位",
+      s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
+      s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
+      s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
+      s"${WHITE}投票回数: ${playerData.voteNumber}回"
+    ))
     setItem(7, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Webサイトのリンクを表示します。", List("クリックで表示します。"))
     setItem(8, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Dynmapサイトのリンクを表示します。", List("クリックで表示します。"))
     setItem(9, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}投票サイトのリンクを表示します。", List("クリックで表示します。"))

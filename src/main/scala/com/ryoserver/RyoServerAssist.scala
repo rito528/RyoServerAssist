@@ -11,7 +11,7 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
-import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
+import com.ryoserver.Player.{AutoLoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.SkillSystems.SkillCommands
@@ -126,6 +126,7 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.runnableSaver(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
+    new AutoLoadPlayerData(this).autoLoad()
     //    new LoadEvent(this).load()
     getLogger.info("RyoServerAssist enabled.")
   }
