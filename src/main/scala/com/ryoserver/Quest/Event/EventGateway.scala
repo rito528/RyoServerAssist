@@ -50,9 +50,15 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   def loadEventData(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベント情報を読み込み中...")
-      val sql = new SQL(ryoServerAssist)
-      val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}';")
-      if (rs.next()) EventDataProvider.eventCounter = rs.getInt("counter")
+      val info = eventInfo(holdingEvent())
+      if (info.eventType != "bonus") {
+        val sql = new SQL(ryoServerAssist)
+        val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}';")
+        if (rs.next()) EventDataProvider.eventCounter = rs.getInt("counter")
+        sql.close()
+      } else {
+        EventDataProvider.ratio = info.exp
+      }
       ryoServerAssist.getLogger.info("イベント情報の読み込みが完了しました。")
     }
   }
@@ -80,7 +86,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def saveEvent(): Unit = {
-    if (holdingEvent() != null) {
+    if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
       createEventTable()
       val sql = new SQL(ryoServerAssist)
       val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}'")
@@ -96,7 +102,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def saveRanking(): Unit = {
-    if (holdingEvent() != null) {
+    if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
       createEventRankingTable()
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")

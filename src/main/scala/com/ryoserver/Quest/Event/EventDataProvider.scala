@@ -10,4 +10,6 @@ object EventDataProvider {
 
   var eventRanking: mutable.Map[String, Int] = mutable.Map.empty //UUID,納品または討伐量
 
+  var ratio = 0.0
+
 }

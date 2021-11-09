@@ -2,6 +2,7 @@ package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.Name
+import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
@@ -38,6 +39,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     val calendar = Calendar.getInstance()
     calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+    exp *= EventDataProvider.ratio
     if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) ||
       ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && nowCalender.getTime.after(holiday_start) && nowCalender.getTime.before(holiday_end))) {
       p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
