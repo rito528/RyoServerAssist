@@ -12,7 +12,7 @@ class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   def stickClick(e: PlayerInteractEvent): Unit = {
     if ((e.getAction == Action.RIGHT_CLICK_BLOCK || e.getAction == Action.RIGHT_CLICK_AIR) &&
       e.getPlayer.getInventory.getItemInMainHand.getType == Material.STICK) {
-      new createMenu(ryoServerAssist).menu(e.getPlayer, ryoServerAssist)
+      new createMenu(ryoServerAssist).menu(e.getPlayer)
     }
   }
 

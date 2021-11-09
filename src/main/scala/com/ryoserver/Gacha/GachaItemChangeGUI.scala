@@ -36,7 +36,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   def motion(p: Player, index: Int): Unit = {
     var changeAmount = 0
     if (index == 45) {
-      new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
+      new createMenu(ryoServerAssist).menu(p)
       return
     }
     inv.get.getContents.foreach(itemStack => {

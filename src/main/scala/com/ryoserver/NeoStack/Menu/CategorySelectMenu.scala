@@ -66,7 +66,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         gui.openStack(p, 1, "plant")
         setSelectedCategory(p, "plant")
       case 36 =>
-        new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
+        new createMenu(ryoServerAssist).menu(p)
       case 40 =>
         data.toggleAutoStack(p)
         openCategorySelectMenu(p)

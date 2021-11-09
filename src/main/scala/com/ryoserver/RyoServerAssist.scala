@@ -12,6 +12,7 @@ import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
 import com.ryoserver.Player.{AutoLoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
+import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.SkillSystems.SkillCommands
@@ -104,6 +105,7 @@ class RyoServerAssist extends JavaPlugin {
       new Vote(this),
       new SecurityEvent(this),
       new MenuHandler(this),
+      new EventDeliveryMenu(this)
       //new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
@@ -127,12 +129,17 @@ class RyoServerAssist extends JavaPlugin {
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
     new AutoLoadPlayerData(this).autoLoad()
-    //    new LoadEvent(this).load()
+    new EventLoader().loadEvent()
+    new EventGateway(this).autoSaveEvent()
+    new EventGateway(this).loadEventData()
+    new EventGateway(this).loadEventRanking()
     getLogger.info("RyoServerAssist enabled.")
   }
 
   override def onDisable(): Unit = {
     super.onDisable()
+    new EventGateway(this).saveEvent()
+    new EventGateway(this).saveRanking()
     Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).unload(p))
     NeoStack.PlayerData.save(this)
     getLogger.info("RyoServerAssist disabled.")

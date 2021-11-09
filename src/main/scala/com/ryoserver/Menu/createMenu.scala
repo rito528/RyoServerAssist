@@ -8,6 +8,7 @@ import com.ryoserver.Level.Player.getPlayerData
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.{Data, getData}
+import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestInventory
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
@@ -24,7 +25,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   val slot = 6
   var p: Player = _
 
-  def menu(player: Player, ryoServerAssist: RyoServerAssist): Unit = {
+  def menu(player: Player): Unit = {
     p = player
     setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}保護メニューを開きます。", List(s"${GRAY}クリックで開きます。"))
@@ -57,9 +58,10 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
       s"${WHITE}投票回数: ${playerData.voteNumber}回"
     ))
-    setItem(7, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Webサイトのリンクを表示します。", List("クリックで表示します。"))
-    setItem(8, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Dynmapサイトのリンクを表示します。", List("クリックで表示します。"))
-    setItem(9, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}投票サイトのリンクを表示します。", List("クリックで表示します。"))
+    setItem(9, 5, Material.BOOK,effect = true,s"${GREEN}イベント",List(s"${GRAY}クリックで表示します。"))
+    setItem(7, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Webサイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
+    setItem(8, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}Dynmapサイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
+    setItem(9, 6, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}投票サイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
     registerMotion(registerMenu)
     open()
   }
@@ -82,6 +84,7 @@ class createMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(1, 5) -> new Distribution(ryoServerAssist).receipt _,
       getLayOut(3, 5) -> new getGachaTickets(ryoServerAssist).receipt _,
       getLayOut(5, 5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
+      getLayOut(9, 5) -> new EventMenu(ryoServerAssist).openEventMenu _,
       getLayOut(1, 6) -> {
         motion.worldTeleport(_: Player, world = false)
       },

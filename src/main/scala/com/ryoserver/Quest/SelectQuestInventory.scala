@@ -87,7 +87,7 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       },
       getLayOut(5, 3) -> new QuestSelectInventoryMotions(ryoServerAssist).resetQuest,
       getLayOut(9, 3) -> {
-        new createMenu(ryoServerAssist).menu(_, ryoServerAssist)
+        new createMenu(ryoServerAssist).menu(_)
       }
     )
     if (motions.contains(index)) motions(index)(p)

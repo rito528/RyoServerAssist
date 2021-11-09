@@ -69,7 +69,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
       if (nowPage != 1) {
         new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage - 1, getSelectedCategory(p))
       } else if (nowPage == 1) {
-        new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
+        new createMenu(ryoServerAssist).menu(p)
       }
     } else if (index == 53) {
       new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage + 1, getSelectedCategory(p))

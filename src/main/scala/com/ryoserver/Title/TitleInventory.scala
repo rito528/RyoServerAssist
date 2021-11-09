@@ -1,6 +1,5 @@
 package com.ryoserver.Title
 
-import com.ryoserver.util.Item.getItem
 import com.ryoserver.Menu.{Menu, createMenu}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
@@ -8,10 +7,9 @@ import com.ryoserver.SkillSystems.Skill.SkillData
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor, Material}
+import org.bukkit.{ChatColor, Material}
 
 import java.nio.file.Paths
-import scala.jdk.CollectionConverters._
 
 class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -79,7 +77,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   def motion(p: Player, index: Int): Unit = {
     val page = name.split(":")(1).toInt
     if (index == 45) {
-      new createMenu(ryoServerAssist).menu(p, ryoServerAssist)
+      new createMenu(ryoServerAssist).menu(p)
     } else if (index == 49) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
       new Name(ryoServerAssist).updateName(p)
