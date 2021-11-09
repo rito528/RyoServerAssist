@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.Skill
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.PlayerSkillData.enableSkills
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointData, skillPointConsumption}
+import com.ryoserver.SkillSystems.SkillPoint.{SkillPointData, SkillPointConsumption}
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.potion.{PotionEffect, PotionEffectType}
@@ -53,7 +53,7 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
           skillInvalidation()
           p.sendMessage(ChatColor.DARK_RED + "スキルポイントが不足したため、スキルを無効化しました。")
         } else {
-          new skillPointConsumption(ryoServerAssist).consumption(sp, p)
+          new SkillPointConsumption(ryoServerAssist).consumption(sp, p)
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)

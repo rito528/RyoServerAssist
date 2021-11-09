@@ -19,7 +19,7 @@ class CheckVPNAndProxy {
 
   def loginCheck(p: Player, plugin: Plugin): Boolean = {
     val mapper: ObjectMapper = new ObjectMapper();
-    val json = getJSON(players.getPlayerIP(p))
+    val json = getJSON(Players.getPlayerIP(p))
     val node: JsonNode = mapper.readTree(json)
     if (node.get("status").textValue() == "success") {
       val data = node.get("data")

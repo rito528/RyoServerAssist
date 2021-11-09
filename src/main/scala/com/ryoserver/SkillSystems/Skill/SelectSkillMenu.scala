@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
-import com.ryoserver.Menu.{Menu, createMenu}
+import com.ryoserver.Menu.{Menu, CreateMenu}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
@@ -91,7 +91,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case 50 =>
         toggle.allEffectClear(p)
         p.sendMessage(AQUA + "スキルをすべて無効化しました。")
-      case 52 => new createMenu(ryoServerAssist).menu(p)
+      case 52 => new CreateMenu(ryoServerAssist).menu(p)
       case _ =>
     }
   }

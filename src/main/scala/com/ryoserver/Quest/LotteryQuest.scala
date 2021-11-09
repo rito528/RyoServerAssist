@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ryoserver.Quest.loadQuests.QUEST_SETTING_FILES
+import com.ryoserver.Quest.LoadQuests.QUEST_SETTING_FILES
 
 import java.security.SecureRandom
 import java.util.stream.{Collectors, StreamSupport}
@@ -23,8 +23,8 @@ class LotteryQuest {
     var max = 0
     do {
       counter += 1
-      val r = random.nextInt(loadQuests.enableEvents.length)
-      questName = loadQuests.enableEvents(r)
+      val r = random.nextInt(LoadQuests.enableEvents.length)
+      questName = LoadQuests.enableEvents(r)
       val mapper = new ObjectMapper()
       var readLine = ""
       val source = Source.fromFile(QUEST_SETTING_FILES + "/" + questName + ".json", "UTF-8")

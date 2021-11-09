@@ -1,6 +1,6 @@
 package com.ryoserver.Level
 
-import com.ryoserver.Level.Player.updateLevel
+import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
@@ -21,7 +21,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
         sender.sendMessage("Lv." + args(1) + "までに必要な経験値総量:" + lv.getSumTotal(args(1).toInt))
         return true
       } else if (args(0).equalsIgnoreCase("setExp")) {
-        new updateLevel(ryoServerAssist).updateExp(args(1).toInt, sender.asInstanceOf[Player])
+        new UpdateLevel(ryoServerAssist).updateExp(args(1).toInt, sender.asInstanceOf[Player])
         sender.sendMessage(ChatColor.AQUA + "更新しました。")
         return true
       } else if (args(0).equalsIgnoreCase("help")) {

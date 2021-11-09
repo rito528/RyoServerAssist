@@ -2,7 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.NeoStack.NeoStackData
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Title.giveTitle
+import com.ryoserver.Title.GiveTitle
 import org.bukkit.entity.Player
 import org.bukkit.{ChatColor, Material, Sound}
 import org.bukkit.inventory.{Inventory, ItemStack}
@@ -56,8 +56,8 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
       new QuestInventory(ryoServerAssist).selectInventory(p)
-      new giveTitle(ryoServerAssist).questClearNumber(p)
-      new giveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+      new GiveTitle(ryoServerAssist).questClearNumber(p)
+      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(ChatColor.AQUA + "納品しました。")
       new QuestInventory(ryoServerAssist).selectInventory(p)
@@ -110,8 +110,8 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
       new QuestInventory(ryoServerAssist).selectInventory(p)
-      new giveTitle(ryoServerAssist).questClearNumber(p)
-      new giveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+      new GiveTitle(ryoServerAssist).questClearNumber(p)
+      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(ChatColor.AQUA + "納品しました。")
       new QuestInventory(ryoServerAssist).selectInventory(p)

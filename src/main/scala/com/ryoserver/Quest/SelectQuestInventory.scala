@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Level.Player.getPlayerData
-import com.ryoserver.Menu.{Menu, createMenu}
+import com.ryoserver.Level.Player.GetPlayerData
+import com.ryoserver.Menu.{Menu, CreateMenu}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
@@ -22,7 +22,7 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
     p = player
     val questData = new QuestData(ryoServerAssist)
     var selectedQuests: Array[String] = Array.empty[String]
-    val playerLevel = new getPlayerData(ryoServerAssist).getPlayerLevel(p)
+    val playerLevel = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)
     for (i <- 1 to 7 by 2) {
       val data = questData.loadQuest(p)
       val lottery = new LotteryQuest()
@@ -51,12 +51,12 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
           var itemName = ""
           if (material.isBlock) itemName = "block." + itemStack.getType.getKey.toString.replace(":", ".")
           else if (material.isItem) itemName = "item." + itemStack.getType.getKey.toString.replace(":", ".")
-          questDetails.add(ChatColor.WHITE + "・" + loadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
+          questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
         })
       } else if (questType == "討伐クエスト") {
         lottery.mobs.forEach(i => {
           val entity = getEntity(i.split(":")(0))
-          questDetails.add(ChatColor.WHITE + "・" + loadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
+          questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
             ":" + i.split(":")(1) + "体")
         })
       }
@@ -87,7 +87,7 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       },
       getLayOut(5, 3) -> new QuestSelectInventoryMotions(ryoServerAssist).resetQuest,
       getLayOut(9, 3) -> {
-        new createMenu(ryoServerAssist).menu(_)
+        new CreateMenu(ryoServerAssist).menu(_)
       }
     )
     if (motions.contains(index)) motions(index)(p)

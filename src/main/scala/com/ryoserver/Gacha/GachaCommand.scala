@@ -29,7 +29,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
           return true
         }
       } else if (args(0).equalsIgnoreCase("add") && args.length == 1) {
-        new gachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
+        new GachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
         return true
       } else if (args(0).equalsIgnoreCase("list") && args.length == 2) {
         GachaLoader.listGachaItem(ryoServerAssist, args(1).toInt, sender.asInstanceOf[Player])

@@ -3,17 +3,17 @@ package com.ryoserver
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
-import com.ryoserver.File.createFiles
+import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
-import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, totemEffect}
-import com.ryoserver.Player.{AutoLoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, playerDataLoader}
+import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, TotemEffect}
+import com.ryoserver.Player.{AutoLoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, PlayerDataLoader}
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
-import com.ryoserver.Quest.{QuestSelectInventoryEvent, loadQuests, suppressionEvent}
+import com.ryoserver.Quest.{QuestSelectInventoryEvent, LoadQuests, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -23,7 +23,7 @@ import com.ryoserver.Title.{TitleCommands, TitleLoader}
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.World.SimpleRegion.RegionCommand
-import com.ryoserver.tpa.tpaCommand
+import com.ryoserver.tpa.TpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -55,7 +55,7 @@ class RyoServerAssist extends JavaPlugin {
       "menu" -> new MenuCommand(this),
       "stick" -> new MenuCommand(this),
       "level" -> new LevelCommand(this),
-      "tpa" -> new tpaCommand(this),
+      "tpa" -> new TpaCommand(this),
       "skill" -> new SkillCommands,
       "sr" -> new RegionCommand,
       "hat" -> new SubCommands,
@@ -91,14 +91,14 @@ class RyoServerAssist extends JavaPlugin {
       new MenuEvent(this),
       new StorageEvent(this),
       new QuestSelectInventoryEvent(),
-      new suppressionEvent(this),
+      new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent(this),
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(this),
       new ElevatorEvent,
-      new totemEffect,
+      new TotemEffect,
       new AnvilRepairEvent,
       new PickEvent(this),
       new GachaItemChangeGUI(this),
@@ -116,12 +116,12 @@ class RyoServerAssist extends JavaPlugin {
     getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
-    loadQuests.checkQuest(this)
+    LoadQuests.checkQuest(this)
     new Notification().createFile()
-    new createFiles().createResourcesFile()
+    new CreateFiles().createResourcesFile()
     new Tips(this).sendTips()
     new Regeneration(this).regeneration()
-    Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).load(p))
+    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
     new TitleLoader().loadTitle()
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
@@ -140,7 +140,7 @@ class RyoServerAssist extends JavaPlugin {
     super.onDisable()
     new EventGateway(this).saveEvent()
     new EventGateway(this).saveRanking()
-    Bukkit.getOnlinePlayers.forEach(p => new playerDataLoader(this).unload(p))
+    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).unload(p))
     NeoStack.PlayerData.save(this)
     getLogger.info("RyoServerAssist disabled.")
   }

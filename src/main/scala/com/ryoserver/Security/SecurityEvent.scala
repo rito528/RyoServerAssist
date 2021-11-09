@@ -13,7 +13,7 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler(priority = EventPriority.HIGHEST)
   def onMove(e: PlayerMoveEvent): Unit = {
     val p = e.getPlayer
-    if (players.freezeList.contains(p.getName)) {
+    if (Players.freezeList.contains(p.getName)) {
       e.setCancelled(true)
       p.sendMessage("あなたの動作は禁止されています！")
     }

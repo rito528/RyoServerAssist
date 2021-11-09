@@ -1,6 +1,6 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Level.Player.updateLevel
+import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
@@ -77,7 +77,7 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     val lottery = new LotteryQuest()
     lottery.questName = getSelectedQuest(p)
     lottery.loadQuestData()
-    new updateLevel(ryoServerAssist).addExp(lottery.exp, p)
+    new UpdateLevel(ryoServerAssist).addExp(lottery.exp, p)
     resetQuest(p)
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET questClearTimes=questClearTimes + 1 WHERE UUID='${p.getUniqueId.toString}'")

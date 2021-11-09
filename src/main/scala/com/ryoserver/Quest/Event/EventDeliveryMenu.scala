@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Level.Player.updateLevel
+import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.{Menu, MenuSessions}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
@@ -54,7 +54,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
         }
         eventCounter += amount
         new EventDeliveryMenu(ryoServerAssist).openMenu(p)
-        new updateLevel(ryoServerAssist).addExp(exp,p)
+        new UpdateLevel(ryoServerAssist).addExp(exp,p)
         if (!eventRanking.contains(p.getUniqueId.toString)) {
           eventRanking += (p.getUniqueId.toString -> amount)
         } else {

@@ -9,7 +9,7 @@ class SecurityCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (label.equalsIgnoreCase("playerStatus") && args.length == 1) {
-      sender.sendMessage(players.getPlayerStatus(Bukkit.getPlayer(args(0))))
+      sender.sendMessage(Players.getPlayerStatus(Bukkit.getPlayer(args(0))))
     } else if (label.equalsIgnoreCase("openInventory") && args.length == 1) {
       sender match {
         case player: Player =>
@@ -30,7 +30,7 @@ class SecurityCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor
       sender match {
         case p: Player =>
           Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist, sp))
-          players.hideList :+= p
+          Players.hideList :+= p
           Bukkit.broadcastMessage(ChatColor.YELLOW + p.getName + " left the game")
         case _ =>
           sender.sendMessage(ChatColor.RED + "ゲーム外からの実行はできません！")
@@ -39,17 +39,17 @@ class SecurityCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor
       sender match {
         case p: Player =>
           Bukkit.getOnlinePlayers.forEach(sp => sp.showPlayer(ryoServerAssist, p))
-          players.hideList = players.hideList.filter(hp => hp != p)
+          Players.hideList = Players.hideList.filter(hp => hp != p)
           Bukkit.broadcastMessage(ChatColor.YELLOW + p.getName + " joined the game")
         case _ =>
           sender.sendMessage(ChatColor.RED + "ゲーム外からの実行はできません！")
       }
     } else if (label.equalsIgnoreCase("freeze") && args.length == 1) {
       val p = Bukkit.getPlayer(args(0))
-      players.freezePlayer(p)
+      Players.freezePlayer(p)
     } else if (label.equalsIgnoreCase("unfreeze") && args.length == 1) {
       val p = Bukkit.getPlayer(args(0))
-      players.unFreezePlayer(p)
+      Players.unFreezePlayer(p)
     } else if (label.equalsIgnoreCase("security")) {
       args(0) match {
         case "reload" =>

@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.SkillOpens
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
-import com.ryoserver.Title.giveTitle
+import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 
@@ -37,7 +37,7 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     sql.executeSQL(s"UPDATE Players SET OpenedSkills='${alreadyOpenedSkill + (if (alreadyOpenedSkill != "") "," else "") + SkillNames.indexOf(skillName)}',SkillOpenPoint=SkillOpenPoint - 10" +
       s" WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()
-    new giveTitle(ryoServerAssist).skillOpenNumber(p)
+    new GiveTitle(ryoServerAssist).skillOpenNumber(p)
   }
 
   def addSkillOpenPoint(p: Player, point: Int): Unit = {

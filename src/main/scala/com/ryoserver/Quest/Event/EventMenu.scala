@@ -1,8 +1,8 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{Menu, createMenu}
+import com.ryoserver.Menu.{Menu, CreateMenu}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Quest.loadQuests
+import com.ryoserver.Quest.LoadQuests
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import org.bukkit.Material
@@ -34,12 +34,12 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (eventData.eventType == "bonus") s"${WHITE}経験値増加率: ${eventData.exp}倍" else null,
         if (eventData.item != null && eventData.eventType == "delivery") s"${WHITE}集めるアイテム: ${
           val material = Material.matchMaterial(eventData.item)
-          if (material.isItem) loadQuests.langFile.get("block." + material.getKey.toString.replace(":", ".")).textValue()
-          else if (material.isBlock) loadQuests.langFile.get("item." + material.getKey.toString.replace(":", ".")).textValue()
+          if (material.isItem) LoadQuests.langFile.get("block." + material.getKey.toString.replace(":", ".")).textValue()
+          else if (material.isBlock) LoadQuests.langFile.get("item." + material.getKey.toString.replace(":", ".")).textValue()
         }"
         else if (eventData.item != null && eventData.eventType == "suppression") s"${WHITE}討伐するMOB: ${
           val entity = getEntity(eventData.item)
-          loadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
+          LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
         }"
         else null,
         if (eventData.eventType != "bonus") {
@@ -72,7 +72,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     } else if (index == getLayOut(7,2)) {
       new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
     } else if (index == getLayOut(1,3)) {
-      new createMenu(ryoServerAssist).menu(p)
+      new CreateMenu(ryoServerAssist).menu(p)
     }
 
   }

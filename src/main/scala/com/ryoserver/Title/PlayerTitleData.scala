@@ -24,7 +24,7 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title};' WHERE UUID='$uuid'")
     sql.close()
-    new giveTitle(ryoServerAssist).titleGetNumber(p)
+    new GiveTitle(ryoServerAssist).titleGetNumber(p)
     true
   }
 

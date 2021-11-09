@@ -1,6 +1,6 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Menu.{Menu, createMenu}
+import com.ryoserver.Menu.{Menu, CreateMenu}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData
@@ -77,7 +77,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   def motion(p: Player, index: Int): Unit = {
     val page = name.split(":")(1).toInt
     if (index == 45) {
-      new createMenu(ryoServerAssist).menu(p)
+      new CreateMenu(ryoServerAssist).menu(p)
     } else if (index == 49) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
       new Name(ryoServerAssist).updateName(p)

@@ -39,13 +39,13 @@ class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
         var itemName = ""
         if (material.isBlock) itemName = "block." + itemStack.getType.getKey.toString.replace(":", ".")
         else if (material.isItem) itemName = "item." + itemStack.getType.getKey.toString.replace(":", ".")
-        questDetails.add(WHITE + "・" + loadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
+        questDetails.add(WHITE + "・" + LoadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
       })
     } else if (questType == "討伐クエスト") {
       name = "討伐"
       questData.getSelectedQuestRemaining(p).split(";").foreach(e => {
         val entity = getEntity(e.split(":")(0))
-        questDetails.add(WHITE + "・" + loadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
+        questDetails.add(WHITE + "・" + LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
           + ":" + e.split(":")(1) + "体")
       })
     }
