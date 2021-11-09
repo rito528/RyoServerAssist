@@ -155,35 +155,35 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
   def addItemToPlayer(p: Player, is: ItemStack, amount: Int): Unit = {
     if (is == null || amount == 0) return
     val itemStack = is.clone()
-    val sql = new SQL(ryoServerAssist)
-    val config = new YamlConfiguration
-    val uuid = p.getUniqueId.toString
-    config.set("i", is)
-    var selectAmount = amount
-    var playerHasAmount = 0
-    if (!(playerData.contains(p.getUniqueId.toString) && playerData(p.getUniqueId.toString).contains(is))) {
-      val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
-      if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
-    } else {
-      playerHasAmount = playerData(uuid)(is)
-    }
-    if (playerHasAmount <= amount) selectAmount = playerHasAmount
-    itemStack.setAmount(selectAmount)
-    if (!playerData.contains(p.getUniqueId.toString)) {
-      playerData += (p.getUniqueId.toString -> mutable.Map(is -> (playerHasAmount - selectAmount)))
-    } else {
-      playerData(p.getUniqueId.toString) += (is -> (playerHasAmount - selectAmount))
-    }
     if (itemStack.getAmount != 0 && p.getInventory.firstEmpty() != -1) {
+      val sql = new SQL(ryoServerAssist)
+      val config = new YamlConfiguration
+      val uuid = p.getUniqueId.toString
+      config.set("i", is)
+      var selectAmount = amount
+      var playerHasAmount = 0
+      if (!(playerData.contains(p.getUniqueId.toString) && playerData(p.getUniqueId.toString).contains(is))) {
+        val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
+        if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
+      } else {
+        playerHasAmount = playerData(uuid)(is)
+      }
+      if (playerHasAmount <= amount) selectAmount = playerHasAmount
+      itemStack.setAmount(selectAmount)
+      if (!playerData.contains(p.getUniqueId.toString)) {
+        playerData += (p.getUniqueId.toString -> mutable.Map(is -> (playerHasAmount - selectAmount)))
+      } else {
+        playerData(p.getUniqueId.toString) += (is -> (playerHasAmount - selectAmount))
+      }
       p.getInventory.addItem(itemStack)
-    }
-    sql.close()
-    if (!PlayerData.changedData.contains(uuid)) {
-      var changedList = Array.empty[ItemStack]
-      changedList :+= is
-      PlayerData.changedData += (uuid -> changedList)
-    } else {
-      PlayerData.changedData(uuid) :+= is
+      sql.close()
+      if (!PlayerData.changedData.contains(uuid)) {
+        var changedList = Array.empty[ItemStack]
+        changedList :+= is
+        PlayerData.changedData += (uuid -> changedList)
+      } else {
+        PlayerData.changedData(uuid) :+= is
+      }
     }
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
   }
