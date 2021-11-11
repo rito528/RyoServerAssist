@@ -2,6 +2,7 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor
 import org.bukkit.scheduler.BukkitRunnable
 
 import java.text.SimpleDateFormat
@@ -16,7 +17,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     EventDataProvider.eventData.foreach(event => {
       val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
       val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 21:00")
+      val end = format.parse(s"${event.end} 20:59")
       val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
       if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
     })
@@ -85,8 +86,19 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
   }
 
+  def isEventEnded: Boolean = {
+    if (EventDataProvider.nowEventName != "" && holdingEvent() == null) {
+      return true
+    } else if (holdingEvent() != null) {
+      EventDataProvider.nowEventName = holdingEvent()
+      return false
+    }
+    false
+  }
+
   def saveEvent(): Unit = {
     if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
+      EventDataProvider.nowEventName = holdingEvent()
       createEventTable()
       val sql = new SQL(ryoServerAssist)
       val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}'")
@@ -102,17 +114,53 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def saveRanking(): Unit = {
-    if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
+    if ((holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") || isEventEnded) {
       createEventRankingTable()
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
       var sqlText = ""
-      EventDataProvider.eventRanking.foreach{case (uuid,counter) =>
-        sqlText += s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter);"
+      EventDataProvider.eventRanking.zipWithIndex.foreach{case ((uuid,counter),index) =>
+        println("loop")
+        if (isEventEnded) {
+          println("end")
+          index match {
+            case 0 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
+            case 1 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
+            case 2 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
+            case _ => addEventRankingTitle(uuid,EventDataProvider.nowEventName)
+          }
+        }
+        sqlText += s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);"
       }
-      sql.executeSQL(sqlText)
+      if (isEventEnded) EventDataProvider.nowEventName = ""
+      if (sqlText.isEmpty)sql.executeSQL(sqlText)
       sql.close()
     }
+  }
+
+  def getEventRankingTitles(uuid:String): List[String] = {
+    println("get ranking")
+    val sql = new SQL(ryoServerAssist)
+    val rs =  sql.executeQuery(s"SELECT EventTitles FROM Players WHERE UUID='$uuid'")
+    if (!rs.next()) return null
+    if (rs.getString("EventTitles") != null) {
+      val titles = rs.getString("EventTitles").split(";").toList
+      sql.close()
+      titles
+    } else {
+      sql.close()
+      null
+    }
+  }
+
+  def addEventRankingTitle(uuid:String,titleName:String): Unit = {
+    println("add ranking")
+    val alreadyTitles = getEventRankingTitles(uuid)
+    var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") else ""
+    titles += titleName + ";"
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET EventTitles='$titles' WHERE UUID='$uuid';")
+    sql.close()
   }
 
 }

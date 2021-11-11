@@ -62,6 +62,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       setItem(5,2,Material.BOOK,effect = false,s"${YELLOW}イベント情報",List(s"${GRAY}現在開催されていません。"))
     }
     setItem(1,3,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${YELLOW}メニューに戻ります。",List(s"${GRAY}クリックで戻ります。"))
+    setItem(9,3,Material.NAME_TAG,effect = false,"イベント称号を表示します。",List(s"${GRAY}クリックで表示します。"))
     registerMotion(motion)
     open()
   }
@@ -73,6 +74,8 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
     } else if (index == getLayOut(1,3)) {
       new CreateMenu(ryoServerAssist).menu(p)
+    } else if (index == getLayOut(9,3)) {
+      new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
     }
 
   }
