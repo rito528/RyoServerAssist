@@ -133,7 +133,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
         sqlText += s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);"
       }
       if (isEventEnded) EventDataProvider.nowEventName = ""
-      if (sqlText.isEmpty)sql.executeSQL(sqlText)
+      if (sqlText.nonEmpty) sql.executeSQL(sqlText)
       sql.close()
     }
   }
