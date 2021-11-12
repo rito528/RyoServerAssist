@@ -9,7 +9,7 @@ import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.{Data, GetData}
 import com.ryoserver.Quest.Event.EventMenu
-import com.ryoserver.Quest.QuestInventory
+import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
@@ -75,7 +75,7 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val motions = Map[Int, Player => Unit](
       getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
-      getLayOut(5, 1) -> new QuestInventory(ryoServerAssist).selectInventory _,
+      getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
       getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
       getLayOut(9, 1) -> {
         new TitleInventory(ryoServerAssist).openInv(_, 1)

@@ -55,12 +55,12 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
-      new QuestInventory(ryoServerAssist).selectInventory(p)
+      new QuestMenu(ryoServerAssist).selectInventory(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(ChatColor.AQUA + "納品しました。")
-      new QuestInventory(ryoServerAssist).selectInventory(p)
+      new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }
 
@@ -109,12 +109,12 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
-      new QuestInventory(ryoServerAssist).selectInventory(p)
+      new QuestMenu(ryoServerAssist).selectInventory(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(ChatColor.AQUA + "納品しました。")
-      new QuestInventory(ryoServerAssist).selectInventory(p)
+      new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }
 
@@ -123,7 +123,7 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
   def questDestroy(p: Player): Unit = {
     val questData = new QuestData(ryoServerAssist)
     questData.resetQuest(p)
-    new QuestInventory(ryoServerAssist).selectInventory(p)
+    new QuestMenu(ryoServerAssist).selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
   }
 

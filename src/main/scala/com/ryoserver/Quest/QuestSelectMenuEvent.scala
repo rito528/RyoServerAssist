@@ -7,7 +7,7 @@ import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.inventory.Inventory
 
 
-class QuestSelectInventoryEvent extends Listener {
+class QuestSelectMenuEvent extends Listener {
 
   @EventHandler
   def closeInventory(e: InventoryCloseEvent): Unit = {

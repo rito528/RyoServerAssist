@@ -9,7 +9,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{ChatColor, Effect, Location, Material, Sound}
+import org.bukkit._
 
 class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -26,7 +26,7 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       return
     }
     val set = worldGuard.getRegion(loc).head
-    setItem(2, 1, Material.TNT, effect = false, s"${RED}${BOLD}保護を削除します。", List(s"${RED}${BOLD}取扱注意！", s"${RED}${BOLD}保護範囲を削除します。"))
+    setItem(2, 1, Material.TNT, effect = false, s"$RED${BOLD}保護を削除します。", List(s"$RED${BOLD}取扱注意！", s"$RED${BOLD}保護範囲を削除します。"))
     setItem(4, 1, Material.OAK_DOOR, effect = false, s"${GREEN}フラグ:useを切り替えます。", List(s"${GRAY}ドアやボタンの使用を許可します。",
       s"${GRAY}状態:${if (getFlagStatus(set, Flags.USE)) s"${AQUA}許可" else s"${RED}拒否"}"))
     setItem(6, 1, Material.OAK_BUTTON, effect = false, s"${GREEN}フラグ:interactを切り替えます。",
@@ -44,7 +44,7 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(6, 2, Material.OAK_BOAT, effect = false, s"${GREEN}フラグ:vehicle-destroyを許可します。",
       List(s"${GRAY}トロッコ、ボードの破壊を許可します。",
         s"${GRAY}状態:${if (getFlagStatus(set, Flags.DESTROY_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}"))
-    setItem(8, 2, Material.ENDER_EYE, effect = false, s"${GREEN}保護範囲の2点を確認します。", List("クリックでエフェクトを再生します。"))
+    setItem(8, 2, Material.ENDER_EYE, effect = false, s"${GREEN}保護範囲の2点を確認します。", List(s"${GRAY}クリックでエフェクトを再生します。"))
     registerMotion(motion)
     open()
   }

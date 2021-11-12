@@ -8,11 +8,12 @@ import com.ryoserver.util.Entity.getEntity
 import org.bukkit.{ChatColor, Material}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.ChatColor._
 
 import java.util
 import scala.jdk.CollectionConverters._
 
-class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
+class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   var name: String = "クエスト選択"
   val slot: Int = 3
@@ -64,8 +65,8 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
       setItem(i + 1, 1, Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
     }
-    setItem(5, 3, Material.NETHER_STAR, effect = false, "クエスト更新", List("クリックでクエストを更新します。"))
-    setItem(9, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, "メニューに戻る", List("クリックでメニューに戻ります。"))
+    setItem(5, 3, Material.NETHER_STAR, effect = false, s"${GREEN}クエスト更新", List(s"${GRAY}クリックでクエストを更新します。"))
+    setItem(9, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
     new QuestData(ryoServerAssist).saveQuest(p, selectedQuests)
     registerMotion(motion)
     open()
@@ -74,18 +75,18 @@ class SelectQuestInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   def motion(p: Player, index: Int): Unit = {
     val motions = Map[Int, Player => Unit](
       getLayOut(2, 1) -> {
-        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 0)
+        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 0)
       },
       getLayOut(4, 1) -> {
-        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 1)
+        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 1)
       },
       getLayOut(6, 1) -> {
-        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 2)
+        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 2)
       },
       getLayOut(8, 1) -> {
-        new QuestSelectInventoryMotions(ryoServerAssist).Select(_, 3)
+        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 3)
       },
-      getLayOut(5, 3) -> new QuestSelectInventoryMotions(ryoServerAssist).resetQuest,
+      getLayOut(5, 3) -> new QuestSelectMenuMotions(ryoServerAssist).resetQuest,
       getLayOut(9, 3) -> {
         new CreateMenu(ryoServerAssist).menu(_)
       }

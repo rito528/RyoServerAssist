@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util
 import scala.jdk.CollectionConverters._
 
-class QuestProcessInventory(ryoServerAssist: RyoServerAssist) extends Menu {
+class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val slot: Int = 6
   var p: Player = _

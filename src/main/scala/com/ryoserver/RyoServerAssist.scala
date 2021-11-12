@@ -13,7 +13,7 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, TotemEffect}
 import com.ryoserver.Player.{AutoLoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, PlayerDataLoader}
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
-import com.ryoserver.Quest.{QuestSelectInventoryEvent, LoadQuests, SuppressionEvent}
+import com.ryoserver.Quest.{QuestSelectMenuEvent, LoadQuests, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -90,7 +90,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents(this),
       new MenuEvent(this),
       new StorageEvent(this),
-      new QuestSelectInventoryEvent(),
+      new QuestSelectMenuEvent(),
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent(this),

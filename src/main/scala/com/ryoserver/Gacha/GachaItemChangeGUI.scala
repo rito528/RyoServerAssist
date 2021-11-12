@@ -1,17 +1,15 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaItemChangeItems.items
-import com.ryoserver.util.Item.getItem
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, CreateMenu}
+import com.ryoserver.Menu.{CreateMenu, Menu}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
-import org.bukkit.{Bukkit, ChatColor, Material}
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
-
-import scala.jdk.CollectionConverters._
+import org.bukkit.{ChatColor, Material}
+import org.bukkit.ChatColor._
 
 class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
@@ -22,9 +20,9 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
 
   def openChangeGUI(player: Player): Unit = {
     p = player
-    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, "menuに戻る", List("クリックでmenuに戻ります。"))
-    setItem(5, 6, Material.NETHER_STAR, effect = false, "クリックでインベントリ内の特等アイテムを交換します。", List(
-      "クリックでガチャアイテムを交換します。", s"特等アイテム1個 -> スキル回復(大)${RETE}個"
+    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}menuに戻る", List(s"${GRAY}クリックでmenuに戻ります。"))
+    setItem(5, 6, Material.NETHER_STAR, effect = false, s"${RESET}${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
+      s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${RETE}個"
     ))
     partButton = true
     buttons :+= getLayOut(1, 6)
