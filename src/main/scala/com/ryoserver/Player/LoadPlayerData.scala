@@ -2,9 +2,10 @@ package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class AutoLoadPlayerData(ryoServerAssist: RyoServerAssist) {
+class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
 
   def autoLoad(): Unit = {
     val oneMinute = 1200

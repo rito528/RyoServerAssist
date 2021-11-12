@@ -17,7 +17,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     EventDataProvider.eventData.foreach(event => {
       val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
       val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 20:59")
+      val end = format.parse(s"${event.end} 20:00")
       val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
       if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
     })
@@ -118,7 +118,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       createEventRankingTable()
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
-      var sqlText = ""
       EventDataProvider.eventRanking.zipWithIndex.foreach{case ((uuid,counter),index) =>
         if (isEventEnded) {
           index match {
@@ -128,10 +127,9 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
             case _ => addEventRankingTitle(uuid,EventDataProvider.nowEventName)
           }
         }
-        sqlText += s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);"
+        sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
       }
       if (isEventEnded) EventDataProvider.nowEventName = ""
-      if (sqlText.nonEmpty) sql.executeSQL(sqlText)
       sql.close()
     }
   }

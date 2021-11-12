@@ -39,6 +39,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
         })
       }
       Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんが初参加しました！")
+      Data.playerData += (p.getUniqueId.toString -> PlayerData(0, 0, Data.playerData.size + 1, 1, 1, 0, 0, 0))
       Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }
     sql.close()

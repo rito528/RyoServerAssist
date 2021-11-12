@@ -23,7 +23,7 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       val OfflinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid))
       setSkullItem(index % 9 + 1, (index / 9) + 1,OfflinePlayer.getPlayer,s"${AQUA}[${index + 1}位] " + OfflinePlayer.getName,List(
         if (gateway.eventInfo(gateway.holdingEvent()).eventType == "delivery") s"${WHITE}納品量: " + counter + "個"
-        else if (gateway.eventInfo(gateway.holdingEvent()).eventType == "suppression") s"${WHITE}討伐量: " + counter + "体"
+        else if (gateway.eventInfo(gateway.holdingEvent()).eventType == "suppression") s"${WHITE}討伐数: " + counter + "体"
         else null
       ).filterNot(_ == null))
     }
