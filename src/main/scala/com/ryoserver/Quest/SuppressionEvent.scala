@@ -67,7 +67,7 @@ class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
               EventDataProvider.eventRanking = EventDataProvider.eventRanking
                 .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
             }
-            EventDataProvider.eventRanking += (p.getUniqueId.toString -> counter)
+            EventDataProvider.eventRanking += (p.getUniqueId.toString -> (counter + 1))
           }
         }
       case _ =>

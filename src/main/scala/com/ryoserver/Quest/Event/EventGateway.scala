@@ -17,7 +17,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     EventDataProvider.eventData.foreach(event => {
       val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
       val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 20:00")
+      val end = format.parse(s"${event.end} 20:59")
       val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
       if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
     })
@@ -118,7 +118,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       createEventRankingTable()
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
-      EventDataProvider.eventRanking.zipWithIndex.foreach{case ((uuid,counter),index) =>
+      EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach{case ((uuid,counter),index) =>
         if (isEventEnded) {
           index match {
             case 0 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
@@ -150,7 +150,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
 
   def addEventRankingTitle(uuid:String,titleName:String): Unit = {
     val alreadyTitles = getEventRankingTitles(uuid)
-    var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") else ""
+    var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") + ";" else ""
     titles += titleName + ";"
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET EventTitles='$titles' WHERE UUID='$uuid';")

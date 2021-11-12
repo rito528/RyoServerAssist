@@ -18,7 +18,7 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def openRankingMenu(player: Player): Unit = {
     p = player
     val gateway = new EventGateway(ryoServerAssist)
-    EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach{case ((uuid,counter),index) =>
+    EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach{case ((uuid, counter),index) =>
       if (index / 9 + 1 >= 6) return
       val OfflinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid))
       setSkullItem(index % 9 + 1, (index / 9) + 1,OfflinePlayer.getPlayer,s"${AQUA}[${index + 1}位] " + OfflinePlayer.getName,List(
