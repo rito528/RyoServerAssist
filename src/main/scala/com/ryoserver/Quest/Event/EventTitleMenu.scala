@@ -17,7 +17,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openEventTitleMenu(player:Player): Unit = {
     p = player
-    setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}メニューに戻ります。",List(s"${GRAY}クリックで戻ります。"))
+    setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}イベントメニューに戻ります。",List(s"${GRAY}クリックで戻ります。"))
     val eventGateway = new EventGateway(ryoServerAssist)
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
@@ -36,7 +36,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + "」を設定しました！")
     } else if (index == getLayOut(1,6)) {
-      new CreateMenu(ryoServerAssist).menu(p)
+      new EventMenu(ryoServerAssist).openEventMenu(p)
     } else if (index == getLayOut(5,6)) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
       new Name(ryoServerAssist).updateName(p)

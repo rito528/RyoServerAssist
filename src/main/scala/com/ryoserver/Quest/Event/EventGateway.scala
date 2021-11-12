@@ -120,9 +120,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
       var sqlText = ""
       EventDataProvider.eventRanking.zipWithIndex.foreach{case ((uuid,counter),index) =>
-        println("loop")
         if (isEventEnded) {
-          println("end")
           index match {
             case 0 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
             case 1 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
@@ -139,7 +137,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def getEventRankingTitles(uuid:String): List[String] = {
-    println("get ranking")
     val sql = new SQL(ryoServerAssist)
     val rs =  sql.executeQuery(s"SELECT EventTitles FROM Players WHERE UUID='$uuid'")
     if (!rs.next()) return null
@@ -154,7 +151,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def addEventRankingTitle(uuid:String,titleName:String): Unit = {
-    println("add ranking")
     val alreadyTitles = getEventRankingTitles(uuid)
     var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") else ""
     titles += titleName + ";"
