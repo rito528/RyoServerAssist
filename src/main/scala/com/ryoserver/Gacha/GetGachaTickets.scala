@@ -11,7 +11,7 @@ class GetGachaTickets(ryoServerAssist: RyoServerAssist) {
     val sql = new SQL(ryoServerAssist)
     val number = getNumber(p)
     if (number >= (64 * 9)) {
-      sql.executeQuery(s"UPDATE Players SET gachaTickets=gachaTickets-${64 * 9} WHERE UUID='${p.getUniqueId.toString}';")
+      sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets-${64 * 9} WHERE UUID='${p.getUniqueId.toString}';")
       sql.close()
       64 * 9
     } else {
