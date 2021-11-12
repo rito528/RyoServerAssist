@@ -37,8 +37,12 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(5, 3, Material.SHULKER_BOX, effect = false, s"${GREEN}ネオスタックを開きます。", List(s"${GRAY}クリックで開きます"))
     setItem(7, 3, Material.LAVA_BUCKET, effect = false, s"${GREEN}ゴミ箱を開きます。", List(s"${GRAY}クリックで開きます。", s"$RED${BOLD}取扱注意！"))
     setItem(9, 3, Material.FIREWORK_ROCKET, effect = false, s"${GREEN}ロケット花火を受け取ります。", List(s"${GRAY}クリックで受け取ります。"))
-    setItem(1, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}運営からのガチャ券を受け取ります。", List(s"${GRAY}クリックで受け取ります。"))
-    setItem(3, 5, Material.PAPER, effect = true, s"${GREEN}ガチャ券を受け取ります。", List(s"${GRAY}クリックで受け取ります。",
+    setItem(1, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}運営からのガチャ券を受け取ります。", List(
+      s"${GRAY}クリックで受け取ります。",
+      s"${GRAY}受け取れるガチャ券の枚数: ${new GetData(ryoServerAssist).getFromAdminTickets(p)}枚"
+    ))
+    setItem(3, 5, Material.PAPER, effect = true, s"${GREEN}ガチャ券を受け取ります。", List(
+      s"${GRAY}クリックで受け取ります。",
       s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
       s"${GRAY}レベルが10上がる毎に32枚手に入ります。",
       s"${GRAY}受け取れるガチャ券の枚数:" + new GetData(ryoServerAssist).getTickets(p) + "枚",
