@@ -9,7 +9,7 @@ import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, Skil
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
 import org.apache.commons.lang.time.DateUtils
-import org.bukkit.ChatColor
+import org.bukkit.{Bukkit, ChatColor, Sound}
 import org.bukkit.entity.Player
 
 import java.text.SimpleDateFormat
@@ -77,6 +77,11 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
+      val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
+      if (nowLevel == maxLv) {
+        Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんがLv." + maxLv + "に到達しました！")
+        Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation,Sound.ENTITY_ENDER_DRAGON_DEATH,1,1))
+        }
       new GiveTitle(ryoServerAssist).lv(p)
     }
   }

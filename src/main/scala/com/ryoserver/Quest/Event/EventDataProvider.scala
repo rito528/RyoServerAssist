@@ -12,6 +12,6 @@ object EventDataProvider {
 
   var nowEventName: String = ""
 
-  var ratio = 0.0
+  var ratio = 1.0
 
 }
