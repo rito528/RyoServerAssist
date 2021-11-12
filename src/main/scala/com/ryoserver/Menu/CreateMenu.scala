@@ -78,7 +78,7 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(5, 1) -> new QuestInventory(ryoServerAssist).selectInventory _,
       getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
       getLayOut(9, 1) -> {
-        new TitleInventory(ryoServerAssist).openInv(_: Player, 1)
+        new TitleInventory(ryoServerAssist).openInv(_, 1)
       },
       getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
       getLayOut(3, 3) -> motion.openEnderChest,
@@ -90,10 +90,10 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(5, 5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
       getLayOut(9, 5) -> new EventMenu(ryoServerAssist).openEventMenu _,
       getLayOut(1, 6) -> {
-        motion.worldTeleport(_: Player, world = false)
+        motion.worldTeleport(_, world = false)
       },
       getLayOut(2, 6) -> {
-        motion.worldTeleport(_: Player, world = true)
+        motion.worldTeleport(_, world = true)
       },
       getLayOut(3, 6) -> new Home(ryoServerAssist).homeInventory _,
       getLayOut(5, 6) -> motion.teleportToHub,
@@ -107,7 +107,12 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         motion.sendSiteURL(_: Player, "vote")
       }
     )
-    if (motions.contains(index)) motions(index)(player)
+    if (motions.contains(index)) {
+      motions(index)(player)
+      if (index == getLayOut(1,5) || index == getLayOut(3,5)) {
+        new CreateMenu(ryoServerAssist).menu(player)
+      }
+    }
   }
 
 }
