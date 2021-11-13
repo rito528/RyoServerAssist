@@ -11,10 +11,11 @@ import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, TotemEffect}
-import com.ryoserver.Player.{LoadPlayerData, FirstJoinSettingCommand, FirstJoinSettingEvent, PlayerEvents, PlayerDataLoader}
+import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
-import com.ryoserver.Quest.{QuestSelectMenuEvent, LoadQuests, SuppressionEvent}
+import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
+import com.ryoserver.SkillSystems.Skill.DestructionSkill
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -105,8 +106,8 @@ class RyoServerAssist extends JavaPlugin {
       new Vote(this),
       new SecurityEvent(this),
       new MenuHandler(this),
-      new EventDeliveryMenu(this)
-      //new DestructionSkill
+      new EventDeliveryMenu(this),
+      new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
