@@ -27,9 +27,14 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     BossBar.updateLevelBer(ryoServerAssist, exp, p)
   }
 
+  /**
+    クエスト等をこなし、経験値を入手した際に利用されるメソッド
+   */
   def addExp(addExp: Double, p: Player): Unit = {
-    //levelが上がったときに呼び出されるメソッド
     var exp = addExp
+    /*
+      ボーナスチェック
+     */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
     val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 20:00")
@@ -47,6 +52,9 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       exp *= 1.2
       p.sendMessage(ChatColor.AQUA + addExp.toString + "->" + String.format("%.2f", exp))
     }
+    /*
+      経験値を増やす処理
+     */
     val sql = new SQL(ryoServerAssist)
     val calLv = new CalLv(ryoServerAssist)
     val data = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
@@ -70,11 +78,14 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp.toInt)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
     BossBar.updateLevelBer(ryoServerAssist, sumExp, p)
-    SkillPointBer.update(p, ryoServerAssist)
-    new SkillPointData(ryoServerAssist).setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p, nowLevel - old_level)
     if (old_level < nowLevel) {
+      //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
+      //スキルポイントを全回復
+      SkillPointBer.update(p, ryoServerAssist)
+      new SkillPointData(ryoServerAssist).setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
+
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
       val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
