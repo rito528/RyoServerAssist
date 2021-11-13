@@ -1,6 +1,7 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Menu.{Menu, CreateMenu}
+import com.ryoserver.Menu.MenuLayout.{getX, getY}
+import com.ryoserver.Menu.{CreateMenu, Menu}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData
@@ -11,7 +12,7 @@ import org.bukkit.{ChatColor, Material}
 
 import java.nio.file.Paths
 
-class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
+class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   var name: String = _
   val slot: Int = 6
@@ -30,7 +31,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       if (page * 45 >= index && (page - 1) * 45 <= index) {
         val isHasTitle = hasTitles.contains(title)
         if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {
-          setItem(index % 9 + 1, (index / 9) + 1, Material.BEDROCK, effect = false, s"$GREEN???", List("解放条件:???"))
+          setItem(getX(index), getY(index), Material.BEDROCK, effect = false, s"$GREEN???", List("解放条件:???"))
         } else {
           var lore: List[String] = List.empty
           val configCondition = titleConfig.getInt(s"titles.$title.condition")
@@ -62,7 +63,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
               lore = List(s"${GRAY}解放条件:${titleConfig.getString(s"titles.$title.condition").split(",")(0)}日ログインと、" +
                 s"${titleConfig.getString(s"titles.$title.condition").split(",")(1)}回クエストをクリアしよう。")
           }
-          setItem(index % 9 + 1, (index / 9) + 1, if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, effect = false, title, lore)
+          setItem(getX(index), getY(index), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, effect = false, title, lore)
         }
       }
       index += 1
@@ -83,7 +84,7 @@ class TitleInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
     } else if (index == 53) {
-      new TitleInventory(ryoServerAssist).openInv(p, page + 1)
+      new TitleMenu(ryoServerAssist).openInv(p, page + 1)
     } else if (0 <= index && 44 >= index && inv.get.getItem(index) != null && inv.get.getItem(index).getType == Material.NAME_TAG) {
       /*
        解放済みの称号

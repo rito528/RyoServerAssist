@@ -13,7 +13,7 @@ import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
 import com.ryoserver.Storage.Storage
-import com.ryoserver.Title.TitleInventory
+import com.ryoserver.Title.TitleMenu
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import org.bukkit.ChatColor._
 import org.bukkit.Material
@@ -78,7 +78,7 @@ class CreateMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
       getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
       getLayOut(9, 1) -> {
-        new TitleInventory(ryoServerAssist).openInv(_, 1)
+        new TitleMenu(ryoServerAssist).openInv(_, 1)
       },
       getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
       getLayOut(3, 3) -> motion.openEnderChest,

@@ -8,14 +8,12 @@ import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
-import org.apache.commons.lang.time.DateUtils
-import org.bukkit.{Bukkit, ChatColor, Sound}
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, ChatColor, Sound}
 
 import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
-import java.util.{Calendar, Date, TimeZone}
-import javax.xml.crypto.Data
+import java.util.{Calendar, TimeZone}
 
 class UpdateLevel(ryoServerAssist: RyoServerAssist) {
 
@@ -85,7 +83,6 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       //スキルポイントを全回復
       SkillPointBer.update(p, ryoServerAssist)
       new SkillPointData(ryoServerAssist).setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
-
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
       val maxLv = ryoServerAssist.getConfig.getInt("maxLv")

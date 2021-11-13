@@ -1,5 +1,6 @@
 package com.ryoserver.NeoStack.Menu
 
+import com.ryoserver.Menu.MenuLayout.{getX, getY}
 import com.ryoserver.Menu.{Menu, MenuData}
 import com.ryoserver.NeoStack.ItemData.itemData
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
@@ -52,7 +53,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         else ItemData.itemData(p.getName) += (is -> setItem)
         if (!playerData.contains(p.getUniqueId.toString)) playerData += (p.getUniqueId.toString -> mutable.Map(setItem -> amount))
         else playerData(p.getUniqueId.toString) += (setItem -> amount)
-        setItemStack(index % 9 + 1, (index / 9) + 1, is)
+        setItemStack(getX(index), getY(index), is)
       }
       index += 1
     })

@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.{CreateMenu, Menu}
-import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.PlayerTitleData
@@ -21,7 +21,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val eventGateway = new EventGateway(ryoServerAssist)
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
-        setItem(index % 9 + 1, (index / 9) + 1, Material.NAME_TAG, effect = false, RESET + title, List(s"${GRAY}クリックで設定します。"))
+        setItem(getX(index), getY(index), Material.NAME_TAG, effect = false, RESET + title, List(s"${GRAY}クリックで設定します。"))
       }
     }
     setItem(5,6,Material.PAPER,effect = false,s"${GREEN}称号の設定をリセットします。",List(s"${GRAY}クリックでリセットします。"))
