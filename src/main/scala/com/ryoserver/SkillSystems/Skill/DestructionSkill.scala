@@ -12,16 +12,19 @@ class DestructionSkill extends Listener {
     val p = e.getPlayer
     val direction = p.getFacing.toString
     val loc = e.getBlock.getLocation
-    if (e.getBlock.getLocation().getY == p.getLocation.getY) return
     if (direction == "NORTH" || direction == "SOUTH") {
-      if (e.getBlock.getLocation().getY < p.getLocation.getY) {
+      if (loc.getY < p.getLocation.getY) {
         nsBreak(p, loc, -2, -4, 0)
+      } else if (loc.getY == p.getLocation.getY) {
+        nsBreak(p, loc, -2, 0, 0)
       } else {
         nsBreak(p, loc, -2, -1, 0)
       }
     } else if (direction == "EAST" || direction == "WEST") {
-      if (e.getBlock.getLocation().getY < p.getLocation.getY) {
+      if (loc.getY < p.getLocation.getY) {
         ewBreak(p, loc, 0, -4, -2)
+      } else if (loc.getY == p.getLocation.getY) {
+        ewBreak(p, loc, 0, 0, -2)
       } else {
         ewBreak(p, loc, 0, -1, -2)
       }
