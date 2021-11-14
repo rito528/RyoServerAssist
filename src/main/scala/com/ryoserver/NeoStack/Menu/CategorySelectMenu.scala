@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.Menu.{Menu, CreateMenu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.NeoStack.NeoStackData
 import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
 import com.ryoserver.RyoServerAssist
@@ -66,7 +66,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         gui.openStack(p, 1, "plant")
         setSelectedCategory(p, "plant")
       case 36 =>
-        new CreateMenu(ryoServerAssist).menu(p)
+        new RyoServerMenu1(ryoServerAssist).menu(p)
       case 40 =>
         data.toggleAutoStack(p)
         openCategorySelectMenu(p)

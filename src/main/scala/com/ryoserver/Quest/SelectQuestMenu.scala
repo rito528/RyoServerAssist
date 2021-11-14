@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.Menu.{Menu, CreateMenu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
@@ -88,7 +88,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       },
       getLayOut(5, 3) -> new QuestSelectMenuMotions(ryoServerAssist).resetQuest,
       getLayOut(9, 3) -> {
-        new CreateMenu(ryoServerAssist).menu(_)
+        new RyoServerMenu1(ryoServerAssist).menu(_)
       }
     )
     if (motions.contains(index)) motions(index)(p)

@@ -1,6 +1,6 @@
 name := "RyoServerAssist"
 
-version := "1.2.8"
+version := "1.4.0"
 
 scalaVersion := "2.13.6"
 

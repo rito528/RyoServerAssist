@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{CreateMenu, Menu}
+import com.ryoserver.Menu.{RyoServerMenu1, Menu}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.{Bukkit, Material}

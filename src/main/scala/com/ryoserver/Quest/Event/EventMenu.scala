@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{Menu, CreateMenu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Quest.LoadQuests
 import com.ryoserver.RyoServerAssist
@@ -73,7 +73,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     } else if (index == getLayOut(7,2)) {
       new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
     } else if (index == getLayOut(1,3)) {
-      new CreateMenu(ryoServerAssist).menu(p)
+      new RyoServerMenu1(ryoServerAssist).menu(p)
     } else if (index == getLayOut(9,3)) {
       new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
     }

@@ -2,7 +2,7 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{CreateMenu, Menu}
+import com.ryoserver.Menu.{RyoServerMenu1, Menu}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.entity.Player
@@ -34,7 +34,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   def motion(p: Player, index: Int): Unit = {
     var changeAmount = 0
     if (index == 45) {
-      new CreateMenu(ryoServerAssist).menu(p)
+      new RyoServerMenu1(ryoServerAssist).menu(p)
       return
     }
     inv.get.getContents.foreach(itemStack => {

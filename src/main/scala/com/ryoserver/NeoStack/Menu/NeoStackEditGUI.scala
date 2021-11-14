@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{CreateMenu, Menu}
+import com.ryoserver.Menu.{RyoServerMenu1, Menu}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackData}
 import com.ryoserver.RyoServerAssist
@@ -70,7 +70,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
       if (nowPage != 1) {
         new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage - 1, getSelectedCategory(p))
       } else if (nowPage == 1) {
-        new CreateMenu(ryoServerAssist).menu(p)
+        new RyoServerMenu1(ryoServerAssist).menu(p)
       }
     } else if (index == 53) {
       new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage + 1, getSelectedCategory(p))
