@@ -1,0 +1,3 @@
+ALTER TABLE Players ADD Twitter TEXT AFTER VoteNumber;
+ALTER TABLE Players ADD Discord TEXT AFTER Twitter;
+ALTER TABLE Players ADD Word TEXT AFTER Discord;

@@ -78,6 +78,9 @@ commands:
   security:
     description: security command.
     permission: ryoserverassist.security
+  profile:
+    description: profile command.
+    permission: ryoserverassist.profile
 
 permissions:
   ryoserverassist.*:
@@ -107,6 +110,7 @@ permissions:
       - ryoserverassist.unfreeze
       - ryoserverassist.security
       - ryoserverassist.commandExecuter
+      - ryoserverassist.profile
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -155,3 +159,5 @@ permissions:
     default: op
   ryoserverassist.commandExecuter:
     default: op
+  ryoserverassist.profile:
+    default: true

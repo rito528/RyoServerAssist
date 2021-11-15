@@ -10,7 +10,7 @@ class CreateFiles {
     /*
       指定したresourcesにあるファイルが存在しなかった場合に作成する
      */
-    List(
+    Set(
       "tips.yml",
       "title.yml",
       "event.yml"

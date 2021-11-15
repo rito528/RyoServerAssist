@@ -1,11 +1,11 @@
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-core-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-annotations-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-logging-1.2.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-databind-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-annotations-2.13.0-rc1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-core-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-databind-2.13.0-rc1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.25.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
@@ -17,6 +17,7 @@
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/versions/11/module-info.class' with strategy 'first'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'first' was applied to a file (Run the task at debug level to see details)[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 62e3167f87e3ad4d5e27fc22e549c5018b46a445[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
 [0m[[0m[0mdebug[0m] [0m[0mPackaging /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.4.0.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
@@ -5298,6 +5299,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Elevator/ElevatorEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/File/CreateFiles.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/File/CreateFiles.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/File/Patch.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/File/Patch.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/Gacha.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/Gacha.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/GachaAddItemInventory.class[0m
@@ -5472,6 +5475,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/PlayerEvents.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/UpdateData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/UpdateData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Profile/ProfileSettingCommands.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Profile/ProfileSettingCommands.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Quest/Event/EventDataProvider$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Quest/Event/EventDataProvider$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Quest/Event/EventDataProvider.class[0m
@@ -7642,6 +7647,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/1450cf87f2ec0bc4b8e5bca7beb7a53702d657da_853b96d3afbb7bf8cc303fe27ee96836a10c1834_da39a3ee5e6b4b0d3255bfef95601890afd80709/org/apache/http/util/VersionInfo.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	org/apache/http/version.properties[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/1450cf87f2ec0bc4b8e5bca7beb7a53702d657da_853b96d3afbb7bf8cc303fe27ee96836a10c1834_da39a3ee5e6b4b0d3255bfef95601890afd80709/org/apache/http/version.properties[0m
+[0m[[0m[0mdebug[0m] [0m[0m	patch/1.4.0_SQLPatch.rp[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/patch/1.4.0_SQLPatch.rp[0m
 [0m[[0m[0mdebug[0m] [0m[0m	plugin.yml[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/plugin.yml[0m
 [0m[[0m[0mdebug[0m] [0m[0m	rootdoc.txt[0m

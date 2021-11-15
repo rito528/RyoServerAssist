@@ -3,7 +3,7 @@ package com.ryoserver
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
-import com.ryoserver.File.CreateFiles
+import com.ryoserver.File.{CreateFiles, Patch}
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaCommand, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Level.LevelCommand
@@ -12,6 +12,7 @@ import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, TotemEffect}
 import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
+import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
@@ -64,7 +65,8 @@ class RyoServerAssist extends JavaPlugin {
       "player" -> new FirstJoinSettingCommand(this),
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
-      "getoriginalitem" -> new OriginalItemCommands
+      "getoriginalitem" -> new OriginalItemCommands,
+      "profile" -> new ProfileSettingCommands(this)
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -134,6 +136,10 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
+    /*
+      パッチの実行
+    */
+    new Patch(this).getAndExecutePatch()
     getLogger.info("RyoServerAssist enabled.")
   }
 
