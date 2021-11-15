@@ -18,7 +18,7 @@ class ProfileSettingCommands(ryoServerAssist: RyoServerAssist) extends CommandEx
       sender.sendMessage(ChatColor.AQUA + "あなたのプロフィール情報")
       sender.sendMessage(ChatColor.AQUA + "Twitter: " + profile("Twitter"))
       sender.sendMessage(ChatColor.AQUA + "Discord: " + profile("Discord"))
-      sender.sendMessage(ChatColor.AQUA + "Word: " + profile("Word"))
+      sender.sendMessage(ChatColor.AQUA + "一言メッセージ: " + profile("Word"))
       return true
     } else {
       args(0).toLowerCase() match {
