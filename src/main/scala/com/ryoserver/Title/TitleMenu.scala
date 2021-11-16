@@ -92,7 +92,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       val titleName = ChatColor.RESET + inv.get.getItem(index).getItemMeta.getDisplayName
       new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId.toString, titleName)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + "」を設定しました！")
+      p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + s"${ChatColor.AQUA}」を設定しました！")
     }
   }
 
