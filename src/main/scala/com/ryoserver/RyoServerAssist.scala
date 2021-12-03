@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, SpawnCommand, StickCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SpawnCommand, StickCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -11,7 +11,7 @@ import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, TotemEffect}
-import com.ryoserver.Player.{FirstJoinSettingCommand, FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
+import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
 import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
@@ -62,7 +62,7 @@ class RyoServerAssist extends JavaPlugin {
       "sr" -> new RegionCommand,
       "hat" -> new HatCommand,
       "spawn" -> new SpawnCommand,
-      "player" -> new FirstJoinSettingCommand(this),
+      "player" -> new PlayerCommand(this),
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
