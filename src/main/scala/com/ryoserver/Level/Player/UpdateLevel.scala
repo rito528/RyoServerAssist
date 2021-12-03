@@ -25,7 +25,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     BossBar.updateLevelBer(ryoServerAssist, exp, p)
   }
 
-  /**
+  /*
     クエスト等をこなし、経験値を入手した際に利用されるメソッド
    */
   def addExp(addExp: Double, p: Player): Unit = {

@@ -1,13 +1,12 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, SpawnCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, SpawnCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
-import com.ryoserver.Level.LevelCommand
 import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
