@@ -91,7 +91,7 @@ class OriginalItemCommand extends CommandBuilder {
     p.getWorld.dropItem(p.getLocation, OriginalItems.boots)
   }
 
-  override val executor: CommandExecuto rBuilder = CommandExecutorBuilder(
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
       "血狂の刃" -> tiguruinoyaiba,
       "折れた英雄の剣" -> oretaEiyunoKen,
