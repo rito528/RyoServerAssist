@@ -1,13 +1,13 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, SpawnCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, SpawnCommand, StickCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
-import com.ryoserver.Menu.{MenuCommand, MenuEvent, MenuHandler}
+import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{AnvilRepairEvent, OriginalItemCommands, TotemEffect}
@@ -55,7 +55,7 @@ class RyoServerAssist extends JavaPlugin {
       "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(this),
-      "stick" -> new MenuCommand(this),
+      "stick" -> new StickCommand,
       "level" -> new LevelCommand(this),
       "tpa" -> new TpaCommand(this),
       "skill" -> new SkillCommands,
