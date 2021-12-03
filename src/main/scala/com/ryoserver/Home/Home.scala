@@ -13,16 +13,7 @@ import org.bukkit.{Bukkit, ChatColor, Location, Material, Sound}
 
 import java.util
 
-class Home(ryoServerAssist: RyoServerAssist) extends CommandExecutor with Listener {
-
-  override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
-    if (label.equalsIgnoreCase("home") && sender.isInstanceOf[Player]) {
-      val p: Player = sender.asInstanceOf[Player]
-      homeInventory(p)
-      return true
-    }
-    false
-  }
+class Home(ryoServerAssist: RyoServerAssist) extends Listener {
 
   def homeInventory(p: Player): Unit = {
     new BukkitRunnable {

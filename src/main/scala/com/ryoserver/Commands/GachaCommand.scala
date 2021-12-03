@@ -3,7 +3,6 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
 import com.ryoserver.RyoServerAssist
-import org.bukkit.ChatColor
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

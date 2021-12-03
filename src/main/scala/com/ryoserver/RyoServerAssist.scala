@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, SpawnCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, SpawnCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -52,7 +52,7 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの有効化
      */
     Map(
-      "home" -> new Home(this),
+      "home" -> new HomeCommand(this),
       "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(this),
       "menu" -> new MenuCommand(this),
