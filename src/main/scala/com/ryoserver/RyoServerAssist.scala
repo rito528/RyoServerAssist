@@ -1,7 +1,7 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{HatCommand, SpawnCommand}
-import com.ryoserver.Distribution.{Distribution, DistributionCommand}
+import com.ryoserver.Commands.{DistributionCommand, HatCommand, SpawnCommand}
+import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
