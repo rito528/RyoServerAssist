@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.HatCommand
+import com.ryoserver.Commands.{HatCommand, SpawnCommand}
 import com.ryoserver.Distribution.{Distribution, DistributionCommand}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -62,7 +62,7 @@ class RyoServerAssist extends JavaPlugin {
       "skill" -> new SkillCommands,
       "sr" -> new RegionCommand,
       "hat" -> new HatCommand,
-      "spawn" -> new SubCommands,
+      "spawn" -> new SpawnCommand,
       "player" -> new FirstJoinSettingCommand(this),
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
