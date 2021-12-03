@@ -3,6 +3,7 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
 import com.ryoserver.RyoServerAssist
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -17,7 +18,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("ガチャアイテムを追加します。")
     sender.sendMessage(AQUA + "/gacha remove [ID]")
     sender.sendMessage("ガチャアイテムを削除します。")
-    sender.sendMessage(AQUA + "/gacha list")
+    sender.sendMessage(AQUA + "/gacha list [レアリティ番号(0~3)]")
     sender.sendMessage("ガチャアイテムのリストを表示します。")
     sender.sendMessage("+-------------------------------------+")
   }
@@ -26,6 +27,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     val is = new ItemStack(GachaPaperData.normal)
     is.setAmount(args(2).toInt)
     sender.asInstanceOf[Player].getInventory.addItem(is)
+    sender.sendMessage(AQUA + sender.getName + "にガチャ券を" + args(2) + "枚配布しました。")
   }
 
   def add(): Unit = {
@@ -47,7 +49,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       "give" -> give,
       "add" -> add,
       "list" -> list,
-      "sender" -> remove
+      "remove" -> remove
     )
   ).playerCommand()
 
