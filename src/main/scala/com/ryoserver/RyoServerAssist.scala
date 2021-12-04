@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SecurityCommand, SpawnCommand, StickCommand, TitleCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SecurityCommand, SpawnCommand, StickCommand, TitleCommand, TpaCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -24,7 +24,6 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.World.SimpleRegion.RegionCommand
-import com.ryoserver.tpa.TpaCommand
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
