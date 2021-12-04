@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 class SpawnCommand extends CommandBuilder {
 
-  def spawn(): Unit = {
+  private def spawn(): Unit = {
     sender match {
       case p:Player =>
         p.teleport(Bukkit.getWorld("world").getSpawnLocation)

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 class HomeCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  def home(): Unit = {
+  private def home(): Unit = {
     new Home(ryoServerAssist).homeInventory(sender.asInstanceOf[Player])
   }
 

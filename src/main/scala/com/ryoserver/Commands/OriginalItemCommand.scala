@@ -7,96 +7,96 @@ import org.bukkit.entity.Player
 
 class OriginalItemCommand extends CommandBuilder {
 
-  def tiguruinoyaiba(): Unit = {
+  private def tiguruinoyaiba(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.tiguruinoyaiba)
   }
 
-  def oretaEiyunoKen(): Unit = {
+  private def oretaEiyunoKen(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.oretaEiyuNoKen)
   }
 
-  def elementalPickaxe(): Unit = {
+  private def elementalPickaxe(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.elementalPickaxe)
   }
 
-  def blessingPickaxe(): Unit = {
+  private def blessingPickaxe(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.blessingPickaxe)
   }
 
-  def ryoNoKen(): Unit = {
+  private def ryoNoKen(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.ryoNoKen)
   }
 
-  def gram(): Unit = {
+  private def gram(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.gram)
   }
 
-  def seikenTengeki(): Unit = {
+  private def seikenTengeki(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.seikenTengeki)
   }
 
-  def blackAxe(): Unit = {
+  private def blackAxe(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.blackAxe)
   }
 
-  def dignity(): Unit = {
+  private def dignity(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.dignity)
   }
 
-  def harvestStar(): Unit = {
+  private def harvestStar(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.harvestStar)
   }
 
-  def penginNoHane(): Unit = {
+  private def penginNoHane(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.penginNoHane)
   }
 
-  def homura(): Unit = {
+  private def homura(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.homura)
   }
 
-  def hienNoYumi(): Unit = {
+  private def hienNoYumi(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.hienNoYumi)
   }
 
-  def kabuto(): Unit = {
+  private def kabuto(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.kabuto)
   }
 
-  def yoroi(): Unit = {
+  private def yoroi(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.yoroi)
   }
 
-  def asi(): Unit = {
+  private def asi(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.asi)
   }
 
-  def boots(): Unit = {
+  private def boots(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.boots)
   }
 
-  def min(): Unit = {
+  private def min(): Unit = {
     sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.min)
   }
 
-  def max(): Unit = {
+  private def max(): Unit = {
     sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
   }
 

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  def send(): Unit = {
+  private def send(): Unit = {
     val target = Bukkit.getPlayer(args(1))
     if (!target.isOnline) {
       sender.sendMessage(ChatColor.RED + args(1) + "は現在オフラインのため、tpaを行うことができません！")
@@ -17,7 +17,7 @@ class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     }
   }
 
-  def accept(): Unit = {
+  private def accept(): Unit = {
     Tpa.acceptTpa(sender.asInstanceOf[Player])
   }
 

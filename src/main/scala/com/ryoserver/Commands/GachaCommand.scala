@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack
 
 class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  def help(): Unit = {
+  private def help(): Unit = {
     sender.sendMessage("+-------------------------------------+")
     sender.sendMessage(AQUA + "/gacha give <プレイヤー名> <個数>")
     sender.sendMessage("ガチャ券を配布します。")
@@ -22,23 +22,23 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("+-------------------------------------+")
   }
 
-  def give(): Unit = {
+  private def give(): Unit = {
     val is = new ItemStack(GachaPaperData.normal)
     is.setAmount(args(2).toInt)
     sender.asInstanceOf[Player].getInventory.addItem(is)
     sender.sendMessage(AQUA + sender.getName + "にガチャ券を" + args(2) + "枚配布しました。")
   }
 
-  def add(): Unit = {
+  private def add(): Unit = {
     new GachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
   }
 
-  def remove(): Unit = {
+  private def remove(): Unit = {
     GachaLoader.removeGachaItem(args(1).toInt, ryoServerAssist)
     sender.sendMessage("ガチャアイテムID:" + args(1) + "を削除しました。")
   }
 
-  def list(): Unit = {
+  private def list(): Unit = {
     GachaLoader.listGachaItem(ryoServerAssist, args(1).toInt, sender.asInstanceOf[Player])
   }
 

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack
 
 class StickCommand extends CommandBuilder {
 
-  def stick(): Unit = {
+  private def stick(): Unit = {
     sender.asInstanceOf[Player].getInventory.addItem(new ItemStack(Material.STICK, 1))
     sender.sendMessage(ChatColor.AQUA + "木の棒をインベントリに配布しました。")
   }

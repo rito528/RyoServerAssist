@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 
 class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  def setJoinItem(): Unit = {
+  private def setJoinItem(): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
     val items = sql.executeQuery("SELECT ItemStack FROM firstJoinItems;")

@@ -11,24 +11,24 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private val lv = new CalLv(ryoServerAssist)
 
-  def expToLevel(): Unit = {
+  private def expToLevel(): Unit = {
     sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt, limit = false))
   }
 
-  def levelToExp(): Unit = {
+  private def levelToExp(): Unit = {
     sender.sendMessage("Lv." + args(1) + "->Lv." + (args(1).toInt + 1) + "までに必要な経験値量:" + lv.getExp(args(1).toInt + 1))
   }
 
-  def totalLevelExp(): Unit = {
+  private def totalLevelExp(): Unit = {
     sender.sendMessage("Lv." + args(1) + "までに必要な経験値総量:" + lv.getSumTotal(args(1).toInt))
   }
 
-  def setExp(): Unit = {
+  private def setExp(): Unit = {
     new UpdateLevel(ryoServerAssist).updateExp(args(1).toInt, sender.asInstanceOf[Player])
     sender.sendMessage(ChatColor.AQUA + "更新しました。")
   }
 
-  def help(): Unit = {
+  private def help(): Unit = {
     sender.sendMessage("+-------------------------------------+")
     sender.sendMessage(ChatColor.AQUA + "/level getLevel <経験値>")
     sender.sendMessage("指定した経験値に相当するレベルを表示します。")

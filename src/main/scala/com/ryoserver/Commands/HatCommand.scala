@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 
 class HatCommand extends CommandBuilder {
 
-  def hat(): Unit = {
+  private def hat(): Unit = {
     sender match {
       case p:Player =>
         val handItem = p.getInventory.getItemInMainHand

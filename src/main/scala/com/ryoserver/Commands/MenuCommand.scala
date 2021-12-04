@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 class MenuCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  def menu(): Unit = {
+  private def menu(): Unit = {
     new RyoServerMenu1(ryoServerAssist).menu(sender.asInstanceOf[Player])
   }
 
