@@ -2,6 +2,7 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.OriginalItem.OriginalItems
+import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.entity.Player
 
 class OriginalItemCommand extends CommandBuilder {
@@ -91,6 +92,14 @@ class OriginalItemCommand extends CommandBuilder {
     p.getWorld.dropItem(p.getLocation, OriginalItems.boots)
   }
 
+  def min(): Unit = {
+    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.min)
+  }
+
+  def max(): Unit = {
+    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
+  }
+
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
       "血狂の刃" -> tiguruinoyaiba,
@@ -109,7 +118,9 @@ class OriginalItemCommand extends CommandBuilder {
       "テクト-兜-" -> kabuto,
       "テクト-鎧-" -> yoroi,
       "テクト-脚-" -> asi,
-      "テクト-靴-" -> boots
+      "テクト-靴-" -> boots,
+      "スキル回復(小)" -> min,
+      "スキル回復(大)" -> max
     )
   ).playerCommand()
 

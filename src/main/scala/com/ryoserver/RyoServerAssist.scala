@@ -17,7 +17,6 @@ import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.DestructionSkill
-import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
@@ -58,7 +57,6 @@ class RyoServerAssist extends JavaPlugin {
       "stick" -> new StickCommand,
       "level" -> new LevelCommand(this),
       "tpa" -> new TpaCommand(this),
-      "skill" -> new SkillCommands,
       "sr" -> new RegionCommand,
       "hat" -> new HatCommand,
       "spawn" -> new SpawnCommand,

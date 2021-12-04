@@ -27,9 +27,6 @@ commands:
   tpa:
     description: tpa command.
     permission: ryoserverassist.tpa
-  skill:
-    description: skill operation command.
-    permission: ryoserverassist.skill
   stick:
     description: add stick command.
     permission: ryoserverassist.stick
@@ -71,7 +68,6 @@ permissions:
       - ryoserverassist.menu
       - ryoserverassist.level
       - ryoserverassist.tpa
-      - ryoserverassist.skill
       - ryoserverassist.stick
       - ryoserverassist.sr
       - ryoserverassist.hat
@@ -95,8 +91,6 @@ permissions:
     default: op
   ryoserverassist.tpa:
     default: true
-  ryoserverassist.skill:
-    default: op
   ryoserverassist.stick:
     default: true
   ryoserverassist.sr:
