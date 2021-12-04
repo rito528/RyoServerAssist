@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SpawnCommand, StickCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SecurityCommand, SpawnCommand, StickCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -15,7 +15,7 @@ import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLo
 import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
-import com.ryoserver.Security.{Config, Operator, SecurityCommands, SecurityEvent}
+import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.DestructionSkill
 import com.ryoserver.SkillSystems.SkillCommands
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -66,23 +66,11 @@ class RyoServerAssist extends JavaPlugin {
       "title" -> new TitleCommands(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
-      "profile" -> new ProfileSettingCommands(this)
+      "profile" -> new ProfileSettingCommands(this),
+      "security" -> new SecurityCommand(this)
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
-
-    List(
-      "playerStatus",
-      "openInventory",
-      "openEnderChest",
-      "hide",
-      "show",
-      "freeze",
-      "unfreeze",
-      "security"
-    ).foreach(cmd =>
-      getCommand(cmd).setExecutor(new SecurityCommands(this))
-    )
 
     /*
       Bukkitイベントの有効化
