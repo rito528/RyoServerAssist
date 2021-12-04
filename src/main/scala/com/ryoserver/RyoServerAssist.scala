@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SecurityCommand, SpawnCommand, StickCommand}
+import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, SecurityCommand, SpawnCommand, StickCommand, TitleCommand}
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -20,7 +20,7 @@ import com.ryoserver.SkillSystems.Skill.DestructionSkill
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
-import com.ryoserver.Title.{TitleCommands, TitleLoader}
+import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.{Regeneration, RegenerationCommand}
 import com.ryoserver.World.SimpleRegion.RegionCommand
@@ -61,7 +61,7 @@ class RyoServerAssist extends JavaPlugin {
       "hat" -> new HatCommand,
       "spawn" -> new SpawnCommand,
       "player" -> new PlayerCommand(this),
-      "title" -> new TitleCommands(this),
+      "title" -> new TitleCommand(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
       "profile" -> new ProfileSettingCommands(this),
