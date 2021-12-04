@@ -34,7 +34,7 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
         new BukkitRunnable {
           override def run(): Unit = {
             if (!isEnableSkill) runnable.cancel()
-            else p.addPotionEffect(new PotionEffect(skillEffect, 40, level))
+            else p.addPotionEffect(new PotionEffect(skillEffect, 280, level))
           }
         }.runTask(ryoServerAssist)
       }
