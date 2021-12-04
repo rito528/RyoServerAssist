@@ -2,10 +2,8 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.PlayerData.{changedData, playerData}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.Item.getStringFromItemStack
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -30,28 +28,23 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
   }
 
   def checkItemList(itemStack: ItemStack): Boolean = {
-    val is = itemStack.clone()
-    is.setAmount(1)
-    ItemList.stackList.contains(is)
+    ItemList.stackList.contains(Item.getOneItemStack(itemStack))
   }
 
   def addStack(itemStack: ItemStack, p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val is = itemStack.clone()
-    is.setAmount(1)
-    val config = new YamlConfiguration
-    config.set("i", is)
+    val is = Item.getOneItemStack(itemStack)
     val uuid = p.getUniqueId.toString
     if (PlayerData.playerData.contains(uuid) && PlayerData.playerData(uuid).contains(is)) {
       PlayerData.playerData(uuid) += (is -> (PlayerData.playerData(uuid)(is) + itemStack.getAmount))
     } else if (PlayerData.playerData.contains(uuid) && !PlayerData.playerData(uuid).contains(is)) {
       var amount = 0
-      if (getItemAmount(getCategory(itemStack), p).contains(is)) {
-        amount = getItemAmount(getCategory(itemStack), p)(is)
+      if (getItemAmount(getCategory(is), p).contains(is)) {
+        amount = getItemAmount(getCategory(is), p)(is)
       }
       PlayerData.playerData(uuid) += (is -> (amount + itemStack.getAmount))
     } else {
-      val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
+      val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(is))
       var playerHasAmount = 0
       if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
       PlayerData.playerData += (uuid -> mutable.Map(is -> (playerHasAmount + itemStack.getAmount)))
@@ -71,9 +64,7 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE category='$category' AND UUID='${p.getUniqueId.toString}'")
     val amount = mutable.Map.empty[ItemStack, Int]
     while (rs.next()) {
-      val config = new YamlConfiguration
-      config.loadFromString(rs.getString("item"))
-      amount += (config.getItemStack("i", null) -> rs.getInt("amount"))
+      amount += (Item.getItemStackFromString(rs.getString("item")) -> rs.getInt("amount"))
     }
     sql.close()
     amount
@@ -84,17 +75,14 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     val rs = sql.executeQuery(s"SELECT amount,item FROM StackData WHERE UUID='${p.getUniqueId.toString}'")
     val amount = mutable.Map.empty[ItemStack, Int]
     while (rs.next()) {
-      val config = new YamlConfiguration
-      config.loadFromString(rs.getString("item"))
-      amount += (config.getItemStack("i", null) -> rs.getInt("amount"))
+      amount += (Item.getItemStackFromString(rs.getString("item")) -> rs.getInt("amount"))
     }
     sql.close()
     amount
   }
 
   def removeNeoStack(p:Player,is:ItemStack,amount:Int): Int = {
-    val itemStack = is.clone()
-    itemStack.setAmount(1)
+    val itemStack = Item.getOneItemStack(is)
     val uuid = p.getUniqueId.toString
     if (!playerData(uuid).contains(itemStack)) return 0
     val hasAmount = playerData(uuid)(itemStack)
@@ -118,20 +106,13 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
 
   def getCategory(is: ItemStack): String = {
     val sql = new SQL(ryoServerAssist)
-    val cloneIs = is.clone()
-    cloneIs.setAmount(1)
-    val config = new YamlConfiguration
-    config.set("i", cloneIs)
     val rs = sql.executeQuery("SELECT category,invItem FROM StackList")
     while (rs.next()) {
       val category = rs.getString("category")
       val items = rs.getString("invItem").split(';')
       items.foreach(item => {
-        val itemConfig = new YamlConfiguration
-        itemConfig.loadFromString(item)
-        val itemIs = itemConfig.getItemStack("i", null)
+        val itemIs = Item.getOneItemStack(Item.getItemStackFromString(item))
         if (itemIs != null) {
-          itemIs.setAmount(1)
           if (is == itemIs && item != "") {
             sql.close()
             return category
@@ -145,10 +126,8 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
 
   def removeItemList(itemStack: ItemStack): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val config = new YamlConfiguration
-    config.set("i", itemStack)
-    sql.purseFolder("DELETE FROM StackList WHERE item=?", config.saveToString())
-    sql.purseFolder("DELETE FROM StackData WHERE item=?", config.saveToString())
+    sql.purseFolder("DELETE FROM StackList WHERE item=?", Item.getStringFromItemStack(itemStack))
+    sql.purseFolder("DELETE FROM StackData WHERE item=?", Item.getStringFromItemStack(itemStack))
     sql.close()
   }
 
@@ -157,13 +136,11 @@ class NeoStackData(ryoServerAssist: RyoServerAssist) {
     val itemStack = is.clone()
     if (itemStack.getAmount != 0 && p.getInventory.firstEmpty() != -1) {
       val sql = new SQL(ryoServerAssist)
-      val config = new YamlConfiguration
       val uuid = p.getUniqueId.toString
-      config.set("i", is)
       var selectAmount = amount
       var playerHasAmount = 0
       if (!(playerData.contains(p.getUniqueId.toString) && playerData(p.getUniqueId.toString).contains(is))) {
-        val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", config.saveToString())
+        val getAmount = sql.executeQueryPurseFolder(s"SELECT amount FROM StackData WHERE UUID='${p.getUniqueId.toString}' AND item=?", Item.getStringFromItemStack(is))
         if (getAmount.next()) playerHasAmount = getAmount.getInt("amount")
       } else {
         playerHasAmount = playerData(uuid)(is)

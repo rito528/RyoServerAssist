@@ -8,6 +8,7 @@ import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.PlayerData.playerData
 import com.ryoserver.NeoStack.{ItemData, NeoStackData}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
@@ -31,9 +32,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val data = new NeoStackData(ryoServerAssist).getItemAmount(category, p)
     if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
     invItems.split(";").foreach(item => {
-      val config = new YamlConfiguration
-      config.loadFromString(item)
-      val is = config.getItemStack("i", null)
+      val is = Item.getItemStackFromString(item)
       if (is != null) {
         is.setAmount(1)
         val setItem = is.clone()

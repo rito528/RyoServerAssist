@@ -48,7 +48,14 @@ object Item {
 
   def getItemStackFromString(str: String): ItemStack = {
     val config = new YamlConfiguration
-    config.getItemStack(str)
+    config.loadFromString(str)
+    config.getItemStack("i",null)
+  }
+
+  def getOneItemStack(itemStack: ItemStack): ItemStack = {
+    val is = itemStack.clone()
+    is.setAmount(1)
+    is
   }
 
 }
