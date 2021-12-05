@@ -4,7 +4,7 @@ import com.ryoserver.OriginalItem.OriginalItems.{itemList, metaList}
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType, PrepareAnvilEvent}
 import org.bukkit.event.{Event, EventHandler, Listener}
 
-class AnvilRepairEvent extends Listener {
+class RepairEvent extends Listener {
 
   @EventHandler
   def repair(e: PrepareAnvilEvent): Unit = {

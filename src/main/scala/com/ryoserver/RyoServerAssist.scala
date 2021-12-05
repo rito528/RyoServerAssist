@@ -10,7 +10,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
-import com.ryoserver.OriginalItem.{AnvilRepairEvent, TotemEffect}
+import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
 import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
 import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
@@ -87,7 +87,7 @@ class RyoServerAssist extends JavaPlugin {
       new FirstJoinSettingEvent(this),
       new ElevatorEvent,
       new TotemEffect,
-      new AnvilRepairEvent,
+      new RepairEvent,
       new PickEvent(this),
       new GachaItemChangeGUI(this),
       new Vote(this),
