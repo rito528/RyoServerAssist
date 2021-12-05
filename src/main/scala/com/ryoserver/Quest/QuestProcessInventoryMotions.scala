@@ -1,6 +1,6 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.NeoStack.NeoStackData
+import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.entity.Player
@@ -79,7 +79,7 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     })
 
     //neoStackからアイテムを納品
-    val neoStack = new NeoStackData(ryoServerAssist)
+    val neoStack = new NeoStackGateway(ryoServerAssist)
     remainingItems.foreach(item => {
       if (item.getAmount > 0) {
         val requiredAmount = item.getAmount //クエストを達成するのに必要なアイテムの数

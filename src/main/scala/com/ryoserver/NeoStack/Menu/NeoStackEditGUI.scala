@@ -3,9 +3,9 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
 import com.ryoserver.Menu.{RyoServerMenu1, Menu}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackData}
+import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{Item, SQL}
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -48,16 +48,14 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   def motion(p: Player, index: Int): Unit = {
-    val data = new NeoStackData(ryoServerAssist)
+    val data = new NeoStackGateway(ryoServerAssist)
     val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:", "").toInt
     if (index == 49) {
       var invIndex = 0
       var invItem = ""
       p.getOpenInventory.getTopInventory.getContents.foreach(is => {
         if (invIndex < 45) {
-          val config = new YamlConfiguration
-          config.set("i", is)
-          invItem += config.saveToString() + ";"
+          invItem += Item.getStringFromItemStack(is) + ";"
         }
         invIndex += 1
       })

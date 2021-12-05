@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{Item, SQL}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 
@@ -16,13 +16,10 @@ object ItemList {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery("SELECT invItem,category FROM StackList;")
     while (rs.next()) {
-      val config = new YamlConfiguration
       val category = rs.getString("category")
       rs.getString("invItem").split(";").foreach(item => {
-        config.loadFromString(item)
-        val is = config.getItemStack("i", null)
+        val is = Item.getOneItemStack(Item.getItemStackFromString(item))
         if (is != null) {
-          is.setAmount(1)
           stackList += (is -> category)
         }
       })

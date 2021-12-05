@@ -15,7 +15,7 @@ class RepairEvent extends Listener {
 
   @EventHandler
   def grindStone(e: InventoryClickEvent): Unit = {
-    if (e.getClickedInventory.getType != InventoryType.GRINDSTONE) return
+    if (e.getClickedInventory != null && e.getClickedInventory.getType != InventoryType.GRINDSTONE) return
     val item1 = e.getInventory.getItem(0)
     val item2 = e.getInventory.getItem(1)
     if (item1 == null && item2 == null) return

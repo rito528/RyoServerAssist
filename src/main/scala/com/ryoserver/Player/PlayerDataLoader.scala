@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
-import com.ryoserver.NeoStack.PlayerData
+import com.ryoserver.NeoStack.{NeoStackGateway, PlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.skillToggleClass
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
