@@ -14,19 +14,19 @@ class DestructionSkill extends Listener {
     val loc = e.getBlock.getLocation
     if (direction == "NORTH" || direction == "SOUTH") {
       if (loc.getY < p.getLocation.getY) {
-        nsBreak(p, loc, -2, -4, 0)
+        nsBreak(p, loc, 0, -1, 0,0,1)
       } else if (loc.getY == p.getLocation.getY) {
-        nsBreak(p, loc, -2, 0, 0)
+        nsBreak(p, loc, 0, 0, 0,0,1)
       } else {
-        nsBreak(p, loc, -2, -1, 0)
+        nsBreak(p, loc, 0, -1, 0,0,1)
       }
     } else if (direction == "EAST" || direction == "WEST") {
       if (loc.getY < p.getLocation.getY) {
-        ewBreak(p, loc, 0, -4, -2)
+        ewBreak(p, loc, 0, -1, 0,1,0)
       } else if (loc.getY == p.getLocation.getY) {
-        ewBreak(p, loc, 0, 0, -2)
+        ewBreak(p, loc, 0, 1, 0,1,0)
       } else {
-        ewBreak(p, loc, 0, -1, -2)
+        ewBreak(p, loc, 0, -1, 0,1,0)
       }
     }
   }
@@ -34,10 +34,12 @@ class DestructionSkill extends Listener {
   /*
     南北で破壊する場合のメソッド
    */
-  def nsBreak(p:Player,location: Location,x:Int,y:Int,z:Int): Unit = {
+  def nsBreak(p:Player,location: Location,x:Int,y:Int,z:Int,lxm:Int,lym:Int): Unit = {
     location.add(x,y,z)
-    for (lx <- 0 until 5) {
-      for (ly <- 0 until 5) {
+    println("ns")
+    for (lx <- 0 to lxm) {
+      for (ly <- 0 to lym) {
+        println(lx + ":" + ly)
         val cloneLocation = location.clone()
         cloneLocation.add(lx, ly, 0)
         cloneLocation.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
@@ -48,10 +50,10 @@ class DestructionSkill extends Listener {
   /*
     東西で破壊する場合のメソッド
    */
-  def ewBreak(p:Player,location: Location,x:Int,y:Int,z:Int): Unit = {
+  def ewBreak(p:Player,location: Location,x:Int,y:Int,z:Int,lym:Int,lzm:Int): Unit = {
     location.add(x,y,z)
-    for (lz <- 0 until 5) {
-      for (ly <- 0 until 5) {
+    for (lz <- 0 to lzm) {
+      for (ly <- 0 to lym) {
         val cloneLocation = location.clone()
         cloneLocation.add(0, ly, lz)
         cloneLocation.getBlock.breakNaturally(p.getInventory.getItemInMainHand)

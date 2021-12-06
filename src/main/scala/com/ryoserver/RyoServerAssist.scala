@@ -94,7 +94,7 @@ class RyoServerAssist extends JavaPlugin {
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
-      //new DestructionSkill
+      new DestructionSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
