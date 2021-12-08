@@ -61,7 +61,7 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
 
   def removeNeoStack(p:Player,is:ItemStack,amount:Int): Int = {
     val playerData = PlayerData.playerData
-      .filter(_.savingItemStack == is)
+      .filter(_.savingItemStack == Item.getOneItemStack(is))
       .filter(_.uuid == p.getUniqueId.toString)
     var minusAmount = 0
     if (playerData.nonEmpty) {
