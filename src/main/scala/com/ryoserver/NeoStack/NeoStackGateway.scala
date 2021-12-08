@@ -72,9 +72,9 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
       }
       PlayerData.playerData = PlayerData.playerData
         .filterNot {
-          data => data.uuid == p.getUniqueId.toString && data.savingItemStack == is
+          data => data.uuid == p.getUniqueId.toString && data.savingItemStack == Item.getOneItemStack(is)
         }
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, is,null,playerData.head.amount - minusAmount)
+      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, Item.getOneItemStack(is),null,playerData.head.amount - minusAmount)
     }
     if (minusAmount != 0) {
       addChangedData(p,is)
