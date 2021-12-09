@@ -17,10 +17,12 @@ object PlayerData {
     val sql = new SQL(ryoServerAssist)
     changedData.foreach{case (uuid,array) => {
       array.foreach{itemStack =>
-        val data = playerData.filter(playerdata => playerdata.savingItemStack == itemStack && playerdata.uuid == uuid).head
-        val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
-        if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=${data.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
-        else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid','',?,${data.amount})", Item.getStringFromItemStack(data.savingItemStack))
+        val data = playerData.filter(playerdata => playerdata.uuid == uuid && playerdata.savingItemStack == itemStack)
+        if (data.nonEmpty) {
+          val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
+          if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=${data.head.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
+          else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid','',?,${data.head.amount})", Item.getStringFromItemStack(data.head.savingItemStack))
+        }
       }
     }}
     sql.close()
