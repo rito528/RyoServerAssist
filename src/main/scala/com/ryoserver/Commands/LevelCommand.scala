@@ -28,6 +28,12 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage(ChatColor.AQUA + "更新しました。")
   }
 
+  private def loggingExp(): Unit = {
+    for (i <- 0 to args(1)) {
+      println(i + " " + new CalLv(ryoServerAssist).getExp(i) + " " + new CalLv(ryoServerAssist).getSumTotal(i))
+    }
+  }
+
   private def help(): Unit = {
     sender.sendMessage("+-------------------------------------+")
     sender.sendMessage(ChatColor.AQUA + "/level getLevel <経験値>")
@@ -38,6 +44,8 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("指定したレベルに到達するまでに必要な経験値総量を表示します。")
     sender.sendMessage(ChatColor.AQUA + "/level setExp <経験値>")
     sender.sendMessage("自分を指定した経験値にします。")
+    sender.sendMessage(ChatColor.AQUA + "/level log <レベル>")
+    sender.sendMessage("指定したレベルまで、次のレベルまでの経験値量、レベルに到達するまでの経験値量をログに出します。")
     sender.sendMessage("+-------------------------------------+")
   }
 
@@ -47,6 +55,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       "getExp" -> levelToExp,
       "getTotalExp" -> totalLevelExp,
       "setExp" -> setExp,
+      "log" -> loggingExp,
       "help" -> help
     )
   ).playerCommand()

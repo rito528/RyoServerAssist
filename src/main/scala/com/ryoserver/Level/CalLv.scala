@@ -1,6 +1,7 @@
 package com.ryoserver.Level
 
 import com.ryoserver.RyoServerAssist
+import org.bukkit.scheduler.BukkitRunnable
 
 class CalLv(ryoServerAssist: RyoServerAssist) {
   /*
@@ -25,7 +26,10 @@ class CalLv(ryoServerAssist: RyoServerAssist) {
      */
     var exp = 0.0
     if (level <= 100) exp = 10 * Math.pow(1.07, level - 1)
-    else exp = getExp(100) + (level * 100)
+    else {
+      val minusExp = getExp(level - 1)
+      exp = minusExp + (minusExp / 100)
+    }
     exp.toInt
   }
 
