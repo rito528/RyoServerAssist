@@ -12,7 +12,7 @@ class ElevatorEvent extends Listener {
     for (i <- e.getFrom.getY.toInt to 320) {
       val loc = new Location(e.getFrom.getWorld, e.getFrom.getX, i, e.getFrom.getZ)
       if (loc.getBlock.getType == Material.IRON_BLOCK && loc.getY.toInt != e.getFrom.getY.toInt) {
-        e.getPlayer.teleport(loc.add(0, 1, 0))
+        e.getPlayer.teleport(loc.add(0, 1, 0).setDirection(e.getFrom.getDirection))
         return
       }
     }
@@ -24,7 +24,7 @@ class ElevatorEvent extends Listener {
     for (i <- e.getPlayer.getLocation.getY.toInt to -64 by -1) {
       val loc = new Location(e.getPlayer.getLocation.getWorld, e.getPlayer.getLocation.getX, i, e.getPlayer.getLocation.getZ)
       if (loc.getBlock.getType == Material.IRON_BLOCK && loc.getY != e.getPlayer.getLocation().clone().add(0, -1, 0).getY) {
-        e.getPlayer.teleport(loc.add(0, 1, 0))
+        e.getPlayer.teleport(loc.add(0, 1, 0).setDirection(e.getPlayer.getLocation.getDirection))
         return
       }
     }
