@@ -1,12 +1,11 @@
 package com.ryoserver.SkillSystems.Skill
 
-import org.bukkit.{Location, Sound}
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.{Location, Sound}
 
 import java.security.SecureRandom
 
