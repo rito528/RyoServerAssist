@@ -80,7 +80,7 @@ class DestructionSkill extends Listener {
         if (itemDamage + 1 > p.getInventory.getItemInMainHand.getType.getMaxDurability) {
           p.getInventory.setItemInMainHand(null)
           p.playSound(p.getLocation, Sound.ENTITY_ITEM_BREAK, 1, 1)
-        } else {
+        } else if (!p.getInventory.getItemInMainHand.getItemMeta.isUnbreakable) {
           meta.asInstanceOf[Damageable].setDamage(itemDamage + 1)
         }
       }
