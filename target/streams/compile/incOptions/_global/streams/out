@@ -1,53 +1,8 @@
 [0m[[0m[0mdebug[0m] [0m[0mCreated transactional ClassFileManager with tempDir = /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes.bak[0m
 [0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	CommandBuilder.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Regeneration.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	CommandBuilder.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Regeneration.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	CommandBuilder.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	RegenerationCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	PlayerCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HatCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	MenuCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	LevelCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	StickCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TitleCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SpawnCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SecurityCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	OriginalItemCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HomeCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	DistributionCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TpaCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	RegenerationCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	PlayerCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HatCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	MenuCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	LevelCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	StickCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TitleCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SpawnCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SecurityCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	OriginalItemCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HomeCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	DistributionCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TpaCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	RegenerationCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	PlayerCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HatCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	MenuCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	GachaCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	LevelCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	StickCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TitleCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SpawnCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	SecurityCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	OriginalItemCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	HomeCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	DistributionCommand.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	TpaCommand.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Regeneration.class[0m
 [0m[[0m[0mdebug[0m] [0m[0mRemoving the temporary directory used for backing up class files: /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes.bak[0m

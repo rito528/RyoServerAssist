@@ -78,3 +78,6 @@ enableCommands:
 
 #ウィーザーやエンダードラゴンの召喚を許可するワールド名を記載してください
 worldDoNotProtection:
+
+#自動でワールドの再生成をおこなうかどうかを記載してください。
+autoWorldRegeneration: true
