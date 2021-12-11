@@ -29,7 +29,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def loggingExp(): Unit = {
-    for (i <- 0 to args(1)) {
+    for (i <- 0 to args(1).toInt) {
       println(i + " " + new CalLv(ryoServerAssist).getExp(i) + " " + new CalLv(ryoServerAssist).getSumTotal(i))
     }
   }
