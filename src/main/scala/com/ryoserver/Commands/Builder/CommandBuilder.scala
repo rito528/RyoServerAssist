@@ -14,19 +14,25 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
   val executor: CommandExecutorBuilder
 
   override def onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): Boolean = {
-    args = strings
-    sender = commandSender
-    if (executor.playerCommandData && !sender.isInstanceOf[Player]) {
-      sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内から実行してください！")
-      return true
+    try {
+      args = strings
+      sender = commandSender
+      if (executor.playerCommandData && !sender.isInstanceOf[Player]) {
+        sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内から実行してください！")
+        return true
+      }
+      if (args.isEmpty) {
+        executor.nonArgumentExecutor()
+      } else {
+        if (executor.args.contains(strings(0))) executor.args(strings(0))()
+        else failedMessage("引数が不正です。")
+      }
+      true
+    } catch {
+      case e: Exception =>
+        failedMessage("引数が不正です")
+        true
     }
-    if (args.isEmpty) {
-      executor.nonArgumentExecutor()
-    } else {
-      if (executor.args.contains(strings(0))) executor.args(strings(0))()
-      else failedMessage("引数が不正です。")
-    }
-    true
   }
 
   override def onTabComplete(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): util.List[String] = {
