@@ -11,7 +11,7 @@ import com.ryoserver.Player.{Data, GetData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.SelectSkillMenu
+import com.ryoserver.SkillSystems.SkillMenu.{SelectSkillMenu, SkillCategoryMenu}
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleMenu
 import com.ryoserver.World.SimpleRegion.RegionMenu
@@ -74,7 +74,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
       getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
-      getLayOut(7, 1) -> new SelectSkillMenu(ryoServerAssist).openMenu _,
+      getLayOut(7, 1) -> new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu _,
       getLayOut(9, 1) -> {
         new TitleMenu(ryoServerAssist).openInv(_, 1)
       },

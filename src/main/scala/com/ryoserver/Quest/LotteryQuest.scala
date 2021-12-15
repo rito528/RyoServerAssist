@@ -29,6 +29,7 @@ class LotteryQuest {
       var readLine = ""
       val source = Source.fromFile(QUEST_SETTING_FILES + "/" + questName + ".json", "UTF-8")
       source.getLines().foreach(line => readLine = line)
+      source.close()
       val json = mapper.readTree(readLine)
       min = json.get("minLevel").textValue().toInt
       max = json.get("maxLevel").textValue().toInt

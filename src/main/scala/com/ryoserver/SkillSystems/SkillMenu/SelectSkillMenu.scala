@@ -1,8 +1,9 @@
-package com.ryoserver.SkillSystems.Skill
+package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
+import com.ryoserver.SkillSystems.Skill.skillToggleClass
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
@@ -119,7 +120,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case 21 => toggle.effect(PotionEffectType.INCREASE_DAMAGE, 1, 600, SkillNames(13))
       case 22 => toggle.effect(PotionEffectType.FAST_DIGGING, 1, 600, SkillNames(14))
       case 23 => toggle.effect(PotionEffectType.REGENERATION, 1, 600, SkillNames(15))
-      case 32 => new RyoServerMenu1(ryoServerAssist).menu(p)
+      case 45 => new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
       case 52 =>
         toggle.allEffectClear(p)
         p.sendMessage(AQUA + "スキルをすべて無効化しました。")
