@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType
 class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val slot: Int = 6
-  var name: String = "スキル選択"
+  var name: String = "通常スキル選択"
   var p: Player = _
 
   def openMenu(player: Player): Unit = {
