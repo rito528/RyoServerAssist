@@ -9,58 +9,35 @@ import org.bukkit.{Location, Sound}
 
 import java.security.SecureRandom
 
-class DestructionSkill extends Listener {
+class BreakSkillProvider extends Listener {
 
   @EventHandler
   def onBreak(e: BlockBreakEvent): Unit = {
-    val p = e.getPlayer
+    break(e.getPlayer,"a",10,e.getBlock.getLocation,BreakRange(1,2,1))
+  }
+
+  def break(p:Player,skillName:String,spCost:Int,breakBlockLocation:Location,breakRange: BreakRange): Unit = {
+    if (p.getLocation.getY == breakBlockLocation.getY) return
     val direction = p.getFacing.toString
-    val loc = e.getBlock.getLocation
     if (direction == "NORTH" || direction == "SOUTH") {
-      if (loc.getY < p.getLocation.getY) {
-        nsBreak(p, loc, 0, -1, 0,0,1)
-      } else if (loc.getY == p.getLocation.getY) {
-        nsBreak(p, loc, 0, 0, 0,0,1)
-      } else {
-        nsBreak(p, loc, 0, -1, 0,0,1)
+      val breakPoint = breakBlockLocation.add(-(breakRange.x / 2),-(breakRange.y / 2),0)
+      for (y <- 0 until breakRange.y) {
+        for (x <- 0 until breakRange.x) {
+          val pointClone = breakPoint.clone()
+          pointClone.add(x,y,0)
+          pointClone.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+          itemAddDamage(p)
+        }
       }
     } else if (direction == "EAST" || direction == "WEST") {
-      if (loc.getY < p.getLocation.getY) {
-        ewBreak(p, loc, 0, -1, 0,1,0)
-      } else if (loc.getY == p.getLocation.getY) {
-        ewBreak(p, loc, 0, 1, 0,1,0)
-      } else {
-        ewBreak(p, loc, 0, -1, 0,1,0)
-      }
-    }
-  }
-
-  /*
-    南北で破壊する場合のメソッド
-   */
-  def nsBreak(p:Player,location: Location,x:Int,y:Int,z:Int,lxm:Int,lym:Int): Unit = {
-    location.add(x,y,z)
-    for (lx <- 0 to lxm) {
-      for (ly <- 0 to lym) {
-        val cloneLocation = location.clone()
-        cloneLocation.add(lx, ly, 0)
-        cloneLocation.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-        itemAddDamage(p)
-      }
-    }
-  }
-
-  /*
-   東西で破壊する場合のメソッド
-  */
-  def ewBreak(p:Player,location: Location,x:Int,y:Int,z:Int,lym:Int,lzm:Int): Unit = {
-    location.add(x,y,z)
-    for (lz <- 0 to lzm) {
-      for (ly <- 0 to lym) {
-        val cloneLocation = location.clone()
-        cloneLocation.add(0, ly, lz)
-        cloneLocation.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-        itemAddDamage(p)
+      val breakPoint = breakBlockLocation.add(0,-(breakRange.y / 2),-(breakRange.z / 2))
+      for (y <- 0 until breakRange.y) {
+        for (z <- 0 until breakRange.z) {
+          val pointClone = breakPoint.clone()
+          pointClone.add(0,y,z)
+          pointClone.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+          itemAddDamage(p)
+        }
       }
     }
   }

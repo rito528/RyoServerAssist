@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.Menu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
 import com.ryoserver.SkillSystems.Skill.skillToggleClass

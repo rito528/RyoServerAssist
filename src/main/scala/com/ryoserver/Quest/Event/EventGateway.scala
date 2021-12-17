@@ -51,6 +51,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   def loadEventData(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベント情報を読み込み中...")
+      createEventTable()
       val info = eventInfo(holdingEvent())
       if (info.eventType != "bonus") {
         val sql = new SQL(ryoServerAssist)

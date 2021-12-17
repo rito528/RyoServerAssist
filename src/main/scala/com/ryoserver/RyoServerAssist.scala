@@ -16,7 +16,7 @@ import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
-import com.ryoserver.SkillSystems.Skill.{DestructionSkill, FarmSkill}
+import com.ryoserver.SkillSystems.Skill.{BreakSkillProvider, FarmSkill}
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
@@ -94,7 +94,7 @@ class RyoServerAssist extends JavaPlugin {
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
-      new DestructionSkill,
+      new BreakSkillProvider,
       new FarmSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
