@@ -24,6 +24,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: com.beachape:enumeratum-macros_2.13:1.5.9:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.beachape:enumeratum_2.13:1.5.13:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-annotations:2.13.0-rc1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.13.0-rc1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.13.0-rc1:jar" level="project" />
@@ -74,6 +76,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.glassfish:javax.json:1.0.4:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.mozilla:rhino-runtime:1.7.13:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.13.6:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.yaml:snakeyaml:1.29:jar" level="project" />
   </component>

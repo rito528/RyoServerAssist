@@ -2,8 +2,8 @@ package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.Menu
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.SkillData.SkillNames
-import com.ryoserver.SkillSystems.Skill.skillToggleClass
+import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
+import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
 import org.bukkit.ChatColor._
 import org.bukkit.Material

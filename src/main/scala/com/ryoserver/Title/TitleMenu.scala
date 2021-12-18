@@ -1,10 +1,10 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{RyoServerMenu1, Menu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.SkillData
+import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player

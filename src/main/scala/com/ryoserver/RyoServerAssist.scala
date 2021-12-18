@@ -1,6 +1,6 @@
 package com.ryoserver
 
-import com.ryoserver.Commands.{DistributionCommand, GachaCommand, HatCommand, HomeCommand, LevelCommand, MenuCommand, OriginalItemCommand, PlayerCommand, RegenerationCommand, SecurityCommand, SpawnCommand, StickCommand, TitleCommand, TpaCommand}
+import com.ryoserver.Commands._
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -16,7 +16,8 @@ import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
-import com.ryoserver.SkillSystems.Skill.{BreakSkillProvider, FarmSkill}
+import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
+import com.ryoserver.SkillSystems.Skill.FarmSkill
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
@@ -94,9 +95,15 @@ class RyoServerAssist extends JavaPlugin {
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
-      new BreakSkillProvider,
       new FarmSkill
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
+
+    /*
+      スキルの有効化
+     */
+    BreakSkillAction.values.foreach(skill => {
+      this.getServer.getPluginManager.registerEvents(skill,this)
+    })
 
     /*
       各種ロード処理

@@ -1,12 +1,13 @@
 package com.ryoserver.util
 
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
-import org.bukkit.inventory.meta.{ItemMeta, SkullMeta}
+import org.bukkit.inventory.meta.{Damageable, ItemMeta, SkullMeta}
 import org.bukkit.inventory.{ItemFlag, ItemStack}
 
+import java.security.SecureRandom
 import scala.jdk.CollectionConverters._
 
 object Item {
@@ -56,6 +57,25 @@ object Item {
     val is = itemStack.clone()
     is.setAmount(1)
     is
+  }
+
+  def itemAddDamage(p: Player,item:ItemStack): Unit = {
+    if (item != null && item.getType.getMaxDurability != 0) {
+      val meta = item.getItemMeta
+      val random = SecureRandom.getInstance("SHA1PRNG")
+      val durabilityLevel = meta.getEnchantLevel(Enchantment.DURABILITY)
+      val probability = 100 / (durabilityLevel + 1)
+      if (random.nextInt(100) <= probability) {
+        val itemDamage = meta.asInstanceOf[Damageable].getDamage
+        if (itemDamage + 1 > item.getType.getMaxDurability) {
+          p.getInventory.setItemInMainHand(null)
+          p.playSound(p.getLocation, Sound.ENTITY_ITEM_BREAK, 1, 1)
+        } else if (!item.getItemMeta.isUnbreakable) {
+          meta.asInstanceOf[Damageable].setDamage(itemDamage + 1)
+        }
+      }
+      item.setItemMeta(meta)
+    }
   }
 
 }
