@@ -18,9 +18,10 @@ object ItemList {
     while (rs.next()) {
       val category = rs.getString("category")
       rs.getString("invItem").split(";").foreach(item => {
-        val is = Item.getOneItemStack(Item.getItemStackFromString(item))
+        val is = Item.getItemStackFromString(item)
         if (is != null) {
-          stackList += (is -> category)
+          val one = Item.getOneItemStack(is)
+          stackList += (one -> category)
         }
       })
     }

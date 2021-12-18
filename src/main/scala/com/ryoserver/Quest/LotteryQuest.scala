@@ -13,7 +13,7 @@ class LotteryQuest {
   var questName = ""
   var items: java.util.List[String] = _
   var mobs: java.util.List[String] = _
-  var exp: Int = 0
+  var exp: Double = 0
 
 
   def lottery(lv: Int): Unit = {
@@ -56,7 +56,7 @@ class LotteryQuest {
           e.asText
         })
       .collect(Collectors.toList[String])
-    exp = json.get("exp").textValue().toInt
+    exp = json.get("exp").textValue().toDouble
   }
 
 
