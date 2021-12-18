@@ -1,6 +1,5 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
-import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 
 class SkillPointConsumption {

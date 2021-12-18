@@ -1,6 +1,5 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
-import com.ryoserver.RyoServerAssist
 import enumeratum._
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -27,10 +26,10 @@ object BreakSkillAction extends Enum[BreakSkillProvider] {
 
   val values: IndexedSeq[BreakSkillProvider] = findValues
 
-  object BreakDuo extends BreakSkill("ブレイク・デュオ",1,BreakRange(1,2,1))
-  object UpDownBreak extends BreakSkill("アップダウンブレイク",1,BreakRange(1,3,1))
-  object PantingBreak extends BreakSkill("パンチングブレイク",1,BreakRange(3,2,3))
-  object TunnelBreak extends BreakSkill("トンネルブレイク",1,BreakRange(3,3,3))
-  object wideBreak extends BreakSkill("ワイドブレイク",1,BreakRange(5,3,5))
+  object BreakDuo extends BreakSkill("ブレイク・デュオ",6,BreakRange(1,2,1))
+  object UpDownBreak extends BreakSkill("アップダウンブレイク",9,BreakRange(1,3,1))
+  object PantingBreak extends BreakSkill("パンチングブレイク",18,BreakRange(3,2,3))
+  object TunnelBreak extends BreakSkill("トンネルブレイク",27,BreakRange(3,3,3))
+  object wideBreak extends BreakSkill("ワイドブレイク",45,BreakRange(5,3,5))
 
 }

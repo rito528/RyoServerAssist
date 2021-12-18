@@ -11,7 +11,7 @@ import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
-import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents}
+import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents, SavePlayerData}
 import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
@@ -117,14 +117,13 @@ class RyoServerAssist extends JavaPlugin {
     new CreateFiles().createResourcesFile()
     new Tips(this).sendTips()
     new Regeneration(this).regeneration()
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
     new TitleLoader().loadTitle()
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
     NeoStack.PlayerData.runnableSaver(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
-    new LoadPlayerData(this).autoLoad()
+    new SavePlayerData(this).save()
     new EventLoader().loadEvent()
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
@@ -134,6 +133,8 @@ class RyoServerAssist extends JavaPlugin {
     */
     new Patch(this).getAndExecutePatch()
     getLogger.info("RyoServerAssist enabled.")
+
+    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
   }
 
   override def onDisable(): Unit = {

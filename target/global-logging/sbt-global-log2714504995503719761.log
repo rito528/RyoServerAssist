@@ -1,0 +1,8 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(reaload, None, None)[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid command: reaload (similar: reload, bspReload, loadp)[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid project ID: reaload[0m
+[0m[[0m[31merror[0m] [0m[0mExpected ':'[0m
+[0m[[0m[31merror[0m] [0m[0mNot a valid key: reaload (similar: onUnload, onLoad)[0m
+[0m[[0m[31merror[0m] [0m[0mreaload[0m
+[0m[[0m[31merror[0m] [0m[0m       ^[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
