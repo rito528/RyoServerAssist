@@ -23,15 +23,15 @@ class BreakSkillMenu extends Menu {
       List(s"${GRAY}1*3の範囲を破壊します。"
         ,s"${GRAY}消費スキルポイント:9"
         ,s"${GRAY}クリックで選択します。"))
-    setItem(6,1,Material.STONE_PICKAXE,effect = false,s"${GREEN}パンチングブレイク",
+    setItem(6,1,Material.IRON_PICKAXE,effect = false,s"${GREEN}パンチングブレイク",
       List(s"${GRAY}3*2の範囲を破壊します。"
         ,s"${GRAY}消費スキルポイント:18"
         ,s"${GRAY}クリックで選択します。"))
-    setItem(8,1,Material.STONE_PICKAXE,effect = false,s"${GREEN}トンネルブレイク",
+    setItem(8,1,Material.GOLDEN_PICKAXE,effect = false,s"${GREEN}トンネルブレイク",
       List(s"${GRAY}3*3の範囲を破壊します。"
         ,s"${GRAY}消費スキルポイント:27"
         ,s"${GRAY}クリックで選択します。"))
-    setItem(2,2,Material.STONE_PICKAXE,effect = false,s"${GREEN}ワイドブレイク",
+    setItem(2,2,Material.DIAMOND_PICKAXE,effect = false,s"${GREEN}ワイドブレイク",
       List(s"${GRAY}5*3の範囲を破壊します。"
         ,s"${GRAY}消費スキルポイント:45"
         ,s"${GRAY}クリックで選択します。"))

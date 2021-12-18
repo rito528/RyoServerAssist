@@ -3,7 +3,7 @@ package com.ryoserver.SkillSystems.SkillMenu
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.breakSkillToggle
-import org.bukkit.ChatColor.{GRAY, GREEN}
+import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
