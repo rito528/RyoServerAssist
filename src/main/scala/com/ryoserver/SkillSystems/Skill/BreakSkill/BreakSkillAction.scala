@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
+import com.ryoserver.RyoServerAssist
 import enumeratum._
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.{EventHandler, Listener}

@@ -25,7 +25,7 @@ trait SkillToggle {
       new SelectSkillMenu(ryoServerAssist).openMenu(p)
       return
     }
-    if (new SkillPointData(ryoServerAssist).getSkillPoint(p) < sp) {
+    if (new SkillPointData().getSkillPoint(p) < sp) {
       allEffectClear(p)
       p.sendMessage(RED + "スキルポイントが足りないためスキルを起動できませんでした！")
       return

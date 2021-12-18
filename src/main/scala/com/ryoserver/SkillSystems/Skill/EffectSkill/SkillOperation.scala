@@ -47,13 +47,13 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
           runnable.cancel()
           this.cancel()
           skillInvalidation()
-        } else if (new SkillPointData(ryoServerAssist).getSkillPoint(p) < sp) {
+        } else if (new SkillPointData().getSkillPoint(p) < sp) {
           runnable.cancel()
           this.cancel()
           skillInvalidation()
           p.sendMessage(ChatColor.DARK_RED + "スキルポイントが不足したため、スキルを無効化しました。")
         } else {
-          new SkillPointConsumption(ryoServerAssist).consumption(sp, p)
+          new SkillPointConsumption().consumption(sp, p)
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
