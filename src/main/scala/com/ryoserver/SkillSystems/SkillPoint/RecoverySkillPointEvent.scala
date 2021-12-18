@@ -25,6 +25,7 @@ class RecoverySkillPointEvent(ryoServerAssist: RyoServerAssist) extends Listener
       val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
       skillPointData.setSkillPoint(p, maxSP)
     }
+    SkillPointBer.update(p)
   }
 
 }
