@@ -1,11 +1,11 @@
-package com.ryoserver.SkillSystems.Skill.BreakSkill
+package com.ryoserver.SkillSystems.Skill
 
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 import scala.collection.mutable
 
-object BreakSkillPlayerData {
+object SpecialSkillPlayerData {
 
   private var selectedBreakSkill: mutable.Map[Player, String] = mutable.Map()
 
@@ -15,7 +15,7 @@ object BreakSkillPlayerData {
     } else if (getActivatedSkill(p).isEmpty) {
       breakSkillActivation(p, skillName)
     } else {
-      breakSkillInvalidation(p,getActivatedSkill(p).get)
+      breakSkillInvalidation(p, getActivatedSkill(p).get)
       breakSkillActivation(p, skillName)
     }
   }

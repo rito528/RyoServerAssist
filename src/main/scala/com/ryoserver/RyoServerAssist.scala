@@ -18,6 +18,7 @@ import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill
+import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
@@ -94,8 +95,7 @@ class RyoServerAssist extends JavaPlugin {
       new Vote(this),
       new SecurityEvent(this),
       new MenuHandler(this),
-      new EventDeliveryMenu(this),
-      new FarmSkill
+      new EventDeliveryMenu(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
@@ -104,7 +104,12 @@ class RyoServerAssist extends JavaPlugin {
     BreakSkillAction.values.foreach(skill => {
       this.getServer.getPluginManager.registerEvents(skill,this)
     })
-
+    GrowSkillAction.values.foreach(skill => {
+      this.getServer.getPluginManager.registerEvents(skill,this)
+    })
+    HarvestSkillAction.values.foreach(skill => {
+      this.getServer.getPluginManager.registerEvents(skill,this)
+    })
     /*
       各種ロード処理
      */

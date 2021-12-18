@@ -26,6 +26,8 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       new SelectSkillMenu(ryoServerAssist).openMenu(p)
     } else if (index == getLayOut(5,2)) {
       new BreakSkillMenu().openBreakSkillMenu(p)
+    } else if (index == getLayOut(7,2)) {
+      new FarmSkillMenu().openFarmSkillMenu(p)
     }
   }
 

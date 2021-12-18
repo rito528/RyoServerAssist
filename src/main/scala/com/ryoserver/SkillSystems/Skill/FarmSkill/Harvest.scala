@@ -1,0 +1,77 @@
+package com.ryoserver.SkillSystems.Skill.FarmSkill
+
+import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
+import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
+import org.bukkit.Material
+import org.bukkit.block.Block
+import org.bukkit.entity.Player
+
+class Harvest {
+
+  private val farmItem = Set(
+    Material.WHEAT,
+    Material.CARROTS,
+    Material.POTATOES,
+    Material.BEETROOTS
+  )
+
+  def harvest(p:Player,skillName:String,brokeBlock:Block,spCost:Int,range:FarmRange): Unit = {
+    if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
+    val facing = p.getFacing.toString
+    if (facing == "SOUTH") {
+      val minusXLoc = brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
+      var cost = 0
+      for (x <- 0 until range.width) {
+        for (z <- 0 until range.height) {
+          val farmItemLoc = minusXLoc.clone().add(x, 0, z)
+          if (farmItem.contains(farmItemLoc.getBlock.getType)) {
+            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+            cost += spCost / (range.width * range.height)
+          }
+        }
+      }
+      new SkillPointConsumption().consumption(cost, p)
+    } else if (facing == "NORTH") {
+      val minusXLoc = brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
+      var cost = 0
+      for (x <- 0 until range.width) {
+        for (z <- 0 until range.height) {
+          val farmItemLoc = minusXLoc.clone().add(x, 0, -z)
+          if (farmItem.contains(farmItemLoc.getBlock.getType)) {
+            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+            cost += spCost / (range.width * range.height)
+          }
+        }
+      }
+      new SkillPointConsumption().consumption(cost, p)
+    } else if (facing == "WEST"){
+      val minusXLoc = brokeBlock.getLocation().add(0,0,-(range.width / 2))
+      var cost = 0
+      for (x <- 0 until range.height) {
+        for (z <- 0 until range.width) {
+          val farmItemLoc = minusXLoc.clone().add(-x,0,z)
+          if (farmItem.contains(farmItemLoc.getBlock.getType)) {
+            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+            cost += spCost / (range.width * range.height)
+          }
+        }
+      }
+      new SkillPointConsumption().consumption(cost,p)
+    } else {
+      val minusXLoc = brokeBlock.getLocation().add(0,0,-(range.width / 2))
+      var cost = 0
+      for (x <- 0 until range.height) {
+        for (z <- 0 until range.width) {
+          val farmItemLoc = minusXLoc.clone().add(x,0,z)
+          if (farmItem.contains(farmItemLoc.getBlock.getType)) {
+            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+            cost += spCost / (range.width * range.height)
+          }
+        }
+      }
+      new SkillPointConsumption().consumption(cost,p)
+    }
+  }
+
+
+}

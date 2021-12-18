@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
-import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillPlayerData.isActivatedSkill
+import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
 import com.ryoserver.util.Item.itemAddDamage
 import org.bukkit.entity.Player
