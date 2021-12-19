@@ -50,19 +50,7 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
   def addOpenSpecialSkillPoint(p:Player,addPoint:Int): Unit = {
     val oldPlayerData = Data.playerData(p.getUniqueId.toString)
     Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> PlayerData(
-      oldPlayerData.level,
-      oldPlayerData.exp,
-      oldPlayerData.skillPoint,
-      oldPlayerData.ranking,
-      oldPlayerData.loginNumber,
-      oldPlayerData.consecutiveLoginDays,
-      oldPlayerData.questClearTimes,
-      oldPlayerData.gachaPullNumber,
-      oldPlayerData.voteNumber,
-      oldPlayerData.specialSkillOpenPoint + addPoint,
-      oldPlayerData.OpenedSpecialSkills
-    ))
+    Data.playerData += (p.getUniqueId.toString -> oldPlayerData.copy(specialSkillOpenPoint = oldPlayerData.specialSkillOpenPoint + addPoint))
   }
 
 }

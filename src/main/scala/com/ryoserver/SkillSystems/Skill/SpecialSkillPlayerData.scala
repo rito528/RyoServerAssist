@@ -78,19 +78,7 @@ object SpecialSkillPlayerData {
       openedSkills += data.OpenedSpecialSkills + "," + skillName
     }
     Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> PlayerData(
-      data.level,
-      data.exp,
-      data.skillPoint,
-      data.ranking,
-      data.loginNumber,
-      data.consecutiveLoginDays,
-      data.questClearTimes,
-      data.gachaPullNumber,
-      data.voteNumber,
-      data.specialSkillOpenPoint - 10,
-      openedSkills
-    ))
+    Data.playerData += (p.getUniqueId.toString -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10))
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

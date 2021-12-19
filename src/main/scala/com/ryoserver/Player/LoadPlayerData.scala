@@ -22,11 +22,22 @@ class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
       val loginNumber = rs.getInt("loginDays")
       val consecutiveLoginDays = rs.getInt("consecutiveLoginDays")
       val questClearTimes = rs.getInt("questClearTimes")
+      val gachaTickets = rs.getInt("gachaTickets")
       val gachaPullNumber = rs.getInt("gachaPullNumber")
+      val skillOpenPoint = rs.getInt("SkillOpenPoint")
+      val OpenedSkills = rs.getString("OpenedSkills")
       val voteNumber = rs.getInt("VoteNumber")
       val specialSkillOpenPoint = rs.getInt("SpecialSkillOpenPoint")
       val openedSpecialSkills = rs.getString("OpenedSpecialSkills")
-      Data.playerData += (uuid -> PlayerData(level, exp, skillPoint, ranking, loginNumber, consecutiveLoginDays, questClearTimes, gachaPullNumber, voteNumber,specialSkillOpenPoint,openedSpecialSkills))
+      val openedTitles = rs.getString("OpenedTitles")
+      val selectedTitles = rs.getString("SelectedTitle")
+      val autoStack = rs.getBoolean("autoStack")
+      val twitter = rs.getString("Twitter")
+      val discord = rs.getString("Discord")
+      val word = rs.getString("Word")
+      Data.playerData += (uuid -> PlayerData(level, exp, skillPoint, ranking, loginNumber, consecutiveLoginDays,
+        questClearTimes,gachaTickets, gachaPullNumber,skillOpenPoint,Option(OpenedSkills),voteNumber,specialSkillOpenPoint,Option(openedSpecialSkills),
+        Option(openedTitles),Option(selectedTitles),autoStack,Option(twitter),Option(discord),Option(word)))
       ranking += 1
     }
     sql.close()
