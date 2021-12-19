@@ -74,7 +74,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
     setItem(1, 3, if (check.isOpened(SkillNames(10), p)) Material.SHIELD else Material.BEDROCK, effect = false,
       s"${GREEN}${SkillNames(10)}", List(s"${GRAY}耐性2の効果が付与されます。",
-        GRAY + (if (check.isOpened(SkillNames.head, p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費"),
+        GRAY + (if (check.isOpened(SkillNames(10), p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費"),
         s"${GRAY}スキルポイントコスト:600"))
     setItem(2, 3, if (check.isOpened(SkillNames(11), p)) Material.IRON_BOOTS else Material.BEDROCK, effect = false,
       s"${GREEN}${SkillNames(11)}", List(s"${GRAY}移動速度上昇2の効果が付与されます。",
@@ -120,7 +120,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case 21 => toggle.effect(PotionEffectType.INCREASE_DAMAGE, 1, 600, SkillNames(13))
       case 22 => toggle.effect(PotionEffectType.FAST_DIGGING, 1, 600, SkillNames(14))
       case 23 => toggle.effect(PotionEffectType.REGENERATION, 1, 600, SkillNames(15))
-      case 45 => new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
+      case 45 => new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(player)
       case 52 =>
         toggle.allEffectClear(p)
         p.sendMessage(AQUA + "スキルをすべて無効化しました。")

@@ -2,6 +2,7 @@ package com.ryoserver.SkillSystems.Skill.FarmSkill
 
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
+import com.ryoserver.util.WorldGuardWrapper
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -15,9 +16,17 @@ class Harvest {
     Material.BEETROOTS
   )
 
+  val notSpecialSkillWorld = List(
+    "world",
+    "world_nether",
+    "world_the_end",
+    "trade"
+  )
+
   def harvest(p:Player,skillName:String,brokeBlock:Block,spCost:Int,range:FarmRange): Unit = {
     if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
     val facing = p.getFacing.toString
+    val worldGuardWrapper = new WorldGuardWrapper
     if (facing == "SOUTH") {
       val minusXLoc = brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
       var cost = 0
@@ -25,8 +34,10 @@ class Harvest {
         for (z <- 0 until range.height) {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-            cost += spCost / (range.width * range.height)
+            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              cost += spCost / (range.width * range.height)
+            }
           }
         }
       }
@@ -38,8 +49,10 @@ class Harvest {
         for (z <- 0 until range.height) {
           val farmItemLoc = minusXLoc.clone().add(x, 0, -z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-            cost += spCost / (range.width * range.height)
+            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              cost += spCost / (range.width * range.height)
+            }
           }
         }
       }
@@ -51,8 +64,10 @@ class Harvest {
         for (z <- 0 until range.width) {
           val farmItemLoc = minusXLoc.clone().add(-x,0,z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-            cost += spCost / (range.width * range.height)
+            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              cost += spCost / (range.width * range.height)
+            }
           }
         }
       }
@@ -64,8 +79,10 @@ class Harvest {
         for (z <- 0 until range.width) {
           val farmItemLoc = minusXLoc.clone().add(x,0,z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
-            cost += spCost / (range.width * range.height)
+            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              cost += spCost / (range.width * range.height)
+            }
           }
         }
       }

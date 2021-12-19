@@ -21,7 +21,9 @@ class SkillPointData() {
       oldPlayerData.consecutiveLoginDays,
       oldPlayerData.questClearTimes,
       oldPlayerData.gachaPullNumber,
-      oldPlayerData.voteNumber
+      oldPlayerData.voteNumber,
+      oldPlayerData.specialSkillOpenPoint,
+      oldPlayerData.OpenedSpecialSkills
     ))
   }
 

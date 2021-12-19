@@ -28,9 +28,9 @@ object GrowSkillAction extends Enum[GrowProvider] {
 
   val values: IndexedSeq[GrowProvider] = findValues
 
-  object wingGrow extends GrowSkill("ウインググロー",9,FarmRange(3,1))
-  object wideGrow extends GrowSkill("ワイドグロー",15,FarmRange(5,1))
-  object roundGrow extends GrowSkill("ラウンドグロー",27,FarmRange(3,3))
+  object wingGrow extends GrowSkill("ウインググロー",15,FarmRange(3,1))
+  object wideGrow extends GrowSkill("ワイドグロー",30,FarmRange(5,1))
+  object roundGrow extends GrowSkill("ラウンドグロー",55,FarmRange(3,3))
 
 }
 

@@ -24,19 +24,12 @@ class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
       val questClearTimes = rs.getInt("questClearTimes")
       val gachaPullNumber = rs.getInt("gachaPullNumber")
       val voteNumber = rs.getInt("VoteNumber")
-      Data.playerData += (uuid -> PlayerData(level, exp, skillPoint, ranking, loginNumber, consecutiveLoginDays, questClearTimes, gachaPullNumber, voteNumber))
+      val specialSkillOpenPoint = rs.getInt("SpecialSkillOpenPoint")
+      val openedSpecialSkills = rs.getString("OpenedSpecialSkills")
+      Data.playerData += (uuid -> PlayerData(level, exp, skillPoint, ranking, loginNumber, consecutiveLoginDays, questClearTimes, gachaPullNumber, voteNumber,specialSkillOpenPoint,openedSpecialSkills))
       ranking += 1
     }
     sql.close()
   }
-
-//  def autoLoad(): Unit = {
-//    val oneMinute = 1200
-//    new BukkitRunnable {
-//      override def run(): Unit = {
-//        load()
-//      }
-//    }.runTaskTimerAsynchronously(ryoServerAssist,0,oneMinute)
-//  }
 
 }

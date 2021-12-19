@@ -8,5 +8,7 @@ case class PlayerData(level:Int,
                       consecutiveLoginDays:Int,
                       questClearTimes:Int,
                       gachaPullNumber:Int,
-                      voteNumber:Int
+                      voteNumber:Int,
+                      specialSkillOpenPoint:Int,
+                      OpenedSpecialSkills:String
                      )

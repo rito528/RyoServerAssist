@@ -1,9 +1,10 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
-import com.ryoserver.NeoStack.{NeoStackGateway, PlayerData}
+import com.ryoserver.NeoStack.PlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
+import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
 import org.bukkit.entity.Player
 
@@ -23,6 +24,8 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
     new skillToggleClass(p, ryoServerAssist).allEffectClear(p)
+    new SavePlayerData(ryoServerAssist).save()
+    if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p,SpecialSkillPlayerData.getActivatedSkill(p).get)
   }
 
 }

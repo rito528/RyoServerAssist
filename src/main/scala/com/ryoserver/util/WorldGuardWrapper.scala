@@ -20,6 +20,10 @@ class WorldGuardWrapper {
     container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
   }
 
+  def isGlobal(@NotNull loc:Location): Boolean = {
+    getRegion(loc).isEmpty
+  }
+
   def isProtected(@NotNull loc: Location): Boolean = {
     getRegion(loc).nonEmpty
   }

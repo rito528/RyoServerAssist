@@ -1,5 +1,7 @@
 package com.ryoserver.SkillSystems.Skill
 
+import com.ryoserver.Player.{Data, PlayerData}
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
@@ -9,24 +11,95 @@ object SpecialSkillPlayerData {
 
   private var selectedBreakSkill: mutable.Map[Player, String] = mutable.Map()
 
-  def breakSkillToggle(p: Player, skillName: String): Unit = {
+  def skillToggle(p: Player, skillName: String): Unit = {
+    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && Data.playerData(p.getUniqueId.toString).specialSkillOpenPoint >= 10) {
+      skillOpen(p, skillName)
+      p.sendMessage(ChatColor.AQUA + skillName + "を開放しました。")
+      return
+    } else if (!isSkillOpened(p, skillName)) {
+      p.sendMessage(ChatColor.RED + skillName + "を開放できません！")
+      return
+    }
     if (isActivatedSkill(p, skillName)) {
-      breakSkillInvalidation(p, skillName)
+      skillInvalidation(p, skillName)
     } else if (getActivatedSkill(p).isEmpty) {
-      breakSkillActivation(p, skillName)
+      skillActivation(p, skillName)
     } else {
-      breakSkillInvalidation(p, getActivatedSkill(p).get)
-      breakSkillActivation(p, skillName)
+      skillInvalidation(p, getActivatedSkill(p).get)
+      skillActivation(p, skillName)
     }
   }
 
-  def breakSkillInvalidation(p: Player, skillName: String): Unit = {
+  def checkSkillOpen(p:Player,skillName:String): Boolean = {
+    if (SpecialSkillDependency.growSkill.contains(skillName)) {
+      SpecialSkillDependency.growSkill.foreach(growSkill => {
+        if (growSkill == skillName && !isSkillOpened(p, growSkill)) {
+          return true
+        } else if (growSkill != skillName && isSkillOpened(p, growSkill)) {
+        } else {
+          return false
+        }
+      })
+    }
+    if (SpecialSkillDependency.harvestSkill.contains(skillName)) {
+      SpecialSkillDependency.harvestSkill.foreach(harvestSkill => {
+        if (harvestSkill == skillName && !isSkillOpened(p, harvestSkill)) {
+          return true
+        } else if (harvestSkill != skillName && isSkillOpened(p, harvestSkill)) {
+        } else {
+          return false
+        }
+      })
+    }
+    if (SpecialSkillDependency.breakSkill.contains(skillName)) {
+      SpecialSkillDependency.breakSkill.foreach(breakSkill => {
+        if (breakSkill == skillName && !isSkillOpened(p, breakSkill)) {
+          return true
+        } else if (breakSkill != skillName && isSkillOpened(p, breakSkill)) {
+        } else {
+          return false
+        }
+      })
+    }
+   false
+  }
+
+  def isSkillOpened(p:Player,skillName:String): Boolean = {
+    val openedSkills = Data.playerData(p.getUniqueId.toString).OpenedSpecialSkills
+    if (openedSkills != null) openedSkills.contains(skillName) else false
+  }
+
+  def skillOpen(p:Player,skillName:String): Unit = {
+    val data = Data.playerData(p.getUniqueId.toString)
+    var openedSkills = ""
+    if (data.OpenedSpecialSkills == null) {
+      openedSkills += skillName
+    } else {
+      openedSkills += data.OpenedSpecialSkills + "," + skillName
+    }
+    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
+    Data.playerData += (p.getUniqueId.toString -> PlayerData(
+      data.level,
+      data.exp,
+      data.skillPoint,
+      data.ranking,
+      data.loginNumber,
+      data.consecutiveLoginDays,
+      data.questClearTimes,
+      data.gachaPullNumber,
+      data.voteNumber,
+      data.specialSkillOpenPoint - 10,
+      openedSkills
+    ))
+  }
+
+  def skillInvalidation(p: Player, skillName: String): Unit = {
     selectedBreakSkill = selectedBreakSkill
       .filterNot { case (player, _) => player == p }
     p.sendMessage(s"${AQUA}スキル: ${skillName}を無効化しました。")
   }
 
-  def breakSkillActivation(p: Player, skillName: String): Unit = {
+  def skillActivation(p: Player, skillName: String): Unit = {
     selectedBreakSkill += (p -> skillName)
     p.sendMessage(s"${AQUA}スキル: ${skillName}を有効化しました。")
   }

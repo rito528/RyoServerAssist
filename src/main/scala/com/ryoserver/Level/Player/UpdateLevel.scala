@@ -77,6 +77,8 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     sql.close()
     BossBar.updateLevelBer(ryoServerAssist, sumExp, p)
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p, nowLevel - old_level)
+    if (nowLevel > 100) new SkillOpenData(ryoServerAssist).addOpenSpecialSkillPoint(p, nowLevel - old_level)
+    else if (nowLevel == 100) new SkillOpenData(ryoServerAssist).addOpenSpecialSkillPoint(p,10)
     if (old_level < nowLevel) {
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
@@ -89,7 +91,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       if (nowLevel == maxLv) {
         Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんがLv." + maxLv + "に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation,Sound.ENTITY_ENDER_DRAGON_DEATH,1,1))
-        }
+      }
       new GiveTitle(ryoServerAssist).lv(p)
     }
   }

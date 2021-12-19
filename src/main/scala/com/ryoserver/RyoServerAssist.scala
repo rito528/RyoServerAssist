@@ -65,7 +65,7 @@ class RyoServerAssist extends JavaPlugin {
       "title" -> new TitleCommand(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
-      "profile" -> new ProfileSettingCommands(this),
+      //"profile" -> new ProfileSettingCommands(this),
       "security" -> new SecurityCommand(this)
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
@@ -128,15 +128,17 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.runnableSaver(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
-    new SavePlayerData(this).save()
+    new SavePlayerData(this).autoSave()
     new EventLoader().loadEvent()
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
+
     /*
-      パッチの実行
-    */
+     パッチの実行
+   */
     new Patch(this).getAndExecutePatch()
+
     getLogger.info("RyoServerAssist enabled.")
 
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
@@ -148,6 +150,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).saveRanking()
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).unload(p))
     NeoStack.PlayerData.save(this)
+    new SavePlayerData(this).save()
     getLogger.info("RyoServerAssist disabled.")
   }
 

@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.SkillOpens
 
+import com.ryoserver.Player.{Data, PlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
 import com.ryoserver.Title.GiveTitle
@@ -44,6 +45,24 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId.toString}'")
     sql.close()
+  }
+
+  def addOpenSpecialSkillPoint(p:Player,addPoint:Int): Unit = {
+    val oldPlayerData = Data.playerData(p.getUniqueId.toString)
+    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
+    Data.playerData += (p.getUniqueId.toString -> PlayerData(
+      oldPlayerData.level,
+      oldPlayerData.exp,
+      oldPlayerData.skillPoint,
+      oldPlayerData.ranking,
+      oldPlayerData.loginNumber,
+      oldPlayerData.consecutiveLoginDays,
+      oldPlayerData.questClearTimes,
+      oldPlayerData.gachaPullNumber,
+      oldPlayerData.voteNumber,
+      oldPlayerData.specialSkillOpenPoint + addPoint,
+      oldPlayerData.OpenedSpecialSkills
+    ))
   }
 
 }
