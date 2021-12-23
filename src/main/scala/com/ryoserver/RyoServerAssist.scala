@@ -12,12 +12,10 @@ import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
 import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents, SavePlayerData}
-import com.ryoserver.Profile.ProfileSettingCommands
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
-import com.ryoserver.SkillSystems.Skill.FarmSkill
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
 import com.ryoserver.Storage.StorageEvent
@@ -133,6 +131,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
+    new LoadPlayerData(this).load()
 
     /*
      パッチの実行

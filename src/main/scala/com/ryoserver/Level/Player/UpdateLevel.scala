@@ -1,7 +1,7 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
-import com.ryoserver.Player.Name
+import com.ryoserver.Player.{Name, RyoServerPlayer}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
@@ -43,6 +43,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
     exp *= EventDataProvider.ratio
+    val rp = new RyoServerPlayer(p)
     if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) ||
       ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && nowCalender.getTime.after(holiday_start) && nowCalender.getTime.before(holiday_end))) {
       p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
@@ -65,12 +66,12 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     val sumExp = exp + old_exp
     val ticketAmountCal = (((old_exp % 100) + exp) / 100).toInt
     //経験値毎にもらうガチャ券の算出
-    if (ticketAmountCal > 0) sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + $ticketAmountCal WHERE UUID='${p.getUniqueId.toString}';")
+    if (ticketAmountCal > 0) rp.giveNormalGachaTicket(ticketAmountCal)
     //レベル毎にもらうガチャ券の算出
     val nowLevel = calLv.getLevel(sumExp.toInt)
     if (nowLevel > old_level && old_level != 0) {
       for (i <- old_level + 1 to nowLevel) {
-        if (i % 10 == 0) sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 32 WHERE UUID='${p.getUniqueId.toString}'")
+        if (i % 10 == 0) rp.giveNormalGachaTicket(64)
       }
     }
     sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp.toInt)} WHERE UUID='${p.getUniqueId.toString}';")

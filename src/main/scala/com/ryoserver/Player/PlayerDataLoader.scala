@@ -12,7 +12,6 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
 
   def load(p: Player): Unit = {
     new CreateData(ryoServerAssist).createPlayerData(p)
-    new LoadPlayerData(ryoServerAssist).load()
     new UpdateData(ryoServerAssist).update(p)
     new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
     new Name(ryoServerAssist).updateName(p)
@@ -24,7 +23,7 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
     new skillToggleClass(p, ryoServerAssist).allEffectClear(p)
-    new SavePlayerData(ryoServerAssist).save()
+    new SavePlayerData(ryoServerAssist).targetSave(p.getUniqueId.toString)
     if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p,SpecialSkillPlayerData.getActivatedSkill(p).get)
   }
 

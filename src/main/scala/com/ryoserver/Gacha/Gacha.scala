@@ -1,6 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
+import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
@@ -50,9 +51,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         p.sendMessage(ChatColor.AQUA + getItemAmount.toString + "回ガチャを引きました！")
         p.sendMessage(ChatColor.AQUA + s"特等x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
         pullCoolDownSet(p, ryoServerAssist)
-        val sql = new SQL(ryoServerAssist)
-        sql.executeSQL(s"UPDATE Players SET gachaPullNumber=gachaPullNumber+$getItemAmount WHERE UUID='${p.getUniqueId.toString}'")
-        sql.close()
+        new RyoServerPlayer(p).addGachaPullNumber(getItemAmount)
         new GiveTitle(ryoServerAssist).gachaPullNumber(p)
       } else if (((mainHand.getType == GachaPaperData.normal.getType && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta) || (mainHand.getType == GachaPaperData.fromAdmin.getType && mainHand.getItemMeta == GachaPaperData.fromAdmin.getItemMeta))
         && !getCoolDown(p)) {
@@ -76,9 +75,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
             p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(1))
         }
         pullCoolDownSet(p, ryoServerAssist)
-        val sql = new SQL(ryoServerAssist)
-        sql.executeSQL(s"UPDATE Players SET gachaPullNumber=gachaPullNumber+1 WHERE UUID='${p.getUniqueId.toString}'")
-        sql.close()
+        new RyoServerPlayer(p).addGachaPullNumber(1)
         new GiveTitle(ryoServerAssist).gachaPullNumber(p)
       }
     }

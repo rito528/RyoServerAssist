@@ -1,33 +1,23 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 
-class GetGachaTickets(ryoServerAssist: RyoServerAssist) {
+class GetGachaTickets() {
 
   def getTickets(p: Player): Int = {
-    val sql = new SQL(ryoServerAssist)
-    val number = getNumber(p)
-    if (number >= (64 * 9)) {
-      sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets-${64 * 9} WHERE UUID='${p.getUniqueId.toString}';")
-      sql.close()
-      64 * 9
+    val rp = new RyoServerPlayer(p)
+    val number = Data.playerData(p.getUniqueId.toString).gachaTickets
+    if (number >= 576) {
+      rp.reduceNormalGachaTicket(576)
+      576
     } else {
-      sql.executeSQL(s"UPDATE Players SET gachaTickets=0 WHERE UUID='${p.getUniqueId.toString}';")
-      sql.close()
+      rp.reduceNormalGachaTicket(number)
       number
     }
-  }
-
-  def getNumber(p: Player): Int = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT gachaTickets FROM Players WHERE UUID='${p.getUniqueId.toString}';")
-    var number = 0
-    if (rs.next()) number = rs.getInt("gachaTickets")
-    sql.close()
-    number
   }
 
   def receipt(p: Player): Unit = {

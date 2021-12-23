@@ -94,7 +94,6 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
         remainingItems :+= item
       }
     })
-    println(remainingItems.mkString("Array(", ", ", ")"))
 
     //残りの数を設定
     var questDone = true

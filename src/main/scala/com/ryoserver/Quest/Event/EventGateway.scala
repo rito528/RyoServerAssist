@@ -1,5 +1,6 @@
 package com.ryoserver.Quest.Event
 
+import com.ryoserver.Player.{RyoServerPlayer, RyoServerPlayerForAll}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor
@@ -101,6 +102,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
       EventDataProvider.nowEventName = holdingEvent()
       createEventTable()
+      val rpa = new RyoServerPlayerForAll
       val sql = new SQL(ryoServerAssist)
       val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}'")
       var oldExp = 0
@@ -109,7 +111,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       val gacha = (EventDataProvider.eventCounter / reward) - (oldExp / reward)
       sql.executeSQL(s"INSERT INTO Events(EventName,counter) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter}) " +
         s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter}")
-      sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + $gacha")
+      rpa.giveNormalGachaTickets(gacha)
       sql.close()
     }
   }

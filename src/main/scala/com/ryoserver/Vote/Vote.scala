@@ -1,10 +1,10 @@
 package com.ryoserver.Vote
 
+import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import com.vexsoftware.votifier.model.VotifierEvent
-import org.bukkit.{Bukkit, ChatColor, Sound}
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{Bukkit, ChatColor, Sound}
 
 class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -15,9 +15,9 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
     Bukkit.getOnlinePlayers.forEach(onlinePlayer => {
       onlinePlayer.playSound(onlinePlayer.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     })
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET gachaTickets=gachaTickets + 16,VoteNumber=VoteNumber+1 WHERE UUID='$uuid';")
-    sql.close()
+    val rp = new RyoServerPlayer(Bukkit.getOfflinePlayer(uuid))
+    rp.giveNormalGachaTicket(16)
+    rp.addOneVoteNumber()
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
       p.sendMessage("投票はこちら！")

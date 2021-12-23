@@ -48,7 +48,6 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def getCategory(is:ItemStack): String = {
-    println(NeoStackPageData.stackPageData)
     NeoStackPageData.stackPageData.foreach{case (category,itemData) =>
       itemData.foreach{case (_,inv) => {
         inv.split(";").foreach(item => {

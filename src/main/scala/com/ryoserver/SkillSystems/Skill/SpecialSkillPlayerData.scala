@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
-import com.ryoserver.Player.{Data, PlayerData}
+import com.ryoserver.Player.Data
 import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
@@ -65,20 +65,21 @@ object SpecialSkillPlayerData {
   }
 
   def isSkillOpened(p:Player,skillName:String): Boolean = {
-    val openedSkills = Data.playerData(p.getUniqueId.toString).OpenedSpecialSkills
+    val openedSkills = Data.playerData(p.getUniqueId.toString).OpenedSpecialSkills.orNull
     if (openedSkills != null) openedSkills.contains(skillName) else false
   }
 
   def skillOpen(p:Player,skillName:String): Unit = {
     val data = Data.playerData(p.getUniqueId.toString)
     var openedSkills = ""
-    if (data.OpenedSpecialSkills == null) {
-      openedSkills += skillName
-    } else {
-      openedSkills += data.OpenedSpecialSkills + "," + skillName
+    data.OpenedSpecialSkills match {
+      case Some(s) =>
+        openedSkills += s + "," + skillName
+      case None =>
+        openedSkills += skillName
     }
     Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10))
+    Data.playerData += (p.getUniqueId.toString -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10,OpenedSpecialSkills = Option(openedSkills)))
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

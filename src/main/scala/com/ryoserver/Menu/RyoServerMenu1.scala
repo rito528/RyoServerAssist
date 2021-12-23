@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
-import com.ryoserver.Player.{Data, GetData}
+import com.ryoserver.Player.{Data, GetData, GetRyoServerPlayerData, RyoServerPlayer}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
@@ -45,7 +45,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}クリックで受け取ります。",
       s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
       s"${GRAY}レベルが10上がる毎に32枚手に入ります。",
-      s"${GRAY}受け取れるガチャ券の枚数:" + new GetData(ryoServerAssist).getTickets(p) + "枚",
+      s"${GRAY}受け取れるガチャ券の枚数:" + Data.playerData(p.getUniqueId.toString).gachaTickets + "枚",
       s"${GRAY}次のガチャ券まであと" + String.format("%.1f",(100 - new GetPlayerData(ryoServerAssist).getPlayerExp(p) % 100))))
     setItem(5, 5, Material.HONEY_BOTTLE, effect = true, s"${GREEN}ガチャ特等アイテム交換画面を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(1, 6, Material.ENDER_PEARL, effect = false, s"${GREEN}現在いるワールドのスポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
@@ -56,7 +56,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setSkullItem(7, 5,p,p.getName + "の情報",List(
       s"${WHITE}レベル: Lv.${playerData.level}",
       s"${WHITE}EXP: ${playerData.exp}",
-      s"${WHITE}ランキング: ${playerData.ranking}位",
+      s"${WHITE}ランキング: ${new GetRyoServerPlayerData(p).getRanking}位",
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
       s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
       s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
@@ -84,7 +84,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(7, 3) -> new DustBoxInventory().openDustBox _,
       getLayOut(9, 3) -> motion.giveFirework,
       getLayOut(1, 5) -> new Distribution(ryoServerAssist).receipt _,
-      getLayOut(3, 5) -> new GetGachaTickets(ryoServerAssist).receipt _,
+      getLayOut(3, 5) -> new GetGachaTickets().receipt _,
       getLayOut(5, 5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
       getLayOut(9, 5) -> new EventMenu(ryoServerAssist).openEventMenu _,
       getLayOut(1, 6) -> {
