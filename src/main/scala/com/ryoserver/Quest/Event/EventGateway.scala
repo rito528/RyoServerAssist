@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Player.{RyoServerPlayer, RyoServerPlayerForAll}
+import com.ryoserver.Player.RyoServerPlayerForAll
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor
@@ -108,9 +108,11 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       var oldExp = 0
       if (rs.next()) oldExp = rs.getInt("counter")
       val reward = EventDataProvider.eventData.filter(_.name == holdingEvent()).head.reward
-      val gacha = (EventDataProvider.eventCounter / reward) - (oldExp / reward)
-      sql.executeSQL(s"INSERT INTO Events(EventName,counter) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter}) " +
-        s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter}")
+      val givenGachaTicketData = sql.executeQuery(s"SELECT GivenGachaTickets FROM Events WHERE EventName='${holdingEvent()}'")
+      givenGachaTicketData.next()
+      val gacha = ((EventDataProvider.eventCounter / reward)* EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
+      sql.executeSQL(s"INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter},${gacha}) " +
+        s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
       rpa.giveNormalGachaTickets(gacha)
       sql.close()
     }
