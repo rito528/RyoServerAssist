@@ -1,26 +1,34 @@
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: enumeratum_2.13-1.5.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: enumeratum-macros_2.13-1.5.9.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-annotations-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpclient-4.5.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: httpcore-4.4.13.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-logging-1.2.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: commons-codec-1.11.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-core-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: jackson-databind-2.13.0-rc1.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: mysql-connector-java-8.0.27.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: protobuf-java-3.11.4.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-reflect-2.13.6.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mIncluding from cache: scala-library-2.13.6.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: enumeratum-macros_2.13-1.5.9.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: enumeratum_2.13-1.5.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: jackson-core-2.13.0-rc1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: httpcore-4.4.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: httpclient-4.5.13.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: jackson-annotations-2.13.0-rc1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: commons-codec-1.11.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: jackson-databind-2.13.0-rc1.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: mysql-connector-java-8.0.27.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: protobuf-java-3.11.4.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: commons-logging-1.2.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: scala-reflect-2.13.6.jar[0m
+[0m[[0m[0mdebug[0m] [0m[0mIncluding: scala-library-2.13.6.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0mCalculate mappings...[0m
 [0m[[0m[0mdebug[0m] [0m[0mChecking every *.class/*.jar file's SHA-1.[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging files...[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'NOTICE' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/NOTICE.txt' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/NOTICE' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/README' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/LICENSE.txt' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/LICENSE' with strategy 'rename'[0m
+[0m[[0m[0mdebug[0m] [0m[0mMerging 'LICENSE' with strategy 'rename'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/DEPENDENCIES' with strategy 'discard'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/INDEX.LIST' with strategy 'discard'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/MANIFEST.MF' with strategy 'discard'[0m
 [0m[[0m[0mdebug[0m] [0m[0mMerging 'META-INF/versions/11/module-info.class' with strategy 'first'[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'discard' was applied to 3 files (Run the task at debug level to see details)[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'first' was applied to a file (Run the task at debug level to see details)[0m
-[0m[[0m[0mdebug[0m] [0m[0mSHA-1: 753d213aee2d55a2a8fb48e203b8ff47099724ac[0m
+[0m[[0m[0minfo[0m] [0m[0mStrategy 'rename' was applied to 7 files (Run the task at debug level to see details)[0m
+[0m[[0m[0mdebug[0m] [0m[0mSHA-1: f3c9cac9bb72d3b09920c3ea63f88c64e8f1d77e[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
 [0m[[0m[0mdebug[0m] [0m[0mPackaging /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/RyoServerAssist-1.4.0.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
@@ -5404,10 +5412,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/GachaPaperData$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/GachaPaperData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/GachaPaperData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/GetGachaTickets.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/GetGachaTickets.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/Rarity_trait.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/Rarity_trait.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/getGachaTickets.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/getGachaTickets.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/rarity$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Gacha/rarity$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Gacha/rarity$bigPer$.class[0m
@@ -5436,8 +5444,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Level/Player/GetPlayerData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Level/Player/LevelLoader.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Level/Player/LevelLoader.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Level/Player/updateLevel.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Level/Player/updateLevel.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Level/Player/UpdateLevel.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Level/Player/UpdateLevel.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Menu/Menu.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Menu/Menu.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Menu/MenuData$.class[0m
@@ -5514,12 +5522,16 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/OriginalItem/RepairEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/OriginalItem/TotemEffect.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/OriginalItem/TotemEffect.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/CreateData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/CreateData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/Data$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/Data$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/Data.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/Data.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/FirstJoinSettingEvent.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/FirstJoinSettingEvent.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/GetData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/GetData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/GetRyoServerPlayerData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/GetRyoServerPlayerData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/LoadPlayerData.class[0m
@@ -5530,6 +5542,8 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/PlayerData$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/PlayerData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/PlayerData.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/PlayerDataLoader.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/PlayerDataLoader.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/PlayerEvents.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/PlayerEvents.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/RyoServerPlayer.class[0m
@@ -5542,12 +5556,6 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/SavePlayerData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/UpdateData.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/UpdateData.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/createData.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/createData.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/getData.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/getData.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Player/playerDataLoader.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Player/playerDataLoader.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Profile/ProfileGateway.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /Users/rito/Desktop/develop/RyoServerAssist/target/streams/_global/assemblyOption/_global/streams/assembly/6eb1fda0c315278460ae417a67b0f99e7b676edd_dir/com/ryoserver/Profile/ProfileGateway.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	com/ryoserver/Profile/ProfileSettingCommands.class[0m

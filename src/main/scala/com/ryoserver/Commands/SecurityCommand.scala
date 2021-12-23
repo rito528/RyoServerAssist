@@ -9,17 +9,17 @@ import org.bukkit.{Bukkit, ChatColor}
 class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def playerStatus(): Unit = {
-    sender.sendMessage(Players.getPlayerStatus(Bukkit.getPlayer(args(0))))
+    sender.sendMessage(Players.getPlayerStatus(Bukkit.getPlayer(args(1))))
   }
 
   private def openInventory(): Unit = {
-    sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(0)).getInventory)
-    sender.sendMessage(ChatColor.AQUA + args(0) + "のインベントリを開きました。")
+    sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getInventory)
+    sender.sendMessage(ChatColor.AQUA + args(1) + "のインベントリを開きました。")
   }
 
   private def openEnderChest(): Unit = {
-    sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(0)).getEnderChest)
-    sender.sendMessage(ChatColor.AQUA + args(0) + "のエンダーチェストを開きました。")
+    sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getEnderChest)
+    sender.sendMessage(ChatColor.AQUA + args(1) + "のエンダーチェストを開きました。")
   }
 
   private def hide(): Unit = {
@@ -37,12 +37,12 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def freeze(): Unit = {
-    val p = Bukkit.getPlayer(args(0))
+    val p = Bukkit.getPlayer(args(1))
     Players.freezePlayer(p)
   }
 
   private def unfreeze(): Unit = {
-    val p = Bukkit.getPlayer(args(0))
+    val p = Bukkit.getPlayer(args(1))
     Players.unFreezePlayer(p)
   }
 

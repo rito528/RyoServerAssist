@@ -30,7 +30,7 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
       true
     } catch {
       case e: Exception =>
-        failedMessage("引数が不正です")
+        failedMessage("引数が不正です。")
         true
     }
   }
