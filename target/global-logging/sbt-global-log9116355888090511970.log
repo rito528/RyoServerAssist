@@ -11,5 +11,5 @@
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'first' was applied to a file (Run the task at debug level to see details)[0m
 [0m[[0m[0minfo[0m] [0m[0mStrategy 'rename' was applied to 7 files (Run the task at debug level to see details)[0m
 [0m[[0m[33mwarn[0m] [0m[0mIgnored unknown package option FixedTimestamp(Some(1262304000000))[0m
-[0m[[0m[32msuccess[0m] [0m[0mTotal time: 6 s, completed 2021/12/24 6:10:55[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 6 s, completed 2021/12/24 22:43:32[0m
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
