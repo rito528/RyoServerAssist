@@ -37,5 +37,11 @@ class RyoServerPlayer(player: OfflinePlayer) {
     playerData += (uuid -> oldData.copy(exp = exp, level = new CalLv().getLevel(exp)))
   }
 
+  def toggleAutoStack(): Boolean = {
+    val result = !oldData.autoStack
+    playerData += (uuid -> oldData.copy(autoStack = result))
+    result
+  }
+
 
 }

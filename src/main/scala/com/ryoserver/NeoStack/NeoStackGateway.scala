@@ -1,6 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.PlayerData.changedData
+import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
@@ -115,20 +116,9 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
   }
 
-  def toggleAutoStack(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    if (isAutoStackEnabled(p)) sql.executeSQL(s"UPDATE Players SET autoStack=false WHERE UUID='${p.getUniqueId.toString}'")
-    else sql.executeSQL(s"UPDATE Players SET autoStack=true WHERE UUID='${p.getUniqueId.toString}'")
-    sql.close()
-  }
+  def toggleAutoStack(p: Player): Unit = new RyoServerPlayer(p).toggleAutoStack()
 
-  def isAutoStackEnabled(p: Player): Boolean = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT autoStack FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var enabled = false
-    if (rs.next()) enabled = rs.getBoolean("autoStack")
-    sql.close()
-    enabled
-  }
+  def isAutoStackEnabled(p: Player): Boolean = Data.playerData(p.getUniqueId).autoStack
+
 
 }

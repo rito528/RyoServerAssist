@@ -34,7 +34,8 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       "VoteNumber" -> playerData.voteNumber,
       "gachaPullNumber" -> playerData.gachaPullNumber,
       "EXP" -> playerData.exp,
-      "Level" -> playerData.level
+      "Level" -> playerData.level,
+      "autoStack" -> playerData.autoStack
     ).zipWithIndex.foreach { case ((name, data), index) =>
       if (index != 0) stringBuilder.append(",")
       data match {
