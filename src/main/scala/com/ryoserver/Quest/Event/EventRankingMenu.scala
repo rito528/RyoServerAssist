@@ -21,7 +21,7 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach { case ((uuid, counter), index) =>
       if (index / 9 + 1 >= 6) return
       val OfflinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid))
-      setSkullItem(getX(index), getY(index), OfflinePlayer.getPlayer, s"${AQUA}[${index + 1}位] " + OfflinePlayer.getName, List(
+      setSkullItem(getX(index), getY(index), OfflinePlayer, s"${AQUA}[${index + 1}位] " + OfflinePlayer.getName, List(
         if (gateway.eventInfo(gateway.holdingEvent()).eventType == "delivery") s"${WHITE}納品量: " + counter + "個"
         else if (gateway.eventInfo(gateway.holdingEvent()).eventType == "suppression") s"${WHITE}討伐数: " + counter + "体"
         else null

@@ -4,7 +4,7 @@ import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
-import org.bukkit.{Bukkit, Material}
+import org.bukkit.{Bukkit, Material, OfflinePlayer}
 
 import scala.jdk.CollectionConverters._
 
@@ -43,7 +43,7 @@ trait Menu {
     }
   }
 
-  def setSkullItem(x: Int, y: Int, p: Player, title: String, lore: List[String]): Unit = {
+  def setSkullItem(x: Int, y: Int, p: OfflinePlayer, title: String, lore: List[String]): Unit = {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
       case None =>
