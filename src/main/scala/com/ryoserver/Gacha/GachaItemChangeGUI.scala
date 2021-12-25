@@ -21,7 +21,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   def openChangeGUI(player: Player): Unit = {
     p = player
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}menuに戻る", List(s"${GRAY}クリックでmenuに戻ります。"))
-    setItem(5, 6, Material.NETHER_STAR, effect = false, s"${RESET}${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
+    setItem(5, 6, Material.NETHER_STAR, effect = false, s"$RESET${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
       s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${RETE}個"
     ))
     partButton = true

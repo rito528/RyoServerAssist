@@ -8,7 +8,7 @@ class SkillPointConsumption {
     val spData = new SkillPointData()
     val playerSP = spData.getSkillPoint(p)
     if (skillPoint <= playerSP) {
-      spData.setSkillPoint(p, (playerSP - skillPoint))
+      spData.setSkillPoint(p, playerSP - skillPoint)
       SkillPointBer.update(p)
     }
   }

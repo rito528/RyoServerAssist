@@ -15,12 +15,11 @@ class Patch(ryoServerAssist: RyoServerAssist) {
       "1.4.0_SQLPatch.rp"
     ).foreach(f => {
       val is = getClass.getClassLoader.getResourceAsStream("patch/" + f)
-      var sqlText = ""
       Source.fromInputStream(is).getLines().foreach(text => {
         try {
           sql.executeSQL(text)
         } catch {
-          case ignored: SQLException =>
+          case SQLException =>
         }
       })
       is.close()
