@@ -5,7 +5,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.{Damageable, ItemMeta, SkullMeta}
 import org.bukkit.inventory.{ItemFlag, ItemStack}
-import org.bukkit.{Material, Sound}
+import org.bukkit.{Material, OfflinePlayer, Sound}
 
 import java.security.SecureRandom
 import scala.jdk.CollectionConverters._
@@ -31,7 +31,7 @@ object Item {
     itemStack
   }
 
-  val getPlayerSkull: (Player, String, List[String]) => ItemStack = (p: Player, displayName: String, lore: List[String]) => {
+  val getPlayerSkull: (OfflinePlayer, String, List[String]) => ItemStack = (p: OfflinePlayer, displayName: String, lore: List[String]) => {
     val is = new ItemStack(Material.PLAYER_HEAD)
     val meta = is.getItemMeta.asInstanceOf[SkullMeta]
     meta.setOwningPlayer(p)
