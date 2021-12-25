@@ -2,7 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Commands._
 import com.ryoserver.Config.LoadConfig
-import com.ryoserver.Distribution.Distribution
+import com.ryoserver.Distribution.{Distribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
@@ -139,6 +139,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
     new LoadPlayerData(this).load()
+    new SaveDistribution(this).autoSave()
 
     /*
      Execute patch
