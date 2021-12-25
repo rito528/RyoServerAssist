@@ -13,7 +13,7 @@ object SkillPointBer {
 
   private var bers: mutable.Map[Player, org.bukkit.boss.BossBar] = mutable.Map.empty
 
-  def create(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
+  def create(p: Player): Unit = {
     val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(new GetPlayerData().getPlayerLevel(p))
     val playerSkillPoint = new SkillPointData().getSkillPoint(p)
     val bossBer = Bukkit.createBossBar("スキルポイント: " + playerSkillPoint, BarColor.WHITE, BarStyle.SOLID)

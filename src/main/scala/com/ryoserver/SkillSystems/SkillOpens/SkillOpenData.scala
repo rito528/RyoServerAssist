@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillOpens
 
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
 import com.ryoserver.Title.GiveTitle
@@ -9,14 +9,7 @@ import org.bukkit.entity.Player
 
 class SkillOpenData(ryoServerAssist: RyoServerAssist) {
 
-  def getSkillOpenPoint(p: Player): Int = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT SkillOpenPoint FROM Players WHERE UUID='${p.getUniqueId}'")
-    var pt = 0
-    if (rs.next()) pt = rs.getInt("SkillOpenPoint")
-    sql.close()
-    pt
-  }
+  def getSkillOpenPoint(p: Player): Int = Data.playerData(p.getUniqueId).SkillOpenPoint
 
   def openSkill(p: Player, skillName: String): Unit = {
     val sql = new SQL(ryoServerAssist)
@@ -42,15 +35,11 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
   }
 
   def addSkillOpenPoint(p: Player, point: Int): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId}'")
-    sql.close()
+    new RyoServerPlayer(p).addSkillOpenPoint(point)
   }
 
-  def addOpenSpecialSkillPoint(p: Player, addPoint: Int): Unit = {
-    val oldPlayerData = Data.playerData(p.getUniqueId)
-    Data.playerData = Data.playerData.filterNot { case (uuid, _) => uuid == p.getUniqueId }
-    Data.playerData += (p.getUniqueId -> oldPlayerData.copy(specialSkillOpenPoint = oldPlayerData.specialSkillOpenPoint + addPoint))
+  def addOpenSpecialSkillPoint(p: Player, point: Int): Unit = {
+    new RyoServerPlayer(p).addSpecialSkillOpenPoint(point)
   }
 
 }
