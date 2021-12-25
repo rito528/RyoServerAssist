@@ -43,7 +43,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         }"
         else null,
         if (eventData.eventType != "bonus") {
-          val ranking = EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(p.getUniqueId.toString)
+          val ranking = EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(p.getUniqueId.toString) + 1
           if (ranking != -1) s"${WHITE}あなたの順位: " + (ranking + 1) + "位" else s"${WHITE}あなたの順位: 参加していません。"
         }
         else null,

@@ -59,5 +59,9 @@ class RyoServerPlayer(player: OfflinePlayer) {
     Data.playerData += (uuid -> oldData.copy(OpenedSpecialSkills = Option(skills)))
   }
 
+  def setLastDistributionReceived(id: Int): Unit = {
+    Data.playerData += (uuid -> oldData.copy(lastDistributionReceived = id))
+  }
+
 
 }

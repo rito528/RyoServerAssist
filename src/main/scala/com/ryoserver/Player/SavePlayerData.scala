@@ -49,6 +49,8 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
           stringBuilder.append(s"$name=$data")
         case _: Double =>
           stringBuilder.append(s"$name=$data")
+        case _:Boolean =>
+          stringBuilder.append(s"$name=$data")
         case _ =>
       }
     }

@@ -1,6 +1,7 @@
 package com.ryoserver.Distribution
 
 import com.ryoserver.Gacha.GachaPaperData
+import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.command.CommandSender
@@ -31,22 +32,22 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
   }
 
   def receipt(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
     var stack = 0
     var id = 0
     var loop = true
     var gachaPaperType = ""
-    val rs = sql.executeQuery(s"SELECT * FROM Distribution WHERE (id > (SELECT lastDistributionReceived FROM Players WHERE UUID='${p.getUniqueId.toString}'));")
-    while (rs.next() && loop) {
-      stack += rs.getInt("Count")
-      id = rs.getInt("id")
-      if (gachaPaperType == "") gachaPaperType = rs.getString("GachaPaperType")
-      if (stack >= 576) loop = false
-      else if (gachaPaperType != rs.getString("GachaPaperType")) loop = false
-    }
+    DistributionData.distributionData.foreach(data => {
+      val playerData = Data.playerData(p.getUniqueId)
+      if (data.id > playerData.lastDistributionReceived) {
+        stack += data.amount
+        id = data.id
+        if (gachaPaperType == "") gachaPaperType = data.TicketType
+        if (stack >= 576) loop = false
+        else if (gachaPaperType != data.TicketType) loop = false
+      }
+    })
     if (stack != 0 && id != 0) {
-      sql.executeSQL(s"UPDATE Players SET lastDistributionReceived=$id WHERE UUID='${p.getUniqueId.toString}'")
-      sql.close()
+      new RyoServerPlayer(p).setLastDistributionReceived(id)
       var gachaPaper: ItemStack = null
       if (gachaPaperType.equalsIgnoreCase("normal")) gachaPaper = new ItemStack(GachaPaperData.normal)
       if (gachaPaperType.equalsIgnoreCase("fromAdmin")) gachaPaper = new ItemStack(GachaPaperData.fromAdmin)

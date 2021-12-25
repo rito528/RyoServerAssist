@@ -9,8 +9,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/SaveDistribution.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/SaveDistribution.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/RyoServerAssist.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/RyoServerAssist.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/RyoServerAssist-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/RyoServerAssist-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/RyoServerPlayer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/RyoServerPlayer.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/Event/EventMenu.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/Event/EventMenu.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,14 +72,14 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/GetPlayerData.scala" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillMenu/SelectSkillMenu.scala" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/MenuEvent.scala" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/build.sbt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/BossBar.scala" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/CalLv.scala" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillMenu/SelectSkillMenu.scala" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/UpdateLevel.scala" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/build.sbt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/BossBar.scala" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Menu/MenuEvent.scala" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/GetPlayerData.scala" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/scala/com/ryoserver/Level/Player/LevelLoader.scala" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
@@ -112,6 +117,7 @@
       <option name="allowRunningInParallel" value="false" />
       <option name="javaOptions" value="-Djline.terminal=NONE" />
       <option name="myConsoleArgs" value="" />
+      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
       </option>
