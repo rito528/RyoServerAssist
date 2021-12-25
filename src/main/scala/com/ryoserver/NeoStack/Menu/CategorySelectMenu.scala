@@ -17,7 +17,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openCategorySelectMenu(player: Player): Unit = {
     p = player
-    val data = new GetPlayerData(ryoServerAssist)
+    val data = new GetPlayerData()
     if (data.getPlayerLevel(p) >= 20) {
       val lore: List[String] = List(s"${GRAY}クリックで開きます。")
       setItem(3, 2, Material.GRASS_BLOCK, effect = false, s"${GREEN}主要ブロック", lore)

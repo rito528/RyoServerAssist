@@ -20,7 +20,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   private val data = new PlayerTitleData(ryoServerAssist)
 
   def lv(p: Player): Unit = {
-    val level = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)
+    val level = new GetPlayerData().getPlayerLevel(p)
     TitleData.lv.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= level) {
         if (data.openTitle(p, title)) {

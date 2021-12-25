@@ -55,7 +55,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(1, 6, Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
     if (questType == "納品クエスト") {
       setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
-      val data = new GetPlayerData(ryoServerAssist)
+      val data = new GetPlayerData()
       if (data.getPlayerLevel(p) >= 20) setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。", List(s"${GRAY}クリックでneoStackから納品します。"))
     }
     setItem(9, 6, Material.RED_WOOL, effect = false, s"$RED${BOLD}クエストを中止する",

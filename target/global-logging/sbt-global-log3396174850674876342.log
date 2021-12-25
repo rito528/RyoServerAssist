@@ -1,0 +1,41 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 3 Scala sources to /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mdone compiling[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 10 Scala sources to /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Level/Player/LevelLoader.scala:9:39: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val playerExp = new GetPlayerData(ryoServerAssist).getPlayerExp(p)[0m
+[0m[[0m[31merror[0m] [0m[0m                                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Menu/RyoServerMenu1.scala:49:76: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m      s"${GRAY}次のガチャ券まであと" + String.format("%.1f",(100 - new GetPlayerData(ryoServerAssist).getPlayerExp(p) % 100))))[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/NeoStack/Menu/CategorySelectMenu.scala:20:34: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val data = new GetPlayerData(ryoServerAssist)[0m
+[0m[[0m[31merror[0m] [0m[0m                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Quest/QuestProcessMenu.scala:58:36: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m      val data = new GetPlayerData(ryoServerAssist)[0m
+[0m[[0m[31merror[0m] [0m[0m                                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Quest/SelectQuestMenu.scala:26:41: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val playerLevel = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)[0m
+[0m[[0m[31merror[0m] [0m[0m                                        ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/RecoverySkillPointEvent.scala:17:43: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m      val playerLevel = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)[0m
+[0m[[0m[31merror[0m] [0m[0m                                          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/RecoverySkillPointEvent.scala:24:43: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m      val playerLevel = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)[0m
+[0m[[0m[31merror[0m] [0m[0m                                          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/SkillSystems/SkillPoint/SkillPointBer.scala:17:80: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(new GetPlayerData(ryoServerAssist).getPlayerLevel(p))[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Storage/Storage.scala:28:34: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val data = new GetPlayerData(ryoServerAssist)[0m
+[0m[[0m[31merror[0m] [0m[0m                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Title/GiveTitle.scala:23:35: no arguments allowed for nullary constructor GetPlayerData: (): com.ryoserver.Level.Player.GetPlayerData[0m
+[0m[[0m[31merror[0m] [0m[0m    val level = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0m10 errors found[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 1 s, completed 2021/12/25 13:09:56[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m

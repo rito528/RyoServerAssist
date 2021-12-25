@@ -13,7 +13,7 @@ class Name(ryoServerAssist: RyoServerAssist) {
     val selectedTitle = new PlayerTitleData(ryoServerAssist).getSelectedTitle(p.getUniqueId.toString)
     if (selectedTitle != null) title = "[" + selectedTitle + "]"
     val prefix = if (p.hasPermission("minecraft.command.gamemode")) ChatColor.LIGHT_PURPLE else ""
-    val name = s"$title[Lv.${new GetPlayerData(ryoServerAssist).getPlayerLevel(p)}]$prefix${p.getName}" + ChatColor.RESET
+    val name = s"$title[Lv.${new GetPlayerData().getPlayerLevel(p)}]$prefix${p.getName}" + ChatColor.RESET
     p.setDisplayName(name)
     p.setPlayerListName(name)
   }

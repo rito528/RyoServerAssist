@@ -25,7 +25,7 @@ class Storage(ryoServerAssist: RyoServerAssist) {
   }
 
   def load(p: Player): Unit = {
-    val data = new GetPlayerData(ryoServerAssist)
+    val data = new GetPlayerData()
     if (data.getPlayerLevel(p) >= 10) {
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")

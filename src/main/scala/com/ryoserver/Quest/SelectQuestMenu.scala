@@ -23,7 +23,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     p = player
     val questData = new QuestData(ryoServerAssist)
     var selectedQuests: Array[String] = Array.empty[String]
-    val playerLevel = new GetPlayerData(ryoServerAssist).getPlayerLevel(p)
+    val playerLevel = new GetPlayerData().getPlayerLevel(p)
     for (i <- 1 to 7 by 2) {
       val data = questData.loadQuest(p)
       val lottery = new LotteryQuest()
