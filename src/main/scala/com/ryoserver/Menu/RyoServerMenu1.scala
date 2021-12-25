@@ -39,7 +39,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(9, 3, Material.FIREWORK_ROCKET, effect = false, s"${GREEN}ロケット花火を受け取ります。", List(s"${GRAY}クリックで受け取ります。"))
     setItem(1, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}運営からのガチャ券を受け取ります。", List(
       s"${GRAY}クリックで受け取ります。",
-      s"${GRAY}受け取れるガチャ券の枚数: ${new GetData(ryoServerAssist).getFromAdminTickets(p)}枚"
+      s"${GRAY}受け取れるガチャ券の枚数: ${new GetData().getFromAdminTickets(p)}枚"
     ))
     setItem(3, 5, Material.PAPER, effect = true, s"${GREEN}ガチャ券を受け取ります。", List(
       s"${GRAY}クリックで受け取ります。",

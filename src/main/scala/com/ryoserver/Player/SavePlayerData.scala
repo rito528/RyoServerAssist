@@ -27,6 +27,7 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
   private def saveDataBuilder(playerData: PlayerData): String = {
     val stringBuilder = new StringBuilder
     Map(
+      "lastDistributionReceived" -> playerData.lastDistributionReceived,
       "gachaTickets" -> playerData.gachaTickets,
       "SkillPoint" -> playerData.skillPoint,
       "SpecialSkillOpenPoint" -> playerData.specialSkillOpenPoint,
