@@ -31,6 +31,7 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       "SkillPoint" -> playerData.skillPoint,
       "SpecialSkillOpenPoint" -> playerData.specialSkillOpenPoint,
       "OpenedSpecialSkills" -> playerData.OpenedSpecialSkills,
+      "OpenedSkills" -> playerData.OpenedSkills,
       "VoteNumber" -> playerData.voteNumber,
       "gachaPullNumber" -> playerData.gachaPullNumber,
       "EXP" -> playerData.exp,
