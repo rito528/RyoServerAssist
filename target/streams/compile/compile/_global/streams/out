@@ -1,6 +1,6 @@
 [0m[[0m[0mdebug[0m] [0m[0mAcquiring lock on file /Users/rito/Desktop/develop/RyoServerAssist/project/target/.sbt-compilation-infos/ryoserverassist-compile/.sbt-idea-lock ...[0m
-[0m[[0m[33mwarn[0m] [0m[0m2 deprecations (since 2.13.0); re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
-[0m[[0m[33mwarn[0m] [0m[0m8 deprecations (since 2.13.0); re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/RyoServerAssist.scala:90:35: no arguments allowed for nullary constructor RecoverySkillPointEvent: (): com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent[0m
+[0m[[0m[31merror[0m] [0m[0m      new RecoverySkillPointEvent(this),[0m
+[0m[[0m[31merror[0m] [0m[0m                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
 [0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /Users/rito/Desktop/develop/RyoServerAssist/project/target/.sbt-compilation-infos/ryoserverassist-compile/.sbt-idea-lock.[0m

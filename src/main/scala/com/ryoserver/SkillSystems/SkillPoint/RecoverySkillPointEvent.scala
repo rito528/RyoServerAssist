@@ -5,7 +5,7 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class RecoverySkillPointEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class RecoverySkillPointEvent extends Listener {
 
   @EventHandler
   def onEat(e: PlayerItemConsumeEvent): Unit = {
