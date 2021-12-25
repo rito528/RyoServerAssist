@@ -13,10 +13,10 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
   def load(p: Player): Unit = {
     new CreateData(ryoServerAssist).createPlayerData(p)
     new UpdateData(ryoServerAssist).update(p)
-    new LevelLoader(ryoServerAssist).loadPlayerLevel(p)
+    new LevelLoader().loadPlayerLevel(p)
     new Name(ryoServerAssist).updateName(p)
     PlayerData.loadNeoStackPlayerData(ryoServerAssist, p)
-    SkillPointBer.create(p, ryoServerAssist)
+    SkillPointBer.create(p)
   }
 
   def unload(p: Player): Unit = {
