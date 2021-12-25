@@ -6,8 +6,6 @@ class GetRyoServerPlayerData(player: Player) {
 
   private val uuid = player.getUniqueId
 
-  def getRanking: Int = {
-    Data.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(Data.playerData(uuid)) + 1
-  }
+  def getRanking: Int = Data.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(Data.playerData(uuid)) + 1
 
 }
