@@ -4,9 +4,11 @@ import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.Data.playerData
 import org.bukkit.OfflinePlayer
 
+import java.util.UUID
+
 class RyoServerPlayer(player:OfflinePlayer) {
 
-  private val uuid: String = player.getUniqueId.toString
+  private val uuid: UUID = player.getUniqueId
   private val oldData: PlayerData = playerData(uuid)
   playerData = playerData.filterNot{case (uuid,_) => uuid == this.uuid}
 

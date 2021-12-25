@@ -25,7 +25,7 @@ object SkillPointBer {
 
   def update(p: Player): Unit = {
     val bossBer = bers.get(p)
-    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(Data.playerData(p.getUniqueId.toString).level)
+    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(Data.playerData(p.getUniqueId).level)
     bossBer.get.setTitle("スキルポイント: " + new SkillPointData().getSkillPoint(p))
     bossBer.get.setProgress(new SkillPointData().getSkillPoint(p) / maxSkillPoint.toDouble)
   }

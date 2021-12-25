@@ -6,13 +6,13 @@ import org.bukkit.entity.Player
 class SkillPointData() {
 
   def getSkillPoint(p: Player): Double = {
-    Data.playerData(p.getUniqueId.toString).skillPoint
+    Data.playerData(p.getUniqueId).skillPoint
   }
 
   def setSkillPoint(p: Player, skillPoint: Double): Unit = {
-    val oldPlayerData = Data.playerData(p.getUniqueId.toString)
-    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> oldPlayerData.copy(skillPoint = skillPoint))
+    val oldPlayerData = Data.playerData(p.getUniqueId)
+    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId}
+    Data.playerData += (p.getUniqueId -> oldPlayerData.copy(skillPoint = skillPoint))
   }
 
 }

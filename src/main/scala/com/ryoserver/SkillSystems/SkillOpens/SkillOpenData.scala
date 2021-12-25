@@ -43,14 +43,14 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
 
   def addSkillOpenPoint(p: Player, point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId.toString}'")
+    sql.executeSQL(s"UPDATE Players SET SkillOpenPoint=SkillOpenPoint + $point WHERE UUID='${p.getUniqueId}'")
     sql.close()
   }
 
   def addOpenSpecialSkillPoint(p:Player,addPoint:Int): Unit = {
-    val oldPlayerData = Data.playerData(p.getUniqueId.toString)
-    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> oldPlayerData.copy(specialSkillOpenPoint = oldPlayerData.specialSkillOpenPoint + addPoint))
+    val oldPlayerData = Data.playerData(p.getUniqueId)
+    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId}
+    Data.playerData += (p.getUniqueId -> oldPlayerData.copy(specialSkillOpenPoint = oldPlayerData.specialSkillOpenPoint + addPoint))
   }
 
 }

@@ -43,7 +43,7 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         ,s"${GRAY}消費スキルポイント:21"
         , s"${GRAY} ${if (isSkillOpened(p,"アップダウンブレイク"))"クリックで選択します。" else "クリックで開放します。"}"))
     setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}スキルカテゴリ選択画面に戻ります。",List(s"${GRAY}クリックで戻ります。"))
-    setSkullItem(5,6,p,s"${GREEN}スキル選択を解除します。",List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + Data.playerData(p.getUniqueId.toString).specialSkillOpenPoint))
+    setSkullItem(5,6,p,s"${GREEN}スキル選択を解除します。",List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + Data.playerData(p.getUniqueId).specialSkillOpenPoint))
     registerMotion(motion)
     open()
   }

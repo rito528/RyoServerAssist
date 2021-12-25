@@ -45,14 +45,14 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}クリックで受け取ります。",
       s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
       s"${GRAY}レベルが10上がる毎に32枚手に入ります。",
-      s"${GRAY}受け取れるガチャ券の枚数:" + Data.playerData(p.getUniqueId.toString).gachaTickets + "枚",
+      s"${GRAY}受け取れるガチャ券の枚数:" + Data.playerData(p.getUniqueId).gachaTickets + "枚",
       s"${GRAY}次のガチャ券まであと" + String.format("%.1f",(100 - new GetPlayerData().getPlayerExp(p) % 100))))
     setItem(5, 5, Material.HONEY_BOTTLE, effect = true, s"${GREEN}ガチャ特等アイテム交換画面を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(1, 6, Material.ENDER_PEARL, effect = false, s"${GREEN}現在いるワールドのスポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(2, 6, Material.COMPASS, effect = false, s"${GREEN}スポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(3, 6, Material.WHITE_BED, effect = false, s"${GREEN}ホームメニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 6, Material.OAK_DOOR, effect = false, s"${GREEN}ロビーに戻ります。", List(s"${GRAY}クリックでロビーに戻ります。"))
-    val playerData = Data.playerData(p.getUniqueId.toString)
+    val playerData = Data.playerData(p.getUniqueId)
     setSkullItem(7, 5,p,p.getName + "の情報",List(
       s"${WHITE}レベル: Lv.${playerData.level}",
       s"${WHITE}EXP: ${playerData.exp}",

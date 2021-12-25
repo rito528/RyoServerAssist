@@ -5,6 +5,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
+import java.util.UUID
 import scala.collection.mutable
 
 class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
@@ -15,7 +16,7 @@ class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
     var ranking = 1
     Data.playerData = mutable.Map.empty
     while (rs.next()) {
-      val uuid = rs.getString("UUID")
+      val uuid = UUID.fromString(rs.getString("UUID"))
       val level = rs.getInt("Level")
       val exp = rs.getInt("EXP")
       val skillPoint = rs.getDouble("SkillPoint")

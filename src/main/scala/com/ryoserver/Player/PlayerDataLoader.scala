@@ -23,7 +23,7 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
     new skillToggleClass(p, ryoServerAssist).allEffectClear(p)
-    new SavePlayerData(ryoServerAssist).targetSave(p.getUniqueId.toString)
+    new SavePlayerData(ryoServerAssist).targetSave(p.getUniqueId)
     if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p,SpecialSkillPlayerData.getActivatedSkill(p).get)
   }
 

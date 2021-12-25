@@ -1,0 +1,27 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(assembly, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: assembly[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 15 Scala sources to /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[33mwarn[0m] [0m[0m6 deprecations (since 2.13.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[0minfo[0m] [0m[0mdone compiling[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 16 Scala sources to /Users/rito/Desktop/develop/RyoServerAssist/target/scala-2.13/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Gacha/GetGachaTickets.scala:13:48: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : String[0m
+[0m[[0m[31merror[0m] [0m[0m required: java.util.UUID[0m
+[0m[[0m[31merror[0m] [0m[0m    val number = Data.playerData(p.getUniqueId.toString).gachaTickets[0m
+[0m[[0m[31merror[0m] [0m[0m                                               ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Level/Player/GetPlayerData.scala:8:71: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : String[0m
+[0m[[0m[31merror[0m] [0m[0m required: java.util.UUID[0m
+[0m[[0m[31merror[0m] [0m[0m  def getPlayerExp(p: Player): Double = Data.playerData(p.getUniqueId.toString).exp[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                      ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Level/Player/GetPlayerData.scala:10:70: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : String[0m
+[0m[[0m[31merror[0m] [0m[0m required: java.util.UUID[0m
+[0m[[0m[31merror[0m] [0m[0m  def getPlayerLevel(p: Player): Int = Data.playerData(p.getUniqueId.toString).level[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                     ^[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 1 s, completed 2021/12/25 13:16:18[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m

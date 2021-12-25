@@ -12,7 +12,7 @@ object SpecialSkillPlayerData {
   private var selectedBreakSkill: mutable.Map[Player, String] = mutable.Map()
 
   def skillToggle(p: Player, skillName: String): Unit = {
-    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && Data.playerData(p.getUniqueId.toString).specialSkillOpenPoint >= 10) {
+    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && Data.playerData(p.getUniqueId).specialSkillOpenPoint >= 10) {
       skillOpen(p, skillName)
       p.sendMessage(ChatColor.AQUA + skillName + "を開放しました。")
       return
@@ -65,12 +65,12 @@ object SpecialSkillPlayerData {
   }
 
   def isSkillOpened(p:Player,skillName:String): Boolean = {
-    val openedSkills = Data.playerData(p.getUniqueId.toString).OpenedSpecialSkills.orNull
+    val openedSkills = Data.playerData(p.getUniqueId).OpenedSpecialSkills.orNull
     if (openedSkills != null) openedSkills.contains(skillName) else false
   }
 
   def skillOpen(p:Player,skillName:String): Unit = {
-    val data = Data.playerData(p.getUniqueId.toString)
+    val data = Data.playerData(p.getUniqueId)
     var openedSkills = ""
     data.OpenedSpecialSkills match {
       case Some(s) =>
@@ -78,8 +78,8 @@ object SpecialSkillPlayerData {
       case None =>
         openedSkills += skillName
     }
-    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId.toString}
-    Data.playerData += (p.getUniqueId.toString -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10,OpenedSpecialSkills = Option(openedSkills)))
+    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId}
+    Data.playerData += (p.getUniqueId -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10,OpenedSpecialSkills = Option(openedSkills)))
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

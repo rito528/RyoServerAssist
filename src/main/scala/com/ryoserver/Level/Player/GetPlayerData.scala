@@ -5,8 +5,8 @@ import org.bukkit.entity.Player
 
 class GetPlayerData {
 
-  def getPlayerExp(p: Player): Double = Data.playerData(p.getUniqueId.toString).exp
+  def getPlayerExp(p: Player): Double = Data.playerData(p.getUniqueId).exp
 
-  def getPlayerLevel(p: Player): Int = Data.playerData(p.getUniqueId.toString).level
+  def getPlayerLevel(p: Player): Int = Data.playerData(p.getUniqueId).level
 
 }
