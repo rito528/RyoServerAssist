@@ -9,13 +9,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/RyoServerAssist-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/RyoServerAssist-build.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Distribution/Distribution.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/RyoServerPlayer.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/RyoServerPlayer.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/Event/EventMenu.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Quest/Event/EventMenu.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
