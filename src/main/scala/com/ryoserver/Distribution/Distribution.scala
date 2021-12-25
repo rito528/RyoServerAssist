@@ -17,7 +17,6 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
   }
 
   def addDistribution(gachaPaperType: String, count: Int, sendPlayer: CommandSender): Unit = {
-    val sql = new SQL(ryoServerAssist)
     if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {
       sendPlayer.sendMessage(ChatColor.RED + "不明なガチャ券のタイプが指定されました。")
       return
@@ -26,8 +25,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       sendPlayer.sendMessage(ChatColor.RED + "ガチャ券の配布量は576個を超えないように指定してください！")
       return
     }
-    sql.executeSQL(s"INSERT INTO Distribution (GachaPaperType,Count) VALUES ('$gachaPaperType',$count)")
-    sql.close()
+    DistributionData.addedList ::= DistributionData.distributionData.last.id + 1
     sendPlayer.sendMessage(ChatColor.AQUA + "ガチャ券を配布しました！")
     Bukkit.broadcastMessage(ChatColor.YELLOW + s"[お知らせ]${ChatColor.RESET}運営よりガチャ券が配布されました。")
   }
