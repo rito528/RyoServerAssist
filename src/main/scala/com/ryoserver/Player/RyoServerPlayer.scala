@@ -51,5 +51,9 @@ class RyoServerPlayer(player: OfflinePlayer) {
     Data.playerData += (uuid -> oldData.copy(specialSkillOpenPoint = oldData.specialSkillOpenPoint + amount))
   }
 
+  def skillOpen(skills: String): Unit = {
+    Data.playerData += (uuid -> oldData.copy(OpenedSkills = Option(skills)))
+  }
+
 
 }
