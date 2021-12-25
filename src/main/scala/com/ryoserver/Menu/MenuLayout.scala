@@ -6,8 +6,8 @@ object MenuLayout {
 
   def getSlot(y: Int): Int = y * 9
 
-  def getX(index:Int): Int = index % 9 + 1
+  def getX(index: Int): Int = index % 9 + 1
 
-  def getY(index:Int): Int = (index / 9) + 1
+  def getY(index: Int): Int = (index / 9) + 1
 
 }

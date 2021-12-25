@@ -4,10 +4,10 @@ import com.ryoserver.Quest.Event.{EventDataProvider, EventGateway}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.Entity.getEntity
-import org.bukkit.{ChatColor, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{ChatColor, Sound}
 
 class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 

@@ -2,8 +2,6 @@ package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.entity.Player
-import org.bukkit.scheduler.BukkitRunnable
 
 import java.util.UUID
 import scala.collection.mutable
@@ -37,8 +35,8 @@ class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
       val discord = rs.getString("Discord")
       val word = rs.getString("Word")
       Data.playerData += (uuid -> PlayerData(level, exp, skillPoint, ranking, loginNumber, consecutiveLoginDays,
-        questClearTimes,gachaTickets, gachaPullNumber,skillOpenPoint,Option(OpenedSkills),voteNumber,specialSkillOpenPoint,Option(openedSpecialSkills),
-        Option(openedTitles),Option(selectedTitles),autoStack,Option(twitter),Option(discord),Option(word)))
+        questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
+        Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
       ranking += 1
     }
     sql.close()

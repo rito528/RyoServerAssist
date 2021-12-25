@@ -3,7 +3,7 @@ package com.ryoserver.Security
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.bukkit.event.player.{PlayerCommandPreprocessEvent, PlayerJoinEvent, PlayerMoveEvent}
+import org.bukkit.event.player.{PlayerCommandPreprocessEvent, PlayerMoveEvent}
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}

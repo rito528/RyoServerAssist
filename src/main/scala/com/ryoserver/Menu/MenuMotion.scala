@@ -2,9 +2,9 @@ package com.ryoserver.Menu
 
 import com.google.common.io.ByteStreams
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{Bukkit, ChatColor, Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.{Bukkit, ChatColor, Material, Sound}
 
 class MenuMotion(ryoServerAssist: RyoServerAssist) {
 

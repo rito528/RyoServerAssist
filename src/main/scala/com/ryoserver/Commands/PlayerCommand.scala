@@ -9,6 +9,12 @@ import org.bukkit.entity.Player
 
 class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "firstJoinItems" -> setJoinItem
+    )
+  ).playerCommand()
+
   private def setJoinItem(): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
@@ -26,11 +32,5 @@ class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     }
     sender.asInstanceOf[Player].openInventory(inv)
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "firstJoinItems" -> setJoinItem
-    )
-  ).playerCommand()
 
 }

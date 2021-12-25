@@ -1,12 +1,12 @@
 package com.ryoserver.OriginalItem
 
-import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.potion.{PotionEffect, PotionEffectType}
+import org.bukkit.{Material, Sound}
 
 class TotemEffect extends Listener {
 

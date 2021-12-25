@@ -1,11 +1,11 @@
 package com.ryoserver.OriginalItem
 
-import org.bukkit.enchantments.Enchantment
-import org.bukkit.inventory.{EquipmentSlot, ItemFlag, ItemStack}
-import org.bukkit.inventory.meta.{Damageable, ItemMeta}
-import org.bukkit.Material
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.attribute.{Attribute, AttributeModifier}
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.meta.{Damageable, ItemMeta}
+import org.bukkit.inventory.{EquipmentSlot, ItemFlag, ItemStack}
 
 import java.util.UUID
 import scala.jdk.CollectionConverters._

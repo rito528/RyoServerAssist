@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{RyoServerMenu1, Menu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
@@ -14,8 +14,8 @@ import org.bukkit.{ChatColor, Material}
 import scala.collection.mutable
 
 class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
-  override var name: String = _
   override val slot: Int = 6
+  override var name: String = _
   override var p: Player = _
 
   def openAddGUI(player: Player, page: Int, category: String): Unit = {

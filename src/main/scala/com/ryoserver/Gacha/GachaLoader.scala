@@ -19,26 +19,6 @@ object GachaLoader {
   var bigPer: Double = _ //大当たり
   var special: Double = _ //特等
 
-  def load(ryoServerAssist: RyoServerAssist): Unit = {
-    gachaItemLoad(ryoServerAssist)
-    gachaRarityLoad(ryoServerAssist)
-  }
-
-  def unload(ryoServerAssist: RyoServerAssist): Unit = {
-    ryoServerAssist.getLogger.info("ガチャリストをアンロードしています...")
-    perItemList = Array.empty
-    bigPerItemList = Array.empty
-    specialItemList = Array.empty
-    missItemList = Array.empty
-    ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
-  }
-
-  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
-    sql.close()
-  }
-
   def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
     createGachaTable(ryoServerAssist)
     val sql = new SQL(ryoServerAssist)
@@ -51,25 +31,9 @@ object GachaLoader {
     load(ryoServerAssist)
   }
 
-  def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
-    p.sendMessage("ガチャアイテムリスト")
-    p.sendMessage("+--------------------------+")
-    while (rs.next()) {
-      val config: YamlConfiguration = new YamlConfiguration
-      config.loadFromString(rs.getString("Material"))
-      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i", null).getItemMeta.hasDisplayName)
-        config.getItemStack("i", null).getItemMeta.getDisplayName else config.getItemStack("i", null).getType.name()))
-    }
-    p.sendMessage("+--------------------------+")
-    sql.close()
-  }
-
-  def removeGachaItem(id: Int, ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
-    sql.close()
+  def load(ryoServerAssist: RyoServerAssist): Unit = {
+    gachaItemLoad(ryoServerAssist)
+    gachaRarityLoad(ryoServerAssist)
   }
 
   private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
@@ -105,5 +69,41 @@ object GachaLoader {
       Bukkit.shutdown()
     }
     ryoServerAssist.getLogger.info("ガチャ排出割合読み込みが完了しました！")
+  }
+
+  def unload(ryoServerAssist: RyoServerAssist): Unit = {
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしています...")
+    perItemList = Array.empty
+    bigPerItemList = Array.empty
+    specialItemList = Array.empty
+    missItemList = Array.empty
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
+  }
+
+  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
+    sql.close()
+  }
+
+  def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
+    p.sendMessage("ガチャアイテムリスト")
+    p.sendMessage("+--------------------------+")
+    while (rs.next()) {
+      val config: YamlConfiguration = new YamlConfiguration
+      config.loadFromString(rs.getString("Material"))
+      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i", null).getItemMeta.hasDisplayName)
+        config.getItemStack("i", null).getItemMeta.getDisplayName else config.getItemStack("i", null).getType.name()))
+    }
+    p.sendMessage("+--------------------------+")
+    sql.close()
+  }
+
+  def removeGachaItem(id: Int, ryoServerAssist: RyoServerAssist): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
+    sql.close()
   }
 }

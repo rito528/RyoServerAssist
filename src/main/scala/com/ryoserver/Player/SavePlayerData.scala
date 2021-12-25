@@ -13,7 +13,15 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       override def run(): Unit = {
         save()
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,1200)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 1200)
+  }
+
+  def save(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    Data.playerData.foreach { case (uuid, data) =>
+      sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
+    }
+    sql.close()
   }
 
   private def saveDataBuilder(playerData: PlayerData): String = {
@@ -27,7 +35,7 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       "gachaPullNumber" -> playerData.gachaPullNumber,
       "EXP" -> playerData.exp,
       "Level" -> playerData.level
-    ).zipWithIndex.foreach{case((name,data),index) =>
+    ).zipWithIndex.foreach { case ((name, data), index) =>
       if (index != 0) stringBuilder.append(",")
       data match {
         case Some(string: String) =>
@@ -36,23 +44,15 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
           stringBuilder.append(s"$name=NULL")
         case _: Int =>
           stringBuilder.append(s"$name=$data")
-        case _:Double =>
+        case _: Double =>
           stringBuilder.append(s"$name=$data")
         case _ =>
       }
-     }
+    }
     stringBuilder.toString()
   }
 
-  def save(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    Data.playerData.foreach{case (uuid,data) =>
-      sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
-    }
-    sql.close()
-  }
-
-  def targetSave(uuid:UUID): Unit = {
+  def targetSave(uuid: UUID): Unit = {
     val sql = new SQL(ryoServerAssist)
     val data = Data.playerData(uuid)
     sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")

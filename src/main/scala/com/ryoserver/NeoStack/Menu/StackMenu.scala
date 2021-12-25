@@ -4,22 +4,19 @@ import com.ryoserver.Menu.MenuLayout.{getX, getY}
 import com.ryoserver.Menu.{Menu, MenuData}
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.PlayerData.playerData
 import com.ryoserver.NeoStack.{NeoStackDataType, NeoStackGateway, PlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
 import org.bukkit.Material
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 
-import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override var name: String = _
   override val slot: Int = 6
+  override var name: String = _
   override var p: Player = _
 
   def openStack(player: Player, page: Int, category: String): Unit = {

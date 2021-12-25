@@ -2,7 +2,7 @@ package com.ryoserver.util
 
 import com.ryoserver.RyoServerAssist
 
-import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet, Statement}
+import java.sql._
 
 class SQL(ryoServerAssist: RyoServerAssist) {
 

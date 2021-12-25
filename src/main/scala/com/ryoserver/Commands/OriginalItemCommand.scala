@@ -7,6 +7,30 @@ import org.bukkit.entity.Player
 
 class OriginalItemCommand extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "血狂の刃" -> tiguruinoyaiba,
+      "折れた英雄の剣" -> oretaEiyunoKen,
+      "エレメンタルピッケル" -> elementalPickaxe,
+      "ブレッシングピッケル" -> blessingPickaxe,
+      "りょうの剣" -> ryoNoKen,
+      "グラム" -> gram,
+      "聖剣・天撃" -> seikenTengeki,
+      "ブラックアックス" -> blackAxe,
+      "ディグニティー" -> dignity,
+      "ハーベストスター" -> harvestStar,
+      "ペンギンの羽" -> penginNoHane,
+      "無極の弓-炎-" -> homura,
+      "飛炎の弓" -> hienNoYumi,
+      "テクト-兜-" -> kabuto,
+      "テクト-鎧-" -> yoroi,
+      "テクト-脚-" -> asi,
+      "テクト-靴-" -> boots,
+      "スキル回復(小)" -> min,
+      "スキル回復(大)" -> max
+    )
+  ).playerCommand()
+
   private def tiguruinoyaiba(): Unit = {
     val p = sender.asInstanceOf[Player]
     p.getWorld.dropItem(p.getLocation, OriginalItems.tiguruinoyaiba)
@@ -99,29 +123,5 @@ class OriginalItemCommand extends CommandBuilder {
   private def max(): Unit = {
     sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "血狂の刃" -> tiguruinoyaiba,
-      "折れた英雄の剣" -> oretaEiyunoKen,
-      "エレメンタルピッケル" -> elementalPickaxe,
-      "ブレッシングピッケル" -> blessingPickaxe,
-      "りょうの剣" -> ryoNoKen,
-      "グラム" -> gram,
-      "聖剣・天撃" -> seikenTengeki,
-      "ブラックアックス" -> blackAxe,
-      "ディグニティー" -> dignity,
-      "ハーベストスター" -> harvestStar,
-      "ペンギンの羽" -> penginNoHane,
-      "無極の弓-炎-" -> homura,
-      "飛炎の弓" -> hienNoYumi,
-      "テクト-兜-" -> kabuto,
-      "テクト-鎧-" -> yoroi,
-      "テクト-脚-" -> asi,
-      "テクト-靴-" -> boots,
-      "スキル回復(小)" -> min,
-      "スキル回復(大)" -> max
-    )
-  ).playerCommand()
 
 }

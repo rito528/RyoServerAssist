@@ -12,6 +12,14 @@ import java.util.{Calendar, TimeZone}
 
 class Regeneration(ryoServerAssist: RyoServerAssist) {
 
+  def regeneration(isForce: Boolean = false): Unit = {
+    if ((!isFriday && !isForce) || (!isForce && !ryoServerAssist.getConfig.getBoolean("autoWorldRegeneration"))) return
+    ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
+    regenerationCommands("regenerationNormalWorlds", Environment.NORMAL)
+    regenerationCommands("regenerationNetherWorlds", Environment.NETHER)
+    regenerationCommands("regenerationEndWorlds", Environment.THE_END)
+  }
+
   private def isFriday: Boolean = {
     val calendar = Calendar.getInstance()
     calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
@@ -65,14 +73,6 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
       portals.getPortalManager.getPortal(s"worldTo$world").setExactDestination(Bukkit.getWorld(world).getSpawnLocation)
       Bukkit.dispatchCommand(getConsoleSender, s"dynmap fullrender $world:Flat")
     })
-  }
-
-  def regeneration(isForce: Boolean = false): Unit = {
-    if ((!isFriday && !isForce) || (!isForce && !ryoServerAssist.getConfig.getBoolean("autoWorldRegeneration"))) return
-    ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
-    regenerationCommands("regenerationNormalWorlds", Environment.NORMAL)
-    regenerationCommands("regenerationNetherWorlds", Environment.NETHER)
-    regenerationCommands("regenerationEndWorlds", Environment.THE_END)
   }
 
 }

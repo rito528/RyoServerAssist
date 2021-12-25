@@ -79,7 +79,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         )
         if (motions.contains(index) && motions(index) != null) motions(index)(player)
         if (index == getLayOut(2, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(2, 6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).delivery(player, player.getOpenInventory.getTopInventory)
-        else if (index == getLayOut(3,6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(3,6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player,player.getOpenInventory.getTopInventory)
+        else if (index == getLayOut(3, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(3, 6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player, player.getOpenInventory.getTopInventory)
       }
     }.runTask(ryoServerAssist)
   }

@@ -18,7 +18,7 @@ class QuestSelectMenuEvent extends Listener {
     var isSend = false
     inv.getContents.foreach(is => {
       if (is != null) {
-      if (is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(47).getItemMeta
+        if (is.getItemMeta != inv.getItem(45).getItemMeta && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(47).getItemMeta
           && is.getItemMeta != inv.getItem(53).getItemMeta) {
           p.getWorld.dropItem(p.getLocation(), is)
           if (!isSend) {

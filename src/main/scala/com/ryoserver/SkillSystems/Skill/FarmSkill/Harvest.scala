@@ -9,6 +9,12 @@ import org.bukkit.entity.Player
 
 class Harvest {
 
+  val notSpecialSkillWorld = List(
+    "world",
+    "world_nether",
+    "world_the_end",
+    "trade"
+  )
   private val farmItem = Set(
     Material.WHEAT,
     Material.CARROTS,
@@ -16,14 +22,7 @@ class Harvest {
     Material.BEETROOTS
   )
 
-  val notSpecialSkillWorld = List(
-    "world",
-    "world_nether",
-    "world_the_end",
-    "trade"
-  )
-
-  def harvest(p:Player,skillName:String,brokeBlock:Block,spCost:Int,range:FarmRange): Unit = {
+  def harvest(p: Player, skillName: String, brokeBlock: Block, spCost: Int, range: FarmRange): Unit = {
     if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
     val facing = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
@@ -34,7 +33,7 @@ class Harvest {
         for (z <- 0 until range.height) {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
@@ -49,7 +48,7 @@ class Harvest {
         for (z <- 0 until range.height) {
           val farmItemLoc = minusXLoc.clone().add(x, 0, -z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
@@ -57,36 +56,36 @@ class Harvest {
         }
       }
       new SkillPointConsumption().consumption(cost, p)
-    } else if (facing == "WEST"){
-      val minusXLoc = brokeBlock.getLocation().add(0,0,-(range.width / 2))
+    } else if (facing == "WEST") {
+      val minusXLoc = brokeBlock.getLocation().add(0, 0, -(range.width / 2))
       var cost = 0
       for (x <- 0 until range.height) {
         for (z <- 0 until range.width) {
-          val farmItemLoc = minusXLoc.clone().add(-x,0,z)
+          val farmItemLoc = minusXLoc.clone().add(-x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     } else {
-      val minusXLoc = brokeBlock.getLocation().add(0,0,-(range.width / 2))
+      val minusXLoc = brokeBlock.getLocation().add(0, 0, -(range.width / 2))
       var cost = 0
       for (x <- 0 until range.height) {
         for (z <- 0 until range.width) {
-          val farmItemLoc = minusXLoc.clone().add(x,0,z)
+          val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     }
   }
 

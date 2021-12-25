@@ -4,8 +4,8 @@ import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material, Sound}
 import org.bukkit.inventory.{Inventory, ItemStack}
+import org.bukkit.{ChatColor, Material, Sound}
 
 class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
 
@@ -116,7 +116,6 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }
-
 
 
   def questDestroy(p: Player): Unit = {

@@ -39,7 +39,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
         })
       }
       Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんが初参加しました！")
-      Data.playerData += (p.getUniqueId -> PlayerData(0,0,new SkillPointCal().getMaxSkillPoint(0),Data.playerData.size + 1,0,0,0,0,0,0,None,0,0,None,None,None,autoStack = false,None,None,None))
+      Data.playerData += (p.getUniqueId -> PlayerData(0, 0, new SkillPointCal().getMaxSkillPoint(0), Data.playerData.size + 1, 0, 0, 0, 0, 0, 0, None, 0, 0, None, None, None, autoStack = false, None, None, None))
       Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }
     sql.close()

@@ -3,10 +3,10 @@ package com.ryoserver.Storage
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.{Bukkit, ChatColor, Sound}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
+import org.bukkit.{Bukkit, ChatColor, Sound}
 
 
 class Storage(ryoServerAssist: RyoServerAssist) {

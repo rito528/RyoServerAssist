@@ -5,13 +5,13 @@ import com.ryoserver.util.SQL
 
 class ProfileGateway(ryoServerAssist: RyoServerAssist) {
 
-  def setProfile(profileName:String,contents:String): Unit = {
+  def setProfile(profileName: String, contents: String): Unit = {
     val sql = new SQL(ryoServerAssist)
     sql.executeSQL(s"UPDATE Players SET $profileName='$contents';")
     sql.close()
   }
 
-  def getProfile(uuid:String): Map[String,String] = {
+  def getProfile(uuid: String): Map[String, String] = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT Twitter,Discord,Word FROM Players WHERE UUID='$uuid';")
     if (rs.next()) {

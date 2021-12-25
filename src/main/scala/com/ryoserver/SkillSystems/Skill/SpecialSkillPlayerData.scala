@@ -30,7 +30,7 @@ object SpecialSkillPlayerData {
     }
   }
 
-  def checkSkillOpen(p:Player,skillName:String): Boolean = {
+  def checkSkillOpen(p: Player, skillName: String): Boolean = {
     if (SpecialSkillDependency.growSkill.contains(skillName)) {
       SpecialSkillDependency.growSkill.foreach(growSkill => {
         if (growSkill == skillName && !isSkillOpened(p, growSkill)) {
@@ -61,15 +61,15 @@ object SpecialSkillPlayerData {
         }
       })
     }
-   false
+    false
   }
 
-  def isSkillOpened(p:Player,skillName:String): Boolean = {
+  def isSkillOpened(p: Player, skillName: String): Boolean = {
     val openedSkills = Data.playerData(p.getUniqueId).OpenedSpecialSkills.orNull
     if (openedSkills != null) openedSkills.contains(skillName) else false
   }
 
-  def skillOpen(p:Player,skillName:String): Unit = {
+  def skillOpen(p: Player, skillName: String): Unit = {
     val data = Data.playerData(p.getUniqueId)
     var openedSkills = ""
     data.OpenedSpecialSkills match {
@@ -78,8 +78,8 @@ object SpecialSkillPlayerData {
       case None =>
         openedSkills += skillName
     }
-    Data.playerData = Data.playerData.filterNot{case (uuid,_) => uuid == p.getUniqueId}
-    Data.playerData += (p.getUniqueId -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10,OpenedSpecialSkills = Option(openedSkills)))
+    Data.playerData = Data.playerData.filterNot { case (uuid, _) => uuid == p.getUniqueId }
+    Data.playerData += (p.getUniqueId -> data.copy(specialSkillOpenPoint = data.specialSkillOpenPoint - 10, OpenedSpecialSkills = Option(openedSkills)))
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

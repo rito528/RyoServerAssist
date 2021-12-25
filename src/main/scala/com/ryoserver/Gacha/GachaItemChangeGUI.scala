@@ -2,20 +2,20 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{RyoServerMenu1, Menu}
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{ChatColor, Material}
-import org.bukkit.ChatColor._
 
 class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
+  override val slot: Int = 6
   val RETE: Int = ryoServerAssist.getConfig.getInt("gachaChangeRete")
   override var name: String = "ガチャ特等取引"
-  override val slot: Int = 6
   override var p: Player = _
 
   def openChangeGUI(player: Player): Unit = {

@@ -6,16 +6,16 @@ import org.bukkit.entity.Player
 
 class SpawnCommand extends CommandBuilder {
 
-  private def spawn(): Unit = {
-    sender match {
-      case p:Player =>
-        p.teleport(Bukkit.getWorld("world").getSpawnLocation)
-    }
-  }
-
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map()
   ).playerCommand()
     .setNonArgumentExecutor(spawn)
+
+  private def spawn(): Unit = {
+    sender match {
+      case p: Player =>
+        p.teleport(Bukkit.getWorld("world").getSpawnLocation)
+    }
+  }
 
 }

@@ -1,9 +1,9 @@
 package com.ryoserver.tpa
 
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.{Bukkit, ChatColor}
 
 import scala.collection.mutable
 

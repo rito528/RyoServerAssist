@@ -12,10 +12,9 @@ import scala.sys.process.Process
 class CheckVPNAndProxy {
 
 
-  private val Key = Config.getApiKey
-
   val getJSON: String => String = (ipAddress: String) =>
     Process(Seq("curl", "-s", "https://www.iphunter.info:8082/v1/ip/" + ipAddress, s"-H", s"X-Key: $Key")).!!
+  private val Key = Config.getApiKey
 
   def loginCheck(p: Player, plugin: Plugin): Boolean = {
     val mapper: ObjectMapper = new ObjectMapper();
@@ -34,17 +33,6 @@ class CheckVPNAndProxy {
     }
   }
 
-  def getIPInfo(ipAddress: String): Map[String, String] = {
-    val mapper: ObjectMapper = new ObjectMapper();
-    val node: JsonNode = mapper.readTree(getJSON(ipAddress))
-    val data = node.get("data")
-    Map[String, String](
-      "country" -> data.get("country_name").textValue(),
-      "city" -> data.get("city").textValue(),
-      "isp" -> data.get("isp").textValue()
-    )
-  }
-
   def savePlayerIPInfo(p: Player, plugin: Plugin, data: String): Unit = {
     val name = p.getName;
     new BukkitRunnable {
@@ -61,6 +49,17 @@ class CheckVPNAndProxy {
         }
       }
     }.runTaskAsynchronously(plugin)
+  }
+
+  def getIPInfo(ipAddress: String): Map[String, String] = {
+    val mapper: ObjectMapper = new ObjectMapper();
+    val node: JsonNode = mapper.readTree(getJSON(ipAddress))
+    val data = node.get("data")
+    Map[String, String](
+      "country" -> data.get("country_name").textValue(),
+      "city" -> data.get("city").textValue(),
+      "isp" -> data.get("isp").textValue()
+    )
   }
 
   def notification(name: String): Unit = {

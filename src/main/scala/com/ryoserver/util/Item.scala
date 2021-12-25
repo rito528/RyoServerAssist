@@ -1,11 +1,11 @@
 package com.ryoserver.util
 
-import org.bukkit.{Material, Sound}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.{Damageable, ItemMeta, SkullMeta}
 import org.bukkit.inventory.{ItemFlag, ItemStack}
+import org.bukkit.{Material, Sound}
 
 import java.security.SecureRandom
 import scala.jdk.CollectionConverters._
@@ -43,14 +43,14 @@ object Item {
 
   def getStringFromItemStack(itemStack: ItemStack): String = {
     val config = new YamlConfiguration
-    config.set("i",itemStack)
+    config.set("i", itemStack)
     config.saveToString()
   }
 
   def getItemStackFromString(str: String): ItemStack = {
     val config = new YamlConfiguration
     config.loadFromString(str)
-    config.getItemStack("i",null)
+    config.getItemStack("i", null)
   }
 
   def getOneItemStack(itemStack: ItemStack): ItemStack = {
@@ -59,7 +59,7 @@ object Item {
     is
   }
 
-  def itemAddDamage(p: Player,item:ItemStack): Unit = {
+  def itemAddDamage(p: Player, item: ItemStack): Unit = {
     if (item != null && item.getType.getMaxDurability != 0) {
       val meta = item.getItemMeta
       val random = SecureRandom.getInstance("SHA1PRNG")

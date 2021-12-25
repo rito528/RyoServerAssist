@@ -9,9 +9,9 @@ import scala.jdk.CollectionConverters._
 
 trait CommandBuilder extends CommandExecutor with TabCompleter {
 
+  val executor: CommandExecutorBuilder
   var args: Array[String] = Array.empty
   var sender: CommandSender = _
-  val executor: CommandExecutorBuilder
 
   override def onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): Boolean = {
     try {
@@ -35,6 +35,10 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
     }
   }
 
+  def failedMessage(message: String): Unit = {
+    sender.sendMessage(ChatColor.RED + message)
+  }
+
   override def onTabComplete(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): util.List[String] = {
     if (strings.length != 1) return null
     if (strings(0).isEmpty) {
@@ -47,10 +51,6 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
       })
     }
     null
-  }
-
-  def failedMessage(message: String): Unit = {
-    sender.sendMessage(ChatColor.RED + message)
   }
 
   def successMessage(message: String): Unit = {

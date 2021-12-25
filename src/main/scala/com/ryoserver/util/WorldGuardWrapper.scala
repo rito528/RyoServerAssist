@@ -2,10 +2,10 @@ package com.ryoserver.util
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldguard.WorldGuard
-import com.sk89q.worldguard.protection.flags.{RegionGroup, StateFlag}
+import com.sk89q.worldguard.protection.flags.StateFlag
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
-import org.bukkit.{ChatColor, Location, Sound}
 import org.bukkit.entity.Player
+import org.bukkit.{ChatColor, Location, Sound}
 import org.jetbrains.annotations.NotNull
 
 import scala.collection.mutable
@@ -15,13 +15,13 @@ class WorldGuardWrapper {
 
   private val plugin = WorldGuard.getInstance()
 
+  def isGlobal(@NotNull loc: Location): Boolean = {
+    getRegion(loc).isEmpty
+  }
+
   def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
     val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
     container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
-  }
-
-  def isGlobal(@NotNull loc:Location): Boolean = {
-    getRegion(loc).isEmpty
   }
 
   def isProtected(@NotNull loc: Location): Boolean = {

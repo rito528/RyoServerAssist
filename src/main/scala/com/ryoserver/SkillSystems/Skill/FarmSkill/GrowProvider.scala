@@ -7,9 +7,9 @@ import org.bukkit.event.{EventHandler, Listener}
 
 sealed trait GrowProvider extends Listener with EnumEntry {
 
-  val skillName:String
+  val skillName: String
   val cost: Int
-  val range:FarmRange
+  val range: FarmRange
 
   @EventHandler
   def interact(e: PlayerInteractEvent): Unit = {
@@ -19,18 +19,20 @@ sealed trait GrowProvider extends Listener with EnumEntry {
 
 }
 
-case class GrowSkill( override val skillName: String,
-                      override val cost: Int,
-                      override val range:FarmRange
+case class GrowSkill(override val skillName: String,
+                     override val cost: Int,
+                     override val range: FarmRange
                     ) extends GrowProvider
 
 object GrowSkillAction extends Enum[GrowProvider] {
 
   val values: IndexedSeq[GrowProvider] = findValues
 
-  object wingGrow extends GrowSkill("ウインググロー",15,FarmRange(3,1))
-  object wideGrow extends GrowSkill("ワイドグロー",30,FarmRange(5,1))
-  object roundGrow extends GrowSkill("ラウンドグロー",55,FarmRange(3,3))
+  object wingGrow extends GrowSkill("ウインググロー", 15, FarmRange(3, 1))
+
+  object wideGrow extends GrowSkill("ワイドグロー", 30, FarmRange(5, 1))
+
+  object roundGrow extends GrowSkill("ラウンドグロー", 55, FarmRange(3, 3))
 
 }
 

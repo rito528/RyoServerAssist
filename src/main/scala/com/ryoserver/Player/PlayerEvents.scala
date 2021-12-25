@@ -1,7 +1,6 @@
 package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.Title.TitleData.continuousLogin
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}

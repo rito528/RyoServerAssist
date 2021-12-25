@@ -1,22 +1,22 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
-import org.bukkit.{ChatColor, Material}
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.ChatColor._
+import org.bukkit.{ChatColor, Material}
 
 import java.util
 import scala.jdk.CollectionConverters._
 
 class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  var name: String = "クエスト選択"
   val slot: Int = 3
+  var name: String = "クエスト選択"
   var p: Player = _
 
   def inventory(player: Player): Unit = {

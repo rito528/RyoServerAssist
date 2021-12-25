@@ -9,6 +9,13 @@ import java.util.UUID
 
 class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "add" -> add,
+      "remove" -> remove
+    )
+  )
+
   private def add(): Unit = {
     if (!TitleData.isEnableTitle(ryoServerAssist, args(1))) {
       sender.sendMessage(ChatColor.RED + "指定した称号は存在しません！")
@@ -34,12 +41,5 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     }
     sender.sendMessage(ChatColor.AQUA + args(2) + "から称号" + args(1) + "を剥奪しました。")
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "add" -> add,
-      "remove" -> remove
-    )
-  )
 
 }

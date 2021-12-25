@@ -27,12 +27,12 @@ class EventLoader {
         val end = json.get("end").textValue()
         val exp = json.get("exp").textValue().toDouble
         if (eventType == "bonus") {
-          EventDataProvider.eventData :+= EventType(eventName,eventType,start,end,null,exp,0,0)
+          EventDataProvider.eventData :+= EventType(eventName, eventType, start, end, null, exp, 0, 0)
         } else {
           val item = json.get("item").textValue()
           val reward = json.get("reward").textValue().toInt
           val distribution = json.get("distribution").textValue().toInt
-          EventDataProvider.eventData :+= EventType(eventName,eventType,start,end,item,exp,reward,distribution)
+          EventDataProvider.eventData :+= EventType(eventName, eventType, start, end, item, exp, reward, distribution)
         }
       })
   }

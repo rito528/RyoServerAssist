@@ -8,6 +8,21 @@ import org.bukkit.{Bukkit, ChatColor}
 
 class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "playerStatus" -> playerStatus,
+      "openInventory" -> openInventory,
+      "openEnderChest" -> openEnderChest,
+      "hide" -> hide,
+      "show" -> show,
+      "freeze" -> freeze,
+      "unfreeze" -> unfreeze,
+      "bind" -> bind,
+      "reload" -> reload,
+      "help" -> help
+    )
+  ).playerCommand()
+
   private def playerStatus(): Unit = {
     sender.sendMessage(Players.getPlayerStatus(Bukkit.getPlayer(args(1))))
   }
@@ -75,20 +90,5 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("/security gui - セキュリティープラグインのGUIを開きます。")
     sender.sendMessage("/security help - このコマンドリストを表示します。")
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "playerStatus" -> playerStatus,
-      "openInventory" -> openInventory,
-      "openEnderChest" -> openEnderChest,
-      "hide" -> hide,
-      "show" -> show,
-      "freeze" -> freeze,
-      "unfreeze" -> unfreeze,
-      "bind" -> bind,
-      "reload" -> reload,
-      "help" -> help
-    )
-  ).playerCommand()
 
 }

@@ -1,7 +1,7 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import com.ryoserver.Menu.MenuSessions.session
+import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
 import org.bukkit.{Bukkit, Material}
@@ -10,11 +10,11 @@ import scala.jdk.CollectionConverters._
 
 trait Menu {
 
+  val slot: Int
   /*
     各Menuで定義必須
    */
   var name: String
-  val slot: Int
   var p: Player
 
   /*

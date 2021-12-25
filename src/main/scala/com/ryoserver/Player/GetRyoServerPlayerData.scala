@@ -2,7 +2,7 @@ package com.ryoserver.Player
 
 import org.bukkit.entity.Player
 
-class GetRyoServerPlayerData(player:Player) {
+class GetRyoServerPlayerData(player: Player) {
 
   private val uuid = player.getUniqueId
 

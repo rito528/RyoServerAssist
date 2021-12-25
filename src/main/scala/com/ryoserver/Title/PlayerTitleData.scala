@@ -6,18 +6,6 @@ import org.bukkit.entity.Player
 
 class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
 
-  def getHasTitles(uuid: String): Array[String] = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT OpenedTitles FROM Players WHERE UUID='$uuid';")
-    var titles = Array.empty[String]
-    if (rs.next() && rs.getString("OpenedTitles") != null) titles = rs.getString("OpenedTitles").split(";")
-
-    sql.close()
-    titles
-  }
-
-  def hasTitle(uuid: String, title: String): Boolean = getHasTitles(uuid).contains(title)
-
   def openTitle(p: Player, title: String): Boolean = {
     val uuid = p.getUniqueId.toString
     if (hasTitle(uuid, title)) return false
@@ -34,6 +22,18 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
     sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";"}' WHERE UUID='$uuid'")
     sql.close()
     true
+  }
+
+  def hasTitle(uuid: String, title: String): Boolean = getHasTitles(uuid).contains(title)
+
+  def getHasTitles(uuid: String): Array[String] = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT OpenedTitles FROM Players WHERE UUID='$uuid';")
+    var titles = Array.empty[String]
+    if (rs.next() && rs.getString("OpenedTitles") != null) titles = rs.getString("OpenedTitles").split(";")
+
+    sql.close()
+    titles
   }
 
   def getSelectedTitle(uuid: String): String = {

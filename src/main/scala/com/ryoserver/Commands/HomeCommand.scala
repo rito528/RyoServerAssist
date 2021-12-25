@@ -7,13 +7,13 @@ import org.bukkit.entity.Player
 
 class HomeCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  private def home(): Unit = {
-    new Home(ryoServerAssist).homeInventory(sender.asInstanceOf[Player])
-  }
-
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map()
   ).playerCommand()
     .setNonArgumentExecutor(home)
+
+  private def home(): Unit = {
+    new Home(ryoServerAssist).homeInventory(sender.asInstanceOf[Player])
+  }
 
 }

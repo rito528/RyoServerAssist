@@ -14,8 +14,8 @@ import java.nio.file.Paths
 
 class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  var name: String = _
   val slot: Int = 6
+  var name: String = _
   var p: Player = _
 
   def openInv(player: Player, selectPage: Int): Unit = {

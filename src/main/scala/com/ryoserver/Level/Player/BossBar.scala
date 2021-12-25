@@ -1,7 +1,6 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
-import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.boss.{BarColor, BarStyle}
 import org.bukkit.entity.Player

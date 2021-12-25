@@ -11,44 +11,6 @@ import java.util.{Calendar, TimeZone}
 
 class EventGateway(ryoServerAssist: RyoServerAssist) {
 
-  /*
-    イベントが開催されていればイベント名、されていなければnullを返す
-   */
-  def holdingEvent(): String = {
-    EventDataProvider.eventData.foreach(event => {
-      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
-      val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 20:59")
-      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
-    })
-    null
-  }
-
-  /*
-    イベントの細かい情報を返す
-   */
-  def eventInfo(eventName: String): EventType = {
-    val data = EventDataProvider.eventData.filter(_.name == eventName)
-    if (data.length == 0) {
-      null
-    } else {
-      data.head
-    }
-  }
-
-  private def createEventTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
-    sql.close()
-  }
-
-  private def createEventRankingTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS EventRankings(UUID TEXT, EventName TEXT, counter INT)")
-    sql.close()
-  }
-
   def loadEventData(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベント情報を読み込み中...")
@@ -85,17 +47,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
         saveEvent()
         saveRanking()
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
-  }
-
-  def isEventEnded: Boolean = {
-    if (EventDataProvider.nowEventName != "" && holdingEvent() == null) {
-      return true
-    } else if (holdingEvent() != null) {
-      EventDataProvider.nowEventName = holdingEvent()
-      return false
-    }
-    false
+    }.runTaskTimerAsynchronously(ryoServerAssist, oneMinute, oneMinute)
   }
 
   def saveEvent(): Unit = {
@@ -110,7 +62,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       val reward = EventDataProvider.eventData.filter(_.name == holdingEvent()).head.reward
       val givenGachaTicketData = sql.executeQuery(s"SELECT GivenGachaTickets FROM Events WHERE EventName='${holdingEvent()}'")
       givenGachaTicketData.next()
-      val gacha = ((EventDataProvider.eventCounter / reward)* EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
+      val gacha = ((EventDataProvider.eventCounter / reward) * EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
       sql.executeSQL(s"INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter},${gacha}) " +
         s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
       rpa.giveNormalGachaTickets(gacha)
@@ -118,18 +70,24 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     }
   }
 
+  private def createEventTable(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
+    sql.close()
+  }
+
   def saveRanking(): Unit = {
     if ((holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") || isEventEnded) {
       createEventRankingTable()
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
-      EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach{case ((uuid,counter),index) =>
+      EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach { case ((uuid, counter), index) =>
         if (isEventEnded) {
           index match {
-            case 0 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
-            case 1 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
-            case 2 => addEventRankingTitle(uuid,EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
-            case _ => addEventRankingTitle(uuid,EventDataProvider.nowEventName)
+            case 0 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
+            case 1 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
+            case 2 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
+            case _ => addEventRankingTitle(uuid, EventDataProvider.nowEventName)
           }
         }
         sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
@@ -139,9 +97,60 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  def getEventRankingTitles(uuid:String): List[String] = {
+  /*
+    イベントが開催されていればイベント名、されていなければnullを返す
+   */
+  def holdingEvent(): String = {
+    EventDataProvider.eventData.foreach(event => {
+      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+      val start = format.parse(s"${event.start} 15:00")
+      val end = format.parse(s"${event.end} 20:59")
+      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
+    })
+    null
+  }
+
+  /*
+    イベントの細かい情報を返す
+   */
+  def eventInfo(eventName: String): EventType = {
+    val data = EventDataProvider.eventData.filter(_.name == eventName)
+    if (data.length == 0) {
+      null
+    } else {
+      data.head
+    }
+  }
+
+  private def createEventRankingTable(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    val rs =  sql.executeQuery(s"SELECT EventTitles FROM Players WHERE UUID='$uuid'")
+    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS EventRankings(UUID TEXT, EventName TEXT, counter INT)")
+    sql.close()
+  }
+
+  def isEventEnded: Boolean = {
+    if (EventDataProvider.nowEventName != "" && holdingEvent() == null) {
+      return true
+    } else if (holdingEvent() != null) {
+      EventDataProvider.nowEventName = holdingEvent()
+      return false
+    }
+    false
+  }
+
+  def addEventRankingTitle(uuid: String, titleName: String): Unit = {
+    val alreadyTitles = getEventRankingTitles(uuid)
+    var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") + ";" else ""
+    titles += titleName + ";"
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET EventTitles='$titles' WHERE UUID='$uuid';")
+    sql.close()
+  }
+
+  def getEventRankingTitles(uuid: String): List[String] = {
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT EventTitles FROM Players WHERE UUID='$uuid'")
     if (!rs.next()) return null
     if (rs.getString("EventTitles") != null) {
       val titles = rs.getString("EventTitles").split(";").toList
@@ -151,15 +160,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       sql.close()
       null
     }
-  }
-
-  def addEventRankingTitle(uuid:String,titleName:String): Unit = {
-    val alreadyTitles = getEventRankingTitles(uuid)
-    var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") + ";" else ""
-    titles += titleName + ";"
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET EventTitles='$titles' WHERE UUID='$uuid';")
-    sql.close()
   }
 
 }

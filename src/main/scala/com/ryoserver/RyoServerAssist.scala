@@ -12,7 +12,7 @@ import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
-import com.ryoserver.Player.{FirstJoinSettingEvent, LoadPlayerData, PlayerDataLoader, PlayerEvents, SavePlayerData}
+import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
@@ -106,13 +106,13 @@ class RyoServerAssist extends JavaPlugin {
       Skill activation
      */
     BreakSkillAction.values.foreach(skill => {
-      this.getServer.getPluginManager.registerEvents(skill,this)
+      this.getServer.getPluginManager.registerEvents(skill, this)
     })
     GrowSkillAction.values.foreach(skill => {
-      this.getServer.getPluginManager.registerEvents(skill,this)
+      this.getServer.getPluginManager.registerEvents(skill, this)
     })
     HarvestSkillAction.values.foreach(skill => {
-      this.getServer.getPluginManager.registerEvents(skill,this)
+      this.getServer.getPluginManager.registerEvents(skill, this)
     })
 
     /*

@@ -44,7 +44,7 @@ class Break {
           val pointClone = breakPoint.clone()
           pointClone.add(x, y, 0)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
               pointClone.getBlock.breakNaturally(handItem)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.x * breakRange.y)
@@ -53,7 +53,7 @@ class Break {
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     } else if (direction == "EAST" || direction == "WEST") {
       val breakPoint = {
         if (p.getLocation.getY < breakBlockLocation.getY) breakBlockLocation.add(0, -(breakRange.y / 2), -(breakRange.z / 2))
@@ -66,7 +66,7 @@ class Break {
           val pointClone = breakPoint.clone()
           pointClone.add(0, y, z)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p,pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
+            if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
               pointClone.getBlock.breakNaturally(handItem)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.z * breakRange.y)
@@ -74,7 +74,7 @@ class Break {
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     }
   }
 

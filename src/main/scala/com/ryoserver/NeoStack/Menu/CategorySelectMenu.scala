@@ -11,8 +11,8 @@ import org.bukkit.{ChatColor, Material, Sound}
 
 class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override var name: String = "neoStackカテゴリ選択"
   override val slot: Int = 5
+  override var name: String = "neoStackカテゴリ選択"
   override var p: Player = _
 
   def openCategorySelectMenu(player: Player): Unit = {

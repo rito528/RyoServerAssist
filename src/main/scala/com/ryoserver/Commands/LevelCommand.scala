@@ -9,6 +9,16 @@ import org.bukkit.entity.Player
 
 class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "getLevel" -> expToLevel,
+      "getExp" -> levelToExp,
+      "getTotalExp" -> totalLevelExp,
+      "setExp" -> setExp,
+      "log" -> loggingExp,
+      "help" -> help
+    )
+  ).playerCommand()
   private val lv = new CalLv
 
   private def expToLevel(): Unit = {
@@ -48,16 +58,5 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("指定したレベルまで、次のレベルまでの経験値量、レベルに到達するまでの経験値量をログに出します。")
     sender.sendMessage("+-------------------------------------+")
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "getLevel" -> expToLevel,
-      "getExp" -> levelToExp,
-      "getTotalExp" -> totalLevelExp,
-      "setExp" -> setExp,
-      "log" -> loggingExp,
-      "help" -> help
-    )
-  ).playerCommand()
 
 }

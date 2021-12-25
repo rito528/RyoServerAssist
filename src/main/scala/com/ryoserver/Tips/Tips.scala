@@ -1,9 +1,9 @@
 package com.ryoserver.Tips
 
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.{Bukkit, ChatColor}
 
 import java.nio.file.Paths
 

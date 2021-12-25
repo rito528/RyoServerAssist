@@ -5,9 +5,14 @@ import org.bukkit.entity.Player
 
 class HatCommand extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map()
+  ).playerCommand()
+    .setNonArgumentExecutor(hat)
+
   private def hat(): Unit = {
     sender match {
-      case p:Player =>
+      case p: Player =>
         val handItem = p.getInventory.getItemInMainHand
         val headItem = p.getInventory.getHelmet
         if (headItem != null) p.getWorld.dropItemNaturally(p.getLocation(), headItem)
@@ -15,10 +20,5 @@ class HatCommand extends CommandBuilder {
         p.getInventory.setHelmet(handItem)
     }
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map()
-  ).playerCommand()
-    .setNonArgumentExecutor(hat)
 
 }

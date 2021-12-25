@@ -4,11 +4,9 @@ import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
 import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
-import com.ryoserver.util.SQL
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
-import org.bukkit.inventory.ItemStack
 import org.bukkit.{ChatColor, Sound}
 
 class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {

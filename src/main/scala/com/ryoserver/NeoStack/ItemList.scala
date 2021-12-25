@@ -2,7 +2,6 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 
 import scala.collection.mutable

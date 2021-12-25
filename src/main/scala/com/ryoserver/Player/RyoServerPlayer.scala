@@ -6,17 +6,17 @@ import org.bukkit.OfflinePlayer
 
 import java.util.UUID
 
-class RyoServerPlayer(player:OfflinePlayer) {
+class RyoServerPlayer(player: OfflinePlayer) {
 
   private val uuid: UUID = player.getUniqueId
   private val oldData: PlayerData = playerData(uuid)
-  playerData = playerData.filterNot{case (uuid,_) => uuid == this.uuid}
+  playerData = playerData.filterNot { case (uuid, _) => uuid == this.uuid }
 
-  def giveNormalGachaTicket(amount:Int): Unit = {
+  def giveNormalGachaTicket(amount: Int): Unit = {
     playerData += (uuid -> oldData.copy(gachaTickets = oldData.gachaTickets + amount))
   }
 
-  def reduceNormalGachaTicket(amount:Int): Unit = {
+  def reduceNormalGachaTicket(amount: Int): Unit = {
     playerData += (uuid -> oldData.copy(gachaTickets = oldData.gachaTickets - amount))
   }
 
@@ -24,19 +24,18 @@ class RyoServerPlayer(player:OfflinePlayer) {
     playerData += (uuid -> oldData.copy(voteNumber = oldData.voteNumber + 1))
   }
 
-  def addGachaPullNumber(amount:Int): Unit = {
+  def addGachaPullNumber(amount: Int): Unit = {
     playerData += (uuid -> oldData.copy(gachaPullNumber = oldData.gachaPullNumber + amount))
   }
 
   def updateExp(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(exp = amount,level = new CalLv().getLevel(amount)))
+    playerData += (uuid -> oldData.copy(exp = amount, level = new CalLv().getLevel(amount)))
   }
 
-  def addExp(amount:Int): Unit = {
+  def addExp(amount: Int): Unit = {
     val exp = oldData.exp + amount
-    playerData += (uuid -> oldData.copy(exp = exp,level = new CalLv().getLevel(exp)))
+    playerData += (uuid -> oldData.copy(exp = exp, level = new CalLv().getLevel(exp)))
   }
-
 
 
 }

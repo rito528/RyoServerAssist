@@ -2,15 +2,14 @@ package com.ryoserver.DustBox
 
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-import org.bukkit.ChatColor._
-
 class DustBoxInventory extends Menu {
 
-  override var name: String = "ゴミ箱"
   override val slot: Int = 6
+  override var name: String = "ゴミ箱"
   override var p: Player = _
 
   def openDustBox(player: Player): Unit = {

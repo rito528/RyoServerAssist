@@ -7,14 +7,14 @@ import com.ryoserver.util.WorldGuardWrapper
 import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
+import org.bukkit._
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit._
 
 class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  var name: String = "保護設定メニュー"
   val slot: Int = 6
+  var name: String = "保護設定メニュー"
   var p: Player = _
 
   def openMenu(player: Player): Unit = {

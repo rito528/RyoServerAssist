@@ -7,6 +7,13 @@ import org.bukkit.ChatColor
 
 class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "give" -> give,
+      "help" -> help
+    )
+  )
+
   private def give(): Unit = {
     new Distribution(ryoServerAssist).addDistribution(args(1), args(2).toInt, sender)
   }
@@ -18,12 +25,5 @@ class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandBuild
     sender.sendMessage("normalで通常ガチャ券、fromAdminで不具合のお詫びガチャ券を指定します。")
     sender.sendMessage("+-------------------------------------+")
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "give" -> give,
-      "help" -> help
-    )
-  )
 
 }

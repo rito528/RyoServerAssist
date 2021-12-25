@@ -3,7 +3,6 @@ package com.ryoserver.Player
 import org.bukkit.Bukkit
 
 import java.util.UUID
-import scala.collection.mutable
 
 class RyoServerPlayerForAll {
 

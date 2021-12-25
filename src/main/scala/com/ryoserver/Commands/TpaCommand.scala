@@ -3,10 +3,18 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.tpa.Tpa
-import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, ChatColor}
 
 class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "send" -> send,
+      "accept" -> accept,
+      "cancel" -> cancel
+    )
+  ).playerCommand()
 
   private def send(): Unit = {
     val target = Bukkit.getPlayer(args(1))
@@ -24,13 +32,5 @@ class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   private def cancel(): Unit = {
     Tpa.cancelTpa(sender.asInstanceOf[Player])
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "send" -> send,
-      "accept" -> accept,
-      "cancel" -> cancel
-    )
-  ).playerCommand()
 
 }

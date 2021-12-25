@@ -9,13 +9,13 @@ import org.bukkit.inventory.ItemStack
 
 class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
 
-  def getPlayerHasNeoStackItems(p:Player): Map[ItemStack,Seq[Any]] = {
+  def getPlayerHasNeoStackItems(p: Player): Map[ItemStack, Seq[Any]] = {
     val uuid = p.getUniqueId.toString
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
     var item: Map[ItemStack, Seq[Any]] = Map()
     while (rs.next()) {
-       item = item ++ Map(Item.getItemStackFromString(rs.getString("item")) -> Seq(rs.getInt("amount"),rs.getString("category")))
+      item = item ++ Map(Item.getItemStackFromString(rs.getString("item")) -> Seq(rs.getInt("amount"), rs.getString("category")))
     }
     sql.close()
     item
@@ -37,28 +37,29 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     val oldPlayerData =
       PlayerData.playerData.filter(data => data.uuid == p.getUniqueId.toString && data.savingItemStack == Item.getOneItemStack(itemStack))
     if (oldPlayerData.isEmpty) {
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString,Item.getOneItemStack(itemStack),null,itemStack.getAmount)
+      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, Item.getOneItemStack(itemStack), null, itemStack.getAmount)
     } else {
       PlayerData.playerData =
         PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId.toString && data.savingItemStack == Item.getOneItemStack(itemStack))
       PlayerData.playerData :+=
         NeoStackDataType(oldPlayerData.head.uuid, oldPlayerData.head.savingItemStack, oldPlayerData.head.displayItemStack, oldPlayerData.head.amount + itemStack.getAmount)
     }
-    addChangedData(p,Item.getOneItemStack(itemStack))
+    addChangedData(p, Item.getOneItemStack(itemStack))
   }
 
-  def getCategory(is:ItemStack): String = {
-    NeoStackPageData.stackPageData.foreach{case (category,itemData) =>
-      itemData.foreach{case (_,inv) => {
+  def getCategory(is: ItemStack): String = {
+    NeoStackPageData.stackPageData.foreach { case (category, itemData) =>
+      itemData.foreach { case (_, inv) => {
         inv.split(";").foreach(item => {
           if (Item.getOneItemStack(Item.getItemStackFromString(item)) == Item.getOneItemStack(is)) return category
         })
-      }}
+      }
+      }
     }
     null
   }
 
-  def removeNeoStack(p:Player,is:ItemStack,amount:Int): Int = {
+  def removeNeoStack(p: Player, is: ItemStack, amount: Int): Int = {
     val playerData = PlayerData.playerData
       .filter(_.savingItemStack == Item.getOneItemStack(is))
       .filter(_.uuid == p.getUniqueId.toString)
@@ -73,15 +74,15 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
         .filterNot {
           data => data.uuid == p.getUniqueId.toString && data.savingItemStack == Item.getOneItemStack(is)
         }
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, Item.getOneItemStack(is),null,playerData.head.amount - minusAmount)
+      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, Item.getOneItemStack(is), null, playerData.head.amount - minusAmount)
     }
     if (minusAmount != 0) {
-      addChangedData(p,is)
+      addChangedData(p, is)
     }
     minusAmount
   }
 
-  private def addChangedData(p:Player,is:ItemStack): Unit = {
+  private def addChangedData(p: Player, is: ItemStack): Unit = {
     val uuid = p.getUniqueId.toString
     if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
     if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
@@ -105,11 +106,11 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
           .filterNot {
             data => data.uuid == p.getUniqueId.toString && data.savingItemStack == is
           }
-        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, is,null,playerData.head.amount - minusAmount)
+        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, is, null, playerData.head.amount - minusAmount)
         giveItem.setAmount(minusAmount)
       }
       p.getInventory.addItem(giveItem)
-      addChangedData(p,is)
+      addChangedData(p, is)
     }
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
   }

@@ -1,60 +1,17 @@
 package com.ryoserver.Home
 
-import com.ryoserver.util.Item.getItem
-import com.ryoserver.Menu.Menu
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Item.getItem
 import com.ryoserver.util.SQL
-import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
-import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor, Location, Material, Sound}
 
 import java.util
 
 class Home(ryoServerAssist: RyoServerAssist) extends Listener {
-
-  def homeInventory(p: Player): Unit = {
-    new BukkitRunnable {
-      override def run(): Unit = {
-        val uuid = p.getUniqueId.toString.replace("-", "")
-        val sql = new SQL(ryoServerAssist)
-        if (!sql.connectionTest()) {
-          p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
-          sql.close()
-          return
-        }
-        sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
-        val inv = Bukkit.createInventory(null, 27, "HomeSystem")
-        inv.setItem(2, getItem(Material.WHITE_BED, "ホーム1を設定します。", util.Arrays.asList()))
-        inv.setItem(4, getItem(Material.BLUE_BED, "ホーム2を設定します。", util.Arrays.asList()))
-        inv.setItem(6, getItem(Material.BLACK_BED, "ホーム3を設定します。", util.Arrays.asList()))
-        for (i <- 11 to 15 by 2) {
-          val point = (i - 9) / 2
-          val home_loc_rs = sql.executeQuery(s"SELECT Location FROM `Homes` WHERE point = $point AND UUID='$uuid'")
-          var homeLoc = "現在ホームポイントが設定されていません。"
-          if (home_loc_rs.next()) homeLoc = home_loc_rs.getString("Location")
-          inv.setItem(i, getItem(Material.COMPASS, s"ホーム${point}にテレポートします。", util.Arrays.asList(homeLoc)))
-        }
-        for (i <- 20 to 24 by 2) {
-          val point = (i - 18) / 2
-          val rs = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID = '$uuid'")
-          var wool: Material = Material.LIGHT_BLUE_WOOL
-          var msg: String = s"クリックでホーム${point}をロックします。"
-          if (rs.next() && rs.getBoolean("Locked")) {
-            wool = Material.RED_WOOL
-            msg = s"クリックでホーム${point}のロックを解除します。"
-          }
-          inv.setItem(i, getItem(wool, msg, util.Arrays.asList("")))
-        }
-        sql.close()
-        new BukkitRunnable {
-          override def run(): Unit = p.openInventory(inv)
-        }.runTask(ryoServerAssist)
-      }
-    }.runTaskAsynchronously(ryoServerAssist)
-  }
 
   @EventHandler
   def onInventoryClick(e: InventoryClickEvent): Unit = {
@@ -138,6 +95,47 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     sql.executeSQL(s"UPDATE `Homes` SET Locked = !Locked WHERE point=$index AND UUID='$uuid'")
     sql.close()
     homeInventory(p)
+  }
+
+  def homeInventory(p: Player): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        val uuid = p.getUniqueId.toString.replace("-", "")
+        val sql = new SQL(ryoServerAssist)
+        if (!sql.connectionTest()) {
+          p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
+          sql.close()
+          return
+        }
+        sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
+        val inv = Bukkit.createInventory(null, 27, "HomeSystem")
+        inv.setItem(2, getItem(Material.WHITE_BED, "ホーム1を設定します。", util.Arrays.asList()))
+        inv.setItem(4, getItem(Material.BLUE_BED, "ホーム2を設定します。", util.Arrays.asList()))
+        inv.setItem(6, getItem(Material.BLACK_BED, "ホーム3を設定します。", util.Arrays.asList()))
+        for (i <- 11 to 15 by 2) {
+          val point = (i - 9) / 2
+          val home_loc_rs = sql.executeQuery(s"SELECT Location FROM `Homes` WHERE point = $point AND UUID='$uuid'")
+          var homeLoc = "現在ホームポイントが設定されていません。"
+          if (home_loc_rs.next()) homeLoc = home_loc_rs.getString("Location")
+          inv.setItem(i, getItem(Material.COMPASS, s"ホーム${point}にテレポートします。", util.Arrays.asList(homeLoc)))
+        }
+        for (i <- 20 to 24 by 2) {
+          val point = (i - 18) / 2
+          val rs = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID = '$uuid'")
+          var wool: Material = Material.LIGHT_BLUE_WOOL
+          var msg: String = s"クリックでホーム${point}をロックします。"
+          if (rs.next() && rs.getBoolean("Locked")) {
+            wool = Material.RED_WOOL
+            msg = s"クリックでホーム${point}のロックを解除します。"
+          }
+          inv.setItem(i, getItem(wool, msg, util.Arrays.asList("")))
+        }
+        sql.close()
+        new BukkitRunnable {
+          override def run(): Unit = p.openInventory(inv)
+        }.runTask(ryoServerAssist)
+      }
+    }.runTaskAsynchronously(ryoServerAssist)
   }
 
 }

@@ -17,8 +17,8 @@ import java.util.UUID
 
 class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  var name: String = "保護メニュー"
   val slot: Int = 1
+  var name: String = "保護メニュー"
   var p: Player = _
 
   def menu(player: Player): Unit = {
@@ -38,6 +38,14 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     ))
     registerMotion(Motion)
     open()
+  }
+
+  def Motion(p: Player, index: Int): Unit = {
+    Map[Int, (Player) => Unit](
+      getLayOut(3, 1) -> giveAxe,
+      getLayOut(5, 1) -> createRegion,
+      getLayOut(7, 1) -> new RegionSettingMenu(ryoServerAssist).openMenu _
+    )(index)(p)
   }
 
   def giveAxe(p: Player): Unit = {
@@ -79,14 +87,6 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       p.sendMessage(AQUA + "保護が完了しました！")
       p.playSound(p.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     }
-  }
-
-  def Motion(p: Player, index: Int): Unit = {
-    Map[Int, (Player) => Unit](
-      getLayOut(3, 1) -> giveAxe,
-      getLayOut(5, 1) -> createRegion,
-      getLayOut(7, 1) -> new RegionSettingMenu(ryoServerAssist).openMenu _
-    )(index)(p)
   }
 
 }

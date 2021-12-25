@@ -9,6 +9,12 @@ import org.bukkit.entity.Player
 
 class Grow {
 
+  val notSpecialSkillWorld = List(
+    "world",
+    "world_nether",
+    "world_the_end",
+    "trade"
+  )
   private val boneMealList = Set(
     Material.WHEAT,
     Material.CARROTS,
@@ -16,14 +22,7 @@ class Grow {
     Material.BEETROOTS
   )
 
-  val notSpecialSkillWorld = List(
-    "world",
-    "world_nether",
-    "world_the_end",
-    "trade"
-  )
-
-  def grow(p:Player,skillName:String,clickedBlock:Block,spCost:Int,range:FarmRange): Unit = {
+  def grow(p: Player, skillName: String, clickedBlock: Block, spCost: Int, range: FarmRange): Unit = {
     if (!boneMealList.contains(clickedBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
     val facing = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
@@ -33,7 +32,7 @@ class Grow {
       for (x <- 0 until range.width) {
         for (z <- 0 until range.height) {
           val boneMealLoc = minusXLoc.clone().add(x, 0, z)
-          if (worldGuardWrapper.isOwner(p,boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
+          if (worldGuardWrapper.isOwner(p, boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
             if (boneMealList.contains(boneMealLoc.getBlock.getType) && boneMealLoc.getBlock.applyBoneMeal(BlockFace.UP)) {
               cost += spCost / (range.width * range.height)
             }
@@ -47,7 +46,7 @@ class Grow {
       for (x <- 0 until range.width) {
         for (z <- 0 until range.height) {
           val boneMealLoc = minusXLoc.clone().add(x, 0, -z)
-          if (worldGuardWrapper.isOwner(p,boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
+          if (worldGuardWrapper.isOwner(p, boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
             if (boneMealList.contains(boneMealLoc.getBlock.getType) && boneMealLoc.getBlock.applyBoneMeal(BlockFace.UP)) {
               cost += spCost / (range.width * range.height)
             }
@@ -56,33 +55,33 @@ class Grow {
       }
       new SkillPointConsumption().consumption(cost, p)
     } else if (facing == "WEST") {
-      val minusXLoc = clickedBlock.getLocation().add(0,0,-(range.width / 2))
+      val minusXLoc = clickedBlock.getLocation().add(0, 0, -(range.width / 2))
       var cost = 0
       for (x <- 0 until range.height) {
         for (z <- 0 until range.width) {
-          val boneMealLoc = minusXLoc.clone().add(-x,0,z)
-          if (worldGuardWrapper.isOwner(p,boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
+          val boneMealLoc = minusXLoc.clone().add(-x, 0, z)
+          if (worldGuardWrapper.isOwner(p, boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
             if (boneMealList.contains(boneMealLoc.getBlock.getType) && boneMealLoc.getBlock.applyBoneMeal(BlockFace.UP)) {
               cost += spCost / (range.width * range.height)
             }
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     } else {
-      val minusXLoc = clickedBlock.getLocation().add(0,0,-(range.width / 2))
+      val minusXLoc = clickedBlock.getLocation().add(0, 0, -(range.width / 2))
       var cost = 0
       for (x <- 0 until range.height) {
         for (z <- 0 until range.width) {
-          val boneMealLoc = minusXLoc.clone().add(x,0,z)
-          if (worldGuardWrapper.isOwner(p,boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
+          val boneMealLoc = minusXLoc.clone().add(x, 0, z)
+          if (worldGuardWrapper.isOwner(p, boneMealLoc) || (worldGuardWrapper.isGlobal(boneMealLoc) && !notSpecialSkillWorld.contains(boneMealLoc.getWorld.getName))) {
             if (boneMealList.contains(boneMealLoc.getBlock.getType) && boneMealLoc.getBlock.applyBoneMeal(BlockFace.UP)) {
               cost += spCost / (range.width * range.height)
             }
           }
         }
       }
-      new SkillPointConsumption().consumption(cost,p)
+      new SkillPointConsumption().consumption(cost, p)
     }
   }
 

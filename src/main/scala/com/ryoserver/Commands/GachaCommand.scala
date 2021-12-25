@@ -9,6 +9,16 @@ import org.bukkit.inventory.ItemStack
 
 class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    Map(
+      "help" -> help,
+      "give" -> give,
+      "add" -> add,
+      "list" -> list,
+      "remove" -> remove
+    )
+  ).playerCommand()
+
   private def help(): Unit = {
     sender.sendMessage("+-------------------------------------+")
     sender.sendMessage(AQUA + "/gacha give <プレイヤー名> <個数>")
@@ -41,15 +51,5 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   private def list(): Unit = {
     GachaLoader.listGachaItem(ryoServerAssist, args(1).toInt, sender.asInstanceOf[Player])
   }
-
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "help" -> help,
-      "give" -> give,
-      "add" -> add,
-      "list" -> list,
-      "remove" -> remove
-    )
-  ).playerCommand()
 
 }

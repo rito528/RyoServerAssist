@@ -10,13 +10,6 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAssist) {
 
-  def isEnableSkill: Boolean = {
-    val name = p.getName
-    if (!enableSkills.contains(name)) return false
-    if (!enableSkills(name).contains(skillName)) return false
-    true
-  }
-
   def skillActivation(skillEffect: PotionEffectType, level: Int, sp: Int): Unit = {
     val name = p.getName
     if (enableSkills.contains(name)) {
@@ -57,6 +50,13 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
+  }
+
+  def isEnableSkill: Boolean = {
+    val name = p.getName
+    if (!enableSkills.contains(name)) return false
+    if (!enableSkills(name).contains(skillName)) return false
+    true
   }
 
   def skillInvalidation(): Unit = {

@@ -1,9 +1,8 @@
 package com.ryoserver.DustBox
 
-import org.bukkit.{ChatColor, Sound}
-import org.bukkit.entity.Player
+import org.bukkit.ChatColor
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 
 class DustBoxInventoryEvent extends Listener {
 

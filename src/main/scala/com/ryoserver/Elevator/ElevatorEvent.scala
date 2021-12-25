@@ -1,8 +1,8 @@
 package com.ryoserver.Elevator
 
-import org.bukkit.{Location, Material}
 import org.bukkit.event.player.{PlayerMoveEvent, PlayerToggleSneakEvent}
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{Location, Material}
 
 class ElevatorEvent extends Listener {
 

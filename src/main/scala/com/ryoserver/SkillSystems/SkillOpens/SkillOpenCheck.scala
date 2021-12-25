@@ -2,16 +2,10 @@ package com.ryoserver.SkillSystems.SkillOpens
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
-import SkillData.SkillNames
+import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
 import org.bukkit.entity.Player
 
 class SkillOpenCheck(ryoServerAssist: RyoServerAssist) {
-
-  def isOpened(skillName: String, p: Player): Boolean = {
-    val data = new SkillOpenData(ryoServerAssist)
-    val openedSkills = data.getOpenedSkill(p)
-    openedSkills.contains(SkillNames.indexOf(skillName).toString)
-  }
 
   def isTrueOpen(skillName: String, p: Player): Boolean = {
     val data = new SkillOpenData(ryoServerAssist)
@@ -30,6 +24,12 @@ class SkillOpenCheck(ryoServerAssist: RyoServerAssist) {
       true
     }
 
+  }
+
+  def isOpened(skillName: String, p: Player): Boolean = {
+    val data = new SkillOpenData(ryoServerAssist)
+    val openedSkills = data.getOpenedSkill(p)
+    openedSkills.contains(SkillNames.indexOf(skillName).toString)
   }
 
 }

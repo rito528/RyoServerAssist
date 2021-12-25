@@ -7,12 +7,6 @@ import org.bukkit.entity.Player
 
 class QuestData(ryoServerAssist: RyoServerAssist) {
 
-  private def createQuestTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Quests(id INT AUTO_INCREMENT,UUID TEXT,QuestName TEXT,selectedQuest TEXT,remaining TEXT,PRIMARY KEY(id));")
-    sql.close()
-  }
-
   def saveQuest(p: Player, quests: Array[String]): Unit = {
     createQuestTable()
     val sql = new SQL(ryoServerAssist)
@@ -32,6 +26,12 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     quests
   }
 
+  private def createQuestTable(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS Quests(id INT AUTO_INCREMENT,UUID TEXT,QuestName TEXT,selectedQuest TEXT,remaining TEXT,PRIMARY KEY(id));")
+    sql.close()
+  }
+
   def selectQuest(p: Player, data: LotteryQuest): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (data.questType == "delivery") {
@@ -40,22 +40,6 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
       sql.executeSQL(s"UPDATE Quests SET selectedQuest='${data.questName}',remaining='${data.mobs.toArray.mkString(";")}' WHERE UUID='${p.getUniqueId.toString}';")
     }
     sql.close()
-  }
-
-  def resetQuest(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"DELETE FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
-    sql.close()
-  }
-
-  def getSelectedQuest(p: Player): String = {
-    createQuestTable()
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT selectedQuest FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
-    var selectedQuest: String = null
-    if (rs.next()) selectedQuest = rs.getString("selectedQuest")
-    sql.close()
-    selectedQuest
   }
 
   def getSelectedQuestRemaining(p: Player): String = {
@@ -86,6 +70,22 @@ class QuestData(ryoServerAssist: RyoServerAssist) {
     if (!checkQuest.next()) sql.executeSQL(s"INSERT INTO QuestClears (QuestName,ClearNumber) VALUES ('${lottery.questName}',1)")
     else sql.executeSQL(s"UPDATE QuestClears SET ClearNumber=ClearNumber+1 WHERE QuestName='${lottery.questName}'")
     sql.close()
+  }
+
+  def resetQuest(p: Player): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"DELETE FROM Quests WHERE UUID='${p.getUniqueId.toString}';")
+    sql.close()
+  }
+
+  def getSelectedQuest(p: Player): String = {
+    createQuestTable()
+    val sql = new SQL(ryoServerAssist)
+    val rs = sql.executeQuery(s"SELECT selectedQuest FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
+    var selectedQuest: String = null
+    if (rs.next()) selectedQuest = rs.getString("selectedQuest")
+    sql.close()
+    selectedQuest
   }
 
 }
