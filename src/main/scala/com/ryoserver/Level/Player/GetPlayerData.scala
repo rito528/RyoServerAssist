@@ -17,6 +17,6 @@ class GetPlayerData(ryoServerAssist: RyoServerAssist) {
     0
   }
 
-  def getPlayerLevel(p: Player): Int = new CalLv(ryoServerAssist).getLevel(getPlayerExp(p).toInt)
+  def getPlayerLevel(p: Player): Int = new CalLv().getLevel(getPlayerExp(p).toInt)
 
 }

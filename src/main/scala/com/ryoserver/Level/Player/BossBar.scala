@@ -12,8 +12,8 @@ object BossBar {
 
   private var bers: mutable.Map[Player, org.bukkit.boss.BossBar] = mutable.Map.empty
 
-  def createLevelBer(ryoServerAssist: RyoServerAssist, exp: Double, p: Player): Unit = {
-    val calLv = new CalLv(ryoServerAssist)
+  def createLevelBer(exp: Double, p: Player): Unit = {
+    val calLv = new CalLv
     val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp), BarColor.GREEN, BarStyle.SOLID)
     val lv = calLv.getLevel(exp.toInt)
     if (calLv.MAX_LV > lv) {
@@ -27,8 +27,8 @@ object BossBar {
     bers = bers + (p -> bossBer)
   }
 
-  def updateLevelBer(ryoServerAssist: RyoServerAssist, exp: Double, p: Player): Unit = {
-    val calLv = new CalLv(ryoServerAssist)
+  def updateLevelBer(exp: Double, p: Player): Unit = {
+    val calLv = new CalLv
     val lv = calLv.getLevel(exp.toInt)
     val bossBer = bers.get(p)
     if (calLv.MAX_LV > lv) {

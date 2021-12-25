@@ -22,7 +22,9 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       "SpecialSkillOpenPoint" -> playerData.specialSkillOpenPoint,
       "OpenedSpecialSkills" -> playerData.OpenedSpecialSkills,
       "VoteNumber" -> playerData.voteNumber,
-      "gachaPullNumber" -> playerData.gachaPullNumber
+      "gachaPullNumber" -> playerData.gachaPullNumber,
+      "EXP" -> playerData.exp,
+      "Level" -> playerData.level
     ).zipWithIndex.foreach{case((name,data),index) =>
       if (index != 0) stringBuilder.append(",")
       data match {

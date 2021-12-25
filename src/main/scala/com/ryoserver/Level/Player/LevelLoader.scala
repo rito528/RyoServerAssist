@@ -7,7 +7,7 @@ class LevelLoader(ryoServerAssist: RyoServerAssist) {
 
   def loadPlayerLevel(p: Player): Unit = {
     val playerExp = new GetPlayerData(ryoServerAssist).getPlayerExp(p)
-    BossBar.createLevelBer(ryoServerAssist, playerExp, p)
+    BossBar.createLevelBer(playerExp, p)
   }
 
 }

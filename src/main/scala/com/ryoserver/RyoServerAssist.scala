@@ -1,6 +1,7 @@
 package com.ryoserver
 
 import com.ryoserver.Commands._
+import com.ryoserver.Config.LoadConfig
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -34,7 +35,7 @@ class RyoServerAssist extends JavaPlugin {
     super.onEnable()
     saveDefaultConfig()
     /*
-      MySQL接続チェック
+      MySQL connection test
      */
     val sql = new SQL(this)
     if (!sql.connectionTest()) {
@@ -46,7 +47,12 @@ class RyoServerAssist extends JavaPlugin {
     sql.close()
 
     /*
-      コマンドの有効化
+      load config
+     */
+    new LoadConfig(this).load()
+
+    /*
+      Enabling command
      */
     Map(
       "home" -> new HomeCommand(this),
@@ -70,7 +76,7 @@ class RyoServerAssist extends JavaPlugin {
     })
 
     /*
-      Bukkitイベントの有効化
+      Enabling bukkit event
      */
     List(
       new Home(this),
@@ -97,7 +103,7 @@ class RyoServerAssist extends JavaPlugin {
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
-      スキルの有効化
+      Skill activation
      */
     BreakSkillAction.values.foreach(skill => {
       this.getServer.getPluginManager.registerEvents(skill,this)
@@ -108,8 +114,9 @@ class RyoServerAssist extends JavaPlugin {
     HarvestSkillAction.values.foreach(skill => {
       this.getServer.getPluginManager.registerEvents(skill,this)
     })
+
     /*
-      各種ロード処理
+      Other loads
      */
     Config.config = this.getConfig
     getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
@@ -134,8 +141,8 @@ class RyoServerAssist extends JavaPlugin {
     new LoadPlayerData(this).load()
 
     /*
-     パッチの実行
-   */
+     Execute patch
+      */
     new Patch(this).getAndExecutePatch()
 
     getLogger.info("RyoServerAssist enabled.")

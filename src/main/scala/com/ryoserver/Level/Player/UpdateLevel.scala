@@ -17,21 +17,22 @@ import java.util.{Calendar, TimeZone}
 
 class UpdateLevel(ryoServerAssist: RyoServerAssist) {
 
+
+  /*
+    Force exp updates
+   */
   def updateExp(exp: Int, p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val calLv = new CalLv(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET EXP=$exp,Level=${calLv.getLevel(exp)} WHERE UUID='${p.getUniqueId.toString}';")
-    sql.close()
-    BossBar.updateLevelBer(ryoServerAssist, exp, p)
+    new RyoServerPlayer(p).updateExp(exp)
+    BossBar.updateLevelBer(exp, p)
   }
 
   /*
-    クエスト等をこなし、経験値を入手した際に利用されるメソッド
+    Add exp
    */
   def addExp(addExp: Double, p: Player): Unit = {
     var exp = addExp
     /*
-      ボーナスチェック
+      Check bonus time
      */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
@@ -55,7 +56,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       経験値を増やす処理
      */
     val sql = new SQL(ryoServerAssist)
-    val calLv = new CalLv(ryoServerAssist)
+    val calLv = new CalLv
     val data = sql.executeQuery(s"SELECT EXP,Level FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var old_exp = 0
     var old_level = 0
@@ -76,7 +77,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     }
     sql.executeSQL(s"UPDATE Players SET EXP=EXP + $exp,Level=${calLv.getLevel(sumExp.toInt)} WHERE UUID='${p.getUniqueId.toString}';")
     sql.close()
-    BossBar.updateLevelBer(ryoServerAssist, sumExp, p)
+    BossBar.updateLevelBer(sumExp, p)
     new SkillOpenData(ryoServerAssist).addSkillOpenPoint(p, nowLevel - old_level)
     if (nowLevel > 100) new SkillOpenData(ryoServerAssist).addOpenSpecialSkillPoint(p, nowLevel - old_level)
     else if (nowLevel == 100) new SkillOpenData(ryoServerAssist).addOpenSpecialSkillPoint(p,10)

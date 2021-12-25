@@ -9,14 +9,14 @@ import org.bukkit.entity.Player
 
 class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
-  private val lv = new CalLv(ryoServerAssist)
+  private val lv = new CalLv
 
   private def expToLevel(): Unit = {
     sender.sendMessage(args(1) + "に相当するレベル" + lv.getLevel(args(1).toInt, limit = false))
   }
 
   private def levelToExp(): Unit = {
-    sender.sendMessage("Lv." + args(1) + "->Lv." + (args(1).toInt + 1) + "までに必要な経験値量:" + lv.getExp(args(1).toInt + 1))
+    sender.sendMessage("Lv." + args(1) + "-> Lv." + (args(1).toInt + 1) + "までに必要な経験値量:" + lv.getExp(args(1).toInt + 1))
   }
 
   private def totalLevelExp(): Unit = {
@@ -30,7 +30,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def loggingExp(): Unit = {
     for (i <- 0 to args(1).toInt) {
-      println(i + " " + new CalLv(ryoServerAssist).getExp(i) + " " + new CalLv(ryoServerAssist).getSumTotal(i))
+      println(i + " " + new CalLv().getExp(i) + " " + new CalLv().getSumTotal(i))
     }
   }
 
