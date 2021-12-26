@@ -91,6 +91,5 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       }
       new GiveTitle(ryoServerAssist).lv(p)
     }
-    println(Data.playerData)
   }
 }
