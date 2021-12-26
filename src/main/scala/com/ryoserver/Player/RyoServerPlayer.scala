@@ -9,58 +9,82 @@ import java.util.UUID
 class RyoServerPlayer(player: OfflinePlayer) {
 
   private val uuid: UUID = player.getUniqueId
-  private val oldData: PlayerData = playerData(uuid)
+  private var oldData: PlayerData = playerData(uuid)
   playerData = playerData.filterNot { case (uuid, _) => uuid == this.uuid }
 
   def giveNormalGachaTicket(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(gachaTickets = oldData.gachaTickets + amount))
+    val result = oldData.copy(gachaTickets = oldData.gachaTickets + amount)
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def reduceNormalGachaTicket(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(gachaTickets = oldData.gachaTickets - amount))
+    val result = oldData.copy(gachaTickets = oldData.gachaTickets - amount)
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def addOneVoteNumber(): Unit = {
-    playerData += (uuid -> oldData.copy(voteNumber = oldData.voteNumber + 1))
+    val result = oldData.copy(voteNumber = oldData.voteNumber + 1)
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def addGachaPullNumber(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(gachaPullNumber = oldData.gachaPullNumber + amount))
+    val result = oldData.copy(gachaPullNumber = oldData.gachaPullNumber + amount)
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def updateExp(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(exp = amount, level = new CalLv().getLevel(amount)))
+    val result = oldData.copy(exp = amount, level = new CalLv().getLevel(amount))
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def addExp(amount: Double): Unit = {
     val exp = oldData.exp + amount
-    playerData += (uuid -> oldData.copy(exp = exp, level = new CalLv().getLevel(exp)))
+    val result = oldData.copy(exp = exp, level = new CalLv().getLevel(exp))
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def toggleAutoStack(): Boolean = {
     val result = !oldData.autoStack
-    playerData += (uuid -> oldData.copy(autoStack = result))
+    val resultData = oldData.copy(autoStack = result)
+    playerData += (uuid -> resultData)
+    oldData = resultData
     result
   }
 
   def addSkillOpenPoint(amount: Int): Unit = {
-    playerData += (uuid -> oldData.copy(SkillOpenPoint = oldData.SkillOpenPoint + amount))
+    val result = oldData.copy(SkillOpenPoint = oldData.SkillOpenPoint + amount)
+    playerData += (uuid -> result)
+    oldData = result
   }
 
   def addSpecialSkillOpenPoint(amount: Int): Unit = {
-    Data.playerData += (uuid -> oldData.copy(specialSkillOpenPoint = oldData.specialSkillOpenPoint + amount))
+    val result = oldData.copy(specialSkillOpenPoint = oldData.specialSkillOpenPoint + amount)
+    Data.playerData += (uuid -> result)
+    oldData = result
   }
 
   def skillOpen(skills: String): Unit = {
-    Data.playerData += (uuid -> oldData.copy(OpenedSkills = Option(skills)))
+    val result = oldData.copy(OpenedSkills = Option(skills))
+    Data.playerData += (uuid -> result)
+    oldData = result
   }
 
   def specialSkillOpen(skills: String): Unit = {
-    Data.playerData += (uuid -> oldData.copy(OpenedSpecialSkills = Option(skills)))
+    val result = oldData.copy(OpenedSpecialSkills = Option(skills))
+    Data.playerData += (uuid -> result)
+    oldData = result
   }
 
   def setLastDistributionReceived(id: Int): Unit = {
-    Data.playerData += (uuid -> oldData.copy(lastDistributionReceived = id))
+    val result = oldData.copy(lastDistributionReceived = id)
+    Data.playerData += (uuid -> result)
+    oldData = result
   }
 
 
