@@ -15,26 +15,20 @@ class LotteryQuest {
   var mobs: java.util.List[String] = _
   var exp: Double = 0
 
-
-  def lottery(lv: Int): Unit = {
-    val random = SecureRandom.getInstance("SHA1PRNG")
-    var counter = 0
-    var min = 0
-    var max = 0
-    do {
-      counter += 1
-      val r = random.nextInt(LoadQuests.enableEvents.length)
-      questName = LoadQuests.enableEvents(r)
+  def canQuests(lv: Int): Array[String] = {
+    var quests:Array[String] = Array.empty
+    LoadQuests.enableEvents.foreach(quest => {
       val mapper = new ObjectMapper()
       var readLine = ""
-      val source = Source.fromFile(QUEST_SETTING_FILES + "/" + questName + ".json", "UTF-8")
+      val source = Source.fromFile(QUEST_SETTING_FILES + "/" + quest + ".json", "UTF-8")
       source.getLines().foreach(line => readLine = line)
       source.close()
       val json = mapper.readTree(readLine)
-      min = json.get("minLevel").textValue().toInt
-      max = json.get("maxLevel").textValue().toInt
-      if (lv >= min && lv <= max) loadQuestData()
-    } while (lv < min || lv > max)
+      val min = json.get("minLevel").textValue().toInt
+      val max = json.get("maxLevel").textValue().toInt
+      if (lv >= min && lv <= max) quests :+= quest
+    })
+    quests
   }
 
   def loadQuestData(): Unit = {

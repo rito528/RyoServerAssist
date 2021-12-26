@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
@@ -15,83 +15,70 @@ import scala.jdk.CollectionConverters._
 
 class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  val slot: Int = 3
-  var name: String = "クエスト選択"
+  val slot: Int = 6
+  var name: String = _
   var p: Player = _
 
-  def inventory(player: Player): Unit = {
+  def inventory(player: Player,page:Int): Unit = {
     p = player
-    val questData = new QuestData(ryoServerAssist)
-    var selectedQuests: Array[String] = Array.empty[String]
+    name = "クエスト選択:" + page
+    val selectedQuests: Array[String] = Array.empty[String]
     val playerLevel = new GetPlayerData().getPlayerLevel(p)
-    for (i <- 1 to 7 by 2) {
-      val data = questData.loadQuest(p)
-      val lottery = new LotteryQuest()
-      if (data.isEmpty) {
-        var loop = true
-        do {
-          lottery.lottery(playerLevel)
-          if (!selectedQuests.contains(lottery.questName)) {
-            loop = false
-            selectedQuests :+= lottery.questName
-          }
-        } while (loop)
-      } else {
-        lottery.questName = data((i - 1) / 2)
+    val lottery = new LotteryQuest
+    val canQuests = lottery.canQuests(playerLevel)
+    var invIndex = 0
+    canQuests.zipWithIndex.foreach{case (questName,index) =>
+      if (index <= getLayOut(9,5) * page && getLayOut(9,5) * (page - 1) <= index) {
+        lottery.questName = questName
         lottery.loadQuestData()
-        selectedQuests :+= lottery.questName
+        val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
+        else if (lottery.questType.equalsIgnoreCase("suppression")) "討伐クエスト"
+        val questDetails: java.util.List[String] = new util.ArrayList[String]()
+        questDetails.add(ChatColor.WHITE + "【リスト】")
+        if (questType == "納品クエスト") {
+          lottery.items.forEach(i => {
+            val material = Material.matchMaterial(i.split(":")(0))
+            val itemStack = new ItemStack(material)
+            var itemName = ""
+            if (material.isBlock) itemName = "block." + itemStack.getType.getKey.toString.replace(":", ".")
+            else if (material.isItem) itemName = "item." + itemStack.getType.getKey.toString.replace(":", ".")
+            questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
+          })
+        } else if (questType == "討伐クエスト") {
+          lottery.mobs.forEach(i => {
+            val entity = getEntity(i.split(":")(0))
+            questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
+              ":" + i.split(":")(1) + "体")
+          })
+        }
+        questDetails.add(ChatColor.WHITE + "【説明】")
+        questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
+        setItem(getX(invIndex), getY(invIndex), Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
+        invIndex += 1
       }
-      val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
-      else if (lottery.questType.equalsIgnoreCase("suppression")) "討伐クエスト"
-      val questDetails: java.util.List[String] = new util.ArrayList[String]()
-      questDetails.add(ChatColor.WHITE + "【リスト】")
-      if (questType == "納品クエスト") {
-        lottery.items.forEach(i => {
-          val material = Material.matchMaterial(i.split(":")(0))
-          val itemStack = new ItemStack(material)
-          var itemName = ""
-          if (material.isBlock) itemName = "block." + itemStack.getType.getKey.toString.replace(":", ".")
-          else if (material.isItem) itemName = "item." + itemStack.getType.getKey.toString.replace(":", ".")
-          questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
-        })
-      } else if (questType == "討伐クエスト") {
-        lottery.mobs.forEach(i => {
-          val entity = getEntity(i.split(":")(0))
-          questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
-            ":" + i.split(":")(1) + "体")
-        })
-      }
-      questDetails.add(ChatColor.WHITE + "【説明】")
-      questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
-      setItem(i + 1, 1, Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
     }
-    setItem(5, 3, Material.NETHER_STAR, effect = false, s"${GREEN}クエスト更新", List(s"${GRAY}クリックでクエストを更新します。"))
-    setItem(9, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
+    if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
+    else setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}前のページに移動します。",List(s"${GRAY}クリックで移動します。"))
+    setItem(9,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}次のページに移動します。",List(s"${GRAY}クリックで移動します。"))
     new QuestData(ryoServerAssist).saveQuest(p, selectedQuests)
     registerMotion(motion)
     open()
   }
 
   def motion(p: Player, index: Int): Unit = {
-    val motions = Map[Int, Player => Unit](
-      getLayOut(2, 1) -> {
-        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 0)
-      },
-      getLayOut(4, 1) -> {
-        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 1)
-      },
-      getLayOut(6, 1) -> {
-        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 2)
-      },
-      getLayOut(8, 1) -> {
-        new QuestSelectMenuMotions(ryoServerAssist).Select(_, 3)
-      },
-      getLayOut(5, 3) -> new QuestSelectMenuMotions(ryoServerAssist).resetQuest,
-      getLayOut(9, 3) -> {
-        new RyoServerMenu1(ryoServerAssist).menu(_)
-      }
-    )
-    if (motions.contains(index)) motions(index)(p)
+    val page = p.getOpenInventory.getTitle.replace("クエスト選択:","").toInt
+    if (getLayOut(1,6) == index) {
+      if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
+      else new SelectQuestMenu(ryoServerAssist).inventory(p ,page - 1)
+    } else if (getLayOut(9,6) == index) {
+      new SelectQuestMenu(ryoServerAssist).inventory(p ,page + 1)
+    } else if (index <= getLayOut(9,5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
+      val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
+        .replace("[討伐クエスト]","")
+        .replace("[納品クエスト]","")
+      new QuestSelectMenuMotions(ryoServerAssist).Select(p,questName)
+    }
+
   }
 
 }

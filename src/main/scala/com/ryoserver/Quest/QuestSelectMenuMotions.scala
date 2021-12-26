@@ -6,11 +6,11 @@ import org.bukkit.entity.Player
 
 class QuestSelectMenuMotions(ryoServerAssist: RyoServerAssist) {
 
-  def Select(p: Player, index: Int): Unit = {
+  def Select(p: Player, questName:String): Unit = {
     val questData = new QuestData(ryoServerAssist)
     val questNames = questData.loadQuest(p)
     val lottery = new LotteryQuest()
-    lottery.questName = questNames(index)
+    lottery.questName = questName
     lottery.loadQuestData()
     questData.selectQuest(p, lottery)
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
