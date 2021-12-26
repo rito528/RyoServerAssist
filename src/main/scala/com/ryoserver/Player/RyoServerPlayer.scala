@@ -32,7 +32,7 @@ class RyoServerPlayer(player: OfflinePlayer) {
     playerData += (uuid -> oldData.copy(exp = amount, level = new CalLv().getLevel(amount)))
   }
 
-  def addExp(amount: Int): Unit = {
+  def addExp(amount: Double): Unit = {
     val exp = oldData.exp + amount
     playerData += (uuid -> oldData.copy(exp = exp, level = new CalLv().getLevel(exp)))
   }

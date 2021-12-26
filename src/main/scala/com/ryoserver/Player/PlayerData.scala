@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
 case class PlayerData(level: Int,
-                      exp: Int,
+                      exp: Double,
                       lastDistributionReceived: Int,
                       skillPoint: Double,
                       loginNumber: Int,

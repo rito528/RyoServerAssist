@@ -21,10 +21,6 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
   def getOpenedSkill(p: Player): Array[String] = Data.playerData(p.getUniqueId).OpenedSkills.get.split(",")
 
 
-  def addSkillOpenPoint(p: Player, point: Int): Unit = {
-    new RyoServerPlayer(p).addSkillOpenPoint(point)
-  }
-
   def addOpenSpecialSkillPoint(p: Player, point: Int): Unit = {
     new RyoServerPlayer(p).addSpecialSkillOpenPoint(point)
   }

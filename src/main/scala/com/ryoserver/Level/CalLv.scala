@@ -9,7 +9,7 @@ class CalLv {
   /*
     経験値から現在のレベルを算出する
    */
-  def getLevel(exp: Int, limit: Boolean = true): Int = {
+  def getLevel(exp: Double, limit: Boolean = true): Int = {
     var lv = 0
     //順番にレベルそのレベルに到達するのに必要なexpを取得
     while (getSumTotal(lv + 1) <= exp && (!limit || lv < MAX_LV)) lv += 1
