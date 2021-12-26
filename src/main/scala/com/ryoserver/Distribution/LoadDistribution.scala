@@ -12,6 +12,7 @@ class LoadDistribution(ryoServerAssist: RyoServerAssist) {
       .map(_ => DistributionType(rs.getInt("id"),
         rs.getString("GachaPaperType"),
         rs.getInt("Count"))).toList
+    if (DistributionData.distributionData.isEmpty) DistributionData.distributionData = List(DistributionType(0,"normal",0))
     sql.close()
   }
 
