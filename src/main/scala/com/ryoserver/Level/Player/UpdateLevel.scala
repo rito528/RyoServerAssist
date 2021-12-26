@@ -69,7 +69,6 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     if (nowLevel > old_level && old_level != 0) {
       for (i <- old_level + 1 to nowLevel) {
         if (i % 10 == 0) rp.giveNormalGachaTicket(32)
-        println(i)
       }
     }
     rp.addExp(exp)
