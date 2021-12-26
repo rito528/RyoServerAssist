@@ -57,6 +57,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${WHITE}レベル: Lv.${playerData.level}",
       s"${WHITE}EXP: ${playerData.exp}",
       s"${WHITE}ランキング: ${new GetRyoServerPlayerData(p).getRanking}位",
+      s"${WHITE}クエストクリア回数: ${playerData.questClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
       s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
       s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
