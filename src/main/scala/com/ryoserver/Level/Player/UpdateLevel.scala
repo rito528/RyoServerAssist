@@ -74,9 +74,9 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     rp.addExp(exp)
     BossBar.updateLevelBer(sumExp, p)
     rp.addSkillOpenPoint(nowLevel - old_level)
-    if (nowLevel > 100) rp.addSpecialSkillOpenPoint(nowLevel - old_level)
-    else if (nowLevel == 100) rp.addSpecialSkillOpenPoint(10)
     if (old_level < nowLevel) {
+      if (nowLevel > 100) rp.addSpecialSkillOpenPoint(nowLevel - old_level)
+      else if (nowLevel == 100) rp.addSpecialSkillOpenPoint(10)
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復
