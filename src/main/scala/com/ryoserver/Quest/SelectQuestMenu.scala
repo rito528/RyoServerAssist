@@ -28,7 +28,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val canQuests = lottery.canQuests(playerLevel)
     var invIndex = 0
     canQuests.zipWithIndex.foreach{case (questName,index) =>
-      if (index <= getLayOut(9,5) * page && getLayOut(9,5) * (page - 1) <= index) {
+      if (index < (getLayOut(9,5) + 1) * page && (getLayOut(9,5) + 1) * (page - 1) <= index) {
         lottery.questName = questName
         lottery.loadQuestData()
         val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
