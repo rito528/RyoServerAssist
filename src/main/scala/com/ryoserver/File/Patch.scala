@@ -19,7 +19,7 @@ class Patch(ryoServerAssist: RyoServerAssist) {
         try {
           sql.executeSQL(text)
         } catch {
-          case _:SQLException =>
+          case _: SQLException =>
         }
       })
       is.close()

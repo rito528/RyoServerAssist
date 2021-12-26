@@ -16,14 +16,6 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
     true
   }
 
-  def removeTitle(uuid: String, title: String): Boolean = {
-    if (!hasTitle(uuid, title)) return false
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";"}' WHERE UUID='$uuid'")
-    sql.close()
-    true
-  }
-
   def hasTitle(uuid: String, title: String): Boolean = getHasTitles(uuid).contains(title)
 
   def getHasTitles(uuid: String): Array[String] = {
@@ -34,6 +26,14 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
 
     sql.close()
     titles
+  }
+
+  def removeTitle(uuid: String, title: String): Boolean = {
+    if (!hasTitle(uuid, title)) return false
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";"}' WHERE UUID='$uuid'")
+    sql.close()
+    true
   }
 
   def getSelectedTitle(uuid: String): String = {

@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.RyoServerAssist
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.{EventHandler, Listener}
 

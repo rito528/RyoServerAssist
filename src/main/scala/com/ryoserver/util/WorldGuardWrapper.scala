@@ -19,11 +19,6 @@ class WorldGuardWrapper {
     getRegion(loc).isEmpty
   }
 
-  def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
-    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
-    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
-  }
-
   def isProtected(@NotNull loc: Location): Boolean = {
     getRegion(loc).nonEmpty
   }
@@ -37,6 +32,11 @@ class WorldGuardWrapper {
 
   def removeRegion(@NotNull p: Player): Unit = {
     plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(p.getWorld)).removeRegion(getRegion(p.getLocation()).head.getId)
+  }
+
+  def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
+    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
+    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
   }
 
   def toggleFlag(region: ProtectedRegion, flag: StateFlag, p: Player): Unit = {

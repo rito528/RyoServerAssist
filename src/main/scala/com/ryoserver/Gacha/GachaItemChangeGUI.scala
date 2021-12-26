@@ -47,7 +47,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
       p.sendMessage(ChatColor.AQUA + "特等アイテムを" + changeAmount + "個のスキル回復(大)と交換しました。")
-      inv.get.getContents.zipWithIndex.foreach{case (is,index) =>
+      inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
         if (items.contains(is)) inv.get.clear(index)
       }
       new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)

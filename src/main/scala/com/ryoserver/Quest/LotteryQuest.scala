@@ -3,7 +3,6 @@ package com.ryoserver.Quest
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ryoserver.Quest.LoadQuests.QUEST_SETTING_FILES
 
-import java.security.SecureRandom
 import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
 
@@ -16,7 +15,7 @@ class LotteryQuest {
   var exp: Double = 0
 
   def canQuests(lv: Int): Array[String] = {
-    var quests:Array[String] = Array.empty
+    var quests: Array[String] = Array.empty
     LoadQuests.enableEvents.foreach(quest => {
       val mapper = new ObjectMapper()
       var readLine = ""

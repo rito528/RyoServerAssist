@@ -4,10 +4,8 @@ import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.{Data, Name, RyoServerPlayer}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.SkillOpens.SkillOpenData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.Title.GiveTitle
-import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, ChatColor, Sound}
 

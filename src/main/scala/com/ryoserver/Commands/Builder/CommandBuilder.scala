@@ -1,7 +1,7 @@
 package com.ryoserver.Commands.Builder
 
 import org.bukkit.ChatColor
-import org.bukkit.command.{Command, CommandException, CommandExecutor, CommandSender, TabCompleter}
+import org.bukkit.command.{Command, CommandExecutor, CommandSender, TabCompleter}
 import org.bukkit.entity.Player
 
 import java.util

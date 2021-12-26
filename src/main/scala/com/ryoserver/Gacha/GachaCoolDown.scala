@@ -27,7 +27,7 @@ object GachaCoolDown {
     try {
       p.getMetadata("GachaCoolDown").get(0).value().asInstanceOf[Boolean]
     } catch {
-      case _:Exception => false
+      case _: Exception => false
     }
   }
 

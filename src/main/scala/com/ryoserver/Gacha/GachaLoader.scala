@@ -54,6 +54,12 @@ object GachaLoader {
     sql.close()
   }
 
+  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
+    sql.close()
+  }
+
   private def gachaRarityLoad(ryoServerAssist: RyoServerAssist): Unit = {
     /*
       各レアリティの割合を計算
@@ -78,12 +84,6 @@ object GachaLoader {
     specialItemList = Array.empty
     missItemList = Array.empty
     ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
-  }
-
-  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
-    sql.close()
   }
 
   def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {

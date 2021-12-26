@@ -19,7 +19,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   var name: String = _
   var p: Player = _
 
-  def inventory(player: Player,page:Int): Unit = {
+  def inventory(player: Player, page: Int): Unit = {
     p = player
     name = "クエスト選択:" + page
     val selectedQuests: Array[String] = Array.empty[String]
@@ -27,8 +27,8 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val lottery = new LotteryQuest
     val canQuests = lottery.canQuests(playerLevel)
     var invIndex = 0
-    canQuests.zipWithIndex.foreach{case (questName,index) =>
-      if (index < (getLayOut(9,5) + 1) * page && (getLayOut(9,5) + 1) * (page - 1) <= index) {
+    canQuests.zipWithIndex.foreach { case (questName, index) =>
+      if (index < (getLayOut(9, 5) + 1) * page && (getLayOut(9, 5) + 1) * (page - 1) <= index) {
         lottery.questName = questName
         lottery.loadQuestData()
         val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
@@ -58,25 +58,25 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       }
     }
     if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    else setItem(1,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}前のページに移動します。",List(s"${GRAY}クリックで移動します。"))
-    setItem(9,6,Material.MAGENTA_GLAZED_TERRACOTTA,effect = false,s"${GREEN}次のページに移動します。",List(s"${GRAY}クリックで移動します。"))
+    else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     new QuestData(ryoServerAssist).saveQuest(p, selectedQuests)
     registerMotion(motion)
     open()
   }
 
   def motion(p: Player, index: Int): Unit = {
-    val page = p.getOpenInventory.getTitle.replace("クエスト選択:","").toInt
-    if (getLayOut(1,6) == index) {
+    val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
+    if (getLayOut(1, 6) == index) {
       if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
-      else new SelectQuestMenu(ryoServerAssist).inventory(p ,page - 1)
-    } else if (getLayOut(9,6) == index) {
-      new SelectQuestMenu(ryoServerAssist).inventory(p ,page + 1)
-    } else if (index <= getLayOut(9,5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
+      else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1)
+    } else if (getLayOut(9, 6) == index) {
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1)
+    } else if (index <= getLayOut(9, 5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
-        .replace("[討伐クエスト]","")
-        .replace("[納品クエスト]","")
-      new QuestSelectMenuMotions(ryoServerAssist).Select(p,questName)
+        .replace("[討伐クエスト]", "")
+        .replace("[納品クエスト]", "")
+      new QuestSelectMenuMotions(ryoServerAssist).Select(p, questName)
     }
 
   }

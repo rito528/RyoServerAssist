@@ -83,12 +83,6 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     minusAmount
   }
 
-  private def addChangedData(p: Player, is: ItemStack): Unit = {
-    val uuid = p.getUniqueId.toString
-    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
-    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
-  }
-
   def addItemToPlayer(p: Player, is: ItemStack, amount: Int): Unit = {
     if (is == null || amount == 0) return
     if (is.getAmount != 0 && p.getInventory.firstEmpty() != -1) {
@@ -114,6 +108,12 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
       addChangedData(p, is)
     }
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
+  }
+
+  private def addChangedData(p: Player, is: ItemStack): Unit = {
+    val uuid = p.getUniqueId.toString
+    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
+    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def toggleAutoStack(p: Player): Unit = new RyoServerPlayer(p).toggleAutoStack()

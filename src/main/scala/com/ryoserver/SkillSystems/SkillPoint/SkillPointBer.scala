@@ -2,7 +2,6 @@ package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Player.Data
-import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.boss.{BarColor, BarStyle}
 import org.bukkit.entity.Player
