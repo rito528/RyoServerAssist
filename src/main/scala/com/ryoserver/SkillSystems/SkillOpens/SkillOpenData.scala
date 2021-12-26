@@ -18,8 +18,14 @@ class SkillOpenData(ryoServerAssist: RyoServerAssist) {
     new GiveTitle(ryoServerAssist).skillOpenNumber(p)
   }
 
-  def getOpenedSkill(p: Player): Array[String] = Data.playerData(p.getUniqueId).OpenedSkills.get.split(",")
-
+  def getOpenedSkill(p: Player): Array[String] = {
+    Data.playerData(p.getUniqueId).OpenedSkills match {
+      case Some(skills) =>
+        skills.split(",")
+      case None =>
+        Array.empty
+    }
+  }
 
   def addOpenSpecialSkillPoint(p: Player, point: Int): Unit = {
     new RyoServerPlayer(p).addSpecialSkillOpenPoint(point)

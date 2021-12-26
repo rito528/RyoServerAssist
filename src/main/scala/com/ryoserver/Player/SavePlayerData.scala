@@ -8,22 +8,6 @@ import java.util.UUID
 
 class SavePlayerData(ryoServerAssist: RyoServerAssist) {
 
-  def autoSave(): Unit = {
-    new BukkitRunnable {
-      override def run(): Unit = {
-        save()
-      }
-    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 1200)
-  }
-
-  def save(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    Data.playerData.foreach { case (uuid, data) =>
-      sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
-    }
-    sql.close()
-  }
-
   private def saveDataBuilder(playerData: PlayerData): String = {
     val stringBuilder = new StringBuilder
     Map(
@@ -55,6 +39,22 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       }
     }
     stringBuilder.toString()
+  }
+
+  def autoSave(): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        save()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 1200)
+  }
+
+  def save(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    Data.playerData.foreach { case (uuid, data) =>
+      sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
+    }
+    sql.close()
   }
 
   def targetSave(uuid: UUID): Unit = {
