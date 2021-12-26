@@ -1,6 +1,7 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Level.Player.GetPlayerData
+import com.ryoserver.Player.Data
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.configuration.file.YamlConfiguration
@@ -88,26 +89,26 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def skillOpenNumber(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT OpenedSkills FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var skillOpenData = ""
-    if (rs.next()) skillOpenData = rs.getString("OpenedSkills")
-    TitleData.skillOpen.foreach(title => {
-      val conditions: mutable.Map[Integer, Boolean] = mutable.Map.empty[Integer, Boolean]
-      titleConfig.getIntegerList(s"titles.$title.condition").asScala.foreach(titleCondition => conditions += (titleCondition -> false))
-      skillOpenData.split(",").foreach(openedSkill => {
-        if (conditions.contains(openedSkill.toInt)) conditions.update(openedSkill.toInt, true)
-      })
-      var allCheck = true
-      conditions.foreach({ case (_, check) =>
-        if (!check) allCheck = false
-      })
-      if (allCheck && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
-        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      }
-    })
-    sql.close()
+    val skillOpenData = Data.playerData(p.getUniqueId).OpenedSkills
+    skillOpenData match {
+      case Some(skills) =>
+        TitleData.skillOpen.foreach(title => {
+          val conditions: mutable.Map[Integer, Boolean] = mutable.Map.empty[Integer, Boolean]
+          titleConfig.getIntegerList(s"titles.$title.condition").asScala.foreach(titleCondition => conditions += (titleCondition -> false))
+          skills.split(",").foreach(openedSkill => {
+            if (conditions.contains(openedSkill.toInt)) conditions.update(openedSkill.toInt, true)
+          })
+          var allCheck = true
+          conditions.foreach({ case (_, check) =>
+            if (!check) allCheck = false
+          })
+          if (allCheck && data.openTitle(p, title)) {
+            p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+          }
+        })
+      case None =>
+    }
   }
 
   def loginYear(p: Player): Unit = {

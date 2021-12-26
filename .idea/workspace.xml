@@ -10,9 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96b5b64e-b08d-4c39-8432-37f98301f47e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Player/SavePlayerData.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillMenu/SelectSkillMenu.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillMenu/SelectSkillMenu.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillOpens/SkillOpenData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/SkillSystems/SkillOpens/SkillOpenData.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Title/GiveTitle.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/ryoserver/Title/GiveTitle.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/scala-2.13/classes/com/ryoserver/Gacha/Rarity.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
