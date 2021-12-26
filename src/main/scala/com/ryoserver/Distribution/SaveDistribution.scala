@@ -8,10 +8,11 @@ class SaveDistribution(ryoServerAssist: RyoServerAssist) {
 
   def save(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    DistributionData.addedList.foreach(list => {
-      val data = DistributionData.distributionData(list)
+    DistributionData.addedList.reverse.foreach(list => {
+      val data = DistributionData.distributionData.reverse(list)
       sql.executeSQL(s"INSERT INTO Distribution (GachaPaperType,Count) VALUES ('${data.TicketType}',${data.amount})")
     })
+    DistributionData.addedList = List.empty
     sql.close()
   }
 

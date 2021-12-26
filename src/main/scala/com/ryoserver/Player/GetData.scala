@@ -8,6 +8,7 @@ class GetData {
   def getFromAdminTickets(p: Player): Int = {
     val lastReceived = Data.playerData(p.getUniqueId).lastDistributionReceived
     var amount = 0
+    println(DistributionData.distributionData)
     DistributionData.distributionData.foreach(data => {
       if (data.id > lastReceived) {
         amount += data.amount

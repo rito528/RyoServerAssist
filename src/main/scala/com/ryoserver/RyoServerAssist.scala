@@ -2,7 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Commands._
 import com.ryoserver.Config.LoadConfig
-import com.ryoserver.Distribution.{Distribution, SaveDistribution}
+import com.ryoserver.Distribution.{Distribution, LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
@@ -141,6 +141,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadEventRanking()
     new LoadPlayerData(this).load()
     new SaveDistribution(this).autoSave()
+    new LoadDistribution(this).load()
 
     /*
      Execute patch
@@ -159,6 +160,7 @@ class RyoServerAssist extends JavaPlugin {
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).unload(p))
     NeoStack.PlayerData.save(this)
     new SavePlayerData(this).save()
+    new SaveDistribution(this).save()
     getLogger.info("RyoServerAssist disabled.")
   }
 
