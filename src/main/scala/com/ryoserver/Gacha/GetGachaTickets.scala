@@ -20,8 +20,8 @@ class GetGachaTickets() {
   }
 
   def getTickets(p: Player): Int = {
-    val rp = new RyoServerPlayer(p)
     val number = Data.playerData(p.getUniqueId).gachaTickets
+    val rp = new RyoServerPlayer(p)
     if (number >= 576) {
       rp.reduceNormalGachaTicket(576)
       576
