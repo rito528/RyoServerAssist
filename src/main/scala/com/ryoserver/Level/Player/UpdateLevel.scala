@@ -73,15 +73,15 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     }
     rp.addExp(exp)
     BossBar.updateLevelBer(sumExp, p)
-    rp.addSkillOpenPoint(nowLevel - old_level)
     if (old_level < nowLevel) {
+      rp.addSkillOpenPoint(nowLevel - old_level)
       if (nowLevel > 100) rp.addSpecialSkillOpenPoint(nowLevel - old_level)
       else if (nowLevel == 100) rp.addSpecialSkillOpenPoint(10)
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復
-      SkillPointBer.update(p)
       new SkillPointData().setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
+      SkillPointBer.update(p)
       p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
       p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
       val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
