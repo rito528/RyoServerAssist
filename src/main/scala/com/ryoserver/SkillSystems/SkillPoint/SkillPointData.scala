@@ -9,10 +9,10 @@ class SkillPointData() {
     Data.playerData(p.getUniqueId).skillPoint
   }
 
-  def setSkillPoint(p: Player, skillPoint: Double): Unit = {
+  def setSkillPoint(p: Player, newSkillPoint: Double): Unit = {
     val oldPlayerData = Data.playerData(p.getUniqueId)
     Data.playerData = Data.playerData.filterNot { case (uuid, _) => uuid == p.getUniqueId }
-    Data.playerData += (p.getUniqueId -> oldPlayerData.copy(skillPoint = skillPoint))
+    Data.playerData += (p.getUniqueId -> oldPlayerData.copy(skillPoint = newSkillPoint))
   }
 
 }
