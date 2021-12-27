@@ -23,7 +23,7 @@ object BossBar {
     }
     bossBer.setVisible(true)
     bossBer.addPlayer(p)
-    bers = bers + (p -> bossBer)
+    bers += (p -> bossBer)
   }
 
   def updateLevelBer(exp: Double, p: Player): Unit = {
