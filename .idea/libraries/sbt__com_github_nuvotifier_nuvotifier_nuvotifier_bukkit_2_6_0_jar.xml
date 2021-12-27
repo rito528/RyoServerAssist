@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="sbt: com.github.nuvotifier.nuvotifier:nuvotifier-bukkit:2.6.0:jar">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/Library/Caches/Coursier/v1/https/jitpack.io/com/github/nuvotifier/nuvotifier/nuvotifier-bukkit/2.6.0/nuvotifier-bukkit-2.6.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
