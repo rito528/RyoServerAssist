@@ -47,7 +47,7 @@ class RyoServerAssist extends JavaPlugin {
     sql.close()
 
     /*
-      load config
+      Load config
      */
     new LoadConfig(this).load()
 
