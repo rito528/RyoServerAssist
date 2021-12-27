@@ -11,13 +11,12 @@ import scala.sys.process.Process
 
 class CheckVPNAndProxy {
 
-
   val getJSON: String => String = (ipAddress: String) =>
     Process(Seq("curl", "-s", "https://www.iphunter.info:8082/v1/ip/" + ipAddress, s"-H", s"X-Key: $Key")).!!
   private val Key = Config.getApiKey
 
   def loginCheck(p: Player, plugin: Plugin): Boolean = {
-    val mapper: ObjectMapper = new ObjectMapper();
+    val mapper: ObjectMapper = new ObjectMapper()
     val json = getJSON(Players.getPlayerIP(p))
     val node: JsonNode = mapper.readTree(json)
     if (node.get("status").textValue() == "success") {
@@ -34,7 +33,7 @@ class CheckVPNAndProxy {
   }
 
   def savePlayerIPInfo(p: Player, plugin: Plugin, data: String): Unit = {
-    val name = p.getName;
+    val name = p.getName
     new BukkitRunnable {
       override def run(): Unit = {
         val dir = "plugins/MinecraftServerSecurity/Players"

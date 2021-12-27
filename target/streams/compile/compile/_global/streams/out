@@ -1,6 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0mAcquiring lock on file /Users/rito/Desktop/develop/RyoServerAssist/project/target/.sbt-compilation-infos/ryoserverassist-compile/.sbt-idea-lock ...[0m
-[0m[[0m[33mwarn[0m] [0m[0m/Users/rito/Desktop/develop/RyoServerAssist/src/main/scala/com/ryoserver/Vote/Vote.scala:14:23: method getOfflinePlayer in class Bukkit is deprecated[0m
-[0m[[0m[33mwarn[0m] [0m[0m    val uuid = Bukkit.getOfflinePlayer(e.getVote.getUsername).getUniqueId[0m
-[0m[[0m[33mwarn[0m] [0m[0m                      ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
-[0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /Users/rito/Desktop/develop/RyoServerAssist/project/target/.sbt-compilation-infos/ryoserverassist-compile/.sbt-idea-lock.[0m
