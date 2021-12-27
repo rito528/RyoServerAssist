@@ -20,7 +20,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openInv(player: Player, selectPage: Int): Unit = {
     p = player
-    val hasTitles = new PlayerTitleData(ryoServerAssist).getHasTitles(p.getUniqueId.toString)
+    val hasTitles = new PlayerTitleData(ryoServerAssist).getHasTitles(p.getUniqueId)
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     var index = 0
     var page = selectPage
@@ -80,7 +80,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     if (index == 45) {
       new RyoServerMenu1(ryoServerAssist).menu(p)
     } else if (index == 49) {
-      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
+      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
     } else if (index == 53) {
@@ -90,7 +90,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
        解放済みの称号
        */
       val titleName = ChatColor.RESET + inv.get.getItem(index).getItemMeta.getDisplayName
-      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId.toString, titleName)
+      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + s"${ChatColor.AQUA}」を設定しました！")
     }

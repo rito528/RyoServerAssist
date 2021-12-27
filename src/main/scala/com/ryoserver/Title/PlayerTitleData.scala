@@ -1,60 +1,55 @@
 package com.ryoserver.Title
 
+import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+
+import java.util.UUID
 
 class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
 
   def openTitle(p: Player, title: String): Boolean = {
-    val uuid = p.getUniqueId.toString
+    val uuid = p.getUniqueId
     if (hasTitle(uuid, title)) return false
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title};' WHERE UUID='$uuid'")
-    sql.close()
+    new RyoServerPlayer(p).openTitle(getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title)
     new GiveTitle(ryoServerAssist).titleGetNumber(p)
     true
   }
 
-  def hasTitle(uuid: String, title: String): Boolean = getHasTitles(uuid).contains(title)
+  def hasTitle(uuid: UUID, title: String): Boolean = getHasTitles(uuid).contains(title)
 
-  def getHasTitles(uuid: String): Array[String] = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT OpenedTitles FROM Players WHERE UUID='$uuid';")
-    var titles = Array.empty[String]
-    if (rs.next() && rs.getString("OpenedTitles") != null) titles = rs.getString("OpenedTitles").split(";")
-
-    sql.close()
-    titles
+  def getHasTitles(uuid: UUID): Array[String] = {
+    Data.playerData(uuid).OpenedTitles match {
+      case Some(titles) =>
+        titles.split(",")
+      case None =>
+        Array.empty[String]
+    }
   }
 
-  def removeTitle(uuid: String, title: String): Boolean = {
+  def removeTitle(uuid: UUID, title: String): Boolean = {
     if (!hasTitle(uuid, title)) return false
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET OpenedTitles='${getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";"}' WHERE UUID='$uuid'")
-    sql.close()
+    new RyoServerPlayer(Bukkit.getOfflinePlayer(uuid)).openTitle(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
     true
   }
 
-  def getSelectedTitle(uuid: String): String = {
-    val sql = new SQL(ryoServerAssist)
-    val rs = sql.executeQuery(s"SELECT selectedTitle FROM Players WHERE UUID='$uuid';")
-    var title: String = null
-    if (rs.next()) title = rs.getString("selectedTitle")
-    sql.close()
-    title
+  def getSelectedTitle(uuid: UUID): String = {
+    Data.playerData(uuid).SelectedTitle match {
+      case Some(title) =>
+        title
+      case None =>
+        null
+    }
   }
 
-  def setSelectTitle(uuid: String, title: String): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET selectedTitle='$title' WHERE UUID='$uuid';")
-    sql.close()
+  def setSelectTitle(uuid: UUID, title: String): Unit = {
+    new RyoServerPlayer(Bukkit.getOfflinePlayer(uuid)).setSelectedTitle(title)
   }
 
-  def resetSelectTitle(uuid: String): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"UPDATE Players SET selectedTitle=NULL WHERE UUID='$uuid';")
-    sql.close()
+  def resetSelectTitle(uuid: UUID): Unit = {
+    new RyoServerPlayer(Bukkit.getOfflinePlayer(uuid)).setSelectedTitle(null)
   }
 
 }

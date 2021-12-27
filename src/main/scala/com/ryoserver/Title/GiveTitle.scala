@@ -147,7 +147,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
 
   def titleGetNumber(p: Player): Unit = {
     TitleData.titleGetNumber.foreach(title => {
-      if (data.getHasTitles(p.getUniqueId.toString).length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p, title)) {
+      if (data.getHasTitles(p.getUniqueId).length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p, title)) {
         p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }

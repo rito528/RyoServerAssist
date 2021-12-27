@@ -35,7 +35,7 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       return
     }
     val playerTitleData = new PlayerTitleData(ryoServerAssist)
-    if (!playerTitleData.removeTitle(args(2), args(1))) {
+    if (!playerTitleData.removeTitle(UUID.fromString(args(2)), args(1))) {
       sender.sendMessage(ChatColor.RED + "指定したプレイヤーは指定した称号を持っていません！")
       return
     }

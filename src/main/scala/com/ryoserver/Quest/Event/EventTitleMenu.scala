@@ -32,13 +32,13 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def motion(p: Player, index: Int): Unit = {
     if (index <= 43 && p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
-      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId.toString, titleName)
+      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + "」を設定しました！")
     } else if (index == getLayOut(1, 6)) {
       new EventMenu(ryoServerAssist).openEventMenu(p)
     } else if (index == getLayOut(5, 6)) {
-      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId.toString)
+      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
     }

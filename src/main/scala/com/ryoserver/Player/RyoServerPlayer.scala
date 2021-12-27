@@ -87,5 +87,17 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
+  def openTitle(titles: String): Unit = {
+    val result = oldData.copy(OpenedTitles = Option(titles))
+    Data.playerData += (uuid -> result)
+    oldData = result
+  }
+
+  def setSelectedTitle(title: String): Unit = {
+    val result = oldData.copy(SelectedTitle = Option(title))
+    Data.playerData += (uuid -> result)
+    oldData = result
+  }
+
 
 }
