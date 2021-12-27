@@ -29,7 +29,7 @@ object PlayerData {
         if (data.nonEmpty) {
           val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
           if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=${data.head.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
-          else sql.purseFolder(s"INSERT INTO StackData (UUID,category,item,amount) VALUES ('$uuid','',?,${data.head.amount})", Item.getStringFromItemStack(data.head.savingItemStack))
+          else sql.purseFolder(s"INSERT INTO StackData (UUID,item,amount) VALUES ('$uuid',?,${data.head.amount})", Item.getStringFromItemStack(data.head.savingItemStack))
         }
       }
     }
