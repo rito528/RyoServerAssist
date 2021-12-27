@@ -40,7 +40,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     } else if (index == getLayOut(5, 6)) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
+      p.sendMessage(s"${ChatColor.AQUA}称号をリセットしました。")
     }
   }
 
