@@ -7,8 +7,8 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.{isSkillOpened, skillToggle}
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material}
 
 class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -64,7 +64,7 @@ class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
     } else if (getLayOut(5, 6) == index) {
       if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p, SpecialSkillPlayerData.getActivatedSkill(p).get)
-      p.sendMessage(ChatColor.AQUA + "スキル選択を解除しました。")
+      p.sendMessage(s"${AQUA}スキル選択を解除しました。")
     }
   }
 

@@ -4,10 +4,11 @@ import com.ryoserver.Gacha.GachaPaperData
 import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, Sound}
 
 class Distribution(ryoServerAssist: RyoServerAssist) {
 
@@ -19,18 +20,18 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
 
   def addDistribution(gachaPaperType: String, count: Int, sendPlayer: CommandSender): Unit = {
     if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {
-      sendPlayer.sendMessage(ChatColor.RED + "不明なガチャ券のタイプが指定されました。")
+      sendPlayer.sendMessage(s"${RED}不明なガチャ券のタイプが指定されました。")
       return
     }
     if (count > 576) {
-      sendPlayer.sendMessage(ChatColor.RED + "ガチャ券の配布量は576個を超えないように指定してください！")
+      sendPlayer.sendMessage(s"${RED}ガチャ券の配布量は576個を超えないように指定してください！")
       return
     }
     val id = DistributionData.distributionData.last.id + 1
     DistributionData.addedList ::= id
     DistributionData.distributionData ::= DistributionType(id, gachaPaperType, count)
-    sendPlayer.sendMessage(ChatColor.AQUA + "ガチャ券を配布しました！")
-    Bukkit.broadcastMessage(ChatColor.YELLOW + s"[お知らせ]${ChatColor.RESET}運営よりガチャ券が配布されました。")
+    sendPlayer.sendMessage(s"${AQUA}ガチャ券を配布しました！")
+    Bukkit.broadcastMessage(s"$YELLOW[お知らせ]${RESET}運営よりガチャ券が配布されました。")
   }
 
   def receipt(p: Player): Unit = {
@@ -55,7 +56,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       if (gachaPaperType.equalsIgnoreCase("fromAdmin")) gachaPaper = new ItemStack(GachaPaperData.fromAdmin)
       gachaPaper.setAmount(stack)
       p.getWorld.dropItem(p.getLocation(), gachaPaper)
-      p.sendMessage(ChatColor.AQUA + "運営からのガチャ券を受け取りました。")
+      p.sendMessage(s"${AQUA}運営からのガチャ券を受け取りました。")
       p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     }
   }

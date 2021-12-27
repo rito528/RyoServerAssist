@@ -50,13 +50,13 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def giveAxe(p: Player): Unit = {
     p.getInventory.addItem(new ItemStack(Material.WOODEN_AXE, 1))
-    p.sendMessage(AQUA + "保護用の木の斧を配布しました。")
+    p.sendMessage(s"${AQUA}保護用の木の斧を配布しました。")
   }
 
   def createRegion(p: Player): Unit = {
     val uuid = p.getUniqueId.toString
     if (!ryoServerAssist.getConfig.getStringList("protectionWorlds").contains(p.getWorld.getName.toLowerCase())) {
-      p.sendMessage(RED + "このワールドでは保護できません！")
+      p.sendMessage(s"${RED}このワールドでは保護できません！")
       return
     }
     val container = WorldGuard.getInstance().getPlatform.getRegionContainer
@@ -69,7 +69,7 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       max = session.getSelection().getMaximumPoint.toVector3.withY(256)
     } catch {
       case e: IncompleteRegionException =>
-        p.sendMessage(RED + "保護範囲が指定されていないため、保護できませんでした。")
+        p.sendMessage(s"${RED}保護範囲が指定されていないため、保護できませんでした。")
         return
     }
     var counter = 1
@@ -79,12 +79,12 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val region = new ProtectedCuboidRegion(p.getName.toLowerCase() + "_" + counter, min.toBlockPoint, max.toBlockPoint)
     val overlapping = region.getIntersectingRegions(regions.getRegions.values())
     if (overlapping.size() > 0) {
-      p.sendMessage(RED + "他の保護範囲と重なっています！")
+      p.sendMessage(s"${RED}他の保護範囲と重なっています！")
     } else {
       val owners = region.getOwners
       owners.addPlayer(UUID.fromString(uuid))
       regions.addRegion(region)
-      p.sendMessage(AQUA + "保護が完了しました！")
+      p.sendMessage(s"${AQUA}保護が完了しました！")
       p.playSound(p.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     }
   }

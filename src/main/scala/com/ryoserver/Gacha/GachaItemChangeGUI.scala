@@ -6,10 +6,10 @@ import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.{ChatColor, Material}
 
 class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
@@ -46,7 +46,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       val item = RecoveryItems.max
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
-      p.sendMessage(ChatColor.AQUA + "特等アイテムを" + changeAmount + "個のスキル回復(大)と交換しました。")
+      p.sendMessage(s"${AQUA}特等アイテムを${changeAmount}個のスキル回復(大)と交換しました。")
       inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
         if (items.contains(is)) inv.get.clear(index)
       }
@@ -67,7 +67,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       }
       index += 1
     })
-    if (check) p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
+    if (check) p.sendMessage(s"${RED}不要なアイテムを返却しました。")
   }
 
 }

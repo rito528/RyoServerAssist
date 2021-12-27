@@ -1,6 +1,6 @@
 package com.ryoserver.Commands.Builder
 
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor._
 import org.bukkit.command.{Command, CommandExecutor, CommandSender, TabCompleter}
 import org.bukkit.entity.Player
 
@@ -18,7 +18,7 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
       args = strings
       sender = commandSender
       if (executor.playerCommandData && !sender.isInstanceOf[Player]) {
-        sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内から実行してください！")
+        sender.sendMessage(s"${RED}このコマンドはゲーム内から実行してください！")
         return true
       }
       if (args.isEmpty) {
@@ -36,7 +36,7 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
   }
 
   def failedMessage(message: String): Unit = {
-    sender.sendMessage(ChatColor.RED + message)
+    sender.sendMessage(s"$RED$message")
   }
 
   override def onTabComplete(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): util.List[String] = {
@@ -54,7 +54,7 @@ trait CommandBuilder extends CommandExecutor with TabCompleter {
   }
 
   def successMessage(message: String): Unit = {
-    sender.sendMessage(ChatColor.AQUA + message)
+    sender.sendMessage(s"$AQUA$message")
   }
 
 }

@@ -1,6 +1,6 @@
 package com.ryoserver.DustBox
 
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor._
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
@@ -17,7 +17,7 @@ class DustBoxInventoryEvent extends Listener {
         if (is.getItemMeta != inv.getItem(49).getItemMeta) {
           p.getWorld.dropItem(p.getLocation(), is)
           if (!isSend) {
-            p.sendMessage(ChatColor.RED + "アイテムを返却しました。")
+            p.sendMessage(s"${RED}アイテムを返却しました。")
             isSend = true
           }
         }

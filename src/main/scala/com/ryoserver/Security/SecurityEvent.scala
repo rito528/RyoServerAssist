@@ -1,12 +1,13 @@
 package com.ryoserver.Security
 
 import com.ryoserver.RyoServerAssist
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor._
 import org.bukkit.entity.EntityType
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.player.{PlayerCommandPreprocessEvent, PlayerMoveEvent}
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{Bukkit, ChatColor}
 
 class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -23,7 +24,7 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   def playerCommandProcess(e: PlayerCommandPreprocessEvent): Unit = {
     val cmd = e.getMessage.split(" ")(0)
     if (!e.getPlayer.isOp && !e.getPlayer.hasPermission("ryoserverassist.commandExecuter") && !Config.getBanCommands(cmd)) {
-      e.getPlayer.sendMessage(ChatColor.RED + "このコマンドを実行できません！")
+      e.getPlayer.sendMessage(s"${RED}このコマンドを実行できません！")
       e.setCancelled(true)
     }
   }

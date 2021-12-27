@@ -3,8 +3,9 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Security.{Config, Players}
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor}
 
 class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
@@ -29,26 +30,26 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def openInventory(): Unit = {
     sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getInventory)
-    sender.sendMessage(ChatColor.AQUA + args(1) + "のインベントリを開きました。")
+    sender.sendMessage(s"${AQUA}${args(1)}のインベントリを開きました。")
   }
 
   private def openEnderChest(): Unit = {
     sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getEnderChest)
-    sender.sendMessage(ChatColor.AQUA + args(1) + "のエンダーチェストを開きました。")
+    sender.sendMessage(s"$AQUA${args(1)}のエンダーチェストを開きました。")
   }
 
   private def hide(): Unit = {
     val p = sender.asInstanceOf[Player]
     Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist, sp))
     Players.hideList :+= p
-    Bukkit.broadcastMessage(ChatColor.YELLOW + p.getName + "がゲームを退出しました")
+    Bukkit.broadcastMessage(s"$YELLOW${p.getName}がゲームを退出しました")
   }
 
   private def show(): Unit = {
     val p = sender.asInstanceOf[Player]
     Bukkit.getOnlinePlayers.forEach(sp => sp.showPlayer(ryoServerAssist, p))
     Players.hideList = Players.hideList.filter(hp => hp != p)
-    Bukkit.broadcastMessage(ChatColor.YELLOW + p.getName + "がゲームに参加しました")
+    Bukkit.broadcastMessage(s"$YELLOW${p.getName}がゲームに参加しました")
   }
 
   private def freeze(): Unit = {
@@ -64,17 +65,17 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   private def bind(): Unit = {
     if (args(1).equalsIgnoreCase("on")) {
       ryoServerAssist.getConfig.set("ipInfo", true)
-      sender.sendMessage(ChatColor.AQUA + "PlayerStatusコマンドでのIP情報表示機能を有効化しました。")
+      sender.sendMessage(s"${AQUA}PlayerStatusコマンドでのIP情報表示機能を有効化しました。")
     } else if (args(1).equalsIgnoreCase("off")) {
       ryoServerAssist.getConfig.set("ipInfo", false)
-      sender.sendMessage(ChatColor.AQUA + "PlayerStatusコマンドでのIP情報表示機能を無効化しました。")
+      sender.sendMessage(s"${AQUA}PlayerStatusコマンドでのIP情報表示機能を無効化しました。")
     }
   }
 
   private def reload(): Unit = {
     ryoServerAssist.reloadConfig()
     Config.config = ryoServerAssist.getConfig
-    sender.sendMessage(ChatColor.AQUA + "configをリロードしました。")
+    sender.sendMessage(s"${AQUA}configをリロードしました。")
   }
 
   private def help(): Unit = {

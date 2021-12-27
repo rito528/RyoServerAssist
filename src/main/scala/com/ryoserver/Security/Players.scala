@@ -1,7 +1,8 @@
 package com.ryoserver.Security
 
+import org.bukkit.ChatColor._
+import org.bukkit.Sound
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Sound}
 
 import scala.collection.mutable
 
@@ -10,26 +11,26 @@ object Players {
   val getPlayerIP: Player => String = (p: Player) =>
     p.getAddress.toString.replace("/", "").replace(s":${p.getAddress.getPort}", "")
   val getPlayerStatus: Player => String = (target: Player) => {
-    var msg = ChatColor.YELLOW + "---------------プレイヤー情報---------------\n" +
-      ChatColor.GREEN + "プレイヤー名:" + target.getName() + "\n" +
-      "UUID:" + target.getUniqueId + "\n" +
-      "ワールド名:" + target.getWorld.getName + "\n" +
-      "権限:" + target.isOp + "\n" +
-      "ゲームモード:" + target.getGameMode + "\n" +
-      "飛行:" + target.getAllowFlight + "\n"
+    var msg = s"$YELLOW---------------プレイヤー情報---------------\n" +
+      s"${GREEN}プレイヤー名:${target.getName}\n" +
+      s"UUID:${target.getUniqueId}\n" +
+      s"ワールド名:${target.getWorld.getName}\n" +
+      s"権限:${target.isOp}\n" +
+      s"ゲームモード:${target.getGameMode}\n" +
+      s"飛行:${target.getAllowFlight}\n"
     if (Config.config.getBoolean("ipInfo")) {
       val checkVPNAndProxy = new CheckVPNAndProxy
       val ip = getPlayerIP(target)
       val info = checkVPNAndProxy.getIPInfo(ip)
-      msg += "IPアドレス:" + ip + "\n" +
-        "国名:" + info("country") + "\n" +
-        "地域:" + info("city") + "\n" +
-        "回線事業者:" + info("isp") + "\n"
+      msg += s"IPアドレス:$ip\n" +
+        s"国名:${info("country")}\n" +
+        s"地域:${info("city")}\n" +
+        s"回線事業者:${info("isp")}\n"
     }
-    msg += ChatColor.YELLOW + "-----------------------------------------"
+    msg += s"$YELLOW-----------------------------------------"
     msg
   }
-  var vpnCounter = mutable.Map[String, Int]()
+  var vpnCounter: mutable.Map[String, Int] = mutable.Map[String, Int]()
   var freezeList: Array[String] = Array.empty
   var hideList: Array[Player] = Array.empty
 
@@ -47,13 +48,13 @@ object Players {
 
   def freezePlayer(p: Player): Unit = {
     Players.freezeList :+= p.getName
-    p.sendMessage(ChatColor.RED + "あなたの動作が権限者により制限されました。")
+    p.sendMessage(s"${RED}あなたの動作が権限者により制限されました。")
     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
   }
 
   def unFreezePlayer(p: Player): Unit = {
     Players.freezeList = Players.freezeList.filter(listPlayer => listPlayer != p.getName)
-    p.sendMessage(ChatColor.AQUA + "あなたの動作の制限が解除されました。")
+    p.sendMessage(s"${AQUA}あなたの動作の制限が解除されました。")
     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
   }
 

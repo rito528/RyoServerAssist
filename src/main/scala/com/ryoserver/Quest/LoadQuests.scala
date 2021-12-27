@@ -51,7 +51,7 @@ object LoadQuests {
 
   def checkEntity(entityName: String): Boolean = {
     val entities: Seq[String] = for {
-      entity <- EntityType.values()
+      entity <- EntityType.values().toIndexedSeq
       if (entity.name() == entityName)
     } yield entity.name()
 

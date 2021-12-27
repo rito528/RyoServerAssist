@@ -28,7 +28,7 @@ object OriginalItems {
     val itemStack: ItemStack = new ItemStack(Material.IRON_SWORD)
     val itemMeta: ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(s"$YELLOW${BOLD}折れた英雄の剣")
-    itemMeta.setLore(List(WHITE + "オフハンドに持つとトーテム効果が発動します。", WHITE + "耐久値分だけ使えます。").asJava)
+    itemMeta.setLore(List(s"${WHITE}オフハンドに持つとトーテム効果が発動します。", s"${WHITE}耐久値分だけ使えます。").asJava)
     itemMeta.addEnchant(Enchantment.DURABILITY, 1, false)
     itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
     itemMeta.asInstanceOf[Damageable].setDamage(240)

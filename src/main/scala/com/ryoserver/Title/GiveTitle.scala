@@ -4,9 +4,10 @@ import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Player.Data
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
+import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Sound}
 
 import java.nio.file.Paths
 import java.text.SimpleDateFormat
@@ -25,7 +26,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     TitleData.lv.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= level) {
         if (data.openTitle(p, title)) {
-          p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+          p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
           p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
         }
       }
@@ -39,7 +40,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     if (rs.next()) continuousLoginDays = rs.getInt("consecutiveLoginDays")
     TitleData.continuousLogin.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -53,7 +54,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     if (rs.next()) LoginDays = rs.getInt("loginDays")
     TitleData.loginDays.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -67,7 +68,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     if (rs.next()) clearTimes = rs.getInt("questClearTimes")
     TitleData.questClearNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= clearTimes && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -81,7 +82,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
     TitleData.gachaNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= pullNumber && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -103,7 +104,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
             if (!check) allCheck = false
           })
           if (allCheck && data.openTitle(p, title)) {
-            p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+            p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
           }
         })
@@ -115,7 +116,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     val year = LocalDateTime.now(ZoneId.of("Asia/Tokyo")).getYear
     TitleData.loginYear.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") == year && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -128,7 +129,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
       val end = format.parse(s"${titleConfig.getString(s"titles.$title.end")} 00:00")
       val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
       if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -139,7 +140,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo")).getTime
     TitleData.loginDay.foreach(title => {
       if (titleConfig.getString(s"titles.$title.condition") == format.format(nowCalender) && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -148,7 +149,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   def titleGetNumber(p: Player): Unit = {
     TitleData.titleGetNumber.foreach(title => {
       if (data.getHasTitles(p.getUniqueId).length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p, title)) {
-        p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
@@ -167,7 +168,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
       if (questRs.next()) quest = questRs.getInt("questClearTimes")
       if (conditionLogin <= login && conditionQuest <= quest) {
         if (data.openTitle(p, title)) {
-          p.sendMessage(ChatColor.AQUA + "称号:" + title + "が開放されました！")
+          p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
           p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
         }
       }

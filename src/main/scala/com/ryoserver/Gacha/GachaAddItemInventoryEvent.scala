@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.RyoServerAssist
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -18,19 +18,19 @@ class GachaAddItemInventoryEvent(ryoServerAssist: RyoServerAssist) extends Liste
       case 46 =>
         e.setCancelled(true)
         add(inv, 0)
-        p.sendMessage(ChatColor.AQUA + "はずれガチャアイテムを追加しました。")
+        p.sendMessage(s"${AQUA}はずれガチャアイテムを追加しました。")
       case 48 =>
         e.setCancelled(true)
         add(inv, 1)
-        p.sendMessage(ChatColor.AQUA + "あたりガチャアイテムを追加しました。")
+        p.sendMessage(s"${AQUA}あたりガチャアイテムを追加しました。")
       case 50 =>
         e.setCancelled(true)
         add(inv, 2)
-        p.sendMessage(ChatColor.AQUA + "大当たりガチャアイテムを追加しました。")
+        p.sendMessage(s"${AQUA}大当たりガチャアイテムを追加しました。")
       case 52 =>
         e.setCancelled(true)
         add(inv, 3)
-        p.sendMessage(ChatColor.AQUA + "特等ガチャアイテムを追加しました。")
+        p.sendMessage(s"${AQUA}特等ガチャアイテムを追加しました。")
       case _ =>
     }
   }

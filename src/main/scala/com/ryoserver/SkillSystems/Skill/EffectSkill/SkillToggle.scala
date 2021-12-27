@@ -17,28 +17,28 @@ trait SkillToggle {
   def effect(effectType: PotionEffectType, level: Int, sp: Int, skillName: String): Unit = {
     val openCheck = new SkillOpenCheck(ryoServerAssist)
     if (!openCheck.isOpened(skillName, p) && !openCheck.isTrueOpen(skillName, p)) {
-      p.sendMessage(RED + "このスキルは開放できません！")
+      p.sendMessage(s"${RED}このスキルは開放できません！")
       return
     } else if (openCheck.isTrueOpen(skillName, p) && !openCheck.isOpened(skillName, p)) {
       new SkillOpenData(ryoServerAssist).openSkill(p, skillName)
-      p.sendMessage(AQUA + "スキル:" + skillName + "を開放しました！")
+      p.sendMessage(s"${AQUA}スキル:${skillName}を開放しました！")
       new SelectSkillMenu(ryoServerAssist).openMenu(p)
       return
     }
     if (new SkillPointData().getSkillPoint(p) < sp) {
       allEffectClear(p)
-      p.sendMessage(RED + "スキルポイントが足りないためスキルを起動できませんでした！")
+      p.sendMessage(s"${RED}スキルポイントが足りないためスキルを起動できませんでした！")
       return
     }
     val operation = new SkillOperation(p, skillName, ryoServerAssist)
     if (operation.isEnableSkill) {
       //スキルを無効化する
       operation.skillInvalidation()
-      p.sendMessage(AQUA + "スキルを無効化しました。")
+      p.sendMessage(s"${AQUA}スキルを無効化しました。")
     } else {
       //スキルの有効化
       operation.skillActivation(effectType, level, sp)
-      p.sendMessage(AQUA + "スキル:" + skillName + "を有効化しました。")
+      p.sendMessage(s"${AQUA}スキル:${skillName}を有効化しました。")
     }
   }
 

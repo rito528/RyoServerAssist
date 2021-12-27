@@ -21,7 +21,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val eventGateway = new EventGateway(ryoServerAssist)
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
-        setItem(getX(index), getY(index), Material.NAME_TAG, effect = false, RESET + title, List(s"${GRAY}クリックで設定します。"))
+        setItem(getX(index), getY(index), Material.NAME_TAG, effect = false, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))
       }
     }
     setItem(5, 6, Material.PAPER, effect = false, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
@@ -34,13 +34,13 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
       new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + "」を設定しました！")
+      p.sendMessage(s"${AQUA}称号: 「${RESET}" + titleName + s"$AQUA」を設定しました！")
     } else if (index == getLayOut(1, 6)) {
       new EventMenu(ryoServerAssist).openEventMenu(p)
     } else if (index == getLayOut(5, 6)) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(s"${ChatColor.AQUA}称号をリセットしました。")
+      p.sendMessage(s"${AQUA}称号をリセットしました。")
     }
   }
 

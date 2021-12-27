@@ -1,6 +1,6 @@
 package com.ryoserver.Quest
 
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -22,7 +22,7 @@ class QuestSelectMenuEvent extends Listener {
           && is.getItemMeta != inv.getItem(53).getItemMeta) {
           p.getWorld.dropItem(p.getLocation(), is)
           if (!isSend) {
-            p.sendMessage(ChatColor.RED + "不要なアイテムを返却しました。")
+            p.sendMessage(s"${RED}不要なアイテムを返却しました。")
             isSend = true
           }
         }

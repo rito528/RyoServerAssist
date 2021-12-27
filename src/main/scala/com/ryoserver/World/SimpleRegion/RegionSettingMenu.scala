@@ -22,7 +22,7 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val worldGuard = new WorldGuardWrapper
     val loc = p.getLocation()
     if (!worldGuard.isProtected(loc) || !worldGuard.isOwner(p, loc)) {
-      p.sendMessage(ChatColor.RED + "この場所はあなたの保護ではありません！")
+      p.sendMessage(s"${RED}この場所はあなたの保護ではありません！")
       return
     }
     val set = worldGuard.getRegion(loc).head
@@ -53,7 +53,7 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val worldGuard = new WorldGuardWrapper
     val region = worldGuard.getRegion(p.getLocation()).head
     worldGuard.removeRegion(p)
-    p.sendMessage(AQUA + "保護:" + region.getId + "を削除しました。")
+    p.sendMessage(s"${AQUA}保護:${region.getId}を削除しました。")
     p.playSound(p.getLocation, Sound.ITEM_BUCKET_FILL_LAVA, 1, 1)
   }
 

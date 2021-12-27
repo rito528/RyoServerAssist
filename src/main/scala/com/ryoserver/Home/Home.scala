@@ -3,11 +3,12 @@ package com.ryoserver.Home
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item.getItem
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{Bukkit, ChatColor, Location, Material, Sound}
+import org.bukkit.{Bukkit, Location, Material, Sound}
 
 import java.util
 
@@ -32,13 +33,13 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val location = s"${locate.getWorld.getName},${locate.getX.toInt},${locate.getY.toInt},${locate.getZ.toInt}"
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
-      p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
+      p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       sql.close()
       return
     }
     val LockCheck = sql.executeQuery(s"SELECT Locked FROM `Homes` WHERE point = $point AND UUID='$uuid'")
     if (LockCheck.next() && LockCheck.getBoolean("Locked")) {
-      p.sendMessage(ChatColor.RED + "ホームがロックされています！")
+      p.sendMessage(s"${RED}ホームがロックされています！")
       sql.close()
       return
     }
@@ -46,20 +47,20 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     if (!rs.next()) sql.executeSQL(s"INSERT INTO `Homes` (UUID,point,Location,Locked) VALUES ('$uuid',$point,'$location',false);")
     else sql.executeSQL(s"UPDATE `Homes` SET Location='$location' WHERE UUID='$uuid' AND point=$point")
     sql.close()
-    p.sendMessage(ChatColor.AQUA + "ホームポイント" + point + "を設定しました。")
+    p.sendMessage(s"${AQUA}ホームポイント${point}を設定しました。")
   }
 
   def teleportHome(p: Player, point: Int): Unit = {
     val sql = new SQL(ryoServerAssist)
     val uuid = p.getUniqueId.toString.replace("-", "")
     if (!sql.connectionTest()) {
-      p.sendMessage(ChatColor.RED + "現在ホーム機能を利用できません！")
+      p.sendMessage(s"${RED}現在ホーム機能を利用できません！")
       sql.close()
       return
     }
     val pointCheck = sql.executeQuery(s"SELECT point FROM `Homes` WHERE point=$point AND UUID='$uuid';")
     if (!pointCheck.next()) {
-      p.sendMessage(ChatColor.RED + "ホームが登録されていません！")
+      p.sendMessage(s"${RED}ホームが登録されていません！")
       sql.close()
       return
     }
@@ -72,7 +73,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
         s"${p.getName}が[${now_loc.getWorld.getName},${now_loc.getX.toInt},${now_loc.getY.toInt},${now_loc.getZ.toInt}]から" +
           s"[${location(0)},${location(1)},${location(2)},${location(3)}]にテレポートしました！")
       p.teleport(new Location(Bukkit.getWorld(location(0)), location(1).toInt, location(2).toInt, location(3).toInt))
-      p.sendMessage(ChatColor.AQUA + "ホーム" + point + "にテレポートしました！")
+      p.sendMessage(s"${AQUA}ホーム${point}にテレポートしました！")
       p.playSound(p.getLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1)
       sql.close()
       return
@@ -84,12 +85,12 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val uuid = p.getUniqueId.toString.replace("-", "")
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
-      p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
+      p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       return
     }
     val rs = sql.executeQuery(s"SELECT * FROM `Homes` WHERE point=$index AND UUID='$uuid'")
     if (!rs.next()) {
-      p.sendMessage(ChatColor.RED + "ステータスが変更できませんでした！")
+      p.sendMessage(s"${RED}ステータスが変更できませんでした！")
       return
     }
     sql.executeSQL(s"UPDATE `Homes` SET Locked = !Locked WHERE point=$index AND UUID='$uuid'")
@@ -103,7 +104,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
         val uuid = p.getUniqueId.toString.replace("-", "")
         val sql = new SQL(ryoServerAssist)
         if (!sql.connectionTest()) {
-          p.sendMessage(ChatColor.RED + "現在ホーム機能が利用できません！")
+          p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
           sql.close()
           return
         }

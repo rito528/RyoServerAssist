@@ -5,6 +5,7 @@ import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuSessions}
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
 import com.ryoserver.RyoServerAssist
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
@@ -20,7 +21,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
     p = player
     val gateway = new EventGateway(ryoServerAssist)
     if (gateway.holdingEvent() == null) {
-      p.sendMessage(ChatColor.RED + "イベントが終了しました！")
+      p.sendMessage(s"${RED}イベントが終了しました！")
     } else {
       setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${ChatColor.AQUA}イベントページに戻る", List(s"${ChatColor.GRAY}クリックで戻ります。"))
       setItem(2, 6, Material.NETHER_STAR, effect = false, s"${ChatColor.YELLOW}納品", List(s"${ChatColor.GRAY}クリックで納品します。"))
@@ -38,7 +39,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       new EventMenu(ryoServerAssist).openEventMenu(p)
     } else if (index == getLayOut(2, 6)) {
       if (gateway.holdingEvent() == null) {
-        p.sendMessage(ChatColor.RED + "イベントが終了したため、納品できませんでした。")
+        p.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")
       } else {
         val nowEvent = gateway.eventInfo(gateway.holdingEvent())
         val material = Material.matchMaterial(nowEvent.item)
@@ -63,8 +64,8 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
             .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
           eventRanking += (p.getUniqueId.toString -> (oldAmount + amount))
         }
-        p.sendMessage(ChatColor.AQUA + "納品しました。")
-        p.sendMessage(ChatColor.AQUA + exp.toString + "exp手に入りました。(ボーナス分を除く)")
+        p.sendMessage(s"${AQUA}納品しました。")
+        p.sendMessage(s"${AQUA}${exp.toString}exp手に入りました。(ボーナス分を除く)")
       }
     }
   }

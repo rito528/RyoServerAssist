@@ -2,7 +2,6 @@ package com.ryoserver.Title
 
 import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

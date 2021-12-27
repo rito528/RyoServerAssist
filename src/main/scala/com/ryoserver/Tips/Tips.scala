@@ -1,9 +1,10 @@
 package com.ryoserver.Tips
 
 import com.ryoserver.RyoServerAssist
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{Bukkit, ChatColor}
 
 import java.nio.file.Paths
 
@@ -15,7 +16,7 @@ class Tips(ryoServerAssist: RyoServerAssist) {
     new BukkitRunnable {
       override def run(): Unit = {
         val notificationConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/tips.yml").toFile)
-        Bukkit.getOnlinePlayers.forEach(p => p.sendMessage(ChatColor.YELLOW + "[Tips]" + ChatColor.RESET + notificationConfig.getStringList("tipsMsg").get(counter)))
+        Bukkit.getOnlinePlayers.forEach(p => p.sendMessage(s"$YELLOW[Tips]${RESET}${notificationConfig.getStringList("tipsMsg").get(counter)}"))
         counter += 1
         if (notificationConfig.getStringList("tipsMsg").size() <= counter) counter = 0
       }

@@ -7,7 +7,7 @@ import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material, Sound}
+import org.bukkit.{Material, Sound}
 
 class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -36,7 +36,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       open()
       p.playSound(p.getLocation, Sound.BLOCK_SHULKER_BOX_OPEN, 1, 1)
     } else {
-      p.sendMessage(ChatColor.RED + "neoStackはLv.20以上になると使うことができます。")
+      p.sendMessage(s"${RED}neoStackはLv.20以上になると使うことができます。")
     }
   }
 
@@ -79,7 +79,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             }
           }
         })
-        p.sendMessage(ChatColor.AQUA + "インベントリ内のアイテムをすべてneoStackに収納しました。")
+        p.sendMessage(s"${AQUA}インベントリ内のアイテムをすべてneoStackに収納しました。")
       case _ =>
     }
   }

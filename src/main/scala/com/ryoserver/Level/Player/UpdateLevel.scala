@@ -6,8 +6,9 @@ import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.Title.GiveTitle
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, Sound}
 
 import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
@@ -44,10 +45,10 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     exp *= EventDataProvider.ratio
     if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) ||
       ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && nowCalender.getTime.after(holiday_start) && nowCalender.getTime.before(holiday_end))) {
-      p.sendMessage(ChatColor.AQUA + "ボーナス発生！")
-      p.sendMessage(ChatColor.AQUA + "exp量が1.2倍になりました！")
+      p.sendMessage(s"${AQUA}ボーナス発生！")
+      p.sendMessage(s"${AQUA}exp量が1.2倍になりました！")
       exp *= 1.2
-      p.sendMessage(ChatColor.AQUA + addExp.toString + "->" + String.format("%.2f", exp))
+      p.sendMessage(s"$AQUA${addExp.toString}->${String.format("%.2f", exp)}")
     }
     /*
       経験値を増やす処理
@@ -80,11 +81,11 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       //スキルポイントを全回復
       new SkillPointData().setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
       SkillPointBer.update(p)
-      p.sendMessage(ChatColor.AQUA + "おめでとうございます！レベルが上がりました！")
-      p.sendMessage(ChatColor.AQUA + "Lv." + old_level + "→ Lv." + nowLevel)
+      p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
+      p.sendMessage(s"${AQUA}Lv." + old_level + "→ Lv." + nowLevel)
       val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
       if (nowLevel == maxLv) {
-        Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんがLv." + maxLv + "に到達しました！")
+        Bukkit.broadcastMessage(s"$AQUA${p.getName}さんがLv.${maxLv}に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1))
       }
       new GiveTitle(ryoServerAssist).lv(p)

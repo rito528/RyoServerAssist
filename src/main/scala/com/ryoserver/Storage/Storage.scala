@@ -3,10 +3,11 @@ package com.ryoserver.Storage
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, Sound}
 
 
 class Storage(ryoServerAssist: RyoServerAssist) {
@@ -44,7 +45,7 @@ class Storage(ryoServerAssist: RyoServerAssist) {
       p.openInventory(inv)
       p.playSound(p.getLocation, Sound.BLOCK_CHEST_OPEN, 1, 1)
     } else {
-      p.sendMessage(ChatColor.RED + "ストレージ機能はLv.10以上になると使うことができます。")
+      p.sendMessage(s"${RED}ストレージ機能はLv.10以上になると使うことができます。")
     }
   }
 

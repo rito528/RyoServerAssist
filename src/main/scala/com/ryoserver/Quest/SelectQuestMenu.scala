@@ -6,9 +6,9 @@ import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{ChatColor, Material}
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -21,7 +21,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def inventory(player: Player, page: Int): Unit = {
     p = player
-    name = "クエスト選択:" + page
+    name = s"クエスト選択:$page"
     val selectedQuests: Array[String] = Array.empty[String]
     val playerLevel = new GetPlayerData().getPlayerLevel(p)
     val lottery = new LotteryQuest
@@ -34,25 +34,25 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
         else if (lottery.questType.equalsIgnoreCase("suppression")) "討伐クエスト"
         val questDetails: java.util.List[String] = new util.ArrayList[String]()
-        questDetails.add(ChatColor.WHITE + "【リスト】")
+        questDetails.add(s"$WHITE【リスト】")
         if (questType == "納品クエスト") {
           lottery.items.forEach(i => {
             val material = Material.matchMaterial(i.split(":")(0))
             val itemStack = new ItemStack(material)
             var itemName = ""
-            if (material.isBlock) itemName = "block." + itemStack.getType.getKey.toString.replace(":", ".")
-            else if (material.isItem) itemName = "item." + itemStack.getType.getKey.toString.replace(":", ".")
-            questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get(itemName).textValue() + ":" + i.split(":")(1) + "個")
+            if (material.isBlock) itemName = s"block.${itemStack.getType.getKey.toString.replace(":", ".")}"
+            else if (material.isItem) itemName = s"item.${itemStack.getType.getKey.toString.replace(":", ".")}"
+            questDetails.add(s"$WHITE・${LoadQuests.langFile.get(itemName).textValue()}:${i.split(":")(1)}個")
           })
         } else if (questType == "討伐クエスト") {
           lottery.mobs.forEach(i => {
             val entity = getEntity(i.split(":")(0))
-            questDetails.add(ChatColor.WHITE + "・" + LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue() +
+            questDetails.add(s"$WHITE・" + LoadQuests.langFile.get(s"entity.${entity.getKey.toString.replace(":", ".")}").textValue() +
               ":" + i.split(":")(1) + "体")
           })
         }
-        questDetails.add(ChatColor.WHITE + "【説明】")
-        questDetails.add(ChatColor.WHITE + "このクエストを完了した際に得られる経験値量:" + lottery.exp)
+        questDetails.add(s"$WHITE【説明】")
+        questDetails.add(s"${WHITE}このクエストを完了した際に得られる経験値量:${lottery.exp}")
         setItem(getX(invIndex), getY(invIndex), Material.BOOK, effect = false, s"[$questType]" + lottery.questName, questDetails.asScala.toList)
         invIndex += 1
       }

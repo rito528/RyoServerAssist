@@ -2,9 +2,10 @@ package com.ryoserver.Menu
 
 import com.google.common.io.ByteStreams
 import com.ryoserver.RyoServerAssist
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.{Bukkit, ChatColor, Material, Sound}
+import org.bukkit.{Bukkit, Material, Sound}
 
 class MenuMotion(ryoServerAssist: RyoServerAssist) {
 
@@ -25,10 +26,10 @@ class MenuMotion(ryoServerAssist: RyoServerAssist) {
   def worldTeleport(p: Player, world: Boolean): Unit = {
     if (world) {
       p.teleport(Bukkit.getWorld("world").getSpawnLocation)
-      p.sendMessage(ChatColor.AQUA + "worldのスポーン地点にテレポートしました！")
+      p.sendMessage(s"${AQUA}worldのスポーン地点にテレポートしました！")
     } else {
       p.teleport(p.getWorld.getSpawnLocation)
-      p.sendMessage(ChatColor.AQUA + "スポーン地点にテレポートしました！")
+      p.sendMessage(s"${AQUA}スポーン地点にテレポートしました！")
     }
     p.playSound(p.getLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1)
   }
@@ -44,12 +45,12 @@ class MenuMotion(ryoServerAssist: RyoServerAssist) {
   def sendSiteURL(p: Player, webType: String): Unit = {
     webType match {
       case "web" =>
-        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("webSite"))
+        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getString("webSite")}")
       case "dynmap" =>
-        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getString("dynmap"))
+        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getString("dynmap")}")
       case "vote" =>
-        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).toString)
-        p.sendMessage(ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).toString)
+        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).toString}")
+        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).toString}")
     }
   }
 

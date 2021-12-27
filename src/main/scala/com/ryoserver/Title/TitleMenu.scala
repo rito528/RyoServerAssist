@@ -6,9 +6,9 @@ import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material}
 
 import java.nio.file.Paths
 
@@ -49,7 +49,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             case "skillopen" =>
               lore = List(s"${GRAY}解放条件:以下のスキルを開放しよう。")
               titleConfig.getIntegerList(s"titles.$title.condition").forEach(condition => {
-                lore = lore :+ (GRAY + "・" + SkillData.SkillNames(condition))
+                lore = lore :+ (s"${GRAY}・${SkillData.SkillNames(condition)}")
               })
             case "loginyear" =>
               lore = List(s"${GRAY}解放条件:${configCondition}年にログインしよう。")
@@ -82,17 +82,17 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     } else if (index == 49) {
       new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(ChatColor.AQUA + "称号をリセットしました。")
+      p.sendMessage(s"${AQUA}称号をリセットしました。")
     } else if (index == 53) {
       new TitleMenu(ryoServerAssist).openInv(p, page + 1)
     } else if (0 <= index && 44 >= index && inv.get.getItem(index) != null && inv.get.getItem(index).getType == Material.NAME_TAG) {
       /*
        解放済みの称号
        */
-      val titleName = ChatColor.RESET + inv.get.getItem(index).getItemMeta.getDisplayName
+      val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
       new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
       new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(ChatColor.AQUA + "称号: 「" + titleName + s"${ChatColor.AQUA}」を設定しました！")
+      p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
     }
   }
 

@@ -24,13 +24,6 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
-  def targetSave(uuid: UUID): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val data = Data.playerData(uuid)
-    sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
-    sql.close()
-  }
-
   private def saveDataBuilder(playerData: PlayerData): String = {
     val stringBuilder = new StringBuilder
     Map(
@@ -64,6 +57,13 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       }
     }
     stringBuilder.toString()
+  }
+
+  def targetSave(uuid: UUID): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val data = Data.playerData(uuid)
+    sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
+    sql.close()
   }
 
 }

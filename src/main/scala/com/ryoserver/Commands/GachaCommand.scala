@@ -21,13 +21,13 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def help(): Unit = {
     sender.sendMessage("+-------------------------------------+")
-    sender.sendMessage(AQUA + "/gacha give <プレイヤー名> <個数>")
+    sender.sendMessage(s"$AQUA/gacha give <プレイヤー名> <個数>")
     sender.sendMessage("ガチャ券を配布します。")
-    sender.sendMessage(AQUA + "/gacha add")
+    sender.sendMessage(s"$AQUA/gacha add")
     sender.sendMessage("ガチャアイテムを追加します。")
-    sender.sendMessage(AQUA + "/gacha remove [ID]")
+    sender.sendMessage(s"$AQUA/gacha remove [ID]")
     sender.sendMessage("ガチャアイテムを削除します。")
-    sender.sendMessage(AQUA + "/gacha list [レアリティ番号(0~3)]")
+    sender.sendMessage(s"$AQUA/gacha list [レアリティ番号(0~3)]")
     sender.sendMessage("ガチャアイテムのリストを表示します。")
     sender.sendMessage("+-------------------------------------+")
   }
@@ -36,7 +36,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     val is = new ItemStack(GachaPaperData.normal)
     is.setAmount(args(2).toInt)
     sender.asInstanceOf[Player].getInventory.addItem(is)
-    sender.sendMessage(AQUA + sender.getName + "にガチャ券を" + args(2) + "枚配布しました。")
+    sender.sendMessage(s"$AQUA${sender.getName}にガチャ券を${args(2)}枚配布しました。")
   }
 
   private def add(): Unit = {
@@ -45,7 +45,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def remove(): Unit = {
     GachaLoader.removeGachaItem(args(1).toInt, ryoServerAssist)
-    sender.sendMessage("ガチャアイテムID:" + args(1) + "を削除しました。")
+    sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
   }
 
   private def list(): Unit = {

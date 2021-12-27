@@ -3,9 +3,10 @@ package com.ryoserver.Quest
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
-import org.bukkit.{ChatColor, Material, Sound}
+import org.bukkit.{Material, Sound}
 
 class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
 
@@ -52,14 +53,14 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     questData.setSelectedQuestItemRemaining(p, remainingItem_str)
 
     if (questDone) {
-      p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
+      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
       new QuestMenu(ryoServerAssist).selectInventory(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
-      p.sendMessage(ChatColor.AQUA + "納品しました。")
+      p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }
@@ -105,14 +106,14 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     questData.setSelectedQuestItemRemaining(p, remainingItem_str)
 
     if (questDone) {
-      p.sendMessage(ChatColor.AQUA + "おめでとうございます！クエストが完了しました！")
+      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questData.questClear(p)
       new QuestMenu(ryoServerAssist).selectInventory(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
-      p.sendMessage(ChatColor.AQUA + "納品しました。")
+      p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }

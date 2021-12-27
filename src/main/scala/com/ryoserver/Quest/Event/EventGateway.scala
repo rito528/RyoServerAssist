@@ -28,24 +28,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  private def createEventTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
-    sql.close()
-  }
-
-  /*
-    イベントの細かい情報を返す
-   */
-  def eventInfo(eventName: String): EventType = {
-    val data = EventDataProvider.eventData.filter(_.name == eventName)
-    if (data.length == 0) {
-      null
-    } else {
-      data.head
-    }
-  }
-
   def loadEventRanking(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベントランキングを読み込み中...")
@@ -105,6 +87,24 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
         s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
       rpa.giveNormalGachaTickets(gacha)
       sql.close()
+    }
+  }
+
+  private def createEventTable(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
+    sql.close()
+  }
+
+  /*
+    イベントの細かい情報を返す
+   */
+  def eventInfo(eventName: String): EventType = {
+    val data = EventDataProvider.eventData.filter(_.name == eventName)
+    if (data.length == 0) {
+      null
+    } else {
+      data.head
     }
   }
 

@@ -1,8 +1,7 @@
 package com.ryoserver.SkillSystems.Skill
 
 import com.ryoserver.Player.{Data, RyoServerPlayer}
-import org.bukkit.ChatColor
-import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
 import scala.collection.mutable
@@ -14,10 +13,10 @@ object SpecialSkillPlayerData {
   def skillToggle(p: Player, skillName: String): Unit = {
     if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && Data.playerData(p.getUniqueId).specialSkillOpenPoint >= 10) {
       skillOpen(p, skillName)
-      p.sendMessage(ChatColor.AQUA + skillName + "を開放しました。")
+      p.sendMessage(s"$AQUA${skillName}を開放しました。")
       return
     } else if (!isSkillOpened(p, skillName)) {
-      p.sendMessage(ChatColor.RED + skillName + "を開放できません！")
+      p.sendMessage(s"$RED${skillName}を開放できません！")
       return
     }
     if (isActivatedSkill(p, skillName)) {

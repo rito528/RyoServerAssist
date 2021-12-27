@@ -3,16 +3,17 @@ package com.ryoserver.Player
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, Sound}
 
 class CreateData(ryoServerAssist: RyoServerAssist) {
 
   def createPlayerData(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {
-      p.sendMessage(ChatColor.RED + "プレイヤーデータの作成に失敗しました。")
+      p.sendMessage(s"${RED}プレイヤーデータの作成に失敗しました。")
       sql.close()
       return
     }
@@ -38,7 +39,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
           counter += 1
         })
       }
-      Bukkit.broadcastMessage(ChatColor.AQUA + p.getName + "さんが初参加しました！")
+      Bukkit.broadcastMessage(s"$AQUA${p.getName}さんが初参加しました！")
       Data.playerData += (p.getUniqueId -> PlayerData(0, 0, 0, new SkillPointCal().getMaxSkillPoint(0), 0, 0, 0, 0, 0, 0, None, 0, 0, None, None, None, autoStack = false, None, None, None))
       Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }

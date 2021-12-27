@@ -7,9 +7,9 @@ import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material}
 
 import scala.collection.mutable
 
@@ -60,7 +60,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
         invIndex += 1
       })
       data.editItemList(getSelectedCategory(p), nowPage, invItem)
-      p.sendMessage(ChatColor.AQUA + "カテゴリリスト:" + getSelectedCategory(p) + "を編集しました。")
+      p.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(p)}を編集しました。")
       new LoadNeoStackPage(ryoServerAssist).loadStackPage()
       ItemList.stackList = mutable.Map.empty
       ItemList.loadItemList(ryoServerAssist)
