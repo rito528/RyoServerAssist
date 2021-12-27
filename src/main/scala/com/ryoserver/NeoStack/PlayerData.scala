@@ -40,8 +40,8 @@ object PlayerData {
   def loadNeoStackPlayerData(ryoServerAssist: RyoServerAssist, p: Player): Unit = {
     val uuid = p.getUniqueId.toString
     val gateway = new NeoStackGateway(ryoServerAssist)
-    gateway.getPlayerHasNeoStackItems(p).foreach { case (itemStack, data) =>
-      playerData :+= NeoStackDataType(uuid, itemStack, null, data.head.toString.toInt)
+    gateway.getPlayerHasNeoStackItems(p).foreach { case (itemStack, amount) =>
+      playerData :+= NeoStackDataType(uuid, itemStack, null, amount)
     }
   }
 

@@ -10,14 +10,13 @@ import org.bukkit.inventory.ItemStack
 
 class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
 
-  def getPlayerHasNeoStackItems(p: Player): Map[ItemStack, Seq[Any]] = {
+  def getPlayerHasNeoStackItems(p: Player): Map[ItemStack, Int] = {
     val uuid = p.getUniqueId.toString
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
-    var item: Map[ItemStack, Seq[Any]] = Map()
-    while (rs.next()) {
-      item = item ++ Map(Item.getItemStackFromString(rs.getString("item")) -> Seq(rs.getInt("amount"), rs.getString("category")))
-    }
+    val item = Iterator.from(0).takeWhile(_ => rs.next())
+      .map(_ => Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))) -> rs.getInt("amount")).toMap
+    println(item)
     sql.close()
     item
   }

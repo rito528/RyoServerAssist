@@ -1,0 +1,83 @@
+#名前を変えるか、ファイルを移動すれば初期状態のconfigが生成されます。
+#迷ったら初期状態のconfigを確認すること！
+
+#SQL関係の設定
+host: ''
+user: ''
+pw: ''
+db: 'RyoServerAssist'
+
+#ホーム機能を利用したときにログを出すかどうか
+log: true
+
+#ガチャの排出確率設定(設定されなかった残りの割合ではずれが排出されます。%で指定してください。)
+#はずれの割合が0%以下にならないように指定してください。
+#また、確率高い順が(はずれｰ>あたりｰ>大当たりｰ>特等)になるように指定してください。
+#あたり
+per: 20.0
+#大当たり
+bigPer: 1.0
+#特等
+Special: 0.1
+
+#レベルの最大値を記載してください
+maxLv: 100
+
+#Tipsの表示頻度を設定してください。(秒)
+tipsTimer: 300
+
+#保護ができるワールドを指定してください。
+#すべて小文字で入力してください。
+protectionWorlds:
+
+#再生成を行うノーマルワールド名を指定してください。
+regenerationNormalWorlds:
+
+#再生成を行うネザーワールド名を指定してください。
+regenerationNetherWorlds:
+
+#再生成を行うエンドワールド名を指定してください。
+regenerationEndWorlds:
+
+#ガチャ特等アイテムとスキル回復(大)と交換するレートを指定してください。
+gachaChangeRete: 4
+
+#WebサイトのURLを指定してください。
+webSite: ''
+
+#DynmapのURLを指定してください。
+dynmap: ''
+
+#投票サイトのURLを指定してください
+voteSite:
+  - ''
+
+#IPHunterのAPIKeyを記載してください。
+IPHunterAPIKey:
+
+#ログイン時のIP確認等をしないプレイヤー(除外プレイヤー)を記載してください。
+#例
+#exclusion
+# - rito_5289
+exclusion:
+
+#オペレーターの監視を行うプレイヤーのUUIDを記載してください。
+#例
+#authority
+# - 18b4a87fa07a47d5a96473fe7fa6ba81
+authority:
+
+#IPに関する情報をplayerStatusコマンドで表示するかどうかの設定
+ipInfo: true
+
+#権限がないユーザーが実行できるコマンドを記載してください
+#例
+#enableCommands:
+# - /pl
+enableCommands:
+
+#ウィーザーやエンダードラゴンの召喚を許可するワールド名を記載してください
+worldDoNotProtection:
+
+#自動でワールドの再生成をおこなうかどうかを記載してください。
+autoWorldRegeneration: true
