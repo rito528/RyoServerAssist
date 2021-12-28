@@ -30,7 +30,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       setItem(1, 5, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
       setItem(5, 5, Material.HOPPER, effect = false, s"${WHITE}自動収納を${if (new NeoStackGateway(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
         List(s"${GRAY}クリックで切り替えます。",
-          s"${GRAY}現在の状態:${if (new NeoStackGateway(ryoServerAssist).isAutoStackEnabled(p)) s"${GREEN}${BOLD}${UNDERLINE}on" else s"${RED}${BOLD}${UNDERLINE}off"}"))
+          s"${GRAY}現在の状態:${if (new NeoStackGateway(ryoServerAssist).isAutoStackEnabled(p)) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
       setItem(9, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}インベントリ内のアイテムをstackに収納します。", List(s"${GRAY}クリックで収納します。"))
       registerMotion(motion)
       open()
