@@ -27,6 +27,7 @@ class OriginalItemCommand extends CommandBuilder {
       "テクト-脚-" -> asi,
       "テクト-靴-" -> boots,
       "スキル回復(小)" -> min,
+      "スキル回復(中)" -> mid,
       "スキル回復(大)" -> max
     )
   ).playerCommand()
@@ -118,6 +119,10 @@ class OriginalItemCommand extends CommandBuilder {
 
   private def min(): Unit = {
     sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.min)
+  }
+
+  private def mid(): Unit = {
+    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.mid)
   }
 
   private def max(): Unit = {

@@ -23,8 +23,8 @@ class RecoverySkillPointEvent extends Listener {
       val playerLevel = new GetPlayerData().getPlayerLevel(p)
       val playerSP = skillPointData.getSkillPoint(p)
       val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
-      if (playerSP + 1000 >= maxSP) skillPointData.setSkillPoint(p, maxSP)
-      else skillPointData.setSkillPoint(p, playerSP + 1000)
+      if (playerSP + 3000 >= maxSP) skillPointData.setSkillPoint(p, maxSP)
+      else skillPointData.setSkillPoint(p, playerSP + 3000)
     } else if (item == RecoveryItems.max) {
       val skillPointData = new SkillPointData()
       val playerLevel = new GetPlayerData().getPlayerLevel(p)

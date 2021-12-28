@@ -18,7 +18,7 @@ object RecoveryItems {
 
   val mid: ItemStack = {
     val Lore = List(
-      s"${WHITE}飲むと1000スキルポイントが回復します。"
+      s"${WHITE}飲むと3000スキルポイントが回復します。"
     ).asJava
     getEnchantEffectItem(Material.HONEY_BOTTLE, "スキル回復(中)", Lore)
   }
