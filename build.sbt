@@ -42,8 +42,4 @@ assembly / assemblyMergeStrategy := {
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f98f22586 ([Fix]NeoStackのロードの処理を変更)
