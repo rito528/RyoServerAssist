@@ -22,7 +22,7 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
   def getHasTitles(uuid: UUID): Array[String] = {
     Data.playerData(uuid).OpenedTitles match {
       case Some(titles) =>
-        titles.split(",")
+        titles.split(";")
       case None =>
         Array.empty[String]
     }
