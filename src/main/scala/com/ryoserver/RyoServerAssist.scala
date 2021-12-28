@@ -121,6 +121,7 @@ class RyoServerAssist extends JavaPlugin {
      */
     Config.config = this.getConfig
     getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
+    new LoadPlayerData(this).load()
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
     LoadQuests.checkQuest(this)
@@ -139,7 +140,6 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
-    new LoadPlayerData(this).load()
     new SaveDistribution(this).autoSave()
     new LoadDistribution(this).load()
 
