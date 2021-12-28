@@ -10,7 +10,6 @@ class RyoServerPlayer(player: OfflinePlayer) {
 
   private val uuid: UUID = player.getUniqueId
   private var oldData: PlayerData = playerData(uuid)
-  playerData = playerData.filterNot { case (uuid, _) => uuid == this.uuid }
 
   def giveNormalGachaTicket(amount: Int): Unit = {
     val result = oldData.copy(gachaTickets = oldData.gachaTickets + amount)
