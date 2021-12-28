@@ -28,26 +28,26 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     invItems.split(";").foreach(item => {
       if (Item.getItemStackFromString(item) != null) {
         val is = Item.getOneItemStack(Item.getItemStackFromString(item))
-        val data = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId.toString && data.savingItemStack == is)
+        val data = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
         PlayerData.playerData = PlayerData.playerData
           .filterNot {
-            data => data.uuid == p.getUniqueId.toString && data.savingItemStack == is
+            data => data.uuid == p.getUniqueId && data.savingItemStack == is
           }
-        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, is, null, if (data.nonEmpty) data.head.amount else 0)
+        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, null, if (data.nonEmpty) data.head.amount else 0)
         val playerData = PlayerData.playerData
-          .filter(_.uuid == p.getUniqueId.toString)
+          .filter(_.uuid == p.getUniqueId)
           .filter(_.savingItemStack == is)
         if (is != null) {
           val setItem = is.clone()
           val meta = setItem.getItemMeta
           meta.setLore(List(
-            s"$BLUE${BOLD}保有数:${UNDERLINE}${if (playerData.isEmpty) 0 else playerData.head.amount}個",
+            s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
             s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
           ).asJava)
           setItem.setItemMeta(meta)
           if (playerData.nonEmpty) {
-            PlayerData.playerData = PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId.toString && data.savingItemStack == is)
-            PlayerData.playerData :+= NeoStackDataType(p.getUniqueId.toString, is, setItem, playerData.head.amount)
+            PlayerData.playerData = PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
+            PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
           }
           setItemStack(getX(index), getY(index), setItem)
         }
@@ -84,7 +84,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case _ =>
         val is = inv.get.getItem(index)
         val data = new NeoStackGateway(ryoServerAssist)
-        val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId.toString && data.displayItemStack == is)
+        val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)
         if (playerData.isEmpty) return
         if (isRightClick) {
           data.addItemToPlayer(p, playerData.head.savingItemStack, 1)

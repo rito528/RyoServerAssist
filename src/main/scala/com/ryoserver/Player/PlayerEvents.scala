@@ -5,13 +5,13 @@ import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.scheduler.BukkitRunnable
 
 class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onJoin(e: PlayerJoinEvent): Unit = {
     val p = e.getPlayer
-    new PlayerDataLoader(ryoServerAssist).load(p)
     val title = new GiveTitle(ryoServerAssist)
     title.continuousLogin(p)
     title.loginDays(p)
@@ -19,6 +19,7 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
     title.loginPeriod(p)
     title.loginDay(p)
     title.continuousLoginAndQuestClearNumber(p)
+    new PlayerDataLoader(ryoServerAssist).load(p)
   }
 
   @EventHandler

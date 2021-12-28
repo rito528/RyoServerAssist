@@ -2,4 +2,8 @@ package com.ryoserver.NeoStack
 
 import org.bukkit.inventory.ItemStack
 
-case class NeoStackDataType(uuid: String, savingItemStack: ItemStack, displayItemStack: ItemStack, amount: Int)
+import java.util.UUID
+
+case class NeoStackDataType(uuid: UUID, savingItemStack: ItemStack, displayItemStack: ItemStack, amount: Int)
+
+case class NeoStackPlayerItemData(itemStack: ItemStack,amount:Int)

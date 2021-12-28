@@ -132,7 +132,7 @@ class RyoServerAssist extends JavaPlugin {
     new TitleLoader().loadTitle()
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
-    NeoStack.PlayerData.runnableSaver(this)
+    NeoStack.PlayerData.autoSave(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
     new SavePlayerData(this).autoSave()

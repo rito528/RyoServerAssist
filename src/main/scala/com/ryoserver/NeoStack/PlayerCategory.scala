@@ -6,15 +6,10 @@ import scala.collection.mutable
 
 object PlayerCategory {
 
-  private var selectedCategory = mutable.Map.empty[String, String]
+  private val selectedCategory = mutable.Map.empty[String, String]
 
   def getSelectedCategory(p: Player): String = selectedCategory(p.getName)
 
-  def setSelectedCategory(p: Player, category: String): Unit = {
-    val pName = p.getName
-    selectedCategory = selectedCategory
-      .filterNot { case (name, _) => name == pName }
-    selectedCategory += (pName -> category)
-  }
+  def setSelectedCategory(p: Player, category: String): Unit = selectedCategory += (p.getName -> category)
 
 }
