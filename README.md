@@ -1,3 +1,4 @@
+[![Scala CI](https://github.com/ryo-server-developer/RyoServerAssist/actions/workflows/scala.yml/badge.svg)](https://github.com/ryo-server-developer/RyoServerAssist/actions/workflows/scala.yml)
 # RyoServerAssist
 
 ### 開発環境
