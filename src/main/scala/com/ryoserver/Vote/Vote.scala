@@ -2,6 +2,7 @@ package com.ryoserver.Vote
 
 import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Player
 import com.vexsoftware.votifier.model.VotifierEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Bukkit, ChatColor, Sound}
@@ -11,7 +12,7 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onVotifierEvent(e: VotifierEvent): Unit = {
     val site = if (e.getVote.getServiceName == "minecraft.jp") "JapanMinecraftServers" else "monocraft"
-    val uuid = Bukkit.getOfflinePlayer(e.getVote.getUsername).getUniqueId
+    val uuid = Player.nameFromUUID(e.getVote.getUsername)
     Bukkit.getOnlinePlayers.forEach(onlinePlayer => {
       onlinePlayer.playSound(onlinePlayer.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     })
