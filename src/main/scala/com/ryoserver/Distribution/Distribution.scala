@@ -28,8 +28,8 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       return
     }
     val id = DistributionData.distributionData.last.id + 1
-    DistributionData.addedList ::= id
-    DistributionData.distributionData ::= DistributionType(id, gachaPaperType, count)
+    DistributionData.addedList :+= id
+    DistributionData.distributionData :+= DistributionType(id, gachaPaperType, count)
     sendPlayer.sendMessage(s"${AQUA}ガチャ券を配布しました！")
     Bukkit.broadcastMessage(s"$YELLOW[お知らせ]${RESET}運営よりガチャ券が配布されました。")
   }
