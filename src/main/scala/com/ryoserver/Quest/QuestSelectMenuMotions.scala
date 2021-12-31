@@ -7,18 +7,14 @@ import org.bukkit.entity.Player
 class QuestSelectMenuMotions(ryoServerAssist: RyoServerAssist) {
 
   def Select(p: Player, questName: String): Unit = {
-    val questData = new QuestData(ryoServerAssist)
-    val questNames = questData.loadQuest(p)
-    val lottery = new LotteryQuest()
-    lottery.questName = questName
-    lottery.loadQuestData()
-    questData.selectQuest(p, lottery)
+    val questData = new QuestGateway()
+    questData.selectQuest(p, LoadQuests.loadedQuests.filter(_.questName == questName).head.questName)
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
     new QuestMenu(ryoServerAssist).selectInventory(p)
   }
 
   def resetQuest(p: Player): Unit = {
-    val questData = new QuestData(ryoServerAssist)
+    val questData = new QuestGateway()
     questData.resetQuest(p)
     new QuestMenu(ryoServerAssist).selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)

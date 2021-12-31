@@ -96,18 +96,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
-  /*
-    イベントの細かい情報を返す
-   */
-  def eventInfo(eventName: String): EventType = {
-    val data = EventDataProvider.eventData.filter(_.name == eventName)
-    if (data.length == 0) {
-      null
-    } else {
-      data.head
-    }
-  }
-
   def saveRanking(): Unit = {
     if ((holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") || isEventEnded) {
       createEventRankingTable()
@@ -126,6 +114,18 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       }
       if (isEventEnded) EventDataProvider.nowEventName = ""
       sql.close()
+    }
+  }
+
+  /*
+    イベントの細かい情報を返す
+   */
+  def eventInfo(eventName: String): EventType = {
+    val data = EventDataProvider.eventData.filter(_.name == eventName)
+    if (data.length == 0) {
+      null
+    } else {
+      data.head
     }
   }
 

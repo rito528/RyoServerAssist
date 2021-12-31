@@ -4,6 +4,7 @@ import com.ryoserver.Quest.Event.{EventDataProvider, EventGateway}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.Entity.getEntity
+import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -17,46 +18,33 @@ class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val entity = e.getEntityType
     e.getEntity.getKiller match {
       case p: Player =>
-        val questData = new QuestData(ryoServerAssist)
-        val lottery = new LotteryQuest()
-        var pause = false
+        val questGateway = new QuestGateway()
         val eventGateway = new EventGateway(ryoServerAssist)
-        var event = true
-        if (questData.getSelectedQuest(p) != null) {
-          lottery.questName = questData.getSelectedQuest(p)
-          lottery.loadQuestData()
-          if (lottery.questType == "suppression") {
-            val remaining = questData.getSelectedQuestRemaining(p)
-            var data: Array[String] = Array.empty[String]
-            remaining.split(";").foreach(questEntity => {
-              data :+= questEntity
-              if (getEntity(questEntity.split(":")(0)) == entity) {
-                event = false
-                data = data.filterNot(_ == questEntity)
-                var amount = questEntity.split(":")(1).toInt - 1
-                if (amount < 0) amount = 0
-                else if (amount % 5 == 0) pause = true
-                data :+= questEntity.split(":")(0) + ":" + amount
+        var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
+        questGateway.getSelectedQuest(p) match {
+          case Some(selectedQuestData) =>
+            var questProgress = questGateway.getQuestProgress(p)
+            if (selectedQuestData.questType == "suppression" && questProgress.keys.map(getEntity).toArray.contains(entity)) {
+              event = false
+              val targetProgress = questProgress(entity.name().toUpperCase())
+              if (targetProgress != 0) {
+                questProgress += (entity.name().toUpperCase() -> (targetProgress - 1))
+                questGateway.setQuestProgress(p, questProgress)
+                if (questProgress.forall { case (_, amount) => amount == 0 }) {
+                  p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
+                  p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+                  questGateway.questClear(p, ryoServerAssist)
+                  new GiveTitle(ryoServerAssist).questClearNumber(p)
+                  new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+                } else if ((targetProgress - 1) % 5 == 0) {
+                  p.sendMessage(s"$WHITE[クエストの進行状況]")
+                  questProgress.foreach { case (entity, amount) =>
+                    p.sendMessage(s"${Translate.entityNameToJapanese(getEntity(entity))}:残り${amount}体")
+                  }
+                }
               }
-            })
-            var questDone = true
-            data.foreach(d => if (d.split(":")(1).toInt != 0) questDone = false)
-            if (questDone) {
-              p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
-              p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-              questData.questClear(p)
-              new GiveTitle(ryoServerAssist).questClearNumber(p)
-              new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
-            } else {
-              questData.setSelectedQuestItemRemaining(p, data.mkString(";"))
             }
-            if (!questDone && pause) {
-              p.sendMessage("[進行状況]")
-              data.foreach(e => {
-                p.sendMessage(LoadQuests.langFile.get("entity." + getEntity(e.split(":")(0)).getKey.toString.replace(":", ".")).textValue() + "->" + e.split(":")(1) + "体")
-              })
-            }
-          }
+          case None =>
         }
         if (eventGateway.eventInfo(eventGateway.holdingEvent()) != null && eventGateway.eventInfo(eventGateway.holdingEvent()).eventType == "suppression" && event) {
           val eventEntity = getEntity(eventGateway.eventInfo(eventGateway.holdingEvent()).item)

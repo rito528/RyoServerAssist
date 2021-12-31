@@ -14,7 +14,7 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
-import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
+import com.ryoserver.Quest._
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
@@ -25,7 +25,7 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -85,7 +85,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents(this),
       new MenuEvent(this),
       new StorageEvent(this),
-      new QuestSelectMenuEvent(),
+      new QuestSelectMenuEvent(this),
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent,
@@ -124,7 +124,7 @@ class RyoServerAssist extends JavaPlugin {
     new LoadPlayerData(this).load()
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
-    LoadQuests.checkQuest(this)
+    LoadQuests.loadQuest(this)
     new Notification().createFile()
     new CreateFiles().createResourcesFile()
     new Tips(this).sendTips()
@@ -142,6 +142,9 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadEventRanking()
     new SaveDistribution(this).autoSave()
     new LoadDistribution(this).load()
+    Translate.loadLangFile()
+    PlayerQuestData.autoSave(this)
+    new DataBaseTable(this).createQuestTable()
 
     /*
      Execute patch

@@ -2,9 +2,9 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
-import com.ryoserver.Quest.LoadQuests
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
+import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -34,12 +34,11 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (eventData.eventType == "bonus") s"${WHITE}経験値増加率: ${eventData.exp}倍" else null,
         if (eventData.item != null && eventData.eventType == "delivery") s"${WHITE}集めるアイテム: ${
           val material = Material.matchMaterial(eventData.item)
-          if (material.isItem) LoadQuests.langFile.get("block." + material.getKey.toString.replace(":", ".")).textValue()
-          else if (material.isBlock) LoadQuests.langFile.get("item." + material.getKey.toString.replace(":", ".")).textValue()
+          Translate.materialNameToJapanese(material)
         }"
         else if (eventData.item != null && eventData.eventType == "suppression") s"${WHITE}討伐するMOB: ${
           val entity = getEntity(eventData.item)
-          LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
+          Translate.entityNameToJapanese(entity)
         }"
         else null,
         if (eventData.eventType != "bonus") {

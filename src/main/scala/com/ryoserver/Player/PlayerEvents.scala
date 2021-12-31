@@ -5,7 +5,6 @@ import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.scheduler.BukkitRunnable
 
 class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
 

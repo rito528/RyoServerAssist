@@ -5,14 +5,11 @@ import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
+import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-
-import java.util
-import scala.jdk.CollectionConverters._
 
 class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -24,45 +21,46 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def inventory(player: Player): Unit = {
     p = player
-    val lottery = new LotteryQuest()
-    val questData = new QuestData(ryoServerAssist)
-    lottery.questName = questData.getSelectedQuest(p)
-    lottery.loadQuestData()
-    val questType = if (lottery.questType.equalsIgnoreCase("delivery")) "納品クエスト"
-    else if (lottery.questType.equalsIgnoreCase("suppression")) "討伐クエスト"
-    val questDetails: java.util.List[String] = new util.ArrayList[String]()
-    questDetails.add(s"$WHITE【残りリスト】")
-    if (questType == "納品クエスト") {
-      name = "納品"
-      questData.getSelectedQuestRemaining(p).split(";").foreach(i => {
-        val material = Material.matchMaterial(i.split(":")(0))
-        val itemStack = new ItemStack(material)
-        var itemName = ""
-        if (material.isBlock) itemName = s"block.${itemStack.getType.getKey.toString.replace(":", ".")}"
-        else if (material.isItem) itemName = s"item.${itemStack.getType.getKey.toString.replace(":", ".")}"
-        questDetails.add(s"$WHITE・${LoadQuests.langFile.get(itemName).textValue()}:${i.split(":")(1)}個")
-      })
-    } else if (questType == "討伐クエスト") {
-      name = "討伐"
-      questData.getSelectedQuestRemaining(p).split(";").foreach(e => {
-        val entity = getEntity(e.split(":")(0))
-        questDetails.add(s"$WHITE・${LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()}:${e.split(":")(1)}体")
-      })
-    }
-    questDetails.add(s"$WHITE【説明】")
-    questDetails.add(s"${WHITE}このクエストを完了した際に得られる経験値量:${lottery.exp}")
-    setItem(1, 6, Material.BOOK, effect = false, s"[$questType]${lottery.questName}", questDetails.asScala.toList)
-    if (questType == "納品クエスト") {
-      setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
-      val data = new GetPlayerData()
-      if (data.getPlayerLevel(p) >= 20) setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。", List(s"${GRAY}クリックでneoStackから納品します。"))
+    val questGateway = new QuestGateway()
+    questGateway.getSelectedQuest(p) match {
+      case Some(selectedQuestData) =>
+        if (selectedQuestData.questType == "delivery") {
+          name = "納品"
+          val requireList = questGateway.getQuestProgress(p).map { case (require, amount) =>
+            s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
+          }
+          setItem(1, 6, Material.BOOK, effect = false, s"$RESET[納品クエスト]${selectedQuestData.questName}", List(
+            s"$WHITE【納品リスト】"
+          ) ++ requireList ++ List(
+            "",
+            s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
+          ))
+          setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
+          val data = new GetPlayerData()
+          if (data.getPlayerLevel(p) >= 20) {
+            setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。",
+              List(s"${GRAY}クリックでneoStackから納品します。"))
+            buttons :+= getLayOut(3, 6)
+          }
+        } else if (selectedQuestData.questType == "suppression") {
+          name = "討伐"
+          val requireList = questGateway.getQuestProgress(p).map { case (require, amount) =>
+            s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}個"
+          }
+          setItem(1, 6, Material.BOOK, effect = false, s"$RESET[討伐クエスト]${selectedQuestData.questName}", List(
+            s"$WHITE【納品リスト】"
+          ) ++ requireList ++ List(
+            "",
+            s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
+          ))
+        }
+      case None =>
     }
     setItem(9, 6, Material.RED_WOOL, effect = false, s"$RED${BOLD}クエストを中止する",
       List(s"$RED${BOLD}クリックでクエストを中止します。",
         s"$RED$BOLD${UNDERLINE}納品したアイテムは戻りません！"))
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(2, 6)
-    buttons :+= getLayOut(3, 6)
     buttons :+= getLayOut(9, 6)
     registerMotion(motion)
     open()
@@ -77,8 +75,11 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           }
         )
         if (motions.contains(index) && motions(index) != null) motions(index)(player)
-        if (index == getLayOut(2, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(2, 6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).delivery(player, player.getOpenInventory.getTopInventory)
-        else if (index == getLayOut(3, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(3, 6)) != null) new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player, player.getOpenInventory.getTopInventory)
+        if (index == getLayOut(2, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(2, 6)) != null) {
+          new QuestProcessInventoryMotions(ryoServerAssist).delivery(player)
+        } else if (index == getLayOut(3, 6) && player.getOpenInventory.getTopInventory.getItem(getLayOut(3, 6)) != null) {
+          new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player)
+        }
       }
     }.runTask(ryoServerAssist)
   }
