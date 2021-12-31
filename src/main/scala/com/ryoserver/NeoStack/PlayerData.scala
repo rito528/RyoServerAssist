@@ -47,7 +47,7 @@ object PlayerData {
     })
     val gateway = new NeoStackGateway(ryoServerAssist)
     gateway.getPlayerHasNeoStackItems(p).foreach(neoStackPlayerData => {
-      playerData :+= NeoStackDataType(p.getUniqueId,neoStackPlayerData.itemStack,null,neoStackPlayerData.amount)
+      playerData :+= NeoStackDataType(p.getUniqueId, neoStackPlayerData.itemStack, null, neoStackPlayerData.amount)
     })
   }
 

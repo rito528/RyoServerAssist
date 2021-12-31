@@ -9,4 +9,8 @@ object Entity {
     null
   }
 
+  def isExistsEntity(entityName: String): Boolean = {
+    EntityType.values().toIndexedSeq.map(_.name()).contains(entityName)
+  }
+
 }
