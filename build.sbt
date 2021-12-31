@@ -15,7 +15,6 @@ resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
 resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
 resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
-resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
 
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
