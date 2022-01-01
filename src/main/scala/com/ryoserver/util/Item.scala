@@ -28,7 +28,7 @@ object Item {
     itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
     itemStack.setItemMeta(itemMeta)
     itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
-    itemStack
+    Item.getOneItemStack(itemStack)
   }
 
   val getPlayerSkull: (OfflinePlayer, String, List[String]) => ItemStack = (p: OfflinePlayer, displayName: String, lore: List[String]) => {
@@ -38,7 +38,7 @@ object Item {
     meta.setDisplayName(displayName)
     meta.setLore(lore.asJava)
     is.setItemMeta(meta)
-    is
+    Item.getOneItemStack(is)
   }
 
   def getStringFromItemStack(itemStack: ItemStack): String = {
