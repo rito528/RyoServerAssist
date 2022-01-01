@@ -19,29 +19,28 @@ class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def openBreakSkillMenu(player: Player): Unit = {
     p = player
     setItem(2, 1, if (isSkillOpened(p, "ブレイク・デュオ")) Material.WOODEN_PICKAXE else Material.BEDROCK, effect = false, s"${GREEN}ブレイク・デュオ",
-      List(s"${GRAY}1*2の範囲を破壊します。"
-        , s"${GRAY}消費スキルポイント:6"
-        , s"${GRAY} ${if (isSkillOpened(p, "ブレイク・デュオ")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getLore("ブレイク・デュオ","1*2",6))
     setItem(4, 1, if (isSkillOpened(p, "アップダウンブレイク")) Material.STONE_PICKAXE else Material.BEDROCK, effect = false, s"${GREEN}アップダウンブレイク",
-      List(s"${GRAY}1*3の範囲を破壊します。"
-        , s"${GRAY}消費スキルポイント:9"
-        , s"${GRAY} ${if (isSkillOpened(p, "アップダウンブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getLore("アップダウンブレイク","1*3",9))
     setItem(6, 1, if (isSkillOpened(p, "パンチングブレイク")) Material.IRON_PICKAXE else Material.BEDROCK, effect = false, s"${GREEN}パンチングブレイク",
-      List(s"${GRAY}3*2の範囲を破壊します。"
-        , s"${GRAY}消費スキルポイント:18"
-        , s"${GRAY} ${if (isSkillOpened(p, "パンチングブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getLore("パンチングブレイク","3*2",18))
     setItem(8, 1, if (isSkillOpened(p, "トンネルブレイク")) Material.GOLDEN_PICKAXE else Material.BEDROCK, effect = false, s"${GREEN}トンネルブレイク",
-      List(s"${GRAY}3*3の範囲を破壊します。"
-        , s"${GRAY}消費スキルポイント:27"
-        , s"${GRAY} ${if (isSkillOpened(p, "トンネルブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getLore("トンネルブレイク","3*3",27))
     setItem(2, 2, if (isSkillOpened(p, "ワイドブレイク")) Material.DIAMOND_PICKAXE else Material.BEDROCK, effect = false, s"${GREEN}ワイドブレイク",
-      List(s"${GRAY}5*3の範囲を破壊します。"
-        , s"${GRAY}消費スキルポイント:45"
-        , s"${GRAY} ${if (isSkillOpened(p, "ワイドブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getLore("ワイドブレイク","5*3",45))
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
     setSkullItem(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + Data.playerData(p.getUniqueId).specialSkillOpenPoint))
     registerMotion(motion)
     open()
+  }
+
+  def getLore(skillName:String,range:String,skillPoint:Int): List[String] = {
+    List(s"$GRAY${range}の範囲を破壊します。"
+      , s"${GRAY}消費スキルポイント:${skillPoint}"
+      , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
+      , s"$GRAY[解放条件]"
+      , s"$GRAY${if (isSkillOpened(p, skillName)) "・特殊スキル解放ポイントを10ポイント消費"}"
+      , s"$GRAY${if (isSkillOpened(p, skillName) && skillName != "ブレイク・デュオ") "・下位スキルをすべて開放"}")
   }
 
   def motion(p: Player, index: Int): Unit = {
