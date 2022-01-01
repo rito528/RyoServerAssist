@@ -17,6 +17,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
+resolvers += "repo.phoenix616.dev" at "https://repo.phoenix616.dev"
 
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.27"
