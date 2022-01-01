@@ -43,7 +43,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       }
     })
     if (changeAmount != 0 && index == 49) {
-      val item = RecoveryItems.max
+      val item = RecoveryItems.max.clone()
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
       p.sendMessage(s"${AQUA}特等アイテムを${changeAmount}個のスキル回復(大)と交換しました。")
