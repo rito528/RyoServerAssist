@@ -9,7 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ghcr.io/ryo-server-developer/ryosaba-assist-builder:latest
+    container: 
+      image: ghcr.io/ryo-server-developer/ryosaba-assist-builder:latest
+      credentials:
+        username: ${{ secrets.USER_NAME }}
+        password: ${{ secrets.CR_PAT }}
     steps:
     - uses: actions/checkout@v2
     - name: Cache SBT ivy cache
