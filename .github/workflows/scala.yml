@@ -17,23 +17,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Cache SBT ivy cache
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
-        path: ~/.ivy2/cache
+        path: /root/.ivy2/cache
         key: ${{ runner.os }}-sbt-ivy-cache-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-sbt-ivy-cache-
     - name: Cache Coursier cache
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
-        path: ~/.cache/coursier
+        path: /root/.cache/coursier
         key: ${{ runner.os }}-sbt-coursier-cache-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-sbt-coursier-cache-
     - name: Cache SBT
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
-        path: ~/.sbt
+        path: /root/.sbt
         key: ${{ runner.os }}-sbt-cache-${{ github.run_id }}
         restore-keys: |
           ${{ runner.os }}-sbt-cache-
