@@ -25,17 +25,11 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(6, 1, if (isSkillOpened(p, "ラウンドグロー")) Material.IRON_HOE else Material.BEDROCK, effect = false, s"${GREEN}ラウンドグロー",
       getGrowSkillLore("ラウンドグロー","3*3",55))
     setItem(2, 3, if (isSkillOpened(p, "ウイングハーベスト")) Material.WOODEN_HOE else Material.BEDROCK, effect = false, s"${GREEN}ウイングハーベスト",
-      List(s"${GRAY}1*3の範囲の作物を収穫します。"
-        , s"${GRAY}消費スキルポイント:9"
-        , s"${GRAY} ${if (isSkillOpened(p, "アップダウンブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getHarvestSkillLore("ウイングハーベスト","1*3",9))
     setItem(4, 3, if (isSkillOpened(p, "ワイドハーベスト")) Material.STONE_HOE else Material.BEDROCK, effect = false, s"${GREEN}ワイドハーベスト",
-      List(s"${GRAY}1*5の範囲の作物を収穫します。"
-        , s"${GRAY}消費スキルポイント:15"
-        , s"${GRAY} ${if (isSkillOpened(p, "アップダウンブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getHarvestSkillLore("ワイドハーベスト","1*5",15))
     setItem(6, 3, if (isSkillOpened(p, "ラウンドハーベスト")) Material.IRON_HOE else Material.BEDROCK, effect = false, s"${GREEN}ラウンドハーベスト",
-      List(s"${GRAY}3*3の範囲の作物を収穫します。"
-        , s"${GRAY}消費スキルポイント:21"
-        , s"${GRAY} ${if (isSkillOpened(p, "アップダウンブレイク")) "クリックで選択します。" else "クリックで開放します。"}"))
+      getHarvestSkillLore("ラウンドハーベスト","3*3",21))
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
     setSkullItem(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + Data.playerData(p.getUniqueId).specialSkillOpenPoint))
     registerMotion(motion)
@@ -44,11 +38,20 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def getGrowSkillLore(skillName:String,range:String,skillPoint:Int): List[String] = {
     List(s"$GRAY${range}の範囲の作物を成長させます。"
-      , s"${GRAY}消費スキルポイント:${skillPoint}"
+      , s"${GRAY}消費スキルポイント:$skillPoint"
       , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
       , s"$GRAY[解放条件]"
       , s"$GRAY${if (isSkillOpened(p, skillName)) "・特殊スキル解放ポイントを10ポイント消費"}"
       , s"$GRAY${if (isSkillOpened(p, skillName) && skillName != "ウインググロー") "・下位スキルをすべて開放"}")
+  }
+
+  private def getHarvestSkillLore(skillName:String,range:String,skillPoint:Int): List[String] = {
+    List(s"$GRAY${range}の範囲の作物を収穫します。"
+      , s"${GRAY}消費スキルポイント:$skillPoint"
+      , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
+      , s"$GRAY[解放条件]"
+      , s"$GRAY${if (isSkillOpened(p, skillName)) "・特殊スキル解放ポイントを10ポイント消費"}"
+      , s"$GRAY${if (isSkillOpened(p, skillName) && skillName != "ウイングハーベスト") "・下位スキルをすべて開放"}")
   }
 
   def motion(p: Player, index: Int): Unit = {
