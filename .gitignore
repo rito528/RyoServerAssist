@@ -2,3 +2,6 @@
 .idea
 .DS_Store
 lib
+/project/target
+/project/project
+target
