@@ -2,7 +2,7 @@ name := "RyoServerAssist"
 
 version := "1.5.0"
 
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.6"
 
 mainClass := Some("com.ryoserver.RyoServerAssist")
 
@@ -16,6 +16,7 @@ resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/pub
 resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.mavenLocal
+resolvers += "repo.phoenix616.dev" at "https://repo.phoenix616.dev"
 
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.27"
