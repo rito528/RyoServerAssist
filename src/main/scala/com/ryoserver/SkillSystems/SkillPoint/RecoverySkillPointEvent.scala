@@ -1,6 +1,7 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
 import com.ryoserver.Level.Player.GetPlayerData
+import com.ryoserver.util.Item
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.{EventHandler, Listener}
 
@@ -8,8 +9,7 @@ class RecoverySkillPointEvent extends Listener {
 
   @EventHandler
   def onEat(e: PlayerItemConsumeEvent): Unit = {
-    val item = e.getItem
-    item.setAmount(1)
+    val item = Item.getOneItemStack(e.getItem)
     val p = e.getPlayer
     if (item == RecoveryItems.min) {
       val skillPointData = new SkillPointData()
