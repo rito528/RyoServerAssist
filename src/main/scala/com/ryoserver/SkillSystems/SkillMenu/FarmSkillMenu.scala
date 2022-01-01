@@ -40,18 +40,20 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     List(s"$GRAY${range}の範囲の作物を成長させます。"
       , s"${GRAY}消費スキルポイント:$skillPoint"
       , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
-      , s"$GRAY[解放条件]"
-      , s"$GRAY${if (isSkillOpened(p, skillName)) "・特殊スキル解放ポイントを10ポイント消費"}"
-      , s"$GRAY${if (isSkillOpened(p, skillName) && skillName != "ウインググロー") "・下位スキルをすべて開放"}")
+      , s"${if (!isSkillOpened(p, skillName)) s"$GRAY[解放条件]" else ""}"
+      , s"${if (!isSkillOpened(p, skillName)) s"$GRAY・特殊スキル解放ポイントを10ポイント消費" else ""}"
+      , s"${if (!isSkillOpened(p, skillName) && skillName != "ウインググロー") s"$GRAY・下位スキルをすべて開放" else ""}")
+      .filterNot(_ == "")
   }
 
   private def getHarvestSkillLore(skillName:String,range:String,skillPoint:Int): List[String] = {
     List(s"$GRAY${range}の範囲の作物を収穫します。"
       , s"${GRAY}消費スキルポイント:$skillPoint"
       , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
-      , s"$GRAY[解放条件]"
-      , s"$GRAY${if (isSkillOpened(p, skillName)) "・特殊スキル解放ポイントを10ポイント消費"}"
-      , s"$GRAY${if (isSkillOpened(p, skillName) && skillName != "ウイングハーベスト") "・下位スキルをすべて開放"}")
+      , s"${if (!isSkillOpened(p, skillName)) s"$GRAY[解放条件]" else ""}"
+      , s"${if (!isSkillOpened(p, skillName)) s"$GRAY・特殊スキル解放ポイントを10ポイント消費" else ""}"
+      , s"${if (!isSkillOpened(p, skillName) && skillName != "ウイングハーベスト") s"$GRAY・下位スキルをすべて開放" else ""}")
+      .filterNot(_ == "")
   }
 
   def motion(p: Player, index: Int): Unit = {
