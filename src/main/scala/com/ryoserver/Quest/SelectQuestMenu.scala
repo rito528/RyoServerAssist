@@ -16,15 +16,15 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   var name: String = _
   var p: Player = _
 
-  def inventory(player: Player, page: Int,sortType:questSortType): Unit = {
+  def inventory(player: Player, page: Int,sortType:QuestSortType): Unit = {
     p = player
     name = s"クエスト選択:$page"
     val playerLevel = new GetPlayerData().getPlayerLevel(p)
     val questGateway = new QuestGateway
     sortType match {
-      case questSortType.normal =>
+      case QuestSortType.normal =>
         setSelectQuestItem(questGateway.getCanQuests(playerLevel),page)
-      case questSortType.neoStack =>
+      case QuestSortType.neoStack =>
         setSelectQuestItem(questGateway.nowNeoStackCanQuest(p,ryoServerAssist),page)
     }
     if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))

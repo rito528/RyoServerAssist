@@ -19,13 +19,13 @@ case class QuestType(questName: String,
   このobjectはクエスト表示順序を宣言するためのobjectです。
  */
 
-sealed trait questSortType extends EnumEntry
+sealed trait QuestSortType extends EnumEntry
 
-object questSortType extends Enum[questSortType] {
+object QuestSortType extends Enum[QuestSortType] {
 
-  case object normal extends questSortType
-  case object neoStack extends questSortType
-  case object bookMark extends questSortType
+  case object normal extends QuestSortType
+  case object neoStack extends QuestSortType
+  case object bookMark extends QuestSortType
 
-  override def values: IndexedSeq[questSortType] = findValues
+  override def values: IndexedSeq[QuestSortType] = findValues
 }
