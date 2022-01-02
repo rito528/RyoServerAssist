@@ -36,7 +36,7 @@ class QuestGateway {
     LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
 
-  def nowNeoStackCanQuest(p:Player,ryoServerAssist: RyoServerAssist): Unit = {
+  def nowNeoStackCanQuest(p:Player,ryoServerAssist: RyoServerAssist): List[QuestType] = {
     val neoStackGateway = new NeoStackGateway(ryoServerAssist)
     getCanQuests(Data.playerData(p.getUniqueId).level)
       .filter(_.questType == "delivery") //neoStackからできるクエストのソートということはすべて納品クエストのはず

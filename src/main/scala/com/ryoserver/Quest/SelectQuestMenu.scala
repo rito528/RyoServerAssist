@@ -16,14 +16,27 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   var name: String = _
   var p: Player = _
 
-  def inventory(player: Player, page: Int): Unit = {
+  def inventory(player: Player, page: Int,sortType:questSortType): Unit = {
     p = player
     name = s"クエスト選択:$page"
     val playerLevel = new GetPlayerData().getPlayerLevel(p)
     val questGateway = new QuestGateway
-    val canQuests = questGateway.getCanQuests(playerLevel)
+    sortType match {
+      case questSortType.normal =>
+        setSelectQuestItem(questGateway.getCanQuests(playerLevel),page)
+      case questSortType.neoStack =>
+        setSelectQuestItem(questGateway.nowNeoStackCanQuest(p,ryoServerAssist),page)
+    }
+    if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
+    else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    registerMotion(motion)
+    open()
+  }
+
+  def setSelectQuestItem(showQuests:List[QuestType],page:Int): Unit = {
     var invIndex = 0
-    canQuests.zipWithIndex.foreach { case (questData, index) =>
+    showQuests.zipWithIndex.foreach { case (questData, index) =>
       if (index < (getLayOut(9, 5) + 1) * page && (getLayOut(9, 5) + 1) * (page - 1) <= index) {
         if (questData.questType == "delivery") {
           val requireList = questData.requireList.map { case (require, amount) =>
@@ -49,11 +62,6 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         invIndex += 1
       }
     }
-    if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    registerMotion(motion)
-    open()
   }
 
   def motion(p: Player, index: Int): Unit = {
