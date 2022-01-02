@@ -2,7 +2,7 @@ name := "RyoServerAssist"
 
 version := "1.5.0"
 
-scalaVersion := "2.13.6"
+scalaVersion := "2.13.7"
 
 mainClass := Some("com.ryoserver.RyoServerAssist")
 
