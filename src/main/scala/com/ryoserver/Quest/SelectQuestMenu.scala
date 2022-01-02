@@ -29,6 +29,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     }
     if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
     else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    setItem(5,6,Material.STONECUTTER,effect = false,s"${GREEN}クエストのソートを行います。"
+      ,List(s"${WHITE}現在の表示順:$UNDERLINE$GREEN${QuestSortedData.getPlayerQuestSortData(p)}",
+      s"${GRAY}クリックで変更します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerMotion(motion)
     open()
@@ -70,7 +73,11 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
       else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1,QuestSortedData.getPlayerQuestSortData(p))
     } else if (getLayOut(9, 6) == index) {
-      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1,QuestSortedData.getPlayerQuestSortData(p))
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1, QuestSortedData.getPlayerQuestSortData(p))
+    } else if (getLayOut(5, 6) == index) {
+      val nextType = QuestSortTypeDependency.dependency(QuestSortedData.getPlayerQuestSortData(p))
+      QuestSortedData.setPlayerQuestSortData(p,nextType)
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page,nextType)
     } else if (index <= getLayOut(9, 5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
         .replace("[討伐クエスト]", "")
