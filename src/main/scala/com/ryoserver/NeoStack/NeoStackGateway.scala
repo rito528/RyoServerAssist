@@ -82,6 +82,16 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     minusAmount
   }
 
+  def getNeoStackAmount(p:Player, is:ItemStack): Int = {
+    val playerData = PlayerData.playerData
+      .filter(data => data.savingItemStack == Item.getOneItemStack(is) && data.uuid == p.getUniqueId)
+    if (playerData.isEmpty) {
+      0
+    } else {
+      playerData.head.amount
+    }
+  }
+
   def addItemToPlayer(p: Player, is: ItemStack, amount: Int): Unit = {
     if (is == null || amount == 0) return
     if (is.getAmount != 0 && p.getInventory.firstEmpty() != -1) {

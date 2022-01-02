@@ -16,14 +16,32 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   var name: String = _
   var p: Player = _
 
-  def inventory(player: Player, page: Int): Unit = {
+  def inventory(player: Player, page: Int,sortType:QuestSortType): Unit = {
     p = player
     name = s"クエスト選択:$page"
     val playerLevel = new GetPlayerData().getPlayerLevel(p)
     val questGateway = new QuestGateway
-    val canQuests = questGateway.getCanQuests(playerLevel)
+    sortType match {
+      case QuestSortType.normal =>
+        setSelectQuestItem(questGateway.getCanQuests(playerLevel),page)
+      case QuestSortType.neoStack =>
+        setSelectQuestItem(questGateway.nowNeoStackCanQuest(p,ryoServerAssist),page)
+      case QuestSortType.bookMark =>
+
+    }
+    if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
+    else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    setItem(5,6,Material.STONECUTTER,effect = false,s"${GREEN}クエストのソートを行います。"
+      ,List(s"${WHITE}現在の表示順:$GREEN${QuestSortedData.getPlayerQuestSortData(p)}",
+      s"${GRAY}クリックで変更します。"))
+    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
+    registerMotion(motion)
+    open()
+  }
+
+  def setSelectQuestItem(showQuests:List[QuestType],page:Int): Unit = {
     var invIndex = 0
-    canQuests.zipWithIndex.foreach { case (questData, index) =>
+    showQuests.zipWithIndex.foreach { case (questData, index) =>
       if (index < (getLayOut(9, 5) + 1) * page && (getLayOut(9, 5) + 1) * (page - 1) <= index) {
         if (questData.questType == "delivery") {
           val requireList = questData.requireList.map { case (require, amount) =>
@@ -49,20 +67,19 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         invIndex += 1
       }
     }
-    if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    registerMotion(motion)
-    open()
   }
 
   def motion(p: Player, index: Int): Unit = {
     val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
     if (getLayOut(1, 6) == index) {
       if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
-      else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1)
+      else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1,QuestSortedData.getPlayerQuestSortData(p))
     } else if (getLayOut(9, 6) == index) {
-      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1)
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1, QuestSortedData.getPlayerQuestSortData(p))
+    } else if (getLayOut(5, 6) == index) {
+      val nextType = QuestSortTypeDependency.dependency(QuestSortedData.getPlayerQuestSortData(p))
+      QuestSortedData.setPlayerQuestSortData(p,nextType)
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page,nextType)
     } else if (index <= getLayOut(9, 5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
         .replace("[討伐クエスト]", "")
