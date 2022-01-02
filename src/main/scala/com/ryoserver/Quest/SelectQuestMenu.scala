@@ -23,11 +23,11 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val questGateway = new QuestGateway
     sortType match {
       case QuestSortType.normal =>
-        setSelectQuestItem(questGateway.getCanQuests(playerLevel),page)
+        setSelectQuestItem(questGateway.getCanQuests(playerLevel),1)
       case QuestSortType.neoStack =>
-        setSelectQuestItem(questGateway.nowNeoStackCanQuest(p,ryoServerAssist),page)
+        setSelectQuestItem(questGateway.nowNeoStackCanQuest(p,ryoServerAssist),1)
       case QuestSortType.bookMark =>
-
+        setSelectQuestItem(questGateway.getBookmarkCanQuest(p),1)
     }
     if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
     else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
