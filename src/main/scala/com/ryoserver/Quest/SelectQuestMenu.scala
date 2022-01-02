@@ -68,9 +68,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
     if (getLayOut(1, 6) == index) {
       if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
-      else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1)
+      else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1,QuestSortedData.getPlayerQuestSortData(p))
     } else if (getLayOut(9, 6) == index) {
-      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1)
+      new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1,QuestSortedData.getPlayerQuestSortData(p))
     } else if (index <= getLayOut(9, 5) || p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
         .replace("[討伐クエスト]", "")
