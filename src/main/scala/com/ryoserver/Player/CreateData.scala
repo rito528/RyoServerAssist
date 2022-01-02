@@ -10,6 +10,15 @@ import org.bukkit.{Bukkit, Sound}
 
 class CreateData(ryoServerAssist: RyoServerAssist) {
 
+  def createPlayerTable(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
+    sql.executeSQL("CREATE TABLE IF NOT EXISTS Players(UUID Text,lastLogin DATETIME,lastLogout DATETIME,loginDays INT,consecutiveLoginDays INT," +
+      "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
+      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN,VoteNumber INT);")
+    sql.close()
+  }
+
   def createPlayerData(p: Player): Unit = {
     val sql = new SQL(ryoServerAssist)
     if (!sql.connectionTest()) {

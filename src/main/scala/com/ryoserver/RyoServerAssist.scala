@@ -52,6 +52,11 @@ class RyoServerAssist extends JavaPlugin {
     new LoadConfig(this).load()
 
     /*
+      CreatePlayerTable
+     */
+    new CreateData(this).createPlayerTable()
+
+    /*
       Enabling command
      */
     Map(
