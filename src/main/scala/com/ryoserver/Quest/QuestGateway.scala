@@ -13,11 +13,11 @@ import org.bukkit.inventory.ItemStack
 class QuestGateway {
 
   def selectQuest(p: Player, questName: String): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList))
+    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList,playerQuestData(p.getUniqueId).bookmarks))
   }
 
   def resetQuest(p: Player): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty))
+    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,playerQuestData(p.getUniqueId).bookmarks))
   }
 
   def getQuestProgress(p: Player): Map[String, Int] = {
@@ -27,7 +27,7 @@ class QuestGateway {
   def setQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress))
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress,playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }
   }
@@ -49,7 +49,7 @@ class QuestGateway {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
         new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty))
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }
   }
