@@ -45,6 +45,11 @@ class QuestGateway {
       )
   }
 
+  def getBookmarkCanQuest(p:Player): List[QuestType] = {
+    //できるクエストとbookmarkされているクエストの積集合を取る
+    getCanQuests(Data.playerData(p.getUniqueId).level).intersect(playerQuestData(p.getUniqueId).bookmarks)
+  }
+
   def questClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
