@@ -169,6 +169,7 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.save(this)
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
+    PlayerQuestData.save(this)
     getLogger.info("RyoServerAssist disabled.")
   }
 

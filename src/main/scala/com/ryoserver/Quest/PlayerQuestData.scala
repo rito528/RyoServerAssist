@@ -34,6 +34,7 @@ object PlayerQuestData {
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,bookMarkData))
       }
     } else {
+      sql.executeSQL(s"INSERT INTO Quests (UUID) VALUES ('${p.getUniqueId.toString}')")
       playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,List.empty))
     }
     sql.close()
@@ -47,7 +48,7 @@ object PlayerQuestData {
     }.runTaskTimerAsynchronously(ryoServerAssist, 1200, 1200)
   }
 
-  private def save(ryoServerAssist: RyoServerAssist): Unit = {
+  def save(ryoServerAssist: RyoServerAssist): Unit = {
     new DataBaseTable(ryoServerAssist).createQuestTable()
     val sql = new SQL(ryoServerAssist)
     playerQuestData.foreach { case (uuid, questData) =>
@@ -55,15 +56,14 @@ object PlayerQuestData {
       questName match {
         case Some(name) =>
           sql.executeSQL(s"UPDATE Quests SET selectedQuest='$name'," +
-            s"remaining='${questData.progress.map { case (require, amount) => s"$require:$amount" }.mkString(";")}'," +
-            s"bookmarks='${if (questData.bookmarks.nonEmpty) questData.bookmarks.mkString(";") else "NULL"}' " +
+            s"remaining='${questData.progress.map { case (require, amount) => s"$require:$amount" }.mkString(";")}' " +
             s"WHERE UUID='${uuid.toString}'")
         case None =>
           sql.executeSQL(s"UPDATE Quests SET selectedQuest=NULL," +
-            s"remaining=NULL," +
-            s"bookmarks='${if (questData.bookmarks.nonEmpty) questData.bookmarks.mkString(";") else "NULL"}' " +
+            s"remaining=NULL " +
             s"WHERE UUID='${uuid.toString}'")
       }
+      sql.executeSQL(s"UPDATE Quests SET bookmarks='${if (questData.bookmarks.isEmpty) "NULL" else questData.bookmarks.mkString(";")}' WHERE UUID='${uuid.toString}'")
     }
     sql.close()
   }
