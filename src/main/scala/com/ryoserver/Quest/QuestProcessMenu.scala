@@ -3,12 +3,14 @@ package com.ryoserver.Quest
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
 class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
@@ -38,8 +40,15 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
           val data = new GetPlayerData()
           if (data.getPlayerLevel(p) >= 20) {
+            val neoStackGateway = new NeoStackGateway(ryoServerAssist)
             setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。",
-              List(s"${GRAY}クリックでneoStackから納品します。"))
+              List(s"${GRAY}クリックでneoStackから納品します。") ++ questGateway.getQuestProgress(p).map { case (require, amount) =>
+                s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${
+                  if (neoStackGateway.getNeoStackAmount(p,new ItemStack(Material.matchMaterial(require))) >= amount) s"$AQUA$BOLD${UNDERLINE}OK"
+                  else s"$RED$BOLD${UNDERLINE}NG"
+                }"
+              }
+            )
             buttons :+= getLayOut(3, 6)
           }
         } else if (selectedQuestData.questType == "suppression") {
