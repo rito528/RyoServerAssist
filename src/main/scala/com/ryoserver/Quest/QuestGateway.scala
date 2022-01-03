@@ -13,11 +13,11 @@ import org.bukkit.inventory.ItemStack
 class QuestGateway {
 
   def selectQuest(p: Player, questName: String): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList))
+    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList,playerQuestData(p.getUniqueId).bookmarks))
   }
 
   def resetQuest(p: Player): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty))
+    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,playerQuestData(p.getUniqueId).bookmarks))
   }
 
   def getQuestProgress(p: Player): Map[String, Int] = {
@@ -27,7 +27,7 @@ class QuestGateway {
   def setQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress))
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress,playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }
   }
@@ -45,11 +45,35 @@ class QuestGateway {
       )
   }
 
+  /*
+    追加したらtrue、削除したらfalseを返す
+   */
+  def setBookmark(p:Player,questName:String): Boolean = {
+    val uuid = p.getUniqueId
+    val bookmarks = playerQuestData(uuid).bookmarks
+    if (bookmarks.contains(questName)) {
+      playerQuestData += uuid -> playerQuestData(uuid).copy(bookmarks = bookmarks.filterNot(_ == questName))
+      false
+    } else {
+      playerQuestData += (uuid -> playerQuestData(uuid)
+        .copy(bookmarks = bookmarks ++ List(questName)))
+      true
+    }
+  }
+
+  def getBookmarkCanQuest(p:Player): List[QuestType] = {
+    //できるクエストとbookmarkされているクエストの積集合を取る
+    val playerLevel = Data.playerData(p.getUniqueId).level
+    getCanQuests(playerLevel).filter(data =>
+      getCanQuests(playerLevel).map(_.questName).intersect(playerQuestData(p.getUniqueId).bookmarks).contains(data.questName)
+    )
+  }
+
   def questClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
         new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty))
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty,playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }
   }

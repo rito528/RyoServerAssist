@@ -52,6 +52,11 @@ class RyoServerAssist extends JavaPlugin {
     new LoadConfig(this).load()
 
     /*
+      CreatePlayerTable
+     */
+    new CreateData(this).createPlayerTable()
+
+    /*
       Enabling command
      */
     Map(
@@ -164,6 +169,7 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.save(this)
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
+    PlayerQuestData.save(this)
     getLogger.info("RyoServerAssist disabled.")
   }
 
