@@ -49,30 +49,27 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     var invIndex = 0
     showQuests.zipWithIndex.foreach { case (questData, index) =>
       if (index < (getLayOut(9, 5) + 1) * page && (getLayOut(9, 5) + 1) * (page - 1) <= index) {
+        val description = List(
+          "",
+          s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
+          "",
+          s"${WHITE}左クリックでクエスト選択",
+          s"${WHITE}右クリックでブックマークに登録します"
+        )
         if (questData.questType == "delivery") {
           val requireList = questData.requireList.map { case (require, amount) =>
             s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
           }
           setItem(getX(invIndex), getY(invIndex), Material.BOOK, effect = false, s"$RESET[納品クエスト]${questData.questName}", List(
             s"$WHITE【納品リスト】"
-          ) ++ requireList ++ List(
-            "",
-            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
-            "",
-            s"${WHITE}左クリックでクエスト選択、右クリックでブックマークに登録します。"
-          ))
+          ) ++ requireList ++ description)
         } else if (questData.questType == "suppression") {
           val requireList = questData.requireList.map { case (require, amount) =>
             s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}体"
           }
           setItem(getX(invIndex), getY(invIndex), Material.BOOK, effect = false, s"$RESET[討伐クエスト]${questData.questName}", List(
             s"$WHITE【討伐リスト】"
-          ) ++ requireList ++ List(
-            "",
-            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
-            "",
-            s"${WHITE}左クリックでクエスト選択、右クリックでブックマークに登録します。"
-          ))
+          ) ++ requireList ++ description)
         }
         invIndex += 1
       }
