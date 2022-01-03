@@ -45,9 +45,28 @@ class QuestGateway {
       )
   }
 
+  /*
+    追加したらtrue、削除したらfalseを返す
+   */
+  def setBookmark(p:Player,questName:String): Boolean = {
+    val uuid = p.getUniqueId
+    val bookmarks = playerQuestData(uuid).bookmarks
+    if (bookmarks.contains(questName)) {
+      playerQuestData += uuid -> playerQuestData(uuid).copy(bookmarks = bookmarks.filterNot(_ == questName))
+      false
+    } else {
+      playerQuestData += (uuid -> playerQuestData(uuid)
+        .copy(bookmarks = bookmarks ++ List(questName)))
+      true
+    }
+  }
+
   def getBookmarkCanQuest(p:Player): List[QuestType] = {
     //できるクエストとbookmarkされているクエストの積集合を取る
-    getCanQuests(Data.playerData(p.getUniqueId).level).intersect(playerQuestData(p.getUniqueId).bookmarks)
+    val playerLevel = Data.playerData(p.getUniqueId).level
+    getCanQuests(playerLevel).filter(data =>
+      getCanQuests(playerLevel).map(_.questName).intersect(playerQuestData(p.getUniqueId).bookmarks).contains(data.questName)
+    )
   }
 
   def questClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {

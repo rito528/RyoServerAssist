@@ -2,7 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuData, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
@@ -35,8 +35,14 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       ,List(s"${WHITE}現在の表示順:$GREEN${QuestSortedData.getPlayerQuestSortData(p)}",
       s"${GRAY}クリックで変更します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    registerMotion(motion)
+    registerNeedClickMotion(motion)
     open()
+  }
+
+  def registerNeedClickMotion(func: (Player, Int, Boolean) => Unit): Unit = {
+    MenuData.dataNeedClick += (name -> func)
+    MenuData.partButton += (name -> partButton)
+    MenuData.Buttons += (name -> buttons)
   }
 
   def setSelectQuestItem(showQuests:List[QuestType],page:Int): Unit = {
@@ -51,7 +57,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             s"$WHITE【納品リスト】"
           ) ++ requireList ++ List(
             "",
-            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}"
+            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
+            "",
+            s"${WHITE}左クリックでクエスト選択、右クリックでブックマークに登録します。"
           ))
         } else if (questData.questType == "suppression") {
           val requireList = questData.requireList.map { case (require, amount) =>
@@ -61,7 +69,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             s"$WHITE【討伐リスト】"
           ) ++ requireList ++ List(
             "",
-            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}"
+            s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
+            "",
+            s"${WHITE}左クリックでクエスト選択、右クリックでブックマークに登録します。"
           ))
         }
         invIndex += 1
@@ -69,7 +79,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     }
   }
 
-  def motion(p: Player, index: Int): Unit = {
+  def motion(p: Player, index: Int, isRightClick: Boolean): Unit = {
     val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
     if (getLayOut(1, 6) == index) {
       if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
@@ -84,7 +94,16 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
         .replace("[討伐クエスト]", "")
         .replace("[納品クエスト]", "")
-      new QuestSelectMenuMotions(ryoServerAssist).Select(p, questName)
+      if (!isRightClick) {
+        new QuestSelectMenuMotions(ryoServerAssist).Select(p, questName)
+      } else {
+        val gateway = new QuestGateway
+        if (gateway.setBookmark(p, questName)) {
+          p.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
+        } else {
+          p.sendMessage(s"$RED${questName}をブックマークから削除しました。")
+        }
+      }
     }
 
   }
