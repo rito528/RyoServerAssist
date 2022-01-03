@@ -32,7 +32,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     if (page == 1) setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
     else setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(5,6,Material.STONECUTTER,effect = false,s"${GREEN}クエストのソートを行います。"
-      ,List(s"${WHITE}現在の表示順:$GREEN${QuestSortedData.getPlayerQuestSortData(p)}",
+      ,List(s"${WHITE}現在の表示順:$GREEN${QuestSortedData.getPlayerQuestSortData(p).name}",
       s"${GRAY}クリックで変更します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerNeedClickMotion(motion)
