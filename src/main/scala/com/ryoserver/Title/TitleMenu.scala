@@ -1,6 +1,6 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Menu.MenuLayout.{getX, getY}
+import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 
 import java.nio.file.Paths
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -22,16 +23,13 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     p = player
     val hasTitles = new PlayerTitleData(ryoServerAssist).getHasTitles(p.getUniqueId)
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
-    var index = 0
-    var page = selectPage
-    val maxPageNumber = (titleConfig.getConfigurationSection("titles").getKeys(false).size() / 45) + 1
-    if (page >= maxPageNumber) page = maxPageNumber
-    name = "称号一覧:" + page
-    titleConfig.getConfigurationSection("titles").getKeys(false).forEach(title => {
-      if (page * 45 >= index && (page - 1) * 45 <= index) {
+    name = "称号一覧:" + selectPage
+    var invIndex = 0
+    titleConfig.getConfigurationSection("titles").getKeys(false).asScala.zipWithIndex.foreach{case (title,index) =>
+      if (index < (getLayOut(9, 5) + 1) * selectPage && (getLayOut(9, 5) + 1) * (selectPage - 1) <= index) {
         val isHasTitle = hasTitles.contains(title)
         if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {
-          setItem(getX(index), getY(index), Material.BEDROCK, effect = false, s"$GREEN???", List("解放条件:???"))
+          setItem(getX(invIndex), getY(invIndex), Material.BEDROCK, effect = false, s"$GREEN???", List("解放条件:???"))
         } else {
           var lore: List[String] = List.empty
           val configCondition = titleConfig.getInt(s"titles.$title.condition")
@@ -49,7 +47,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             case "skillopen" =>
               lore = List(s"${GRAY}解放条件:以下のスキルを開放しよう。")
               titleConfig.getIntegerList(s"titles.$title.condition").forEach(condition => {
-                lore = lore :+ (s"${GRAY}・${SkillData.SkillNames(condition)}")
+                lore = lore :+ s"$GRAY・${SkillData.SkillNames(condition)}"
               })
             case "loginyear" =>
               lore = List(s"${GRAY}解放条件:${configCondition}年にログインしよう。")
@@ -63,11 +61,11 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
               lore = List(s"${GRAY}解放条件:${titleConfig.getString(s"titles.$title.condition").split(",")(0)}日ログインと、" +
                 s"${titleConfig.getString(s"titles.$title.condition").split(",")(1)}回クエストをクリアしよう。")
           }
-          setItem(getX(index), getY(index), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, effect = false, title, lore)
+          setItem(getX(invIndex), getY(invIndex), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, effect = false, title, lore)
         }
+        invIndex += 1
       }
-      index += 1
-    })
+    }
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
     setItem(5, 6, Material.PAPER, effect = false, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページへ移動", List(s"${GRAY}クリックで次のページに移動します。"))
