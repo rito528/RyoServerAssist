@@ -1,5 +1,6 @@
 package com.ryoserver.Quest.Event
 
+import java.util.UUID
 import scala.collection.mutable
 
 object EventDataProvider {
@@ -13,5 +14,7 @@ object EventDataProvider {
   var nowEventName: String = ""
 
   var ratio = 1.0
+
+  var oldEventData:Map[String,Map[UUID,Int]] = Map.empty
 
 }

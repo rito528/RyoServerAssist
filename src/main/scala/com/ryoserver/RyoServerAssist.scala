@@ -145,6 +145,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
+    new EventGateway(this).loadBeforeEvents()
     new SaveDistribution(this).autoSave()
     new LoadDistribution(this).load()
     Translate.loadLangFile()

@@ -1,5 +1,7 @@
 package com.ryoserver.Quest.Event
 
+import com.ryoserver.Distribution.DistributionType
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Player.RyoServerPlayerForAll
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
@@ -38,6 +40,24 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       sql.close()
       ryoServerAssist.getLogger.info("イベントランキングの読み込みが完了しました。")
     }
+  }
+
+  /*
+    終わったイベントかつボーナスイベントではないもののデータを取得する
+   */
+  def loadBeforeEvents(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+    val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+    EventDataProvider.eventData.foreach{eventData =>
+      val end = format.parse(s"${eventData.end} 20:59")
+      if (nowCalender.getTime.after(end) && eventData.eventType != "bonus") {
+        val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${eventData.name}';")
+        EventDataProvider.oldEventData += (eventData.name -> Iterator.from(0).takeWhile(_ => rs.next())
+          .map(_ => rs.getString("UUID") -> rs.getInt("counter")).toMap)
+      }
+    }
+    sql.close()
   }
 
   /*
