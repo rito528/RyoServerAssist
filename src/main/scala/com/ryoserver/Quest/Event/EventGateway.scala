@@ -1,5 +1,7 @@
 package com.ryoserver.Quest.Event
 
+import com.ryoserver.Distribution.DistributionType
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Player.RyoServerPlayerForAll
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
@@ -7,7 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.scheduler.BukkitRunnable
 
 import java.text.SimpleDateFormat
-import java.util.{Calendar, TimeZone}
+import java.util.{Calendar, TimeZone, UUID}
 
 class EventGateway(ryoServerAssist: RyoServerAssist) {
 
@@ -38,6 +40,24 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       sql.close()
       ryoServerAssist.getLogger.info("イベントランキングの読み込みが完了しました。")
     }
+  }
+
+  /*
+    終わったイベントかつボーナスイベントではないもののデータを取得する
+   */
+  def loadBeforeEvents(): Unit = {
+    val sql = new SQL(ryoServerAssist)
+    val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+    val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+    EventDataProvider.eventData.foreach{eventData =>
+      val end = format.parse(s"${eventData.end} 20:59")
+      if (nowCalender.getTime.after(end) && eventData.eventType != "bonus") {
+        val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${eventData.name}';")
+        EventDataProvider.oldEventData += (eventData.name -> Iterator.from(0).takeWhile(_ => rs.next())
+          .map(_ => UUID.fromString(rs.getString("UUID")) -> rs.getInt("counter")).toMap)
+      }
+    }
+    sql.close()
   }
 
   /*
@@ -109,8 +129,10 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
             case 2 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
             case _ => addEventRankingTitle(uuid, EventDataProvider.nowEventName)
           }
+          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${EventDataProvider.nowEventName}',$counter + 1);")
+        } else {
+          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
         }
-        sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
       }
       if (isEventEnded) EventDataProvider.nowEventName = ""
       sql.close()
