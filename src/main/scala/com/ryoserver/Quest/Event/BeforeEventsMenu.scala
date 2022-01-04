@@ -20,8 +20,8 @@ class BeforeEventsMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     EventDataProvider.oldEventData.zipWithIndex.foreach{case ((eventName,playerData),index) =>
       if (index < (getLayOut(9, 5) + 1) * page && (getLayOut(9, 5) + 1) * (page - 1) <= index) {
         setItem(getX(invIndex), getY(invIndex), Material.BOOK, effect = false, s"$WHITE$eventName", List(
-          s"${WHITE}あなたの順位:" + playerData.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(p.getUniqueId),
-          s"${WHITE}貢献数:" + playerData(p.getUniqueId)
+          s"${WHITE}あなたの順位:${if (playerData.contains(p.getUniqueId)) playerData.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(p.getUniqueId) else "参加していません。"}",
+          s"${WHITE}貢献数:${if (playerData.contains(p.getUniqueId)) playerData(p.getUniqueId) else "参加していません。"}"
         ))
         invIndex += 1
       }
