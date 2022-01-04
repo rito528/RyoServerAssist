@@ -37,7 +37,7 @@ class BeforeEventsMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   private def motion(p:Player,index:Int): Unit = {
-    val page = p.getOpenInventory.getTitle.replace("過去のイベント","").toInt
+    val page = p.getOpenInventory.getTitle.replace("過去のイベント:","").toInt
     if (getLayOut(1,6) == index) {
       if (page == 1) {
         new RyoServerMenu1(ryoServerAssist).menu(p)

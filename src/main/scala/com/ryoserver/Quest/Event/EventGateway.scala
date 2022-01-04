@@ -9,7 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.scheduler.BukkitRunnable
 
 import java.text.SimpleDateFormat
-import java.util.{Calendar, TimeZone}
+import java.util.{Calendar, TimeZone, UUID}
 
 class EventGateway(ryoServerAssist: RyoServerAssist) {
 
@@ -54,7 +54,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       if (nowCalender.getTime.after(end) && eventData.eventType != "bonus") {
         val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${eventData.name}';")
         EventDataProvider.oldEventData += (eventData.name -> Iterator.from(0).takeWhile(_ => rs.next())
-          .map(_ => rs.getString("UUID") -> rs.getInt("counter")).toMap)
+          .map(_ => UUID.fromString(rs.getString("UUID")) -> rs.getInt("counter")).toMap)
       }
     }
     sql.close()
