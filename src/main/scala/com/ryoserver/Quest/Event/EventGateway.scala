@@ -109,8 +109,10 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
             case 2 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
             case _ => addEventRankingTitle(uuid, EventDataProvider.nowEventName)
           }
+          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${EventDataProvider.nowEventName}',$counter + 1);")
+        } else {
+          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
         }
-        sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
       }
       if (isEventEnded) EventDataProvider.nowEventName = ""
       sql.close()
