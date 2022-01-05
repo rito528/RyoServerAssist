@@ -1,10 +1,10 @@
 package com.ryoserver.Player
 
-import org.bukkit.entity.Player
+import org.bukkit.OfflinePlayer
 
 object PlayerManager {
 
-  implicit class getPlayerData(p:Player) {
+  implicit class getPlayerData(p:OfflinePlayer) {
     private val playerData: PlayerData = Data.playerData(p.getUniqueId)
     def getQuestLevel: Int = playerData.level
     def getQuestExp: Double = playerData.exp
@@ -25,7 +25,7 @@ object PlayerManager {
     def isAutoStack: Boolean  = playerData.autoStack
   }
 
-  implicit class setPlayerData(p:Player) {
+  implicit class setPlayerData(p:OfflinePlayer) {
     val rp = new RyoServerPlayer(p)
     def giveNormalGachaTickets(amount: Int) : Unit = rp.giveNormalGachaTicket(amount)
     def reduceNormalGachaTickets(amount: Int): Unit = rp.reduceNormalGachaTicket(amount)
