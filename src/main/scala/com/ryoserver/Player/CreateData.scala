@@ -26,10 +26,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
       sql.close()
       return
     }
-    //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Players(UUID Text,lastLogin DATETIME,lastLogout DATETIME,loginDays INT,consecutiveLoginDays INT," +
-      "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
-      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN,VoteNumber INT);")
+    createPlayerTable()
     val user_rs = sql.executeQuery(s"SELECT UUID FROM Players WHERE UUID='${p.getUniqueId.toString}';")
     if (!user_rs.next()) {
       sql.executeSQL(s"INSERT INTO Players (UUID,lastLogin,loginDays,consecutiveLoginDays," +
@@ -49,7 +46,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
         })
       }
       Bukkit.broadcastMessage(s"$AQUA${p.getName}さんが初参加しました！")
-      Data.playerData += (p.getUniqueId -> PlayerData(0, 0, 0, new SkillPointCal().getMaxSkillPoint(0), 0, 0, 0, 0, 0, 0, None, 0, 0, None, None, None, autoStack = false, None, None, None))
+      PlayerData.playerData += (p.getUniqueId -> PlayerDataType(0, 0, 0, new SkillPointCal().getMaxSkillPoint(0), 0, 0, 0, 0, 0, 0, None, 0, 0, None, None, None, autoStack = false, None, None, None))
       Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }
     sql.close()

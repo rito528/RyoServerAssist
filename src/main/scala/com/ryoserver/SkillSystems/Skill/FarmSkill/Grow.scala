@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
 import com.ryoserver.util.WorldGuardWrapper
@@ -23,7 +24,7 @@ class Grow {
   )
 
   def grow(p: Player, skillName: String, clickedBlock: Block, spCost: Int, range: FarmRange): Unit = {
-    if (!boneMealList.contains(clickedBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
+    if (!boneMealList.contains(clickedBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val facing = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
     if (facing == "SOUTH") {

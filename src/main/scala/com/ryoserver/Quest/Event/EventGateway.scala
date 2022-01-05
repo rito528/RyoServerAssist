@@ -2,10 +2,11 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Distribution.DistributionType
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Player.RyoServerPlayerForAll
+import com.ryoserver.Player.PlayerData
+import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
-import org.bukkit.ChatColor
+import org.bukkit.{Bukkit, ChatColor}
 import org.bukkit.scheduler.BukkitRunnable
 
 import java.text.SimpleDateFormat
@@ -94,7 +95,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
       EventDataProvider.nowEventName = holdingEvent()
       createEventTable()
-      val rpa = new RyoServerPlayerForAll
       val sql = new SQL(ryoServerAssist)
       val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}'")
       var oldExp = 0
@@ -105,7 +105,10 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       val gacha = ((EventDataProvider.eventCounter / reward) * EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
       sql.executeSQL(s"INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter},${gacha}) " +
         s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
-      rpa.giveNormalGachaTickets(gacha)
+      PlayerData.playerData.foreach{case (uuid,_) =>
+        val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
+        offlinePlayer.giveNormalGachaTickets(gacha)
+      }
       sql.close()
     }
   }

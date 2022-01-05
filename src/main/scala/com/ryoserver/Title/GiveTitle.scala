@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Level.Player.GetPlayerData
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
@@ -22,7 +22,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   private val data = new PlayerTitleData(ryoServerAssist)
 
   def lv(p: Player): Unit = {
-    val level = new GetPlayerData().getPlayerLevel(p)
+    val level = p.getQuestLevel
     TitleData.lv.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= level) {
         if (data.openTitle(p, title)) {
@@ -90,7 +90,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def skillOpenNumber(p: Player): Unit = {
-    val skillOpenData = Data.playerData(p.getUniqueId).OpenedSkills
+    val skillOpenData = p.getOpenedSkills
     skillOpenData match {
       case Some(skills) =>
         TitleData.skillOpen.foreach(title => {

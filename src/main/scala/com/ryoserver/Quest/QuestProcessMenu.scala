@@ -1,9 +1,9 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
@@ -38,8 +38,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
           ))
           setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
-          val data = new GetPlayerData()
-          if (data.getPlayerLevel(p) >= 20) {
+          if (p.getQuestLevel >= 20) {
             val neoStackGateway = new NeoStackGateway(ryoServerAssist)
             setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。",
               List(s"${GRAY}クリックでneoStackから納品します。") ++ questGateway.getQuestProgress(p).map { case (require, amount) =>

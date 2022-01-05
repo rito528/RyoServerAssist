@@ -2,7 +2,8 @@ package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.{isSkillOpened, skillToggle}
@@ -31,7 +32,7 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(6, 3, if (isSkillOpened(p, "ラウンドハーベスト")) Material.IRON_HOE else Material.BEDROCK, effect = false, s"${GREEN}ラウンドハーベスト",
       getHarvestSkillLore("ラウンドハーベスト","3*3",21))
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    setSkullItem(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + Data.playerData(p.getUniqueId).specialSkillOpenPoint))
+    setSkullItem(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + p.getSpecialSkillOpenPoint))
     registerMotion(motion)
     open()
   }

@@ -1,5 +1,6 @@
 package com.ryoserver.NeoStack
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -15,7 +16,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
     val itemStack = e.getItem.getItemStack
     val data = new NeoStackGateway(ryoServerAssist)
     val p = e.getEntity.asInstanceOf[Player]
-    if (!data.checkItemList(itemStack) || !data.isAutoStackEnabled(p)) return
+    if (!data.checkItemList(itemStack) || !p.isAutoStack) return
     e.setCancelled(true)
     e.getItem.remove()
     new BukkitRunnable {

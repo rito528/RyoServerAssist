@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.CalLv
-import com.ryoserver.Player.Data.playerData
+import com.ryoserver.Player.PlayerData.playerData
 import org.bukkit.OfflinePlayer
 
 import java.util.UUID
@@ -9,7 +9,7 @@ import java.util.UUID
 class RyoServerPlayer(player: OfflinePlayer) {
 
   private val uuid: UUID = player.getUniqueId
-  private var oldData: PlayerData = playerData(uuid)
+  private var oldData: PlayerDataType = playerData(uuid)
 
   def giveNormalGachaTicket(amount: Int): Unit = {
     val result = oldData.copy(gachaTickets = oldData.gachaTickets + amount)
@@ -64,37 +64,37 @@ class RyoServerPlayer(player: OfflinePlayer) {
 
   def addSpecialSkillOpenPoint(amount: Int): Unit = {
     val result = oldData.copy(specialSkillOpenPoint = oldData.specialSkillOpenPoint + amount)
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
   def skillOpen(skills: String): Unit = {
     val result = oldData.copy(OpenedSkills = Option(skills))
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
   def specialSkillOpen(skills: String): Unit = {
     val result = oldData.copy(OpenedSpecialSkills = Option(skills))
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
   def setLastDistributionReceived(id: Int): Unit = {
     val result = oldData.copy(lastDistributionReceived = id)
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
   def openTitle(titles: String): Unit = {
     val result = oldData.copy(OpenedTitles = Option(titles))
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
   def setSelectedTitle(title: String): Unit = {
     val result = oldData.copy(SelectedTitle = Option(title))
-    Data.playerData += (uuid -> result)
+    PlayerData.playerData += (uuid -> result)
     oldData = result
   }
 
