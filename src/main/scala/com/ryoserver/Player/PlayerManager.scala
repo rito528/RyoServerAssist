@@ -8,6 +8,7 @@ object PlayerManager {
     private val playerData: PlayerData = Data.playerData(p.getUniqueId)
     def getQuestLevel: Int = playerData.level
     def getQuestExp: Double = playerData.exp
+    def getRanking: Int = Data.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
     def getLastDistributionReceived: Int = playerData.lastDistributionReceived
     def getSkillPoint: Double = playerData.skillPoint
     def getLoginNumber: Int = playerData.loginNumber

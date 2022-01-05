@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{Data, GetData, GetRyoServerPlayerData}
+import com.ryoserver.Player.{Data, GetData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
@@ -56,7 +56,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setSkullItem(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${playerData.level}",
       s"${WHITE}EXP: ${playerData.exp}",
-      s"${WHITE}ランキング: ${new GetRyoServerPlayerData(p).getRanking}位",
+      s"${WHITE}ランキング: ${p.getRanking}位",
       s"${WHITE}クエストクリア回数: ${playerData.questClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
       s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
