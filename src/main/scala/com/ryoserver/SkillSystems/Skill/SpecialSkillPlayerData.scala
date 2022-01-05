@@ -1,7 +1,7 @@
 package com.ryoserver.SkillSystems.Skill
 
-import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{Data, RyoServerPlayer}
+import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
@@ -78,9 +78,8 @@ object SpecialSkillPlayerData {
       case None =>
         openedSkills += skillName
     }
-    val rp = new RyoServerPlayer(p)
-    rp.addSpecialSkillOpenPoint(-10)
-    rp.specialSkillOpen(openedSkills)
+    p.addSpecialSkillOpenPoint(-10)
+    p.openSpecialSkills(openedSkills)
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

@@ -3,7 +3,7 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -67,7 +67,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case 36 =>
         new RyoServerMenu1(ryoServerAssist).menu(p)
       case 40 =>
-        data.toggleAutoStack(p)
+        p.toggleAutoStack()
         openCategorySelectMenu(p)
       case 44 =>
         p.getInventory.getContents.foreach(item => {

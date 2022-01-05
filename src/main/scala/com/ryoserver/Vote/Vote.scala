@@ -1,5 +1,6 @@
 package com.ryoserver.Vote
 
+import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Player
@@ -16,9 +17,9 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
     Bukkit.getOnlinePlayers.forEach(onlinePlayer => {
       onlinePlayer.playSound(onlinePlayer.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     })
-    val rp = new RyoServerPlayer(Bukkit.getOfflinePlayer(uuid))
-    rp.giveNormalGachaTicket(16)
-    rp.addOneVoteNumber()
+    val p = Bukkit.getOfflinePlayer(uuid)
+    p.giveNormalGachaTickets(16)
+    p.addOneVoteNumber()
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
       p.sendMessage("投票はこちら！")

@@ -1,8 +1,8 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
-import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{Data, Name, RyoServerPlayer}
+import com.ryoserver.Player.Name
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
@@ -22,7 +22,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     Force exp updates
    */
   def updateExp(exp: Int, p: Player): Unit = {
-    new RyoServerPlayer(p).updateExp(exp)
+    p.questExpAddNaturally(exp)
     BossBar.updateLevelBer(exp, p)
   }
 
@@ -56,26 +56,25 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
      */
     val old_exp = p.getQuestExp
     val old_level = p.getQuestLevel
-    val rp = new RyoServerPlayer(p)
     val calLv = new CalLv
 
     val sumExp = exp + old_exp
     val ticketAmountCal = (((old_exp % 100) + exp) / 100).toInt
     //経験値毎にもらうガチャ券の算出
-    if (ticketAmountCal > 0) rp.giveNormalGachaTicket(ticketAmountCal)
+    if (ticketAmountCal > 0) p.giveNormalGachaTickets(ticketAmountCal)
     //レベル毎にもらうガチャ券の算出
     val nowLevel = calLv.getLevel(sumExp.toInt)
     if (nowLevel > old_level && old_level != 0) {
       for (i <- old_level + 1 to nowLevel) {
-        if (i % 10 == 0) rp.giveNormalGachaTicket(32)
+        if (i % 10 == 0) p.giveNormalGachaTickets(32)
       }
     }
-    rp.addExp(exp)
+    p.questExpAddNaturally(exp)
     BossBar.updateLevelBer(sumExp, p)
     if (old_level < nowLevel) {
-      rp.addSkillOpenPoint(nowLevel - old_level)
-      if (nowLevel > 100) rp.addSpecialSkillOpenPoint(nowLevel - old_level)
-      else if (nowLevel == 100) rp.addSpecialSkillOpenPoint(10)
+      p.addSkillOpenPoint(nowLevel - old_level)
+      if (nowLevel > 100) p.addSpecialSkillOpenPoint(nowLevel - old_level)
+      else if (nowLevel == 100) p.addSpecialSkillOpenPoint(10)
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復

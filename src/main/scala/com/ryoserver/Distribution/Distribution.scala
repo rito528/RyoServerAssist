@@ -1,6 +1,7 @@
 package com.ryoserver.Distribution
 
 import com.ryoserver.Gacha.GachaPaperData
+import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
@@ -50,7 +51,7 @@ class Distribution(ryoServerAssist: RyoServerAssist) {
       }
     })
     if (stack != 0 && id != 0) {
-      new RyoServerPlayer(p).setLastDistributionReceived(id)
+      p.setLastDistributionReceived(id)
       var gachaPaper: ItemStack = null
       if (gachaPaperType.equalsIgnoreCase("normal")) gachaPaper = new ItemStack(GachaPaperData.normal)
       if (gachaPaperType.equalsIgnoreCase("fromAdmin")) gachaPaper = new ItemStack(GachaPaperData.fromAdmin)

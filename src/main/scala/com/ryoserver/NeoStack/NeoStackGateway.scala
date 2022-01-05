@@ -1,7 +1,6 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.PlayerData.changedData
-import com.ryoserver.Player.{Data, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
@@ -124,8 +123,6 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
     if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
-
-  def toggleAutoStack(p: Player): Unit = new RyoServerPlayer(p).toggleAutoStack()
 
 
 }
