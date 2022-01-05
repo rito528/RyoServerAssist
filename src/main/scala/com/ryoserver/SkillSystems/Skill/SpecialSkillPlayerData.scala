@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Player.{Data, RyoServerPlayer}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -11,7 +12,7 @@ object SpecialSkillPlayerData {
   private var selectedBreakSkill: mutable.Map[Player, String] = mutable.Map()
 
   def skillToggle(p: Player, skillName: String): Unit = {
-    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && Data.playerData(p.getUniqueId).specialSkillOpenPoint >= 10) {
+    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && p.getSpecialSkillOpenPoint >= 10) {
       skillOpen(p, skillName)
       p.sendMessage(s"$AQUA${skillName}を開放しました。")
       return
@@ -64,7 +65,7 @@ object SpecialSkillPlayerData {
   }
 
   def isSkillOpened(p: Player, skillName: String): Boolean = {
-    val openedSkills = Data.playerData(p.getUniqueId).OpenedSpecialSkills.orNull
+    val openedSkills = p.getOpenedSpecialSkills.orNull
     if (openedSkills != null) openedSkills.contains(skillName) else false
   }
 

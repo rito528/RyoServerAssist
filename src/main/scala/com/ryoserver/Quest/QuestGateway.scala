@@ -3,6 +3,7 @@ package com.ryoserver.Quest
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.LoadQuests.loadedQuests
 import com.ryoserver.Quest.PlayerQuestData.playerQuestData
 import com.ryoserver.RyoServerAssist
@@ -38,7 +39,7 @@ class QuestGateway {
 
   def nowNeoStackCanQuest(p:Player,ryoServerAssist: RyoServerAssist): List[QuestType] = {
     val neoStackGateway = new NeoStackGateway(ryoServerAssist)
-    getCanQuests(Data.playerData(p.getUniqueId).level)
+    getCanQuests(p.getQuestLevel)
       .filter(_.questType == "delivery") //neoStackからできるクエストのソートということはすべて納品クエストのはず
       .filter(data => data.requireList
         .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(Material.matchMaterial(requires._1))) >= requires._2}
@@ -63,7 +64,7 @@ class QuestGateway {
 
   def getBookmarkCanQuest(p:Player): List[QuestType] = {
     //できるクエストとbookmarkされているクエストの積集合を取る
-    val playerLevel = Data.playerData(p.getUniqueId).level
+    val playerLevel = p.getQuestLevel
     getCanQuests(playerLevel).filter(data =>
       getCanQuests(playerLevel).map(_.questName).intersect(playerQuestData(p.getUniqueId).bookmarks).contains(data.questName)
     )

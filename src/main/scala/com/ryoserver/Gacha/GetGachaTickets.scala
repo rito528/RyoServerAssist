@@ -1,5 +1,6 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Player.{Data, RyoServerPlayer}
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
@@ -21,7 +22,7 @@ class GetGachaTickets() {
   }
 
   def getTickets(p: Player): Int = {
-    val number = Data.playerData(p.getUniqueId).gachaTickets
+    val number = p.getGachaTickets
     val rp = new RyoServerPlayer(p)
     if (number >= 576) {
       rp.reduceNormalGachaTicket(576)

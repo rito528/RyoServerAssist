@@ -127,7 +127,5 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
 
   def toggleAutoStack(p: Player): Unit = new RyoServerPlayer(p).toggleAutoStack()
 
-  def isAutoStackEnabled(p: Player): Boolean = Data.playerData(p.getUniqueId).autoStack
-
 
 }

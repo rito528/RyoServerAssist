@@ -1,8 +1,8 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuData, RyoServerMenu1}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
@@ -19,7 +19,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def inventory(player: Player, page: Int,sortType:QuestSortType): Unit = {
     p = player
     name = s"クエスト選択:$page"
-    val playerLevel = new GetPlayerData().getPlayerLevel(p)
+    val playerLevel = p.getQuestLevel
     val questGateway = new QuestGateway
     sortType match {
       case QuestSortType.normal =>

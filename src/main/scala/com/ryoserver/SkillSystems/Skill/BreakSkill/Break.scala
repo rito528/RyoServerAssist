@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
 import com.ryoserver.util.Item.itemAddDamage
@@ -28,7 +29,7 @@ class Break {
   )
 
   def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
-    if (!isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
+    if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val direction = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
     val handItem = p.getInventory.getItemInMainHand

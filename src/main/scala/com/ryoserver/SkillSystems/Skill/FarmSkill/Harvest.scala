@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
 import com.ryoserver.util.WorldGuardWrapper
@@ -23,7 +24,7 @@ class Harvest {
   )
 
   def harvest(p: Player, skillName: String, brokeBlock: Block, spCost: Int, range: FarmRange): Unit = {
-    if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > new SkillPointData().getSkillPoint(p)) return
+    if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val facing = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
     if (facing == "SOUTH") {

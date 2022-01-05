@@ -6,6 +6,7 @@ import com.ryoserver.Gacha.{GachaItemChangeGUI, GetGachaTickets}
 import com.ryoserver.Home.Home
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Player.{Data, GetData, GetRyoServerPlayerData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
@@ -44,8 +45,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}クリックで受け取ります。",
       s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
       s"${GRAY}レベルが10上がる毎に32枚手に入ります。",
-      s"${GRAY}受け取れるガチャ券の枚数:" + Data.playerData(p.getUniqueId).gachaTickets + "枚",
-      s"${GRAY}次のガチャ券まであと" + String.format("%.1f", (100 - Data.playerData(p.getUniqueId).exp % 100))))
+      s"${GRAY}受け取れるガチャ券の枚数:" + p.getGachaTickets + "枚",
+      s"${GRAY}次のガチャ券まであと" + String.format("%.1f", (100 - p.getQuestExp % 100))))
     setItem(5, 5, Material.HONEY_BOTTLE, effect = true, s"${GREEN}ガチャ特等アイテム交換画面を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(1, 6, Material.ENDER_PEARL, effect = false, s"${GREEN}現在いるワールドのスポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(2, 6, Material.COMPASS, effect = false, s"${GREEN}スポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))

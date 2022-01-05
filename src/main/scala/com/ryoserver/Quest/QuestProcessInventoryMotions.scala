@@ -3,6 +3,7 @@ package com.ryoserver.Quest
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
@@ -75,7 +76,7 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       getLayOut(1, 6),
       getLayOut(2, 6),
       getLayOut(9, 6),
-      if (Data.playerData(p.getUniqueId).level >= 20) getLayOut(3, 6) else -1
+      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
     ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 

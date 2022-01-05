@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.SkillOpens
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
@@ -8,8 +9,7 @@ import org.bukkit.entity.Player
 class SkillOpenCheck(ryoServerAssist: RyoServerAssist) {
 
   def isTrueOpen(skillName: String, p: Player): Boolean = {
-    val data = new SkillOpenData(ryoServerAssist)
-    val getPoint = data.getSkillOpenPoint(p)
+    val getPoint = p.getSkillOpenPoint
     val skillID = SkillData.SkillNames.indexOf(skillName)
     if (getPoint < 10) return false
 

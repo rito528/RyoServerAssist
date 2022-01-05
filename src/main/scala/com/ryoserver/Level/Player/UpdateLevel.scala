@@ -1,6 +1,7 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Level.CalLv
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Player.{Data, Name, RyoServerPlayer}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
@@ -53,9 +54,8 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     /*
       経験値を増やす処理
      */
-    val playerData = Data.playerData(p.getUniqueId)
-    val old_exp = playerData.exp
-    val old_level = playerData.level
+    val old_exp = p.getQuestExp
+    val old_level = p.getQuestLevel
     val rp = new RyoServerPlayer(p)
     val calLv = new CalLv
 

@@ -5,10 +5,6 @@ import org.bukkit.entity.Player
 
 class SkillPointData() {
 
-  def getSkillPoint(p: Player): Double = {
-    Data.playerData(p.getUniqueId).skillPoint
-  }
-
   def setSkillPoint(p: Player, newSkillPoint: Double): Unit = {
     val oldPlayerData = Data.playerData(p.getUniqueId)
     Data.playerData = Data.playerData.filterNot { case (uuid, _) => uuid == p.getUniqueId }

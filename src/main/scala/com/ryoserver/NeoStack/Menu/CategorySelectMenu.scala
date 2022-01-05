@@ -1,9 +1,9 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Level.Player.GetPlayerData
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -17,8 +17,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openCategorySelectMenu(player: Player): Unit = {
     p = player
-    val data = new GetPlayerData()
-    if (data.getPlayerLevel(p) >= 20) {
+    if (p.getQuestLevel >= 20) {
       val lore: List[String] = List(s"${GRAY}クリックで開きます。")
       setItem(3, 2, Material.GRASS_BLOCK, effect = false, s"${GREEN}主要ブロック", lore)
       setItem(5, 2, Material.LEATHER, effect = false, s"${GREEN}主要アイテム", lore)
@@ -28,9 +27,9 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       setItem(6, 3, Material.REDSTONE, effect = false, s"${GREEN}レッドストーン系", lore)
       setItem(8, 3, Material.OAK_SAPLING, effect = false, s"${GREEN}植物系", lore)
       setItem(1, 5, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      setItem(5, 5, Material.HOPPER, effect = false, s"${WHITE}自動収納を${if (new NeoStackGateway(ryoServerAssist).isAutoStackEnabled(p)) "off" else "on"}にします。",
+      setItem(5, 5, Material.HOPPER, effect = false, s"${WHITE}自動収納を${if (p.isAutoStack) "off" else "on"}にします。",
         List(s"${GRAY}クリックで切り替えます。",
-          s"${GRAY}現在の状態:${if (new NeoStackGateway(ryoServerAssist).isAutoStackEnabled(p)) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
+          s"${GRAY}現在の状態:${if (p.isAutoStack) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
       setItem(9, 5, Material.CHEST_MINECART, effect = false, s"${GREEN}インベントリ内のアイテムをstackに収納します。", List(s"${GRAY}クリックで収納します。"))
       registerMotion(motion)
       open()
