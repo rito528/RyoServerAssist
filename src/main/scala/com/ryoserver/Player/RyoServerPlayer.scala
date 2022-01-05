@@ -9,7 +9,7 @@ import java.util.UUID
 class RyoServerPlayer(player: OfflinePlayer) {
 
   private val uuid: UUID = player.getUniqueId
-  private var oldData: PlayerData = playerData(uuid)
+  private var oldData: PlayerDataType = playerData(uuid)
 
   def giveNormalGachaTicket(amount: Int): Unit = {
     val result = oldData.copy(gachaTickets = oldData.gachaTickets + amount)

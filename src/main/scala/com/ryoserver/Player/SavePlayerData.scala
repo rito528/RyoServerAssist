@@ -22,7 +22,7 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
-  private def saveDataBuilder(playerData: PlayerData): String = {
+  private def saveDataBuilder(playerData: PlayerDataType): String = {
     val stringBuilder = new StringBuilder
     Map(
       "lastDistributionReceived" -> playerData.lastDistributionReceived,

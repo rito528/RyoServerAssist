@@ -5,7 +5,7 @@ import org.bukkit.OfflinePlayer
 object PlayerManager {
 
   implicit class getPlayerData(p:OfflinePlayer) {
-    private val playerData: PlayerData = Data.playerData(p.getUniqueId)
+    private val playerData: PlayerDataType = Data.playerData(p.getUniqueId)
     def getQuestLevel: Int = playerData.level
     def getQuestExp: Double = playerData.exp
     def getRanking: Int = Data.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1

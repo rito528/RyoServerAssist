@@ -5,6 +5,6 @@ import scala.collection.mutable
 
 object Data {
 
-  var playerData: mutable.Map[UUID, PlayerData] = mutable.Map.empty
+  var playerData: mutable.Map[UUID, PlayerDataType] = mutable.Map.empty
 
 }

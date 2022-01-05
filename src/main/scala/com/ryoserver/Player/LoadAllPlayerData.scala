@@ -34,7 +34,7 @@ class LoadAllPlayerData(ryoServerAssist: RyoServerAssist) {
       val twitter = rs.getString("Twitter")
       val discord = rs.getString("Discord")
       val word = rs.getString("Word")
-      Data.playerData += (uuid -> PlayerData(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
+      Data.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
         questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
         Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
     }
