@@ -6,7 +6,7 @@ import com.ryoserver.util.SQL
 import java.util.UUID
 import scala.collection.mutable
 
-class LoadPlayerData(ryoServerAssist: RyoServerAssist) {
+class LoadAllPlayerData(ryoServerAssist: RyoServerAssist) {
 
   def load(): Unit = {
     val sql = new SQL(ryoServerAssist)
