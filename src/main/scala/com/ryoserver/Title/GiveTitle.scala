@@ -1,6 +1,6 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL

@@ -11,7 +11,7 @@ class LoadAllPlayerData(ryoServerAssist: RyoServerAssist) {
   def load(): Unit = {
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery("SELECT * FROM Players ORDER BY EXP DESC;")
-    Data.playerData = mutable.Map.empty
+    PlayerData.playerData = mutable.Map.empty
     while (rs.next()) {
       val uuid = UUID.fromString(rs.getString("UUID"))
       val level = rs.getInt("Level")
@@ -34,7 +34,7 @@ class LoadAllPlayerData(ryoServerAssist: RyoServerAssist) {
       val twitter = rs.getString("Twitter")
       val discord = rs.getString("Discord")
       val word = rs.getString("Word")
-      Data.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
+      PlayerData.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
         questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
         Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
     }

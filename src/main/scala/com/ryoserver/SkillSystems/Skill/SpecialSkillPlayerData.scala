@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -70,7 +70,7 @@ object SpecialSkillPlayerData {
   }
 
   def skillOpen(p: Player, skillName: String): Unit = {
-    val data = Data.playerData(p.getUniqueId)
+    val data = PlayerData.playerData(p.getUniqueId)
     var openedSkills = ""
     data.OpenedSpecialSkills match {
       case Some(s) =>

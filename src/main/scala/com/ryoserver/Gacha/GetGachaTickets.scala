@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
-import com.ryoserver.Player.{Data, RyoServerPlayer}
+import com.ryoserver.Player.{PlayerData, RyoServerPlayer}
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player

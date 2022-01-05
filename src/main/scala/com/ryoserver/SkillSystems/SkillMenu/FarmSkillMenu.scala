@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData

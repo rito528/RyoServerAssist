@@ -2,7 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.LoadQuests.loadedQuests
 import com.ryoserver.Quest.PlayerQuestData.playerQuestData

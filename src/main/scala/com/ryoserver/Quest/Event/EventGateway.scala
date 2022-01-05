@@ -2,7 +2,7 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Distribution.DistributionType
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Player.Data
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
@@ -105,7 +105,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       val gacha = ((EventDataProvider.eventCounter / reward) * EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
       sql.executeSQL(s"INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter},${gacha}) " +
         s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
-      Data.playerData.foreach{case (uuid,_) =>
+      PlayerData.playerData.foreach{case (uuid,_) =>
         val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
         offlinePlayer.giveNormalGachaTickets(gacha)
       }

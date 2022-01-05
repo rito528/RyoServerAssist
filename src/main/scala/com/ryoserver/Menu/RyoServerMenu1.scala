@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{Data, GetData}
+import com.ryoserver.Player.{PlayerData, GetData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
@@ -52,7 +52,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(2, 6, Material.COMPASS, effect = false, s"${GREEN}スポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     setItem(3, 6, Material.WHITE_BED, effect = false, s"${GREEN}ホームメニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 6, Material.OAK_DOOR, effect = false, s"${GREEN}ロビーに戻ります。", List(s"${GRAY}クリックでロビーに戻ります。"))
-    val playerData = Data.playerData(p.getUniqueId)
+    val playerData = PlayerData.playerData(p.getUniqueId)
     setSkullItem(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${playerData.level}",
       s"${WHITE}EXP: ${playerData.exp}",

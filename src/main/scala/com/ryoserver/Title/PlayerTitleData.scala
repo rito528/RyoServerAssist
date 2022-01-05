@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.{Data, RyoServerPlayer}
+import com.ryoserver.Player.{PlayerData, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -27,7 +27,7 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
   def hasTitle(uuid: UUID, title: String): Boolean = getHasTitles(uuid).contains(title)
 
   def getHasTitles(uuid: UUID): Array[String] = {
-    Data.playerData(uuid).OpenedTitles match {
+    PlayerData.playerData(uuid).OpenedTitles match {
       case Some(titles) =>
         titles.split(";")
       case None =>
@@ -36,7 +36,7 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
   }
 
   def getSelectedTitle(uuid: UUID): String = {
-    Data.playerData(uuid).SelectedTitle match {
+    PlayerData.playerData(uuid).SelectedTitle match {
       case Some(title) =>
         title
       case None =>
