@@ -8,8 +8,7 @@ class RecoverySkillPointEvent extends Listener {
 
   @EventHandler
   def onEat(e: PlayerItemConsumeEvent): Unit = {
-    val item = e.getItem
-    item.setAmount(1)
+    val item = Item.getOneItemStack(e.getItem)
     val p = e.getPlayer
     if (item == RecoveryItems.min) {
       val skillPointData = new SkillPointData()

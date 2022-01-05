@@ -17,7 +17,7 @@ object Item {
     itemMeta.setDisplayName(name)
     itemMeta.setLore(lore)
     itemStack.setItemMeta(itemMeta)
-    itemStack
+    getOneItemStack(itemStack)
   }
 
   val getEnchantEffectItem: (Material, String, java.util.List[String]) => ItemStack = (material: Material, name: String, lore: java.util.List[String]) => {
