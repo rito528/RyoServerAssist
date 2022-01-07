@@ -408,6 +408,7 @@ object OriginalItems {
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
+    itemMeta.setLore(List(s"${GRAY}手に持つと耐性2のエフェクトが付きます。").asJava)
     itemStack.setItemMeta(itemMeta)
     itemStack
   }
