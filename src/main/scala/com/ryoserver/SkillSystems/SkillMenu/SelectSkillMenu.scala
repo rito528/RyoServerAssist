@@ -1,6 +1,7 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.Menu
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
 import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
@@ -69,7 +70,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (!check.isOpened(SkillNames(9), p)) s"${GRAY}基本スキルをすべて開放" else "",
         s"${GRAY}スキルポイントコスト:600"))
     setSkullItem(8, 6, p, s"${GREEN}クリックですべてのスキル選択を解除できます。", List(
-      s"${GRAY}現在保有中のスキル開放ポイント:" + skillData.getSkillOpenPoint(p)
+      s"${GRAY}現在保有中のスキル開放ポイント:" + p.getSkillOpenPoint
     ))
     setItem(1, 3, if (check.isOpened(SkillNames(10), p)) Material.SHIELD else Material.BEDROCK, effect = true,
       s"${GREEN}${SkillNames(10)}", List(s"${GRAY}耐性2の効果が付与されます。",

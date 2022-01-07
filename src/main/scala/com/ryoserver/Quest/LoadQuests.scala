@@ -2,60 +2,64 @@ package com.ryoserver.Quest
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Entity
 import org.bukkit.Material
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.entity.EntityType
 
 import java.io.File
 import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object LoadQuests {
 
   val QUEST_SETTING_FILES = "plugins/RyoServerAssist/Quests/"
 
-  var enableEvents: Array[String] = Array.empty
-  var questConfig: FileConfiguration = _
-  var langFile: JsonNode = _
+  var loadedQuests: List[QuestType] = List.empty
 
-  def checkQuest(ryoServerAssist: RyoServerAssist): Unit = {
+  def loadQuest(ryoServerAssist: RyoServerAssist): Unit = {
     if (new File(QUEST_SETTING_FILES).listFiles() == null) return
-    new File(QUEST_SETTING_FILES).listFiles().foreach(file => {
-      println("クエストロード中:" + file.getName)
-      if (file.getName.contains(".json")) {
-        val mapper = new ObjectMapper()
-        var readLine = ""
-        val source = Source.fromFile(QUEST_SETTING_FILES + "/" + file.getName, "UTF-8")
-        source.getLines().foreach(line => readLine = line)
-        val json = mapper.readTree(readLine)
-        val questName = json.get("questName").textValue()
-        enableEvents +:= questName
-        val items = StreamSupport.stream(json.get("condition").spliterator(), false)
-          .map(
-            e => {
-              e.asText
-            })
-          .collect(Collectors.toList[String])
-        items.forEach(material => {
-          if (Material.getMaterial(material.toUpperCase().split(":")(0)) == null && json.get("type").textValue() == "delivery")
-            ryoServerAssist.getLogger.warning("クエスト:" + questName + "でアイテム名:" + material + "というアイテムが存在しません！")
-          else if (!checkEntity(material.toUpperCase().split(":")(0)) && json.get("type").textValue() == "suppression")
-            ryoServerAssist.getLogger.warning("クエスト:" + questName + "でアイテム名:" + material + "というMOBが存在しません！")
-        })
-      }
+    val questFileNames = new File(QUEST_SETTING_FILES).listFiles()
+      .map(_.getName)
+      .filter(_.contains(".json"))
+    loadedQuests = questFileNames.toList.map(questFileName => {
+      val data = getQuestData(questFileName, ryoServerAssist)
+      val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
+        .map(
+          e => {
+            e.asText
+          })
+        .collect(Collectors.toList[String]).asScala
+      val questType = data.get("type").textValue()
+      QuestType(data.get("questName").textValue(), questType, data.get("minLevel").textValue().toInt,
+        data.get("maxLevel").textValue().toInt, data.get("exp").textValue().toDouble,
+        requires.map(data =>
+          data.split(":")(0) -> data.split(":")(1).toInt).toMap)
     })
-    val is = getClass.getClassLoader.getResourceAsStream("ja_jp.json")
-    val mapper = new ObjectMapper()
-    langFile = mapper.readTree(Source.fromInputStream(is).getLines().mkString)
   }
 
-  def checkEntity(entityName: String): Boolean = {
-    val entities: Seq[String] = for {
-      entity <- EntityType.values().toIndexedSeq
-      if (entity.name() == entityName)
-    } yield entity.name()
-
-    entities.contains(entityName)
+  private def getQuestData(questFileName: String, ryoServerAssist: RyoServerAssist): JsonNode = {
+    val mapper = new ObjectMapper()
+    var readLine = ""
+    val source = Source.fromFile(s"$QUEST_SETTING_FILES/$questFileName", "UTF-8")
+    source.getLines().foreach(line => readLine = line)
+    val json = mapper.readTree(readLine)
+    val questName = json.get("questName").textValue()
+    val items = StreamSupport.stream(json.get("condition").spliterator(), false)
+      .map(
+        e => {
+          e.asText
+        })
+      .collect(Collectors.toList[String])
+    items.forEach(material => {
+      if (Material.getMaterial(material.toUpperCase().split(":")(0)) == null && json.get("type").textValue() == "delivery") {
+        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でアイテム名:" + material.toUpperCase().split(":")(0) + "というアイテムが存在しません！")
+        return null
+      } else if (!Entity.isExistsEntity(material.toUpperCase().split(":")(0)) && json.get("type").textValue() == "suppression") {
+        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でMOB名:" + material.toUpperCase().split(":")(0) + "というMOBが存在しません！")
+        return null
+      }
+    })
+    json
   }
 
 }

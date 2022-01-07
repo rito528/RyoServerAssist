@@ -2,6 +2,7 @@ package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
 import com.ryoserver.NeoStack.PlayerData
+import com.ryoserver.Quest.PlayerQuestData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
@@ -14,16 +15,16 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
     new CreateData(ryoServerAssist).createPlayerData(p)
     new UpdateData(ryoServerAssist).update(p)
     new LevelLoader().loadPlayerLevel(p)
-    new Name(ryoServerAssist).updateName(p)
     PlayerData.loadNeoStackPlayerData(ryoServerAssist, p)
     SkillPointBer.create(p)
+    new Name(ryoServerAssist).updateName(p)
+    PlayerQuestData.loadPlayerData(ryoServerAssist, p)
   }
 
   def unload(p: Player): Unit = {
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
     new skillToggleClass(p, ryoServerAssist).allEffectClear(p)
-    new SavePlayerData(ryoServerAssist).targetSave(p.getUniqueId)
     if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p, SpecialSkillPlayerData.getActivatedSkill(p).get)
   }
 

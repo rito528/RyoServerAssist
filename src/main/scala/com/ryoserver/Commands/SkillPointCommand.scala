@@ -1,6 +1,7 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
+import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.Player.RyoServerPlayer
 import org.bukkit.entity.Player
 
@@ -14,11 +15,11 @@ class SkillPointCommand extends CommandBuilder {
   )
 
   def addNormalSkillPoint(): Unit = {
-    new RyoServerPlayer(sender.asInstanceOf[Player]).addSkillOpenPoint(args(1).toInt)
+    sender.asInstanceOf[Player].addSkillOpenPoint(args(1).toInt)
   }
 
   def addSpecialSkillPoint(): Unit = {
-    new RyoServerPlayer(sender.asInstanceOf[Player]).addSpecialSkillOpenPoint(args(1).toInt)
+    sender.asInstanceOf[Player].addSpecialSkillOpenPoint(args(1).toInt)
   }
 
 }

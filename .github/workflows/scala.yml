@@ -1,0 +1,41 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/ryo-server-developer/ryosaba-assist-builder:latest
+      credentials:
+        username: ${{ secrets.USER_NAME }}
+        password: ${{ secrets.CR_PAT }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache SBT ivy cache
+      uses: actions/cache@v2
+      with:
+        path: /root/.ivy2/cache
+        key: ${{ runner.os }}-sbt-ivy-cache-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-ivy-cache-
+    - name: Cache Coursier cache
+      uses: actions/cache@v2
+      with:
+        path: /root/.cache/coursier
+        key: ${{ runner.os }}-sbt-coursier-cache-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-coursier-cache-
+    - name: Cache SBT
+      uses: actions/cache@v2
+      with:
+        path: /root/.sbt
+        key: ${{ runner.os }}-sbt-cache-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-cache-
+    - name: Run tests
+      run: sbt assembly

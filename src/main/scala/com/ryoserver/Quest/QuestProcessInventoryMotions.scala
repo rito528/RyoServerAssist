@@ -1,6 +1,9 @@
 package com.ryoserver.Quest
 
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.Player.PlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
@@ -8,120 +11,80 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
 import org.bukkit.{Material, Sound}
 
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
 class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
 
-  def delivery(p: Player, inv: Inventory): Unit = {
-    val questData = new QuestData(ryoServerAssist)
-    var remainingItems: Array[ItemStack] = Array.empty
-    var invItems: Array[ItemStack] = Array.empty
-    //クエスト終了に必要な残りの納品アイテムを取得する
-    questData.getSelectedQuestRemaining(p).split(";").foreach(remainingItem => {
-      val itemData = remainingItem.split(":")
-      remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)), itemData(1).toInt)
-    })
-    //インベントリの中身をすべて取得
-    inv.getContents.foreach(invItem => {
-      invItems :+= invItem
-    })
-    //納品アイテムを更新
-    remainingItems.foreach(remainingItem => {
-      invItems.foreach(invItem => {
-        if (invItem != null) {
-          if (invItem.getType == remainingItem.getType && remainingItem.getAmount > 0) {
-            remainingItems = remainingItems.filterNot(_ == remainingItem) //一旦削除
-            val amount = remainingItem.getAmount - invItem.getAmount
-            if (amount < 0) {
-              inv.removeItem(remainingItem)
-              remainingItem.setAmount(0)
-            } else {
-              inv.removeItem(invItem)
-              remainingItem.setAmount(amount)
-            }
-            remainingItems :+= remainingItem
-          }
-        }
-      })
-    })
+  def delivery(p: Player): Unit = {
+    val questGateway = new QuestGateway()
+    val inventory = p.getOpenInventory.getTopInventory
+    var progress = questGateway.getQuestProgress(p)
+    //ボタン用アイテムを削除
+    buttonItemRemove(p, inventory)
+    //クエスト完了に必要とされるアイテム数とインベントリ内のアイテム数を確認し、該当アイテムを削除
+    progress.foreach { case (requireName, amount) =>
+      val requireMaterial = Material.matchMaterial(requireName)
+      val hasItemAmount = inventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum
+      if (amount >= hasItemAmount) {
+        progress += (requireName -> (amount - hasItemAmount))
+        inventory.removeItem(new ItemStack(requireMaterial, hasItemAmount))
+      } else {
+        progress += (requireName -> 0)
+        inventory.removeItem(new ItemStack(requireMaterial, amount))
+      }
+    }
+    questClearCheck(p, progress)
+  }
 
-    //残りの数を設定
-    var questDone = true
-    var remainingItem_str = ""
-    remainingItems.foreach(remainingItem => {
-      remainingItem_str += remainingItem.getType.name() + ":" + remainingItem.getAmount + ";"
-      if (remainingItem.getAmount != 0) questDone = false
-    })
-    questData.setSelectedQuestItemRemaining(p, remainingItem_str)
+  def deliveryFromNeoStack(p: Player): Unit = {
+    val questGateway = new QuestGateway()
+    val neoStackGateway = new NeoStackGateway(ryoServerAssist)
+    var progress = questGateway.getQuestProgress(p)
+    val inventory = p.getOpenInventory.getTopInventory
+    //ボタン用アイテムを削除
+    buttonItemRemove(p, inventory)
+    progress.foreach { case (requireName, amount) =>
+      val requireMaterial = Material.matchMaterial(requireName)
+      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(requireMaterial, 1), amount)
+      if (amount > removedAmount) {
+        progress += (requireName -> (amount - removedAmount))
+      } else {
+        progress += (requireName -> 0)
+      }
+    }
+    questClearCheck(p, progress)
+  }
 
-    if (questDone) {
+  private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
+    val questGateway = new QuestGateway
+    if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questData.questClear(p)
+      questGateway.questClear(p, ryoServerAssist)
       new QuestMenu(ryoServerAssist).selectInventory(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
+      questGateway.setQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectInventory(p)
     }
   }
 
-  def deliveryFromNeoStack(p: Player, inv: Inventory): Unit = {
-    val questData = new QuestData(ryoServerAssist)
-    var remainingItems: Array[ItemStack] = Array.empty
-    var invItems: Array[ItemStack] = Array.empty
-    //クエスト終了に必要な残りの納品アイテムを取得する
-    questData.getSelectedQuestRemaining(p).split(";").foreach(remainingItem => {
-      val itemData = remainingItem.split(":")
-      remainingItems :+= new ItemStack(Material.matchMaterial(itemData(0)), itemData(1).toInt)
-    })
-    //インベントリの中身をすべて取得
-    inv.getContents.foreach(invItem => {
-      invItems :+= invItem
-    })
-
-    //neoStackからアイテムを納品
-    val neoStack = new NeoStackGateway(ryoServerAssist)
-    remainingItems.foreach(item => {
-      if (item.getAmount > 0) {
-        val requiredAmount = item.getAmount //クエストを達成するのに必要なアイテムの数
-        val removedAmount = neoStack.removeNeoStack(p, item, requiredAmount) //実際にneoStackから引き出された数
-        remainingItems = remainingItems
-          .filterNot(_ == item)
-        if (requiredAmount == removedAmount) {
-          item.setAmount(0)
-        } else {
-          item.setAmount(requiredAmount - removedAmount)
-        }
-        remainingItems :+= item
-      }
-    })
-
-    //残りの数を設定
-    var questDone = true
-    var remainingItem_str = ""
-    remainingItems.foreach(remainingItem => {
-      remainingItem_str += remainingItem.getType.name() + ":" + remainingItem.getAmount + ";"
-      if (remainingItem.getAmount != 0) questDone = false
-    })
-    questData.setSelectedQuestItemRemaining(p, remainingItem_str)
-
-    if (questDone) {
-      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
-      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questData.questClear(p)
-      new QuestMenu(ryoServerAssist).selectInventory(p)
-      new GiveTitle(ryoServerAssist).questClearNumber(p)
-      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
-    } else {
-      p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectInventory(p)
-    }
+  def buttonItemRemove(p: Player, inv: Inventory): Unit = {
+    List(
+      getLayOut(1, 6),
+      getLayOut(2, 6),
+      getLayOut(9, 6),
+      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
+    ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 
 
   def questDestroy(p: Player): Unit = {
-    val questData = new QuestData(ryoServerAssist)
+    val questData = new QuestGateway()
     questData.resetQuest(p)
+    buttonItemRemove(p, p.getOpenInventory.getTopInventory)
     new QuestMenu(ryoServerAssist).selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
   }

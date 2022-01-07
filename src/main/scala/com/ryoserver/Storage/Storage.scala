@@ -1,6 +1,6 @@
 package com.ryoserver.Storage
 
-import com.ryoserver.Level.Player.GetPlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
@@ -26,8 +26,7 @@ class Storage(ryoServerAssist: RyoServerAssist) {
   }
 
   def load(p: Player): Unit = {
-    val data = new GetPlayerData()
-    if (data.getPlayerLevel(p) >= 10) {
+    if (p.getQuestLevel >= 10) {
       val sql = new SQL(ryoServerAssist)
       sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
       val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")

@@ -2,9 +2,9 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
-import com.ryoserver.Quest.LoadQuests
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
+import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -34,12 +34,11 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (eventData.eventType == "bonus") s"${WHITE}経験値増加率: ${eventData.exp}倍" else null,
         if (eventData.item != null && eventData.eventType == "delivery") s"${WHITE}集めるアイテム: ${
           val material = Material.matchMaterial(eventData.item)
-          if (material.isItem) LoadQuests.langFile.get("block." + material.getKey.toString.replace(":", ".")).textValue()
-          else if (material.isBlock) LoadQuests.langFile.get("item." + material.getKey.toString.replace(":", ".")).textValue()
+          Translate.materialNameToJapanese(material)
         }"
         else if (eventData.item != null && eventData.eventType == "suppression") s"${WHITE}討伐するMOB: ${
           val entity = getEntity(eventData.item)
-          LoadQuests.langFile.get("entity." + entity.getKey.toString.replace(":", ".")).textValue()
+          Translate.entityNameToJapanese(entity)
         }"
         else null,
         if (eventData.eventType != "bonus") {
@@ -62,6 +61,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       setItem(5, 2, Material.BOOK, effect = false, s"${YELLOW}イベント情報", List(s"${GRAY}現在開催されていません。"))
     }
     setItem(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${YELLOW}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    setItem(5,3,Material.ENCHANTED_BOOK,effect = false,s"${GREEN}過去のイベント",List(s"${GRAY}クリックで移動します。"))
     setItem(9, 3, Material.NAME_TAG, effect = false, "イベント称号を表示します。", List(s"${GRAY}クリックで表示します。"))
     registerMotion(motion)
     open()
@@ -74,6 +74,8 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
     } else if (index == getLayOut(1, 3)) {
       new RyoServerMenu1(ryoServerAssist).menu(p)
+    } else if (index == getLayOut(5,3)) {
+      new BeforeEventsMenu(ryoServerAssist).openMenu(p,1)
     } else if (index == getLayOut(9, 3)) {
       new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
     }

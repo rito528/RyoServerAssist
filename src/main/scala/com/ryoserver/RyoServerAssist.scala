@@ -11,10 +11,10 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
-import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
+import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
-import com.ryoserver.Quest.{LoadQuests, QuestSelectMenuEvent, SuppressionEvent}
+import com.ryoserver.Quest._
 import com.ryoserver.Security.{Config, Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
@@ -25,7 +25,7 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -50,6 +50,11 @@ class RyoServerAssist extends JavaPlugin {
       Load config
      */
     new LoadConfig(this).load()
+
+    /*
+      CreatePlayerTable
+     */
+    new CreateData(this).createPlayerTable()
 
     /*
       Enabling command
@@ -85,7 +90,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents(this),
       new MenuEvent(this),
       new StorageEvent(this),
-      new QuestSelectMenuEvent(),
+      new QuestSelectMenuEvent(this),
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent,
@@ -100,7 +105,8 @@ class RyoServerAssist extends JavaPlugin {
       new Vote(this),
       new SecurityEvent(this),
       new MenuHandler(this),
-      new EventDeliveryMenu(this)
+      new EventDeliveryMenu(this),
+      new PlayEffect(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
@@ -121,10 +127,10 @@ class RyoServerAssist extends JavaPlugin {
      */
     Config.config = this.getConfig
     getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
-    new LoadPlayerData(this).load()
+    new LoadAllPlayerData(this).load()
     GachaLoader.load(this)
     new Distribution(this).createDistributionTable()
-    LoadQuests.checkQuest(this)
+    LoadQuests.loadQuest(this)
     new Notification().createFile()
     new CreateFiles().createResourcesFile()
     new Tips(this).sendTips()
@@ -132,7 +138,7 @@ class RyoServerAssist extends JavaPlugin {
     new TitleLoader().loadTitle()
     new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
-    NeoStack.PlayerData.runnableSaver(this)
+    NeoStack.PlayerData.autoSave(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
     new SavePlayerData(this).autoSave()
@@ -140,8 +146,12 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
+    new EventGateway(this).loadBeforeEvents()
     new SaveDistribution(this).autoSave()
     new LoadDistribution(this).load()
+    Translate.loadLangFile()
+    PlayerQuestData.autoSave(this)
+    new DataBaseTable(this).createQuestTable()
 
     /*
      Execute patch
@@ -161,6 +171,7 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.save(this)
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
+    PlayerQuestData.save(this)
     getLogger.info("RyoServerAssist disabled.")
   }
 

@@ -1,10 +1,11 @@
+[![Scala CI](https://github.com/ryo-server-developer/RyoServerAssist/actions/workflows/scala.yml/badge.svg)](https://github.com/ryo-server-developer/RyoServerAssist/actions/workflows/scala.yml)
 # RyoServerAssist
 
 ### 開発環境
 
 - [Intellij IDEA](https://www.jetbrains.com/ja-jp/idea/)
-- [Scala 2.13.6](https://www.scala-lang.org/download/2.13.6.html)
-- [sbt 1.5.5](https://www.scala-sbt.org/1.x/docs/Setup.html)
+- [Scala 2.13.7](https://www.scala-lang.org/download/2.13.7.html)
+- [sbt 1.6.1](https://www.scala-sbt.org/1.x/docs/Setup.html)
 - [Paper 1.17.1](https://papermc.io/downloads)
 
 ### このプラグインを利用する上での注意

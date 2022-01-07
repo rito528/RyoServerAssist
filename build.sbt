@@ -1,8 +1,8 @@
 name := "RyoServerAssist"
 
-version := "1.4.1"
+version := "1.5.0"
 
-scalaVersion := "2.13.6"
+scalaVersion := "2.13.7"
 
 mainClass := Some("com.ryoserver.RyoServerAssist")
 
@@ -15,7 +15,6 @@ resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
 resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
 resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
-resolvers += Resolver.bintrayIvyRepo("com.eed3si9n", "sbt-plugins")
 resolvers += Resolver.mavenLocal
 resolvers += "repo.phoenix616.dev" at "https://repo.phoenix616.dev"
 

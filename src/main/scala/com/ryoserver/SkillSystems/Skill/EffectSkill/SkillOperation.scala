@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.EffectSkill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
@@ -40,7 +41,7 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
           runnable.cancel()
           this.cancel()
           skillInvalidation()
-        } else if (new SkillPointData().getSkillPoint(p) < sp) {
+        } else if (p.getSkillPoint < sp) {
           runnable.cancel()
           this.cancel()
           skillInvalidation()

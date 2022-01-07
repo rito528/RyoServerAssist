@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.EffectSkill
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillMenu.SelectSkillMenu
@@ -25,7 +26,7 @@ trait SkillToggle {
       new SelectSkillMenu(ryoServerAssist).openMenu(p)
       return
     }
-    if (new SkillPointData().getSkillPoint(p) < sp) {
+    if (p.getSkillPoint < sp) {
       allEffectClear(p)
       p.sendMessage(s"${RED}スキルポイントが足りないためスキルを起動できませんでした！")
       return

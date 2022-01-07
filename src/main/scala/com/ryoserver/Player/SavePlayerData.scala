@@ -4,8 +4,6 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 
-import java.util.UUID
-
 class SavePlayerData(ryoServerAssist: RyoServerAssist) {
 
   def autoSave(): Unit = {
@@ -18,13 +16,13 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
 
   def save(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    Data.playerData.foreach { case (uuid, data) =>
+    PlayerData.playerData.foreach { case (uuid, data) =>
       sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
     }
     sql.close()
   }
 
-  private def saveDataBuilder(playerData: PlayerData): String = {
+  private def saveDataBuilder(playerData: PlayerDataType): String = {
     val stringBuilder = new StringBuilder
     Map(
       "lastDistributionReceived" -> playerData.lastDistributionReceived,
@@ -57,13 +55,6 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
       }
     }
     stringBuilder.toString()
-  }
-
-  def targetSave(uuid: UUID): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    val data = Data.playerData(uuid)
-    sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
-    sql.close()
   }
 
 }
