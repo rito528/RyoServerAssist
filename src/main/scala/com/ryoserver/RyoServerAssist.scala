@@ -11,7 +11,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
-import com.ryoserver.OriginalItem.{RepairEvent, TotemEffect}
+import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest._
@@ -105,7 +105,8 @@ class RyoServerAssist extends JavaPlugin {
       new Vote(this),
       new SecurityEvent(this),
       new MenuHandler(this),
-      new EventDeliveryMenu(this)
+      new EventDeliveryMenu(this),
+      new PlayEffect(this)
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
