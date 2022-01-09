@@ -1,7 +1,6 @@
 package com.ryoserver
 
 import com.ryoserver.Commands._
-import com.ryoserver.Config.LoadConfig
 import com.ryoserver.Distribution.{Distribution, LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
