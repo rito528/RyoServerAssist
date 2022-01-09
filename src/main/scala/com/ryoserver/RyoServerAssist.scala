@@ -1,6 +1,7 @@
 package com.ryoserver
 
 import com.ryoserver.Commands._
+import com.ryoserver.Config.ConfigData
 import com.ryoserver.Distribution.{Distribution, LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -48,7 +49,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       Load config
      */
-    new LoadConfig(this).load()
+    ConfigData.loadConfig(this)
 
     /*
       CreatePlayerTable

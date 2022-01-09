@@ -4,7 +4,7 @@ import com.ryoserver.Config.ConfigData
 
 class CalLv {
 
-  val MAX_LV: Int = ConfigData.configData("maxLv").asInstanceOf[Int]
+  val MAX_LV: Int = ConfigData.getConfig.maxLv
 
   /*
     経験値から現在のレベルを算出する
