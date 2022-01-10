@@ -1,5 +1,6 @@
 package com.ryoserver.Level.Player
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
@@ -81,7 +82,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       SkillPointBer.update(p)
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
       p.sendMessage(s"${AQUA}Lv." + old_level + " → Lv." + nowLevel)
-      val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
+      val maxLv = getConfig.maxLv
       if (nowLevel == maxLv) {
         Bukkit.broadcastMessage(s"$AQUA${p.getName}さんがLv.${maxLv}に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1))

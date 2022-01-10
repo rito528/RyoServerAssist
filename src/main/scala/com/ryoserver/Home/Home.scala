@@ -1,5 +1,6 @@
 package com.ryoserver.Home
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item.getItem
 import com.ryoserver.util.SQL
@@ -69,7 +70,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val now_loc = p.getLocation
     if (rs.next() && rs.getInt("point") == point) {
       val location = rs.getString("Location").split(",")
-      if (ryoServerAssist.getConfig.getBoolean("log")) ryoServerAssist.getLogger.info(
+      if (getConfig.log) ryoServerAssist.getLogger.info(
         s"${p.getName}が[${now_loc.getWorld.getName},${now_loc.getX.toInt},${now_loc.getY.toInt},${now_loc.getZ.toInt}]から" +
           s"[${location(0)},${location(1)},${location(2)},${location(3)}]にテレポートしました！")
       p.teleport(new Location(Bukkit.getWorld(location(0)), location(1).toInt, location(2).toInt, location(3).toInt))
