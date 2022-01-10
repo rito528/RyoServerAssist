@@ -22,6 +22,7 @@ object ConfigData {
       user = config.getString("user"),
       pw = config.getString("pw"),
       db = config.getString("db"),
+      log = config.getBoolean("log"),
       per = config.getDouble("per"),
       bigPer = config.getDouble("bigPer"),
       Special = config.getDouble("Special"),

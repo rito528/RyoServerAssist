@@ -1,6 +1,7 @@
 package com.ryoserver.Menu
 
 import com.google.common.io.ByteStreams
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -45,12 +46,12 @@ class MenuMotion(ryoServerAssist: RyoServerAssist) {
   def sendSiteURL(p: Player, webType: String): Unit = {
     webType match {
       case "web" =>
-        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getString("webSite")}")
+        p.sendMessage(s"$UNDERLINE${getConfig.webSite}")
       case "dynmap" =>
-        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getString("dynmap")}")
+        p.sendMessage(s"$UNDERLINE${getConfig.dynmap}")
       case "vote" =>
-        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).toString}")
-        p.sendMessage(s"$UNDERLINE${ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).toString}")
+        p.sendMessage(s"$UNDERLINE${getConfig.voteSite.head}")
+        p.sendMessage(s"$UNDERLINE${getConfig.voteSite(1)}")
     }
   }
 

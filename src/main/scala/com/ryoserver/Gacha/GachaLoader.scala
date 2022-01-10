@@ -1,5 +1,6 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -59,9 +60,9 @@ object GachaLoader {
       各レアリティの割合を計算
      */
     ryoServerAssist.getLogger.info("ガチャ排出割合読み込み中...")
-    per = ryoServerAssist.getConfig.getDouble("per") //あたり
-    bigPer = ryoServerAssist.getConfig.getDouble("bigPer") //大当たり
-    special = ryoServerAssist.getConfig.getDouble("Special") //特等
+    per = getConfig.per
+    bigPer = getConfig.bigPer
+    special = getConfig.Special
     val miss = 100.0 - per - bigPer - special
     if (miss <= 0) {
       ryoServerAssist.getLogger.warning("ガチャ割合の指定が不正です。")

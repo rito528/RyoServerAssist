@@ -1,5 +1,6 @@
 package com.ryoserver.World.SimpleRegion
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
@@ -55,7 +56,7 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def createRegion(p: Player): Unit = {
     val uuid = p.getUniqueId.toString
-    if (!ryoServerAssist.getConfig.getStringList("protectionWorlds").contains(p.getWorld.getName.toLowerCase())) {
+    if (!getConfig.protectionWorlds.contains(p.getWorld.getName.toLowerCase())) {
       p.sendMessage(s"${RED}このワールドでは保護できません！")
       return
     }

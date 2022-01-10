@@ -1,5 +1,6 @@
 package com.ryoserver.Vote
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
@@ -23,8 +24,8 @@ class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
       p.sendMessage("投票はこちら！")
-      p.sendMessage("JMS: " + ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(0).asInstanceOf[String])
-      p.sendMessage("monocraft: " + ChatColor.UNDERLINE + ryoServerAssist.getConfig.getStringList("voteSite").toArray()(1).asInstanceOf[String])
+      p.sendMessage("JMS: " + ChatColor.UNDERLINE + getConfig.voteSite.head)
+      p.sendMessage("monocraft: " + ChatColor.UNDERLINE + getConfig.voteSite(1))
     })
   }
 
