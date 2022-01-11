@@ -13,7 +13,8 @@ class CreateFiles {
     List(
       "tips.yml",
       "title.yml",
-      "event.yml"
+      "event.yml",
+      "Notification.yml"
     ).foreach(f => {
       val is = getClass.getClassLoader.getResourceAsStream(f)
       val fileData = Source.fromInputStream(is).getLines().mkString("\n")
