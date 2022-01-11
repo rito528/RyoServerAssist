@@ -78,7 +78,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復
-      new SkillPointData().setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
+      p.setSkillPoint(calLv.getLevel(sumExp))
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
       p.sendMessage(s"${AQUA}Lv." + old_level + " → Lv." + nowLevel)
       val maxLv = getConfig.maxLv
