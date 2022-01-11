@@ -21,7 +21,7 @@ object Players {
       s"ゲームモード:${target.getGameMode}\n" +
       s"飛行:${target.getAllowFlight}\n"
     if (getConfig.ipInfo) {
-      val checkVPNAndProxy = new CheckVPNAndProxy
+      val checkVPNAndProxy = new GetPlayerInfo
       val ip = getPlayerIP(target)
       val info = checkVPNAndProxy.getIPInfo(ip)
       msg += s"IPアドレス:$ip\n" +
