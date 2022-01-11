@@ -16,6 +16,7 @@ object Operator {
   def checkOp(plugin: Plugin): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
+        //configで指定されているオペレーター数と、Bukkitで登録されているオペレーター数が一致しなかった場合
         if (getConfig.authority.length != Bukkit.getOperators.size()) {
           if (!once) {
             once = true
@@ -23,6 +24,7 @@ object Operator {
             setOperators(plugin)
           }
         }
+        //configで指定されているオペレーターと、実際に登録されているプレイヤーが一致しているかどうか
         Bukkit.getOperators.forEach(p => {
           if (!getConfig.authority.mkString("", ", ", "").contains(p.getUniqueId.toString)) {
             if (!once) {
@@ -33,7 +35,7 @@ object Operator {
           }
         })
       }
-    }.runTaskTimer(plugin, 0, 20)
+    }.runTaskTimer(plugin, 0, 5)
   }
 
   def removeOperators(plugin: Plugin): Unit = {
