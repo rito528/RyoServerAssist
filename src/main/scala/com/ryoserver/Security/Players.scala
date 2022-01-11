@@ -30,7 +30,7 @@ object Players {
     msg += s"$YELLOW-----------------------------------------"
     msg
   }
-  var vpnCounter: mutable.Map[String, Int] = mutable.Map[String, Int]()
+  
   var freezeList: Array[String] = Array.empty
   var hideList: Array[Player] = Array.empty
 
