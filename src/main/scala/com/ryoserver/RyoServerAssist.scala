@@ -136,7 +136,6 @@ class RyoServerAssist extends JavaPlugin {
       必要なファイルを作成する
      */
     new CreateFiles().createResourcesFile()
-    new Notification().createFile()
 
     /*
       様々なロード処理
