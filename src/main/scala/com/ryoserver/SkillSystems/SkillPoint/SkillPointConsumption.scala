@@ -10,7 +10,6 @@ class SkillPointConsumption {
     val playerSP = p.getSkillPoint
     if (skillPoint <= playerSP) {
       spData.setSkillPoint(p, playerSP - skillPoint)
-      SkillPointBer.update(p)
     }
   }
 

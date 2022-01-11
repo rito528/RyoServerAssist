@@ -31,7 +31,6 @@ class RecoverySkillPointEvent extends Listener {
       val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
       skillPointData.setSkillPoint(p, maxSP)
     }
-    SkillPointBer.update(p)
   }
 
 }
