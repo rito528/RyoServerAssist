@@ -34,18 +34,6 @@ object Players {
   var freezeList: Array[String] = Array.empty
   var hideList: Array[Player] = Array.empty
 
-  def counterCheckAndAdd(p: Player): Boolean = {
-    if (vpnCounter.contains(p.getName))
-      vpnCounter(p.getName) = vpnCounter(p.getName) + 1
-    else
-      vpnCounter(p.getName) = 1
-
-    if (vpnCounter(p.getName) >= 5) {
-      vpnCounter.remove(p.getName)
-      false
-    } else true
-  }
-
   def freezePlayer(p: Player): Unit = {
     Players.freezeList :+= p.getName
     p.sendMessage(s"${RED}あなたの動作が権限者により制限されました。")
