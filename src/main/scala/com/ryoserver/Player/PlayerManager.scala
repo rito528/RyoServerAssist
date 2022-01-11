@@ -1,6 +1,9 @@
 package com.ryoserver.Player
 
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointData
+import org.bukkit.Bukkit.getLogger
 import org.bukkit.OfflinePlayer
+import org.bukkit.entity.Player
 
 object PlayerManager {
 
@@ -41,6 +44,14 @@ object PlayerManager {
     def setLastDistributionReceived(id: Int): Unit = rp.setLastDistributionReceived(id)
     def openTitles(openedTitles: String): Unit = rp.openTitle(openedTitles)
     def setSelectedTitle(title: String): Unit = rp.setSelectedTitle(title)
+    def setSkillPoint(newSkillPoint: Double): Unit = {
+      p match {
+        case p: Player =>
+          new SkillPointData().setSkillPoint(p,newSkillPoint)
+        case _ =>
+          getLogger.warning("オンラインではないプレイヤーに対してSkillPointを操作しています！")
+      }
+    }
   }
 
 }
