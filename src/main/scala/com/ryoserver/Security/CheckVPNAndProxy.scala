@@ -1,6 +1,7 @@
 package com.ryoserver.Security
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
+import com.ryoserver.Config.ConfigData.getConfig
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
@@ -13,7 +14,7 @@ class CheckVPNAndProxy {
 
   val getJSON: String => String = (ipAddress: String) =>
     Process(Seq("curl", "-s", "https://www.iphunter.info:8082/v1/ip/" + ipAddress, s"-H", s"X-Key: $Key")).!!
-  private val Key = Config.getApiKey
+  private val Key = getConfig.IPHunterAPIKey
 
   def loginCheck(p: Player, plugin: Plugin): Boolean = {
     val mapper: ObjectMapper = new ObjectMapper()

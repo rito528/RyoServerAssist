@@ -15,7 +15,7 @@ import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest._
-import com.ryoserver.Security.{Config, Operator, SecurityEvent}
+import com.ryoserver.Security.{Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -140,7 +140,6 @@ class RyoServerAssist extends JavaPlugin {
     /*
       様々なロード処理
      */
-    Config.config = this.getConfig
     new LoadAllPlayerData(this).load()
     GachaLoader.load(this)
     LoadQuests.loadQuest(this)
