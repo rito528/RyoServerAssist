@@ -34,8 +34,15 @@ class RyoServerAssist extends JavaPlugin {
   override def onEnable(): Unit = {
     super.onEnable()
     saveDefaultConfig()
+
     /*
-      MySQL connection test
+      configのロード
+      configにはMySQLの接続情報も含まれているため、最初にロードする必要がある
+     */
+    ConfigData.loadConfig(this)
+
+    /*
+      MySQL接続テスト
      */
     val sql = new SQL(this)
     if (!sql.connectionTest()) {
@@ -47,17 +54,15 @@ class RyoServerAssist extends JavaPlugin {
     sql.close()
 
     /*
-      Load config
-     */
-    ConfigData.loadConfig(this)
-
-    /*
-      CreatePlayerTable
+      テーブルの作成
      */
     new CreateData(this).createPlayerTable()
+    new Distribution(this).createDistributionTable()
+    new DataBaseTable(this).createQuestTable()
+    new TableCheck(this).stackTableCheck()
 
     /*
-      Enabling command
+      コマンドの登録
      */
     Map(
       "home" -> new HomeCommand(this),
@@ -82,7 +87,7 @@ class RyoServerAssist extends JavaPlugin {
     })
 
     /*
-      Enabling bukkit event
+      Bukkitイベントの登録
      */
     List(
       new Home(this),
@@ -110,7 +115,12 @@ class RyoServerAssist extends JavaPlugin {
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
-      Skill activation
+      BungeeCordとの連携
+     */
+    getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
+
+    /*
+      特殊スキルの有効化
      */
     BreakSkillAction.values.foreach(skill => {
       this.getServer.getPluginManager.registerEvents(skill, this)
@@ -123,44 +133,60 @@ class RyoServerAssist extends JavaPlugin {
     })
 
     /*
-      Other loads
+      必要なファイルを作成する
+     */
+    new CreateFiles().createResourcesFile()
+    new Notification().createFile()
+
+    /*
+      様々なロード処理
      */
     Config.config = this.getConfig
-    getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
     new LoadAllPlayerData(this).load()
     GachaLoader.load(this)
-    new Distribution(this).createDistributionTable()
     LoadQuests.loadQuest(this)
-    new Notification().createFile()
-    new CreateFiles().createResourcesFile()
-    new Tips(this).sendTips()
-    new Regeneration(this).regeneration()
     new TitleLoader().loadTitle()
-    new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
-    NeoStack.PlayerData.autoSave(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
-    new SavePlayerData(this).autoSave()
     new EventLoader().loadEvent()
-    new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
     new EventGateway(this).loadBeforeEvents()
-    new SaveDistribution(this).autoSave()
     new LoadDistribution(this).load()
     Translate.loadLangFile()
-    PlayerQuestData.autoSave(this)
-    new DataBaseTable(this).createQuestTable()
+
 
     /*
-     Execute patch
-      */
+     パッチの実行
+     */
     new Patch(this).getAndExecutePatch()
 
-    getLogger.info("RyoServerAssist enabled.")
+    /*
+      オートセーブの実行
+     */
+    NeoStack.PlayerData.autoSave(this)
+    new SavePlayerData(this).autoSave()
+    new EventGateway(this).autoSaveEvent()
+    new SaveDistribution(this).autoSave()
+    PlayerQuestData.autoSave(this)
 
+    /*
+      ワールドの再生成を行う
+     */
+    new Regeneration(this).regeneration()
+
+    /*
+      サーバーに入っているプレイヤーにデータを適用する
+     */
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
+
+    /*
+      TipsSenderの起動
+     */
+    new Tips(this).sendTips()
+
+    getLogger.info("RyoServerAssist enabled.")
   }
 
   override def onDisable(): Unit = {
