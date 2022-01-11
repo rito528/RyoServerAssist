@@ -1,5 +1,6 @@
 package com.ryoserver.Security
 
+import com.ryoserver.Config.ConfigData.getConfig
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -10,6 +11,7 @@ object Players {
 
   val getPlayerIP: Player => String = (p: Player) =>
     p.getAddress.toString.replace("/", "").replace(s":${p.getAddress.getPort}", "")
+
   val getPlayerStatus: Player => String = (target: Player) => {
     var msg = s"$YELLOW---------------プレイヤー情報---------------\n" +
       s"${GREEN}プレイヤー名:${target.getName}\n" +
@@ -18,8 +20,8 @@ object Players {
       s"権限:${target.isOp}\n" +
       s"ゲームモード:${target.getGameMode}\n" +
       s"飛行:${target.getAllowFlight}\n"
-    if (Config.config.getBoolean("ipInfo")) {
-      val checkVPNAndProxy = new CheckVPNAndProxy
+    if (getConfig.ipInfo) {
+      val checkVPNAndProxy = new GetPlayerInfo
       val ip = getPlayerIP(target)
       val info = checkVPNAndProxy.getIPInfo(ip)
       msg += s"IPアドレス:$ip\n" +
@@ -30,21 +32,9 @@ object Players {
     msg += s"$YELLOW-----------------------------------------"
     msg
   }
-  var vpnCounter: mutable.Map[String, Int] = mutable.Map[String, Int]()
+
   var freezeList: Array[String] = Array.empty
   var hideList: Array[Player] = Array.empty
-
-  def counterCheckAndAdd(p: Player): Boolean = {
-    if (vpnCounter.contains(p.getName))
-      vpnCounter(p.getName) = vpnCounter(p.getName) + 1
-    else
-      vpnCounter(p.getName) = 1
-
-    if (vpnCounter(p.getName) >= 5) {
-      vpnCounter.remove(p.getName)
-      false
-    } else true
-  }
 
   def freezePlayer(p: Player): Unit = {
     Players.freezeList :+= p.getName

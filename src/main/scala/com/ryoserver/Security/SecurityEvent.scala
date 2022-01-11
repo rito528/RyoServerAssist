@@ -1,5 +1,6 @@
 package com.ryoserver.Security
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
@@ -23,7 +24,7 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler(priority = EventPriority.HIGHEST)
   def playerCommandProcess(e: PlayerCommandPreprocessEvent): Unit = {
     val cmd = e.getMessage.split(" ")(0)
-    if (!e.getPlayer.isOp && !e.getPlayer.hasPermission("ryoserverassist.commandExecuter") && !Config.getBanCommands(cmd)) {
+    if (!e.getPlayer.isOp && !e.getPlayer.hasPermission("ryoserverassist.commandExecuter") && !getConfig.enableCommands.contains(cmd)) {
       e.getPlayer.sendMessage(s"${RED}このコマンドを実行できません！")
       e.setCancelled(true)
     }
@@ -31,7 +32,7 @@ class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onEntitySummon(e: CreatureSpawnEvent): Unit = {
-    if (!Config.getDoNotProtectionWorld(e.getLocation.getWorld.getName)) {
+    if (!getConfig.worldDoNotProtection.contains(e.getLocation.getWorld.getName)) {
       if (e.getEntity.getType == EntityType.WITHER) {
         e.setCancelled(true)
       } else if (e.getEntity.getType == EntityType.ENDER_DRAGON) {
