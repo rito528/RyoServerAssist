@@ -2,14 +2,12 @@ package com.ryoserver.Vote
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.RyoServerPlayer
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Player
 import com.vexsoftware.votifier.model.VotifierEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Bukkit, ChatColor, Sound}
 
-class Vote(ryoServerAssist: RyoServerAssist) extends Listener {
+class Vote extends Listener {
 
   @EventHandler
   def onVotifierEvent(e: VotifierEvent): Unit = {

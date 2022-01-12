@@ -40,7 +40,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   def motion(p: Player, index: Int): Unit = {
-    val data = new NeoStackGateway(ryoServerAssist)
+    val data = new NeoStackGateway()
     val gui = new StackMenu(ryoServerAssist)
     index match {
       case 11 =>
@@ -72,7 +72,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case 44 =>
         p.getInventory.getContents.foreach(item => {
           if (item != null) {
-            if (new NeoStackGateway(ryoServerAssist).checkItemList(item)) {
+            if (new NeoStackGateway().checkItemList(item)) {
               data.addStack(item, p)
               p.getInventory.removeItem(item)
             }

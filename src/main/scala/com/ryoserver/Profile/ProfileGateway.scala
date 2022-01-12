@@ -1,18 +1,17 @@
 package com.ryoserver.Profile
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 
-class ProfileGateway(ryoServerAssist: RyoServerAssist) {
+class ProfileGateway {
 
   def setProfile(profileName: String, contents: String): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     sql.executeSQL(s"UPDATE Players SET $profileName='$contents';")
     sql.close()
   }
 
   def getProfile(uuid: String): Map[String, String] = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT Twitter,Discord,Word FROM Players WHERE UUID='$uuid';")
     if (rs.next()) {
       val data = Map(

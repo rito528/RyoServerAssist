@@ -17,13 +17,13 @@ object PlayerData {
   def autoSave(ryoServerAssist: RyoServerAssist): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
-        save(ryoServerAssist)
+        save()
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 1200, 1200)
   }
 
-  def save(ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
+  def save(): Unit = {
+    val sql = new SQL()
     changedData.foreach { case (uuid, array) =>
       array.foreach { itemStack =>
         val data = playerData.filter(playerdata => playerdata.uuid == uuid && playerdata.savingItemStack == itemStack)
@@ -37,7 +37,7 @@ object PlayerData {
     sql.close()
   }
 
-  def loadNeoStackPlayerData(ryoServerAssist: RyoServerAssist, p: Player): Unit = {
+  def loadNeoStackPlayerData(p: Player): Unit = {
     /*
      Player data exists check
      The NeoStack data will be loaded the first time you join after startup
@@ -45,7 +45,7 @@ object PlayerData {
     playerData.foreach(data => {
       if (data.uuid == p.getUniqueId) return
     })
-    val gateway = new NeoStackGateway(ryoServerAssist)
+    val gateway = new NeoStackGateway()
     gateway.getPlayerHasNeoStackItems(p).foreach(neoStackPlayerData => {
       playerData :+= NeoStackDataType(p.getUniqueId, neoStackPlayerData.itemStack, null, neoStackPlayerData.amount)
     })

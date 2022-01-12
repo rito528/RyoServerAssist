@@ -18,7 +18,7 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   )
 
   private def add(): Unit = {
-    if (!TitleData.isEnableTitle(ryoServerAssist, args(1))) {
+    if (!TitleData.isEnableTitle(args(1))) {
       sender.sendMessage(s"${RED}指定した称号は存在しません！")
       return
     }
@@ -31,7 +31,7 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def remove(): Unit = {
-    if (!TitleData.isEnableTitle(ryoServerAssist, args(1))) {
+    if (!TitleData.isEnableTitle(args(1))) {
       sender.sendMessage(s"${RED}指定した称号は存在しません！")
       return
     }

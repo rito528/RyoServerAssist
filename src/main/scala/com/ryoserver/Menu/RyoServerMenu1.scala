@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{PlayerData, GetData}
+import com.ryoserver.Player.{GetData, PlayerData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
@@ -79,12 +79,12 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(9, 1) -> {
         new TitleMenu(ryoServerAssist).openInv(_, 1)
       },
-      getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
+      getLayOut(1, 3) -> new Storage().load _,
       getLayOut(3, 3) -> motion.openEnderChest,
       getLayOut(5, 3) -> new CategorySelectMenu(ryoServerAssist).openCategorySelectMenu _,
       getLayOut(7, 3) -> new DustBoxInventory().openDustBox _,
       getLayOut(9, 3) -> motion.giveFirework,
-      getLayOut(1, 5) -> new Distribution(ryoServerAssist).receipt _,
+      getLayOut(1, 5) -> new Distribution().receipt _,
       getLayOut(3, 5) -> new GetGachaTickets().receipt _,
       getLayOut(5, 5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
       getLayOut(9, 5) -> new EventMenu(ryoServerAssist).openEventMenu _,

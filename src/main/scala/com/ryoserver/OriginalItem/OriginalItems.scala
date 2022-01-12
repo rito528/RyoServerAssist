@@ -66,7 +66,7 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,5)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 5)
     itemStack.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 4)
     itemStack
   }
@@ -148,7 +148,7 @@ object OriginalItems {
     itemMeta.setDisplayName(s"$GOLD${BOLD}ハーベストスター・改")
     itemMeta.setUnbreakable(true)
     itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS,4)
+    itemStack.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 4)
     itemStack
   }
 
@@ -233,7 +233,7 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.OXYGEN, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,5)
+    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5)
     itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10)
     itemStack
   }
@@ -258,7 +258,7 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10)
-    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,5)
+    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5)
     itemStack
   }
 
@@ -283,7 +283,7 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10)
-    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,5)
+    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5)
     itemStack
   }
 
@@ -309,7 +309,7 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10)
-    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL,5)
+    itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 5)
     itemStack
   }
 
@@ -318,8 +318,8 @@ object OriginalItems {
     val itemMeta: ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(s"$RED${BOLD}グングニル")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
-    itemMeta.addEnchant(Enchantment.RIPTIDE,3,false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
+    itemMeta.addEnchant(Enchantment.RIPTIDE, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -332,7 +332,7 @@ object OriginalItems {
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 5, false)
     itemMeta.addEnchant(Enchantment.DIG_SPEED, 4, false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -344,10 +344,10 @@ object OriginalItems {
     itemMeta.setDisplayName(s"$YELLOW${BOLD}ライフル")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.PIERCING, 4, false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.QUICK_CHARGE,4)
+    itemStack.addUnsafeEnchantment(Enchantment.QUICK_CHARGE, 4)
     itemStack
   }
 
@@ -357,7 +357,7 @@ object OriginalItems {
     itemMeta.setDisplayName(s"$AQUA${BOLD}木こりの斧")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.DIG_SPEED, 5, false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -370,7 +370,7 @@ object OriginalItems {
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
-    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,4)
+    itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 4)
     itemStack
   }
 
@@ -380,8 +380,8 @@ object OriginalItems {
     itemMeta.setDisplayName(s"$AQUA${BOLD}氷結の靴")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.FROST_WALKER, 2, false)
-    itemMeta.addEnchant(Enchantment.PROTECTION_FALL,4,false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.PROTECTION_FALL, 4, false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -394,8 +394,8 @@ object OriginalItems {
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
     itemMeta.addEnchant(Enchantment.DAMAGE_ALL, 5, false)
     itemMeta.addEnchant(Enchantment.FIRE_ASPECT, 2, false)
-    itemMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS,2,false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 2, false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -406,7 +406,7 @@ object OriginalItems {
     val itemMeta: ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(s"$AQUA${BOLD}勇者の盾")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemMeta.setLore(List(s"${GRAY}手に持つと耐性2のエフェクトが付きます。").asJava)
     itemStack.setItemMeta(itemMeta)
@@ -418,9 +418,9 @@ object OriginalItems {
     val itemMeta: ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(s"$AQUA${BOLD}職人のツルハシ")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
-    itemMeta.addEnchant(Enchantment.SILK_TOUCH,1,false)
-    itemMeta.addEnchant(Enchantment.DIG_SPEED,5,false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.SILK_TOUCH, 1, false)
+    itemMeta.addEnchant(Enchantment.DIG_SPEED, 5, false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
@@ -431,9 +431,9 @@ object OriginalItems {
     val itemMeta: ItemMeta = itemStack.getItemMeta
     itemMeta.setDisplayName(s"$YELLOW${BOLD}金運のツルハシ")
     itemMeta.addItemFlags(ItemFlag.HIDE_DYE)
-    itemMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS,3,false)
-    itemMeta.addEnchant(Enchantment.DIG_SPEED,5,false)
-    itemMeta.addEnchant(Enchantment.DURABILITY,3,false)
+    itemMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, false)
+    itemMeta.addEnchant(Enchantment.DIG_SPEED, 5, false)
+    itemMeta.addEnchant(Enchantment.DURABILITY, 3, false)
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack

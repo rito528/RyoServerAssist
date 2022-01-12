@@ -6,7 +6,6 @@ import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player

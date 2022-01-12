@@ -2,12 +2,7 @@ package com.ryoserver.Security
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.Config.ConfigData.getConfig
-import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
-import org.bukkit.scheduler.BukkitRunnable
 
-import java.io.PrintWriter
-import java.nio.file.{Files, Paths}
 import scala.sys.process.Process
 
 class GetPlayerInfo {

@@ -1,11 +1,10 @@
 package com.ryoserver.DataBase
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 
-class CreateTables(ryoServerAssist: RyoServerAssist) {
+class CreateTables {
 
-  private val sql = new SQL(ryoServerAssist)
+  private val sql = new SQL()
 
   /*
     RyoServerAssistで利用するテーブルを作成するためのクラス。

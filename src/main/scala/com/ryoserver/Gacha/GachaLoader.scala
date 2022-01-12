@@ -21,7 +21,7 @@ object GachaLoader {
   var special: Double = _ //特等
 
   def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
     config.set("i", is)
@@ -32,13 +32,13 @@ object GachaLoader {
   }
 
   def load(ryoServerAssist: RyoServerAssist): Unit = {
-    gachaItemLoad(ryoServerAssist)
+    gachaItemLoad()
     gachaRarityLoad(ryoServerAssist)
   }
 
-  private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
+  private def gachaItemLoad(): Unit = {
     Bukkit.getLogger.info("ガチャアイテムロード中....")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM GachaItems")
     while (rs.next()) {
       val rarity = rs.getInt("Rarity")
@@ -79,8 +79,8 @@ object GachaLoader {
     ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
   }
 
-  def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+  def listGachaItem(rarity: Int, p: Player): Unit = {
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
@@ -94,8 +94,8 @@ object GachaLoader {
     sql.close()
   }
 
-  def removeGachaItem(id: Int, ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
+  def removeGachaItem(id: Int): Unit = {
+    val sql = new SQL()
     sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
     sql.close()
   }

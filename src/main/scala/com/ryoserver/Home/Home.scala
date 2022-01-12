@@ -32,7 +32,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val uuid = p.getUniqueId.toString.replace("-", "")
     val locate = p.getLocation()
     val location = s"${locate.getWorld.getName},${locate.getX.toInt},${locate.getY.toInt},${locate.getZ.toInt}"
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       sql.close()
@@ -52,7 +52,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
   }
 
   def teleportHome(p: Player, point: Int): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val uuid = p.getUniqueId.toString.replace("-", "")
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能を利用できません！")
@@ -84,7 +84,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
 
   def homeLock(p: Player, index: Int): Unit = {
     val uuid = p.getUniqueId.toString.replace("-", "")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       return
@@ -103,7 +103,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     new BukkitRunnable {
       override def run(): Unit = {
         val uuid = p.getUniqueId.toString.replace("-", "")
-        val sql = new SQL(ryoServerAssist)
+        val sql = new SQL()
         if (!sql.connectionTest()) {
           p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
           sql.close()
