@@ -21,7 +21,6 @@ object GachaLoader {
   var special: Double = _ //特等
 
   def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    createGachaTable(ryoServerAssist)
     val sql = new SQL(ryoServerAssist)
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
@@ -38,7 +37,6 @@ object GachaLoader {
   }
 
   private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
-    createGachaTable(ryoServerAssist)
     Bukkit.getLogger.info("ガチャアイテムロード中....")
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery("SELECT * FROM GachaItems")
@@ -70,12 +68,6 @@ object GachaLoader {
       Bukkit.shutdown()
     }
     ryoServerAssist.getLogger.info("ガチャ排出割合読み込みが完了しました！")
-  }
-
-  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
-    sql.close()
   }
 
   def unload(ryoServerAssist: RyoServerAssist): Unit = {

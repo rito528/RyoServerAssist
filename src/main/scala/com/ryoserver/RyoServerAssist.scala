@@ -2,6 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
+import com.ryoserver.DataBase.CreateTables
 import com.ryoserver.Distribution.{Distribution, LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -56,10 +57,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       テーブルの作成
      */
-    new CreateData(this).createPlayerTable()
-    new Distribution(this).createDistributionTable()
-    new DataBaseTable(this).createQuestTable()
-    new TableCheck(this).stackTableCheck()
+    new CreateTables(this).execute()
 
     /*
       コマンドの登録

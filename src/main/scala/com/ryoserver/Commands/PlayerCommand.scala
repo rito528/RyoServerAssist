@@ -17,7 +17,6 @@ class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def setJoinItem(): Unit = {
     val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
     val items = sql.executeQuery("SELECT ItemStack FROM firstJoinItems;")
     val inv = Bukkit.createInventory(null, 9, "初参加アイテム設定画面")
     var counter = 0
