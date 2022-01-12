@@ -60,6 +60,9 @@ commands:
   skillPoint:
     description: set skill point command.
     permission: ryoserverassist.skillpoint
+  ryoServerAssist:
+    description: ryoServerAssist operation command.
+    permission: ryoserverassist.ryoserverassist
 
 permissions:
   ryoserverassist.*:
@@ -83,6 +86,7 @@ permissions:
       - ryoserverassist.commandExecuter
       - ryoserverassist.profile
       - ryoserverassist.skillpoint
+      - ryoserverassist.ryoserverassist
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -118,4 +122,6 @@ permissions:
   ryoserverassist.profile:
     default: true
   ryoserverassist.skillpoint:
+    default: op
+  ryoserverassist.ryoserverassist:
     default: op
