@@ -4,6 +4,9 @@ import com.ryoserver.OriginalItem.OriginalItems._
 
 object GachaItemChangeItems {
 
+  /*
+    このリストに登録されているアイテムは、ガチャの特等アイテムとして交換することができるようになります。
+   */
   val items = List(
     tiguruinoyaiba,
     oretaEiyuNoKen,
