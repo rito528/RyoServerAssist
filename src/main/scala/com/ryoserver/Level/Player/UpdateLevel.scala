@@ -19,7 +19,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
 
 
   /*
-    Force exp updates
+    強制的に経験値を上げる場合に利用する関数
    */
   def updateExp(exp: Int, p: Player): Unit = {
     p.questExpAddNaturally(exp)
@@ -27,12 +27,12 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
   }
 
   /*
-    Add exp
+    経験値を上げるために利用する関数
    */
   def addExp(addExp: Double, p: Player): Unit = {
     var exp = addExp
     /*
-      Check bonus time
+      ボーナスタイムの確認
      */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")

@@ -8,7 +8,7 @@ class CreateTables {
 
   /*
     RyoServerAssistで利用するテーブルを作成するためのクラス。
-    execute()を実行することによりすべてのテーブルを作成する
+    execute()を実行することによりすべてのテーブルを作成します
    */
 
   def execute(): Unit = {
