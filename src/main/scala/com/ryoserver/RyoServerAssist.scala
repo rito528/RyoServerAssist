@@ -78,6 +78,7 @@ class RyoServerAssist extends JavaPlugin {
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
       //"profile" -> new ProfileSettingCommands(this),
+      "ryoserverassist" -> new RyoServerAssistCommand(this),
       "security" -> new SecurityCommand(this),
       "skillPoint" -> new SkillPointCommand
     ).foreach({ case (cmd, executor) =>
