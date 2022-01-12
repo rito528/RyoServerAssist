@@ -1,6 +1,5 @@
 package com.ryoserver.Title
 
-import com.ryoserver.RyoServerAssist
 import org.bukkit.configuration.file.YamlConfiguration
 
 import java.nio.file.Paths
@@ -19,7 +18,7 @@ object TitleData {
   var titleGetNumber: Array[String] = Array.empty
   var continuousLoginAndQuestClearNumber: Array[String] = Array.empty
 
-  def isEnableTitle(ryoServerAssist: RyoServerAssist, title: String): Boolean = {
+  def isEnableTitle(title: String): Boolean = {
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     titleConfig.getConfigurationSection("titles").getKeys(false).contains(title)
   }

@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.{PlayerData, RyoServerPlayer}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

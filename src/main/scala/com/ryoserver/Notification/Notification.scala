@@ -5,8 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-import java.io.PrintWriter
-import java.nio.file.{Files, Paths}
+import java.nio.file.Paths
 
 class Notification extends Listener {
 

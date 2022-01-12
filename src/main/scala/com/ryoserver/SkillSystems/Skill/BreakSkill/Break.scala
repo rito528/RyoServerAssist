@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.Skill.BreakSkill
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.Item.itemAddDamage
 import com.ryoserver.util.WorldGuardWrapper
 import org.bukkit.entity.Player

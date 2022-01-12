@@ -1,6 +1,5 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
@@ -34,7 +33,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def continuousLogin(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT consecutiveLoginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var continuousLoginDays = 0
     if (rs.next()) continuousLoginDays = rs.getInt("consecutiveLoginDays")
@@ -48,7 +47,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def loginDays(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT loginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var LoginDays = 0
     if (rs.next()) LoginDays = rs.getInt("loginDays")
@@ -62,7 +61,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def questClearNumber(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT questClearTimes FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var clearTimes = 0
     if (rs.next()) clearTimes = rs.getInt("questClearTimes")
@@ -76,7 +75,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def gachaPullNumber(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT gachaPullNumber FROM Players WHERE UUID='${p.getUniqueId.toString}'")
     var pullNumber = 0
     if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
@@ -159,7 +158,7 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     TitleData.continuousLoginAndQuestClearNumber.foreach(title => {
       val conditionLogin = titleConfig.getString(s"titles.$title.condition").split(",")(0).toInt
       val conditionQuest = titleConfig.getString(s"titles.$title.condition").split(",")(1).toInt
-      val sql = new SQL(ryoServerAssist)
+      val sql = new SQL()
       val loginRs = sql.executeQuery(s"SELECT consecutiveLoginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
       val questRs = sql.executeQuery(s"SELECT questClearTimes FROM Players WHERE UUID='${p.getUniqueId.toString}'")
       var login = 0

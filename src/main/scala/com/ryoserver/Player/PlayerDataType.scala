@@ -20,4 +20,4 @@ case class PlayerDataType(level: Int,
                           Twitter: Option[String],
                           Discord: Option[String],
                           Word: Option[String]
-                     )
+                         )

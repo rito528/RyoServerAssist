@@ -83,7 +83,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         new StackMenu(ryoServerAssist).openStack(p, nowPage + 1, getSelectedCategory(p))
       case _ =>
         val is = inv.get.getItem(index)
-        val data = new NeoStackGateway(ryoServerAssist)
+        val data = new NeoStackGateway()
         val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)
         if (playerData.isEmpty) return
         if (isRightClick) {

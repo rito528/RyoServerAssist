@@ -7,6 +7,10 @@ import org.bukkit.entity.Player
 
 class OriginalItemCommand extends CommandBuilder {
 
+  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
+    commandList ++
+      Map("all" -> all)
+  ).playerCommand()
   private val commandList: Map[String, () => Unit] = Map(
     "血狂の刃" -> tiguruinoyaiba,
     "折れた英雄の剣" -> oretaEiyunoKen,
@@ -47,13 +51,8 @@ class OriginalItemCommand extends CommandBuilder {
     "スキル回復(大)" -> max
   )
 
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    commandList ++
-      Map ("all" -> all)
-  ).playerCommand()
-
   private def all(): Unit = {
-    commandList.foreach{case (_,func) => func.apply()}
+    commandList.foreach { case (_, func) => func.apply() }
   }
 
   private def tiguruinoyaiba(): Unit = {

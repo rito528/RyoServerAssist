@@ -2,7 +2,6 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.RyoServerPlayer
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._

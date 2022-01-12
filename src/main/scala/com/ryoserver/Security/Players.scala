@@ -5,8 +5,6 @@ import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
-import scala.collection.mutable
-
 object Players {
 
   val getPlayerIP: Player => String = (p: Player) =>

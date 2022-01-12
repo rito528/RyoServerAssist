@@ -24,7 +24,7 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onQuit(e: PlayerQuitEvent): Unit = {
     new PlayerDataLoader(ryoServerAssist).unload(e.getPlayer)
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     sql.executeSQL(s"UPDATE Players SET lastLogout=NOW() WHERE UUID='${e.getPlayer.getUniqueId.toString}'")
     sql.close()
   }

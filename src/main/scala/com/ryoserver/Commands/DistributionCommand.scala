@@ -2,10 +2,9 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Distribution.Distribution
-import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 
-class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class DistributionCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -15,7 +14,7 @@ class DistributionCommand(ryoServerAssist: RyoServerAssist) extends CommandBuild
   )
 
   private def give(): Unit = {
-    new Distribution(ryoServerAssist).addDistribution(args(1), args(2).toInt, sender)
+    new Distribution().addDistribution(args(1), args(2).toInt, sender)
   }
 
   private def help(): Unit = {

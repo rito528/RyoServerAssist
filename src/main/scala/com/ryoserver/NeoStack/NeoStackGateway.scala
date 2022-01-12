@@ -1,17 +1,16 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.PlayerData.changedData
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
+class NeoStackGateway {
 
   def getPlayerHasNeoStackItems(p: Player): List[NeoStackPlayerItemData] = {
     val uuid = p.getUniqueId
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
     val item = Iterator.from(0).takeWhile(_ => rs.next())
       .map(_ =>
@@ -22,7 +21,7 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   def editItemList(category: String, page: Int, invContents: String): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
     if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;", invContents)
     else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);", invContents)
@@ -45,6 +44,12 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
         NeoStackDataType(oldPlayerData.head.uuid, oldPlayerData.head.savingItemStack, oldPlayerData.head.displayItemStack, oldPlayerData.head.amount + itemStack.getAmount)
     }
     addChangedData(p, Item.getOneItemStack(itemStack))
+  }
+
+  private def addChangedData(p: Player, is: ItemStack): Unit = {
+    val uuid = p.getUniqueId
+    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
+    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def getCategory(is: ItemStack): String = {
@@ -81,7 +86,7 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
     minusAmount
   }
 
-  def getNeoStackAmount(p:Player, is:ItemStack): Int = {
+  def getNeoStackAmount(p: Player, is: ItemStack): Int = {
     val playerData = PlayerData.playerData
       .filter(data => data.savingItemStack == Item.getOneItemStack(is) && data.uuid == p.getUniqueId)
     if (playerData.isEmpty) {
@@ -116,12 +121,6 @@ class NeoStackGateway(ryoServerAssist: RyoServerAssist) {
       addChangedData(p, is)
     }
     p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
-  }
-
-  private def addChangedData(p: Player, is: ItemStack): Unit = {
-    val uuid = p.getUniqueId
-    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
-    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
 

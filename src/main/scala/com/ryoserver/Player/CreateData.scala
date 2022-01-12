@@ -11,7 +11,7 @@ import org.bukkit.{Bukkit, Sound}
 class CreateData(ryoServerAssist: RyoServerAssist) {
 
   def createPlayerData(p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}プレイヤーデータの作成に失敗しました。")
       sql.close()

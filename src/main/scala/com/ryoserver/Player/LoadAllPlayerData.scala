@@ -1,15 +1,14 @@
 package com.ryoserver.Player
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 
 import java.util.UUID
 import scala.collection.mutable
 
-class LoadAllPlayerData(ryoServerAssist: RyoServerAssist) {
+class LoadAllPlayerData() {
 
   def load(): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM Players ORDER BY EXP DESC;")
     PlayerData.playerData = mutable.Map.empty
     while (rs.next()) {

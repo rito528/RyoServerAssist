@@ -16,12 +16,12 @@ class PlayEffect(ryoServerAssist: RyoServerAssist) extends Listener {
         if (p.getInventory.getItemInOffHand == OriginalItems.yuusyanotate || p.getInventory.getItemInMainHand == OriginalItems.yuusyanotate) {
           new BukkitRunnable {
             override def run(): Unit = {
-              p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,20,1))
+              p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 1))
             }
           }.runTask(ryoServerAssist)
         }
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,0,10)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 0, 10)
   }
 
 }
