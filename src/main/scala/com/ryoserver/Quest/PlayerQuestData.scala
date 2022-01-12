@@ -13,7 +13,6 @@ object PlayerQuestData {
 
   def loadPlayerData(ryoServerAssist: RyoServerAssist, p: Player): Unit = {
     if (playerQuestData.contains(p.getUniqueId)) return
-    new DataBaseTable(ryoServerAssist).createQuestTable()
     val sql = new SQL(ryoServerAssist)
     val rs = sql.executeQuery(s"SELECT selectedQuest,remaining,bookmarks FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
     if (rs.next()) {
@@ -49,7 +48,6 @@ object PlayerQuestData {
   }
 
   def save(ryoServerAssist: RyoServerAssist): Unit = {
-    new DataBaseTable(ryoServerAssist).createQuestTable()
     val sql = new SQL(ryoServerAssist)
     playerQuestData.foreach { case (uuid, questData) =>
       val questName = questData.selectedQuestName

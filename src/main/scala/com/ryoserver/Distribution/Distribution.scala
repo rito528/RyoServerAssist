@@ -13,12 +13,6 @@ import org.bukkit.{Bukkit, Sound}
 
 class Distribution(ryoServerAssist: RyoServerAssist) {
 
-  def createDistributionTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
-    sql.close()
-  }
-
   def addDistribution(gachaPaperType: String, count: Int, sendPlayer: CommandSender): Unit = {
     if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {
       sendPlayer.sendMessage(s"${RED}不明なガチャ券のタイプが指定されました。")
