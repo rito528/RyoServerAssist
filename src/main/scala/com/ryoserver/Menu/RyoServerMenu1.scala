@@ -16,7 +16,7 @@ import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleMenu
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 
 class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
@@ -67,6 +67,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(9, 5, Material.BOOK, effect = true, s"${GREEN}イベント", List(s"${GRAY}クリックで表示します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerMotion(registerMenu)
+    p.playSound(p.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
     open()
   }
 
