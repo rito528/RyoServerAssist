@@ -2,7 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
-import com.ryoserver.DataBase.CreateTables
+import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -64,6 +64,11 @@ class RyoServerAssist extends JavaPlugin {
      パッチの実行
      */
     new Patch(this).getAndExecutePatch()
+
+    /*
+      連続投票日数を更新
+     */
+    new UpdateContinueVoteNumber().update()
 
     /*
       コマンドの登録
