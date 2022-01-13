@@ -6,9 +6,10 @@ import com.sk89q.worldguard.protection.flags.StateFlag
 import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{Location, Sound}
+import org.bukkit.{Bukkit, Location, Sound}
 import org.jetbrains.annotations.NotNull
 
+import java.util.UUID
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
@@ -34,6 +35,13 @@ class WorldGuardWrapper {
       if (region.getOwners.contains(p.getUniqueId)) return true
     )
     false
+  }
+
+  def getOwner(@NotNull loc: Location): String = {
+    getRegion(loc).head.getOwners.toPlayersString.replaceAll("uuid:","").split(",")
+      .toList
+      .map(uuid => Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName)
+      .mkString(",")
   }
 
   def removeRegion(@NotNull p: Player): Unit = {
