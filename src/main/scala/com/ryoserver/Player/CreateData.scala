@@ -35,7 +35,7 @@ class CreateData(ryoServerAssist: RyoServerAssist) {
         })
       }
       Bukkit.broadcastMessage(s"$AQUA${p.getName}さんが初参加しました！")
-      PlayerData.playerData += (p.getUniqueId -> PlayerDataType(0, 0, 0, new SkillPointCal().getMaxSkillPoint(0), 0, 0, 0, 0, 0, 0, None, 0, 0, None, None, None, autoStack = false, None, None, None))
+      PlayerData.playerData += (p.getUniqueId -> PlayerDataType(0, 0, 0, new SkillPointCal().getMaxSkillPoint(0), 0, 0, 0, 0, 0, 0, None, 0, 0, 0, None, None, None, autoStack = false, None, None, None))
       Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1))
     }
     sql.close()

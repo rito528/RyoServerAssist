@@ -25,6 +25,7 @@ class LoadAllPlayerData() {
       val skillOpenPoint = rs.getInt("SkillOpenPoint")
       val OpenedSkills = rs.getString("OpenedSkills")
       val voteNumber = rs.getInt("VoteNumber")
+      val ContinueVoteNumber = rs.getInt("ContinueVoteNumber")
       val specialSkillOpenPoint = rs.getInt("SpecialSkillOpenPoint")
       val openedSpecialSkills = rs.getString("OpenedSpecialSkills")
       val openedTitles = rs.getString("OpenedTitles")
@@ -34,7 +35,7 @@ class LoadAllPlayerData() {
       val discord = rs.getString("Discord")
       val word = rs.getString("Word")
       PlayerData.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
-        questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
+        questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, ContinueVoteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
         Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
     }
     sql.close()

@@ -7,3 +7,5 @@ ALTER TABLE Players ADD OpenedSpecialSkills TEXT AFTER SpecialSkillOpenPoint;
 ALTER TABLE Events ADD GivenGachaTickets INT DEFAULT 0;
 ALTER TABLE Players ADD EventTitles TEXT;
 ALTER TABLE Quests ADD bookmarks TEXT;
+ALTER TABLE Players ADD LastVote DATETIME DEFAULT "2022-01-01 00:00:00" AFTER VoteNumber;
+ALTER TABLE Players ADD ContinueVoteNumber INT DEFAULT 0 AFTER LastVote;

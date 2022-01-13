@@ -51,6 +51,12 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       exp *= 1.2
       p.sendMessage(s"$AQUA${addExp.toString}->${String.format("%.2f", exp)}")
     }
+
+    /*
+      1.0 + (投票日数 * 0.01)だけ経験値を増やすように
+     */
+    exp *= (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
+
     /*
       経験値を増やす処理
      */

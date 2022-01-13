@@ -36,6 +36,8 @@ object PlayerManager {
 
     def getVoteNumber: Int = playerData.voteNumber
 
+    def getReVoteNumber: Int = playerData.reVoteNumber
+
     def getSpecialSkillOpenPoint: Int = playerData.specialSkillOpenPoint
 
     def getOpenedSpecialSkills: Option[String] = playerData.OpenedSpecialSkills
@@ -55,6 +57,8 @@ object PlayerManager {
     def reduceNormalGachaTickets(amount: Int): Unit = rp.reduceNormalGachaTicket(amount)
 
     def addOneVoteNumber(): Unit = rp.addOneVoteNumber()
+
+    def setReVoteNumber(number: Int): Unit = rp.setContinueVoteNumber(number)
 
     def addGachaPullNumber(number: Int): Unit = rp.addGachaPullNumber(number)
 

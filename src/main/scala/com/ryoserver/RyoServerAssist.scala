@@ -2,7 +2,7 @@ package com.ryoserver
 
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
-import com.ryoserver.DataBase.CreateTables
+import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -61,6 +61,16 @@ class RyoServerAssist extends JavaPlugin {
     new CreateTables().execute()
 
     /*
+     パッチの実行
+     */
+    new Patch(this).getAndExecutePatch()
+
+    /*
+      連続投票日数を更新
+     */
+    new UpdateContinueVoteNumber().update()
+
+    /*
       コマンドの登録
      */
     Map(
@@ -81,7 +91,8 @@ class RyoServerAssist extends JavaPlugin {
       //"profile" -> new ProfileSettingCommands(this),
       "ryoserverassist" -> new RyoServerAssistCommand(this),
       "security" -> new SecurityCommand(this),
-      "skillPoint" -> new SkillPointCommand
+      "skillPoint" -> new SkillPointCommand,
+      "vote" -> new VoteCommand
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -155,11 +166,6 @@ class RyoServerAssist extends JavaPlugin {
     new LoadDistribution().load()
     Translate.loadLangFile()
 
-
-    /*
-     パッチの実行
-     */
-    new Patch(this).getAndExecutePatch()
 
     /*
       オートセーブの実行

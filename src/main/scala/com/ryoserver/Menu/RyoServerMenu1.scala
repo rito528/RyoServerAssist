@@ -61,7 +61,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
       s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
       s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
-      s"${WHITE}投票回数: ${playerData.voteNumber}回"
+      s"${WHITE}投票回数: ${playerData.voteNumber}回",
+      s"${WHITE}連続投票日数: ${playerData.reVoteNumber}日"
     ))
     setItem(9, 5, Material.BOOK, effect = true, s"${GREEN}イベント", List(s"${GRAY}クリックで表示します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
