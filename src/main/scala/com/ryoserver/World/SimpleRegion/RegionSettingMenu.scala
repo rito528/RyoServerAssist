@@ -45,6 +45,12 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       List(s"${GRAY}トロッコ、ボードの破壊を許可します。",
         s"${GRAY}状態:${if (getFlagStatus(set, Flags.DESTROY_VEHICLE)) s"${AQUA}許可" else s"${RED}拒否"}"))
     setItem(8, 2, Material.ENDER_EYE, effect = false, s"${GREEN}保護範囲の2点を確認します。", List(s"${GRAY}クリックでエフェクトを再生します。"))
+    setItem(2, 4, Material.GRASS_BLOCK, effect = false, s"${GREEN}フラグ:block-placeを許可します。",
+      List(s"${GRAY}ブロックの設置を許可します。",
+      s"${GRAY}状態:${if (getFlagStatus(set, Flags.BLOCK_PLACE)) s"${AQUA}許可" else s"${RED}拒否"}"))
+    setItem(4, 4, Material.STONE_PICKAXE, effect = false, s"${GREEN}フラグ:block-breakを許可します。",
+      List(s"${GRAY}ブロックの破壊を許可します。",
+        s"${GRAY}状態:${if (getFlagStatus(set, Flags.BLOCK_BREAK)) s"${AQUA}許可" else s"${RED}拒否"}"))
     registerMotion(motion)
     open()
   }
@@ -100,7 +106,13 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(6, 2) -> {
         worldGuard.toggleFlag(region, Flags.DESTROY_VEHICLE, _)
       },
-      getLayOut(8, 2) -> checkRegion
+      getLayOut(8, 2) -> checkRegion,
+      getLayOut(2, 4) -> {
+        worldGuard.toggleFlag(region, Flags.BLOCK_PLACE, _)
+      },
+      getLayOut(4, 4) -> {
+        worldGuard.toggleFlag(region, Flags.BLOCK_BREAK, _)
+      }
     )
     if (motions.contains(index)) {
       motions(index)(p)
