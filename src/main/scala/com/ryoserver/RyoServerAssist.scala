@@ -24,6 +24,7 @@ import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
+import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
 import com.ryoserver.util.{SQL, Translate}
@@ -110,7 +111,8 @@ class RyoServerAssist extends JavaPlugin {
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
-      new PlayEffect(this)
+      new PlayEffect(this),
+      new EditEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
