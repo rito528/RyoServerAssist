@@ -28,7 +28,7 @@ object PlayerManager {
 
     def getGachaTickets: Int = playerData.gachaTickets
 
-    def getGachaPullNumber: Int = playerData.gachaTickets
+    def getGachaPullNumber: Int = playerData.gachaPullNumber
 
     def getSkillOpenPoint: Int = playerData.SkillOpenPoint
 
