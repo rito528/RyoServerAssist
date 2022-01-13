@@ -61,6 +61,11 @@ class RyoServerAssist extends JavaPlugin {
     new CreateTables().execute()
 
     /*
+     パッチの実行
+     */
+    new Patch(this).getAndExecutePatch()
+
+    /*
       コマンドの登録
      */
     Map(
@@ -155,11 +160,6 @@ class RyoServerAssist extends JavaPlugin {
     new LoadDistribution().load()
     Translate.loadLangFile()
 
-
-    /*
-     パッチの実行
-     */
-    new Patch(this).getAndExecutePatch()
 
     /*
       オートセーブの実行
