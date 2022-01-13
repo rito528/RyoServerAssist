@@ -2,9 +2,8 @@ package com.ryoserver.Vote
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{Player, SQL}
 import com.vexsoftware.votifier.model.VotifierEvent
-import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Bukkit, ChatColor, OfflinePlayer, Sound}
 
@@ -13,7 +12,7 @@ class Vote extends Listener {
   @EventHandler
   def onVotifierEvent(e: VotifierEvent): Unit = {
     val site = if (e.getVote.getServiceName == "minecraft.jp") "JapanMinecraftServers" else "monocraft"
-    val uuid = com.ryoserver.util.Player.nameFromUUID(e.getVote.getUsername)
+    val uuid = Player.nameFromUUID(e.getVote.getUsername)
     Bukkit.getOnlinePlayers.forEach(onlinePlayer => {
       onlinePlayer.playSound(onlinePlayer.getLocation, Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
     })
@@ -40,6 +39,10 @@ class Vote extends Listener {
       "LastVote = NOW() " +
       s"WHERE UUID='${p.getUniqueId.toString}';"
     sql.executeSQL(query)
+    val rs = sql.executeQuery(s"SELECT ContinueVoteNumber FROM Players WHERE UUID =${p.getUniqueId.toString}");
+    if (rs.next()) {
+      p.setReVoteNumber(rs.getInt("ContinueVoteNumber"))
+    }
     sql.close()
   }
 
