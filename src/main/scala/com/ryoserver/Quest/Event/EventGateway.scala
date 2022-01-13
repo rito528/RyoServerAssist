@@ -83,6 +83,21 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
     sql.close()
   }
 
+  /*
+    イベントの開催を確認する
+   */
+  def autoCheckEvent(): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        if (holdingEvent() != null && eventInfo(holdingEvent()).eventType == "bonus") {
+          EventDataProvider.ratio = eventInfo(holdingEvent()).exp
+        } else {
+          EventDataProvider.ratio = 1.0
+        }
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist, 20,20)
+  }
+
   def autoSaveEvent(): Unit = {
     val oneMinute = 1200
     new BukkitRunnable {
