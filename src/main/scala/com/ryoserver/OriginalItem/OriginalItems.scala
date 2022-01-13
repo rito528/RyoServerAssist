@@ -1,5 +1,6 @@
 package com.ryoserver.OriginalItem
 
+import com.ryoserver.util.Item.getEnchantEffectItem
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.attribute.{Attribute, AttributeModifier}
@@ -437,6 +438,13 @@ object OriginalItems {
     itemMeta.addEnchant(Enchantment.MENDING, 1, false)
     itemStack.setItemMeta(itemMeta)
     itemStack
+  }
+
+  val tokutoukoukanken: ItemStack = {
+    val Lore = List(
+      s"${WHITE}公共施設で特等アイテムと交換できます。"
+    ).asJava
+    getEnchantEffectItem(Material.PAPER, s"${BLUE}${BOLD}特等交換券", Lore)
   }
 
   val itemList = List(
