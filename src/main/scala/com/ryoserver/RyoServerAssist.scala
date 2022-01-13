@@ -183,6 +183,11 @@ class RyoServerAssist extends JavaPlugin {
      */
     new Tips(this).sendTips()
 
+    /*
+     イベント開催確認用のタイマー
+     */
+    new EventGateway(this).autoCheckEvent()
+
     getLogger.info("RyoServerAssist enabled.")
   }
 
