@@ -23,7 +23,7 @@ class Vote extends Listener {
     val p = Bukkit.getOfflinePlayer(uuid)
     p.addOneVoteNumber()
     updateVoteContinue(p)
-    p.giveNormalGachaTickets(16 + p.getReVoteNumber)
+    p.giveNormalGachaTickets(if (p.getReVoteNumber >= 20) 16 + 20 else 16 + p.getReVoteNumber)
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + name + "さんが投票しました！")
       p.sendMessage("投票はこちら！")
