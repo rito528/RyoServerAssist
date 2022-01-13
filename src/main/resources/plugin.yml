@@ -63,6 +63,9 @@ commands:
   ryoServerAssist:
     description: ryoServerAssist operation command.
     permission: ryoserverassist.ryoserverassist
+  vote:
+    description: vote command.
+    permission: ryoserverassist.vote
 
 permissions:
   ryoserverassist.*:
@@ -87,6 +90,7 @@ permissions:
       - ryoserverassist.profile
       - ryoserverassist.skillpoint
       - ryoserverassist.ryoserverassist
+      - ryoserverassist.vote
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -124,4 +128,6 @@ permissions:
   ryoserverassist.skillpoint:
     default: op
   ryoserverassist.ryoserverassist:
+    default: op
+  ryoserverassist.vote:
     default: op
