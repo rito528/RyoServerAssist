@@ -34,16 +34,13 @@ class Vote extends Listener {
 
   private def updateVoteContinue(p: OfflinePlayer): Unit = {
     val sql = new SQL()
-    val query = "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber " +
-      "END," +
-      "LastVote = CASE WHEN DATEDIFF(LastVote, NOW()) = -1 THEN ContinueVoteNumber + 1 " +
-      "WHEN DATEDIFF(LastVote, NOW()) <> 0 AND DATEDIFF(LastVote, NOW()) <= -1 THEN 0 " +
-      "ELSE ContinueVoteNumber " +
+    val query =
+      "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE 1 " +
       "END," +
       "LastVote = NOW() " +
       s"WHERE UUID='${p.getUniqueId.toString}';"
     sql.executeSQL(query)
-    val rs = sql.executeQuery(s"SELECT ContinueVoteNumber FROM Players WHERE UUID =${p.getUniqueId.toString}");
+    val rs = sql.executeQuery(s"SELECT ContinueVoteNumber FROM Players WHERE UUID = '${p.getUniqueId.toString}'");
     if (rs.next()) {
       p.setReVoteNumber(rs.getInt("ContinueVoteNumber"))
     }
