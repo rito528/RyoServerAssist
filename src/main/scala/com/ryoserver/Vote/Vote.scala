@@ -6,7 +6,7 @@ import com.ryoserver.util.SQL
 import com.vexsoftware.votifier.model.VotifierEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, ChatColor, OfflinePlayer, Sound}
 
 class Vote extends Listener {
 
@@ -20,6 +20,7 @@ class Vote extends Listener {
     val p = Bukkit.getOfflinePlayer(uuid)
     p.giveNormalGachaTickets(16)
     p.addOneVoteNumber()
+    updateVoteContinue(p)
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + e.getVote.getUsername + "さんが投票しました！")
       p.sendMessage("投票はこちら！")
@@ -28,7 +29,7 @@ class Vote extends Listener {
     })
   }
 
-  def updateVoteContinue(p: Player): Unit = {
+  def updateVoteContinue(p: OfflinePlayer): Unit = {
     val sql = new SQL()
     val query = "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber " +
       "END," +
