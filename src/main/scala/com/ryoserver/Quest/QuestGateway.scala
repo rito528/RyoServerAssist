@@ -3,9 +3,10 @@ package com.ryoserver.Quest
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Quest.LoadQuests.loadedQuests
+import com.ryoserver.Quest.LoadQuests.{loadedDailyQuests, loadedQuests}
 import com.ryoserver.Quest.PlayerQuestData.playerQuestData
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.SQL
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -14,6 +15,10 @@ class QuestGateway {
 
   def selectQuest(p: Player, questName: String): Unit = {
     playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList, playerQuestData(p.getUniqueId).bookmarks))
+  }
+
+  def selectDailyQuest(p: Player, questName: String): Unit = {
+    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedDailyQuests.filter(_.questName == questName).head.requireList, playerQuestData(p.getUniqueId).bookmarks))
   }
 
   def resetQuest(p: Player): Unit = {
@@ -32,10 +37,27 @@ class QuestGateway {
     }
   }
 
+  def setDailyQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
+    getSelectedDailyQuest(p) match {
+      case Some(selectedQuest) =>
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress, playerQuestData(p.getUniqueId).bookmarks))
+      case None =>
+    }
+  }
+
   def getSelectedQuest(p: Player): Option[QuestType] = {
     playerQuestData(p.getUniqueId).selectedQuestName match {
       case Some(questName) =>
         Option(loadedQuests.filter(_.questName == questName).head)
+      case None =>
+        None
+    }
+  }
+
+  def getSelectedDailyQuest(p: Player): Option[QuestType] = {
+    playerQuestData(p.getUniqueId).selectedQuestName match {
+      case Some(questName) =>
+        Option(loadedDailyQuests.filter(_.questName == questName).head)
       case None =>
         None
     }
@@ -52,6 +74,10 @@ class QuestGateway {
 
   def getCanQuests(lv: Int): List[QuestType] = {
     LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+  }
+
+  def getCanDailyQuests(lv: Int): List[QuestType] = {
+    LoadQuests.loadedDailyQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
 
   /*
@@ -82,6 +108,18 @@ class QuestGateway {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
         new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
+      case None =>
+    }
+  }
+
+  def dailyQuestClear(p: Player, ryoServerAssist: RyoServerAssist,addExp: Double): Unit = {
+    getSelectedDailyQuest(p) match {
+      case Some(selectedQuest) =>
+        val sql = new SQL
+        sql.executeSQL(s"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID='${p.getUniqueId.toString}'")
+        sql.close()
+        new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp * addExp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }

@@ -1,8 +1,10 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.SQL
 import org.bukkit.Sound
 import org.bukkit.entity.Player
+import org.bukkit.ChatColor._
 
 class QuestMenu(ryoServerAssist: RyoServerAssist) {
 
@@ -13,6 +15,24 @@ class QuestMenu(ryoServerAssist: RyoServerAssist) {
       player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
     } else {
       new QuestProcessMenu(ryoServerAssist).inventory(player)
+    }
+  }
+
+  def selectDailyQuestMenu(player: Player): Unit = {
+    val sql = new SQL
+    val rs = sql.executeQuery(s"SELECT DATEDIFF(LastDailyQuest, NOW()) <= -1 AS dailyQuest FROM Players WHERE UUID='${player.getUniqueId.toString}'");
+    if (rs.next()) {
+      if (rs.getBoolean("dailyQuest")) {
+        val questGateway = new QuestGateway()
+        if (questGateway.getSelectedDailyQuest(player).isEmpty) {
+          new SelectDailyQuestMenu(ryoServerAssist).inventory(player, 1)
+          player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
+        } else {
+          new DailyQuestProcessMenu(ryoServerAssist).inventory(player)
+        }
+      } else {
+        player.sendMessage(s"${RED}デイリークエストは一日一回のみこなすことができます!")
+      }
     }
   }
 

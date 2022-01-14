@@ -13,34 +13,56 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 object LoadQuests {
 
   val QUEST_SETTING_FILES = "plugins/RyoServerAssist/Quests/"
+  val DAILYQUEST_SETTING_FILES = "plugins/RyoServerAssist/DailyQuests/"
 
   var loadedQuests: List[QuestType] = List.empty
+  var loadedDailyQuests: List[QuestType] = List.empty
 
   def loadQuest(ryoServerAssist: RyoServerAssist): Unit = {
-    if (new File(QUEST_SETTING_FILES).listFiles() == null) return
-    val questFileNames = new File(QUEST_SETTING_FILES).listFiles()
-      .map(_.getName)
-      .filter(_.contains(".json"))
-    loadedQuests = questFileNames.toList.map(questFileName => {
-      val data = getQuestData(questFileName, ryoServerAssist)
-      val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
-        .map(
-          e => {
-            e.asText
-          })
-        .collect(Collectors.toList[String]).asScala
-      val questType = data.get("type").textValue()
-      QuestType(data.get("questName").textValue(), questType, data.get("minLevel").textValue().toInt,
-        data.get("maxLevel").textValue().toInt, data.get("exp").textValue().toDouble,
-        requires.map(data =>
-          data.split(":")(0) -> data.split(":")(1).toInt).toMap)
-    })
+    if (new File(QUEST_SETTING_FILES).listFiles() != null) {
+      val questFileNames = new File(QUEST_SETTING_FILES).listFiles()
+        .map(_.getName)
+        .filter(_.contains(".json"))
+      loadedQuests = questFileNames.toList.map(questFileName => {
+        val data = getQuestData(isDaily = false,questFileName, ryoServerAssist)
+        val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
+          .map(
+            e => {
+              e.asText
+            })
+          .collect(Collectors.toList[String]).asScala
+        val questType = data.get("type").textValue()
+        QuestType(data.get("questName").textValue(), questType, data.get("minLevel").textValue().toInt,
+          data.get("maxLevel").textValue().toInt, data.get("exp").textValue().toDouble,
+          requires.map(data =>
+            data.split(":")(0) -> data.split(":")(1).toInt).toMap)
+      })
+    }
+    if (new File(DAILYQUEST_SETTING_FILES).listFiles() != null) {
+      val questFileNames = new File(DAILYQUEST_SETTING_FILES).listFiles()
+        .map(_.getName)
+        .filter(_.contains(".json"))
+      loadedDailyQuests = questFileNames.toList.map(questFileName => {
+        val data = getQuestData(isDaily = true,questFileName, ryoServerAssist)
+        val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
+          .map(
+            e => {
+              e.asText
+            })
+          .collect(Collectors.toList[String]).asScala
+        val questType = data.get("type").textValue()
+        QuestType(data.get("questName").textValue(), questType, data.get("minLevel").textValue().toInt,
+          data.get("maxLevel").textValue().toInt, data.get("exp").textValue().toDouble,
+          requires.map(data =>
+            data.split(":")(0) -> data.split(":")(1).toInt).toMap)
+      })
+    }
   }
 
-  private def getQuestData(questFileName: String, ryoServerAssist: RyoServerAssist): JsonNode = {
+  private def getQuestData(isDaily:Boolean, questFileName: String, ryoServerAssist: RyoServerAssist): JsonNode = {
     val mapper = new ObjectMapper()
     var readLine = ""
-    val source = Source.fromFile(s"$QUEST_SETTING_FILES/$questFileName", "UTF-8")
+    val source = Source.fromFile(s"${if (isDaily) DAILYQUEST_SETTING_FILES else QUEST_SETTING_FILES}/$questFileName", "UTF-8")
     source.getLines().foreach(line => readLine = line)
     val json = mapper.readTree(readLine)
     val questName = json.get("questName").textValue()

@@ -30,6 +30,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}保護メニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 1, Material.BOOK, effect = false, s"${GREEN}クエストを選択します。", List(s"${GRAY}クリックで開きます。"))
+    setItem(6, 1, Material.BOOK, effect = false, s"${GREEN}デイリークエストを選択します。",List(s"${GRAY}クリックで開きます。"))
     setItem(7, 1, Material.BEACON, effect = false, s"${GREEN}スキルを選択します。", List(s"${GRAY}クリックで開きます。"))
     setItem(9, 1, Material.NAME_TAG, effect = false, s"${GREEN}称号一覧を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(1, 3, Material.CHEST, effect = false, s"${GREEN}ストレージを開きます。", List(s"${GRAY}クリックで開きます。"))
@@ -77,6 +78,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
       getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
+      getLayOut(6, 1) -> new QuestMenu(ryoServerAssist).selectDailyQuestMenu _,
       getLayOut(7, 1) -> new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu _,
       getLayOut(9, 1) -> {
         new TitleMenu(ryoServerAssist).openInv(_, 1)
