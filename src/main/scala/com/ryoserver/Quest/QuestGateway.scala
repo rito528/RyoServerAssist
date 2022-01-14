@@ -54,6 +54,10 @@ class QuestGateway {
     LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
 
+  def getCanDailyQuests(lv: Int): List[QuestType] = {
+    LoadQuests.loadedDailyQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+  }
+
   /*
     追加したらtrue、削除したらfalseを返す
    */
