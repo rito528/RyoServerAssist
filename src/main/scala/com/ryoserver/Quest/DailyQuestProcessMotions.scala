@@ -1,6 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.RyoServerMenu1
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
@@ -38,16 +39,16 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
   private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
     val questGateway = new QuestGateway
     if (progress.forall { case (_, amount) => amount == 0 }) {
-      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
+      p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questGateway.dailyQuestClear(p, ryoServerAssist)
-      new QuestMenu(ryoServerAssist).selectInventory(p)
+      new RyoServerMenu1(ryoServerAssist).menu(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
       questGateway.setQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectInventory(p)
+      new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
     }
   }
 
