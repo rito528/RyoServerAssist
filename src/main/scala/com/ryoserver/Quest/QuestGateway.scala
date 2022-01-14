@@ -36,6 +36,14 @@ class QuestGateway {
     }
   }
 
+  def setDailyQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
+    getSelectedDailyQuest(p) match {
+      case Some(selectedQuest) =>
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress, playerQuestData(p.getUniqueId).bookmarks))
+      case None =>
+    }
+  }
+
   def getSelectedQuest(p: Player): Option[QuestType] = {
     playerQuestData(p.getUniqueId).selectedQuestName match {
       case Some(questName) =>

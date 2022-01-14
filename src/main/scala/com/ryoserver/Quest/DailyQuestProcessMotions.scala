@@ -46,7 +46,7 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
-      questGateway.setQuestProgress(p, progress)
+      questGateway.setDailyQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
     }
