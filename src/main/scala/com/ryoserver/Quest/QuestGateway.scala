@@ -6,6 +6,7 @@ import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.LoadQuests.{loadedDailyQuests, loadedQuests}
 import com.ryoserver.Quest.PlayerQuestData.playerQuestData
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.SQL
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -115,6 +116,9 @@ class QuestGateway {
   def dailyQuestClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
     getSelectedDailyQuest(p) match {
       case Some(selectedQuest) =>
+        val sql = new SQL
+        sql.executeSQL(s"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID='${p.getUniqueId.toString}'")
+        sql.close()
         new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
