@@ -4,7 +4,7 @@ import com.ryoserver.Menu.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.ChatColor._
 
@@ -32,6 +32,7 @@ class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       questGateway.dailyQuestClear(p, ryoServerAssist,1.2)
       p.sendMessage(s"${AQUA}デイリークエストの報酬として、今回のクエストの経験値を1.2倍にしました。")
     }
+    p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     p.closeInventory()
   }
 
