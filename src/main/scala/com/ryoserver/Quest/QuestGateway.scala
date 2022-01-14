@@ -113,13 +113,13 @@ class QuestGateway {
     }
   }
 
-  def dailyQuestClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
+  def dailyQuestClear(p: Player, ryoServerAssist: RyoServerAssist,addExp: Double): Unit = {
     getSelectedDailyQuest(p) match {
       case Some(selectedQuest) =>
         val sql = new SQL
         sql.executeSQL(s"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID='${p.getUniqueId.toString}'")
         sql.close()
-        new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
+        new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp * addExp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
     }

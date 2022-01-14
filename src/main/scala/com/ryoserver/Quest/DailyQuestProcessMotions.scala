@@ -38,15 +38,14 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
 
   private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
     val questGateway = new QuestGateway
+    questGateway.setDailyQuestProgress(p, progress)
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.dailyQuestClear(p, ryoServerAssist)
-      new RyoServerMenu1(ryoServerAssist).menu(p)
+      new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
       new GiveTitle(ryoServerAssist).questClearNumber(p)
       new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
     } else {
-      questGateway.setDailyQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
     }
