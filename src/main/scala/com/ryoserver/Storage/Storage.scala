@@ -1,7 +1,6 @@
 package com.ryoserver.Storage
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
@@ -10,9 +9,9 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.{Bukkit, Sound}
 
 
-class Storage(ryoServerAssist: RyoServerAssist) {
+class Storage {
   def save(inv: Inventory, p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     var itemList = ""
     inv.getContents.foreach(is => {
       val config = new YamlConfiguration
@@ -27,8 +26,7 @@ class Storage(ryoServerAssist: RyoServerAssist) {
 
   def load(p: Player): Unit = {
     if (p.getQuestLevel >= 10) {
-      val sql = new SQL(ryoServerAssist)
-      sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
+      val sql = new SQL()
       val invData_rs = sql.executeQuery(s"SELECT invData FROM Storage WHERE UUID='${p.getUniqueId.toString}';")
       val inv = Bukkit.createInventory(null, 54, "Storage")
       var counter = 0

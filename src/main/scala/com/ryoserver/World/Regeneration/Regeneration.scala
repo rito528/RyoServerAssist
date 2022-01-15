@@ -2,6 +2,7 @@ package com.ryoserver.World.Regeneration
 
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiversePortals.MultiversePortals
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit.getConsoleSender
 import org.bukkit.World.Environment
@@ -13,11 +14,11 @@ import java.util.{Calendar, TimeZone}
 class Regeneration(ryoServerAssist: RyoServerAssist) {
 
   def regeneration(isForce: Boolean = false): Unit = {
-    if ((!isFriday && !isForce) || (!isForce && !ryoServerAssist.getConfig.getBoolean("autoWorldRegeneration"))) return
+    if ((!isFriday && !isForce) || (!isForce && !getConfig.autoWorldRegeneration)) return
     ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
-    regenerationCommands("regenerationNormalWorlds", Environment.NORMAL)
-    regenerationCommands("regenerationNetherWorlds", Environment.NETHER)
-    regenerationCommands("regenerationEndWorlds", Environment.THE_END)
+    regenerationCommands(getConfig.regenerationNormalWorlds, Environment.NORMAL)
+    regenerationCommands(getConfig.regenerationNetherWorlds, Environment.NETHER)
+    regenerationCommands(getConfig.regenerationEndWorlds, Environment.THE_END)
   }
 
   private def isFriday: Boolean = {
@@ -27,11 +28,11 @@ class Regeneration(ryoServerAssist: RyoServerAssist) {
     false
   }
 
-  private def regenerationCommands(listName: String, worldType: Environment): Unit = {
+  private def regenerationCommands(list: List[String], worldType: Environment): Unit = {
     val core = Bukkit.getServer.getPluginManager.getPlugin("Multiverse-Core").asInstanceOf[MultiverseCore]
     val portals = Bukkit.getServer.getPluginManager.getPlugin("Multiverse-Portals").asInstanceOf[MultiversePortals]
     val worldManager = core.getMVWorldManager
-    ryoServerAssist.getConfig.getStringList(listName).forEach(world => {
+    list.foreach(world => {
       List(
         "dynmap pause all",
         s"dynmap purgemap $world flat",

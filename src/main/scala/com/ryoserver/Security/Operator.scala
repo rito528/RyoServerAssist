@@ -1,5 +1,6 @@
 package com.ryoserver.Security
 
+import com.ryoserver.Config.ConfigData.getConfig
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -15,15 +16,17 @@ object Operator {
   def checkOp(plugin: Plugin): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
-        if (Config.getConfigOperators.length != Bukkit.getOperators.size()) {
+        //configで指定されているオペレーター数と、Bukkitで登録されているオペレーター数が一致しなかった場合
+        if (getConfig.authority.length != Bukkit.getOperators.size()) {
           if (!once) {
             once = true
             removeOperators(plugin)
             setOperators(plugin)
           }
         }
+        //configで指定されているオペレーターと、実際に登録されているプレイヤーが一致しているかどうか
         Bukkit.getOperators.forEach(p => {
-          if (!Config.getConfigOperators.mkString("", ", ", "").contains(p.getUniqueId.toString)) {
+          if (!getConfig.authority.mkString("", ", ", "").contains(p.getUniqueId.toString)) {
             if (!once) {
               once = true
               removeOperators(plugin)
@@ -32,7 +35,7 @@ object Operator {
           }
         })
       }
-    }.runTaskTimer(plugin, 0, 20)
+    }.runTaskTimer(plugin, 0, 5)
   }
 
   def removeOperators(plugin: Plugin): Unit = {
@@ -48,8 +51,8 @@ object Operator {
   def setOperators(plugin: Plugin): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
-        Config.getConfigOperators.foreach(p => {
-          val player = Bukkit.getOfflinePlayer(UUID.fromString(p.toString))
+        getConfig.authority.foreach(uuid => {
+          val player = Bukkit.getOfflinePlayer(UUID.fromString(uuid))
           player.setOp(true)
           if (player.isOnline) player.asInstanceOf[Player].sendMessage(s"$YELLOW[OP変更検知] ${AQUA}OPを初期状態に修正しました。")
           once = false

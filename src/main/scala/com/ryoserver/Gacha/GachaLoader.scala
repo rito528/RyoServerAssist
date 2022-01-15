@@ -1,5 +1,6 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -20,8 +21,7 @@ object GachaLoader {
   var special: Double = _ //特等
 
   def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    createGachaTable(ryoServerAssist)
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
     config.set("i", is)
@@ -32,14 +32,13 @@ object GachaLoader {
   }
 
   def load(ryoServerAssist: RyoServerAssist): Unit = {
-    gachaItemLoad(ryoServerAssist)
+    gachaItemLoad()
     gachaRarityLoad(ryoServerAssist)
   }
 
-  private def gachaItemLoad(ryoServerAssist: RyoServerAssist): Unit = {
-    createGachaTable(ryoServerAssist)
+  private def gachaItemLoad(): Unit = {
     Bukkit.getLogger.info("ガチャアイテムロード中....")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM GachaItems")
     while (rs.next()) {
       val rarity = rs.getInt("Rarity")
@@ -59,9 +58,9 @@ object GachaLoader {
       各レアリティの割合を計算
      */
     ryoServerAssist.getLogger.info("ガチャ排出割合読み込み中...")
-    per = ryoServerAssist.getConfig.getDouble("per") //あたり
-    bigPer = ryoServerAssist.getConfig.getDouble("bigPer") //大当たり
-    special = ryoServerAssist.getConfig.getDouble("Special") //特等
+    per = getConfig.per
+    bigPer = getConfig.bigPer
+    special = getConfig.Special
     val miss = 100.0 - per - bigPer - special
     if (miss <= 0) {
       ryoServerAssist.getLogger.warning("ガチャ割合の指定が不正です。")
@@ -69,12 +68,6 @@ object GachaLoader {
       Bukkit.shutdown()
     }
     ryoServerAssist.getLogger.info("ガチャ排出割合読み込みが完了しました！")
-  }
-
-  def createGachaTable(ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
-    sql.close()
   }
 
   def unload(ryoServerAssist: RyoServerAssist): Unit = {
@@ -86,8 +79,8 @@ object GachaLoader {
     ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
   }
 
-  def listGachaItem(ryoServerAssist: RyoServerAssist, rarity: Int, p: Player): Unit = {
-    val sql = new SQL(ryoServerAssist)
+  def listGachaItem(rarity: Int, p: Player): Unit = {
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
@@ -101,8 +94,8 @@ object GachaLoader {
     sql.close()
   }
 
-  def removeGachaItem(id: Int, ryoServerAssist: RyoServerAssist): Unit = {
-    val sql = new SQL(ryoServerAssist)
+  def removeGachaItem(id: Int): Unit = {
+    val sql = new SQL()
     sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
     sql.close()
   }

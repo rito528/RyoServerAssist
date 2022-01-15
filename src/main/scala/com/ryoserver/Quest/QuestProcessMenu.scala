@@ -39,11 +39,11 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           ))
           setItem(2, 6, Material.NETHER_STAR, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
           if (p.getQuestLevel >= 20) {
-            val neoStackGateway = new NeoStackGateway(ryoServerAssist)
+            val neoStackGateway = new NeoStackGateway()
             setItem(3, 6, Material.SHULKER_BOX, effect = false, s"${YELLOW}neoStackから納品します。",
               List(s"${GRAY}クリックでneoStackから納品します。") ++ questGateway.getQuestProgress(p).map { case (require, amount) =>
                 s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${
-                  val neoStackAmount = neoStackGateway.getNeoStackAmount(p,new ItemStack(Material.matchMaterial(require)))
+                  val neoStackAmount = neoStackGateway.getNeoStackAmount(p, new ItemStack(Material.matchMaterial(require)))
                   if (neoStackAmount >= amount) s"$AQUA$BOLD${UNDERLINE}OK (所持数:${neoStackAmount}個)"
                   else s"$RED$BOLD${UNDERLINE}${-(neoStackAmount - amount)}個不足しています"
                 }"

@@ -5,7 +5,6 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillMenu.SelectSkillMenu
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
-import com.ryoserver.SkillSystems.SkillPoint.SkillPointData
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffectType

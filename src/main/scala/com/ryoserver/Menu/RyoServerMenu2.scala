@@ -3,7 +3,7 @@ package com.ryoserver.Menu
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 
 class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends Menu {
@@ -19,6 +19,7 @@ class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(9, 1, Material.FLOWER_BANNER_PATTERN, effect = false, s"${GREEN}投票サイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
     setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerMotion(motion)
+    p.playSound(p.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
     open()
   }
 

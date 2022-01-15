@@ -15,7 +15,7 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
   }
 
   def save(): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     PlayerData.playerData.foreach { case (uuid, data) =>
       sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
     }

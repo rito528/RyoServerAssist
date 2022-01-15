@@ -7,6 +7,10 @@ import org.bukkit.entity.Player
 import java.util
 import scala.jdk.CollectionConverters._
 
+/*
+  コマンドを実装するクラスに、このtraitをmixinすることでコマンドの動作やtab補完を実装します。
+ */
+
 trait CommandBuilder extends CommandExecutor with TabCompleter {
 
   val executor: CommandExecutorBuilder

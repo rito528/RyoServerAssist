@@ -1,11 +1,11 @@
 package com.ryoserver.Level.Player
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal, SkillPointData}
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -19,7 +19,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
 
 
   /*
-    Force exp updates
+    強制的に経験値を上げる場合に利用する関数
    */
   def updateExp(exp: Int, p: Player): Unit = {
     p.questExpAddNaturally(exp)
@@ -27,12 +27,12 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
   }
 
   /*
-    Add exp
+    経験値を上げるために利用する関数
    */
   def addExp(addExp: Double, p: Player): Unit = {
     var exp = addExp
     /*
-      Check bonus time
+      ボーナスタイムの確認
      */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
@@ -51,6 +51,12 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       exp *= 1.2
       p.sendMessage(s"$AQUA${addExp.toString}->${String.format("%.2f", exp)}")
     }
+
+    /*
+      1.0 + (投票日数 * 0.01)だけ経験値を増やすように
+     */
+    exp *= (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
+
     /*
       経験値を増やす処理
      */
@@ -77,11 +83,10 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復
-      new SkillPointData().setSkillPoint(p, new SkillPointCal().getMaxSkillPoint(calLv.getLevel(sumExp.toInt)))
-      SkillPointBer.update(p)
+      p.setSkillPoint(calLv.getLevel(sumExp))
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
       p.sendMessage(s"${AQUA}Lv." + old_level + " → Lv." + nowLevel)
-      val maxLv = ryoServerAssist.getConfig.getInt("maxLv")
+      val maxLv = getConfig.maxLv
       if (nowLevel == maxLv) {
         Bukkit.broadcastMessage(s"$AQUA${p.getName}さんがLv.${maxLv}に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1))

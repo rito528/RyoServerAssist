@@ -15,6 +15,6 @@ object EventDataProvider {
 
   var ratio = 1.0
 
-  var oldEventData:Map[String,Map[UUID,Int]] = Map.empty
+  var oldEventData: Map[String, Map[UUID, Int]] = Map.empty
 
 }

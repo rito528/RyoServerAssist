@@ -10,7 +10,7 @@ class LoadNeoStackPage(ryoServerAssist: RyoServerAssist) {
 
   def loadStackPage(): Unit = {
     ryoServerAssist.getLogger.info("neoStackページをロード中...")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackList")
     stackPageData = mutable.Map.empty
     while (rs.next()) {

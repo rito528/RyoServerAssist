@@ -2,7 +2,6 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.RyoServerPlayer
 import org.bukkit.entity.Player
 
 class SkillPointCommand extends CommandBuilder {

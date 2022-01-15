@@ -1,15 +1,15 @@
 package com.ryoserver.util
 
-import com.ryoserver.RyoServerAssist
+import com.ryoserver.Config.ConfigData.getConfig
 
 import java.sql._
 
-class SQL(ryoServerAssist: RyoServerAssist) {
+class SQL {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
-  private val URL = s"jdbc:mysql://${ryoServerAssist.getConfig.getString("host")}/${ryoServerAssist.getConfig.getString("db")}?autoReconnect=true&useSSL=false"
-  private val USER = ryoServerAssist.getConfig.getString("user")
-  private val PASS = ryoServerAssist.getConfig.getString("pw")
+  private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
+  private val USER = getConfig.user
+  private val PASS = getConfig.pw
   private var con: Connection = _
   private var stmt: Statement = _
   private var rs: ResultSet = _

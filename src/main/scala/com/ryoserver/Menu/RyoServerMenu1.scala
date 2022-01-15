@@ -7,7 +7,7 @@ import com.ryoserver.Home.Home
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Player.{PlayerData, GetData}
+import com.ryoserver.Player.{GetData, PlayerData}
 import com.ryoserver.Quest.Event.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
@@ -16,7 +16,7 @@ import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleMenu
 import com.ryoserver.World.SimpleRegion.RegionMenu
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 
 class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
@@ -30,6 +30,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}保護メニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 1, Material.BOOK, effect = false, s"${GREEN}クエストを選択します。", List(s"${GRAY}クリックで開きます。"))
+    setItem(6, 1, Material.BOOK, effect = false, s"${GREEN}デイリークエストを選択します。",List(s"${GRAY}クリックで開きます。"))
     setItem(7, 1, Material.BEACON, effect = false, s"${GREEN}スキルを選択します。", List(s"${GRAY}クリックで開きます。"))
     setItem(9, 1, Material.NAME_TAG, effect = false, s"${GREEN}称号一覧を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(1, 3, Material.CHEST, effect = false, s"${GREEN}ストレージを開きます。", List(s"${GRAY}クリックで開きます。"))
@@ -55,17 +56,19 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     val playerData = PlayerData.playerData(p.getUniqueId)
     setSkullItem(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${playerData.level}",
-      s"${WHITE}EXP: ${playerData.exp}",
+      s"${WHITE}EXP: ${String.format("%.1f", playerData.exp)}",
       s"${WHITE}ランキング: ${p.getRanking}位",
       s"${WHITE}クエストクリア回数: ${playerData.questClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
       s"${WHITE}ログイン日数: ${playerData.loginNumber}日",
       s"${WHITE}連続ログイン日数: ${playerData.consecutiveLoginDays}日",
-      s"${WHITE}投票回数: ${playerData.voteNumber}回"
+      s"${WHITE}投票回数: ${playerData.voteNumber}回",
+      s"${WHITE}連続投票日数: ${playerData.reVoteNumber}日"
     ))
     setItem(9, 5, Material.BOOK, effect = true, s"${GREEN}イベント", List(s"${GRAY}クリックで表示します。"))
     setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     registerMotion(registerMenu)
+    p.playSound(p.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
     open()
   }
 
@@ -75,16 +78,17 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
       getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
+      getLayOut(6, 1) -> new QuestMenu(ryoServerAssist).selectDailyQuestMenu _,
       getLayOut(7, 1) -> new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu _,
       getLayOut(9, 1) -> {
         new TitleMenu(ryoServerAssist).openInv(_, 1)
       },
-      getLayOut(1, 3) -> new Storage(ryoServerAssist).load _,
+      getLayOut(1, 3) -> new Storage().load _,
       getLayOut(3, 3) -> motion.openEnderChest,
       getLayOut(5, 3) -> new CategorySelectMenu(ryoServerAssist).openCategorySelectMenu _,
       getLayOut(7, 3) -> new DustBoxInventory().openDustBox _,
       getLayOut(9, 3) -> motion.giveFirework,
-      getLayOut(1, 5) -> new Distribution(ryoServerAssist).receipt _,
+      getLayOut(1, 5) -> new Distribution().receipt _,
       getLayOut(3, 5) -> new GetGachaTickets().receipt _,
       getLayOut(5, 5) -> new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _,
       getLayOut(9, 5) -> new EventMenu(ryoServerAssist).openEventMenu _,

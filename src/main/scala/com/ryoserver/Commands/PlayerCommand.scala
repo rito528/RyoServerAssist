@@ -1,13 +1,12 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 
-class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class PlayerCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -16,8 +15,7 @@ class PlayerCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   ).playerCommand()
 
   private def setJoinItem(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
+    val sql = new SQL()
     val items = sql.executeQuery("SELECT ItemStack FROM firstJoinItems;")
     val inv = Bukkit.createInventory(null, 9, "初参加アイテム設定画面")
     var counter = 0

@@ -44,16 +44,17 @@ class OriginalItemCommand extends CommandBuilder {
     "金運のツルハシ" -> kinnunnnoturuhasi,
     "スキル回復(小)" -> min,
     "スキル回復(中)" -> mid,
-    "スキル回復(大)" -> max
+    "スキル回復(大)" -> max,
+    "特等交換券" -> tokutoukoukanken
   )
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     commandList ++
-      Map ("all" -> all)
+      Map("all" -> all)
   ).playerCommand()
 
   private def all(): Unit = {
-    commandList.foreach{case (_,func) => func.apply()}
+    commandList.foreach { case (_, func) => func.apply() }
   }
 
   private def tiguruinoyaiba(): Unit = {
@@ -236,6 +237,10 @@ class OriginalItemCommand extends CommandBuilder {
 
   private def max(): Unit = {
     sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
+  }
+
+  private def tokutoukoukanken(): Unit = {
+    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, OriginalItems.tokutoukoukanken)
   }
 
 }

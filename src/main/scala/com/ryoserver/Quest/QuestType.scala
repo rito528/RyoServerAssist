@@ -23,9 +23,11 @@ sealed abstract class QuestSortType(val name: String) extends EnumEntry
 
 object QuestSortType extends Enum[QuestSortType] {
 
-  case object normal extends QuestSortType("通常")
-  case object neoStack extends QuestSortType("ネオスタックにあるアイテム")
-  case object bookMark extends QuestSortType("ブックマーク")
-
   override def values: IndexedSeq[QuestSortType] = findValues
+
+  case object normal extends QuestSortType("通常")
+
+  case object neoStack extends QuestSortType("ネオスタックにあるアイテム")
+
+  case object bookMark extends QuestSortType("ブックマーク")
 }

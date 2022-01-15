@@ -21,7 +21,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
   def openAddGUI(player: Player, page: Int, category: String): Unit = {
     p = player
     name = "neoStackアイテム追加メニュー:" + page
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
     var invContents = ""
     if (rs.next()) invContents = rs.getString("invItem")
@@ -48,7 +48,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   def motion(p: Player, index: Int): Unit = {
-    val data = new NeoStackGateway(ryoServerAssist)
+    val data = new NeoStackGateway()
     val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:", "").toInt
     if (index == 49) {
       var invIndex = 0

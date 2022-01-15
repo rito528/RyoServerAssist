@@ -1,5 +1,6 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, RyoServerMenu1}
@@ -14,7 +15,7 @@ import org.bukkit.event.{EventHandler, Listener}
 class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
   override val slot: Int = 6
-  val RETE: Int = ryoServerAssist.getConfig.getInt("gachaChangeRete")
+  val RETE: Int = getConfig.gachaChangeRate
   override var name: String = "ガチャ特等取引"
   override var p: Player = _
 

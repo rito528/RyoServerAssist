@@ -8,9 +8,12 @@ import scala.io.Source
 
 class Patch(ryoServerAssist: RyoServerAssist) {
 
+  /*
+    SQLのパッチを実行する関数
+   */
   def getAndExecutePatch(): Unit = {
     ryoServerAssist.getLogger.info("パッチの実行中...")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     List(
       "1.4.0_SQLPatch.rp"
     ).foreach(f => {

@@ -1,17 +1,16 @@
 package com.ryoserver.Player
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class FirstJoinSettingEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class FirstJoinSettingEvent() extends Listener {
 
   @EventHandler
   def onClose(e: InventoryCloseEvent): Unit = {
     if (e.getView.getTitle != "初参加アイテム設定画面") return
     val inv = e.getInventory
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     var itemList = ""
     inv.getContents.foreach(is => {
       itemList += Item.getStringFromItemStack(is) + ";"

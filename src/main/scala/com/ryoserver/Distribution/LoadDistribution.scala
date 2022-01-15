@@ -1,12 +1,11 @@
 package com.ryoserver.Distribution
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 
-class LoadDistribution(ryoServerAssist: RyoServerAssist) {
+class LoadDistribution {
 
   def load(): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM Distribution")
     DistributionData.distributionData = Iterator.from(0).takeWhile(_ => rs.next())
       .map(_ => DistributionType(rs.getInt("id"),

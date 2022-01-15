@@ -25,7 +25,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     name = "称号一覧:" + selectPage
     var invIndex = 0
-    titleConfig.getConfigurationSection("titles").getKeys(false).asScala.zipWithIndex.foreach{case (title,index) =>
+    titleConfig.getConfigurationSection("titles").getKeys(false).asScala.zipWithIndex.foreach { case (title, index) =>
       if (index < (getLayOut(9, 5) + 1) * selectPage && (getLayOut(9, 5) + 1) * (selectPage - 1) <= index) {
         val isHasTitle = hasTitles.contains(title)
         if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {

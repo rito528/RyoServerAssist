@@ -1,5 +1,6 @@
 package com.ryoserver.Tips
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
@@ -16,11 +17,11 @@ class Tips(ryoServerAssist: RyoServerAssist) {
     new BukkitRunnable {
       override def run(): Unit = {
         val notificationConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/tips.yml").toFile)
-        Bukkit.getOnlinePlayers.forEach(p => p.sendMessage(s"$YELLOW[Tips]${RESET}${notificationConfig.getStringList("tipsMsg").get(counter)}"))
+        Bukkit.getOnlinePlayers.forEach(p => p.sendMessage(s"$YELLOW[Tips]$RESET${notificationConfig.getStringList("tipsMsg").get(counter)}"))
         counter += 1
         if (notificationConfig.getStringList("tipsMsg").size() <= counter) counter = 0
       }
-    }.runTaskTimer(ryoServerAssist, 0, ryoServerAssist.getConfig.getInt("tipsTimer") * 20)
+    }.runTaskTimer(ryoServerAssist, 0, getConfig.tipsTimer * 20)
   }
 
 }

@@ -14,7 +14,7 @@ class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
   def playerPickEvent(e: EntityPickupItemEvent): Unit = {
     if (!e.getEntity.isInstanceOf[Player]) return
     val itemStack = e.getItem.getItemStack
-    val data = new NeoStackGateway(ryoServerAssist)
+    val data = new NeoStackGateway()
     val p = e.getEntity.asInstanceOf[Player]
     if (!data.checkItemList(itemStack) || !p.isAutoStack) return
     e.setCancelled(true)

@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.Skill.FarmSkill
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
-import com.ryoserver.SkillSystems.SkillPoint.{SkillPointConsumption, SkillPointData}
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.WorldGuardWrapper
 import org.bukkit.Material
 import org.bukkit.block.Block

@@ -1,5 +1,6 @@
 package com.ryoserver.Home
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item.getItem
 import com.ryoserver.util.SQL
@@ -31,7 +32,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val uuid = p.getUniqueId.toString.replace("-", "")
     val locate = p.getLocation()
     val location = s"${locate.getWorld.getName},${locate.getX.toInt},${locate.getY.toInt},${locate.getZ.toInt}"
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       sql.close()
@@ -51,7 +52,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
   }
 
   def teleportHome(p: Player, point: Int): Unit = {
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val uuid = p.getUniqueId.toString.replace("-", "")
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能を利用できません！")
@@ -69,7 +70,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     val now_loc = p.getLocation
     if (rs.next() && rs.getInt("point") == point) {
       val location = rs.getString("Location").split(",")
-      if (ryoServerAssist.getConfig.getBoolean("log")) ryoServerAssist.getLogger.info(
+      if (getConfig.log) ryoServerAssist.getLogger.info(
         s"${p.getName}が[${now_loc.getWorld.getName},${now_loc.getX.toInt},${now_loc.getY.toInt},${now_loc.getZ.toInt}]から" +
           s"[${location(0)},${location(1)},${location(2)},${location(3)}]にテレポートしました！")
       p.teleport(new Location(Bukkit.getWorld(location(0)), location(1).toInt, location(2).toInt, location(3).toInt))
@@ -83,7 +84,7 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
 
   def homeLock(p: Player, index: Int): Unit = {
     val uuid = p.getUniqueId.toString.replace("-", "")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
       return
@@ -102,13 +103,12 @@ class Home(ryoServerAssist: RyoServerAssist) extends Listener {
     new BukkitRunnable {
       override def run(): Unit = {
         val uuid = p.getUniqueId.toString.replace("-", "")
-        val sql = new SQL(ryoServerAssist)
+        val sql = new SQL()
         if (!sql.connectionTest()) {
           p.sendMessage(s"${RED}現在ホーム機能が利用できません！")
           sql.close()
           return
         }
-        sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
         val inv = Bukkit.createInventory(null, 27, "HomeSystem")
         inv.setItem(2, getItem(Material.WHITE_BED, "ホーム1を設定します。", util.Arrays.asList()))
         inv.setItem(4, getItem(Material.BLUE_BED, "ホーム2を設定します。", util.Arrays.asList()))

@@ -12,6 +12,7 @@ case class PlayerDataType(level: Int,
                           SkillOpenPoint: Int,
                           OpenedSkills: Option[String],
                           voteNumber: Int,
+                          reVoteNumber: Int,
                           specialSkillOpenPoint: Int,
                           OpenedSpecialSkills: Option[String],
                           OpenedTitles: Option[String],
@@ -20,4 +21,4 @@ case class PlayerDataType(level: Int,
                           Twitter: Option[String],
                           Discord: Option[String],
                           Word: Option[String]
-                     )
+                         )

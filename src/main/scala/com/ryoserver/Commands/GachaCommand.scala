@@ -2,12 +2,11 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
-import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class GachaCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -44,12 +43,12 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def remove(): Unit = {
-    GachaLoader.removeGachaItem(args(1).toInt, ryoServerAssist)
+    GachaLoader.removeGachaItem(args(1).toInt)
     sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
   }
 
   private def list(): Unit = {
-    GachaLoader.listGachaItem(ryoServerAssist, args(1).toInt, sender.asInstanceOf[Player])
+    GachaLoader.listGachaItem(args(1).toInt, sender.asInstanceOf[Player])
   }
 
 }

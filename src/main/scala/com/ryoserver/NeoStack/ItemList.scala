@@ -12,7 +12,7 @@ object ItemList {
 
   def loadItemList(ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("neoStackアイテムロード中...")
-    val sql = new SQL(ryoServerAssist)
+    val sql = new SQL()
     val rs = sql.executeQuery("SELECT invItem,category FROM StackList;")
     while (rs.next()) {
       val category = rs.getString("category")

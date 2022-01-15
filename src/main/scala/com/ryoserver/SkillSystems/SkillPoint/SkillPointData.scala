@@ -9,6 +9,7 @@ class SkillPointData() {
     val oldPlayerData = PlayerData.playerData(p.getUniqueId)
     PlayerData.playerData = PlayerData.playerData.filterNot { case (uuid, _) => uuid == p.getUniqueId }
     PlayerData.playerData += (p.getUniqueId -> oldPlayerData.copy(skillPoint = newSkillPoint))
+    SkillPointBer.update(p)
   }
 
 }

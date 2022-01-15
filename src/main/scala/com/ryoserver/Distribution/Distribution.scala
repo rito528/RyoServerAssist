@@ -1,23 +1,15 @@
 package com.ryoserver.Distribution
 
 import com.ryoserver.Gacha.GachaPaperData
+import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.Player.{PlayerData, RyoServerPlayer}
-import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.{Bukkit, Sound}
 
-class Distribution(ryoServerAssist: RyoServerAssist) {
-
-  def createDistributionTable(): Unit = {
-    val sql = new SQL(ryoServerAssist)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
-    sql.close()
-  }
+class Distribution {
 
   def addDistribution(gachaPaperType: String, count: Int, sendPlayer: CommandSender): Unit = {
     if (gachaPaperType != "normal" && !gachaPaperType.equalsIgnoreCase("fromAdmin")) {

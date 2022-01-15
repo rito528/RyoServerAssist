@@ -29,6 +29,12 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
+  def setContinueVoteNumber(continueVoteNum: Int): Unit = {
+    val result = oldData.copy(reVoteNumber = continueVoteNum)
+    playerData += (uuid -> result)
+    oldData = result
+  }
+
   def addGachaPullNumber(amount: Int): Unit = {
     val result = oldData.copy(gachaPullNumber = oldData.gachaPullNumber + amount)
     playerData += (uuid -> result)

@@ -1,8 +1,9 @@
 package com.ryoserver
 
 import com.ryoserver.Commands._
-import com.ryoserver.Config.LoadConfig
-import com.ryoserver.Distribution.{Distribution, LoadDistribution, SaveDistribution}
+import com.ryoserver.Config.ConfigData
+import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
+import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.File.{CreateFiles, Patch}
@@ -15,7 +16,7 @@ import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest._
-import com.ryoserver.Security.{Config, Operator, SecurityEvent}
+import com.ryoserver.Security.{Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
 import com.ryoserver.SkillSystems.SkillPoint.RecoverySkillPointEvent
@@ -23,6 +24,7 @@ import com.ryoserver.Storage.StorageEvent
 import com.ryoserver.Tips.Tips
 import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
+import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
 import com.ryoserver.util.{SQL, Translate}
@@ -34,10 +36,17 @@ class RyoServerAssist extends JavaPlugin {
   override def onEnable(): Unit = {
     super.onEnable()
     saveDefaultConfig()
+
     /*
-      MySQL connection test
+      configのロード
+      configにはMySQLの接続情報も含まれているため、最初にロードする必要がある
      */
-    val sql = new SQL(this)
+    ConfigData.loadConfig(this)
+
+    /*
+      MySQL接続テスト
+     */
+    val sql = new SQL()
     if (!sql.connectionTest()) {
       getLogger.severe("MySQLに接続できませんでした！")
       getLogger.severe("サーバを終了します...")
@@ -47,22 +56,27 @@ class RyoServerAssist extends JavaPlugin {
     sql.close()
 
     /*
-      Load config
+      テーブルの作成
      */
-    new LoadConfig(this).load()
+    new CreateTables().execute()
 
     /*
-      CreatePlayerTable
+     パッチの実行
      */
-    new CreateData(this).createPlayerTable()
+    new Patch(this).getAndExecutePatch()
 
     /*
-      Enabling command
+      連続投票日数を更新
+     */
+    new UpdateContinueVoteNumber().update()
+
+    /*
+      コマンドの登録
      */
     Map(
       "home" -> new HomeCommand(this),
-      "gacha" -> new GachaCommand(this),
-      "distribution" -> new DistributionCommand(this),
+      "gacha" -> new GachaCommand(),
+      "distribution" -> new DistributionCommand(),
       "menu" -> new MenuCommand(this),
       "stick" -> new StickCommand,
       "level" -> new LevelCommand(this),
@@ -70,47 +84,55 @@ class RyoServerAssist extends JavaPlugin {
       "sr" -> new RegionCommand,
       "hat" -> new HatCommand,
       "spawn" -> new SpawnCommand,
-      "player" -> new PlayerCommand(this),
+      "player" -> new PlayerCommand(),
       "title" -> new TitleCommand(this),
       "regeneration" -> new RegenerationCommand(this),
       "getoriginalitem" -> new OriginalItemCommand,
       //"profile" -> new ProfileSettingCommands(this),
+      "ryoserverassist" -> new RyoServerAssistCommand(this),
       "security" -> new SecurityCommand(this),
-      "skillPoint" -> new SkillPointCommand
+      "skillPoint" -> new SkillPointCommand,
+      "vote" -> new VoteCommand
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
 
     /*
-      Enabling bukkit event
+      Bukkitイベントの登録
      */
     List(
       new Home(this),
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),
-      new StorageEvent(this),
+      new StorageEvent(),
       new QuestSelectMenuEvent(this),
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent,
       new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
-      new FirstJoinSettingEvent(this),
+      new FirstJoinSettingEvent(),
       new ElevatorEvent,
       new TotemEffect,
       new RepairEvent,
       new PickEvent(this),
       new GachaItemChangeGUI(this),
-      new Vote(this),
+      new Vote(),
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
-      new PlayEffect(this)
+      new PlayEffect(this),
+      new EditEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
-      Skill activation
+      BungeeCordとの連携
+     */
+    getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
+
+    /*
+      特殊スキルの有効化
      */
     BreakSkillAction.values.foreach(skill => {
       this.getServer.getPluginManager.registerEvents(skill, this)
@@ -123,44 +145,58 @@ class RyoServerAssist extends JavaPlugin {
     })
 
     /*
-      Other loads
+      必要なファイルを作成する
      */
-    Config.config = this.getConfig
-    getServer.getMessenger.registerOutgoingPluginChannel(this, "BungeeCord")
-    new LoadAllPlayerData(this).load()
-    GachaLoader.load(this)
-    new Distribution(this).createDistributionTable()
-    LoadQuests.loadQuest(this)
-    new Notification().createFile()
     new CreateFiles().createResourcesFile()
-    new Tips(this).sendTips()
-    new Regeneration(this).regeneration()
+
+    /*
+      様々なロード処理
+     */
+    new LoadAllPlayerData().load()
+    GachaLoader.load(this)
+    LoadQuests.loadQuest(this)
     new TitleLoader().loadTitle()
-    new TableCheck(this).stackTableCheck()
     ItemList.loadItemList(this)
-    NeoStack.PlayerData.autoSave(this)
     new LoadNeoStackPage(this).loadStackPage()
     Operator.checkOp(this)
-    new SavePlayerData(this).autoSave()
     new EventLoader().loadEvent()
-    new EventGateway(this).autoSaveEvent()
     new EventGateway(this).loadEventData()
     new EventGateway(this).loadEventRanking()
     new EventGateway(this).loadBeforeEvents()
-    new SaveDistribution(this).autoSave()
-    new LoadDistribution(this).load()
+    new LoadDistribution().load()
     Translate.loadLangFile()
-    PlayerQuestData.autoSave(this)
-    new DataBaseTable(this).createQuestTable()
+
 
     /*
-     Execute patch
-      */
-    new Patch(this).getAndExecutePatch()
+      オートセーブの実行
+     */
+    NeoStack.PlayerData.autoSave(this)
+    new SavePlayerData(this).autoSave()
+    new EventGateway(this).autoSaveEvent()
+    new SaveDistribution(this).autoSave()
+    PlayerQuestData.autoSave(this)
+
+    /*
+      ワールドの再生成を行う
+     */
+    new Regeneration(this).regeneration()
+
+    /*
+      サーバーに入っているプレイヤーにデータを適用する
+     */
+    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
+
+    /*
+      TipsSenderの起動
+     */
+    new Tips(this).sendTips()
+
+    /*
+     イベント開催確認用のタイマー
+     */
+    new EventGateway(this).autoCheckEvent()
 
     getLogger.info("RyoServerAssist enabled.")
-
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).load(p))
   }
 
   override def onDisable(): Unit = {
@@ -168,10 +204,10 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).saveEvent()
     new EventGateway(this).saveRanking()
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader(this).unload(p))
-    NeoStack.PlayerData.save(this)
+    NeoStack.PlayerData.save()
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
-    PlayerQuestData.save(this)
+    PlayerQuestData.save()
     getLogger.info("RyoServerAssist disabled.")
   }
 

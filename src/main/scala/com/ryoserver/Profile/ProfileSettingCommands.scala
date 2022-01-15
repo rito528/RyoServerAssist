@@ -1,18 +1,17 @@
 package com.ryoserver.Profile
 
-import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.command.{Command, CommandExecutor, CommandSender}
 import org.bukkit.entity.Player
 
-class ProfileSettingCommands(ryoServerAssist: RyoServerAssist) extends CommandExecutor {
+class ProfileSettingCommands extends CommandExecutor {
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if (args.length != 0 && args.length != 2) {
       sender.sendMessage(s"${RED}引数が不正です。")
       return true
     }
-    val gateway = new ProfileGateway(ryoServerAssist)
+    val gateway = new ProfileGateway()
     if (args.length == 0) {
       val profile = gateway.getProfile(sender.asInstanceOf[Player].getUniqueId.toString)
       sender.sendMessage(s"${AQUA}あなたのプロフィール情報")
