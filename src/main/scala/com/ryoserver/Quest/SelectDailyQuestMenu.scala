@@ -36,9 +36,6 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         val description = List(
           "",
           s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
-          "",
-          s"${WHITE}左クリックでクエスト選択",
-          s"${WHITE}右クリックでブックマークに登録・解除します"
         )
         if (questData.questType == "delivery") {
           val requireList = questData.requireList.map { case (require, amount) =>
