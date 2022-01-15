@@ -56,7 +56,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     val playerData = PlayerData.playerData(p.getUniqueId)
     setSkullItem(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${playerData.level}",
-      s"${WHITE}EXP: ${playerData.exp}",
+      s"${WHITE}EXP: ${String.format("%.1f", playerData.exp)}",
       s"${WHITE}ランキング: ${p.getRanking}位",
       s"${WHITE}クエストクリア回数: ${playerData.questClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${playerData.gachaPullNumber}回",
