@@ -1,11 +1,10 @@
 package com.ryoserver.World.GuardMessage
 
 import com.ryoserver.util.WorldGuardWrapper
+import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
+import org.bukkit.ChatColor._
 import org.bukkit.event.block.{BlockBreakEvent, BlockPlaceEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.ChatColor._
-import org.bukkit.entity.Player
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 class EditEvent extends Listener {
 
@@ -24,7 +23,8 @@ class EditEvent extends Listener {
     if (protectedWorlds.contains(worldName) && worldGuardWrapper.isGlobal(blockLoc)) {
       p.sendMessage(s"${RED}このブロックは保護されていないためブロックを破壊することができません。")
       p.sendMessage(s"$RED${BOLD}この範囲は保護をすることでブロックの破壊ができるようになります。")
-    } else if (protectedWorlds.contains(worldName) && worldGuardWrapper.isProtected(blockLoc) && !worldGuardWrapper.isOwner(p,blockLoc)) {
+    } else if (protectedWorlds.contains(worldName) && worldGuardWrapper.isProtected(blockLoc) && !worldGuardWrapper.isOwner(p,blockLoc) &&
+      !worldGuardWrapper.flagCheck(worldGuardWrapper.getRegion(blockLoc).head,Flags.BLOCK_BREAK)) {
       p.sendMessage(s"${RED}この範囲は${worldGuardWrapper.getOwner(blockLoc)}によって保護されているためブロックを破壊することができません。")
     }
   }
@@ -38,7 +38,8 @@ class EditEvent extends Listener {
     if (protectedWorlds.contains(worldName) && worldGuardWrapper.isGlobal(blockLoc)) {
       p.sendMessage(s"${RED}このブロックは保護されていないためブロックを設置することができません。")
       p.sendMessage(s"$RED${BOLD}この範囲は保護をすることでブロックの設置ができるようになります。")
-    } else if (protectedWorlds.contains(worldName) && worldGuardWrapper.isProtected(blockLoc) && !worldGuardWrapper.isOwner(p,blockLoc)) {
+    } else if (protectedWorlds.contains(worldName) && worldGuardWrapper.isProtected(blockLoc) && !worldGuardWrapper.isOwner(p,blockLoc) &&
+      !worldGuardWrapper.flagCheck(worldGuardWrapper.getRegion(blockLoc).head,Flags.BLOCK_PLACE)) {
       p.sendMessage(s"${RED}この範囲は${worldGuardWrapper.getOwner(blockLoc)}によって保護されているためブロックを設置することができません。")
     }
   }
