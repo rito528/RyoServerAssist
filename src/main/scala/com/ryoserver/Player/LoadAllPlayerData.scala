@@ -14,7 +14,7 @@ class LoadAllPlayerData() {
     while (rs.next()) {
       val uuid = UUID.fromString(rs.getString("UUID"))
       val level = rs.getInt("Level")
-      val exp = rs.getInt("EXP")
+      val exp = rs.getDouble("EXP")
       val lastDistributionReceived = rs.getInt("lastDistributionReceived")
       val skillPoint = rs.getDouble("SkillPoint")
       val loginNumber = rs.getInt("loginDays")
