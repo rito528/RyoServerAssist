@@ -48,6 +48,10 @@ class WorldGuardWrapper {
     plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(p.getWorld)).removeRegion(getRegion(p.getLocation()).head.getId)
   }
 
+  def flagCheck(region: ProtectedRegion, flag: StateFlag): Boolean = {
+    region.getFlags.getOrDefault(flag, "DENY").toString == "ALLOW"
+  }
+
   def toggleFlag(region: ProtectedRegion, flag: StateFlag, p: Player): Unit = {
     if (region.getFlags.getOrDefault(flag, "DENY").toString == "DENY") {
       region.setFlag(flag, StateFlag.State.ALLOW)
