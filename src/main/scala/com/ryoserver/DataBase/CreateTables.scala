@@ -67,7 +67,11 @@ class CreateTables {
   }
 
   private def distribution(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
+    sql.createTable("Distribution",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("GachaPaperType","TEXT",null),
+      ColumnData("Count","INT",null)
+    ))
   }
 
   private def homes(): Unit = {
