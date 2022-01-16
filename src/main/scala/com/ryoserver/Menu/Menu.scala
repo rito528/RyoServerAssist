@@ -1,5 +1,6 @@
 package com.ryoserver.Menu
 
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
@@ -67,6 +68,10 @@ trait Menu {
 
   def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
+    val oldRightData = MenuData.rightClickButtons(name)
+    MenuData.rightClickButtons += (name -> Map(oldRightData(getLayOut(menuButton.x,menuButton.y))))
+    val oldLeftData = MenuData.leftClickButtons(name)
+    MenuData.rightClickButtons += (name -> Map(oldLeftData(getLayOut(menuButton.x,menuButton.y))))
   }
 
   def registerMotion(func: (Player, Int) => Unit): Unit = {

@@ -11,4 +11,7 @@ object MenuData {
   val partButton: mutable.Map[String, Boolean] = mutable.Map.empty
   val Buttons: mutable.Map[String, Array[Int]] = mutable.Map.empty
 
+  var rightClickButtons: Map[String,Map[Int, () => Unit]] = Map.empty
+  var leftClickButtons: Map[String,Map[Int, () => Unit]] = Map.empty
+
 }
