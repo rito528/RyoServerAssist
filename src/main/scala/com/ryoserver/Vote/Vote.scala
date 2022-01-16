@@ -35,7 +35,7 @@ class Vote extends Listener {
   private def updateVoteContinue(p: OfflinePlayer): Unit = {
     val sql = new SQL()
     val query =
-      "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE 1 " +
+      "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber " +
       "END," +
       "LastVote = NOW() " +
       s"WHERE UUID='${p.getUniqueId.toString}';"
