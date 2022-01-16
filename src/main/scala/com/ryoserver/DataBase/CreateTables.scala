@@ -75,7 +75,12 @@ class CreateTables {
   }
 
   private def homes(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
+    sql.createTable("Homes",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("point","INT",null),
+      ColumnData("Location","INT",null),
+      ColumnData("Locked","BOOLEAN",null)
+    ))
   }
 
   private def players(): Unit = {
