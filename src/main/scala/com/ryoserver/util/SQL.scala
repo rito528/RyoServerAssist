@@ -11,7 +11,6 @@ class SQL {
   private val USER = getConfig.user
   private val PASS = getConfig.pw
   private var con: Connection = _
-  private var stmt: Statement = _
   private var rs: ResultSet = _
   private var ps: PreparedStatement = _
 
@@ -52,6 +51,23 @@ class SQL {
     this.con.close()
   }
 
+  def createTable(tableName: String,columnData: List[ColumnData]): Unit = {
+    //テーブルが存在するかチェック
+    val rs = executeQuery(s"SHOW TABLES LIKE '$tableName';")
+    if (rs.next()) {
+      //存在する
+    } else {
+      //存在しないのでそのままcreate文発行
+      //カラムの情報を組み立てる
+      val sb = new StringBuilder
+      columnData.foreach(data => {
+        if (columnData.head != data) sb.append(",")
+        sb.append(s"${data.columnName} ${data.dataType} ${if (data.isPrimaryKey) "AUTO INCREMENT" else ""} ${data.option}")
+      })
+      executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
+    }
+  }
+
   def purseFolder(sql: String, quote: String): Unit = {
     Class.forName(this.driver)
     this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
@@ -65,7 +81,6 @@ class SQL {
 
   def close(): Unit = {
     if (this.con != null) this.con.close()
-    if (this.stmt != null) this.stmt.close()
     if (this.ps != null) this.ps.close()
     if (this.rs != null) this.rs.close()
   }
