@@ -84,10 +84,26 @@ class CreateTables {
   }
 
   private def players(): Unit = {
-    //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Players(UUID Text,lastLogin DATETIME,lastLogout DATETIME,loginDays INT,consecutiveLoginDays INT," +
-      "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
-      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN,VoteNumber INT);")
+    sql.createTable("Players",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("lastLogin","DATETIME",null),
+      ColumnData("lastLogout","DATETIME",null),
+      ColumnData("loginDays","INT",null),
+      ColumnData("consecutiveLoginDays","INT",null),
+      ColumnData("lastDistributionReceived","INT",null),
+      ColumnData("EXP","DOUBLE",null),
+      ColumnData("Level","INT",null),
+      ColumnData("questClearTimes","INT",null),
+      ColumnData("gachaTickets","INT",null),
+      ColumnData("gachaPullNumber","INT",null),
+      ColumnData("SkillPoint","INT",null),
+      ColumnData("SkillOpenPoint","INT",null),
+      ColumnData("OpenedSkills","TEXT",null),
+      ColumnData("OpenedTitles","TEXT",null),
+      ColumnData("SelectedTitle","TEXT",null),
+      ColumnData("autoStack","BOOLEAN",null),
+      ColumnData("VoteNumber","INT",null)
+    ))
   }
 
   private def eventRankings(): Unit = {
