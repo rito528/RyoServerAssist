@@ -65,6 +65,10 @@ trait Menu {
     }
   }
 
+  def setButton(menuButton: MenuButton): Unit = {
+    setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
+  }
+
   def registerMotion(func: (Player, Int) => Unit): Unit = {
     MenuData.data += (name -> func)
     MenuData.partButton += (name -> partButton)

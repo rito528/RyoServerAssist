@@ -5,6 +5,7 @@ import org.bukkit.Material
 case class MenuButton(x: Int,
                       y: Int,
                       material: Material,
+                      effect:Boolean,
                       title: String,
                       lore: List[String]) {
 
