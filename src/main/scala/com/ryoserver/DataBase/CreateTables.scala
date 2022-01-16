@@ -97,13 +97,19 @@ class CreateTables {
       ColumnData("questClearTimes","INT",null),
       ColumnData("gachaTickets","INT",null),
       ColumnData("gachaPullNumber","INT",null),
-      ColumnData("SkillPoint","INT",null),
+      ColumnData("SkillPoint","Double",null),
       ColumnData("SkillOpenPoint","INT",null),
       ColumnData("OpenedSkills","TEXT",null),
+      ColumnData("SpecialSkillOpenPoint","INT","DEFAULT 0"),
+      ColumnData("OpenedSpecialSkills","TEXT",null),
       ColumnData("OpenedTitles","TEXT",null),
       ColumnData("SelectedTitle","TEXT",null),
+      ColumnData("EventTitles","TEXT",null),
       ColumnData("autoStack","BOOLEAN",null),
       ColumnData("VoteNumber","INT",null),
+      ColumnData("LastVote","DATETIME","DEFAULT \"2022-01-01 00:00:00\""),
+      ColumnData("ContinueVoteNumber","INT","DEFAULT 0"),
+      ColumnData("LastDailyQuest","DATETIME","DEFAULT \"2022-01-01 00:00:00\""),
       ColumnData("Twitter","TEXT",null),
       ColumnData("Discord","TEXT",null),
       ColumnData("Word","TEXT",null)
@@ -121,7 +127,8 @@ class CreateTables {
   private def events(): Unit = {
     sql.createTable("Events",List(
       ColumnData("EventName","TEXT","NOT NULL",isPrimaryKey = true),
-      ColumnData("counter","INT",null)
+      ColumnData("counter","INT",null),
+      ColumnData("GivenGachaTickets","INT","DEFAULT 0"),
     ))
   }
 
