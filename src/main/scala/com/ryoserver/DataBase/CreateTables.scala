@@ -115,7 +115,10 @@ class CreateTables {
   }
 
   private def events(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
+    sql.createTable("Events",List(
+      ColumnData("EventName","TEXT","NOT NULL",isPrimaryKey = true),
+      ColumnData("counter","INT",null)
+    ))
   }
 
   private def storage(): Unit = {
