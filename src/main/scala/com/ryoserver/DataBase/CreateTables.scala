@@ -1,6 +1,6 @@
 package com.ryoserver.DataBase
 
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{ColumnData, SQL}
 
 class CreateTables {
 
@@ -26,7 +26,10 @@ class CreateTables {
   }
 
   private def firstJoinItems(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("firstJoinItems",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("ItemStack","TEXT",null)
+    ))
   }
 
   private def quests(): Unit = {

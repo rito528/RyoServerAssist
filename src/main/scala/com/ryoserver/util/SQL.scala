@@ -60,7 +60,7 @@ class SQL {
         val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
         if (!checkColumn.next()) {
           //カラムが存在しない
-          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${data.option}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
+          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
         } else if (checkColumn.getString("Type") != data.dataType) {
           //カラムが存在するけど型が違うので変更する
           executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
@@ -73,7 +73,7 @@ class SQL {
       val sb = new StringBuilder
       columnData.foreach(data => {
         if (columnData.head != data) sb.append(",")
-        sb.append(s"${data.columnName} ${data.dataType} ${if (data.isPrimaryKey) "AUTO INCREMENT" else ""} ${data.option}")
+        sb.append(s"${data.columnName} ${data.dataType} ${if (data.isPrimaryKey) "AUTO INCREMENT" else ""} ${if (data.option != null) data.option}")
       })
       if (columnData.exists(_.isPrimaryKey == true)) {
         sb.append(s",PRIMARY KEY(`${columnData.filter(_.isPrimaryKey).head.columnName}`)")
