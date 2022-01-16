@@ -73,10 +73,11 @@ class SQL {
       val sb = new StringBuilder
       columnData.foreach(data => {
         if (columnData.head != data) sb.append(",")
-        sb.append(s"${data.columnName} ${data.dataType}${if (data.isPrimaryKey) " AUTO_INCREMENT" else ""}${if (data.option != null) s" ${data.option}" else ""}")
+        sb.append(s"${data.columnName} ${data.dataType}${if (data.isPrimaryKey && data.dataType.equalsIgnoreCase("INT")) " AUTO_INCREMENT" else ""}${if (data.option != null) s" ${data.option}" else ""}")
       })
       if (columnData.exists(_.isPrimaryKey == true)) {
-        sb.append(s",PRIMARY KEY(`${columnData.filter(_.isPrimaryKey).head.columnName}`)")
+        val column = columnData.filter(_.isPrimaryKey).head
+        sb.append(s",PRIMARY KEY(${column.columnName}${if (!column.dataType.equalsIgnoreCase("INT")) "(64)" else ""})")
       }
       println(sb.toString())
       println(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
