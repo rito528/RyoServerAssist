@@ -6,7 +6,7 @@ import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
-import com.ryoserver.File.{CreateFiles, Patch}
+import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
@@ -59,11 +59,6 @@ class RyoServerAssist extends JavaPlugin {
       テーブルの作成
      */
     new CreateTables().execute()
-
-    /*
-     パッチの実行
-     */
-    new Patch(this).getAndExecutePatch()
 
     /*
       連続投票日数を更新
