@@ -59,7 +59,11 @@ class CreateTables {
   }
 
   private def gachaItems(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("GachaItems",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("Rarity","INT",null),
+      ColumnData("Material","TEXT",null)
+    ))
   }
 
   private def distribution(): Unit = {
