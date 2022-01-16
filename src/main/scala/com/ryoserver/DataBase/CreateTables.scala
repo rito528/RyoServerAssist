@@ -1,6 +1,5 @@
 package com.ryoserver.DataBase
 
-import com.ryoserver.util
 import com.ryoserver.util.{ColumnData, SQL}
 
 class CreateTables {
@@ -44,8 +43,19 @@ class CreateTables {
   }
 
   private def neoStackTables(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS StackData(id INT AUTO_INCREMENT,UUID TEXT,category TEXT,item TEXT,amount INT,PRIMARY KEY(`id`))")
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS StackList(id INT AUTO_INCREMENT,category TEXT,page INT,invItem TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("StackData",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("UUID","TEXT",null),
+      ColumnData("category","TEXT",null),
+      ColumnData("item","TEXT",null),
+      ColumnData("amount","INT",null)
+    ))
+    sql.createTable("StackList",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("category","TEXT",null),
+      ColumnData("page","INT",null),
+      ColumnData("invItem","TEXT",null),
+    ))
   }
 
   private def gachaItems(): Unit = {
