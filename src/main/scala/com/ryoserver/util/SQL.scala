@@ -75,6 +75,9 @@ class SQL {
         if (columnData.head != data) sb.append(",")
         sb.append(s"${data.columnName} ${data.dataType} ${if (data.isPrimaryKey) "AUTO INCREMENT" else ""} ${data.option}")
       })
+      if (columnData.exists(_.isPrimaryKey == true)) {
+        sb.append(s",PRIMARY KEY(`${columnData.filter(_.isPrimaryKey).head.columnName}`)")
+      }
       executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
     }
   }
