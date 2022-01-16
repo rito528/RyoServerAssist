@@ -122,7 +122,10 @@ class CreateTables {
   }
 
   private def storage(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
+    sql.createTable("Storage",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("invData","TEXT",null)
+    ))
   }
 
 }
