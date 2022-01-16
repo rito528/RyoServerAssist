@@ -55,7 +55,18 @@ class SQL {
     //テーブルが存在するかチェック
     val rs = executeQuery(s"SHOW TABLES LIKE '$tableName';")
     if (rs.next()) {
-      //存在する
+      //カラムが存在するので不足しているカラムがないか確認
+      columnData.zipWithIndex.foreach{case (data,index) => {
+        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
+        if (!checkColumn.next()) {
+          //カラムが存在しない
+          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${data.option}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
+        } else if (checkColumn.getString("Type") != data.dataType) {
+          //カラムが存在するけど型が違うので変更する
+          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+        }
+      }
+      }
     } else {
       //存在しないのでそのままcreate文発行
       //カラムの情報を組み立てる
