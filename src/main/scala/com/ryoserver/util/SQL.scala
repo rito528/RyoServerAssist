@@ -79,9 +79,6 @@ class SQL {
         val column = columnData.filter(_.isPrimaryKey).head
         sb.append(s",PRIMARY KEY(${column.columnName}${if (!column.dataType.equalsIgnoreCase("INT")) "(64)" else ""})")
       }
-      println(sb.toString())
-      println(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
-      executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
     }
   }
 
