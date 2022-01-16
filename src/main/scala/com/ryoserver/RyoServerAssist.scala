@@ -63,7 +63,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
      パッチの実行
      */
-    new Patch(this).getAndExecutePatch()
+//    new Patch(this).getAndExecutePatch()
 
     /*
       連続投票日数を更新

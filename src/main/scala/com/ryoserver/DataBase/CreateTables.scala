@@ -84,6 +84,7 @@ class CreateTables {
   }
 
   private def players(): Unit = {
+    println("players")
     sql.createTable("Players",List(
       ColumnData("UUID","TEXT",null),
       ColumnData("lastLogin","DATETIME",null),
@@ -102,7 +103,10 @@ class CreateTables {
       ColumnData("OpenedTitles","TEXT",null),
       ColumnData("SelectedTitle","TEXT",null),
       ColumnData("autoStack","BOOLEAN",null),
-      ColumnData("VoteNumber","INT",null)
+      ColumnData("VoteNumber","INT",null),
+      ColumnData("Twitter","TEXT",null),
+      ColumnData("Discord","TEXT",null),
+      ColumnData("Word","TEXT",null)
     ))
   }
 
