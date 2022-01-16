@@ -1,5 +1,6 @@
 package com.ryoserver.DataBase
 
+import com.ryoserver.util
 import com.ryoserver.util.{ColumnData, SQL}
 
 class CreateTables {
@@ -33,7 +34,13 @@ class CreateTables {
   }
 
   private def quests(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Quests(id INT AUTO_INCREMENT,UUID TEXT,selectedQuest TEXT,remaining TEXT,bookmarks TEXT,PRIMARY KEY(id));")
+    sql.createTable("Quests",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("UUID","TEXT",null),
+      ColumnData("selectedQuest","TEXT",null),
+      ColumnData("remaining","TEXT",null),
+      ColumnData("bookmarks","TEXT",null)
+    ))
   }
 
   private def neoStackTables(): Unit = {
