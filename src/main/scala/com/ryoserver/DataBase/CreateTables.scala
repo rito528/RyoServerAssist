@@ -107,7 +107,11 @@ class CreateTables {
   }
 
   private def eventRankings(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS EventRankings(UUID TEXT, EventName TEXT, counter INT)")
+    sql.createTable("EventRankings",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("EventName","TEXT",null),
+      ColumnData("counter","INT",null)
+    ))
   }
 
   private def events(): Unit = {
