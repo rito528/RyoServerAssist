@@ -1,23 +1,28 @@
 package com.ryoserver.Menu
 
 import org.bukkit.Material
+import org.bukkit.entity.Player
 
 case class MenuButton(x: Int,
                       y: Int,
                       material: Material,
-                      effect:Boolean,
                       title: String,
                       lore: List[String]) {
 
-  var rightFunc: () => Unit = _
-  var leftFunc: () => Unit = _
+  var rightFunc: Player => Unit = _
+  var leftFunc: Player => Unit = _
+  var effect: Boolean = false
 
-  def setRightClickMotion(func: () => Unit): MenuButton = {
+  def setEffect(): Unit = {
+    effect = true
+  }
+
+  def setRightClickMotion(func: Player => Unit): MenuButton = {
     rightFunc = func
     this
   }
 
-  def setLeftClickMotion(func: () => Unit): MenuButton = {
+  def setLeftClickMotion(func: Player => Unit): MenuButton = {
     leftFunc = func
     this
   }

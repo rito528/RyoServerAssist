@@ -27,6 +27,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def menu(player: Player): Unit = {
     p = player
+    val motion = new MenuMotion(ryoServerAssist)
+    setButton(MenuButton(1,1,Material.CRAFTING_TABLE,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。")))
     setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}保護メニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 1, Material.BOOK, effect = false, s"${GREEN}クエストを選択します。", List(s"${GRAY}クリックで開きます。"))
