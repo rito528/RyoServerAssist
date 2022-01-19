@@ -28,8 +28,9 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
   def menu(player: Player): Unit = {
     p = player
     val motion = new MenuMotion(ryoServerAssist)
-    setButton(MenuButton(1,1,Material.CRAFTING_TABLE,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。")))
-    setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
+    setButton(MenuButton(1,1,Material.CRAFTING_TABLE,s"${GREEN}作業台を開きます。",List(s"${GRAY}クリックで開きます。"))
+    .setLeftClickMotion(motion.openWorkBench))
+//    setItem(1, 1, Material.CRAFTING_TABLE, effect = false, s"${GREEN}作業台を開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}保護メニューを開きます。", List(s"${GRAY}クリックで開きます。"))
     setItem(5, 1, Material.BOOK, effect = false, s"${GREEN}クエストを選択します。", List(s"${GRAY}クリックで開きます。"))
     setItem(6, 1, Material.BOOK, effect = false, s"${GREEN}デイリークエストを選択します。",List(s"${GRAY}クリックで開きます。"))
@@ -77,7 +78,6 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
   def registerMenu(player: Player, index: Int): Unit = {
     val motion = new MenuMotion(ryoServerAssist)
     val motions = Map[Int, Player => Unit](
-      getLayOut(1, 1) -> motion.openWorkBench,
       getLayOut(3, 1) -> new RegionMenu(ryoServerAssist).menu _,
       getLayOut(5, 1) -> new QuestMenu(ryoServerAssist).selectInventory _,
       getLayOut(6, 1) -> new QuestMenu(ryoServerAssist).selectDailyQuestMenu _,

@@ -68,10 +68,12 @@ trait Menu {
 
   def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
-    val oldRightData = MenuData.rightClickButtons(name)
-    MenuData.rightClickButtons += (name -> Map(oldRightData(getLayOut(menuButton.x,menuButton.y))))
-    val oldLeftData = MenuData.leftClickButtons(name)
-    MenuData.rightClickButtons += (name -> Map(oldLeftData(getLayOut(menuButton.x,menuButton.y))))
+    MenuData.rightClickButtons += (name -> (
+      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.rightFunc)
+     else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.rightFunc)))
+    MenuData.leftClickButtons += (name -> (
+      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.leftFunc)
+      else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.leftFunc)))
   }
 
   def registerMotion(func: (Player, Int) => Unit): Unit = {
