@@ -76,6 +76,21 @@ trait Menu {
       else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.leftFunc)))
   }
 
+  def setSkull(skull: MenuSkull): Unit = {
+    setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
+    MenuData.rightClickButtons += (name -> (
+      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.rightFunc)
+      else Map(getLayOut(skull.x,skull.y) -> skull.rightFunc)))
+    MenuData.leftClickButtons += (name -> (
+      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.leftFunc)
+      else Map(getLayOut(skull.x,skull.y) -> skull.leftFunc)))
+  }
+
+  def build(): Unit = {
+    MenuData.partButton += (name -> partButton)
+    MenuData.Buttons += (name -> buttons)
+  }
+
   def registerMotion(func: (Player, Int) => Unit): Unit = {
     MenuData.data += (name -> func)
     MenuData.partButton += (name -> partButton)
