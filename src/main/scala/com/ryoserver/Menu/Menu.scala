@@ -11,10 +11,10 @@ import scala.jdk.CollectionConverters._
 
 trait Menu {
 
-  val slot: Int
   /*
     各Menuで定義必須
    */
+  val slot: Int
   var name: String
   var p: Player
 
@@ -29,6 +29,9 @@ trait Menu {
 
   var inv: Option[Inventory] = None
 
+  /*
+    最後に呼び出す
+   */
   def open(): Unit = {
     p.openInventory(inv.get)
   }
@@ -86,11 +89,15 @@ trait Menu {
       else Map(getLayOut(skull.x,skull.y) -> skull.leftFunc)))
   }
 
+  /*
+    openする前に必ず呼び出す必要がある
+   */
   def build(): Unit = {
     MenuData.partButton += (name -> partButton)
     MenuData.Buttons += (name -> buttons)
   }
 
+  @deprecated("新フレームワークを利用して下さい。")
   def registerMotion(func: (Player, Int) => Unit): Unit = {
     MenuData.data += (name -> func)
     MenuData.partButton += (name -> partButton)
