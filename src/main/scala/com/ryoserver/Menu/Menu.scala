@@ -1,6 +1,5 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.Menu.MenuData.openedInv
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
