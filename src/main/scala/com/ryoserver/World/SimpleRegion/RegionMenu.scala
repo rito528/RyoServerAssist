@@ -35,7 +35,7 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}結果がチャットに表示されます。"
     ))
     .setLeftClickMotion(createRegion))
-    setButton(MenuButton(7, 1, Material.GOLDEN_AXE, effect = false, s"${GREEN}保護編集メニューを開きます。", List(
+    setButton(MenuButton(7, 1, Material.GOLDEN_AXE, s"${GREEN}保護編集メニューを開きます。", List(
       s"${GRAY}クリックで保護編集メニューを開きます。",
       s"${GRAY}自分が管理者の保護範囲内にいる必要があります。"
     ))
