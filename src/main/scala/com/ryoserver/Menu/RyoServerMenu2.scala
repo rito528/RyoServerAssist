@@ -24,7 +24,7 @@ class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends Menu {
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     .setLeftClickMotion(new RyoServerMenu1(ryoServerAssist).menu _))
     p.playSound(p.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
-    build()
+    build(new RyoServerMenu2(ryoServerAssist).openPage2)
     open()
   }
 

@@ -1,5 +1,6 @@
 package com.ryoserver.Menu
 
+import com.ryoserver.Menu.MenuData.openedInv
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
@@ -77,6 +78,11 @@ trait Menu {
     MenuData.leftClickButtons += (name -> (
       if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.leftFunc)
       else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.leftFunc)))
+    if (menuButton.reload && MenuData.reloadButtons.contains(name)) {
+      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(menuButton.x,menuButton.y)))
+    } else if (menuButton.reload) {
+      MenuData.reloadButtons = Map(name -> Set(getLayOut(menuButton.x,menuButton.y)))
+    }
   }
 
   def setSkull(skull: MenuSkull): Unit = {
@@ -92,10 +98,12 @@ trait Menu {
   /*
     openする前に必ず呼び出す必要がある
    */
-  def build(): Unit = {
+  def build(openedInvInstance: Player => Unit): Unit = {
     MenuData.partButton += (name -> partButton)
     MenuData.Buttons += (name -> buttons)
+    MenuData.openedInv += (p.getUniqueId -> openedInvInstance)
   }
+
 
   @deprecated("新フレームワークを利用して下さい。")
   def registerMotion(func: (Player, Int) => Unit): Unit = {

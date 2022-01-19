@@ -12,6 +12,7 @@ case class MenuButton(x: Int,
   var rightFunc: Player => Unit = _
   var leftFunc: Player => Unit = _
   var effect: Boolean = false
+  var reload = false
 
   def setEffect(): MenuButton = {
     effect = true
@@ -25,6 +26,11 @@ case class MenuButton(x: Int,
 
   def setLeftClickMotion(func: Player => Unit): MenuButton = {
     leftFunc = func
+    this
+  }
+
+  def setReload(): MenuButton = {
+    reload = true
     this
   }
 

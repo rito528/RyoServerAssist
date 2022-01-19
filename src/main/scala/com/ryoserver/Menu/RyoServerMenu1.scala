@@ -52,7 +52,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setButton(MenuButton(1, 5, Material.CHEST_MINECART, s"${GREEN}運営からのガチャ券を受け取ります。", List(
       s"${GRAY}クリックで受け取ります。",
       s"${GRAY}受け取れるガチャ券の枚数: ${new GetData().getFromAdminTickets(p)}枚"
-    )).setLeftClickMotion(new Distribution().receipt _))
+    )).setLeftClickMotion(new Distribution().receipt _)
+    .setReload())
     setButton(MenuButton(3, 5, Material.PAPER, s"${GREEN}ガチャ券を受け取ります。", List(
       s"${GRAY}クリックで受け取ります。",
       s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
@@ -60,7 +61,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}受け取れるガチャ券の枚数:" + p.getGachaTickets + "枚",
       s"${GRAY}次のガチャ券まであと" + String.format("%.1f", 100 - p.getQuestExp % 100)))
     .setLeftClickMotion(new GetGachaTickets().receipt _)
-    .setEffect())
+    .setEffect()
+    .setReload())
     setButton(MenuButton(5, 5, Material.HONEY_BOTTLE, s"${GREEN}ガチャ特等アイテム交換画面を開きます。", List(s"${GRAY}クリックで開きます。"))
     .setLeftClickMotion(new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _)
     .setEffect())
@@ -89,7 +91,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
     .setLeftClickMotion(new RyoServerMenu2(ryoServerAssist).openPage2))
     p.playSound(p.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
-    build()
+    build(new RyoServerMenu1(ryoServerAssist).menu)
     open()
   }
 

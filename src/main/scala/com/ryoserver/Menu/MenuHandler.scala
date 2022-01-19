@@ -45,12 +45,20 @@ class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
         if (rightClickButtons.contains(title) && e.isRightClick &&
           rightClickButtons(title).contains(e.getSlot) && rightClickButtons(title)(e.getSlot) != null) {
           rightClickButtons(title)(e.getSlot)(p)
+          update(p,title,e.getSlot)
         } else if (leftClickButtons.contains(title) && e.isLeftClick &&
           leftClickButtons(title).contains(e.getSlot) && leftClickButtons(title)(e.getSlot) != null) {
           leftClickButtons(title)(e.getSlot)(p)
+          update(p,title,e.getSlot)
         }
       }
     }.runTask(ryoServerAssist)
+  }
+
+  private def update(p: Player,title:String,slot:Int): Unit = {
+    if (reloadButtons.contains(title) && reloadButtons(title).contains(slot)) {
+      openedInv(p.getUniqueId)(p)
+    }
   }
 
 }
