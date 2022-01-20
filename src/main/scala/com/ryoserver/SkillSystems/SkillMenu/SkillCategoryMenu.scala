@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.Material
@@ -14,25 +13,32 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openSkillCategoryMenu(player: Player): Unit = {
     p = player
-    setItem(3, 2, Material.POTION, effect = false, s"${GREEN}通常スキル", List(s"${GRAY}クリックで開きます。"))
-    setItem(5, 2, Material.GOLDEN_PICKAXE, effect = true, s"${GREEN}[特殊] 破壊系スキル", List(s"${GRAY}クリックで開きます。"))
-    setItem(7, 2, Material.GOLDEN_HOE, effect = true, s"${GREEN}[特殊] 農業系スキル", List(s"${GRAY}クリックで開きます。"))
-    setItem(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    registerMotion(motion)
+    setButton(MenuButton(3, 2, Material.POTION, s"${GREEN}通常スキル", List(s"${GRAY}クリックで開きます。"))
+    .setLeftClickMotion(openSkillMenu))
+    setButton(MenuButton(5, 2, Material.GOLDEN_PICKAXE, s"$GREEN[特殊] 破壊系スキル", List(s"${GRAY}クリックで開きます。"))
+    .setLeftClickMotion(openBreakSkillMenu))
+    setButton(MenuButton(7, 2, Material.GOLDEN_HOE, s"$GREEN[特殊] 農業系スキル", List(s"${GRAY}クリックで開きます。"))
+    .setLeftClickMotion(openFarmSkillMenu))
+    setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    .setLeftClickMotion(openMenu))
+    build(new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu)
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
-    if (index == getLayOut(3, 2)) {
-      new SelectSkillMenu(ryoServerAssist).openMenu(p)
-    } else if (index == getLayOut(5, 2)) {
-      new BreakSkillMenu(ryoServerAssist).openBreakSkillMenu(p)
-    } else if (index == getLayOut(7, 2)) {
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (index == getLayOut(1, 3)) {
-      new RyoServerMenu1(ryoServerAssist).menu(p)
-    }
+  private def openSkillMenu(p: Player): Unit = {
+    new SelectSkillMenu(ryoServerAssist).openMenu(p)
   }
 
+  private def openBreakSkillMenu(p: Player): Unit = {
+    new BreakSkillMenu(ryoServerAssist).openBreakSkillMenu(p)
+  }
+
+  private def openFarmSkillMenu(p: Player): Unit = {
+    new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
+  }
+
+  private def openMenu(p: Player): Unit = {
+    new RyoServerMenu1(ryoServerAssist).menu(p)
+  }
 
 }
