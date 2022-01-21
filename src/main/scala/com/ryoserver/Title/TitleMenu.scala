@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
@@ -29,7 +29,8 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       if (index < (getLayOut(9, 5) + 1) * selectPage && (getLayOut(9, 5) + 1) * (selectPage - 1) <= index) {
         val isHasTitle = hasTitles.contains(title)
         if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {
-          setItem(getX(invIndex), getY(invIndex), Material.BEDROCK, effect = false, s"$GREEN???", List("解放条件:???"))
+          setButton(MenuButton(getX(invIndex), getY(invIndex), Material.BEDROCK, s"$GREEN???", List("解放条件:???"))
+            .setLeftClickMotion(setTitle(_,index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
         } else {
           var lore: List[String] = List.empty
           val configCondition = titleConfig.getInt(s"titles.$title.condition")
@@ -61,37 +62,42 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
               lore = List(s"${GRAY}解放条件:${titleConfig.getString(s"titles.$title.condition").split(",")(0)}日ログインと、" +
                 s"${titleConfig.getString(s"titles.$title.condition").split(",")(1)}回クエストをクリアしよう。")
           }
-          setItem(getX(invIndex), getY(invIndex), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, effect = false, title, lore)
+          setButton(MenuButton(getX(invIndex), getY(invIndex), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, title, lore)
+          .setLeftClickMotion(setTitle(_,index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
         }
         invIndex += 1
       }
     }
-    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    setItem(5, 6, Material.PAPER, effect = false, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
-    setItem(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}次のページへ移動", List(s"${GRAY}クリックで次のページに移動します。"))
-    registerMotion(motion)
+    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
+    .setLeftClickMotion(backPage))
+    setButton(MenuButton(5, 6, Material.PAPER, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
+    .setLeftClickMotion(reset))
+    setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページへ移動", List(s"${GRAY}クリックで次のページに移動します。"))
+    .setLeftClickMotion(nextPage))
+    build(new TitleMenu(ryoServerAssist).openInv(_,1))
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
+  private def backPage(p: Player): Unit = {
+    new RyoServerMenu1(ryoServerAssist).menu(p)
+  }
+
+  private def nextPage(p: Player): Unit = {
     val page = name.split(":")(1).toInt
-    if (index == 45) {
-      new RyoServerMenu1(ryoServerAssist).menu(p)
-    } else if (index == 49) {
-      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
-      new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(s"${AQUA}称号をリセットしました。")
-    } else if (index == 53) {
-      new TitleMenu(ryoServerAssist).openInv(p, page + 1)
-    } else if (0 <= index && 44 >= index && inv.get.getItem(index) != null && inv.get.getItem(index).getType == Material.NAME_TAG) {
-      /*
-       解放済みの称号
-       */
-      val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
-      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
-      new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
-    }
+    new TitleMenu(ryoServerAssist).openInv(p, page + 1)
+  }
+
+  private def setTitle(p: Player,index: Int): Unit = {
+    val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
+    new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
+    new Name(ryoServerAssist).updateName(p)
+    p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
+  }
+
+  private def reset(p: Player): Unit = {
+    new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
+    new Name(ryoServerAssist).updateName(p)
+    p.sendMessage(s"${AQUA}称号をリセットしました。")
   }
 
 }
