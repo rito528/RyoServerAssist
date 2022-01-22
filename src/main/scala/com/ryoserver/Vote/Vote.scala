@@ -27,8 +27,8 @@ class Vote extends Listener {
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + name + "さんが投票しました！")
       p.sendMessage("投票はこちら！")
-      p.sendMessage("JMS: " + ChatColor.UNDERLINE + getConfig.voteSite.head)
-      p.sendMessage("monocraft: " + ChatColor.UNDERLINE + getConfig.voteSite(1))
+      p.sendMessage("JMS: " + ChatColor.UNDERLINE + getConfig.JapanMinecraftServers)
+      p.sendMessage("monocraft: " + ChatColor.UNDERLINE + getConfig.monocraft)
     })
   }
 
