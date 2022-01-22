@@ -11,16 +11,6 @@ trait Button {
   var effect: Boolean = false
   var reload = false
 
-  val x: Int
-  val y: Int
-  val title: String
-  val lore: List[String]
-
-  var material: Material
-  var itemStack: ItemStack
-  var offlinePlayer: OfflinePlayer
-
-
   def setEffect(): this.type = {
     effect = true
     this

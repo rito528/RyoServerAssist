@@ -104,6 +104,17 @@ trait Menu {
       case Some(inv) =>
         inv.setItem(index, button.itemStack)
     }
+    MenuData.rightClickButtons += (name -> (
+      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(button.x,button.y),button.rightFunc)
+      else Map(getLayOut(button.x,button.y) -> button.rightFunc)))
+    MenuData.leftClickButtons += (name -> (
+      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(button.x,button.y),button.leftFunc)
+      else Map(getLayOut(button.x,button.y) -> button.leftFunc)))
+    if (button.reload && MenuData.reloadButtons.contains(name)) {
+      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(button.x,button.y)))
+    } else if (button.reload) {
+      MenuData.reloadButtons = Map(name -> Set(getLayOut(button.x,button.y)))
+    }
   }
 
   /*
