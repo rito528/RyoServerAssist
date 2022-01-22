@@ -67,22 +67,22 @@ trait Menu {
     }
   }
 
-  private def setMotion(button: Button): Unit = {
+  private def setMotion(button: Button,x:Int,y:Int): Unit = {
     if (button.reload && MenuData.reloadButtons.contains(name)) {
-      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(button.x,button.y)))
+      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(x,y)))
     } else if (button.reload) {
-      MenuData.reloadButtons = Map(name -> Set(getLayOut(button.x,button.y)))
+      MenuData.reloadButtons = Map(name -> Set(getLayOut(x,y)))
     }
   }
 
   def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
-    setMotion(menuButton)
+    setMotion(menuButton,menuButton.x,menuButton.y)
   }
 
   def setSkull(skull: MenuSkull): Unit = {
     setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
-    setMotion(skull)
+    setMotion(skull,skull.x,skull.y)
   }
 
   def setItemStackButton(button: MenuItemStack): Unit = {
@@ -94,7 +94,7 @@ trait Menu {
       case Some(inv) =>
         inv.setItem(index, button.itemStack)
     }
-    setMotion(button)
+    setMotion(button,button.x,button.y)
   }
 
 
