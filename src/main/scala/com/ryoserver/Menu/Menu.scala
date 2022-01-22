@@ -30,13 +30,22 @@ trait Menu {
   var inv: Option[Inventory] = None
 
   /*
+    openする前に必ず呼び出す必要がある
+  */
+  def build(openedInvInstance: Player => Unit): Unit = {
+    MenuData.partButton += (name -> partButton)
+    MenuData.Buttons += (name -> buttons)
+    MenuData.openedInv += (p.getUniqueId -> openedInvInstance)
+  }
+
+  /*
     最後に呼び出す
    */
   def open(): Unit = {
     p.openInventory(inv.get)
   }
 
-  def setItem(x: Int, y: Int, item: Material, effect: Boolean, title: String, lore: List[String]): Unit = {
+  private def setItem(x: Int, y: Int, item: Material, effect: Boolean, title: String, lore: List[String]): Unit = {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
       case None =>
@@ -47,7 +56,7 @@ trait Menu {
     }
   }
 
-  def setSkullItem(x: Int, y: Int, p: OfflinePlayer, title: String, lore: List[String]): Unit = {
+  private def setSkullItem(x: Int, y: Int, p: OfflinePlayer, title: String, lore: List[String]): Unit = {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
       case None =>
@@ -103,15 +112,6 @@ trait Menu {
     } else if (button.reload) {
       MenuData.reloadButtons = Map(name -> Set(getLayOut(button.x,button.y)))
     }
-  }
-
-  /*
-    openする前に必ず呼び出す必要がある
-   */
-  def build(openedInvInstance: Player => Unit): Unit = {
-    MenuData.partButton += (name -> partButton)
-    MenuData.Buttons += (name -> buttons)
-    MenuData.openedInv += (p.getUniqueId -> openedInvInstance)
   }
 
 

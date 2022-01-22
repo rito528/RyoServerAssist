@@ -58,12 +58,12 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           val requireList = questGateway.getQuestProgress(p).map { case (require, amount) =>
             s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}個"
           }
-          setItem(1, 6, Material.BOOK, effect = false, s"$RESET[討伐クエスト]${selectedQuestData.questName}", List(
+          setButton(MenuButton(1, 6, Material.BOOK, s"$RESET[討伐クエスト]${selectedQuestData.questName}", List(
             s"$WHITE【納品リスト】"
           ) ++ requireList ++ List(
             "",
             s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
-          ))
+          )))
         }
       case None =>
     }
