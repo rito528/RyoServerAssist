@@ -58,6 +58,7 @@ trait Menu {
     }
   }
 
+  @deprecated("新フレームワークを利用してください")
   def setItemStack(x: Int, y: Int, item: ItemStack): Unit = {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
@@ -69,7 +70,7 @@ trait Menu {
     }
   }
 
-  def setButton(menuButton: Button): Unit = {
+  def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
     MenuData.rightClickButtons += (name -> (
       if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.rightFunc)
@@ -84,7 +85,7 @@ trait Menu {
     }
   }
 
-  def setSkull(skull: Button): Unit = {
+  def setSkull(skull: MenuSkull): Unit = {
     setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
     MenuData.rightClickButtons += (name -> (
       if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.rightFunc)
@@ -92,6 +93,17 @@ trait Menu {
     MenuData.leftClickButtons += (name -> (
       if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.leftFunc)
       else Map(getLayOut(skull.x,skull.y) -> skull.leftFunc)))
+  }
+
+  def setItemStack(button: MenuItemStack): Unit = {
+    val index = MenuLayout.getLayOut(button.x,button.y)
+    inv match {
+      case None =>
+        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
+        inv.get.setItem(index, button.itemStack)
+      case Some(inv) =>
+        inv.setItem(index, button.itemStack)
+    }
   }
 
   /*

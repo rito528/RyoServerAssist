@@ -20,22 +20,23 @@ trait Button {
   var itemStack: ItemStack
   var offlinePlayer: OfflinePlayer
 
-  def setEffect(): Button = {
+
+  def setEffect(): this.type = {
     effect = true
     this
   }
 
-  def setRightClickMotion(func: Player => Unit): Button = {
+  def setRightClickMotion(func: Player => Unit): this.type = {
     rightFunc = func
     this
   }
 
-  def setLeftClickMotion(func: Player => Unit): Button = {
+  def setLeftClickMotion(func: Player => Unit): this.type = {
     leftFunc = func
     this
   }
 
-  def setReload(): Button = {
+  def setReload(): this.type = {
     reload = true
     this
   }
