@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
@@ -17,12 +17,11 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openEventMenu(player: Player): Unit = {
     p = player
-    registerMotion(motion)
     val eventGateway = new EventGateway(ryoServerAssist)
     val holdingEvent = eventGateway.holdingEvent()
     if (holdingEvent != null) {
       val eventData = eventGateway.eventInfo(holdingEvent)
-      setItem(3, 2, Material.BOOK, effect = false, s"${YELLOW}イベント情報", List(
+      setButton(MenuButton(3, 2, Material.BOOK, s"${YELLOW}イベント情報", List(
         s"${WHITE}イベント名: ${eventData.name}",
         s"${WHITE}終了日: ${eventData.end}",
         s"${WHITE}イベント種別: " +
@@ -54,32 +53,46 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (eventData.eventType == "delivery") s"${WHITE}現在集められた量: ${EventDataProvider.eventCounter}個"
         else if (eventData.eventType == "suppression") s"${WHITE}現在倒された量: ${EventDataProvider.eventCounter}体"
         else null
-      ).filterNot(_ == null))
-      if (eventData.eventType == "delivery") setItem(5, 2, Material.HOPPER_MINECART, effect = false, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品インベントリを開きます。"))
-      if (eventData.eventType != "bonus") setItem(7, 2, Material.EXPERIENCE_BOTTLE, effect = false, s"${YELLOW}ランキングを表示します。", List(s"${GRAY}クリックでランキングを表示します。"))
+      ).filterNot(_ == null)))
+      if (eventData.eventType == "delivery") {
+        setButton(MenuButton(5, 2, Material.HOPPER_MINECART, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品インベントリを開きます。"))
+        .setLeftClickMotion(delivery))
+      }
+      if (eventData.eventType != "bonus") {
+        setButton(MenuButton(7, 2, Material.EXPERIENCE_BOTTLE, s"${YELLOW}ランキングを表示します。", List(s"${GRAY}クリックでランキングを表示します。"))
+        .setLeftClickMotion(rankingMenu))
+      }
     } else {
-      setItem(5, 2, Material.BOOK, effect = false, s"${YELLOW}イベント情報", List(s"${GRAY}現在開催されていません。"))
+      setButton(MenuButton(5, 2, Material.BOOK, s"${YELLOW}イベント情報", List(s"${GRAY}現在開催されていません。")))
     }
-    setItem(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${YELLOW}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    setItem(5, 3, Material.ENCHANTED_BOOK, effect = false, s"${GREEN}過去のイベント", List(s"${GRAY}クリックで移動します。"))
-    setItem(9, 3, Material.NAME_TAG, effect = false, "イベント称号を表示します。", List(s"${GRAY}クリックで表示します。"))
-    registerMotion(motion)
+    setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${YELLOW}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    .setLeftClickMotion(backMenu))
+    setButton(MenuButton(5, 3, Material.ENCHANTED_BOOK, s"${GREEN}過去のイベント", List(s"${GRAY}クリックで移動します。"))
+    .setLeftClickMotion(beforeEvent))
+    setButton(MenuButton(9, 3, Material.NAME_TAG, "イベント称号を表示します。", List(s"${GRAY}クリックで表示します。"))
+    .setLeftClickMotion(eventTitle))
+    build(new EventMenu(ryoServerAssist).openEventMenu)
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
-    if (index == getLayOut(5, 2)) {
-      new EventDeliveryMenu(ryoServerAssist).openMenu(p)
-    } else if (index == getLayOut(7, 2)) {
-      new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
-    } else if (index == getLayOut(1, 3)) {
-      new RyoServerMenu1(ryoServerAssist).menu(p)
-    } else if (index == getLayOut(5, 3)) {
-      new BeforeEventsMenu(ryoServerAssist).openMenu(p, 1)
-    } else if (index == getLayOut(9, 3)) {
-      new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
-    }
+  private def delivery(p: Player): Unit = {
+    new EventDeliveryMenu(ryoServerAssist).openMenu(p)
+  }
 
+  private def rankingMenu(p: Player): Unit = {
+    new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
+  }
+
+  private def backMenu(p: Player): Unit = {
+    new RyoServerMenu1(ryoServerAssist).menu(p)
+  }
+
+  private def beforeEvent(p: Player): Unit = {
+    new BeforeEventsMenu(ryoServerAssist).openMenu(p, 1)
+  }
+
+  private def eventTitle(p: Player): Unit = {
+    new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
   }
 
 }

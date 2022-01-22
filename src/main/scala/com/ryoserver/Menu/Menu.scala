@@ -127,11 +127,4 @@ trait Menu {
   }
 
 
-  @deprecated("新フレームワークを利用して下さい。")
-  def registerMotion(func: (Player, Int) => Unit): Unit = {
-    MenuData.data += (name -> func)
-    MenuData.partButton += (name -> partButton)
-    MenuData.Buttons += (name -> buttons)
-  }
-
 }
