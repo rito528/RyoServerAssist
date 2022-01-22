@@ -1,7 +1,7 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.Menu.Menu
+import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import com.sk89q.worldedit.bukkit.BukkitAdapter
@@ -24,29 +24,24 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def menu(player: Player): Unit = {
     p = player
-    setItem(3, 1, Material.WOODEN_AXE, effect = false, s"${GREEN}木の斧を取得します。", List(
+    setButton(MenuButton(3, 1, Material.WOODEN_AXE, s"${GREEN}木の斧を取得します。", List(
       s"${GRAY}保護方法",
       s"${GRAY}木の斧で始点を左クリックします。",
       s"${GRAY}終点を対角で右クリックします。",
       s"${GRAY}その後、ダイヤの斧をクリックします。"))
-    setItem(5, 1, Material.DIAMOND_AXE, effect = false, s"${GREEN}保護をします。", List(
+    .setLeftClickMotion(giveAxe))
+    setButton(MenuButton(5, 1, Material.DIAMOND_AXE, s"${GREEN}保護をします。", List(
       s"${GRAY}クリックで保護を開始します。",
       s"${GRAY}結果がチャットに表示されます。"
     ))
-    setItem(7, 1, Material.GOLDEN_AXE, effect = false, s"${GREEN}保護編集メニューを開きます。", List(
+    .setLeftClickMotion(createRegion))
+    setButton(MenuButton(7, 1, Material.GOLDEN_AXE, s"${GREEN}保護編集メニューを開きます。", List(
       s"${GRAY}クリックで保護編集メニューを開きます。",
       s"${GRAY}自分が管理者の保護範囲内にいる必要があります。"
     ))
-    registerMotion(Motion)
+    .setLeftClickMotion(new RegionSettingMenu(ryoServerAssist).openMenu _))
+    build(new RegionMenu(ryoServerAssist).menu)
     open()
-  }
-
-  def Motion(p: Player, index: Int): Unit = {
-    Map[Int, (Player) => Unit](
-      getLayOut(3, 1) -> giveAxe,
-      getLayOut(5, 1) -> createRegion,
-      getLayOut(7, 1) -> new RegionSettingMenu(ryoServerAssist).openMenu _
-    )(index)(p)
   }
 
   def giveAxe(p: Player): Unit = {

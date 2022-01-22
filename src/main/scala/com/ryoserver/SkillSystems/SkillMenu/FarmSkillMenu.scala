@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.Menu
-import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
@@ -18,49 +17,59 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openFarmSkillMenu(player: Player): Unit = {
     p = player
-    setItem(2, 1, if (isSkillOpened(p, "ウインググロー")) Material.WOODEN_HOE else Material.BEDROCK, effect = false, s"${GREEN}ウインググロー",
+    setButton(MenuButton(2, 1, getIcon("ウインググロー",Material.WOODEN_HOE), s"${GREEN}ウインググロー",
       getGrowSkillLore("ウインググロー", "1*3", 15))
-    setItem(4, 1, if (isSkillOpened(p, "ワイドグロー")) Material.STONE_HOE else Material.BEDROCK, effect = false, s"${GREEN}ワイドグロー",
+      .setLeftClickMotion(toggle(_,"ウインググロー"))
+      .setReload())
+    setButton(MenuButton(4, 1, getIcon("ワイドグロー",Material.STONE_HOE), s"${GREEN}ワイドグロー",
       getGrowSkillLore("ワイドグロー", "1*5", 30))
-    setItem(6, 1, if (isSkillOpened(p, "ラウンドグロー")) Material.IRON_HOE else Material.BEDROCK, effect = false, s"${GREEN}ラウンドグロー",
+      .setLeftClickMotion(toggle(_,"ワイドグロー"))
+      .setReload())
+    setButton(MenuButton(6, 1, getIcon("ラウンドグロー",Material.IRON_HOE), s"${GREEN}ラウンドグロー",
       getGrowSkillLore("ラウンドグロー", "3*3", 55))
-    setItem(2, 3, if (isSkillOpened(p, "ウイングハーベスト")) Material.WOODEN_HOE else Material.BEDROCK, effect = false, s"${GREEN}ウイングハーベスト",
+      .setLeftClickMotion(toggle(_,"ラウンドグロー"))
+      .setReload())
+    setButton(MenuButton(2, 3, getIcon("ウイングハーベスト",Material.WOODEN_HOE), s"${GREEN}ウイングハーベスト",
       getHarvestSkillLore("ウイングハーベスト", "1*3", 9))
-    setItem(4, 3, if (isSkillOpened(p, "ワイドハーベスト")) Material.STONE_HOE else Material.BEDROCK, effect = false, s"${GREEN}ワイドハーベスト",
+      .setLeftClickMotion(toggle(_,"ウイングハーベスト"))
+      .setReload())
+    setButton(MenuButton(4, 3, getIcon("ワイドハーベスト",Material.STONE_HOE), s"${GREEN}ワイドハーベスト",
       getHarvestSkillLore("ワイドハーベスト", "1*5", 15))
-    setItem(6, 3, if (isSkillOpened(p, "ラウンドハーベスト")) Material.IRON_HOE else Material.BEDROCK, effect = false, s"${GREEN}ラウンドハーベスト",
+      .setLeftClickMotion(toggle(_,"ワイドハーベスト"))
+      .setReload())
+    setButton(MenuButton(6, 3, getIcon("ラウンドハーベスト",Material.IRON_HOE), s"${GREEN}ラウンドハーベスト",
       getHarvestSkillLore("ラウンドハーベスト", "3*3", 21))
-    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    setSkullItem(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + p.getSpecialSkillOpenPoint))
-    registerMotion(motion)
+      .setLeftClickMotion(toggle(_,"ラウンドハーベスト"))
+      .setReload())
+    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    .setLeftClickMotion(backPage))
+    setSkull(MenuSkull(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + p.getSpecialSkillOpenPoint))
+    .setLeftClickMotion(clear))
+    build(new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu)
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
-    if (getLayOut(2, 1) == index) {
-      skillToggle(p, "ウインググロー")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(4, 1) == index) {
-      skillToggle(p, "ワイドグロー")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(6, 1) == index) {
-      skillToggle(p, "ラウンドグロー")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(2, 3) == index) {
-      skillToggle(p, "ウイングハーベスト")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(4, 3) == index) {
-      skillToggle(p, "ワイドハーベスト")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(6, 3) == index) {
-      skillToggle(p, "ラウンドハーベスト")
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-    } else if (getLayOut(1, 6) == index) {
-      new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
-    } else if (getLayOut(5, 6) == index) {
-      if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p, SpecialSkillPlayerData.getActivatedSkill(p).get)
-      p.sendMessage(s"${AQUA}スキル選択を解除しました。")
+  private def getIcon(skillName: String,openedIcon: Material): Material = {
+    if (isSkillOpened(p, skillName)) {
+      openedIcon
+    } else {
+      Material.BEDROCK
     }
+  }
+
+  private def toggle(p: Player,skillName: String): Unit = {
+    skillToggle(p, skillName)
+  }
+
+  private def clear(p: Player): Unit = {
+    if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) {
+      SpecialSkillPlayerData.skillInvalidation(p, SpecialSkillPlayerData.getActivatedSkill(p).get)
+    }
+    p.sendMessage(s"${AQUA}スキル選択を解除しました。")
+  }
+
+  private def backPage(p: Player): Unit = {
+    new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
   }
 
   private def getGrowSkillLore(skillName: String, range: String, skillPoint: Int): List[String] = {

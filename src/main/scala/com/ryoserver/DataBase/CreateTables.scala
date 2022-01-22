@@ -78,7 +78,7 @@ class CreateTables {
     sql.createTable("Homes",List(
       ColumnData("UUID","TEXT",null),
       ColumnData("point","INT",null),
-      ColumnData("Location","INT",null),
+      ColumnData("Location","TEXT",null),
       ColumnData("Locked","BOOLEAN",null)
     ))
   }
