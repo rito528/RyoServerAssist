@@ -15,7 +15,8 @@ class DustBoxInventory extends Menu {
   def openDustBox(player: Player): Unit = {
     p = player
     setButton(MenuButton(5, 6, Material.LAVA_BUCKET, s"$RED$BOLD[取扱注意！]${RESET}捨てる", List(s"${GRAY}クリックで捨てます。"))
-    .setLeftClickMotion(dispose))
+    .setLeftClickMotion(dispose)
+    .setReload())
     partButton = true
     buttons :+= getLayOut(5, 6)
     build(new DustBoxInventory().openDustBox)
@@ -26,7 +27,6 @@ class DustBoxInventory extends Menu {
   private def dispose(p: Player): Unit = {
     inv.get.clear()
     p.playSound(p.getLocation, Sound.ITEM_BUCKET_FILL_LAVA, 1, 1)
-    new DustBoxInventory().openDustBox(p)
   }
 
 }
