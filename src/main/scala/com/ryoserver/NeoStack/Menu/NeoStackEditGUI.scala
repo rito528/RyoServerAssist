@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack, RyoServerMenu1}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
@@ -30,7 +30,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
       val config = new YamlConfiguration
       config.loadFromString(invContent)
       if (invContent != null) {
-        setItemStack(getX(index), getY(index), config.getItemStack("i", null))
+        setItemStackButton(MenuItemStack(getX(index), getY(index), config.getItemStack("i", null)))
       }
       index += 1
     })

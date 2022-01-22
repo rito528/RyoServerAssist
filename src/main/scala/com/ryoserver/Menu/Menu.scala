@@ -58,18 +58,6 @@ trait Menu {
     }
   }
 
-  @deprecated("新フレームワークを利用してください")
-  def setItemStack(x: Int, y: Int, item: ItemStack): Unit = {
-    val index = MenuLayout.getLayOut(x, y)
-    inv match {
-      case None =>
-        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
-        inv.get.setItem(index, item)
-      case Some(inv) =>
-        inv.setItem(index, item)
-    }
-  }
-
   def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
     MenuData.rightClickButtons += (name -> (
