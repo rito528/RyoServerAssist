@@ -13,10 +13,11 @@ object BossBar {
 
   def createLevelBer(exp: Double, p: Player): Unit = {
     val calLv = new CalLv
-    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp), BarColor.GREEN, BarStyle.SOLID)
+    val formattedExp = f"${exp.toInt}%,3d" + f"${exp - exp.toInt}%.1f".replace("0.",".")
+    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp , BarColor.GREEN, BarStyle.SOLID)
     val lv = calLv.getLevel(exp.toInt)
     if (calLv.MAX_LV > lv) {
-      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp) + " 次のレベルまで残り: " + String.format("%.1f", calLv.getSumTotal(lv + 1) - exp))
+      bossBer.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp + " 次のレベルまで残り: " + String.format("%.1f", calLv.getSumTotal(lv + 1) - exp))
       bossBer.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
       bossBer.setProgress(1)
@@ -30,11 +31,12 @@ object BossBar {
     val calLv = new CalLv
     val lv = calLv.getLevel(exp.toInt)
     val bossBer = bers.get(p)
+    val formattedExp = f"${exp.toInt}%,3d" + f"${exp - exp.toInt}%.1f".replace("0.",".")
     if (calLv.MAX_LV > lv) {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp) + " 次のレベルまで残り: " + String.format("%.1f", calLv.getSumTotal(lv + 1) - exp))
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp + " 次のレベルまで残り: " + String.format("%.1f", calLv.getSumTotal(lv + 1) - exp))
       bossBer.get.setProgress(1.0 - ((calLv.getSumTotal(lv + 1) - exp) / calLv.getExp(lv + 1)))
     } else {
-      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + String.format("%.1f", exp))
+      bossBer.get.setTitle("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp)
       bossBer.get.setProgress(1)
     }
   }
