@@ -73,6 +73,12 @@ trait Menu {
     } else if (button.reload) {
       MenuData.reloadButtons = Map(name -> Set(getLayOut(x,y)))
     }
+    MenuData.rightClickButtons += (name -> (
+      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(x,y),button.rightFunc)
+      else Map(getLayOut(x,y) -> button.rightFunc)))
+    MenuData.leftClickButtons += (name -> (
+      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(x,y),button.leftFunc)
+      else Map(getLayOut(x,y) -> button.leftFunc)))
   }
 
   def setButton(menuButton: MenuButton): Unit = {
