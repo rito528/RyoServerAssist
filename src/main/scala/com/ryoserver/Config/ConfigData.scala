@@ -32,7 +32,7 @@ object ConfigData {
       regenerationNormalWorlds = config.getStringList("regenerationNormalWorlds").asScala.toList,
       regenerationNetherWorlds = config.getStringList("regenerationNetherWorlds").asScala.toList,
       regenerationEndWorlds = config.getStringList("regenerationEndWorlds").asScala.toList,
-      gachaChangeRate = config.getInt("gachaChangeRate"),
+      gachaChangeRate = config.getInt("gachaChangeRete"),
       webSite = config.getString("webSite"),
       dynmap = config.getString("dynmap"),
       voteSite = config.getStringList("voteSite").asScala.toList,

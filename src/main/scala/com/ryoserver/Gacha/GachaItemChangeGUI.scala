@@ -3,7 +3,7 @@ package com.ryoserver.Gacha
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.ChatColor._
@@ -21,29 +21,32 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
 
   def openChangeGUI(player: Player): Unit = {
     p = player
-    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}menuに戻る", List(s"${GRAY}クリックでmenuに戻ります。"))
-    setItem(5, 6, Material.NETHER_STAR, effect = false, s"$RESET${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
+    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}menuに戻る", List(s"${GRAY}クリックでmenuに戻ります。"))
+    .setLeftClickMotion(backMenu))
+    setButton(MenuButton(5, 6, Material.NETHER_STAR, s"$RESET${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
       s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${RETE}個"
     ))
+    .setLeftClickMotion(changeItem)
+    .setReload())
     partButton = true
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(5, 6)
-    registerMotion(motion)
+    build(new GachaItemChangeGUI(ryoServerAssist).openChangeGUI)
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
+  private def backMenu(p: Player): Unit = {
+    new RyoServerMenu1(ryoServerAssist).menu(p)
+  }
+
+  private def changeItem(p: Player): Unit = {
     var changeAmount = 0
-    if (index == 45) {
-      new RyoServerMenu1(ryoServerAssist).menu(p)
-      return
-    }
     inv.get.getContents.foreach(itemStack => {
       if (itemStack != null && items.contains(itemStack)) {
         changeAmount += RETE
       }
     })
-    if (changeAmount != 0 && index == 49) {
+    if (changeAmount != 0) {
       val item = RecoveryItems.max.clone()
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
@@ -52,6 +55,8 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
         if (items.contains(is)) inv.get.clear(index)
       }
       new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
+    } else {
+      p.sendMessage(s"${RED}特等アイテムが見つかりませんでした。")
     }
   }
 
