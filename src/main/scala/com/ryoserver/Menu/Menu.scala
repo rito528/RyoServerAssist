@@ -67,29 +67,22 @@ trait Menu {
     }
   }
 
+  private def setMotion(button: Button): Unit = {
+    if (button.reload && MenuData.reloadButtons.contains(name)) {
+      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(button.x,button.y)))
+    } else if (button.reload) {
+      MenuData.reloadButtons = Map(name -> Set(getLayOut(button.x,button.y)))
+    }
+  }
+
   def setButton(menuButton: MenuButton): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
-    MenuData.rightClickButtons += (name -> (
-      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.rightFunc)
-     else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.rightFunc)))
-    MenuData.leftClickButtons += (name -> (
-      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.leftFunc)
-      else Map(getLayOut(menuButton.x,menuButton.y) -> menuButton.leftFunc)))
-    if (menuButton.reload && MenuData.reloadButtons.contains(name)) {
-      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(menuButton.x,menuButton.y)))
-    } else if (menuButton.reload) {
-      MenuData.reloadButtons = Map(name -> Set(getLayOut(menuButton.x,menuButton.y)))
-    }
+    setMotion(menuButton)
   }
 
   def setSkull(skull: MenuSkull): Unit = {
     setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
-    MenuData.rightClickButtons += (name -> (
-      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.rightFunc)
-      else Map(getLayOut(skull.x,skull.y) -> skull.rightFunc)))
-    MenuData.leftClickButtons += (name -> (
-      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.leftFunc)
-      else Map(getLayOut(skull.x,skull.y) -> skull.leftFunc)))
+    setMotion(skull)
   }
 
   def setItemStackButton(button: MenuItemStack): Unit = {
@@ -101,17 +94,7 @@ trait Menu {
       case Some(inv) =>
         inv.setItem(index, button.itemStack)
     }
-    MenuData.rightClickButtons += (name -> (
-      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(button.x,button.y),button.rightFunc)
-      else Map(getLayOut(button.x,button.y) -> button.rightFunc)))
-    MenuData.leftClickButtons += (name -> (
-      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(button.x,button.y),button.leftFunc)
-      else Map(getLayOut(button.x,button.y) -> button.leftFunc)))
-    if (button.reload && MenuData.reloadButtons.contains(name)) {
-      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(button.x,button.y)))
-    } else if (button.reload) {
-      MenuData.reloadButtons = Map(name -> Set(getLayOut(button.x,button.y)))
-    }
+    setMotion(button)
   }
 
 
