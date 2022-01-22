@@ -36,8 +36,8 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
      */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
-    val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 20:00")
-    val end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 21:00")
+    val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 21:00")
+    val end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 22:00")
     val holiday_start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 14:00")
     val holiday_end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 15:00")
     val calendar = Calendar.getInstance()
