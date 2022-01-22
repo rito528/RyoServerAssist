@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.Menu
+import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
@@ -17,31 +17,38 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openEventTitleMenu(player: Player): Unit = {
     p = player
-    setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${GREEN}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
+    .setLeftClickMotion(backMenu))
     val eventGateway = new EventGateway(ryoServerAssist)
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
-        setItem(getX(index), getY(index), Material.NAME_TAG, effect = false, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))
+        setButton(MenuButton(getX(index), getY(index), Material.NAME_TAG, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))
+        .setLeftClickMotion(setTitle(_,index)))
       }
     }
-    setItem(5, 6, Material.PAPER, effect = false, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
-    registerMotion(motion)
+    setButton(MenuButton(5, 6, Material.PAPER, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
+    .setLeftClickMotion(resetTitle))
+    build(new EventTitleMenu(ryoServerAssist).openEventTitleMenu)
     open()
   }
 
-  def motion(p: Player, index: Int): Unit = {
-    if (index <= 43 && p.getOpenInventory.getTopInventory.getItem(index) != null) {
+  private def backMenu(p: Player): Unit = {
+    new EventMenu(ryoServerAssist).openEventMenu(p)
+  }
+
+  private def setTitle(p: Player,index:Int): Unit = {
+    if (p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
       new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
       new Name(ryoServerAssist).updateName(p)
       p.sendMessage(s"${AQUA}称号: 「${RESET}" + titleName + s"$AQUA」を設定しました！")
-    } else if (index == getLayOut(1, 6)) {
-      new EventMenu(ryoServerAssist).openEventMenu(p)
-    } else if (index == getLayOut(5, 6)) {
-      new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
-      new Name(ryoServerAssist).updateName(p)
-      p.sendMessage(s"${AQUA}称号をリセットしました。")
     }
+  }
+
+  private def resetTitle(p: Player): Unit = {
+    new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
+    new Name(ryoServerAssist).updateName(p)
+    p.sendMessage(s"${AQUA}称号をリセットしました。")
   }
 
 }
