@@ -57,14 +57,28 @@ class SQL {
     if (rs.next()) {
       //カラムが存在するので不足しているカラムがないか確認
       columnData.zipWithIndex.foreach{case (data,index) => {
-        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
-        if (!checkColumn.next()) {
-          //カラムが存在しない
-          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
-        } else if (checkColumn.getString("Type") != data.dataType) {
-          //カラムが存在するけど型が違うので変更する
-          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
-        }
+//        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
+//        if (!checkColumn.next()) {
+//          //カラムが存在しない
+//          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
+//        } else if (data.dataType.toLowerCase() != "boolean" && !checkColumn.getString("Type").contains(data.dataType.toLowerCase())) {
+//          //カラムが存在するけど型が違うので変更する
+//          println(s"type:${tableName}:${data.columnName}")
+//          println(checkColumn.getString("Type"))
+//          println(data.dataType)
+//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+//        } else if (data.dataType.toLowerCase == "boolean" && !checkColumn.getString("Type").contains("tinyint")) {
+//          println(s"type2:${tableName}:${data.columnName}")
+//          println(checkColumn.getString("Type"))
+//          println(data.dataType)
+//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+//        } else if (data.dataType.toLowerCase == "int" && !checkColumn.getString("Type").contains("tinyint") &&
+//          !checkColumn.getString("Type").contains(data.dataType.toLowerCase())) {
+//          println(s"type3:${tableName}:${data.columnName}")
+//          println(checkColumn.getString("Type"))
+//          println(data.dataType)
+//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+//        }
       }
       }
     } else {
