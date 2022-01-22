@@ -69,7 +69,7 @@ trait Menu {
     }
   }
 
-  def setButton(menuButton: MenuButton): Unit = {
+  def setButton(menuButton: Button): Unit = {
     setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
     MenuData.rightClickButtons += (name -> (
       if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(menuButton.x,menuButton.y),menuButton.rightFunc)
@@ -84,7 +84,7 @@ trait Menu {
     }
   }
 
-  def setSkull(skull: MenuSkull): Unit = {
+  def setSkull(skull: Button): Unit = {
     setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
     MenuData.rightClickButtons += (name -> (
       if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(skull.x,skull.y),skull.rightFunc)

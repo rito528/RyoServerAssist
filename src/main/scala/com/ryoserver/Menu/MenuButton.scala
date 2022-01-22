@@ -1,59 +1,31 @@
 package com.ryoserver.Menu
 
+import org.bukkit.inventory.ItemStack
 import org.bukkit.{Material, OfflinePlayer}
-import org.bukkit.entity.Player
 
-case class MenuButton(x: Int,
-                      y: Int,
-                      material: Material,
-                      title: String,
-                      lore: List[String]) {
-
-  var rightFunc: Player => Unit = _
-  var leftFunc: Player => Unit = _
-  var effect: Boolean = false
-  var reload = false
-
-  def setEffect(): MenuButton = {
-    effect = true
-    this
-  }
-
-  def setRightClickMotion(func: Player => Unit): MenuButton = {
-    rightFunc = func
-    this
-  }
-
-  def setLeftClickMotion(func: Player => Unit): MenuButton = {
-    leftFunc = func
-    this
-  }
-
-  def setReload(): MenuButton = {
-    reload = true
-    this
-  }
-
+case class MenuButton(override val x: Int,
+                      override val y: Int,
+                      override var material: Material,
+                      override val title: String,
+                      override val lore: List[String]) extends Button {
+  override var itemStack: ItemStack = _
+  override var offlinePlayer: OfflinePlayer = _
 }
 
-case class MenuSkull(x: Int,
-                     y: Int,
-                     offlinePlayer: OfflinePlayer,
-                     title: String,
-                     lore: List[String]) {
+case class MenuItemStack(override val x: Int,
+                         override val y: Int,
+                         override var itemStack: ItemStack,
+                         override val title: String,
+                         override val lore: List[String]) extends Button {
+  override var material: Material = _
+  override var offlinePlayer: OfflinePlayer = _
+}
 
-  var rightFunc: Player => Unit = _
-  var leftFunc: Player => Unit = _
-  var effect: Boolean = false
-
-  def setRightClickMotion(func: Player => Unit): MenuSkull = {
-    rightFunc = func
-    this
-  }
-
-  def setLeftClickMotion(func: Player => Unit): MenuSkull = {
-    leftFunc = func
-    this
-  }
-
+case class MenuSkull(override val x: Int,
+                     override val y: Int,
+                     override var offlinePlayer: OfflinePlayer,
+                     override val title: String,
+                     override val lore: List[String]) extends Button {
+  override var material: Material = _
+  override var itemStack: ItemStack = _
 }
