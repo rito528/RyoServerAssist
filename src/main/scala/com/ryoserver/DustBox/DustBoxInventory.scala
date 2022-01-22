@@ -1,6 +1,6 @@
 package com.ryoserver.DustBox
 
-import com.ryoserver.Menu.Menu
+import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -14,20 +14,19 @@ class DustBoxInventory extends Menu {
 
   def openDustBox(player: Player): Unit = {
     p = player
-    setItem(5, 6, Material.LAVA_BUCKET, effect = false, s"$RED$BOLD[取扱注意！]${RESET}捨てる", List(s"${GRAY}クリックで捨てます。"))
+    setButton(MenuButton(5, 6, Material.LAVA_BUCKET, s"$RED$BOLD[取扱注意！]${RESET}捨てる", List(s"${GRAY}クリックで捨てます。"))
+    .setLeftClickMotion(dispose))
     partButton = true
     buttons :+= getLayOut(5, 6)
-    registerMotion(motion)
+    build(new DustBoxInventory().openDustBox)
     open()
     p.playSound(p.getLocation, Sound.BLOCK_BARREL_OPEN, 1, 1)
   }
 
-  def motion(p: Player, index: Int): Unit = {
-    if (index == getLayOut(5, 6)) {
-      inv.get.clear()
-      p.playSound(p.getLocation, Sound.ITEM_BUCKET_FILL_LAVA, 1, 1)
-      new DustBoxInventory().openDustBox(p)
-    }
+  private def dispose(p: Player): Unit = {
+    inv.get.clear()
+    p.playSound(p.getLocation, Sound.ITEM_BUCKET_FILL_LAVA, 1, 1)
+    new DustBoxInventory().openDustBox(p)
   }
 
 }
