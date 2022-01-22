@@ -49,8 +49,8 @@ webSite: ''
 dynmap: ''
 
 #投票サイトのURLを指定してください
-voteSite:
-  - ''
+JapanMinecraftServers:
+monocraft:
 
 #IPHunterのAPIKeyを記載してください。
 IPHunterAPIKey:
