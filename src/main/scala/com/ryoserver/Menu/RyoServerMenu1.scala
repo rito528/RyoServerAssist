@@ -14,6 +14,7 @@ import com.ryoserver.SkillSystems.SkillMenu.SkillCategoryMenu
 import com.ryoserver.Storage.Storage
 import com.ryoserver.Title.TitleMenu
 import com.ryoserver.World.SimpleRegion.RegionMenu
+import com.ryoserver.util.Format
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
@@ -76,7 +77,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     .setLeftClickMotion(motion.teleportToHub))
     setSkull(MenuSkull(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${p.getQuestLevel}",
-      s"${WHITE}EXP: ${String.format("%.1f", p.getQuestExp)}",
+      s"${WHITE}EXP: ${Format.threeCommaFormat(p.getQuestExp)}",
       s"${WHITE}ランキング: ${p.getRanking}位",
       s"${WHITE}クエストクリア回数: ${p.getQuestClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${p.getGachaPullNumber}回",

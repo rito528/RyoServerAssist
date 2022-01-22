@@ -40,8 +40,6 @@ class MenuHandler(ryoServerAssist: RyoServerAssist) extends Listener {
     if (!isPartButton || Buttons(title).contains(slot)) e.setCancelled(true)
     new BukkitRunnable {
       override def run(): Unit = {
-        if (data.contains(title)) data(title)(p, slot)
-        else if (dataNeedClick.contains(title)) dataNeedClick(title)(p, slot, e.getClick.isRightClick)
         if (rightClickButtons.contains(title) && e.isRightClick &&
           rightClickButtons(title).contains(e.getSlot) && rightClickButtons(title)(e.getSlot) != null) {
           rightClickButtons(title)(e.getSlot)(p)
