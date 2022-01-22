@@ -95,7 +95,7 @@ trait Menu {
       else Map(getLayOut(skull.x,skull.y) -> skull.leftFunc)))
   }
 
-  def setItemStack(button: MenuItemStack): Unit = {
+  def setItemStackButton(button: MenuItemStack): Unit = {
     val index = MenuLayout.getLayOut(button.x,button.y)
     inv match {
       case None =>
