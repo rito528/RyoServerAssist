@@ -50,8 +50,8 @@ class MenuMotion(ryoServerAssist: RyoServerAssist) {
       case "dynmap" =>
         p.sendMessage(s"$UNDERLINE${getConfig.dynmap}")
       case "vote" =>
-        p.sendMessage(s"$UNDERLINE${getConfig.voteSite.head}")
-        p.sendMessage(s"$UNDERLINE${getConfig.voteSite(1)}")
+        p.sendMessage(s"$UNDERLINE${getConfig.JapanMinecraftServers}")
+        p.sendMessage(s"$UNDERLINE${getConfig.monocraft}")
     }
   }
 
