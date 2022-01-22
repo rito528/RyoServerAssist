@@ -76,7 +76,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     .setLeftClickMotion(motion.teleportToHub))
     setSkull(MenuSkull(7, 5, p, p.getName + "の情報", List(
       s"${WHITE}レベル: Lv.${p.getQuestLevel}",
-      s"${WHITE}EXP: ${String.format("%.1f", p.getQuestExp)}",
+      s"${WHITE}EXP: ${f"${p.getQuestExp.toInt}%,3d" + f"${p.getQuestExp - p.getQuestExp.toInt}%.1f".replace("0.",".")}",
       s"${WHITE}ランキング: ${p.getRanking}位",
       s"${WHITE}クエストクリア回数: ${p.getQuestClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${p.getGachaPullNumber}回",
