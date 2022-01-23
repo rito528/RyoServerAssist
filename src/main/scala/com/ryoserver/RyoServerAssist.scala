@@ -6,6 +6,7 @@ import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
+import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
@@ -118,7 +119,8 @@ class RyoServerAssist extends JavaPlugin {
       new MenuHandler(this),
       new EventDeliveryMenu(this),
       new PlayEffect(this),
-      new EditEvent
+      new EditEvent,
+      new UseExpBottle
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
