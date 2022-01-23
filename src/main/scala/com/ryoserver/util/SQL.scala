@@ -61,9 +61,16 @@ class SQL {
         if (!checkColumn.next()) {
           //カラムが存在しない
           executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
-        } else if (checkColumn.getString("Type") != data.dataType) {
+        } else {
           //カラムが存在するけど型が違うので変更する
-          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+          val sqlDataType = if (checkColumn.getString("Type").contains("tinyint")) {
+            "boolean"
+          } else {
+            checkColumn.getString("Type")
+          }
+          if (!sqlDataType.toLowerCase.contains(data.dataType.toLowerCase)) {
+            executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+          }
         }
       }
       }
