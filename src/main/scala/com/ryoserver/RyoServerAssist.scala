@@ -8,7 +8,7 @@ import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
-import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
+import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.Home
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
@@ -71,7 +71,7 @@ class RyoServerAssist extends JavaPlugin {
      */
     Map(
       "home" -> new HomeCommand(this),
-      "gacha" -> new GachaCommand(),
+      "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(),
       "menu" -> new MenuCommand(this),
       "stick" -> new StickCommand,
@@ -106,7 +106,6 @@ class RyoServerAssist extends JavaPlugin {
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent,
-      new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(),
       new ElevatorEvent,
