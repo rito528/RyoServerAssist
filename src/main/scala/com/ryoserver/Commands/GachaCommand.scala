@@ -2,11 +2,12 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
+import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GachaCommand extends CommandBuilder {
+class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -39,7 +40,7 @@ class GachaCommand extends CommandBuilder {
   }
 
   private def add(): Unit = {
-    new GachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
+    new GachaAddItemInventory(ryoServerAssist).openAddInventory(sender.asInstanceOf[Player])
   }
 
   private def remove(): Unit = {
