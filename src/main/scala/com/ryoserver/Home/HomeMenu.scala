@@ -13,11 +13,16 @@ class HomeMenu extends Menu {
 
   def openHomeMenu(player: Player): Unit = {
     p = player
+    val beds = List(
+      Material.WHITE_BED,
+      Material.BLUE_BED,
+      Material.BLACK_BED
+    )
     for (x <- 3 to 7 by 2) {
       val index = (x - 1) / 2
-      setButton(MenuButton(x,1,Material.WHITE_BED,s"$RESET${WHITE}ホーム${index}を設定します。",List(s"${GRAY}クリックでホーム${index}を設定します。")))
+      setButton(MenuButton(x,1,beds(index - 1),s"$RESET${WHITE}ホーム${index}を設定します。",List(s"${GRAY}クリックでホーム${index}を設定します。")))
       setButton(MenuButton(x,2,Material.COMPASS,s"${WHITE}ホーム${index}にテレポートします。",List(s"${GRAY}テレポート地点: ")))
-      setButton(MenuButton(x,3,Material.BLUE_WOOL,s"$RESET${WHITE}ホーム${index}をロックします。",List(s"${GRAY}クリックでホーム${index}をロックします。")))
+      setButton(MenuButton(x,3,Material.LIGHT_BLUE_WOOL,s"$RESET${WHITE}ホーム${index}をロックします。",List(s"${GRAY}クリックでホーム${index}をロックします。")))
     }
     build(new HomeMenu().openHomeMenu)
     open()
