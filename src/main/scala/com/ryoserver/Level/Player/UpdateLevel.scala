@@ -6,6 +6,7 @@ import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -83,7 +84,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
       //スキルポイントを全回復
-      p.setSkillPoint(calLv.getLevel(sumExp))
+      p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getLevel))
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
       p.sendMessage(s"${AQUA}Lv." + old_level + " → Lv." + nowLevel)
       val maxLv = getConfig.maxLv
