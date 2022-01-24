@@ -2,6 +2,7 @@ package com.ryoserver.Home
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, Location}
 
 import java.util.UUID
@@ -25,6 +26,22 @@ object HomeData {
           isLocked = rs.getBoolean("Locked")
         )
       }).toSet
+    sql.close()
+  }
+
+  def saveData(ryoServerAssist: RyoServerAssist): Unit = {
+    val oneMinute = 1200
+    new BukkitRunnable {
+      override def run(): Unit = {
+        val sql = new SQL
+        sql.executeSQL("DELETE FROM Homes;")
+        homeData.foreach{data =>
+          val locationString = s"${data.location.getWorld},${data.location.getX},${data.location.getY},${data.location.getZ}"
+          sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES (${data.UUID.toString},${data.point},$data,$locationString)")
+        }
+        sql.close()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
   }
 
 }
