@@ -11,6 +11,8 @@ object HomeData {
 
   private var homeData: Set[HomeDataType] = Set.empty
 
+  def getData: Set[HomeDataType] = homeData
+
   def loadData(): Unit = {
     val sql = new SQL
     val rs = sql.executeQuery("SELECT * FROM Homes;")
