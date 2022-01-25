@@ -27,8 +27,8 @@ class HomeMenu extends Menu {
         List(s"${GRAY}テレポート地点: ${homeGateway(p).getLocationString(index).getOrElse("設定されていません")}"))
       .setLeftClickMotion(homeGateway(_).teleportHome(index)))
       setButton(MenuButton(x,3,if (homeGateway(p).isHomeLocked(index)) Material.RED_WOOL else Material.LIGHT_BLUE_WOOL,
-        s"$RESET${WHITE}ホーム${index}をロックします。",
-        List(s"${GRAY}クリックでホーム${index}をロックします。"))
+        s"$RESET${WHITE}ホーム${index}${if (homeGateway(p).isHomeLocked(index)) "のロックを解除します。" else "をロックします。"}",
+        List(s"${GRAY}クリックでホーム${index}をロックを切り替えます。"))
       .setLeftClickMotion(homeGateway(_).toggleLock(index))
       .setReload())
     }
