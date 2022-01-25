@@ -19,11 +19,16 @@ object HomeData {
       .head
   }
 
-  def addHomeData(data: HomeDataType): Unit = homeData += data
+  private def addHomeData(data: HomeDataType): Unit = homeData += data
 
-  def removeHomeData(uuid: UUID,point: Int): Unit = {
+  private def removeHomeData(uuid: UUID,point: Int): Unit = {
     homeData = homeData
       .filterNot(data => data.UUID == uuid && data.point == point)
+  }
+
+  def swapHomeData(uuid: UUID,point: Int,data:HomeDataType): Unit = {
+    removeHomeData(uuid,point)
+    addHomeData(data)
   }
 
   def loadHomeData(): Unit = {
