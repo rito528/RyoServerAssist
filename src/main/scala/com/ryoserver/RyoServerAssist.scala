@@ -9,7 +9,7 @@ import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
-import com.ryoserver.Home.Home
+import com.ryoserver.Home.HomeData
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
@@ -70,7 +70,7 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand(this),
+      "home" -> new HomeCommand(),
       "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(),
       "menu" -> new MenuCommand(this),
@@ -97,7 +97,6 @@ class RyoServerAssist extends JavaPlugin {
       Bukkitイベントの登録
      */
     List(
-      new Home(this),
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),
@@ -161,6 +160,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadBeforeEvents()
     new LoadDistribution().load()
     Translate.loadLangFile()
+    HomeData.loadHomeData()
 
 
     /*
@@ -171,6 +171,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new SaveDistribution(this).autoSave()
     PlayerQuestData.autoSave(this)
+    HomeData.saveHomeData(this)
 
     /*
       ワールドの再生成を行う
@@ -204,6 +205,7 @@ class RyoServerAssist extends JavaPlugin {
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
     PlayerQuestData.save()
+    HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }
 

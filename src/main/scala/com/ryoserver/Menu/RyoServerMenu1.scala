@@ -3,7 +3,7 @@ package com.ryoserver.Menu
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.{GachaItemChangeGUI, GetGachaTickets}
-import com.ryoserver.Home.Home
+import com.ryoserver.Home.HomeMenu
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
@@ -72,7 +72,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
     setButton(MenuButton(2, 6, Material.COMPASS, s"${GREEN}スポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
     .setLeftClickMotion(motion.worldTeleport(_, world = true)))
     setButton(MenuButton(3, 6, Material.WHITE_BED, s"${GREEN}ホームメニューを開きます。", List(s"${GRAY}クリックで開きます。"))
-    .setLeftClickMotion(new Home(ryoServerAssist).homeInventory _))
+    .setLeftClickMotion(new HomeMenu().openHomeMenu))
     setButton(MenuButton(5, 6, Material.OAK_DOOR, s"${GREEN}ロビーに戻ります。", List(s"${GRAY}クリックでロビーに戻ります。"))
     .setLeftClickMotion(motion.teleportToHub))
     setSkull(MenuSkull(7, 5, p, p.getName + "の情報", List(
