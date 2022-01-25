@@ -52,8 +52,8 @@ object HomeData {
     val sql = new SQL
     sql.executeSQL("DELETE FROM Homes;")
     homeData.foreach{data =>
-      val locationString = s"${data.location.getWorld},${data.location.getX},${data.location.getY},${data.location.getZ}"
-      sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES (${data.UUID.toString},${data.point},$data,$locationString)")
+      val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
+      sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES ('${data.UUID.toString}',${data.point},'$locationString',${data.isLocked})")
     }
     sql.close()
   }
