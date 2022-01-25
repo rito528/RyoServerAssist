@@ -9,7 +9,7 @@ import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
-import com.ryoserver.Home.{Home, HomeData}
+import com.ryoserver.Home.HomeData
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
@@ -97,7 +97,6 @@ class RyoServerAssist extends JavaPlugin {
       Bukkitイベントの登録
      */
     List(
-      new Home(this),
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),
