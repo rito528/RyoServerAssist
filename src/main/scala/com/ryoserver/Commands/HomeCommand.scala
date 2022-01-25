@@ -1,7 +1,7 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.Home.Home
+import com.ryoserver.Home.{Home, HomeMenu}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 
@@ -13,7 +13,7 @@ class HomeCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     .setNonArgumentExecutor(home)
 
   private def home(): Unit = {
-    new Home(ryoServerAssist).homeInventory(sender.asInstanceOf[Player])
+    new HomeMenu().openHomeMenu(sender.asInstanceOf[Player])
   }
 
 }
