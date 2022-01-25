@@ -13,10 +13,11 @@ object HomeData {
 
   def getHomeData: Set[HomeDataType] = homeData
 
-  def getTargetHomeData(uuid: UUID,point: Int): HomeDataType = {
-    homeData
+  def getTargetHomeData(uuid: UUID,point: Int): Option[HomeDataType]= {
+    val data = homeData
       .filter(data => data.UUID == uuid && data.point == point)
-      .head
+    if (data.isEmpty) None
+    else Option(data.head)
   }
 
   private def addHomeData(data: HomeDataType): Unit = homeData += data
