@@ -20,9 +20,17 @@ class HomeMenu extends Menu {
     )
     for (x <- 3 to 7 by 2) {
       val index = (x - 1) / 2
-      setButton(MenuButton(x,1,beds(index - 1),s"$RESET${WHITE}ホーム${index}を設定します。",List(s"${GRAY}クリックでホーム${index}を設定します。")))
-      setButton(MenuButton(x,2,Material.COMPASS,s"${WHITE}ホーム${index}にテレポートします。",List(s"${GRAY}テレポート地点: ")))
-      setButton(MenuButton(x,3,Material.LIGHT_BLUE_WOOL,s"$RESET${WHITE}ホーム${index}をロックします。",List(s"${GRAY}クリックでホーム${index}をロックします。")))
+      val homeGateway = new HomeGateway(_)
+      setButton(MenuButton(x,1,beds(index - 1),s"$RESET${WHITE}ホーム${index}を設定します。",List(s"${GRAY}クリックでホーム${index}を設定します。"))
+      .setLeftClickMotion(player => homeGateway(player).setHomePoint(index,player.getLocation)))
+      setButton(MenuButton(x,2,Material.COMPASS,s"${WHITE}ホーム${index}にテレポートします。",
+        List(s"${GRAY}テレポート地点: ${homeGateway(p).getLocationString(index)}"))
+      .setLeftClickMotion(homeGateway(_).teleportHome(index)))
+      setButton(MenuButton(x,3,if (homeGateway(p).isHomeLocked(index)) Material.RED_WOOL else Material.LIGHT_BLUE_WOOL,
+        s"$RESET${WHITE}ホーム${index}をロックします。",
+        List(s"${GRAY}クリックでホーム${index}をロックします。"))
+      .setLeftClickMotion(homeGateway(_).toggleLock(index))
+      .setReload())
     }
     build(new HomeMenu().openHomeMenu)
     open()
