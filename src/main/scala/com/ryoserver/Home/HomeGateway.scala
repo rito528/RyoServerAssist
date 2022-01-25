@@ -9,6 +9,10 @@ class HomeGateway(p: Player) {
   private val uuid = p.getUniqueId
 
   def setHomePoint(point: Int,location: Location): Unit = {
+    if (isHomeLocked(point)) {
+      p.sendMessage(s"${RED}ホーム${point}がロックされています。")
+      return
+    }
     HomeData.swapHomeData(uuid,point,HomeDataType(
       UUID = uuid,
       point = point,
