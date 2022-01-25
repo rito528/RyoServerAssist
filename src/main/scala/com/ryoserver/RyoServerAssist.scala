@@ -160,6 +160,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadBeforeEvents()
     new LoadDistribution().load()
     Translate.loadLangFile()
+    HomeData.loadHomeData()
 
 
     /*
