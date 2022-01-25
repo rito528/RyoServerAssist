@@ -30,4 +30,10 @@ class HomeGateway(p: Player) {
     p.sendMessage(s"${AQUA}ホーム${point}にテレポートしました。")
   }
 
+  def getLocationString(point: Int): String = {
+    val targetData = HomeData.getTargetHomeData(uuid, point)
+    val location = targetData.location
+    s"${location.getWorld.getName},${location.getX},${location.getY},${location.getZ}"
+  }
+
 }
