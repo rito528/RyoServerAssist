@@ -13,6 +13,13 @@ object HomeData {
 
   def getData: Set[HomeDataType] = homeData
 
+  def addData(data: HomeDataType): Unit = homeData += data
+
+  def removeData(uuid: UUID,point: Int): Unit = {
+    homeData = homeData
+      .filterNot(data => data.UUID == uuid && data.point == point)
+  }
+
   def loadData(): Unit = {
     val sql = new SQL
     val rs = sql.executeQuery("SELECT * FROM Homes;")
