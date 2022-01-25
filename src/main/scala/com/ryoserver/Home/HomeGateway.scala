@@ -21,7 +21,13 @@ class HomeGateway(p: Player) {
   def toggleLock(point: Int): Unit = {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     HomeData.swapHomeData(uuid, point, targetData.copy(isLocked = !targetData.isLocked))
-    p.sendMessage(s"${AQUA}ホーム${point}${if (targetData.isLocked) "のロックを解除しました。" else "をロックしました。"}")
+    p.sendMessage(s"${AQUA}ホーム$point${if (targetData.isLocked) "のロックを解除しました。" else "をロックしました。"}")
+  }
+
+  def teleportHome(point: Int): Unit = {
+    val targetData = HomeData.getTargetHomeData(uuid, point)
+    p.teleport(targetData.location)
+    p.sendMessage(s"${AQUA}ホーム${point}にテレポートしました。")
   }
 
 }
