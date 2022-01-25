@@ -11,8 +11,6 @@ object HomeData {
 
   private var homeData: Set[HomeDataType] = Set.empty
 
-  def getHomeData: Set[HomeDataType] = homeData
-
   def getTargetHomeData(uuid: UUID,point: Int): Option[HomeDataType]= {
     val data = homeData
       .filter(data => data.UUID == uuid && data.point == point)
