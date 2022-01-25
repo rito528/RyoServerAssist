@@ -11,16 +11,16 @@ object HomeData {
 
   private var homeData: Set[HomeDataType] = Set.empty
 
-  def getData: Set[HomeDataType] = homeData
+  def getHomeData: Set[HomeDataType] = homeData
 
-  def addData(data: HomeDataType): Unit = homeData += data
+  def addHomeData(data: HomeDataType): Unit = homeData += data
 
-  def removeData(uuid: UUID,point: Int): Unit = {
+  def removeHomeData(uuid: UUID,point: Int): Unit = {
     homeData = homeData
       .filterNot(data => data.UUID == uuid && data.point == point)
   }
 
-  def loadData(): Unit = {
+  def loadHomeData(): Unit = {
     val sql = new SQL
     val rs = sql.executeQuery("SELECT * FROM Homes;")
     homeData = Iterator.from(0)
@@ -38,7 +38,7 @@ object HomeData {
     sql.close()
   }
 
-  def saveData(ryoServerAssist: RyoServerAssist): Unit = {
+  def saveHomeData(ryoServerAssist: RyoServerAssist): Unit = {
     val oneMinute = 1200
     new BukkitRunnable {
       override def run(): Unit = {
