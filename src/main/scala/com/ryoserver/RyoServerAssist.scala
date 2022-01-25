@@ -70,7 +70,7 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand(this),
+      "home" -> new HomeCommand(),
       "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(),
       "menu" -> new MenuCommand(this),

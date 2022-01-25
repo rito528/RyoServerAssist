@@ -5,7 +5,7 @@ import com.ryoserver.Home.{Home, HomeMenu}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 
-class HomeCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class HomeCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map()
