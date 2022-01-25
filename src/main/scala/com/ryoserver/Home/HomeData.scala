@@ -13,6 +13,12 @@ object HomeData {
 
   def getHomeData: Set[HomeDataType] = homeData
 
+  def getTargetHomeData(uuid: UUID,point: Int): HomeDataType = {
+    homeData
+      .filter(data => data.UUID == uuid && data.point == point)
+      .head
+  }
+
   def addHomeData(data: HomeDataType): Unit = homeData += data
 
   def removeHomeData(uuid: UUID,point: Int): Unit = {

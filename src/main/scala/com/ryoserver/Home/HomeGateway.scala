@@ -16,4 +16,10 @@ class HomeGateway(uuid: UUID) {
     ))
   }
 
+  def toggleLock(point: Int): Unit = {
+    val targetData = HomeData.getTargetHomeData(uuid, point)
+    HomeData.removeHomeData(uuid,point)
+    HomeData.addHomeData(targetData.copy(isLocked = !targetData.isLocked))
+  }
+
 }
