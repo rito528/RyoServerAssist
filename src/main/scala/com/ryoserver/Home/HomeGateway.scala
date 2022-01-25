@@ -1,25 +1,27 @@
 package com.ryoserver.Home
 
 import org.bukkit.Location
+import org.bukkit.entity.Player
+import org.bukkit.ChatColor._
 
-import java.util.UUID
+class HomeGateway(p: Player) {
 
-class HomeGateway(uuid: UUID) {
+  private val uuid = p.getUniqueId
 
   def setHomePoint(point: Int,location: Location): Unit = {
-    HomeData.removeHomeData(uuid,point)
-    HomeData.addHomeData(HomeDataType(
+    HomeData.swapHomeData(uuid,point,HomeDataType(
       UUID = uuid,
       point = point,
       location = location,
       isLocked = false
     ))
+    p.sendMessage(s"${AQUA}ホーム${point}を設定しました。")
   }
 
   def toggleLock(point: Int): Unit = {
     val targetData = HomeData.getTargetHomeData(uuid, point)
-    HomeData.removeHomeData(uuid,point)
-    HomeData.addHomeData(targetData.copy(isLocked = !targetData.isLocked))
+    HomeData.swapHomeData(uuid, point, targetData.copy(isLocked = !targetData.isLocked))
+    p.sendMessage(s"${AQUA}ホーム${point}${if (targetData.isLocked) "のロックを解除しました。" else "をロックしました。"}")
   }
 
 }
