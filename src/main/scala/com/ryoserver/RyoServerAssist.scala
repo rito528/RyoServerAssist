@@ -88,7 +88,8 @@ class RyoServerAssist extends JavaPlugin {
       "ryoserverassist" -> new RyoServerAssistCommand(this),
       "security" -> new SecurityCommand(this),
       "skillPoint" -> new SkillPointCommand,
-      "vote" -> new VoteCommand
+      "vote" -> new VoteCommand,
+      "getgachaitem" -> new GetGachaItemCommand
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })

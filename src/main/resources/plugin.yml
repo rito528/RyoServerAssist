@@ -66,6 +66,9 @@ commands:
   vote:
     description: vote command.
     permission: ryoserverassist.vote
+  getGachaItem:
+    description: get gacha item command.
+    permission: ryoserverassist.gachaItem
 
 permissions:
   ryoserverassist.*:
@@ -91,6 +94,7 @@ permissions:
       - ryoserverassist.skillpoint
       - ryoserverassist.ryoserverassist
       - ryoserverassist.vote
+      - ryoserverassist.gachaItem
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -130,4 +134,6 @@ permissions:
   ryoserverassist.ryoserverassist:
     default: op
   ryoserverassist.vote:
+    default: op
+  ryoserverassist.gachaItem:
     default: op
