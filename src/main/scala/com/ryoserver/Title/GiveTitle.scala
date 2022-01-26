@@ -33,59 +33,43 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def continuousLogin(p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT consecutiveLoginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var continuousLoginDays = 0
-    if (rs.next()) continuousLoginDays = rs.getInt("consecutiveLoginDays")
+    val continuousLoginDays = p.getConsecutiveLoginDays
     TitleData.continuousLogin.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
-    sql.close()
   }
 
   def loginDays(p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT loginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var LoginDays = 0
-    if (rs.next()) LoginDays = rs.getInt("loginDays")
+    val LoginDays = p.getLoginNumber
     TitleData.loginDays.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
-    sql.close()
   }
 
   def questClearNumber(p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT questClearTimes FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var clearTimes = 0
-    if (rs.next()) clearTimes = rs.getInt("questClearTimes")
+    val clearTimes = p.getQuestClearTimes
     TitleData.questClearNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= clearTimes && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
-    sql.close()
   }
 
   def gachaPullNumber(p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT gachaPullNumber FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-    var pullNumber = 0
-    if (rs.next()) pullNumber = rs.getInt("gachaPullNumber")
+    val pullNumber = p.getGachaPullNumber
     TitleData.gachaNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= pullNumber && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
     })
-    sql.close()
   }
 
   def skillOpenNumber(p: Player): Unit = {
@@ -158,13 +142,8 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
     TitleData.continuousLoginAndQuestClearNumber.foreach(title => {
       val conditionLogin = titleConfig.getString(s"titles.$title.condition").split(",")(0).toInt
       val conditionQuest = titleConfig.getString(s"titles.$title.condition").split(",")(1).toInt
-      val sql = new SQL()
-      val loginRs = sql.executeQuery(s"SELECT consecutiveLoginDays FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-      val questRs = sql.executeQuery(s"SELECT questClearTimes FROM Players WHERE UUID='${p.getUniqueId.toString}'")
-      var login = 0
-      var quest = 0
-      if (loginRs.next()) login = loginRs.getInt("consecutiveLoginDays")
-      if (questRs.next()) quest = questRs.getInt("questClearTimes")
+      var login = p.getConsecutiveLoginDays
+      var quest = p.getQuestClearTimes
       if (conditionLogin <= login && conditionQuest <= quest) {
         if (data.openTitle(p, title)) {
           p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
