@@ -33,7 +33,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           .filterNot {
             data => data.uuid == p.getUniqueId && data.savingItemStack == is
           }
-        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, null, if (data.nonEmpty) data.head.amount else 0)
+        PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, null, if (data.nonEmpty) data.head.amount else 0)
         val playerData = PlayerData.playerData
           .filter(_.uuid == p.getUniqueId)
           .filter(_.savingItemStack == is)
@@ -47,7 +47,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           setItem.setItemMeta(meta)
           if (playerData.nonEmpty) {
             PlayerData.playerData = PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
-            PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
+            PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
           }
           setItemStackButton(MenuItemStack(getX(index),getY(index),setItem)
           .setLeftClickMotion(stackItem(_,slot - ((getLayOut(9, 5) + 1) * (page - 1))))

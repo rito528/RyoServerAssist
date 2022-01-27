@@ -36,11 +36,11 @@ class NeoStackGateway {
     val oldPlayerData =
       PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(itemStack))
     if (oldPlayerData.isEmpty) {
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, Item.getOneItemStack(itemStack), null, itemStack.getAmount)
+      PlayerData.playerData += NeoStackDataType(p.getUniqueId, Item.getOneItemStack(itemStack), null, itemStack.getAmount)
     } else {
       PlayerData.playerData =
         PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(itemStack))
-      PlayerData.playerData :+=
+      PlayerData.playerData +=
         NeoStackDataType(oldPlayerData.head.uuid, oldPlayerData.head.savingItemStack, oldPlayerData.head.displayItemStack, oldPlayerData.head.amount + itemStack.getAmount)
     }
     addChangedData(p, Item.getOneItemStack(itemStack))
@@ -78,7 +78,7 @@ class NeoStackGateway {
         .filterNot {
           data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(is)
         }
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, Item.getOneItemStack(is), null, playerData.head.amount - minusAmount)
+      PlayerData.playerData += NeoStackDataType(p.getUniqueId, Item.getOneItemStack(is), null, playerData.head.amount - minusAmount)
     }
     if (minusAmount != 0) {
       addChangedData(p, is)
@@ -114,7 +114,7 @@ class NeoStackGateway {
           .filterNot {
             data => data.uuid == p.getUniqueId && data.savingItemStack == is
           }
-        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, null, playerData.head.amount - minusAmount)
+        PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, null, playerData.head.amount - minusAmount)
         giveItem.setAmount(minusAmount)
       }
       p.getInventory.addItem(giveItem)

@@ -11,7 +11,7 @@ import scala.collection.mutable
 
 object PlayerData {
 
-  var playerData: List[NeoStackDataType] = List.empty
+  var playerData: Set[NeoStackDataType] = Set.empty
   var changedData: mutable.Map[UUID, Array[ItemStack]] = mutable.Map.empty // K - UUID V - Changed itemstack
 
   def autoSave(ryoServerAssist: RyoServerAssist): Unit = {
@@ -47,7 +47,7 @@ object PlayerData {
     })
     val gateway = new NeoStackGateway()
     gateway.getPlayerHasNeoStackItems(p).foreach(neoStackPlayerData => {
-      playerData :+= NeoStackDataType(p.getUniqueId, neoStackPlayerData.itemStack, null, neoStackPlayerData.amount)
+      playerData += NeoStackDataType(p.getUniqueId, neoStackPlayerData.itemStack, null, neoStackPlayerData.amount)
     })
   }
 
