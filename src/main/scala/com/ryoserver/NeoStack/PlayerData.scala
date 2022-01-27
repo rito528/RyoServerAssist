@@ -37,11 +37,11 @@ object PlayerData {
     sql.close()
   }
 
+  /*
+     プレイヤーデータが存在するか確認します。
+     これはサーバーが起動した際にのみ呼び出されます
+   */
   def loadNeoStackPlayerData(p: Player): Unit = {
-    /*
-     Player data exists check
-     The NeoStack data will be loaded the first time you join after startup
-     */
     playerData.foreach(data => {
       if (data.uuid == p.getUniqueId) return
     })
