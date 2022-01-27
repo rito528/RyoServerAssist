@@ -1,6 +1,6 @@
 package com.ryoserver.DataBase
 
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{ColumnData, SQL}
 
 class CreateTables {
 
@@ -26,47 +26,116 @@ class CreateTables {
   }
 
   private def firstJoinItems(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS firstJoinItems(id INT AUTO_INCREMENT,ItemStack TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("firstJoinItems",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("ItemStack","TEXT",null)
+    ))
   }
 
   private def quests(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Quests(id INT AUTO_INCREMENT,UUID TEXT,selectedQuest TEXT,remaining TEXT,bookmarks TEXT,PRIMARY KEY(id));")
+    sql.createTable("Quests",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("UUID","TEXT",null),
+      ColumnData("selectedQuest","TEXT",null),
+      ColumnData("remaining","TEXT",null),
+      ColumnData("bookmarks","TEXT",null)
+    ))
   }
 
   private def neoStackTables(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS StackData(id INT AUTO_INCREMENT,UUID TEXT,category TEXT,item TEXT,amount INT,PRIMARY KEY(`id`))")
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS StackList(id INT AUTO_INCREMENT,category TEXT,page INT,invItem TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("StackData",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("UUID","TEXT",null),
+      ColumnData("category","TEXT",null),
+      ColumnData("item","TEXT",null),
+      ColumnData("amount","INT",null)
+    ))
+    sql.createTable("StackList",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("category","TEXT",null),
+      ColumnData("page","INT",null),
+      ColumnData("invItem","TEXT",null),
+    ))
   }
 
   private def gachaItems(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS GachaItems(id INT AUTO_INCREMENT,Rarity INT,Material TEXT,PRIMARY KEY(`id`));")
+    sql.createTable("GachaItems",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("Rarity","INT",null),
+      ColumnData("Material","TEXT",null)
+    ))
   }
 
   private def distribution(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Distribution(id INT AUTO_INCREMENT,GachaPaperType TEXT,Count INT, PRIMARY KEY(id));")
+    sql.createTable("Distribution",List(
+      ColumnData("id","INT",null,isPrimaryKey = true),
+      ColumnData("GachaPaperType","TEXT",null),
+      ColumnData("Count","INT",null)
+    ))
   }
 
   private def homes(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS `Homes`(UUID TEXT,point INT,Location TEXT,Locked BOOLEAN);")
+    sql.createTable("Homes",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("point","INT",null),
+      ColumnData("Location","TEXT",null),
+      ColumnData("Locked","BOOLEAN",null)
+    ))
   }
 
   private def players(): Unit = {
-    //UUID=UUID,lastLogin=最終ログイン,loginDays=ログイン日数,consecutiveLoginDays=連続ログイン日数,lastDistributionReceived=最後に受け取った配布番号)
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Players(UUID Text,lastLogin DATETIME,lastLogout DATETIME,loginDays INT,consecutiveLoginDays INT," +
-      "lastDistributionReceived INT,EXP DOUBLE,Level INT,questClearTimes INT,gachaTickets INT,gachaPullNumber INT,SkillPoint INT," +
-      "SkillOpenPoint INT,OpenedSkills TEXT,OpenedTitles TEXT,SelectedTitle TEXT,autoStack BOOLEAN,VoteNumber INT);")
+    sql.createTable("Players",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("lastLogin","DATETIME",null),
+      ColumnData("lastLogout","DATETIME",null),
+      ColumnData("loginDays","INT",null),
+      ColumnData("consecutiveLoginDays","INT",null),
+      ColumnData("lastDistributionReceived","INT",null),
+      ColumnData("EXP","DOUBLE",null),
+      ColumnData("Level","INT",null),
+      ColumnData("questClearTimes","INT",null),
+      ColumnData("gachaTickets","INT",null),
+      ColumnData("gachaPullNumber","INT",null),
+      ColumnData("SkillPoint","Double",null),
+      ColumnData("SkillOpenPoint","INT",null),
+      ColumnData("OpenedSkills","TEXT",null),
+      ColumnData("SpecialSkillOpenPoint","INT","DEFAULT 0"),
+      ColumnData("OpenedSpecialSkills","TEXT",null),
+      ColumnData("OpenedTitles","TEXT",null),
+      ColumnData("SelectedTitle","TEXT",null),
+      ColumnData("EventTitles","TEXT",null),
+      ColumnData("autoStack","BOOLEAN",null),
+      ColumnData("VoteNumber","INT",null),
+      ColumnData("LastVote","DATETIME","DEFAULT \"2022-01-01 00:00:00\""),
+      ColumnData("ContinueVoteNumber","INT","DEFAULT 0"),
+      ColumnData("LastDailyQuest","DATETIME","DEFAULT \"2022-01-01 00:00:00\""),
+      ColumnData("Twitter","TEXT",null),
+      ColumnData("Discord","TEXT",null),
+      ColumnData("Word","TEXT",null)
+    ))
   }
 
   private def eventRankings(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS EventRankings(UUID TEXT, EventName TEXT, counter INT)")
+    sql.createTable("EventRankings",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("EventName","TEXT",null),
+      ColumnData("counter","INT",null)
+    ))
   }
 
   private def events(): Unit = {
-    sql.executeSQL(s"CREATE TABLE IF NOT EXISTS Events(EventName TEXT NOT NULL,counter INT, PRIMARY KEY(EventName(64)));")
+    sql.createTable("Events",List(
+      ColumnData("EventName","TEXT","NOT NULL",isPrimaryKey = true),
+      ColumnData("counter","INT",null),
+      ColumnData("GivenGachaTickets","INT","DEFAULT 0"),
+    ))
   }
 
   private def storage(): Unit = {
-    sql.executeSQL("CREATE TABLE IF NOT EXISTS Storage(UUID TEXT,invData TEXT);")
+    sql.createTable("Storage",List(
+      ColumnData("UUID","TEXT",null),
+      ColumnData("invData","TEXT",null)
+    ))
   }
 
 }
