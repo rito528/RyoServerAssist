@@ -1,7 +1,6 @@
 package com.ryoserver.OriginalItem
 
 import com.ryoserver.Gacha.GachaLoader
-import com.ryoserver.OriginalItem.OriginalItems.{itemList, metaList}
 import com.ryoserver.util.Item
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType, PrepareAnvilEvent}
 import org.bukkit.event.{Event, EventHandler, Listener}
