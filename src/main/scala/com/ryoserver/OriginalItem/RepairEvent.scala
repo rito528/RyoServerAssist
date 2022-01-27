@@ -1,6 +1,8 @@
 package com.ryoserver.OriginalItem
 
+import com.ryoserver.Gacha.GachaLoader
 import com.ryoserver.OriginalItem.OriginalItems.{itemList, metaList}
+import com.ryoserver.util.Item
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType, PrepareAnvilEvent}
 import org.bukkit.event.{Event, EventHandler, Listener}
 
@@ -10,7 +12,9 @@ class RepairEvent extends Listener {
   def repair(e: PrepareAnvilEvent): Unit = {
     val item = e.getInventory.getItem(0)
     if (item == null) return
-    if (itemList.contains(item) || metaList.contains(item.getItemMeta.getItemFlags)) e.getInventory.setRepairCost(100)
+    if (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item).orNull) ||
+    GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item).orNull))
+      e.getInventory.setRepairCost(100)
   }
 
   @EventHandler
