@@ -1,7 +1,6 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.Gacha.GachaItemChangeItems.items
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
@@ -42,7 +41,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
   private def changeItem(p: Player): Unit = {
     var changeAmount = 0
     inv.get.getContents.foreach(itemStack => {
-      if (itemStack != null && items.contains(itemStack)) {
+      if (itemStack != null && GachaLoader.specialItemList.contains(itemStack)) {
         changeAmount += RETE
       }
     })
@@ -52,7 +51,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       p.getWorld.dropItem(p.getLocation, item)
       p.sendMessage(s"${AQUA}特等アイテムを${changeAmount}個のスキル回復(大)と交換しました。")
       inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
-        if (items.contains(is)) inv.get.clear(index)
+        if (GachaLoader.specialItemList.contains(is)) inv.get.clear(index)
       }
       new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
     } else {
