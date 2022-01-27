@@ -23,8 +23,8 @@ class RepairEvent extends Listener {
       val item1 = e.getInventory.getItem(0)
       val item2 = e.getInventory.getItem(1)
       if (item1 == null && item2 == null) return
-      if (item1 != null && (itemList.contains(item1) || metaList.contains(item1.getItemMeta.getItemFlags)) ||
-        item2 != null && (itemList.contains(item2) || metaList.contains(item2.getItemMeta.getItemFlags))) {
+      if (item1 != null && (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item1).orNull) || GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item1).orNull)) ||
+        item2 != null && (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item2).orNull) || GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item2).orNull))) {
         e.setResult(Event.Result.DENY)
       }
     }
