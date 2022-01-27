@@ -1,6 +1,5 @@
 package com.ryoserver.NeoStack
 
-import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.entity.Player
