@@ -69,6 +69,9 @@ commands:
   getGachaItem:
     description: get gacha item command.
     permission: ryoserverassist.gachaItem
+  adminStorage:
+    description: open admin storage command.
+    permission: ryoserverassist.adminStorage
 
 permissions:
   ryoserverassist.*:
@@ -95,6 +98,7 @@ permissions:
       - ryoserverassist.ryoserverassist
       - ryoserverassist.vote
       - ryoserverassist.gachaItem
+      - ryoserverassist.adminStorage
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -136,4 +140,6 @@ permissions:
   ryoserverassist.vote:
     default: op
   ryoserverassist.gachaItem:
+    default: op
+  ryoserverassist.adminStorage:
     default: op

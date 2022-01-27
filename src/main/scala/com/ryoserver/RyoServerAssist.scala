@@ -1,5 +1,6 @@
 package com.ryoserver
 
+import com.ryoserver.AdminStorage.AdminStorageEvent
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
 import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
@@ -89,7 +90,8 @@ class RyoServerAssist extends JavaPlugin {
       "security" -> new SecurityCommand(this),
       "skillPoint" -> new SkillPointCommand,
       "vote" -> new VoteCommand,
-      "getgachaitem" -> new GetGachaItemCommand
+      "getgachaitem" -> new GetGachaItemCommand,
+      "adminStorage" -> new AdminStorageCommand
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -119,7 +121,8 @@ class RyoServerAssist extends JavaPlugin {
       new EventDeliveryMenu(this),
       new PlayEffect(this),
       new EditEvent,
-      new UseExpBottle
+      new UseExpBottle,
+      new AdminStorageEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
