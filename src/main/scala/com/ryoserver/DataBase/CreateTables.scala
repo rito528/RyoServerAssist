@@ -22,6 +22,7 @@ class CreateTables {
     events()
     eventRankings()
     storage()
+    adminStorage()
     sql.close()
   }
 
@@ -134,6 +135,12 @@ class CreateTables {
   private def storage(): Unit = {
     sql.createTable("Storage",List(
       ColumnData("UUID","TEXT",null),
+      ColumnData("invData","TEXT",null)
+    ))
+  }
+
+  private def adminStorage(): Unit = {
+    sql.createTable("AdminStorage",List(
       ColumnData("invData","TEXT",null)
     ))
   }
