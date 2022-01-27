@@ -1,5 +1,6 @@
 package com.ryoserver.NeoStack
 
+import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.PlayerData.changedData
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
@@ -8,14 +9,15 @@ import org.bukkit.inventory.ItemStack
 
 class NeoStackGateway {
 
-  def getPlayerHasNeoStackItems(p: Player): List[NeoStackPlayerItemData] = {
+  def getPlayerHasNeoStackItems(p: Player): Set[NeoStackPlayerItemData] = {
     val uuid = p.getUniqueId
     val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
     val item = Iterator.from(0).takeWhile(_ => rs.next())
       .map(_ =>
         NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
-      ).toList
+      ).toSet ++
+      itemList.map(itemStack => NeoStackPlayerItemData(itemStack,0)) //一つも持っていないアイテムを追加
     sql.close()
     item
   }
