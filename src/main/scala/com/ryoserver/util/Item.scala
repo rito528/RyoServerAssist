@@ -78,4 +78,15 @@ object Item {
     }
   }
 
+  def getNonDamageItem(item: ItemStack): Option[ItemStack] = {
+    val itemStack = item.clone()
+    if (itemStack != null && itemStack.getType.getMaxDurability != 0) {
+      val meta = itemStack.getItemMeta
+      val itemDamage = meta.asInstanceOf[Damageable].getDamage
+      meta.asInstanceOf[Damageable].setDamage(0)
+      item.setItemMeta(meta)
+    }
+    None
+  }
+
 }
