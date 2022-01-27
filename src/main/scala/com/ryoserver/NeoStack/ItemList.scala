@@ -10,6 +10,8 @@ object ItemList {
 
   var stackList: mutable.Map[ItemStack, String] = mutable.Map.empty
 
+  var itemList: Set[ItemStack] = Set.empty
+
   def loadItemList(ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("neoStackアイテムロード中...")
     val sql = new SQL()
