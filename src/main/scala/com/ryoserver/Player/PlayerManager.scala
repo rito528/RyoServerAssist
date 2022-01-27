@@ -26,6 +26,16 @@ object PlayerManager {
       }
     }
 
+    def getBeforeDiff: Option[Double] = {
+      val nowRanking = getRanking
+      if (nowRanking == 1) {
+        //1位だった場合は前の順位の人との差が存在しないためNoneを返す
+        None
+      } else {
+        Option(PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 1).exp - getQuestExp)
+      }
+    }
+
     def getLastDistributionReceived: Int = playerData.lastDistributionReceived
 
     def getSkillPoint: Double = playerData.skillPoint
