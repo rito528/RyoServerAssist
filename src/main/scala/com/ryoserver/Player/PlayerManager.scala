@@ -16,6 +16,16 @@ object PlayerManager {
 
     def getRanking: Int = PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
 
+    def getBehindDiff: Option[Double] = {
+      val nowRanking = getRanking
+      if (nowRanking == PlayerData.playerData.values.toSeq.length) {
+        //最下位だった場合は後ろの順位の人との差が存在しないためNoneを返す
+        None
+      } else {
+        Option(getQuestExp - PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 1).exp)
+      }
+    }
+
     def getLastDistributionReceived: Int = playerData.lastDistributionReceived
 
     def getSkillPoint: Double = playerData.skillPoint
