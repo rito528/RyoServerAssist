@@ -84,7 +84,8 @@ object Item {
       val meta = itemStack.getItemMeta
       val itemDamage = meta.asInstanceOf[Damageable].getDamage
       meta.asInstanceOf[Damageable].setDamage(0)
-      item.setItemMeta(meta)
+      itemStack.setItemMeta(meta)
+      return Option(itemStack)
     }
     None
   }
