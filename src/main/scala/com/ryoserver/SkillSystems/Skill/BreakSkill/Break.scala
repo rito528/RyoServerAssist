@@ -49,7 +49,6 @@ class Break {
               pointClone.getBlock.breakNaturally(handItem)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.x * breakRange.y)
-              new SkillPointConsumption().consumption(cost, p)
             }
           }
         }
