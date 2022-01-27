@@ -79,6 +79,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${WHITE}レベル: Lv.${p.getQuestLevel}",
       s"${WHITE}EXP: ${Format.threeCommaFormat(p.getQuestExp)}",
       s"${WHITE}ランキング: ${p.getRanking}位",
+      s"${WHITE}前の順位のプレイヤーとの差:${Format.threeCommaFormat(p.getBeforeExpDiff.getOrElse(0))}",
+      s"${WHITE}後ろの順位のプレイヤーとの差:${Format.threeCommaFormat(p.getBehindExpDiff.getOrElse(0))}",
       s"${WHITE}クエストクリア回数: ${p.getQuestClearTimes}回",
       s"${WHITE}ガチャを引いた回数: ${p.getGachaPullNumber}回",
       s"${WHITE}ログイン日数: ${p.getLoginNumber}日",

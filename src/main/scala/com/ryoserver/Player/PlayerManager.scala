@@ -22,7 +22,7 @@ object PlayerManager {
         //最下位だった場合は後ろの順位の人との差が存在しないためNoneを返す
         None
       } else {
-        Option(getQuestExp - PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 1).exp)
+        Option(getQuestExp - PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking).exp)
       }
     }
 
@@ -32,7 +32,7 @@ object PlayerManager {
         //1位だった場合は前の順位の人との差が存在しないためNoneを返す
         None
       } else {
-        Option(PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 1).exp - getQuestExp)
+        Option(PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 2).exp - getQuestExp)
       }
     }
 
