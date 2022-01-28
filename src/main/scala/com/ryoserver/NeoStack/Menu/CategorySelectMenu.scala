@@ -7,6 +7,8 @@ import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Material, Sound}
 
 class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
@@ -40,6 +42,9 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           s"${GRAY}現在の状態:${if (p.isAutoStack) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
       .setLeftClickMotion(toggleStack)
       .setReload())
+      setButton(MenuButton(7,5,Material.CHEST_MINECART,s"${GREEN}一番下のスロット以外のアイテムをneoStackに収納します。",
+        List("クリックで収納します。"))
+      .setLeftClickMotion(topInventoryStack))
       setButton(MenuButton(8,5,Material.CHEST,s"${GREEN}アイテムを選んでneoStackに収納します。",List(s"${GRAY}クリックで収納します。"))
       .setLeftClickMotion(openSelectStackMenu))
       setButton(MenuButton(9, 5, Material.CHEST_MINECART, s"${GREEN}インベントリ内のアイテムをneoStackに収納します。", List(s"${GRAY}クリックで収納します。"))
@@ -68,6 +73,19 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def openSelectStackMenu(p: Player): Unit = {
     new SelectStackMenu().openSelectStackMenu(p)
+  }
+
+  private def topInventoryStack(p: Player): Unit = {
+    val data = new NeoStackGateway()
+    p.getInventory.getContents.zipWithIndex.foreach{case (item,index) =>
+      if (item != null && index >= 9 && index <= 35) {
+        if (new NeoStackGateway().checkItemList(item)) {
+          data.addStack(item, p)
+          p.getInventory.clear(index)
+        }
+      }
+    }
+    p.sendMessage(s"${AQUA}インベントリ内の上部のアイテムをすべてneoStackに収納しました。")
   }
 
   private def allStack(p: Player): Unit = {
