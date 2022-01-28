@@ -23,7 +23,11 @@ class LoadNeoStackPage(ryoServerAssist: RyoServerAssist) {
       } else {
         stackPageData(category) += (page -> invItems)
       }
-      invItems.split(";").foreach(itemStack => itemList += Item.getOneItemStack(Item.getItemStackFromString(itemStack)))
+      invItems.split(";").foreach(itemStack => {
+        if (Item.getItemStackFromString(itemStack) != null) {
+          itemList += Item.getOneItemStack(Item.getItemStackFromString(itemStack))
+        }
+      })
     }
     sql.close()
     ryoServerAssist.getLogger.info("neoStackページのロードが完了しました。")
