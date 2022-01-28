@@ -40,7 +40,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           s"${GRAY}現在の状態:${if (p.isAutoStack) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
       .setLeftClickMotion(toggleStack)
       .setReload())
-      setButton(MenuButton(9, 5, Material.CHEST_MINECART, s"${GREEN}インベントリ内のアイテムをstackに収納します。", List(s"${GRAY}クリックで収納します。"))
+      setButton(MenuButton(9, 5, Material.CHEST_MINECART, s"${GREEN}インベントリ内のアイテムをneoStackに収納します。", List(s"${GRAY}クリックで収納します。"))
       .setLeftClickMotion(allStack))
       build(new CategorySelectMenu(ryoServerAssist).openCategorySelectMenu)
       open()
