@@ -14,6 +14,10 @@ class SQL {
   private var rs: ResultSet = _
   private var ps: PreparedStatement = _
 
+  def getConnection: Connection = {
+    con
+  }
+
   def connectionTest(): Boolean = {
     try {
       Class.forName(this.driver)
