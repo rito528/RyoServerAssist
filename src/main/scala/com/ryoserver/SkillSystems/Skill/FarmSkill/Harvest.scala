@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
+import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
@@ -27,6 +28,7 @@ class Harvest {
   def harvest(p: Player, skillName: String, brokeBlock: Block, spCost: Int, range: FarmRange): Unit = {
     if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val facing = p.getFacing.toString
+    val neoStackGateway = new NeoStackGateway
     val worldGuardWrapper = new WorldGuardWrapper
     val coreProtectAPI = CoreProtect.getInstance().getAPI
     if (facing == "SOUTH") {
@@ -38,7 +40,14 @@ class Harvest {
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
-              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              farmItemLoc.getBlock.setType(Material.AIR)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -54,7 +63,14 @@ class Harvest {
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
-              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              farmItemLoc.getBlock.setType(Material.AIR)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -70,7 +86,14 @@ class Harvest {
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
-              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              farmItemLoc.getBlock.setType(Material.AIR)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -86,7 +109,14 @@ class Harvest {
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
-              farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
+              farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              farmItemLoc.getBlock.setType(Material.AIR)
               cost += spCost / (range.width * range.height)
             }
           }
