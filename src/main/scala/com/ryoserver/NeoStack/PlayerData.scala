@@ -11,7 +11,7 @@ import scala.collection.mutable
 
 object PlayerData {
 
-  var playerData: List[NeoStackDataType] = List.empty
+  var playerData: Set[NeoStackDataType] = Set.empty
   var changedData: mutable.Map[UUID, Array[ItemStack]] = mutable.Map.empty // K - UUID V - Changed itemstack
 
   def autoSave(ryoServerAssist: RyoServerAssist): Unit = {
@@ -24,30 +24,31 @@ object PlayerData {
 
   def save(): Unit = {
     val sql = new SQL()
-    changedData.foreach { case (uuid, array) =>
-      array.foreach { itemStack =>
-        val data = playerData.filter(playerdata => playerdata.uuid == uuid && playerdata.savingItemStack == itemStack)
-        if (data.nonEmpty) {
-          val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
-          if (check.next()) sql.purseFolder(s"UPDATE StackData SET amount=${data.head.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.head.savingItemStack))
-          else sql.purseFolder(s"INSERT INTO StackData (UUID,item,amount) VALUES ('$uuid',?,${data.head.amount})", Item.getStringFromItemStack(data.head.savingItemStack))
+    playerData.map(pData => pData.uuid).intersect(changedData.keySet).foreach(uuid =>{
+      playerData.map(pData => pData.savingItemStack).intersect(changedData(uuid).toSet).foreach(is => {
+        val data = playerData.filter(pData => pData.uuid == uuid && pData.savingItemStack == is).head
+        val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
+        if (!check.next()) {
+          sql.purseFolder(s"INSERT INTO StackData (UUID,item,amount) VALUES ('$uuid',?,${data.amount})", Item.getStringFromItemStack(data.savingItemStack))
+        } else {
+          sql.purseFolder(s"UPDATE StackData SET amount=${data.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
         }
-      }
-    }
+      })
+    })
     sql.close()
   }
 
+  /*
+     NeoStackのプレイヤーデータをロードします。
+     これはプレイヤーが参加した際に一度だけ呼び出されます
+   */
   def loadNeoStackPlayerData(p: Player): Unit = {
-    /*
-     Player data exists check
-     The NeoStack data will be loaded the first time you join after startup
-     */
     playerData.foreach(data => {
       if (data.uuid == p.getUniqueId) return
     })
     val gateway = new NeoStackGateway()
     gateway.getPlayerHasNeoStackItems(p).foreach(neoStackPlayerData => {
-      playerData :+= NeoStackDataType(p.getUniqueId, neoStackPlayerData.itemStack, null, neoStackPlayerData.amount)
+      playerData += NeoStackDataType(p.getUniqueId, Item.getOneItemStack(neoStackPlayerData.itemStack), null, neoStackPlayerData.amount)
     })
   }
 
