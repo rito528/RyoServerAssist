@@ -3,6 +3,7 @@ package com.ryoserver.SkillSystems.Skill.FarmSkill
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
+import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.getAutoPlaceSeedsStatus
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.WorldGuardWrapper
 import net.coreprotect.CoreProtect
@@ -18,6 +19,7 @@ class Harvest {
     "world_the_end",
     "trade"
   )
+
   private val farmItem = Set(
     Material.WHEAT,
     Material.CARROTS,
@@ -47,8 +49,12 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
-              cost += spCost / (range.width * range.height)
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+                farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                cost += 1
+              } else {
+                farmItemLoc.getBlock.setType(Material.AIR)
+              }
             }
           }
         }
@@ -70,8 +76,12 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
-              cost += spCost / (range.width * range.height)
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+                farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                cost += 1
+              } else {
+                farmItemLoc.getBlock.setType(Material.AIR)
+              }
             }
           }
         }
@@ -93,8 +103,12 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
-              cost += spCost / (range.width * range.height)
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+                farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                cost += 1
+              } else {
+                farmItemLoc.getBlock.setType(Material.AIR)
+              }
             }
           }
         }
@@ -116,7 +130,12 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+                farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                cost += 1
+              } else {
+                farmItemLoc.getBlock.setType(Material.AIR)
+              }
               cost += spCost / (range.width * range.height)
             }
           }

@@ -4,10 +4,12 @@ import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
-import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.{isSkillOpened, skillToggle}
+import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.{getAutoPlaceSeedsStatus, isSkillOpened, skillToggle, toggleDisablingPlaceSeedsPlayer}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
+
+import scala.annotation.tailrec
 
 class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -45,6 +47,12 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     .setLeftClickMotion(backPage))
     setSkull(MenuSkull(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + p.getSpecialSkillOpenPoint))
     .setLeftClickMotion(clear))
+    setButton(MenuButton(9, 6, Material.WHEAT_SEEDS,s"${GREEN}自動種植え機能を有効にします。",List(
+      s"${GRAY}現在の状態: ${getAutoSeedsPlaceStatus(p)}",
+      s"${GRAY}収穫スキルを利用した際に有効になります。"
+    ))
+    .setLeftClickMotion(toggleSeedsAutoPlace)
+    .setReload())
     build(new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu)
     open()
   }
@@ -54,6 +62,18 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       openedIcon
     } else {
       Material.BEDROCK
+    }
+  }
+
+  private def toggleSeedsAutoPlace(p: Player): Unit = {
+    toggleDisablingPlaceSeedsPlayer(p.getUniqueId)
+  }
+
+  private def getAutoSeedsPlaceStatus(p: Player): String = {
+    if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+      "有効"
+    } else {
+      "無効"
     }
   }
 
@@ -85,6 +105,8 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   private def getHarvestSkillLore(skillName: String, range: String, skillPoint: Int): List[String] = {
     List(s"$GRAY${range}の範囲の作物を収穫します。"
       , s"${GRAY}消費スキルポイント:$skillPoint"
+      , s"${GRAY}種植え機能を利用した場合は収穫したブロック分だけ"
+      , s"${GRAY}スキルポイントを追加で消費します。"
       , s"$GRAY ${if (isSkillOpened(p, skillName)) "クリックで選択します。" else "クリックで開放します。"}"
       , s"${if (!isSkillOpened(p, skillName)) s"$GRAY[解放条件]" else ""}"
       , s"${if (!isSkillOpened(p, skillName)) s"$GRAY・特殊スキル解放ポイントを10ポイント消費" else ""}"
