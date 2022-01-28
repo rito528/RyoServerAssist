@@ -18,6 +18,7 @@ class Harvest {
     "world_the_end",
     "trade"
   )
+
   private val farmItem = Set(
     Material.WHEAT,
     Material.CARROTS,
@@ -47,7 +48,8 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
+              val oldBlock = farmItemLoc.getBlock.getType
+              farmItemLoc.getBlock.setType(oldBlock)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -70,7 +72,8 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
+              val oldBlock = farmItemLoc.getBlock.getType
+              farmItemLoc.getBlock.setType(oldBlock)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -93,7 +96,8 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
+              val oldBlock = farmItemLoc.getBlock.getType
+              farmItemLoc.getBlock.setType(oldBlock)
               cost += spCost / (range.width * range.height)
             }
           }
@@ -116,7 +120,8 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              farmItemLoc.getBlock.setType(Material.AIR)
+              val oldBlock = farmItemLoc.getBlock.getType
+              farmItemLoc.getBlock.setType(oldBlock)
               cost += spCost / (range.width * range.height)
             }
           }
