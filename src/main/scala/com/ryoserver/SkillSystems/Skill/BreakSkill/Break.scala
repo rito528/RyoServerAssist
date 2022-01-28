@@ -52,7 +52,13 @@ class Break {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
               pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
-                neoStackGateway.addStack(itemStack, p)
+                pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
+                  if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                    neoStackGateway.addStack(itemStack, p)
+                  } else {
+                    p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  }
+                })
               })
               pointClone.getBlock.setType(Material.AIR)
               itemAddDamage(p, handItem)
@@ -77,7 +83,11 @@ class Break {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
               coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
               pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
-                neoStackGateway.addStack(itemStack, p)
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
               })
               pointClone.getBlock.setType(Material.AIR)
               itemAddDamage(p, handItem)
