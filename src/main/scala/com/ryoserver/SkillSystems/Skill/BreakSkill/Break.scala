@@ -5,6 +5,7 @@ import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.Item.itemAddDamage
 import com.ryoserver.util.WorldGuardWrapper
+import net.coreprotect.CoreProtect
 import org.bukkit.entity.Player
 import org.bukkit.{Location, Material}
 
@@ -33,6 +34,7 @@ class Break {
     val direction = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
     val handItem = p.getInventory.getItemInMainHand
+    val coreProtectAPI = CoreProtect.getInstance().getAPI
     if (direction == "NORTH" || direction == "SOUTH") {
       val breakPoint = {
         if (p.getLocation.getY < breakBlockLocation.getY) breakBlockLocation.add(-(breakRange.x / 2), -(breakRange.y / 2), 0)
@@ -46,6 +48,7 @@ class Break {
           pointClone.add(x, y, 0)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
               pointClone.getBlock.breakNaturally(handItem)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.x * breakRange.y)
@@ -67,6 +70,7 @@ class Break {
           pointClone.add(0, y, z)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
               pointClone.getBlock.breakNaturally(handItem)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.z * breakRange.y)
