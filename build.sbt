@@ -17,6 +17,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 resolvers += Resolver.jcenterRepo
 resolvers += Resolver.mavenLocal
 resolvers += "repo.phoenix616.dev" at "https://repo.phoenix616.dev"
+resolvers += "playpro-repo" at "https://maven.playpro.com"
 
 libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
 libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.27"
@@ -30,6 +31,7 @@ libraryDependencies += "com.beachape" %% "enumeratum" % "1.7.0"
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.13.1"
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.1"
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.1"
+libraryDependencies += "net.coreprotect" % "coreprotect" % "20.4" % "provided"
 
 assembly / assemblyMergeStrategy := {
   case PathList("javax", "servlet", _*) => MergeStrategy.first
