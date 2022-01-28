@@ -50,6 +50,7 @@ class Harvest {
               })
               val oldBlock = farmItemLoc.getBlock.getType
               farmItemLoc.getBlock.setType(oldBlock)
+              cost += 1
               cost += spCost / (range.width * range.height)
             }
           }
@@ -74,6 +75,7 @@ class Harvest {
               })
               val oldBlock = farmItemLoc.getBlock.getType
               farmItemLoc.getBlock.setType(oldBlock)
+              cost += 1
               cost += spCost / (range.width * range.height)
             }
           }
@@ -98,6 +100,7 @@ class Harvest {
               })
               val oldBlock = farmItemLoc.getBlock.getType
               farmItemLoc.getBlock.setType(oldBlock)
+              cost += 1
               cost += spCost / (range.width * range.height)
             }
           }
@@ -122,6 +125,7 @@ class Harvest {
               })
               val oldBlock = farmItemLoc.getBlock.getType
               farmItemLoc.getBlock.setType(oldBlock)
+              cost += 1
               cost += spCost / (range.width * range.height)
             }
           }
