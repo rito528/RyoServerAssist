@@ -12,7 +12,7 @@ import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
-import com.ryoserver.NeoStack.Menu.SelectStackMenu
+import com.ryoserver.NeoStack.Menu.{CategorySelectMenu, SelectStackMenu}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
@@ -124,7 +124,7 @@ class RyoServerAssist extends JavaPlugin {
       new EditEvent,
       new UseExpBottle,
       new AdminStorageEvent,
-      new SelectStackMenu
+      new SelectStackMenu,
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
