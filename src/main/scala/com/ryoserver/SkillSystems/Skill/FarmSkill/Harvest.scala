@@ -4,6 +4,7 @@ import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.WorldGuardWrapper
+import net.coreprotect.CoreProtect
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -27,6 +28,7 @@ class Harvest {
     if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val facing = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
+    val coreProtectAPI = CoreProtect.getInstance().getAPI
     if (facing == "SOUTH") {
       val minusXLoc = brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
       var cost = 0
@@ -35,6 +37,7 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
@@ -50,6 +53,7 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, -z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
@@ -65,6 +69,7 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(-x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
@@ -80,6 +85,7 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
+              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.breakNaturally(p.getInventory.getItemInMainHand)
               cost += spCost / (range.width * range.height)
             }
