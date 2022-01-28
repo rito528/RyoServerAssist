@@ -42,6 +42,7 @@ class SelectStackMenu extends Menu with Listener {
   @EventHandler
   def closeEvent(e: InventoryCloseEvent): Unit = {
     if (e.getPlayer.getOpenInventory.getTitle != "ネオスタック選択収納") return
+    val p = e.getPlayer
     val inv = e.getInventory
     inv.clear(getLayOut(5,6))
     var isDropped = false
