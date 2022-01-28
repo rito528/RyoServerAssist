@@ -13,7 +13,8 @@ class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     Map(
       "send" -> send,
       "accept" -> accept,
-      "cancel" -> cancel
+      "cancel" -> cancel,
+      "autoCancel" -> autoCancel
     )
   ).playerCommand()
 
@@ -32,6 +33,16 @@ class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def cancel(): Unit = {
     Tpa.cancelTpa(sender.asInstanceOf[Player])
+  }
+
+  private def autoCancel(): Unit = {
+    if (Tpa.cancelingTpa.contains(sender.getName)) {
+      Tpa.cancelingTpa = Tpa.cancelingTpa.filterNot(_ == sender.getName)
+      sender.sendMessage(s"${AQUA}autoCancelを無効にしました。")
+    } else {
+      Tpa.cancelingTpa += sender.getName
+      sender.sendMessage(s"${AQUA}autoCancelを有効にしました。")
+    }
   }
 
 }
