@@ -11,6 +11,7 @@ import scala.collection.mutable
 object Tpa {
 
   var tpaList: mutable.Map[String, String] = mutable.Map.empty[String, String]
+  var cancelingTpa: Set[String] = Set.empty
 
   def sendTpa(sendPlayer: Player, targetPlayer: Player, ryoServerAssist: RyoServerAssist): Unit = {
     if (tpaList.contains(targetPlayer.getName)) {
@@ -19,6 +20,10 @@ object Tpa {
     }
     if (tpaList.values.exists(_ == sendPlayer.getName)) {
       sendPlayer.sendMessage(s"${RED}あなたは既にtpaを送信しているため、tpaを送信できませんでした。")
+      return
+    }
+    if (cancelingTpa.contains(targetPlayer.getName)) {
+      sendPlayer.sendMessage(s"${RED}tpaを送信したプレイヤーはtpaを拒否に設定しているため、tpaを送信できませんでした。")
       return
     }
     tpaList += (targetPlayer.getName -> sendPlayer.getName)
