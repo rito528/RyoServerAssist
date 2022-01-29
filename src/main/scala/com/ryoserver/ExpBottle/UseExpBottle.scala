@@ -1,5 +1,6 @@
 package com.ryoserver.ExpBottle
 
+import org.bukkit.entity.ExperienceOrb
 import org.bukkit.{Effect, Material, Sound}
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
@@ -17,7 +18,7 @@ class UseExpBottle extends Listener {
       val expBottleCount = p.getInventory.getItemInMainHand.getAmount
       for (_ <- 0 until expBottleCount) {
         p.getWorld.playEffect(p.getLocation, Effect.POTION_BREAK, 1)
-        p.giveExp(3 + new SecureRandom().nextInt(8))
+        p.getWorld.spawn(p.getLocation,classOf[ExperienceOrb]).setExperience(3 + new SecureRandom().nextInt(8))
       }
       p.getInventory.setItemInMainHand(null)
     }
