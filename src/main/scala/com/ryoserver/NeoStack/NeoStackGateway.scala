@@ -16,10 +16,13 @@ class NeoStackGateway {
     val item = Iterator.from(0).takeWhile(_ => rs.next())
       .map(_ =>
         NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
-      ).toSet ++
-      itemList.map(itemStack => NeoStackPlayerItemData(itemStack,0)) //一つも持っていないアイテムを追加
+      ).toSet
+    val allItems = itemList.map(itemStack =>
+      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack),0)
+        else null)
+      .filterNot(_ == null)
     sql.close()
-    item
+    item ++ allItems
   }
 
   def editItemList(category: String, page: Int, invContents: String): Unit = {
