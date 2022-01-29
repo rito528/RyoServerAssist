@@ -1,6 +1,7 @@
 package com.ryoserver.OriginalItem
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Item
 import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.potion.{PotionEffect, PotionEffectType}
@@ -13,7 +14,7 @@ class PlayEffect(ryoServerAssist: RyoServerAssist) extends Listener {
     new BukkitRunnable {
       override def run(): Unit = {
         val p = e.getPlayer
-        if (p.getInventory.getItemInOffHand == OriginalItems.yuusyanotate || p.getInventory.getItemInMainHand == OriginalItems.yuusyanotate) {
+        if (Item.getNonDamageItem(p.getInventory.getItemInOffHand).orNull == OriginalItems.yuusyanotate || Item.getNonDamageItem(p.getInventory.getItemInMainHand).orNull == OriginalItems.yuusyanotate) {
           new BukkitRunnable {
             override def run(): Unit = {
               p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20, 1))
