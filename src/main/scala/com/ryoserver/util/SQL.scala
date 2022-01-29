@@ -10,15 +10,14 @@ class SQL {
   private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
   private val USER = getConfig.user
   private val PASS = getConfig.pw
-  private var con: Connection = _
+  Class.forName(this.driver)
+  var con: Connection = DriverManager.getConnection(this.URL, this.USER, this.PASS)
   private var rs: ResultSet = _
   private var ps: PreparedStatement = _
 
   def connectionTest(): Boolean = {
     try {
       Class.forName(this.driver)
-      this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
-      this.con.setAutoCommit(false)
       true
     } catch {
       case _: Exception => false
@@ -26,9 +25,6 @@ class SQL {
   }
 
   def executeQuery(query: String): ResultSet = {
-    Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
-    this.con.setAutoCommit(false)
     this.ps = this.con.prepareStatement(query)
     this.rs = this.ps.executeQuery()
     rs
@@ -36,8 +32,6 @@ class SQL {
 
   def executeQueryPurseFolder(query: String, purseFolder: String): ResultSet = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
-    this.con.setAutoCommit(false)
     this.ps = this.con.prepareStatement(query)
     ps.setString(1, purseFolder)
     this.rs = this.ps.executeQuery()
@@ -46,8 +40,6 @@ class SQL {
 
   def executeSQL(sql: String): Unit = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
-    this.con.setAutoCommit(false)
     this.ps = this.con.prepareStatement(sql)
     this.ps.executeUpdate()
   }
@@ -93,7 +85,6 @@ class SQL {
 
   def purseFolder(sql: String, quote: String): Unit = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
     this.ps = this.con.prepareStatement(sql)
     ps.setString(1, quote)
     if (sql.split('?').length == 3) ps.setString(2, quote)
@@ -101,11 +92,7 @@ class SQL {
   }
 
   def close(): Unit = {
-    if (this.con != null) {
-      this.con.commit()
-      this.con.setAutoCommit(true)
-      this.con.close()
-    }
+    if (this.con != null) this.con.close()
     if (this.ps != null) this.ps.close()
     if (this.rs != null) this.rs.close()
   }
