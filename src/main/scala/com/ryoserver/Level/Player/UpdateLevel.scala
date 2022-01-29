@@ -52,7 +52,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     //イベントボーナス分増量
     if (EventDataProvider.ratio != 1.0) {
       p.sendMessage(s"${AQUA}イベントボーナス発生！")
-      p.sendMessage(s"経験値が${EventDataProvider.ratio}倍になりました。")
+      p.sendMessage(s"${AQUA}経験値が${EventDataProvider.ratio}倍になりました。")
       val oldExp = exp
       exp *= EventDataProvider.ratio
       p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
