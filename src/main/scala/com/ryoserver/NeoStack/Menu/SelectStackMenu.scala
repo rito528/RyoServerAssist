@@ -32,7 +32,7 @@ class SelectStackMenu extends Menu with Listener {
       if (item != null) {
         if (neoStackGateway.checkItemList(item)) {
           neoStackGateway.addStack(item, p)
-          p.getInventory.removeItem(item)
+          p.getOpenInventory.getTopInventory.removeItem(item)
         }
       }
     })
