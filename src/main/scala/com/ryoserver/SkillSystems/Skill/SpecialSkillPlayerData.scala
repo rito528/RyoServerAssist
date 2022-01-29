@@ -5,11 +5,29 @@ import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
+import java.util.UUID
 import scala.collection.mutable
 
 object SpecialSkillPlayerData {
 
   private var selectedBreakSkill: mutable.Map[Player, String] = mutable.Map()
+
+  private var disablingPlaceSeedsPlayer: Set[UUID] = Set.empty
+
+  def toggleDisablingPlaceSeedsPlayer(uuid: UUID): Boolean = {
+    if (disablingPlaceSeedsPlayer.contains(uuid)) {
+      disablingPlaceSeedsPlayer = disablingPlaceSeedsPlayer
+        .filterNot(_ == uuid)
+      true
+    } else {
+      disablingPlaceSeedsPlayer += uuid
+      false
+    }
+  }
+
+  def getAutoPlaceSeedsStatus(uuid: UUID): Boolean = {
+    !disablingPlaceSeedsPlayer.contains(uuid)
+  }
 
   def skillToggle(p: Player, skillName: String): Unit = {
     if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && p.getSpecialSkillOpenPoint >= 10) {

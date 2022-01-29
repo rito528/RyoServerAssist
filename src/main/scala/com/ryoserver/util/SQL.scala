@@ -10,15 +10,14 @@ class SQL {
   private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
   private val USER = getConfig.user
   private val PASS = getConfig.pw
-  private var con: Connection = _
+  Class.forName(this.driver)
+  var con: Connection = DriverManager.getConnection(this.URL, this.USER, this.PASS)
   private var rs: ResultSet = _
   private var ps: PreparedStatement = _
 
   def connectionTest(): Boolean = {
     try {
       Class.forName(this.driver)
-      this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
-      this.con.close()
       true
     } catch {
       case _: Exception => false
@@ -26,8 +25,6 @@ class SQL {
   }
 
   def executeQuery(query: String): ResultSet = {
-    Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
     this.ps = this.con.prepareStatement(query)
     this.rs = this.ps.executeQuery()
     rs
@@ -35,7 +32,6 @@ class SQL {
 
   def executeQueryPurseFolder(query: String, purseFolder: String): ResultSet = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
     this.ps = this.con.prepareStatement(query)
     ps.setString(1, purseFolder)
     this.rs = this.ps.executeQuery()
@@ -44,11 +40,8 @@ class SQL {
 
   def executeSQL(sql: String): Unit = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
     this.ps = this.con.prepareStatement(sql)
     this.ps.executeUpdate()
-    this.ps.close()
-    this.con.close()
   }
 
   def createTable(tableName: String,columnData: List[ColumnData]): Unit = {
@@ -57,28 +50,21 @@ class SQL {
     if (rs.next()) {
       //カラムが存在するので不足しているカラムがないか確認
       columnData.zipWithIndex.foreach{case (data,index) => {
-//        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
-//        if (!checkColumn.next()) {
-//          //カラムが存在しない
-//          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
-//        } else if (data.dataType.toLowerCase() != "boolean" && !checkColumn.getString("Type").contains(data.dataType.toLowerCase())) {
-//          //カラムが存在するけど型が違うので変更する
-//          println(s"type:${tableName}:${data.columnName}")
-//          println(checkColumn.getString("Type"))
-//          println(data.dataType)
-//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
-//        } else if (data.dataType.toLowerCase == "boolean" && !checkColumn.getString("Type").contains("tinyint")) {
-//          println(s"type2:${tableName}:${data.columnName}")
-//          println(checkColumn.getString("Type"))
-//          println(data.dataType)
-//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
-//        } else if (data.dataType.toLowerCase == "int" && !checkColumn.getString("Type").contains("tinyint") &&
-//          !checkColumn.getString("Type").contains(data.dataType.toLowerCase())) {
-//          println(s"type3:${tableName}:${data.columnName}")
-//          println(checkColumn.getString("Type"))
-//          println(data.dataType)
-//          executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
-//        }
+        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
+        if (!checkColumn.next()) {
+          //カラムが存在しない
+          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
+        } else {
+          //カラムが存在するけど型が違うので変更する
+          val sqlDataType = if (checkColumn.getString("Type").contains("tinyint")) {
+            "boolean"
+          } else {
+            checkColumn.getString("Type")
+          }
+          if (!sqlDataType.toLowerCase.contains(data.dataType.toLowerCase)) {
+            executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+          }
+        }
       }
       }
     } else {
@@ -99,13 +85,10 @@ class SQL {
 
   def purseFolder(sql: String, quote: String): Unit = {
     Class.forName(this.driver)
-    this.con = DriverManager.getConnection(this.URL, this.USER, this.PASS)
     this.ps = this.con.prepareStatement(sql)
     ps.setString(1, quote)
     if (sql.split('?').length == 3) ps.setString(2, quote)
     this.ps.executeUpdate()
-    this.ps.close()
-    this.con.close()
   }
 
   def close(): Unit = {

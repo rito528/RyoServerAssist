@@ -1,15 +1,18 @@
 package com.ryoserver
 
+import com.ryoserver.AdminStorage.AdminStorageEvent
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
 import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
+import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
-import com.ryoserver.Gacha.{Gacha, GachaAddItemInventoryEvent, GachaItemChangeGUI, GachaLoader}
-import com.ryoserver.Home.Home
+import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
+import com.ryoserver.Home.HomeData
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
+import com.ryoserver.NeoStack.Menu.{CategorySelectMenu, SelectStackMenu}
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
@@ -50,6 +53,7 @@ class RyoServerAssist extends JavaPlugin {
     if (!sql.connectionTest()) {
       getLogger.severe("MySQLに接続できませんでした！")
       getLogger.severe("サーバを終了します...")
+      sql.close()
       Bukkit.shutdown()
       return
     }
@@ -69,8 +73,8 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand(this),
-      "gacha" -> new GachaCommand(),
+      "home" -> new HomeCommand(),
+      "gacha" -> new GachaCommand(this),
       "distribution" -> new DistributionCommand(),
       "menu" -> new MenuCommand(this),
       "stick" -> new StickCommand,
@@ -87,7 +91,9 @@ class RyoServerAssist extends JavaPlugin {
       "ryoserverassist" -> new RyoServerAssistCommand(this),
       "security" -> new SecurityCommand(this),
       "skillPoint" -> new SkillPointCommand,
-      "vote" -> new VoteCommand
+      "vote" -> new VoteCommand,
+      "getgachaitem" -> new GetGachaItemCommand,
+      "adminStorage" -> new AdminStorageCommand
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -96,7 +102,6 @@ class RyoServerAssist extends JavaPlugin {
       Bukkitイベントの登録
      */
     List(
-      new Home(this),
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),
@@ -105,7 +110,6 @@ class RyoServerAssist extends JavaPlugin {
       new SuppressionEvent(this),
       new Notification,
       new RecoverySkillPointEvent,
-      new GachaAddItemInventoryEvent(this),
       new DustBoxInventoryEvent,
       new FirstJoinSettingEvent(),
       new ElevatorEvent,
@@ -118,7 +122,10 @@ class RyoServerAssist extends JavaPlugin {
       new MenuHandler(this),
       new EventDeliveryMenu(this),
       new PlayEffect(this),
-      new EditEvent
+      new EditEvent,
+      new UseExpBottle,
+      new AdminStorageEvent,
+      new SelectStackMenu,
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
@@ -160,6 +167,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).loadBeforeEvents()
     new LoadDistribution().load()
     Translate.loadLangFile()
+    HomeData.loadHomeData()
 
 
     /*
@@ -170,6 +178,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway(this).autoSaveEvent()
     new SaveDistribution(this).autoSave()
     PlayerQuestData.autoSave(this)
+    HomeData.saveHomeData(this)
 
     /*
       ワールドの再生成を行う
@@ -203,6 +212,7 @@ class RyoServerAssist extends JavaPlugin {
     new SavePlayerData(this).save()
     new SaveDistribution(this).save()
     PlayerQuestData.save()
+    HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }
 

@@ -20,6 +20,7 @@
 - Multiverse-Portals
 - dynmap
 - Votifier
+- CoreProtect
 
 ### このプラグインを新Minecraftバージョンに合わせるときに必ず更新するもの
 

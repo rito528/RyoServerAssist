@@ -3,8 +3,8 @@ version: 1.7.0
 main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 description: RyoServerAssist
-depends: [ WorldGuard,Votifier ]
-softdepend: [ WorldGuard,Multiverse-Core,Multiverse-Portals,dynmap,Votifier ]
+depends: [ WorldGuard,Votifier,CoreProtect ]
+softdepend: [ WorldGuard,Multiverse-Core,Multiverse-Portals,dynmap,Votifier,CoreProtect ]
 author: rito528
 
 
@@ -66,6 +66,12 @@ commands:
   vote:
     description: vote command.
     permission: ryoserverassist.vote
+  getGachaItem:
+    description: get gacha item command.
+    permission: ryoserverassist.gachaItem
+  adminStorage:
+    description: open admin storage command.
+    permission: ryoserverassist.adminStorage
 
 permissions:
   ryoserverassist.*:
@@ -91,6 +97,8 @@ permissions:
       - ryoserverassist.skillpoint
       - ryoserverassist.ryoserverassist
       - ryoserverassist.vote
+      - ryoserverassist.gachaItem
+      - ryoserverassist.adminStorage
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -130,4 +138,8 @@ permissions:
   ryoserverassist.ryoserverassist:
     default: op
   ryoserverassist.vote:
+    default: op
+  ryoserverassist.gachaItem:
+    default: op
+  ryoserverassist.adminStorage:
     default: op

@@ -10,7 +10,7 @@ import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, Sound}
+import org.bukkit.{Bukkit, ChatColor, Sound}
 
 import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
@@ -36,62 +36,75 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       ボーナスタイムの確認
      */
     val now = LocalDateTime.now(ZoneId.of("Asia/Tokyo"))
-    val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
-    val start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 20:00")
-    val end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 21:00")
-    val holiday_start = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 14:00")
-    val holiday_end = format.parse(s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth} 15:00")
-    val calendar = Calendar.getInstance()
-    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"))
-    val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-    exp *= EventDataProvider.ratio
-    if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end) ||
-      ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && nowCalender.getTime.after(holiday_start) && nowCalender.getTime.before(holiday_end))) {
+    val nowDate = s"${now.getYear}/${now.getMonthValue}/${now.getDayOfMonth}"
+    val start = s"$nowDate 21:00"
+    val end = s"$nowDate 22:00"
+    val startHoliday = s"$nowDate 14:00"
+    val endHoliday = s"$nowDate 15:00"
+    if (com.ryoserver.util.Calendar.isBetweenTime(start,end) ||
+      ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && com.ryoserver.util.Calendar.isBetweenTime(startHoliday,endHoliday))) {
       p.sendMessage(s"${AQUA}ボーナス発生！")
       p.sendMessage(s"${AQUA}exp量が1.2倍になりました！")
       exp *= 1.2
-      p.sendMessage(s"$AQUA${addExp.toString}->${String.format("%.2f", exp)}")
+      p.sendMessage(s"$AQUA${String.format("%.2f", addExp)} -> ${String.format("%.2f", exp)}")
     }
 
-    /*
-      1.0 + (投票日数 * 0.01)だけ経験値を増やすように
-     */
-    exp *= (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
-
-    /*
-      経験値を増やす処理
-     */
-    val old_exp = p.getQuestExp
-    val old_level = p.getQuestLevel
-    val calLv = new CalLv
-
-    val sumExp = exp + old_exp
-    val ticketAmountCal = (((old_exp % 100) + exp) / 100).toInt
-    //経験値毎にもらうガチャ券の算出
-    if (ticketAmountCal > 0) p.giveNormalGachaTickets(ticketAmountCal)
-    //レベル毎にもらうガチャ券の算出
-    val nowLevel = calLv.getLevel(sumExp.toInt)
-    if (nowLevel > old_level && old_level != 0) {
-      for (i <- old_level + 1 to nowLevel) {
-        if (i % 10 == 0) p.giveNormalGachaTickets(32)
-      }
+    //イベントボーナス分増量
+    if (EventDataProvider.ratio != 1.0) {
+      p.sendMessage(s"${AQUA}イベントボーナス発生！")
+      p.sendMessage(s"${AQUA}経験値が${EventDataProvider.ratio}倍になりました。")
+      val oldExp = exp
+      exp *= EventDataProvider.ratio
+      p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
     }
+
+    //1.0 + (投票日数 * 0.01)だけ経験値を増やすように
+    if (p.getReVoteNumber != 0) {
+      val doubleExp = (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
+      p.sendMessage(s"${AQUA}連続投票ボーナス発生！")
+      p.sendMessage(s"${AQUA}経験値が${String.format("%.2f", doubleExp)}倍になりました。")
+      val oldExp = exp
+      exp *= doubleExp
+      p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
+    }
+
+    //更新前のレベルと経験値
+    val oldPlayerExp = p.getQuestExp
+    val oldPlayerLevel = p.getQuestLevel
+
+    //経験値を増やしてレベルバーを更新
     p.questExpAddNaturally(exp)
-    BossBar.updateLevelBer(sumExp, p)
-    if (old_level < nowLevel) {
-      p.addSkillOpenPoint(nowLevel - old_level)
-      if (nowLevel > 90) p.addSpecialSkillOpenPoint(nowLevel - old_level)
+    BossBar.updateLevelBer(p.getQuestExp, p)
+
+    //経験値毎にもらうガチャ券の枚数を算出して付与
+    val ticketAmountCal = (((oldPlayerExp % 100) + exp) / 100).toInt
+    if (ticketAmountCal > 0) p.giveNormalGachaTickets(ticketAmountCal)
+
+    //レベルが上がっていた場合の処理
+    if (oldPlayerLevel < p.getQuestLevel) {
+      for (i <- oldPlayerLevel + 1 to p.getQuestLevel) {
+        if (i % 10 == 0) p.giveNormalGachaTickets(32) //Lv10上がるごとにもらえるガチャ券を付与
+        if (p.getQuestLevel > 90) p.addSpecialSkillOpenPoint(1) //Lv91からもらえる特殊スキル解放ポイントを付与
+        p.addSkillOpenPoint(1) //レベルが上がった分だけスキル解放ポイントを付与
+      }
+
       //Tab等の表示上の名前を更新
       new Name(ryoServerAssist).updateName(p)
+
       //スキルポイントを全回復
-      p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getLevel))
+      p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
+
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
-      p.sendMessage(s"${AQUA}Lv." + old_level + " → Lv." + nowLevel)
+      p.sendMessage(s"${AQUA}Lv." + oldPlayerLevel + " → Lv." + p.getQuestLevel)
+
       val maxLv = getConfig.maxLv
-      if (nowLevel == maxLv) {
+      //最大レベルに到達した場合のメッセージ
+      if (p.getQuestLevel == maxLv) {
         Bukkit.broadcastMessage(s"$AQUA${p.getName}さんがLv.${maxLv}に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1))
       }
+
+      //称号の確認・付与
       new GiveTitle(ryoServerAssist).lv(p)
     }
   }

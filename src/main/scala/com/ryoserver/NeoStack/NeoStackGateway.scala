@@ -1,5 +1,6 @@
 package com.ryoserver.NeoStack
 
+import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.PlayerData.changedData
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
@@ -8,16 +9,20 @@ import org.bukkit.inventory.ItemStack
 
 class NeoStackGateway {
 
-  def getPlayerHasNeoStackItems(p: Player): List[NeoStackPlayerItemData] = {
+  def getPlayerHasNeoStackItems(p: Player): Set[NeoStackPlayerItemData] = {
     val uuid = p.getUniqueId
     val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
     val item = Iterator.from(0).takeWhile(_ => rs.next())
       .map(_ =>
         NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
-      ).toList
+      ).toSet
+    val allItems = itemList.map(itemStack =>
+      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack),0)
+        else null)
+      .filterNot(_ == null)
     sql.close()
-    item
+    item ++ allItems
   }
 
   def editItemList(category: String, page: Int, invContents: String): Unit = {
@@ -36,11 +41,11 @@ class NeoStackGateway {
     val oldPlayerData =
       PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(itemStack))
     if (oldPlayerData.isEmpty) {
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, Item.getOneItemStack(itemStack), null, itemStack.getAmount)
+      PlayerData.playerData += NeoStackDataType(p.getUniqueId, Item.getOneItemStack(itemStack), null, itemStack.getAmount)
     } else {
       PlayerData.playerData =
         PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(itemStack))
-      PlayerData.playerData :+=
+      PlayerData.playerData +=
         NeoStackDataType(oldPlayerData.head.uuid, oldPlayerData.head.savingItemStack, oldPlayerData.head.displayItemStack, oldPlayerData.head.amount + itemStack.getAmount)
     }
     addChangedData(p, Item.getOneItemStack(itemStack))
@@ -78,7 +83,7 @@ class NeoStackGateway {
         .filterNot {
           data => data.uuid == p.getUniqueId && data.savingItemStack == Item.getOneItemStack(is)
         }
-      PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, Item.getOneItemStack(is), null, playerData.head.amount - minusAmount)
+      PlayerData.playerData += NeoStackDataType(p.getUniqueId, Item.getOneItemStack(is), null, playerData.head.amount - minusAmount)
     }
     if (minusAmount != 0) {
       addChangedData(p, is)
@@ -114,7 +119,7 @@ class NeoStackGateway {
           .filterNot {
             data => data.uuid == p.getUniqueId && data.savingItemStack == is
           }
-        PlayerData.playerData :+= NeoStackDataType(p.getUniqueId, is, null, playerData.head.amount - minusAmount)
+        PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, null, playerData.head.amount - minusAmount)
         giveItem.setAmount(minusAmount)
       }
       p.getInventory.addItem(giveItem)

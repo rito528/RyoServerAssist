@@ -2,7 +2,7 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuSessions}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuSessions}
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
@@ -23,50 +23,53 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
     if (gateway.holdingEvent() == null) {
       p.sendMessage(s"${RED}イベントが終了しました！")
     } else {
-      setItem(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, effect = false, s"${ChatColor.AQUA}イベントページに戻る", List(s"${ChatColor.GRAY}クリックで戻ります。"))
-      setItem(2, 6, Material.NETHER_STAR, effect = false, s"${ChatColor.YELLOW}納品", List(s"${ChatColor.GRAY}クリックで納品します。"))
+      setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${ChatColor.AQUA}イベントページに戻る", List(s"${ChatColor.GRAY}クリックで戻ります。"))
+      .setLeftClickMotion(backPage))
+      setButton(MenuButton(2, 6, Material.NETHER_STAR, s"${ChatColor.YELLOW}納品", List(s"${ChatColor.GRAY}クリックで納品します。"))
+      .setLeftClickMotion(delivery)
+      .setReload())
       partButton = true
       buttons :+= getLayOut(1, 6)
       buttons :+= getLayOut(2, 6)
-      registerMotion(motion)
+      build(new EventDeliveryMenu(ryoServerAssist).openMenu)
       open()
     }
   }
 
-  def motion(p: Player, index: Int): Unit = {
+  private def backPage(p: Player): Unit = {
+    new EventMenu(ryoServerAssist).openEventMenu(p)
+  }
+
+  private def delivery(p: Player): Unit = {
     val gateway = new EventGateway(ryoServerAssist)
-    if (index == getLayOut(1, 6)) {
-      new EventMenu(ryoServerAssist).openEventMenu(p)
-    } else if (index == getLayOut(2, 6)) {
-      if (gateway.holdingEvent() == null) {
-        p.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")
-      } else {
-        val nowEvent = gateway.eventInfo(gateway.holdingEvent())
-        val material = Material.matchMaterial(nowEvent.item)
-        val inv = p.getOpenInventory.getTopInventory
-        var exp = 0.0
-        var amount = 0
-        inv.getContents.zipWithIndex.foreach { case (itemStack, index) =>
-          if (itemStack != null && itemStack.getType == material) {
-            amount += itemStack.getAmount
-            inv.clear(index)
-            exp += itemStack.getAmount * gateway.eventInfo(gateway.holdingEvent()).exp
-          }
+    if (gateway.holdingEvent() == null) {
+      p.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")
+    } else {
+      val nowEvent = gateway.eventInfo(gateway.holdingEvent())
+      val material = Material.matchMaterial(nowEvent.item)
+      val inv = p.getOpenInventory.getTopInventory
+      var exp = 0.0
+      var amount = 0
+      inv.getContents.zipWithIndex.foreach { case (itemStack, index) =>
+        if (itemStack != null && itemStack.getType == material) {
+          amount += itemStack.getAmount
+          inv.clear(index)
+          exp += itemStack.getAmount * gateway.eventInfo(gateway.holdingEvent()).exp
         }
-        eventCounter += amount
-        new EventDeliveryMenu(ryoServerAssist).openMenu(p)
-        new UpdateLevel(ryoServerAssist).addExp(exp, p)
-        if (!eventRanking.contains(p.getUniqueId.toString)) {
-          eventRanking += (p.getUniqueId.toString -> amount)
-        } else {
-          val oldAmount = eventRanking(p.getUniqueId.toString)
-          eventRanking = eventRanking
-            .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
-          eventRanking += (p.getUniqueId.toString -> (oldAmount + amount))
-        }
-        p.sendMessage(s"${AQUA}納品しました。")
-        p.sendMessage(s"${AQUA}${exp.toString}exp手に入りました。(ボーナス分を除く)")
       }
+      eventCounter += amount
+      new EventDeliveryMenu(ryoServerAssist).openMenu(p)
+      new UpdateLevel(ryoServerAssist).addExp(exp, p)
+      if (!eventRanking.contains(p.getUniqueId.toString)) {
+        eventRanking += (p.getUniqueId.toString -> amount)
+      } else {
+        val oldAmount = eventRanking(p.getUniqueId.toString)
+        eventRanking = eventRanking
+          .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
+        eventRanking += (p.getUniqueId.toString -> (oldAmount + amount))
+      }
+      p.sendMessage(s"${AQUA}納品しました。")
+      p.sendMessage(s"${AQUA}${exp.toString}exp手に入りました。(ボーナス分を除く)")
     }
   }
 

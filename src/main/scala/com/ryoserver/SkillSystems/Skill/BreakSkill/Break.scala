@@ -1,10 +1,12 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
+import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.Item.itemAddDamage
 import com.ryoserver.util.WorldGuardWrapper
+import net.coreprotect.CoreProtect
 import org.bukkit.entity.Player
 import org.bukkit.{Location, Material}
 
@@ -33,6 +35,8 @@ class Break {
     val direction = p.getFacing.toString
     val worldGuardWrapper = new WorldGuardWrapper
     val handItem = p.getInventory.getItemInMainHand
+    val coreProtectAPI = CoreProtect.getInstance().getAPI
+    val neoStackGateway = new NeoStackGateway()
     if (direction == "NORTH" || direction == "SOUTH") {
       val breakPoint = {
         if (p.getLocation.getY < breakBlockLocation.getY) breakBlockLocation.add(-(breakRange.x / 2), -(breakRange.y / 2), 0)
@@ -46,10 +50,17 @@ class Break {
           pointClone.add(x, y, 0)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              pointClone.getBlock.breakNaturally(handItem)
+              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
+              pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              pointClone.getBlock.setType(Material.AIR)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.x * breakRange.y)
-              new SkillPointConsumption().consumption(cost, p)
             }
           }
         }
@@ -68,7 +79,15 @@ class Break {
           pointClone.add(0, y, z)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              pointClone.getBlock.breakNaturally(handItem)
+              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
+              pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
+                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+                  neoStackGateway.addStack(itemStack, p)
+                } else {
+                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                }
+              })
+              pointClone.getBlock.setType(Material.AIR)
               itemAddDamage(p, handItem)
               cost += spCost / (breakRange.z * breakRange.y)
             }

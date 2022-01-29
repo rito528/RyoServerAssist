@@ -29,6 +29,7 @@ class PlayerCommand extends CommandBuilder {
       })
     }
     sender.asInstanceOf[Player].openInventory(inv)
+    sql.close()
   }
 
 }
