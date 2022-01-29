@@ -62,7 +62,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
     if (p.getReVoteNumber != 0) {
       val doubleExp = (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
       p.sendMessage(s"${AQUA}連続投票ボーナス発生！")
-      p.sendMessage(s"${AQUA}経験値が${doubleExp}倍になりました。")
+      p.sendMessage(s"${AQUA}経験値が${String.format("%.2f", doubleExp)}倍になりました。")
       val oldExp = exp
       exp *= doubleExp
       p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
