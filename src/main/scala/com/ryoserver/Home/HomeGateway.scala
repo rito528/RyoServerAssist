@@ -27,7 +27,7 @@ class HomeGateway(p: Player) {
     targetData match {
       case Some(data) =>
         HomeData.swapHomeData(uuid, point, data.copy(isLocked = !data.isLocked))
-        p.sendMessage(s"${AQUA}ホーム$point${if (isHomeLocked(point)) "のロックを解除しました。" else "をロックしました。"}")
+        p.sendMessage(s"${AQUA}ホーム$point${if (!isHomeLocked(point)) "のロックを解除しました。" else "をロックしました。"}")
       case None =>
         p.sendMessage(s"${RED}ホームが設定されていないためロックできませんでした。")
     }
