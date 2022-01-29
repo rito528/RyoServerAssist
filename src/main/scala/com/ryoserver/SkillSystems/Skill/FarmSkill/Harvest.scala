@@ -51,6 +51,7 @@ class Harvest {
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -78,6 +79,7 @@ class Harvest {
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -105,6 +107,7 @@ class Harvest {
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -132,6 +135,7 @@ class Harvest {
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
+                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
