@@ -28,6 +28,13 @@ class Harvest {
     Material.BEETROOTS
   )
 
+  private val seeds = Map(
+    Material.WHEAT -> Material.WHEAT_SEEDS,
+    Material.CARROTS -> Material.CARROT,
+    Material.POTATOES -> Material.POTATO,
+    Material.BEETROOTS -> Material.BEETROOT_SEEDS
+  )
+
   def harvest(p: Player, skillName: String, brokeBlock: Block, spCost: Int, range: FarmRange): Unit = {
     if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
     val facing = p.getFacing.toString
@@ -51,8 +58,8 @@ class Harvest {
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
                 val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
                 if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
                   p.getInventory.removeItem(seed)
@@ -65,6 +72,7 @@ class Harvest {
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
               }
+              cost += spCost / (range.width * range.height)
             }
           }
         }
@@ -87,8 +95,8 @@ class Harvest {
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
                 val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
                 if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
                   p.getInventory.removeItem(seed)
@@ -101,6 +109,7 @@ class Harvest {
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
               }
+              cost += spCost / (range.width * range.height)
             }
           }
         }
@@ -123,8 +132,8 @@ class Harvest {
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
                 val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
                 if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
                   p.getInventory.removeItem(seed)
@@ -137,6 +146,7 @@ class Harvest {
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
               }
+              cost += spCost / (range.width * range.height)
             }
           }
         }
@@ -159,8 +169,8 @@ class Harvest {
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
                 val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
                 if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
                   p.getInventory.removeItem(seed)
