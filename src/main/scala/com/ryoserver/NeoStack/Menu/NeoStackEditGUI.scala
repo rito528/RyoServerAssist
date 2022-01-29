@@ -44,6 +44,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     buttons :+= 45
     buttons :+= 49
     buttons :+= 53
+    sql.close()
     build(new NeoStackEditGUI(ryoServerAssist).openAddGUI(_,1,null))
     open()
   }

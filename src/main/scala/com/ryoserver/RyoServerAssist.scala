@@ -53,6 +53,7 @@ class RyoServerAssist extends JavaPlugin {
     if (!sql.connectionTest()) {
       getLogger.severe("MySQLに接続できませんでした！")
       getLogger.severe("サーバを終了します...")
+      sql.close()
       Bukkit.shutdown()
       return
     }

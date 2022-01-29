@@ -41,6 +41,7 @@ class Storage {
       }
       p.openInventory(inv)
       p.playSound(p.getLocation, Sound.BLOCK_CHEST_OPEN, 1, 1)
+      sql.close()
     } else {
       p.sendMessage(s"${RED}ストレージ機能はLv.10以上になると使うことができます。")
     }

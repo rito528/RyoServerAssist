@@ -39,6 +39,7 @@ class AdminStorage {
     }
     p.openInventory(inv)
     p.playSound(p.getLocation, Sound.BLOCK_CHEST_OPEN, 1, 1)
+    sql.close()
   }
 
 }

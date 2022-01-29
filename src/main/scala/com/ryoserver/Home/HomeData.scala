@@ -50,14 +50,11 @@ object HomeData {
 
   def save(): Unit = {
     val sql = new SQL
-    sql.getConnection.setAutoCommit(false)
     sql.executeSQL("DELETE FROM Homes;")
     homeData.foreach{data =>
       val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
       sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES ('${data.UUID.toString}',${data.point},'$locationString',${data.isLocked})")
     }
-    sql.getConnection.commit()
-    sql.getConnection.setAutoCommit(true)
     sql.close()
   }
 
