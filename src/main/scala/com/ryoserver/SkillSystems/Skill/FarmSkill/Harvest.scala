@@ -10,6 +10,7 @@ import net.coreprotect.CoreProtect
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 class Harvest {
 
@@ -49,7 +50,15 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)
+                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                  p.getInventory.removeItem(seed)
+                } else {
+                  neoStackGateway.removeNeoStack(p,seed,1)
+                }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
                 coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
@@ -77,7 +86,15 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)
+                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                  p.getInventory.removeItem(seed)
+                } else {
+                  neoStackGateway.removeNeoStack(p,seed,1)
+                }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
                 coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
@@ -105,7 +122,15 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)
+                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                  p.getInventory.removeItem(seed)
+                } else {
+                  neoStackGateway.removeNeoStack(p,seed,1)
+                }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
                 coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
@@ -133,7 +158,15 @@ class Harvest {
                   p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
                 }
               })
-              if (getAutoPlaceSeedsStatus(p.getUniqueId)) {
+              if (getAutoPlaceSeedsStatus(p.getUniqueId)
+                && (p.getInventory.contains(farmItemLoc.getBlock.getType,1) ||
+                neoStackGateway.getNeoStackAmount(p,new ItemStack(farmItemLoc.getBlock.getType,1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                  p.getInventory.removeItem(seed)
+                } else {
+                  neoStackGateway.removeNeoStack(p,seed,1)
+                }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
                 coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
                 cost += 1
