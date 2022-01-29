@@ -50,8 +50,8 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
           }
           setItemStackButton(MenuItemStack(getX(index),getY(index),setItem)
-          .setLeftClickMotion(stackItem(_,slot - ((getLayOut(9, 5) + 1) * (page - 1))))
-          .setRightClickMotion(oneItem(_,slot - ((getLayOut(9, 5) + 1) * (page - 1))))
+          .setLeftClickMotion(stackItem(_,slot))
+          .setRightClickMotion(oneItem(_,slot))
           .setReload())
         }
         index += 1
