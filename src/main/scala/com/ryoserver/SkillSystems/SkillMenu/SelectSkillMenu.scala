@@ -178,7 +178,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   private def pyon(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.JUMP, 1, 600, "ぴょ～ん")
+    toggle(p).effect(PotionEffectType.JUMP, 1, 600, "ぴょ〜ん")
   }
 
   private def mottotuyonaru(p: Player): Unit = {
