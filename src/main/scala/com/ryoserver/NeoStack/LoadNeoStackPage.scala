@@ -3,6 +3,7 @@ package com.ryoserver.NeoStack
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.{Item, SQL}
 
 import scala.collection.mutable
@@ -10,7 +11,7 @@ import scala.collection.mutable
 class LoadNeoStackPage(ryoServerAssist: RyoServerAssist) {
 
   def loadStackPage(): Unit = {
-    ryoServerAssist.getLogger.info("neoStackページをロード中...")
+    getLogger.info("neoStackページをロード中...")
     val sql = new SQL()
     val rs = sql.executeQuery(s"SELECT * FROM StackList")
     stackPageData = mutable.Map.empty
@@ -30,7 +31,7 @@ class LoadNeoStackPage(ryoServerAssist: RyoServerAssist) {
       })
     }
     sql.close()
-    ryoServerAssist.getLogger.info("neoStackページのロードが完了しました。")
+    getLogger.info("neoStackページのロードが完了しました。")
   }
 
 }

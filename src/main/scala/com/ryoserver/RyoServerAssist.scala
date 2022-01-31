@@ -30,6 +30,7 @@ import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
+import com.ryoserver.util.Logger.setLogger
 import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -39,6 +40,11 @@ class RyoServerAssist extends JavaPlugin {
   override def onEnable(): Unit = {
     super.onEnable()
     saveDefaultConfig()
+
+    /*
+      Loggerの設定
+     */
+    setLogger(this)
 
     /*
       configのロード

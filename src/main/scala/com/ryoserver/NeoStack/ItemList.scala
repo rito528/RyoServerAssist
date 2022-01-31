@@ -1,6 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.inventory.ItemStack
 
@@ -13,7 +14,7 @@ object ItemList {
   var itemList: Set[ItemStack] = Set.empty
 
   def loadItemList(ryoServerAssist: RyoServerAssist): Unit = {
-    ryoServerAssist.getLogger.info("neoStackアイテムロード中...")
+    getLogger.info("neoStackアイテムロード中...")
     val sql = new SQL()
     val rs = sql.executeQuery("SELECT invItem,category FROM StackList;")
     while (rs.next()) {
@@ -27,7 +28,7 @@ object ItemList {
       })
     }
     sql.close()
-    ryoServerAssist.getLogger.info("neoStackアイテムのロードが完了しました。")
+    getLogger.info("neoStackアイテムのロードが完了しました。")
   }
 
 }
