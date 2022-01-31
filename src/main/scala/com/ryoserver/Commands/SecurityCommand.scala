@@ -18,7 +18,6 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       "show" -> show,
       "freeze" -> freeze,
       "unfreeze" -> unfreeze,
-      "bind" -> bind,
       "help" -> help
     )
   ).playerCommand()
@@ -39,7 +38,7 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   private def hide(): Unit = {
     val p = sender.asInstanceOf[Player]
-    Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist, sp))
+    Bukkit.getOnlinePlayers.forEach(sp => sp.hidePlayer(ryoServerAssist, p))
     Players.hideList :+= p
     Bukkit.broadcastMessage(s"$YELLOW${p.getName}がゲームを退出しました")
   }
@@ -61,16 +60,6 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     Players.unFreezePlayer(p)
   }
 
-  private def bind(): Unit = {
-    if (args(1).equalsIgnoreCase("on")) {
-      ryoServerAssist.getConfig.set("ipInfo", true)
-      sender.sendMessage(s"${AQUA}PlayerStatusコマンドでのIP情報表示機能を有効化しました。")
-    } else if (args(1).equalsIgnoreCase("off")) {
-      ryoServerAssist.getConfig.set("ipInfo", false)
-      sender.sendMessage(s"${AQUA}PlayerStatusコマンドでのIP情報表示機能を無効化しました。")
-    }
-  }
-
   private def help(): Unit = {
     sender.sendMessage("/security PlayerStatus [プレイヤー名] - 指定したプレイヤーの情報を確認します。")
     sender.sendMessage("/security openInventory [プレイヤー名] - 指定したプレイヤーのインベントリを開きます。")
@@ -79,8 +68,6 @@ class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
     sender.sendMessage("/security show - サーバー内全員に自分自身を表示します。")
     sender.sendMessage("/security freeze [プレイヤー名] - 指定したプレイヤーの行動を禁止します。")
     sender.sendMessage("/security unfreeze [プレイヤー名] - 指定したプレイヤーの行動の禁止を解除します。")
-    sender.sendMessage("/security bind [on/off] - IPに関する情報を表示するかしないかの設定を行います。")
-    sender.sendMessage("/security gui - セキュリティープラグインのGUIを開きます。")
     sender.sendMessage("/security help - このコマンドリストを表示します。")
   }
 
