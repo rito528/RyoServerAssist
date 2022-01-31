@@ -82,6 +82,8 @@ object PlayerManager {
 
     def addGachaPullNumber(number: Int): Unit = rp.addGachaPullNumber(number)
 
+    def questExpUpdate(exp: Double): Unit = rp.updateExp(exp)
+
     def questExpAddNaturally(addExp: Double): Unit = rp.addExp(addExp)
 
     def toggleAutoStack(): Unit = rp.toggleAutoStack()
