@@ -3,6 +3,7 @@ package com.ryoserver.Quest
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
+import com.ryoserver.util.Logger.getLogger
 import org.bukkit.Material
 
 import java.io.File
@@ -74,10 +75,10 @@ object LoadQuests {
       .collect(Collectors.toList[String])
     items.forEach(material => {
       if (Material.getMaterial(material.toUpperCase().split(":")(0)) == null && json.get("type").textValue() == "delivery") {
-        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でアイテム名:" + material.toUpperCase().split(":")(0) + "というアイテムが存在しません！")
+        getLogger.warning("クエスト:" + questName + "でアイテム名:" + material.toUpperCase().split(":")(0) + "というアイテムが存在しません！")
         return null
       } else if (!Entity.isExistsEntity(material.toUpperCase().split(":")(0)) && json.get("type").textValue() == "suppression") {
-        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でMOB名:" + material.toUpperCase().split(":")(0) + "というMOBが存在しません！")
+        getLogger.warning("クエスト:" + questName + "でMOB名:" + material.toUpperCase().split(":")(0) + "というMOBが存在しません！")
         return null
       }
     })

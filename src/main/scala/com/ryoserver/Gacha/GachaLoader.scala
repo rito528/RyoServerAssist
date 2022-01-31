@@ -2,6 +2,7 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
@@ -57,26 +58,26 @@ object GachaLoader {
     /*
       各レアリティの割合を計算
      */
-    ryoServerAssist.getLogger.info("ガチャ排出割合読み込み中...")
+    getLogger.info("ガチャ排出割合読み込み中...")
     per = getConfig.per
     bigPer = getConfig.bigPer
     special = getConfig.Special
     val miss = 100.0 - per - bigPer - special
     if (miss <= 0) {
-      ryoServerAssist.getLogger.warning("ガチャ割合の指定が不正です。")
-      ryoServerAssist.getLogger.warning("サーバーを停止します。")
+      getLogger.warning("ガチャ割合の指定が不正です。")
+      getLogger.warning("サーバーを停止します。")
       Bukkit.shutdown()
     }
-    ryoServerAssist.getLogger.info("ガチャ排出割合読み込みが完了しました！")
+    getLogger.info("ガチャ排出割合読み込みが完了しました！")
   }
 
   def unload(ryoServerAssist: RyoServerAssist): Unit = {
-    ryoServerAssist.getLogger.info("ガチャリストをアンロードしています...")
+    getLogger.info("ガチャリストをアンロードしています...")
     perItemList = Array.empty
     bigPerItemList = Array.empty
     specialItemList = Array.empty
     missItemList = Array.empty
-    ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
+    getLogger.info("ガチャリストをアンロードしました。")
   }
 
   def listGachaItem(rarity: Int, p: Player): Unit = {
