@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
 
   def load(p: Player): Unit = {
-    new CreateData(ryoServerAssist).createPlayerData(p)
+    new CreateData().createPlayerData(p)
     new UpdateData().updateReLogin(p)
     new LevelLoader().loadPlayerLevel(p)
     PlayerData.loadNeoStackPlayerData(p)
