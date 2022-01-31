@@ -20,8 +20,9 @@ class UpdateLevel {
     強制的に経験値を上げる場合に利用する関数
    */
   def updateExp(exp: Int, p: Player): Unit = {
-    p.questExpAddNaturally(exp)
+    p.questExpUpdate(exp)
     BossBar.updateLevelBer(exp, p)
+    p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
   }
 
   /*

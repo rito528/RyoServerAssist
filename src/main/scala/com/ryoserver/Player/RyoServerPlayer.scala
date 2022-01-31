@@ -41,7 +41,7 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
-  def updateExp(amount: Int): Unit = {
+  def updateExp(amount: Double): Unit = {
     val result = oldData.copy(exp = amount, level = new CalLv().getLevel(amount))
     playerData += (uuid -> result)
     oldData = result
