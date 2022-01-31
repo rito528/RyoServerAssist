@@ -12,7 +12,7 @@ import org.bukkit._
 import java.security.SecureRandom
 import java.util.{Calendar, TimeZone}
 
-class Regeneration(ryoServerAssist: RyoServerAssist) {
+class Regeneration {
 
   def regeneration(isForce: Boolean = false): Unit = {
     if ((!isFriday && !isForce) || (!isForce && !getConfig.autoWorldRegeneration)) return

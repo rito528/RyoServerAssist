@@ -7,7 +7,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class GachaCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -40,7 +40,7 @@ class GachaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def add(): Unit = {
-    new GachaAddItemInventory(ryoServerAssist).openAddInventory(sender.asInstanceOf[Player])
+    new GachaAddItemInventory().openAddInventory(sender.asInstanceOf[Player])
   }
 
   private def remove(): Unit = {

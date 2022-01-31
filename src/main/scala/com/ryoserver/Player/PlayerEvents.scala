@@ -12,7 +12,7 @@ class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
   def onJoin(e: PlayerJoinEvent): Unit = {
     val p = e.getPlayer
     new PlayerDataLoader(ryoServerAssist).load(p)
-    val title = new GiveTitle(ryoServerAssist)
+    val title = new GiveTitle()
     title.continuousLogin(p)
     title.loginDays(p)
     title.loginYear(p)

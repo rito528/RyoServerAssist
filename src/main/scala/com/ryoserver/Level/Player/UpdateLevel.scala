@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
 import java.util.{Calendar, TimeZone}
 
-class UpdateLevel(ryoServerAssist: RyoServerAssist) {
+class UpdateLevel {
 
 
   /*
@@ -89,7 +89,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       }
 
       //Tab等の表示上の名前を更新
-      new Name(ryoServerAssist).updateName(p)
+      new Name().updateName(p)
 
       //スキルポイントを全回復
       p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
@@ -105,7 +105,7 @@ class UpdateLevel(ryoServerAssist: RyoServerAssist) {
       }
 
       //称号の確認・付与
-      new GiveTitle(ryoServerAssist).lv(p)
+      new GiveTitle().lv(p)
     }
   }
 }

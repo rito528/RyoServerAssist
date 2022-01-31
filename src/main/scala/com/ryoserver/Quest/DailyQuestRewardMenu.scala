@@ -28,7 +28,7 @@ class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def rewardGachaTicket(p: Player): Unit = {
     val questGateway = new QuestGateway
-    questGateway.dailyQuestClear(p, ryoServerAssist,1.0)
+    questGateway.dailyQuestClear(p, 1.0)
     p.giveNormalGachaTickets(16)
     p.sendMessage(s"${AQUA}デイリークエストの報酬として、ガチャ券を16枚配布しました。")
     p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
@@ -37,7 +37,7 @@ class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def rewardQuestExp(p: Player): Unit = {
     val questGateway = new QuestGateway
-    questGateway.dailyQuestClear(p, ryoServerAssist,1.2)
+    questGateway.dailyQuestClear(p, 1.2)
     p.sendMessage(s"${AQUA}デイリークエストの報酬として、今回のクエストの経験値を1.2倍にしました。")
     p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     p.closeInventory()

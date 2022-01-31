@@ -7,7 +7,7 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
-class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class LevelCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -34,7 +34,7 @@ class LevelCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
   }
 
   private def setExp(): Unit = {
-    new UpdateLevel(ryoServerAssist).updateExp(args(1).toInt, sender.asInstanceOf[Player])
+    new UpdateLevel().updateExp(args(1).toInt, sender.asInstanceOf[Player])
     sender.sendMessage(s"${AQUA}更新しました。")
   }
 

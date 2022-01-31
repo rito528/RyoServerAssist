@@ -40,10 +40,10 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.questClear(p, ryoServerAssist)
+      questGateway.questClear(p)
       new QuestMenu(ryoServerAssist).selectInventory(p)
-      new GiveTitle(ryoServerAssist).questClearNumber(p)
-      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+      new GiveTitle().questClearNumber(p)
+      new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
       questGateway.setQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")

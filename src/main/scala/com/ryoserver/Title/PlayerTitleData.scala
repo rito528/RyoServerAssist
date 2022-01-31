@@ -8,13 +8,13 @@ import org.bukkit.entity.Player
 
 import java.util.UUID
 
-class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
+class PlayerTitleData {
 
   def openTitle(p: Player, title: String): Boolean = {
     val uuid = p.getUniqueId
     if (hasTitle(uuid, title)) return false
     p.openTitles(getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title)
-    new GiveTitle(ryoServerAssist).titleGetNumber(p)
+    new GiveTitle().titleGetNumber(p)
     true
   }
 

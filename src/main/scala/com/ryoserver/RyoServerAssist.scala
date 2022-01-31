@@ -79,19 +79,19 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand(),
-      "gacha" -> new GachaCommand(this),
-      "distribution" -> new DistributionCommand(),
+      "home" -> new HomeCommand,
+      "gacha" -> new GachaCommand,
+      "distribution" -> new DistributionCommand,
       "menu" -> new MenuCommand(this),
       "stick" -> new StickCommand,
-      "level" -> new LevelCommand(this),
+      "level" -> new LevelCommand,
       "tpa" -> new TpaCommand(this),
       "sr" -> new RegionCommand,
       "hat" -> new HatCommand,
       "spawn" -> new SpawnCommand,
-      "player" -> new PlayerCommand(),
-      "title" -> new TitleCommand(this),
-      "regeneration" -> new RegenerationCommand(this),
+      "player" -> new PlayerCommand,
+      "title" -> new TitleCommand,
+      "regeneration" -> new RegenerationCommand,
       "getoriginalitem" -> new OriginalItemCommand,
       //"profile" -> new ProfileSettingCommands(this),
       "ryoserverassist" -> new RyoServerAssistCommand(this),
@@ -111,7 +111,7 @@ class RyoServerAssist extends JavaPlugin {
       new Gacha(this),
       new PlayerEvents(this),
       new MenuEvent(this),
-      new StorageEvent(),
+      new StorageEvent,
       new QuestSelectMenuEvent(this),
       new SuppressionEvent(this),
       new Notification,
@@ -123,7 +123,7 @@ class RyoServerAssist extends JavaPlugin {
       new RepairEvent,
       new PickEvent(this),
       new GachaItemChangeGUI(this),
-      new Vote(),
+      new Vote,
       new SecurityEvent(this),
       new MenuHandler(this),
       new EventDeliveryMenu(this),
@@ -161,11 +161,11 @@ class RyoServerAssist extends JavaPlugin {
       様々なロード処理
      */
     new LoadAllPlayerData().load()
-    GachaLoader.load(this)
+    GachaLoader.load()
     LoadQuests.loadQuest(this)
     new TitleLoader().loadTitle()
-    ItemList.loadItemList(this)
-    new LoadNeoStackPage(this).loadStackPage()
+    ItemList.loadItemList()
+    new LoadNeoStackPage().loadStackPage()
     Operator.checkOp(this)
     new EventLoader().loadEvent()
     new EventGateway(this).loadEventData()
@@ -189,7 +189,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       ワールドの再生成を行う
      */
-    new Regeneration(this).regeneration()
+    new Regeneration().regeneration()
 
     /*
       サーバーに入っているプレイヤーにデータを適用する

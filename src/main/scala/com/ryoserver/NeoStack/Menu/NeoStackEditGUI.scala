@@ -71,9 +71,9 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     })
     data.editItemList(getSelectedCategory(p), nowPage, invItem)
     p.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(p)}を編集しました。")
-    new LoadNeoStackPage(ryoServerAssist).loadStackPage()
+    new LoadNeoStackPage().loadStackPage()
     ItemList.stackList = mutable.Map.empty
-    ItemList.loadItemList(ryoServerAssist)
+    ItemList.loadItemList()
   }
 
   private def nextPage(p: Player): Unit = {

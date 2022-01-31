@@ -39,15 +39,15 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   private def setTitle(p: Player,index:Int): Unit = {
     if (p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
-      new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
-      new Name(ryoServerAssist).updateName(p)
+      new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
+      new Name().updateName(p)
       p.sendMessage(s"${AQUA}称号: 「${RESET}" + titleName + s"$AQUA」を設定しました！")
     }
   }
 
   private def resetTitle(p: Player): Unit = {
-    new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
-    new Name(ryoServerAssist).updateName(p)
+    new PlayerTitleData().resetSelectTitle(p.getUniqueId)
+    new Name().updateName(p)
     p.sendMessage(s"${AQUA}称号をリセットしました。")
   }
 

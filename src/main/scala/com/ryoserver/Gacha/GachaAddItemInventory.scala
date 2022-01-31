@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.ChatColor._
 
-class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
+class GachaAddItemInventory extends Menu {
 
   override val slot: Int = 6
   override var name: String = "ガチャアイテム追加メニュー"
@@ -31,7 +31,7 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
     "特等アイテムに追加します。"))
       .setLeftClickMotion(addItem(_,3))
       .setReload())
-    build(new GachaAddItemInventory(ryoServerAssist).openAddInventory)
+    build(new GachaAddItemInventory().openAddInventory)
     open()
   }
 
@@ -46,7 +46,7 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
         && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {
         if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
           is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
-          GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
+          GachaLoader.addGachaItem(is, rarity)
         }
       }
     })

@@ -17,7 +17,7 @@ class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
     new LevelLoader().loadPlayerLevel(p)
     PlayerData.loadNeoStackPlayerData(p)
     SkillPointBer.create(p)
-    new Name(ryoServerAssist).updateName(p)
+    new Name().updateName(p)
     PlayerQuestData.loadPlayerData(p)
   }
 

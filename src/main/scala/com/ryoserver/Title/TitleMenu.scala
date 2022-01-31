@@ -21,7 +21,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openInv(player: Player, selectPage: Int): Unit = {
     p = player
-    val hasTitles = new PlayerTitleData(ryoServerAssist).getHasTitles(p.getUniqueId)
+    val hasTitles = new PlayerTitleData().getHasTitles(p.getUniqueId)
     val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
     name = "称号一覧:" + selectPage
     var invIndex = 0
@@ -89,14 +89,14 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def setTitle(p: Player,index: Int): Unit = {
     val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
-    new PlayerTitleData(ryoServerAssist).setSelectTitle(p.getUniqueId, titleName)
-    new Name(ryoServerAssist).updateName(p)
+    new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
+    new Name().updateName(p)
     p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
   }
 
   private def reset(p: Player): Unit = {
-    new PlayerTitleData(ryoServerAssist).resetSelectTitle(p.getUniqueId)
-    new Name(ryoServerAssist).updateName(p)
+    new PlayerTitleData().resetSelectTitle(p.getUniqueId)
+    new Name().updateName(p)
     p.sendMessage(s"${AQUA}称号をリセットしました。")
   }
 

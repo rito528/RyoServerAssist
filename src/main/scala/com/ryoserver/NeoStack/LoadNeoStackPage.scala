@@ -8,7 +8,7 @@ import com.ryoserver.util.{Item, SQL}
 
 import scala.collection.mutable
 
-class LoadNeoStackPage(ryoServerAssist: RyoServerAssist) {
+class LoadNeoStackPage() {
 
   def loadStackPage(): Unit = {
     getLogger.info("neoStackページをロード中...")

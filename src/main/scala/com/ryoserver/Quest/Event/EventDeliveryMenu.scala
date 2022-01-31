@@ -59,7 +59,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       }
       eventCounter += amount
       new EventDeliveryMenu(ryoServerAssist).openMenu(p)
-      new UpdateLevel(ryoServerAssist).addExp(exp, p)
+      new UpdateLevel().addExp(exp, p)
       if (!eventRanking.contains(p.getUniqueId.toString)) {
         eventRanking += (p.getUniqueId.toString -> amount)
       } else {

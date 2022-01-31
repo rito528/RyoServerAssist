@@ -25,7 +25,7 @@ object LoadQuests {
         .map(_.getName)
         .filter(_.contains(".json"))
       loadedQuests = questFileNames.toList.map(questFileName => {
-        val data = getQuestData(isDaily = false,questFileName, ryoServerAssist)
+        val data = getQuestData(isDaily = false,questFileName)
         val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
           .map(
             e => {
@@ -44,7 +44,7 @@ object LoadQuests {
         .map(_.getName)
         .filter(_.contains(".json"))
       loadedDailyQuests = questFileNames.toList.map(questFileName => {
-        val data = getQuestData(isDaily = true,questFileName, ryoServerAssist)
+        val data = getQuestData(isDaily = true,questFileName)
         val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
           .map(
             e => {
@@ -60,7 +60,7 @@ object LoadQuests {
     }
   }
 
-  private def getQuestData(isDaily:Boolean, questFileName: String, ryoServerAssist: RyoServerAssist): JsonNode = {
+  private def getQuestData(isDaily:Boolean, questFileName: String): JsonNode = {
     val mapper = new ObjectMapper()
     var readLine = ""
     val source = Source.fromFile(s"${if (isDaily) DAILYQUEST_SETTING_FILES else QUEST_SETTING_FILES}/$questFileName", "UTF-8")

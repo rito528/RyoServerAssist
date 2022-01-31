@@ -15,10 +15,10 @@ import java.util.{Calendar, TimeZone}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-class GiveTitle(ryoServerAssist: RyoServerAssist) {
+class GiveTitle {
 
   private val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
-  private val data = new PlayerTitleData(ryoServerAssist)
+  private val data = new PlayerTitleData
 
   def lv(p: Player): Unit = {
     val level = p.getQuestLevel

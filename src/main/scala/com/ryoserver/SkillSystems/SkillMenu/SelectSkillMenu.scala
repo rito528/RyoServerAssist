@@ -21,7 +21,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openMenu(player: Player): Unit = {
     p = player
-    val check = new SkillOpenCheck(ryoServerAssist)
+    val check = new SkillOpenCheck()
     setButton(MenuButton(1, 1, if (check.isOpened(SkillNames.head, p)) Material.SHIELD else Material.BEDROCK,
       s"${GREEN}[基本スキル]${SkillNames.head}", List(s"${GRAY}耐性1の効果が付与されます。",
         s"${GRAY}" + (if (check.isOpened(SkillNames.head, p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費"),
