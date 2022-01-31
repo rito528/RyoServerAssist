@@ -41,7 +41,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         .setLeftClickMotion(toggleStack)
         .setReload())
       setButton(MenuButton(7, 5, Material.CHEST_MINECART, s"${GREEN}一番下のスロット以外のアイテムをneoStackに収納します。",
-        List("クリックで収納します。"))
+        List(s"${GRAY}クリックで収納します。"))
         .setLeftClickMotion(topInventoryStack))
       setButton(MenuButton(8, 5, Material.CHEST, s"${GREEN}アイテムを選んでneoStackに収納します。", List(s"${GRAY}クリックで収納します。"))
         .setLeftClickMotion(openSelectStackMenu))
