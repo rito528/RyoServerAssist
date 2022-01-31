@@ -37,7 +37,7 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
           )))
           setButton(MenuButton(2, 6, Material.NETHER_STAR, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
-          .setLeftClickMotion(delivery))
+            .setLeftClickMotion(delivery))
           if (p.getQuestLevel >= 20) {
             val neoStackGateway = new NeoStackGateway()
             setButton(MenuButton(3, 6, Material.SHULKER_BOX, s"${YELLOW}neoStackから納品します。",
@@ -68,7 +68,7 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     setButton(MenuButton(9, 6, Material.RED_WOOL, s"$RED${BOLD}クエストを中止する",
       List(s"$RED${BOLD}クリックでクエストを中止します。",
         s"$RED$BOLD${UNDERLINE}納品したアイテムは戻りません！"))
-    .setLeftClickMotion(questDestroy))
+      .setLeftClickMotion(questDestroy))
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(2, 6)
     buttons :+= getLayOut(9, 6)

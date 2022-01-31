@@ -33,9 +33,9 @@ class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
                 if (questProgress.forall { case (_, amount) => amount == 0 }) {
                   p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
                   p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-                  questGateway.questClear(p, ryoServerAssist)
-                  new GiveTitle(ryoServerAssist).questClearNumber(p)
-                  new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+                  questGateway.questClear(p)
+                  new GiveTitle().questClearNumber(p)
+                  new GiveTitle().continuousLoginAndQuestClearNumber(p)
                 } else if ((targetProgress - 1) % 5 == 0) {
                   p.sendMessage(s"$WHITE[クエストの進行状況]")
                   questProgress.foreach { case (entity, amount) =>

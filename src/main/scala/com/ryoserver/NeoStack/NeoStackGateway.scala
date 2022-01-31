@@ -18,8 +18,8 @@ class NeoStackGateway {
         NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
       ).toSet
     val allItems = itemList.map(itemStack =>
-      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack),0)
-        else null)
+      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack), 0)
+      else null)
       .filterNot(_ == null)
     sql.close()
     item ++ allItems
@@ -49,12 +49,6 @@ class NeoStackGateway {
         NeoStackDataType(oldPlayerData.head.uuid, oldPlayerData.head.savingItemStack, oldPlayerData.head.displayItemStack, oldPlayerData.head.amount + itemStack.getAmount)
     }
     addChangedData(p, Item.getOneItemStack(itemStack))
-  }
-
-  private def addChangedData(p: Player, is: ItemStack): Unit = {
-    val uuid = p.getUniqueId
-    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
-    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def getCategory(is: ItemStack): String = {
@@ -89,6 +83,12 @@ class NeoStackGateway {
       addChangedData(p, is)
     }
     minusAmount
+  }
+
+  private def addChangedData(p: Player, is: ItemStack): Unit = {
+    val uuid = p.getUniqueId
+    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
+    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def getNeoStackAmount(p: Player, is: ItemStack): Int = {

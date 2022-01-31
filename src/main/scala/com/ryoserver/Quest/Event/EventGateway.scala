@@ -30,20 +30,6 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
   }
 
   /*
-    イベントが開催されていればイベント名、されていなければnullを返す
-   */
-  def holdingEvent(): String = {
-    EventDataProvider.eventData.foreach(event => {
-      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
-      val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 20:59")
-      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
-    })
-    null
-  }
-
-  /*
     イベントの細かい情報を返す
    */
   def eventInfo(eventName: String): EventType = {
@@ -64,6 +50,20 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
       sql.close()
       getLogger.info("イベントランキングの読み込みが完了しました。")
     }
+  }
+
+  /*
+    イベントが開催されていればイベント名、されていなければnullを返す
+   */
+  def holdingEvent(): String = {
+    EventDataProvider.eventData.foreach(event => {
+      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+      val start = format.parse(s"${event.start} 15:00")
+      val end = format.parse(s"${event.end} 20:59")
+      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
+    })
+    null
   }
 
   /*
@@ -96,7 +96,7 @@ class EventGateway(ryoServerAssist: RyoServerAssist) {
           EventDataProvider.ratio = 1.0
         }
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist, 20,20)
+    }.runTaskTimerAsynchronously(ryoServerAssist, 20, 20)
   }
 
   def autoSaveEvent(): Unit = {

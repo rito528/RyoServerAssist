@@ -1,15 +1,14 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.RyoServerMenu1
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor.AQUA
-import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
+import org.bukkit.{Material, Sound}
 
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
@@ -43,8 +42,8 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
-      new GiveTitle(ryoServerAssist).questClearNumber(p)
-      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+      new GiveTitle().questClearNumber(p)
+      new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)

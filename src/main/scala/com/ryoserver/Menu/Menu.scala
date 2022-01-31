@@ -4,7 +4,7 @@ import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
-import org.bukkit.inventory.{Inventory, ItemStack}
+import org.bukkit.inventory.Inventory
 import org.bukkit.{Bukkit, Material, OfflinePlayer}
 
 import scala.jdk.CollectionConverters._
@@ -45,6 +45,11 @@ trait Menu {
     p.openInventory(inv.get)
   }
 
+  def setButton(menuButton: MenuButton): Unit = {
+    setItem(menuButton.x, menuButton.y, menuButton.material, effect = menuButton.effect, menuButton.title, menuButton.lore)
+    setMotion(menuButton, menuButton.x, menuButton.y)
+  }
+
   private def setItem(x: Int, y: Int, item: Material, effect: Boolean, title: String, lore: List[String]): Unit = {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
@@ -54,6 +59,11 @@ trait Menu {
       case Some(inv) =>
         inv.setItem(index, if (effect) getEnchantEffectItem(item, title, lore.asJava) else getItem(item, title, lore.asJava))
     }
+  }
+
+  def setSkull(skull: MenuSkull): Unit = {
+    setSkullItem(skull.x, skull.y, skull.offlinePlayer, skull.title, skull.lore)
+    setMotion(skull, skull.x, skull.y)
   }
 
   private def setSkullItem(x: Int, y: Int, p: OfflinePlayer, title: String, lore: List[String]): Unit = {
@@ -67,32 +77,22 @@ trait Menu {
     }
   }
 
-  private def setMotion(button: Button,x:Int,y:Int): Unit = {
+  private def setMotion(button: Button, x: Int, y: Int): Unit = {
     if (button.reload && MenuData.reloadButtons.contains(name)) {
-      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(x,y)))
+      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(x, y)))
     } else if (button.reload) {
-      MenuData.reloadButtons = Map(name -> Set(getLayOut(x,y)))
+      MenuData.reloadButtons = Map(name -> Set(getLayOut(x, y)))
     }
     MenuData.rightClickButtons += (name -> (
-      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(x,y),button.rightFunc)
-      else Map(getLayOut(x,y) -> button.rightFunc)))
+      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(x, y), button.rightFunc)
+      else Map(getLayOut(x, y) -> button.rightFunc)))
     MenuData.leftClickButtons += (name -> (
-      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(x,y),button.leftFunc)
-      else Map(getLayOut(x,y) -> button.leftFunc)))
-  }
-
-  def setButton(menuButton: MenuButton): Unit = {
-    setItem(menuButton.x,menuButton.y,menuButton.material,effect = menuButton.effect,menuButton.title,menuButton.lore)
-    setMotion(menuButton,menuButton.x,menuButton.y)
-  }
-
-  def setSkull(skull: MenuSkull): Unit = {
-    setSkullItem(skull.x,skull.y,skull.offlinePlayer,skull.title,skull.lore)
-    setMotion(skull,skull.x,skull.y)
+      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(x, y), button.leftFunc)
+      else Map(getLayOut(x, y) -> button.leftFunc)))
   }
 
   def setItemStackButton(button: MenuItemStack): Unit = {
-    val index = MenuLayout.getLayOut(button.x,button.y)
+    val index = MenuLayout.getLayOut(button.x, button.y)
     inv match {
       case None =>
         inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
@@ -100,7 +100,7 @@ trait Menu {
       case Some(inv) =>
         inv.setItem(index, button.itemStack)
     }
-    setMotion(button,button.x,button.y)
+    setMotion(button, button.x, button.y)
   }
 
 

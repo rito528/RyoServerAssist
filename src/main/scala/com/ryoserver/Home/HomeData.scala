@@ -11,23 +11,23 @@ object HomeData {
 
   private var homeData: Set[HomeDataType] = Set.empty
 
-  def getTargetHomeData(uuid: UUID,point: Int): Option[HomeDataType]= {
+  def getTargetHomeData(uuid: UUID, point: Int): Option[HomeDataType] = {
     val data = homeData
       .filter(data => data.UUID == uuid && data.point == point)
     if (data.isEmpty) None
     else Option(data.head)
   }
 
-  private def addHomeData(data: HomeDataType): Unit = homeData += data
-
-  private def removeHomeData(uuid: UUID,point: Int): Unit = {
-    homeData = homeData
-      .filterNot(data => data.UUID == uuid && data.point == point)
+  def swapHomeData(uuid: UUID, point: Int, data: HomeDataType): Unit = {
+    removeHomeData(uuid, point)
+    addHomeData(data)
   }
 
-  def swapHomeData(uuid: UUID,point: Int,data:HomeDataType): Unit = {
-    removeHomeData(uuid,point)
-    addHomeData(data)
+  private def addHomeData(data: HomeDataType): Unit = homeData += data
+
+  private def removeHomeData(uuid: UUID, point: Int): Unit = {
+    homeData = homeData
+      .filterNot(data => data.UUID == uuid && data.point == point)
   }
 
   def loadHomeData(): Unit = {
@@ -39,25 +39,12 @@ object HomeData {
         val location = rs.getString("Location").split(",")
         HomeDataType(
           UUID = UUID.fromString(rs.getString("UUID")
-          .replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]+)", "$1-$2-$3-$4-$5")),
+            .replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]+)", "$1-$2-$3-$4-$5")),
           point = rs.getInt("point"),
-          location = new Location(Bukkit.getWorld(location(0)),location(1).toDouble,location(2).toDouble,location(3).toDouble),
+          location = new Location(Bukkit.getWorld(location(0)), location(1).toDouble, location(2).toDouble, location(3).toDouble),
           isLocked = rs.getBoolean("Locked")
         )
       }).toSet
-    sql.close()
-  }
-
-  def save(): Unit = {
-    val sql = new SQL
-    sql.con.setAutoCommit(false)
-    sql.executeSQL("DELETE FROM Homes;")
-    homeData.foreach{data =>
-      val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
-      sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES ('${data.UUID.toString}',${data.point},'$locationString',${data.isLocked})")
-    }
-    sql.con.commit()
-    sql.con.setAutoCommit(true)
     sql.close()
   }
 
@@ -67,7 +54,20 @@ object HomeData {
       override def run(): Unit = {
         save()
       }
-    }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
+    }.runTaskTimerAsynchronously(ryoServerAssist, oneMinute, oneMinute)
+  }
+
+  def save(): Unit = {
+    val sql = new SQL
+    sql.con.setAutoCommit(false)
+    sql.executeSQL("DELETE FROM Homes;")
+    homeData.foreach { data =>
+      val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
+      sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES ('${data.UUID.toString}',${data.point},'$locationString',${data.isLocked})")
+    }
+    sql.con.commit()
+    sql.con.setAutoCommit(true)
+    sql.close()
   }
 
 }

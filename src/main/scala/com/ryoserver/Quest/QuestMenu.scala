@@ -2,9 +2,9 @@ package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player
-import org.bukkit.ChatColor._
 
 class QuestMenu(ryoServerAssist: RyoServerAssist) {
 
@@ -18,7 +18,7 @@ class QuestMenu(ryoServerAssist: RyoServerAssist) {
         new QuestProcessMenu(ryoServerAssist).inventory(player)
       }
     } catch {
-      case _:NoSuchElementException => player.sendMessage(s"${RED}デイリークエストを選択中にクエストのメニューを開くことはできません！")
+      case _: NoSuchElementException => player.sendMessage(s"${RED}デイリークエストを選択中にクエストのメニューを開くことはできません！")
     }
   }
 
@@ -36,7 +36,7 @@ class QuestMenu(ryoServerAssist: RyoServerAssist) {
             new DailyQuestProcessMenu(ryoServerAssist).inventory(player)
           }
         } catch {
-          case _:NoSuchElementException => player.sendMessage(s"${RED}クエストを選択中にデイリークエストのメニューを開くことはできません！")
+          case _: NoSuchElementException => player.sendMessage(s"${RED}クエストを選択中にデイリークエストのメニューを開くことはできません！")
         }
       } else {
         player.sendMessage(s"${RED}デイリークエストは一日一回のみこなすことができます!")

@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuData, MenuItemStack}
+import com.ryoserver.Menu.MenuLayout.{getX, getY}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack}
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{NeoStackDataType, NeoStackGateway, PlayerData}
@@ -25,7 +25,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     var index = 0
     var invItems = ""
     if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
-    invItems.split(";").zipWithIndex.foreach{case (item,slot) =>
+    invItems.split(";").zipWithIndex.foreach { case (item, slot) =>
       if (Item.getItemStackFromString(item) != null) {
         val is = Item.getOneItemStack(Item.getItemStackFromString(item))
         val data = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
@@ -49,23 +49,23 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             PlayerData.playerData = PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
             PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
           }
-          setItemStackButton(MenuItemStack(getX(index),getY(index),setItem)
-          .setLeftClickMotion(stackItem(_,slot))
-          .setRightClickMotion(oneItem(_,slot))
-          .setReload())
+          setItemStackButton(MenuItemStack(getX(index), getY(index), setItem)
+            .setLeftClickMotion(stackItem(_, slot))
+            .setRightClickMotion(oneItem(_, slot))
+            .setReload())
         }
         index += 1
       }
     }
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backPage))
+      .setLeftClickMotion(backPage))
     if (p.hasPermission("ryoserverassist.neoStack")) {
       setButton(MenuButton(5, 6, Material.CHEST, s"${AQUA}アイテムを追加します。", List(s"${GRAY}クリックで追加メニューを開きます。"))
-      .setLeftClickMotion(openAddGUI))
+        .setLeftClickMotion(openAddGUI))
     }
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(nextPage))
-    build(new StackMenu(ryoServerAssist).openStack(_,page,category))
+      .setLeftClickMotion(nextPage))
+    build(new StackMenu(ryoServerAssist).openStack(_, page, category))
     open()
   }
 
@@ -90,7 +90,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, 1, getSelectedCategory(p))
   }
 
-  private def oneItem(p: Player,index: Int): Unit = {
+  private def oneItem(p: Player, index: Int): Unit = {
     val is = inv.get.getItem(index)
     val data = new NeoStackGateway()
     val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)
@@ -98,7 +98,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     data.addItemToPlayer(p, playerData.head.savingItemStack, 1)
   }
 
-  private def stackItem(p: Player,index: Int): Unit = {
+  private def stackItem(p: Player, index: Int): Unit = {
     val is = inv.get.getItem(index)
     val data = new NeoStackGateway()
     val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)

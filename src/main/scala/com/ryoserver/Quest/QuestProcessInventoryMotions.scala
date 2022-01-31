@@ -40,24 +40,15 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.questClear(p, ryoServerAssist)
+      questGateway.questClear(p)
       new QuestMenu(ryoServerAssist).selectInventory(p)
-      new GiveTitle(ryoServerAssist).questClearNumber(p)
-      new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
+      new GiveTitle().questClearNumber(p)
+      new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
       questGateway.setQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
       new QuestMenu(ryoServerAssist).selectInventory(p)
     }
-  }
-
-  def buttonItemRemove(p: Player, inv: Inventory): Unit = {
-    List(
-      getLayOut(1, 6),
-      getLayOut(2, 6),
-      getLayOut(9, 6),
-      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
-    ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 
   def deliveryFromNeoStack(p: Player): Unit = {
@@ -85,6 +76,15 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     buttonItemRemove(p, p.getOpenInventory.getTopInventory)
     new QuestMenu(ryoServerAssist).selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
+  }
+
+  def buttonItemRemove(p: Player, inv: Inventory): Unit = {
+    List(
+      getLayOut(1, 6),
+      getLayOut(2, 6),
+      getLayOut(9, 6),
+      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
+    ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 
 }

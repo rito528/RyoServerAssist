@@ -50,12 +50,12 @@ class Break {
           pointClone.add(x, y, 0)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, pointClone, pointClone.getBlock.getType, pointClone.getBlock.getBlockData)
               pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               pointClone.getBlock.setType(Material.AIR)
@@ -79,12 +79,12 @@ class Break {
           pointClone.add(0, y, z)
           if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,pointClone,pointClone.getBlock.getType,pointClone.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, pointClone, pointClone.getBlock.getType, pointClone.getBlock.getBlockData)
               pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               pointClone.getBlock.setType(Material.AIR)

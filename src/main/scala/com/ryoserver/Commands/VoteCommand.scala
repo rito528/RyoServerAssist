@@ -12,7 +12,7 @@ class VoteCommand extends CommandBuilder {
   ).playerCommand()
 
   def testVote(): Unit = {
-    new Vote().vote("投票テスト",sender.getName)
+    new Vote().vote("投票テスト", sender.getName)
   }
 
 }

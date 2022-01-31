@@ -14,13 +14,13 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def openSkillCategoryMenu(player: Player): Unit = {
     p = player
     setButton(MenuButton(3, 2, Material.POTION, s"${GREEN}通常スキル", List(s"${GRAY}クリックで開きます。"))
-    .setLeftClickMotion(openSkillMenu))
+      .setLeftClickMotion(openSkillMenu))
     setButton(MenuButton(5, 2, Material.GOLDEN_PICKAXE, s"$GREEN[特殊] 破壊系スキル", List(s"${GRAY}クリックで開きます。"))
-    .setLeftClickMotion(openBreakSkillMenu))
+      .setLeftClickMotion(openBreakSkillMenu))
     setButton(MenuButton(7, 2, Material.GOLDEN_HOE, s"$GREEN[特殊] 農業系スキル", List(s"${GRAY}クリックで開きます。"))
-    .setLeftClickMotion(openFarmSkillMenu))
+      .setLeftClickMotion(openFarmSkillMenu))
     setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(openMenu))
+      .setLeftClickMotion(openMenu))
     build(new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu)
     open()
   }

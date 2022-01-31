@@ -24,15 +24,24 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       p.sendMessage(s"${RED}イベントが終了しました！")
     } else {
       setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${ChatColor.AQUA}イベントページに戻る", List(s"${ChatColor.GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backPage))
+        .setLeftClickMotion(backPage))
       setButton(MenuButton(2, 6, Material.NETHER_STAR, s"${ChatColor.YELLOW}納品", List(s"${ChatColor.GRAY}クリックで納品します。"))
-      .setLeftClickMotion(delivery)
-      .setReload())
+        .setLeftClickMotion(delivery)
+        .setReload())
       partButton = true
       buttons :+= getLayOut(1, 6)
       buttons :+= getLayOut(2, 6)
       build(new EventDeliveryMenu(ryoServerAssist).openMenu)
       open()
+    }
+  }
+
+  @EventHandler
+  def onClose(e: InventoryCloseEvent): Unit = {
+    val inv = e.getView.getTopInventory
+    if (inv.getHolder != MenuSessions.session || e.getView.getTitle != name) return
+    inv.getContents.toList.zipWithIndex.foreach { case (is, index) =>
+      if (index != getLayOut(1, 6) && index != getLayOut(2, 6) && is != null) e.getPlayer.getLocation.getWorld.dropItem(e.getPlayer.getLocation, is)
     }
   }
 
@@ -59,7 +68,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       }
       eventCounter += amount
       new EventDeliveryMenu(ryoServerAssist).openMenu(p)
-      new UpdateLevel(ryoServerAssist).addExp(exp, p)
+      new UpdateLevel().addExp(exp, p)
       if (!eventRanking.contains(p.getUniqueId.toString)) {
         eventRanking += (p.getUniqueId.toString -> amount)
       } else {
@@ -70,15 +79,6 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       }
       p.sendMessage(s"${AQUA}納品しました。")
       p.sendMessage(s"${AQUA}${exp.toString}exp手に入りました。(ボーナス分を除く)")
-    }
-  }
-
-  @EventHandler
-  def onClose(e: InventoryCloseEvent): Unit = {
-    val inv = e.getView.getTopInventory
-    if (inv.getHolder != MenuSessions.session || e.getView.getTitle != name) return
-    inv.getContents.toList.zipWithIndex.foreach { case (is, index) =>
-      if (index != getLayOut(1, 6) && index != getLayOut(2, 6) && is != null) e.getPlayer.getLocation.getWorld.dropItem(e.getPlayer.getLocation, is)
     }
   }
 

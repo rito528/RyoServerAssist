@@ -1,6 +1,5 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
@@ -56,21 +55,21 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       ).filterNot(_ == null)))
       if (eventData.eventType == "delivery") {
         setButton(MenuButton(5, 2, Material.HOPPER_MINECART, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品インベントリを開きます。"))
-        .setLeftClickMotion(delivery))
+          .setLeftClickMotion(delivery))
       }
       if (eventData.eventType != "bonus") {
         setButton(MenuButton(7, 2, Material.EXPERIENCE_BOTTLE, s"${YELLOW}ランキングを表示します。", List(s"${GRAY}クリックでランキングを表示します。"))
-        .setLeftClickMotion(rankingMenu))
+          .setLeftClickMotion(rankingMenu))
       }
     } else {
       setButton(MenuButton(5, 2, Material.BOOK, s"${YELLOW}イベント情報", List(s"${GRAY}現在開催されていません。")))
     }
     setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${YELLOW}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backMenu))
+      .setLeftClickMotion(backMenu))
     setButton(MenuButton(5, 3, Material.ENCHANTED_BOOK, s"${GREEN}過去のイベント", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(beforeEvent))
+      .setLeftClickMotion(beforeEvent))
     setButton(MenuButton(9, 3, Material.NAME_TAG, "イベント称号を表示します。", List(s"${GRAY}クリックで表示します。"))
-    .setLeftClickMotion(eventTitle))
+      .setLeftClickMotion(eventTitle))
     build(new EventMenu(ryoServerAssist).openEventMenu)
     open()
   }

@@ -16,6 +16,6 @@ class GetGachaItemCommand extends CommandBuilder {
   ).playerCommand()
 
   def gachaItemCommand(): Unit = {
-    new GachaItemGetInventory().openGachaItemGetMenu(sender.asInstanceOf[Player],args(0).toInt)
+    new GachaItemGetInventory().openGachaItemGetMenu(sender.asInstanceOf[Player], args(0).toInt)
   }
 }

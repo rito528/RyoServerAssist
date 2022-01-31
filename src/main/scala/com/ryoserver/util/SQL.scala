@@ -24,12 +24,6 @@ class SQL {
     }
   }
 
-  def executeQuery(query: String): ResultSet = {
-    this.ps = this.con.prepareStatement(query)
-    this.rs = this.ps.executeQuery()
-    rs
-  }
-
   def executeQueryPurseFolder(query: String, purseFolder: String): ResultSet = {
     Class.forName(this.driver)
     this.ps = this.con.prepareStatement(query)
@@ -38,22 +32,16 @@ class SQL {
     rs
   }
 
-  def executeSQL(sql: String): Unit = {
-    Class.forName(this.driver)
-    this.ps = this.con.prepareStatement(sql)
-    this.ps.executeUpdate()
-  }
-
-  def createTable(tableName: String,columnData: List[ColumnData]): Unit = {
+  def createTable(tableName: String, columnData: List[ColumnData]): Unit = {
     //テーブルが存在するかチェック
     val rs = executeQuery(s"SHOW TABLES LIKE '$tableName';")
     if (rs.next()) {
       //カラムが存在するので不足しているカラムがないか確認
-      columnData.zipWithIndex.foreach{case (data,index) => {
+      columnData.zipWithIndex.foreach { case (data, index) => {
         val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
         if (!checkColumn.next()) {
           //カラムが存在しない
-          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0 )"" else s" AFTER ${columnData(index - 1).columnName}"}")
+          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0) "" else s" AFTER ${columnData(index - 1).columnName}"}")
         } else {
           //カラムが存在するけど型が違うので変更する
           val sqlDataType = if (checkColumn.getString("Type").contains("tinyint")) {
@@ -81,6 +69,18 @@ class SQL {
       }
       executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
     }
+  }
+
+  def executeQuery(query: String): ResultSet = {
+    this.ps = this.con.prepareStatement(query)
+    this.rs = this.ps.executeQuery()
+    rs
+  }
+
+  def executeSQL(sql: String): Unit = {
+    Class.forName(this.driver)
+    this.ps = this.con.prepareStatement(sql)
+    this.ps.executeUpdate()
   }
 
   def purseFolder(sql: String, quote: String): Unit = {

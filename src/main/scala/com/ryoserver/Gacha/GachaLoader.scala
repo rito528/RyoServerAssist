@@ -1,7 +1,6 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
@@ -21,20 +20,20 @@ object GachaLoader {
   var bigPer: Double = _ //大当たり
   var special: Double = _ //特等
 
-  def addGachaItem(ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
+  def addGachaItem(is: ItemStack, rarity: Int): Unit = {
     val sql = new SQL()
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
     config.set("i", is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);", config.saveToString())
     sql.close()
-    unload(ryoServerAssist)
-    load(ryoServerAssist)
+    unload()
+    load()
   }
 
-  def load(ryoServerAssist: RyoServerAssist): Unit = {
+  def load(): Unit = {
     gachaItemLoad()
-    gachaRarityLoad(ryoServerAssist)
+    gachaRarityLoad()
   }
 
   private def gachaItemLoad(): Unit = {
@@ -54,7 +53,7 @@ object GachaLoader {
     sql.close()
   }
 
-  private def gachaRarityLoad(ryoServerAssist: RyoServerAssist): Unit = {
+  private def gachaRarityLoad(): Unit = {
     /*
       各レアリティの割合を計算
      */
@@ -71,7 +70,7 @@ object GachaLoader {
     getLogger.info("ガチャ排出割合読み込みが完了しました！")
   }
 
-  def unload(ryoServerAssist: RyoServerAssist): Unit = {
+  def unload(): Unit = {
     getLogger.info("ガチャリストをアンロードしています...")
     perItemList = Array.empty
     bigPerItemList = Array.empty

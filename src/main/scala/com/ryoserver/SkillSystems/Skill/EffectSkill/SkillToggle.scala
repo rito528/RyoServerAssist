@@ -15,12 +15,12 @@ trait SkillToggle {
   val ryoServerAssist: RyoServerAssist
 
   def effect(effectType: PotionEffectType, level: Int, sp: Int, skillName: String): Unit = {
-    val openCheck = new SkillOpenCheck(ryoServerAssist)
+    val openCheck = new SkillOpenCheck()
     if (!openCheck.isOpened(skillName, p) && !openCheck.isTrueOpen(skillName, p)) {
       p.sendMessage(s"${RED}このスキルは開放できません！")
       return
     } else if (openCheck.isTrueOpen(skillName, p) && !openCheck.isOpened(skillName, p)) {
-      new SkillOpenData(ryoServerAssist).openSkill(p, skillName)
+      new SkillOpenData().openSkill(p, skillName)
       p.sendMessage(s"${AQUA}スキル:${skillName}を開放しました！")
       new SelectSkillMenu(ryoServerAssist).openMenu(p)
       return

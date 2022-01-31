@@ -2,8 +2,8 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Menu.MenuLayout._
 import com.ryoserver.Menu.{Menu, MenuItemStack}
-import org.bukkit.entity.Player
 import org.bukkit.ChatColor._
+import org.bukkit.entity.Player
 
 class GachaItemGetInventory extends Menu {
 
@@ -11,7 +11,7 @@ class GachaItemGetInventory extends Menu {
   override var name: String = "ガチャアイテム一覧"
   override var p: Player = _
 
-  def openGachaItemGetMenu(player: Player,rarity: Int): Unit = {
+  def openGachaItemGetMenu(player: Player, rarity: Int): Unit = {
     p = player
     val itemList = rarity match {
       case 0 =>
@@ -23,15 +23,15 @@ class GachaItemGetInventory extends Menu {
       case 3 =>
         GachaLoader.specialItemList
     }
-    itemList.zipWithIndex.foreach{case (item,index) =>
-      setItemStackButton(MenuItemStack(getX(index),getY(index),item)
-      .setLeftClickMotion(getItem(_,index)))
+    itemList.zipWithIndex.foreach { case (item, index) =>
+      setItemStackButton(MenuItemStack(getX(index), getY(index), item)
+        .setLeftClickMotion(getItem(_, index)))
     }
-    build(new GachaItemGetInventory().openGachaItemGetMenu(_,0))
+    build(new GachaItemGetInventory().openGachaItemGetMenu(_, 0))
     open()
   }
 
-  private def getItem(p: Player,index: Int): Unit = {
+  private def getItem(p: Player, index: Int): Unit = {
     val item = p.getOpenInventory.getTopInventory.getItem(index)
     p.getInventory.addItem(item)
     p.sendMessage(s"${AQUA}${item.getItemMeta.getDisplayName}をインベントリに加えました。")

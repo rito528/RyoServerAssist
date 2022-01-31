@@ -1,14 +1,13 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.{PlayerTitleData, TitleData}
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 
 import java.util.UUID
 
-class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class TitleCommand extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(
@@ -22,7 +21,7 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       sender.sendMessage(s"${RED}指定した称号は存在しません！")
       return
     }
-    val playerTitleData = new PlayerTitleData(ryoServerAssist)
+    val playerTitleData = new PlayerTitleData()
     if (!playerTitleData.openTitle(Bukkit.getPlayer(UUID.fromString(args(2))), args(1))) {
       sender.sendMessage(s"${RED}指定したプレイヤーは指定した称号をすでに持っています！")
       return
@@ -35,7 +34,7 @@ class TitleCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
       sender.sendMessage(s"${RED}指定した称号は存在しません！")
       return
     }
-    val playerTitleData = new PlayerTitleData(ryoServerAssist)
+    val playerTitleData = new PlayerTitleData()
     if (!playerTitleData.removeTitle(UUID.fromString(args(2)), args(1))) {
       sender.sendMessage(s"${RED}指定したプレイヤーは指定した称号を持っていません！")
       return

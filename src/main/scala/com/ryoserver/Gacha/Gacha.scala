@@ -63,7 +63,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
         p.sendMessage(s"$AQUA${getItemAmount}回ガチャを引きました！")
         p.sendMessage(s"${AQUA}特等x$special,大当たりx$bigPer,あたりx$per,はずれx${miss}個出ました！")
         pullCoolDownSet(p, ryoServerAssist)
-        new GiveTitle(ryoServerAssist).gachaPullNumber(p)
+        new GiveTitle().gachaPullNumber(p)
       } else if (((mainHand.getType == GachaPaperData.normal.getType && mainHand.getItemMeta == GachaPaperData.normal.getItemMeta) || (mainHand.getType == GachaPaperData.fromAdmin.getType && mainHand.getItemMeta == GachaPaperData.fromAdmin.getItemMeta))
         && !getCoolDown(p)) {
         /*
@@ -96,7 +96,7 @@ class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
           }
         }
         pullCoolDownSet(p, ryoServerAssist)
-        new GiveTitle(ryoServerAssist).gachaPullNumber(p)
+        new GiveTitle().gachaPullNumber(p)
       }
     }
   }

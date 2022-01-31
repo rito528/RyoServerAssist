@@ -2,25 +2,18 @@ package com.ryoserver.Title
 
 import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
-import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 import java.util.UUID
 
-class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
+class PlayerTitleData {
 
   def openTitle(p: Player, title: String): Boolean = {
     val uuid = p.getUniqueId
     if (hasTitle(uuid, title)) return false
     p.openTitles(getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title)
-    new GiveTitle(ryoServerAssist).titleGetNumber(p)
-    true
-  }
-
-  def removeTitle(uuid: UUID, title: String): Boolean = {
-    if (!hasTitle(uuid, title)) return false
-    Bukkit.getOfflinePlayer(uuid).openTitles(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
+    new GiveTitle().titleGetNumber(p)
     true
   }
 
@@ -33,6 +26,12 @@ class PlayerTitleData(ryoServerAssist: RyoServerAssist) {
       case None =>
         Array.empty[String]
     }
+  }
+
+  def removeTitle(uuid: UUID, title: String): Boolean = {
+    if (!hasTitle(uuid, title)) return false
+    Bukkit.getOfflinePlayer(uuid).openTitles(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
+    true
   }
 
   def getSelectedTitle(uuid: UUID): String = {
