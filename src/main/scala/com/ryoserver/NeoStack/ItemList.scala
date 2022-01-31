@@ -1,6 +1,5 @@
 package com.ryoserver.NeoStack
 
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.inventory.ItemStack

@@ -49,25 +49,25 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
-                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
-                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType), 1) ||
+                neoStackGateway.getNeoStackAmount(p, new ItemStack(seeds(farmItemLoc.getBlock.getType), 1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType, 1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType, 1)) {
                   p.getInventory.removeItem(seed)
                 } else {
-                  neoStackGateway.removeNeoStack(p,seed,1)
+                  neoStackGateway.removeNeoStack(p, seed, 1)
                 }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
-                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+                coreProtectAPI.logPlacement(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -86,25 +86,25 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, -z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
-                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
-                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType), 1) ||
+                neoStackGateway.getNeoStackAmount(p, new ItemStack(seeds(farmItemLoc.getBlock.getType), 1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType, 1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType, 1)) {
                   p.getInventory.removeItem(seed)
                 } else {
-                  neoStackGateway.removeNeoStack(p,seed,1)
+                  neoStackGateway.removeNeoStack(p, seed, 1)
                 }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
-                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+                coreProtectAPI.logPlacement(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -123,25 +123,25 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(-x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
-                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
-                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType), 1) ||
+                neoStackGateway.getNeoStackAmount(p, new ItemStack(seeds(farmItemLoc.getBlock.getType), 1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType, 1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType, 1)) {
                   p.getInventory.removeItem(seed)
                 } else {
-                  neoStackGateway.removeNeoStack(p,seed,1)
+                  neoStackGateway.removeNeoStack(p, seed, 1)
                 }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
-                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+                coreProtectAPI.logPlacement(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)
@@ -160,25 +160,25 @@ class Harvest {
           val farmItemLoc = minusXLoc.clone().add(x, 0, z)
           if (farmItem.contains(farmItemLoc.getBlock.getType)) {
             if (worldGuardWrapper.isOwner(p, farmItemLoc) || (worldGuardWrapper.isGlobal(farmItemLoc) && !notSpecialSkillWorld.contains(farmItemLoc.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+              coreProtectAPI.logRemoval(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
               farmItemLoc.getBlock.getDrops(p.getInventory.getItemInMainHand).forEach(itemStack => {
                 if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
                   neoStackGateway.addStack(itemStack, p)
                 } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation,itemStack)
+                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
                 }
               })
               if (getAutoPlaceSeedsStatus(p.getUniqueId)
-                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType),1) ||
-                neoStackGateway.getNeoStackAmount(p,new ItemStack(seeds(farmItemLoc.getBlock.getType),1)) >= 1)) {
-                val seed = new ItemStack(farmItemLoc.getBlock.getType,1)
-                if (p.getInventory.contains(farmItemLoc.getBlock.getType,1)) {
+                && (p.getInventory.contains(seeds(farmItemLoc.getBlock.getType), 1) ||
+                neoStackGateway.getNeoStackAmount(p, new ItemStack(seeds(farmItemLoc.getBlock.getType), 1)) >= 1)) {
+                val seed = new ItemStack(farmItemLoc.getBlock.getType, 1)
+                if (p.getInventory.contains(farmItemLoc.getBlock.getType, 1)) {
                   p.getInventory.removeItem(seed)
                 } else {
-                  neoStackGateway.removeNeoStack(p,seed,1)
+                  neoStackGateway.removeNeoStack(p, seed, 1)
                 }
                 farmItemLoc.getBlock.setType(farmItemLoc.getBlock.getType)
-                coreProtectAPI.logPlacement(p.getName,farmItemLoc,farmItemLoc.getBlock.getType,farmItemLoc.getBlock.getBlockData)
+                coreProtectAPI.logPlacement(p.getName, farmItemLoc, farmItemLoc.getBlock.getType, farmItemLoc.getBlock.getBlockData)
                 cost += 1
               } else {
                 farmItemLoc.getBlock.setType(Material.AIR)

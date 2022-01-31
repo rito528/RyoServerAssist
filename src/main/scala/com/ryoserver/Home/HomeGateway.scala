@@ -1,19 +1,19 @@
 package com.ryoserver.Home
 
+import org.bukkit.ChatColor._
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.ChatColor._
 
 class HomeGateway(p: Player) {
 
   private val uuid = p.getUniqueId
 
-  def setHomePoint(point: Int,location: Location): Unit = {
+  def setHomePoint(point: Int, location: Location): Unit = {
     if (isHomeLocked(point)) {
       p.sendMessage(s"${RED}ホーム${point}がロックされています。")
       return
     }
-    HomeData.swapHomeData(uuid,point,HomeDataType(
+    HomeData.swapHomeData(uuid, point, HomeDataType(
       UUID = uuid,
       point = point,
       location = location,
@@ -33,6 +33,16 @@ class HomeGateway(p: Player) {
     }
   }
 
+  def isHomeLocked(point: Int): Boolean = {
+    val targetData = HomeData.getTargetHomeData(uuid, point)
+    targetData match {
+      case Some(data) =>
+        data.isLocked
+      case None =>
+        false
+    }
+  }
+
   def teleportHome(point: Int): Unit = {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     targetData match {
@@ -41,16 +51,6 @@ class HomeGateway(p: Player) {
         p.sendMessage(s"${AQUA}ホーム${point}にテレポートしました。")
       case None =>
         p.sendMessage(s"${RED}ホームが設定されていないためテレポートできませんでした。")
-    }
-  }
-
-  def isHomeLocked(point: Int): Boolean = {
-    val targetData = HomeData.getTargetHomeData(uuid, point)
-    targetData match {
-      case Some(data) =>
-        data.isLocked
-      case None =>
-        false
     }
   }
 

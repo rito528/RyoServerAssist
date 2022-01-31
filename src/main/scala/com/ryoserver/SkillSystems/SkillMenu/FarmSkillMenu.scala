@@ -9,8 +9,6 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-import scala.annotation.tailrec
-
 class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val slot: Int = 6
@@ -19,45 +17,45 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openFarmSkillMenu(player: Player): Unit = {
     p = player
-    setButton(MenuButton(2, 1, getIcon("ウインググロー",Material.WOODEN_HOE), s"${GREEN}ウインググロー",
+    setButton(MenuButton(2, 1, getIcon("ウインググロー", Material.WOODEN_HOE), s"${GREEN}ウインググロー",
       getGrowSkillLore("ウインググロー", "1*3", 15))
-      .setLeftClickMotion(toggle(_,"ウインググロー"))
+      .setLeftClickMotion(toggle(_, "ウインググロー"))
       .setReload())
-    setButton(MenuButton(4, 1, getIcon("ワイドグロー",Material.STONE_HOE), s"${GREEN}ワイドグロー",
+    setButton(MenuButton(4, 1, getIcon("ワイドグロー", Material.STONE_HOE), s"${GREEN}ワイドグロー",
       getGrowSkillLore("ワイドグロー", "1*5", 30))
-      .setLeftClickMotion(toggle(_,"ワイドグロー"))
+      .setLeftClickMotion(toggle(_, "ワイドグロー"))
       .setReload())
-    setButton(MenuButton(6, 1, getIcon("ラウンドグロー",Material.IRON_HOE), s"${GREEN}ラウンドグロー",
+    setButton(MenuButton(6, 1, getIcon("ラウンドグロー", Material.IRON_HOE), s"${GREEN}ラウンドグロー",
       getGrowSkillLore("ラウンドグロー", "3*3", 55))
-      .setLeftClickMotion(toggle(_,"ラウンドグロー"))
+      .setLeftClickMotion(toggle(_, "ラウンドグロー"))
       .setReload())
-    setButton(MenuButton(2, 3, getIcon("ウイングハーベスト",Material.WOODEN_HOE), s"${GREEN}ウイングハーベスト",
+    setButton(MenuButton(2, 3, getIcon("ウイングハーベスト", Material.WOODEN_HOE), s"${GREEN}ウイングハーベスト",
       getHarvestSkillLore("ウイングハーベスト", "1*3", 9))
-      .setLeftClickMotion(toggle(_,"ウイングハーベスト"))
+      .setLeftClickMotion(toggle(_, "ウイングハーベスト"))
       .setReload())
-    setButton(MenuButton(4, 3, getIcon("ワイドハーベスト",Material.STONE_HOE), s"${GREEN}ワイドハーベスト",
+    setButton(MenuButton(4, 3, getIcon("ワイドハーベスト", Material.STONE_HOE), s"${GREEN}ワイドハーベスト",
       getHarvestSkillLore("ワイドハーベスト", "1*5", 15))
-      .setLeftClickMotion(toggle(_,"ワイドハーベスト"))
+      .setLeftClickMotion(toggle(_, "ワイドハーベスト"))
       .setReload())
-    setButton(MenuButton(6, 3, getIcon("ラウンドハーベスト",Material.IRON_HOE), s"${GREEN}ラウンドハーベスト",
+    setButton(MenuButton(6, 3, getIcon("ラウンドハーベスト", Material.IRON_HOE), s"${GREEN}ラウンドハーベスト",
       getHarvestSkillLore("ラウンドハーベスト", "3*3", 21))
-      .setLeftClickMotion(toggle(_,"ラウンドハーベスト"))
+      .setLeftClickMotion(toggle(_, "ラウンドハーベスト"))
       .setReload())
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}スキルカテゴリ選択画面に戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backPage))
+      .setLeftClickMotion(backPage))
     setSkull(MenuSkull(5, 6, p, s"${GREEN}スキル選択を解除します。", List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + p.getSpecialSkillOpenPoint))
-    .setLeftClickMotion(clear))
-    setButton(MenuButton(9, 6, Material.WHEAT_SEEDS,s"${GREEN}自動種植え機能を有効にします。",List(
+      .setLeftClickMotion(clear))
+    setButton(MenuButton(9, 6, Material.WHEAT_SEEDS, s"${GREEN}自動種植え機能を有効にします。", List(
       s"${GRAY}現在の状態: ${getAutoSeedsPlaceStatus(p)}",
       s"${GRAY}収穫スキルを利用した際に有効になります。"
     ))
-    .setLeftClickMotion(toggleSeedsAutoPlace)
-    .setReload())
+      .setLeftClickMotion(toggleSeedsAutoPlace)
+      .setReload())
     build(new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu)
     open()
   }
 
-  private def getIcon(skillName: String,openedIcon: Material): Material = {
+  private def getIcon(skillName: String, openedIcon: Material): Material = {
     if (isSkillOpened(p, skillName)) {
       openedIcon
     } else {
@@ -77,7 +75,7 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     }
   }
 
-  private def toggle(p: Player,skillName: String): Unit = {
+  private def toggle(p: Player, skillName: String): Unit = {
     skillToggle(p, skillName)
   }
 

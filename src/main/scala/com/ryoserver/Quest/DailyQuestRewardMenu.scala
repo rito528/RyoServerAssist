@@ -1,12 +1,11 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.{Menu, MenuButton}
-import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
-import org.bukkit.{Material, Sound}
-import org.bukkit.entity.Player
 import org.bukkit.ChatColor._
+import org.bukkit.entity.Player
+import org.bukkit.{Material, Sound}
 
 class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -16,12 +15,12 @@ class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   def openRewardMenu(player: Player): Unit = {
     p = player
-    setButton(MenuButton(2,1,Material.PAPER,s"${GREEN}ガチャ券を受け取る",List(s"${GRAY}報酬としてガチャ券を16枚受け取ります。"))
-    .setLeftClickMotion(rewardGachaTicket)
-    .setEffect())
-    setButton(MenuButton(4,1,Material.EXPERIENCE_BOTTLE,s"${GREEN}今回のクエストの経験値1.2倍",List(s"${GRAY}報酬として今回のクエストの経験値を1.2倍にします。"))
-    .setLeftClickMotion(rewardQuestExp)
-    .setEffect())
+    setButton(MenuButton(2, 1, Material.PAPER, s"${GREEN}ガチャ券を受け取る", List(s"${GRAY}報酬としてガチャ券を16枚受け取ります。"))
+      .setLeftClickMotion(rewardGachaTicket)
+      .setEffect())
+    setButton(MenuButton(4, 1, Material.EXPERIENCE_BOTTLE, s"${GREEN}今回のクエストの経験値1.2倍", List(s"${GRAY}報酬として今回のクエストの経験値を1.2倍にします。"))
+      .setLeftClickMotion(rewardQuestExp)
+      .setEffect())
     build(new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu)
     open()
   }

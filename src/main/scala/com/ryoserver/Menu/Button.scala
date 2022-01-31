@@ -1,8 +1,6 @@
 package com.ryoserver.Menu
 
-import org.bukkit.{Material, OfflinePlayer}
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 trait Button {
 

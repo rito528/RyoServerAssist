@@ -15,7 +15,7 @@ object BossBar {
   def createLevelBer(exp: Double, p: Player): Unit = {
     val calLv = new CalLv
     val formattedExp = Format.threeCommaFormat(exp)
-    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp , BarColor.GREEN, BarStyle.SOLID)
+    val bossBer = Bukkit.createBossBar("Lv." + calLv.getLevel(exp.toInt) + " 総EXP:" + formattedExp, BarColor.GREEN, BarStyle.SOLID)
     val lv = calLv.getLevel(exp.toInt)
     val remainingExp = calLv.getSumTotal(lv + 1) - exp
     val formattedRemainingExp = Format.threeCommaFormat(remainingExp)

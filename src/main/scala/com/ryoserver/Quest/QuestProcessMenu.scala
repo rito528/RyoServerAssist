@@ -37,7 +37,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
             s"${WHITE}このクエストを完了した際に得られる経験値量:${selectedQuestData.exp}"
           )))
           setButton(MenuButton(2, 6, Material.NETHER_STAR, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品します。"))
-          .setLeftClickMotion(new QuestProcessInventoryMotions(ryoServerAssist).delivery)
+            .setLeftClickMotion(new QuestProcessInventoryMotions(ryoServerAssist).delivery)
             .setReload())
           if (p.getQuestLevel >= 20) {
             val neoStackGateway = new NeoStackGateway()
@@ -50,7 +50,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
                 }"
               }
             ).setLeftClickMotion(new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack)
-            .setReload())
+              .setReload())
             buttons :+= getLayOut(3, 6)
           }
         } else if (selectedQuestData.questType == "suppression") {

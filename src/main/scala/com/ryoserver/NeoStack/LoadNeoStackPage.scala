@@ -2,7 +2,6 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Logger.getLogger
 import com.ryoserver.util.{Item, SQL}
 

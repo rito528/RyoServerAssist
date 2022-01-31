@@ -11,10 +11,10 @@ class Vote extends Listener {
 
   @EventHandler
   def onVotifierEvent(e: VotifierEvent): Unit = {
-    vote(e.getVote.getServiceName,e.getVote.getUsername)
+    vote(e.getVote.getServiceName, e.getVote.getUsername)
   }
 
-  def vote(service: String,name:String): Unit = {
+  def vote(service: String, name: String): Unit = {
     val site = if (service == "minecraft.jp") "JapanMinecraftServers" else "monocraft"
     val uuid = Player.nameFromUUID(name)
     Bukkit.getOnlinePlayers.forEach(onlinePlayer => {
@@ -36,9 +36,9 @@ class Vote extends Listener {
     val sql = new SQL()
     val query =
       "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber " +
-      "END," +
-      "LastVote = NOW() " +
-      s"WHERE UUID='${p.getUniqueId.toString}';"
+        "END," +
+        "LastVote = NOW() " +
+        s"WHERE UUID='${p.getUniqueId.toString}';"
     sql.executeSQL(query)
     val rs = sql.executeQuery(s"SELECT ContinueVoteNumber FROM Players WHERE UUID = '${p.getUniqueId.toString}'");
     if (rs.next()) {

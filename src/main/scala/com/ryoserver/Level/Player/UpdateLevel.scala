@@ -1,20 +1,17 @@
 package com.ryoserver.Level.Player
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.Event.EventDataProvider
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.{Bukkit, ChatColor, Sound}
+import org.bukkit.{Bukkit, Sound}
 
-import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
-import java.util.{Calendar, TimeZone}
+import java.util.Calendar
 
 class UpdateLevel {
 
@@ -41,8 +38,8 @@ class UpdateLevel {
     val end = s"$nowDate 22:00"
     val startHoliday = s"$nowDate 14:00"
     val endHoliday = s"$nowDate 15:00"
-    if (com.ryoserver.util.Calendar.isBetweenTime(start,end) ||
-      ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && com.ryoserver.util.Calendar.isBetweenTime(startHoliday,endHoliday))) {
+    if (com.ryoserver.util.Calendar.isBetweenTime(start, end) ||
+      ((Calendar.DAY_OF_WEEK == 1 || Calendar.DAY_OF_WEEK == 7) && com.ryoserver.util.Calendar.isBetweenTime(startHoliday, endHoliday))) {
       p.sendMessage(s"${AQUA}ボーナス発生！")
       p.sendMessage(s"${AQUA}exp量が1.2倍になりました！")
       exp *= 1.2

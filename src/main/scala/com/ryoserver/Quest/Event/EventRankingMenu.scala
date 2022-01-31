@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.Event
 
+import com.ryoserver.Menu.MenuLayout.{getX, getY}
 import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
-import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -28,7 +28,7 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       ).filterNot(_ == null)))
     }
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${YELLOW}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backMenu))
+      .setLeftClickMotion(backMenu))
     build(new EventRankingMenu(ryoServerAssist).openRankingMenu)
     open()
   }

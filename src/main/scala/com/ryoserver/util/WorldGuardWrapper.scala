@@ -25,11 +25,6 @@ class WorldGuardWrapper {
     getRegion(loc).nonEmpty
   }
 
-  def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
-    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
-    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
-  }
-
   def isOwner(@NotNull p: Player, @NotNull loc: Location): Boolean = {
     getRegion(loc).foreach(region =>
       if (region.getOwners.contains(p.getUniqueId)) return true
@@ -37,8 +32,13 @@ class WorldGuardWrapper {
     false
   }
 
+  def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
+    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
+    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
+  }
+
   def getOwner(@NotNull loc: Location): String = {
-    getRegion(loc).head.getOwners.toPlayersString.replaceAll("uuid:","").split(",")
+    getRegion(loc).head.getOwners.toPlayersString.replaceAll("uuid:", "").split(",")
       .toList
       .map(uuid => Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName)
       .mkString(",")

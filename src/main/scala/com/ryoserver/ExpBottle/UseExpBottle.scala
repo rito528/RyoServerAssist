@@ -1,10 +1,10 @@
 package com.ryoserver.ExpBottle
 
 import org.bukkit.entity.ExperienceOrb
-import org.bukkit.{Effect, Material, Sound}
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{Effect, Material}
 
 import java.security.SecureRandom
 
@@ -21,7 +21,7 @@ class UseExpBottle extends Listener {
         p.getWorld.playEffect(p.getLocation, Effect.POTION_BREAK, 1)
         exp += 3 + new SecureRandom().nextInt(8)
       }
-      p.getWorld.spawn(p.getLocation,classOf[ExperienceOrb]).setExperience(exp)
+      p.getWorld.spawn(p.getLocation, classOf[ExperienceOrb]).setExperience(exp)
       p.getInventory.setItemInMainHand(null)
     }
   }

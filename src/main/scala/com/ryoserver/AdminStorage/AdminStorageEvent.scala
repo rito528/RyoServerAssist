@@ -1,9 +1,7 @@
 package com.ryoserver.AdminStorage
 
-import com.ryoserver.Storage.Storage
-import org.bukkit.entity.Player
-import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.{EventHandler, Listener}
 
 class AdminStorageEvent extends Listener {
 

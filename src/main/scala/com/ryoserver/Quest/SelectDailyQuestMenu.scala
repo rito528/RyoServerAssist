@@ -21,14 +21,14 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     name = s"デイリークエスト選択:$page"
     val playerLevel = p.getQuestLevel
     val questGateway = new QuestGateway
-    setSelectQuestItem(questGateway.getCanDailyQuests(playerLevel),page)
+    setSelectQuestItem(questGateway.getCanDailyQuests(playerLevel), page)
     if (page == 1) setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    .setLeftClickMotion(back))
+      .setLeftClickMotion(back))
     else setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(back))
+      .setLeftClickMotion(back))
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(next))
-    build(new SelectDailyQuestMenu(ryoServerAssist).inventory(_,1))
+      .setLeftClickMotion(next))
+    build(new SelectDailyQuestMenu(ryoServerAssist).inventory(_, 1))
     open()
   }
 
@@ -47,7 +47,7 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           setButton(MenuButton(getX(invIndex), getY(invIndex), Material.BOOK, s"$RESET[納品クエスト]${questData.questName}", List(
             s"$WHITE【納品リスト】"
           ) ++ requireList ++ description)
-          .setLeftClickMotion(selectQuest(_,index - ((getLayOut(9, 5) + 1) * (page - 1)))))
+            .setLeftClickMotion(selectQuest(_, index - ((getLayOut(9, 5) + 1) * (page - 1)))))
         } else if (questData.questType == "suppression") {
           val requireList = questData.requireList.map { case (require, amount) =>
             s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}体"
@@ -55,7 +55,7 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
           setButton(MenuButton(getX(invIndex), getY(invIndex), Material.BOOK, s"$RESET[討伐クエスト]${questData.questName}", List(
             s"$WHITE【討伐リスト】"
           ) ++ requireList ++ description)
-          .setLeftClickMotion(selectQuest(_,index - ((getLayOut(9, 5) + 1) * (page - 1)))))
+            .setLeftClickMotion(selectQuest(_, index - ((getLayOut(9, 5) + 1) * (page - 1)))))
         }
         invIndex += 1
       }
@@ -73,7 +73,7 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     new SelectDailyQuestMenu(ryoServerAssist).inventory(p, page + 1)
   }
 
-  private def selectQuest(p: Player,index: Int): Unit = {
+  private def selectQuest(p: Player, index: Int): Unit = {
     val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
       .replace("[討伐クエスト]", "")
       .replace("[納品クエスト]", "")

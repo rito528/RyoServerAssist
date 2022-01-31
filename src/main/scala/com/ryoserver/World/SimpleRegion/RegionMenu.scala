@@ -2,7 +2,6 @@ package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Menu.{Menu, MenuButton}
-import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.RyoServerAssist
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.math.Vector3
@@ -29,17 +28,17 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       s"${GRAY}木の斧で始点を左クリックします。",
       s"${GRAY}終点を対角で右クリックします。",
       s"${GRAY}その後、ダイヤの斧をクリックします。"))
-    .setLeftClickMotion(giveAxe))
+      .setLeftClickMotion(giveAxe))
     setButton(MenuButton(5, 1, Material.DIAMOND_AXE, s"${GREEN}保護をします。", List(
       s"${GRAY}クリックで保護を開始します。",
       s"${GRAY}結果がチャットに表示されます。"
     ))
-    .setLeftClickMotion(createRegion))
+      .setLeftClickMotion(createRegion))
     setButton(MenuButton(7, 1, Material.GOLDEN_AXE, s"${GREEN}保護編集メニューを開きます。", List(
       s"${GRAY}クリックで保護編集メニューを開きます。",
       s"${GRAY}自分が管理者の保護範囲内にいる必要があります。"
     ))
-    .setLeftClickMotion(new RegionSettingMenu(ryoServerAssist).openMenu _))
+      .setLeftClickMotion(new RegionSettingMenu(ryoServerAssist).openMenu _))
     build(new RegionMenu(ryoServerAssist).menu)
     open()
   }

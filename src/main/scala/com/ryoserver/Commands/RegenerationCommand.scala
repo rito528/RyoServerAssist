@@ -1,7 +1,6 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.Regeneration.Regeneration
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._

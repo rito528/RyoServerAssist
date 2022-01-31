@@ -28,14 +28,14 @@ class BeforeEventsMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     }
     if (page == 1) {
       setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backPage))
+        .setLeftClickMotion(backPage))
     } else {
       setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backPage))
+        .setLeftClickMotion(backPage))
     }
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(nextPage))
-    build(new BeforeEventsMenu(ryoServerAssist).openMenu(_,1))
+      .setLeftClickMotion(nextPage))
+    build(new BeforeEventsMenu(ryoServerAssist).openMenu(_, 1))
     open()
   }
 

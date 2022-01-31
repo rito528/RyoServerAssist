@@ -12,7 +12,7 @@ class RepairEvent extends Listener {
     val item = e.getInventory.getItem(0)
     if (item == null) return
     if (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item).orNull) ||
-    GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item).orNull))
+      GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item).orNull))
       e.getInventory.setRepairCost(100)
   }
 

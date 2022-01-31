@@ -3,7 +3,6 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Level.Player.UpdateLevel
-import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 

@@ -1,11 +1,10 @@
 package com.ryoserver.AdminStorage
 
 import com.ryoserver.util.SQL
-import org.bukkit.ChatColor.RED
-import org.bukkit.{Bukkit, Sound}
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
+import org.bukkit.{Bukkit, Sound}
 
 class AdminStorage {
 

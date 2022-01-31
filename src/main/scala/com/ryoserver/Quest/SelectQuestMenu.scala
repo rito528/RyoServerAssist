@@ -30,17 +30,17 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         setSelectQuestItem(questGateway.getBookmarkCanQuest(p), page)
     }
     if (page == 1) setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    .setLeftClickMotion(backPage))
+      .setLeftClickMotion(backPage))
     else setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(backPage))
+      .setLeftClickMotion(backPage))
 
     setButton(MenuButton(5, 6, Material.STONECUTTER, s"${GREEN}クエストのソートを行います。"
       , List(s"${WHITE}現在の表示順:$GREEN${QuestSortedData.getPlayerQuestSortData(p).name}",
         s"${GRAY}クリックで変更します。"))
-    .setLeftClickMotion(sort)
-    .setReload())
+      .setLeftClickMotion(sort)
+      .setReload())
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(nextPage))
+      .setLeftClickMotion(nextPage))
     build(new SelectQuestMenu(ryoServerAssist).inventory(_, page, sortType))
     open()
   }
@@ -86,7 +86,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1, QuestSortedData.getPlayerQuestSortData(p))
   }
 
-  private def sort(p:Player): Unit = {
+  private def sort(p: Player): Unit = {
     val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
     val nextType = QuestSortTypeDependency.dependency(QuestSortedData.getPlayerQuestSortData(p))
     QuestSortedData.setPlayerQuestSortData(p, nextType)
@@ -98,14 +98,14 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     new SelectQuestMenu(ryoServerAssist).inventory(p, page + 1, QuestSortedData.getPlayerQuestSortData(p))
   }
 
-  private def selectQuest(p:Player,index:Int): Unit = {
+  private def selectQuest(p: Player, index: Int): Unit = {
     val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
       .replace("[討伐クエスト]", "")
       .replace("[納品クエスト]", "")
     new QuestSelectMenuMotions(ryoServerAssist).Select(p, questName)
   }
 
-  private def bookmark(p:Player,index:Int): Unit = {
+  private def bookmark(p: Player, index: Int): Unit = {
     val gateway = new QuestGateway
     val questName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName
       .replace("[討伐クエスト]", "")

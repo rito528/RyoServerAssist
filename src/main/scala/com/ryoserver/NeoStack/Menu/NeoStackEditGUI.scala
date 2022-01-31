@@ -35,17 +35,17 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
       index += 1
     })
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backMenu))
+      .setLeftClickMotion(backMenu))
     setButton(MenuButton(5, 6, Material.NETHER_STAR, "クリックでリストを保存します。", List("カテゴリ:" + getSelectedCategory(p) + "のリストを保存します。"))
-    .setLeftClickMotion(save))
+      .setLeftClickMotion(save))
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-    .setLeftClickMotion(nextPage))
+      .setLeftClickMotion(nextPage))
     partButton = true
     buttons :+= 45
     buttons :+= 49
     buttons :+= 53
     sql.close()
-    build(new NeoStackEditGUI(ryoServerAssist).openAddGUI(_,1,null))
+    build(new NeoStackEditGUI(ryoServerAssist).openAddGUI(_, 1, null))
     open()
   }
 

@@ -1,15 +1,14 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.RyoServerMenu1
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor.AQUA
-import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.{Inventory, ItemStack}
+import org.bukkit.{Material, Sound}
 
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 

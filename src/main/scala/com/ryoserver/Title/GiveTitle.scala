@@ -1,8 +1,6 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration

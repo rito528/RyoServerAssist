@@ -24,7 +24,7 @@ object PlayerData {
 
   def save(): Unit = {
     val sql = new SQL()
-    playerData.map(pData => pData.uuid).intersect(changedData.keySet).foreach(uuid =>{
+    playerData.map(pData => pData.uuid).intersect(changedData.keySet).foreach(uuid => {
       playerData.map(pData => pData.savingItemStack).intersect(changedData(uuid).toSet).foreach(is => {
         val data = playerData.filter(pData => pData.uuid == uuid && pData.savingItemStack == is).head
         val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))

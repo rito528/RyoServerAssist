@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.Event
 
+import com.ryoserver.Menu.MenuLayout.{getX, getY}
 import com.ryoserver.Menu.{Menu, MenuButton}
-import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.PlayerTitleData
@@ -18,16 +18,16 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   def openEventTitleMenu(player: Player): Unit = {
     p = player
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-    .setLeftClickMotion(backMenu))
+      .setLeftClickMotion(backMenu))
     val eventGateway = new EventGateway(ryoServerAssist)
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
         setButton(MenuButton(getX(index), getY(index), Material.NAME_TAG, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))
-        .setLeftClickMotion(setTitle(_,index)))
+          .setLeftClickMotion(setTitle(_, index)))
       }
     }
     setButton(MenuButton(5, 6, Material.PAPER, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
-    .setLeftClickMotion(resetTitle))
+      .setLeftClickMotion(resetTitle))
     build(new EventTitleMenu(ryoServerAssist).openEventTitleMenu)
     open()
   }
@@ -36,7 +36,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     new EventMenu(ryoServerAssist).openEventMenu(p)
   }
 
-  private def setTitle(p: Player,index:Int): Unit = {
+  private def setTitle(p: Player, index: Int): Unit = {
     if (p.getOpenInventory.getTopInventory.getItem(index) != null) {
       val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
       new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)

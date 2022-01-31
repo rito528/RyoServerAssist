@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.SkillOpens
 
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.entity.Player

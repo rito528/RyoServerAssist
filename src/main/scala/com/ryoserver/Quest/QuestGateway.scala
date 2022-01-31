@@ -5,7 +5,6 @@ import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.LoadQuests.{loadedDailyQuests, loadedQuests}
 import com.ryoserver.Quest.PlayerQuestData.playerQuestData
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -45,24 +44,6 @@ class QuestGateway {
     }
   }
 
-  def getSelectedQuest(p: Player): Option[QuestType] = {
-    playerQuestData(p.getUniqueId).selectedQuestName match {
-      case Some(questName) =>
-        Option(loadedQuests.filter(_.questName == questName).head)
-      case None =>
-        None
-    }
-  }
-
-  def getSelectedDailyQuest(p: Player): Option[QuestType] = {
-    playerQuestData(p.getUniqueId).selectedQuestName match {
-      case Some(questName) =>
-        Option(loadedDailyQuests.filter(_.questName == questName).head)
-      case None =>
-        None
-    }
-  }
-
   def nowNeoStackCanQuest(p: Player): List[QuestType] = {
     val neoStackGateway = new NeoStackGateway()
     getCanQuests(p.getQuestLevel)
@@ -70,10 +51,6 @@ class QuestGateway {
       .filter(data => data.requireList
         .forall { requires => neoStackGateway.getNeoStackAmount(p, new ItemStack(Material.matchMaterial(requires._1))) >= requires._2 }
       )
-  }
-
-  def getCanQuests(lv: Int): List[QuestType] = {
-    LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
 
   def getCanDailyQuests(lv: Int): List[QuestType] = {
@@ -104,12 +81,25 @@ class QuestGateway {
     )
   }
 
+  def getCanQuests(lv: Int): List[QuestType] = {
+    LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+  }
+
   def questClear(p: Player): Unit = {
     getSelectedQuest(p) match {
       case Some(selectedQuest) =>
         new UpdateLevel().addExp(selectedQuest.exp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
+    }
+  }
+
+  def getSelectedQuest(p: Player): Option[QuestType] = {
+    playerQuestData(p.getUniqueId).selectedQuestName match {
+      case Some(questName) =>
+        Option(loadedQuests.filter(_.questName == questName).head)
+      case None =>
+        None
     }
   }
 
@@ -122,6 +112,15 @@ class QuestGateway {
         new UpdateLevel().addExp(selectedQuest.exp * addExp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
+    }
+  }
+
+  def getSelectedDailyQuest(p: Player): Option[QuestType] = {
+    playerQuestData(p.getUniqueId).selectedQuestName match {
+      case Some(questName) =>
+        Option(loadedDailyQuests.filter(_.questName == questName).head)
+      case None =>
+        None
     }
   }
 

@@ -30,7 +30,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         val isHasTitle = hasTitles.contains(title)
         if (titleConfig.getBoolean(s"titles.$title.secret") && !isHasTitle) {
           setButton(MenuButton(getX(invIndex), getY(invIndex), Material.BEDROCK, s"$GREEN???", List("解放条件:???"))
-            .setLeftClickMotion(setTitle(_,index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
+            .setLeftClickMotion(setTitle(_, index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
         } else {
           var lore: List[String] = List.empty
           val configCondition = titleConfig.getInt(s"titles.$title.condition")
@@ -63,18 +63,18 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
                 s"${titleConfig.getString(s"titles.$title.condition").split(",")(1)}回クエストをクリアしよう。")
           }
           setButton(MenuButton(getX(invIndex), getY(invIndex), if (isHasTitle) Material.NAME_TAG else Material.BEDROCK, title, lore)
-          .setLeftClickMotion(setTitle(_,index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
+            .setLeftClickMotion(setTitle(_, index - ((getLayOut(9, 5) + 1) * (selectPage - 1)))))
         }
         invIndex += 1
       }
     }
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻る", List(s"${GRAY}クリックでメニューに戻ります。"))
-    .setLeftClickMotion(backPage))
+      .setLeftClickMotion(backPage))
     setButton(MenuButton(5, 6, Material.PAPER, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
-    .setLeftClickMotion(reset))
+      .setLeftClickMotion(reset))
     setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページへ移動", List(s"${GRAY}クリックで次のページに移動します。"))
-    .setLeftClickMotion(nextPage))
-    build(new TitleMenu(ryoServerAssist).openInv(_,1))
+      .setLeftClickMotion(nextPage))
+    build(new TitleMenu(ryoServerAssist).openInv(_, 1))
     open()
   }
 
@@ -87,7 +87,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     new TitleMenu(ryoServerAssist).openInv(p, page + 1)
   }
 
-  private def setTitle(p: Player,index: Int): Unit = {
+  private def setTitle(p: Player, index: Int): Unit = {
     val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
     new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
     new Name().updateName(p)
