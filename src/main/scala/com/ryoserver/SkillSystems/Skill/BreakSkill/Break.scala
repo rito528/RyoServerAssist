@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
@@ -23,12 +24,7 @@ class Break {
     Material.BEDROCK
   )
 
-  val notSpecialSkillWorld = List(
-    "world",
-    "world_nether",
-    "world_the_end",
-    "trade"
-  )
+  val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
 
   def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
     if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return

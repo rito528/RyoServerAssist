@@ -81,3 +81,9 @@ worldDoNotProtection:
 
 #自動でワールドの再生成をおこなうかどうかを記載してください。
 autoWorldRegeneration: true
+
+#保護範囲内でないとスキルが使用できないワールドを記載してください。
+notSpecialSkillWorlds:
+  - 'world'
+  - 'world_nether'
+  - 'world_the_end'

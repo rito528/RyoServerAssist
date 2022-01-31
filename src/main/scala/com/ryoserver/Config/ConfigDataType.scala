@@ -30,5 +30,6 @@ case class ConfigDataType(host: String,
                           ipInfo: Boolean,
                           enableCommands: List[String],
                           worldDoNotProtection: List[String],
-                          autoWorldRegeneration: Boolean
+                          autoWorldRegeneration: Boolean,
+                          notSpecialSkillWorlds: List[String]
                          )

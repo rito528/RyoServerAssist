@@ -1,5 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
@@ -10,12 +11,8 @@ import org.bukkit.entity.Player
 
 class Grow {
 
-  val notSpecialSkillWorld = List(
-    "world",
-    "world_nether",
-    "world_the_end",
-    "trade"
-  )
+  private val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
+
   private val boneMealList = Set(
     Material.WHEAT,
     Material.CARROTS,
