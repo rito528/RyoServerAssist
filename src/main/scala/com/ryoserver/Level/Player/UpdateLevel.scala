@@ -22,6 +22,7 @@ class UpdateLevel {
   def updateExp(exp: Int, p: Player): Unit = {
     p.questExpUpdate(exp)
     BossBar.updateLevelBer(exp, p)
+    p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
   }
 
   /*
