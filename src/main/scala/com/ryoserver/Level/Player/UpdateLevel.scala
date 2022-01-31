@@ -52,7 +52,7 @@ class UpdateLevel {
       p.sendMessage(s"${AQUA}経験値が${EventDataProvider.ratio}倍になりました。")
       val oldExp = exp
       exp *= EventDataProvider.ratio
-      p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
+      p.sendMessage(s"$AQUA${String.format("%.2f", oldExp)} -> ${String.format("%.2f", exp)}")
     }
 
     //1.0 + (投票日数 * 0.01)だけ経験値を増やすように
@@ -62,7 +62,7 @@ class UpdateLevel {
       p.sendMessage(s"${AQUA}経験値が${String.format("%.2f", doubleExp)}倍になりました。")
       val oldExp = exp
       exp *= doubleExp
-      p.sendMessage(s"$AQUA$oldExp -> ${String.format("%.2f", exp)}")
+      p.sendMessage(s"$AQUA${String.format("%.2f", oldExp)} -> ${String.format("%.2f", exp)}")
     }
 
     //更新前のレベルと経験値
