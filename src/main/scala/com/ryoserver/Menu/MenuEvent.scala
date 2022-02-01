@@ -6,7 +6,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class MenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class MenuEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def stickClick(e: PlayerInteractEvent): Unit = {

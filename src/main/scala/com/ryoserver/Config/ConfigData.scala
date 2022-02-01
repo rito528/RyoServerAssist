@@ -15,7 +15,7 @@ object ConfigData {
 
   def getConfig: ConfigDataType = configData
 
-  def loadConfig(ryoServerAssist: RyoServerAssist): Unit = {
+  def loadConfig(implicit ryoServerAssist: RyoServerAssist): Unit = {
     val config = ryoServerAssist.getConfig
     configData = ConfigDataType(
       host = config.getString("host"),

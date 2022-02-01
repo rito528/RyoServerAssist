@@ -6,7 +6,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
 
-class PlayerEvents(ryoServerAssist: RyoServerAssist) extends Listener {
+class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onJoin(e: PlayerJoinEvent): Unit = {

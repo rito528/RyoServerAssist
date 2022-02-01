@@ -11,7 +11,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
 
-class Gacha(ryoServerAssist: RyoServerAssist) extends Listener {
+class Gacha(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   def onPull(e: PlayerInteractEvent): Unit = {

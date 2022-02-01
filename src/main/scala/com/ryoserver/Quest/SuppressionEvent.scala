@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onEntityDeath(e: EntityDeathEvent): Unit = {

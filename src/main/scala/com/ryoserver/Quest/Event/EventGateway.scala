@@ -11,7 +11,7 @@ import org.bukkit.{Bukkit, ChatColor}
 import java.text.SimpleDateFormat
 import java.util.{Calendar, TimeZone, UUID}
 
-class EventGateway(ryoServerAssist: RyoServerAssist) {
+class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
 
   def loadEventData(): Unit = {
     if (holdingEvent() != null) {

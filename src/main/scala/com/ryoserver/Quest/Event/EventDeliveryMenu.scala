@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{ChatColor, Material}
 
-class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with Listener {
+class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu with Listener {
 
   override val slot: Int = 6
   override var name: String = "イベント・納品"

@@ -8,7 +8,7 @@ import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.inventory.Inventory
 
 
-class QuestSelectMenuEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class QuestSelectMenuEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def closeInventory(e: InventoryCloseEvent): Unit = {

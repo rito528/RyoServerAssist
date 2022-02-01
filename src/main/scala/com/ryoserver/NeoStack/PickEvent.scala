@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 
-class PickEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class PickEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def playerPickEvent(e: EntityPickupItemEvent): Unit = {

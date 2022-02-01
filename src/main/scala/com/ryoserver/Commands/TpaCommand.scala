@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
-class TpaCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class TpaCommand(implicit ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(

@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 import java.nio.file.Paths
 
-class Tips(ryoServerAssist: RyoServerAssist) {
+class Tips(implicit ryoServerAssist: RyoServerAssist) {
 
   private var counter = 0
 

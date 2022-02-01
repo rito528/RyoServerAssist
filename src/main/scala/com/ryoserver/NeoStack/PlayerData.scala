@@ -14,7 +14,7 @@ object PlayerData {
   var playerData: Set[NeoStackDataType] = Set.empty
   var changedData: mutable.Map[UUID, Array[ItemStack]] = mutable.Map.empty // K - UUID V - Changed itemstack
 
-  def autoSave(ryoServerAssist: RyoServerAssist): Unit = {
+  def autoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
         save()

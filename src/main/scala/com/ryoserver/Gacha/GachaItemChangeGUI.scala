@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
+class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
   override val slot: Int = 6
   val RETE: Int = getConfig.gachaChangeRate

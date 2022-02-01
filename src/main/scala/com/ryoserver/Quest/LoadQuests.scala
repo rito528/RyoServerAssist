@@ -19,7 +19,7 @@ object LoadQuests {
   var loadedQuests: List[QuestType] = List.empty
   var loadedDailyQuests: List[QuestType] = List.empty
 
-  def loadQuest(ryoServerAssist: RyoServerAssist): Unit = {
+  def loadQuest(): Unit = {
     if (new File(QUEST_SETTING_FILES).listFiles() != null) {
       val questFileNames = new File(QUEST_SETTING_FILES).listFiles()
         .map(_.getName)

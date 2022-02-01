@@ -4,7 +4,7 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 
-class SavePlayerData(ryoServerAssist: RyoServerAssist) {
+class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
 
   def autoSave(): Unit = {
     new BukkitRunnable {
