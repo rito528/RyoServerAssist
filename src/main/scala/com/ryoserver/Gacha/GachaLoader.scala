@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.util.Logger.getLogger
+import .getLogger
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration

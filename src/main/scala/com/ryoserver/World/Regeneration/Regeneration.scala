@@ -3,7 +3,7 @@ package com.ryoserver.World.Regeneration
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiversePortals.MultiversePortals
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.util.Logger.getLogger
+import .getLogger
 import org.bukkit.Bukkit.getConsoleSender
 import org.bukkit.World.Environment
 import org.bukkit._

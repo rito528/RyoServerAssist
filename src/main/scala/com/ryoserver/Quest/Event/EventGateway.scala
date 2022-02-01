@@ -3,7 +3,7 @@ package com.ryoserver.Quest.Event
 import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.Logger.getLogger
+import .getLogger
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}

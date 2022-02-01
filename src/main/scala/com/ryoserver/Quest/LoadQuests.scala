@@ -3,7 +3,7 @@ package com.ryoserver.Quest
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
-import com.ryoserver.util.Logger.getLogger
+import .getLogger
 import org.bukkit.Material
 
 import java.io.File
