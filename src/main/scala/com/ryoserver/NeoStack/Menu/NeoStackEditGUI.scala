@@ -18,6 +18,8 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
   override var name: String = _
   override var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openAddGUI(player: Player, page: Int, category: String): Unit = {
     p = player
     name = "neoStackアイテム追加メニュー:" + page
@@ -73,7 +75,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     p.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(p)}を編集しました。")
     new LoadNeoStackPage().loadStackPage()
     ItemList.stackList = mutable.Map.empty
-    ItemList.loadItemList()
+    ItemList.loadItemList(ryoServerAssist)
   }
 
   private def nextPage(p: Player): Unit = {

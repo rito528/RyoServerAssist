@@ -19,7 +19,7 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu 
 
   def openMenu(player: Player): Unit = {
     p = player
-    val gateway = new EventGateway(ryoServerAssist)
+    val gateway = new EventGateway()
     if (gateway.holdingEvent() == null) {
       p.sendMessage(s"${RED}イベントが終了しました！")
     } else {
@@ -31,7 +31,7 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu 
       partButton = true
       buttons :+= getLayOut(1, 6)
       buttons :+= getLayOut(2, 6)
-      build(new EventDeliveryMenu(ryoServerAssist).openMenu)
+      build(new EventDeliveryMenu().openMenu)
       open()
     }
   }
@@ -50,7 +50,7 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu 
   }
 
   private def delivery(p: Player): Unit = {
-    val gateway = new EventGateway(ryoServerAssist)
+    val gateway = new EventGateway()
     if (gateway.holdingEvent() == null) {
       p.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")
     } else {
@@ -67,7 +67,7 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu 
         }
       }
       eventCounter += amount
-      new EventDeliveryMenu(ryoServerAssist).openMenu(p)
+      new EventDeliveryMenu().openMenu(p)
       new UpdateLevel().addExp(exp, p)
       if (!eventRanking.contains(p.getUniqueId.toString)) {
         eventRanking += (p.getUniqueId.toString -> amount)

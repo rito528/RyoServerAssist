@@ -30,7 +30,6 @@ import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.World.SimpleRegion.RegionCommand
-import .setLogger
 import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -158,10 +157,10 @@ class RyoServerAssist extends JavaPlugin {
       様々なロード処理
      */
     new LoadAllPlayerData().load()
-    GachaLoader.load()
-    LoadQuests.loadQuest()
+    GachaLoader.load
+    LoadQuests.loadQuest
     new TitleLoader().loadTitle()
-    ItemList.loadItemList()
+    ItemList.loadItemList
     new LoadNeoStackPage().loadStackPage()
     Operator.checkOp
     new EventLoader().loadEvent()
@@ -186,7 +185,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       ワールドの再生成を行う
      */
-    new Regeneration().regeneration()
+    new Regeneration().regeneration
 
     /*
       サーバーに入っているプレイヤーにデータを適用する

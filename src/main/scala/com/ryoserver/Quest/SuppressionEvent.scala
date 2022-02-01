@@ -18,8 +18,8 @@ class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listen
     val entity = e.getEntityType
     e.getEntity.getKiller match {
       case p: Player =>
-        val questGateway = new QuestGateway()
-        val eventGateway = new EventGateway(ryoServerAssist)
+        val questGateway = new QuestGateway
+        val eventGateway = new EventGateway
         var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
         questGateway.getSelectedQuest(p) match {
           case Some(selectedQuestData) =>

@@ -15,11 +15,13 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override var name: String = "イベント称号"
   override var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openEventTitleMenu(player: Player): Unit = {
     p = player
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
       .setLeftClickMotion(backMenu))
-    val eventGateway = new EventGateway(ryoServerAssist)
+    val eventGateway = new EventGateway
     if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
       eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
         setButton(MenuButton(getX(index), getY(index), Material.NAME_TAG, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))

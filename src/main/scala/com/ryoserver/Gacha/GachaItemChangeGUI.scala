@@ -30,7 +30,7 @@ class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends List
     partButton = true
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(5, 6)
-    build(new GachaItemChangeGUI(ryoServerAssist).openChangeGUI)
+    build(new GachaItemChangeGUI().openChangeGUI)
     open()
   }
 
@@ -69,7 +69,7 @@ class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends List
       inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
         if (GachaLoader.specialItemList.contains(is)) inv.get.clear(index)
       }
-      new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
+      new GachaItemChangeGUI().openChangeGUI(p)
     } else {
       p.sendMessage(s"${RED}特等アイテムが見つかりませんでした。")
     }

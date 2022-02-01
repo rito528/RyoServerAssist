@@ -11,7 +11,7 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onJoin(e: PlayerJoinEvent): Unit = {
     val p = e.getPlayer
-    new PlayerDataLoader(ryoServerAssist).load(p)
+    new PlayerDataLoader().load(p)
     val title = new GiveTitle()
     title.continuousLogin(p)
     title.loginDays(p)
@@ -23,7 +23,7 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onQuit(e: PlayerQuitEvent): Unit = {
-    new PlayerDataLoader(ryoServerAssist).unload(e.getPlayer)
+    new PlayerDataLoader().unload(e.getPlayer)
     val sql = new SQL()
     sql.executeSQL(s"UPDATE Players SET lastLogout=NOW() WHERE UUID='${e.getPlayer.getUniqueId.toString}'")
     sql.close()

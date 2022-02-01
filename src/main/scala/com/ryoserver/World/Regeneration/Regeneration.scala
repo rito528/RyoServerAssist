@@ -3,7 +3,7 @@ package com.ryoserver.World.Regeneration
 import com.onarandombox.MultiverseCore.MultiverseCore
 import com.onarandombox.MultiversePortals.MultiversePortals
 import com.ryoserver.Config.ConfigData.getConfig
-import .getLogger
+import com.ryoserver.RyoServerAssist
 import org.bukkit.Bukkit.getConsoleSender
 import org.bukkit.World.Environment
 import org.bukkit._
@@ -13,9 +13,9 @@ import java.util.{Calendar, TimeZone}
 
 class Regeneration {
 
-  def regeneration(isForce: Boolean = false): Unit = {
+  def regeneration(implicit ryoServerAssist: RyoServerAssist,isForce: Boolean = false): Unit = {
     if ((!isFriday && !isForce) || (!isForce && !getConfig.autoWorldRegeneration)) return
-    getLogger.info("ワールドの再生成を行います。")
+    ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
     regenerationCommands(getConfig.regenerationNormalWorlds, Environment.NORMAL)
     regenerationCommands(getConfig.regenerationNetherWorlds, Environment.NETHER)
     regenerationCommands(getConfig.regenerationEndWorlds, Environment.THE_END)

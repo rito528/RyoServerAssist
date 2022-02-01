@@ -3,7 +3,6 @@ package com.ryoserver.Quest.Event
 import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
-import .getLogger
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}
@@ -15,7 +14,7 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
 
   def loadEventData(): Unit = {
     if (holdingEvent() != null) {
-      getLogger.info("イベント情報を読み込み中...")
+      ryoServerAssist.getLogger.info("イベント情報を読み込み中...")
       val info = eventInfo(holdingEvent())
       if (info.eventType != "bonus") {
         val sql = new SQL()
@@ -25,7 +24,7 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
       } else {
         EventDataProvider.ratio = info.exp
       }
-      getLogger.info("イベント情報の読み込みが完了しました。")
+      ryoServerAssist.getLogger.info("イベント情報の読み込みが完了しました。")
     }
   }
 
@@ -43,12 +42,12 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
 
   def loadEventRanking(): Unit = {
     if (holdingEvent() != null) {
-      getLogger.info("イベントランキングを読み込み中...")
+      ryoServerAssist.getLogger.info("イベントランキングを読み込み中...")
       val sql = new SQL()
       val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${holdingEvent()}';")
       while (rs.next()) EventDataProvider.eventRanking += (rs.getString("UUID") -> rs.getInt("counter"))
       sql.close()
-      getLogger.info("イベントランキングの読み込みが完了しました。")
+      ryoServerAssist.getLogger.info("イベントランキングの読み込みが完了しました。")
     }
   }
 

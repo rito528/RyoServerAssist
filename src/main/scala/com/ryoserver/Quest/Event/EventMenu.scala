@@ -14,9 +14,11 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override var name: String = "イベント"
   override var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openEventMenu(player: Player): Unit = {
     p = player
-    val eventGateway = new EventGateway(ryoServerAssist)
+    val eventGateway = new EventGateway()
     val holdingEvent = eventGateway.holdingEvent()
     if (holdingEvent != null) {
       val eventData = eventGateway.eventInfo(holdingEvent)
@@ -75,7 +77,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   private def delivery(p: Player): Unit = {
-    new EventDeliveryMenu(ryoServerAssist).openMenu(p)
+    new EventDeliveryMenu().openMenu(p)
   }
 
   private def rankingMenu(p: Player): Unit = {

@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
-import .getLogger
+import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
@@ -20,24 +20,24 @@ object GachaLoader {
   var bigPer: Double = _ //大当たり
   var special: Double = _ //特等
 
-  def addGachaItem(is: ItemStack, rarity: Int): Unit = {
+  def addGachaItem(implicit ryoServerAssist: RyoServerAssist,is: ItemStack, rarity: Int): Unit = {
     val sql = new SQL()
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
     config.set("i", is)
     sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);", config.saveToString())
     sql.close()
-    unload()
-    load()
+    unload(ryoServerAssist)
+    load(ryoServerAssist)
   }
 
-  def load(): Unit = {
-    gachaItemLoad()
-    gachaRarityLoad()
+  def load(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    gachaItemLoad(ryoServerAssist)
+    gachaRarityLoad(ryoServerAssist)
   }
 
-  private def gachaItemLoad(): Unit = {
-    Bukkit.getLogger.info("ガチャアイテムロード中....")
+  private def gachaItemLoad(implicit ryoServerAssist: RyoServerAssist ): Unit = {
+    ryoServerAssist.getLogger.info("ガチャアイテムロード中....")
     val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM GachaItems")
     while (rs.next()) {
@@ -49,34 +49,34 @@ object GachaLoader {
       else if (rarity == 2) bigPerItemList :+= config.getItemStack("i", null)
       else if (rarity == 3) specialItemList :+= config.getItemStack("i", null)
     }
-    Bukkit.getLogger.info("ガチャアイテムロードが完了しました！")
+    ryoServerAssist.getLogger.info("ガチャアイテムロードが完了しました！")
     sql.close()
   }
 
-  private def gachaRarityLoad(): Unit = {
+  private def gachaRarityLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
     /*
       各レアリティの割合を計算
      */
-    getLogger.info("ガチャ排出割合読み込み中...")
+    ryoServerAssist.getLogger.info("ガチャ排出割合読み込み中...")
     per = getConfig.per
     bigPer = getConfig.bigPer
     special = getConfig.Special
     val miss = 100.0 - per - bigPer - special
     if (miss <= 0) {
-      getLogger.warning("ガチャ割合の指定が不正です。")
-      getLogger.warning("サーバーを停止します。")
+      ryoServerAssist.getLogger.warning("ガチャ割合の指定が不正です。")
+      ryoServerAssist.getLogger.warning("サーバーを停止します。")
       Bukkit.shutdown()
     }
-    getLogger.info("ガチャ排出割合読み込みが完了しました！")
+    ryoServerAssist.getLogger.info("ガチャ排出割合読み込みが完了しました！")
   }
 
-  def unload(): Unit = {
-    getLogger.info("ガチャリストをアンロードしています...")
+  def unload(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしています...")
     perItemList = Array.empty
     bigPerItemList = Array.empty
     specialItemList = Array.empty
     missItemList = Array.empty
-    getLogger.info("ガチャリストをアンロードしました。")
+    ryoServerAssist.getLogger.info("ガチャリストをアンロードしました。")
   }
 
   def listGachaItem(rarity: Int, p: Player): Unit = {
