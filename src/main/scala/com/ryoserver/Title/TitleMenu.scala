@@ -89,9 +89,13 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   private def setTitle(p: Player, index: Int): Unit = {
     val titleName = inv.get.getItem(index).getItemMeta.getDisplayName
-    new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
-    new Name().updateName(p)
-    p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
+    if (new PlayerTitleData().getHasTitles(p.getUniqueId).contains(titleName)) {
+      new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
+      new Name().updateName(p)
+      p.sendMessage(s"${AQUA}称号: 「$RESET$titleName$AQUA」を設定しました！")
+    } else {
+      p.sendMessage(s"${RED}この称号を持っていないため設定できません！")
+    }
   }
 
   private def reset(p: Player): Unit = {
