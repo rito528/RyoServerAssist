@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{ChatColor, Material}
 
-class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with Listener {
+class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu with Listener {
 
   override val slot: Int = 6
   override var name: String = "イベント・納品"
@@ -19,7 +19,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
 
   def openMenu(player: Player): Unit = {
     p = player
-    val gateway = new EventGateway(ryoServerAssist)
+    val gateway = new EventGateway()
     if (gateway.holdingEvent() == null) {
       p.sendMessage(s"${RED}イベントが終了しました！")
     } else {
@@ -31,7 +31,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
       partButton = true
       buttons :+= getLayOut(1, 6)
       buttons :+= getLayOut(2, 6)
-      build(new EventDeliveryMenu(ryoServerAssist).openMenu)
+      build(new EventDeliveryMenu().openMenu)
       open()
     }
   }
@@ -50,7 +50,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
   }
 
   private def delivery(p: Player): Unit = {
-    val gateway = new EventGateway(ryoServerAssist)
+    val gateway = new EventGateway()
     if (gateway.holdingEvent() == null) {
       p.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")
     } else {
@@ -67,7 +67,7 @@ class EventDeliveryMenu(ryoServerAssist: RyoServerAssist) extends Menu with List
         }
       }
       eventCounter += amount
-      new EventDeliveryMenu(ryoServerAssist).openMenu(p)
+      new EventDeliveryMenu().openMenu(p)
       new UpdateLevel().addExp(exp, p)
       if (!eventRanking.contains(p.getUniqueId.toString)) {
         eventRanking += (p.getUniqueId.toString -> amount)

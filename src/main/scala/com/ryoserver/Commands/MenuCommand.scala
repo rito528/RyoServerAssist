@@ -5,7 +5,7 @@ import com.ryoserver.Menu.RyoServerMenu1
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 
-class MenuCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class MenuCommand(implicit ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map()

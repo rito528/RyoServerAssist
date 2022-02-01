@@ -48,7 +48,7 @@ object HomeData {
     sql.close()
   }
 
-  def saveHomeData(ryoServerAssist: RyoServerAssist): Unit = {
+  def saveHomeData(implicit ryoServerAssist: RyoServerAssist): Unit = {
     val oneMinute = 1200
     new BukkitRunnable {
       override def run(): Unit = {

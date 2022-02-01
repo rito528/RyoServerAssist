@@ -25,6 +25,8 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
   var name = "りょう鯖メニュー"
   var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def menu(player: Player): Unit = {
     p = player
     val motion = new MenuMotion(ryoServerAssist)
@@ -65,7 +67,7 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
       .setEffect()
       .setReload())
     setButton(MenuButton(5, 5, Material.HONEY_BOTTLE, s"${GREEN}ガチャ特等アイテム交換画面を開きます。", List(s"${GRAY}クリックで開きます。"))
-      .setLeftClickMotion(new GachaItemChangeGUI(ryoServerAssist).openChangeGUI _)
+      .setLeftClickMotion(new GachaItemChangeGUI().openChangeGUI _)
       .setEffect())
     setButton(MenuButton(1, 6, Material.ENDER_PEARL, s"${GREEN}現在いるワールドのスポーン地点に移動します。", List(s"${GRAY}クリックで移動します。"))
       .setLeftClickMotion(motion.worldTeleport(_, world = false)))

@@ -1,11 +1,12 @@
 package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
+import com.ryoserver.RyoServerAssist
 import com.ryoserver.World.Regeneration.Regeneration
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 
-class RegenerationCommand() extends CommandBuilder {
+class RegenerationCommand(implicit ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map()
@@ -14,7 +15,7 @@ class RegenerationCommand() extends CommandBuilder {
   private def regeneration(): Unit = {
     Bukkit.broadcastMessage(s"${AQUA}ワールドの再生成を行います。")
     Bukkit.broadcastMessage(s"${AQUA}ラグにご注意ください！")
-    new Regeneration().regeneration(true)
+    new Regeneration().regeneration(ryoServerAssist,isForce = true)
   }
 
 }

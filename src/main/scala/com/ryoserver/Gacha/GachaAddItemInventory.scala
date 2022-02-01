@@ -1,16 +1,19 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 
-class GachaAddItemInventory extends Menu {
+class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val slot: Int = 6
   override var name: String = "ガチャアイテム追加メニュー"
   override var p: Player = _
+
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   def openAddInventory(player: Player): Unit = {
     p = player
@@ -30,7 +33,7 @@ class GachaAddItemInventory extends Menu {
       "特等アイテムに追加します。"))
       .setLeftClickMotion(addItem(_, 3))
       .setReload())
-    build(new GachaAddItemInventory().openAddInventory)
+    build(new GachaAddItemInventory(ryoServerAssist).openAddInventory)
     open()
   }
 
@@ -45,7 +48,7 @@ class GachaAddItemInventory extends Menu {
         && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {
         if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
           is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
-          GachaLoader.addGachaItem(is, rarity)
+          GachaLoader.addGachaItem(ryoServerAssist,is, rarity)
         }
       }
     })

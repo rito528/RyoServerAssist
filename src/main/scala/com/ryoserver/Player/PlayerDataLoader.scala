@@ -9,7 +9,7 @@ import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
 import org.bukkit.entity.Player
 
-class PlayerDataLoader(ryoServerAssist: RyoServerAssist) {
+class PlayerDataLoader(implicit ryoServerAssist: RyoServerAssist) {
 
   def load(p: Player): Unit = {
     new CreateData().createPlayerData(p)

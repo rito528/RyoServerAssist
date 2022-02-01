@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
-class SecurityCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class SecurityCommand(implicit ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(

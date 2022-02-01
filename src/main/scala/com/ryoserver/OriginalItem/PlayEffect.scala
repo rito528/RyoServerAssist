@@ -7,7 +7,7 @@ import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.potion.{PotionEffect, PotionEffectType}
 import org.bukkit.scheduler.BukkitRunnable
 
-class PlayEffect(ryoServerAssist: RyoServerAssist) extends Listener {
+class PlayEffect(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def holdEvent(e: PlayerItemHeldEvent): Unit = {

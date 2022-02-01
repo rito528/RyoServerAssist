@@ -13,7 +13,7 @@ object Operator {
 
   var once = false
 
-  def checkOp(plugin: Plugin): Unit = {
+  def checkOp(implicit plugin: Plugin): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
         //configで指定されているオペレーター数と、Bukkitで登録されているオペレーター数が一致しなかった場合

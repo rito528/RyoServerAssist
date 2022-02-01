@@ -11,15 +11,15 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onEntityDeath(e: EntityDeathEvent): Unit = {
     val entity = e.getEntityType
     e.getEntity.getKiller match {
       case p: Player =>
-        val questGateway = new QuestGateway()
-        val eventGateway = new EventGateway(ryoServerAssist)
+        val questGateway = new QuestGateway
+        val eventGateway = new EventGateway
         var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
         questGateway.getSelectedQuest(p) match {
           case Some(selectedQuestData) =>

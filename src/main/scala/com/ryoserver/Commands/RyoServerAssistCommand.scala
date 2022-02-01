@@ -5,7 +5,7 @@ import com.ryoserver.Config.ConfigData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 
-class RyoServerAssistCommand(ryoServerAssist: RyoServerAssist) extends CommandBuilder {
+class RyoServerAssistCommand(implicit ryoServerAssist: RyoServerAssist) extends CommandBuilder {
 
   override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
     Map(

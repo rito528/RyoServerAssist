@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with Menu {
+class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Listener with Menu {
 
   override val slot: Int = 6
   val RETE: Int = getConfig.gachaChangeRate
@@ -30,7 +30,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
     partButton = true
     buttons :+= getLayOut(1, 6)
     buttons :+= getLayOut(5, 6)
-    build(new GachaItemChangeGUI(ryoServerAssist).openChangeGUI)
+    build(new GachaItemChangeGUI().openChangeGUI)
     open()
   }
 
@@ -69,7 +69,7 @@ class GachaItemChangeGUI(ryoServerAssist: RyoServerAssist) extends Listener with
       inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
         if (GachaLoader.specialItemList.contains(is)) inv.get.clear(index)
       }
-      new GachaItemChangeGUI(ryoServerAssist).openChangeGUI(p)
+      new GachaItemChangeGUI().openChangeGUI(p)
     } else {
       p.sendMessage(s"${RED}特等アイテムが見つかりませんでした。")
     }

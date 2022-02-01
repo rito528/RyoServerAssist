@@ -3,7 +3,6 @@ package com.ryoserver.Quest
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
-import com.ryoserver.util.Logger.getLogger
 import org.bukkit.Material
 
 import java.io.File
@@ -19,13 +18,13 @@ object LoadQuests {
   var loadedQuests: List[QuestType] = List.empty
   var loadedDailyQuests: List[QuestType] = List.empty
 
-  def loadQuest(ryoServerAssist: RyoServerAssist): Unit = {
+  def loadQuest(implicit ryoServerAssist: RyoServerAssist): Unit = {
     if (new File(QUEST_SETTING_FILES).listFiles() != null) {
       val questFileNames = new File(QUEST_SETTING_FILES).listFiles()
         .map(_.getName)
         .filter(_.contains(".json"))
       loadedQuests = questFileNames.toList.map(questFileName => {
-        val data = getQuestData(isDaily = false, questFileName)
+        val data = getQuestData(ryoServerAssist,isDaily = false, questFileName)
         val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
           .map(
             e => {
@@ -44,7 +43,7 @@ object LoadQuests {
         .map(_.getName)
         .filter(_.contains(".json"))
       loadedDailyQuests = questFileNames.toList.map(questFileName => {
-        val data = getQuestData(isDaily = true, questFileName)
+        val data = getQuestData(ryoServerAssist,isDaily = true, questFileName)
         val requires = StreamSupport.stream(data.get("condition").spliterator(), false)
           .map(
             e => {
@@ -60,7 +59,7 @@ object LoadQuests {
     }
   }
 
-  private def getQuestData(isDaily: Boolean, questFileName: String): JsonNode = {
+  private def getQuestData(implicit ryoServerAssist: RyoServerAssist,isDaily: Boolean, questFileName: String): JsonNode = {
     val mapper = new ObjectMapper()
     var readLine = ""
     val source = Source.fromFile(s"${if (isDaily) DAILYQUEST_SETTING_FILES else QUEST_SETTING_FILES}/$questFileName", "UTF-8")
@@ -75,10 +74,10 @@ object LoadQuests {
       .collect(Collectors.toList[String])
     items.forEach(material => {
       if (Material.getMaterial(material.toUpperCase().split(":")(0)) == null && json.get("type").textValue() == "delivery") {
-        getLogger.warning("クエスト:" + questName + "でアイテム名:" + material.toUpperCase().split(":")(0) + "というアイテムが存在しません！")
+        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でアイテム名:" + material.toUpperCase().split(":")(0) + "というアイテムが存在しません！")
         return null
       } else if (!Entity.isExistsEntity(material.toUpperCase().split(":")(0)) && json.get("type").textValue() == "suppression") {
-        getLogger.warning("クエスト:" + questName + "でMOB名:" + material.toUpperCase().split(":")(0) + "というMOBが存在しません！")
+        ryoServerAssist.getLogger.warning("クエスト:" + questName + "でMOB名:" + material.toUpperCase().split(":")(0) + "というMOBが存在しません！")
         return null
       }
     })

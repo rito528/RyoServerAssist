@@ -15,9 +15,11 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override var name: String = "イベントランキング"
   override var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openRankingMenu(player: Player): Unit = {
     p = player
-    val gateway = new EventGateway(ryoServerAssist)
+    val gateway = new EventGateway()
     EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach { case ((uuid, counter), index) =>
       if (index / 9 + 1 >= 6) return
       val OfflinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid))

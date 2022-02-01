@@ -39,7 +39,7 @@ object PlayerQuestData {
     sql.close()
   }
 
-  def autoSave(ryoServerAssist: RyoServerAssist): Unit = {
+  def autoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
     new BukkitRunnable {
       override def run(): Unit = {
         save()
