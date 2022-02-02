@@ -6,4 +6,6 @@ trait CommandContext {
 
     val args: List[String]
 
+    val playerCommand: Boolean = false
+
 }

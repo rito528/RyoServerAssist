@@ -5,6 +5,7 @@ package com.ryoserver.Commands.Builder
   args(0)に入る引数をcaseClassの引数としてMapに格納して呼び出す。
  */
 
+@deprecated
 case class CommandExecutorBuilder(args: Map[String, () => Unit]) {
 
   var nonArgumentExecutor: () => Unit = _

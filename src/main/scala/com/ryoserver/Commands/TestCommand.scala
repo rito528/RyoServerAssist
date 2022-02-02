@@ -16,6 +16,8 @@ object TestCommand {
     }
 
     override val args: List[String] = List("a")
+
+    override val playerCommand = true
   })
 
 }

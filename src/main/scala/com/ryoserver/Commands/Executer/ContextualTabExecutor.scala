@@ -1,6 +1,8 @@
 package com.ryoserver.Commands.Executer
 
-import org.bukkit.command.{Command, CommandSender, TabExecutor}
+import org.bukkit.command.{Command, CommandException, CommandSender, TabExecutor}
+import org.bukkit.entity.Player
+import org.bukkit.ChatColor._
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -9,8 +11,17 @@ object ContextualTabExecutor {
 
   def tabExecuter(commandContext: CommandContext): TabExecutor = new TabExecutor {
     override def onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array[String]): Boolean = {
-      val context = RawCommandContext(commandSender, ExecutedCommand(command, s), strings.toList)
-      commandContext.execute(context)
+      if (commandContext.playerCommand && !commandSender.isInstanceOf[Player]) {
+        commandSender.sendMessage(s"${RED}このコマンドはゲーム内から実行してください。")
+        return true
+      }
+      try {
+        val context = RawCommandContext(commandSender, ExecutedCommand(command, s), strings.toList)
+        commandContext.execute(context)
+      } catch {
+        case _: CommandException =>
+          commandSender.sendMessage(s"${RED}引数が不正です。")
+      }
       true
     }
 

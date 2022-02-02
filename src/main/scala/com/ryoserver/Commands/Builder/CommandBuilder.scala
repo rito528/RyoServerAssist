@@ -10,7 +10,7 @@ import scala.jdk.CollectionConverters._
 /*
   コマンドを実装するクラスに、このtraitをmixinすることでコマンドの動作やtab補完を実装します。
  */
-
+@deprecated
 trait CommandBuilder extends CommandExecutor with TabCompleter {
 
   val executor: CommandExecutorBuilder
