@@ -10,7 +10,7 @@ object VoteCommand {
   val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       if (rawCommandContext.args.isEmpty) return
-      rawCommandContext.args.head match {
+      rawCommandContext.args.head.toLowerCase match {
         case "testvote" =>
           new Vote().vote("投票テスト", rawCommandContext.sender.getName)
       }
