@@ -31,6 +31,7 @@ import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
+import org.bukkit.command.TabExecutor
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -75,21 +76,21 @@ class RyoServerAssist extends JavaPlugin {
      */
     Map(
       "home" -> HomeCommand.executer,
-      "gacha" -> GachaCommand.executer,
+      "gacha" -> new GachaCommand().executer,
       "distribution" -> DistributionCommand.executer,
-      "menu" -> MenuCommand.executer,
+      "menu" -> new MenuCommand().executer,
       "stick" -> StickCommand.executer,
       "level" -> LevelCommand.executer,
-      "tpa" -> TpaCommand.executer,
+      "tpa" -> new TpaCommand().executer,
       "sr" -> RegionCommand.executer,
       "hat" -> HatCommand.executer,
       "spawn" -> SpawnCommand.executer,
       "player" -> PlayerCommand.executor,
       "title" -> TitleCommand.executer,
-      "regeneration" -> RegenerationCommand.executer,
+      "regeneration" -> new RegenerationCommand().executer,
       "getoriginalitem" -> OriginalItemCommand.executer,
-      "ryoserverassist" -> RyoServerAssistCommand.executer,
-      "security" -> SecurityCommand.executer,
+      "ryoserverassist" -> new RyoServerAssistCommand().executer,
+      "security" -> new SecurityCommand().executer,
       "skillPoint" -> SkillPointCommand.executer,
       "vote" -> VoteCommand.executer,
       "getgachaitem" -> GetGachaItemCommand.executor,

@@ -11,9 +11,9 @@ import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
-object SecurityCommand {
+class SecurityCommand(implicit ryoServerAssist: RyoServerAssist) {
 
-  val executer: RyoServerAssist => TabExecutor = (ryoServerAssist: RyoServerAssist) => ContextualTabExecutor.tabExecuter(new CommandContext {
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       val args = rawCommandContext.args
       if (args.length < 1) return

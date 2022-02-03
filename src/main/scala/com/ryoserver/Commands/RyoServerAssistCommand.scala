@@ -10,9 +10,9 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
 
-object RyoServerAssistCommand {
+class RyoServerAssistCommand(implicit ryoServerAssist: RyoServerAssist) {
 
-  val executer: RyoServerAssist => TabExecutor = (ryoServerAssist: RyoServerAssist) => ContextualTabExecutor.tabExecuter(new CommandContext {
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       if (rawCommandContext.args.length != 1) return
       val sender = rawCommandContext.sender

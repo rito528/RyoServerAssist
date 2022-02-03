@@ -10,9 +10,9 @@ import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-object GachaCommand {
+class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
 
-  val executer: RyoServerAssist => TabExecutor = (ryoServerAssist: RyoServerAssist) => ContextualTabExecutor.tabExecuter(new CommandContext {
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       val sender = rawCommandContext.sender
       val args = rawCommandContext.args

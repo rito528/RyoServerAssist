@@ -9,9 +9,9 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
 
-object RegenerationCommand {
+class RegenerationCommand(implicit ryoServerAssist: RyoServerAssist) {
 
-  val executer: RyoServerAssist => TabExecutor = (ryoServerAssist: RyoServerAssist) => ContextualTabExecutor.tabExecuter(new CommandContext {
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       Bukkit.broadcastMessage(s"${AQUA}ワールドの再生成を行います。")
       Bukkit.broadcastMessage(s"${AQUA}ラグにご注意ください！")

@@ -8,9 +8,9 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
-object MenuCommand {
+class MenuCommand(implicit ryoServerAssist: RyoServerAssist) {
 
-  val executer: RyoServerAssist => TabExecutor = (ryoServerAssist: RyoServerAssist) => ContextualTabExecutor.tabExecuter(new CommandContext {
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       val sender = rawCommandContext.sender
       new RyoServerMenu1(ryoServerAssist).menu(sender.asInstanceOf[Player])
