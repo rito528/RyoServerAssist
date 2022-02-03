@@ -88,7 +88,7 @@ class RyoServerAssist extends JavaPlugin {
 //      "player" -> new PlayerCommand,
 //      "title" -> new TitleCommand,
 //      "regeneration" -> new RegenerationCommand,
-//      "getoriginalitem" -> new OriginalItemCommand,
+      "getoriginalitem" -> OriginalItemCommand.executer,
       //"profile" -> new ProfileSettingCommands(this),
 //      "ryoserverassist" -> new RyoServerAssistCommand,
 //      "security" -> new SecurityCommand,

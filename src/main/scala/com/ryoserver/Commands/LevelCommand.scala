@@ -17,7 +17,7 @@ object LevelCommand {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       val sender = rawCommandContext.sender
       val args = rawCommandContext.args
-      if (args.length <= 1) return
+      if (args.length < 1) return
       args.head.toLowerCase match {
         case "getlevel" =>
           sender.sendMessage(s"${args(1)}に相当するレベル${lv.getLevel(args(1).toInt, limit = false)}")
