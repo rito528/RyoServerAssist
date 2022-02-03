@@ -3,6 +3,7 @@ package com.ryoserver.Distribution
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class SaveDistribution(implicit ryoServerAssist: RyoServerAssist) {
 
@@ -15,13 +16,12 @@ class SaveDistribution(implicit ryoServerAssist: RyoServerAssist) {
   }
 
   def save(): Unit = {
-    val sql = new SQL()
+    implicit val session: AutoSession.type = AutoSession
     DistributionData.addedList.reverse.foreach(list => {
       val data = DistributionData.distributionData.reverse(list - 1)
-      sql.executeSQL(s"INSERT INTO Distribution (GachaPaperType,Count) VALUES ('${data.TicketType}',${data.amount})")
+      sql"INSERT INTO Distribution (GachaPaperType,Count) VALUES (${data.TicketType},${data.amount})".execute.apply()
     })
     DistributionData.addedList = List.empty
-    sql.close()
   }
 
 }
