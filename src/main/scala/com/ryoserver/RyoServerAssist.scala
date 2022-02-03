@@ -1,7 +1,7 @@
 package com.ryoserver
 
 import com.ryoserver.AdminStorage.AdminStorageEvent
-import com.ryoserver.Commands._
+import com.ryoserver.Commands.{RegionCommand, _}
 import com.ryoserver.Config.ConfigData
 import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
@@ -29,7 +29,6 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.World.SimpleRegion.RegionCommand
 import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -82,7 +81,7 @@ class RyoServerAssist extends JavaPlugin {
       "stick" -> StickCommand.executer,
       "level" -> LevelCommand.executer,
       "tpa" -> TpaCommand.executer,
-//      "sr" -> new RegionCommand,
+      "sr" -> RegionCommand.executer,
       "hat" -> HatCommand.executer,
       "spawn" -> SpawnCommand.executer,
       "player" -> PlayerCommand.executor,
