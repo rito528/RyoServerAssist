@@ -22,10 +22,10 @@ object SecurityCommand {
       args.head.toLowerCase match {
         case "playerstatus" =>
           sender.sendMessage(Players.getPlayerStatus(Bukkit.getPlayer(args(1))))
-        case "openInventory" =>
+        case "openinventory" =>
           sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getInventory)
           sender.sendMessage(s"${AQUA}${args(1)}のインベントリを開きました。")
-        case "openEnderChest" =>
+        case "openenderchest" =>
           sender.asInstanceOf[Player].openInventory(Bukkit.getPlayer(args(1)).getEnderChest)
           sender.sendMessage(s"$AQUA${args(1)}のエンダーチェストを開きました。")
         case "hide" =>
@@ -38,7 +38,7 @@ object SecurityCommand {
           Bukkit.broadcastMessage(s"$YELLOW${p.getName}がゲームに参加しました")
         case "freeze" =>
           Players.freezePlayer(Bukkit.getPlayer(args(1)))
-        case "unFreeze" =>
+        case "unfreeze" =>
           Players.unFreezePlayer(Bukkit.getPlayer(args(1)))
         case "help" =>
           sender.sendMessage("/security PlayerStatus [プレイヤー名] - 指定したプレイヤーの情報を確認します。")

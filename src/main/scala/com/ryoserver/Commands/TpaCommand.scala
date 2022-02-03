@@ -29,7 +29,7 @@ object TpaCommand {
           Tpa.acceptTpa(sender.asInstanceOf[Player])
         case "cancel" =>
           Tpa.cancelTpa(sender.asInstanceOf[Player])
-        case "autoCancel" =>
+        case "autocancel" =>
           if (Tpa.cancelingTpa.contains(sender.getName)) {
             Tpa.cancelingTpa = Tpa.cancelingTpa.filterNot(_ == sender.getName)
             sender.sendMessage(s"${AQUA}autoCancelを無効にしました。")

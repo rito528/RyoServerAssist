@@ -89,11 +89,10 @@ class RyoServerAssist extends JavaPlugin {
       "title" -> TitleCommand.executer,
       "regeneration" -> RegenerationCommand.executer,
       "getoriginalitem" -> OriginalItemCommand.executer,
-      //"profile" -> new ProfileSettingCommands(this),
       "ryoserverassist" -> RyoServerAssistCommand.executer,
       "security" -> SecurityCommand.executer,
       "skillPoint" -> SkillPointCommand.executer,
-//      "vote" -> new VoteCommand,
+      "vote" -> VoteCommand.executer,
       "getgachaitem" -> GetGachaItemCommand.executor,
       "adminStorage" -> AdminStorageCommand.executer
     ).foreach({ case (cmd, executor) =>
