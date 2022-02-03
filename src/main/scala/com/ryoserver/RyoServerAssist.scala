@@ -76,7 +76,7 @@ class RyoServerAssist extends JavaPlugin {
      */
     Map(
       "home" -> new HomeCommand,
-      "gacha" -> new GachaCommand,
+      "gacha" -> GachaCommand.executer,
       "distribution" -> DistributionCommand,
       "menu" -> new MenuCommand,
       "stick" -> new StickCommand,
@@ -95,7 +95,7 @@ class RyoServerAssist extends JavaPlugin {
       "skillPoint" -> new SkillPointCommand,
       "vote" -> new VoteCommand,
       "getgachaitem" -> new GetGachaItemCommand,
-      "adminStorage" -> new AdminStorageCommand
+      "adminStorage" -> AdminStorageCommand.executer
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
