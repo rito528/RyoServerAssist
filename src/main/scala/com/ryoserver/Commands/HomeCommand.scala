@@ -14,7 +14,7 @@ object HomeCommand {
       new HomeMenu().openHomeMenu(rawCommandContext.sender.asInstanceOf[Player])
     }
 
-    override val args: List[String] = _
+    override val args: List[String] = Nil
 
     override val playerCommand: Boolean = true
   })
