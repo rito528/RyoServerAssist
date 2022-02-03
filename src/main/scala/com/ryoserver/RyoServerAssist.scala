@@ -29,7 +29,6 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.World.SimpleRegion.RegionCommand
 import com.ryoserver.util.{SQL, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -75,27 +74,26 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand,
-      "gacha" -> new GachaCommand,
-      "distribution" -> new DistributionCommand,
-      "menu" -> new MenuCommand,
-      "stick" -> new StickCommand,
-      "level" -> new LevelCommand,
-      "tpa" -> new TpaCommand,
-      "sr" -> new RegionCommand,
-      "hat" -> new HatCommand,
-      "spawn" -> new SpawnCommand,
-      "player" -> new PlayerCommand,
-      "title" -> new TitleCommand,
-      "regeneration" -> new RegenerationCommand,
-      "getoriginalitem" -> new OriginalItemCommand,
-      //"profile" -> new ProfileSettingCommands(this),
-      "ryoserverassist" -> new RyoServerAssistCommand,
-      "security" -> new SecurityCommand,
-      "skillPoint" -> new SkillPointCommand,
-      "vote" -> new VoteCommand,
-      "getgachaitem" -> new GetGachaItemCommand,
-      "adminStorage" -> new AdminStorageCommand
+      "home" -> HomeCommand.executer,
+      "gacha" -> new GachaCommand().executer,
+      "distribution" -> DistributionCommand.executer,
+      "menu" -> new MenuCommand().executer,
+      "stick" -> StickCommand.executer,
+      "level" -> LevelCommand.executer,
+      "tpa" -> new TpaCommand().executer,
+      "sr" -> RegionCommand.executer,
+      "hat" -> HatCommand.executer,
+      "spawn" -> SpawnCommand.executer,
+      "player" -> PlayerCommand.executor,
+      "title" -> TitleCommand.executer,
+      "regeneration" -> new RegenerationCommand().executer,
+      "getoriginalitem" -> OriginalItemCommand.executer,
+      "ryoserverassist" -> new RyoServerAssistCommand().executer,
+      "security" -> new SecurityCommand().executer,
+      "skillPoint" -> SkillPointCommand.executer,
+      "vote" -> VoteCommand.executer,
+      "getgachaitem" -> GetGachaItemCommand.executor,
+      "adminStorage" -> AdminStorageCommand.executer
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })

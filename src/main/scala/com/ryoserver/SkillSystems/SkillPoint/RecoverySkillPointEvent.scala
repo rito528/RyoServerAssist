@@ -27,11 +27,11 @@ class RecoverySkillPointEvent extends Listener {
     }
   }
 
-  private def setMaxSkillPoint(p:Player): Unit = {
+  private def setMaxSkillPoint(p: Player): Unit = {
     val playerLevel = p.getQuestLevel
     val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
     p.setSkillPoint(maxSP)
-    p.playSound(p.getLocation,Sound.BLOCK_NOTE_BLOCK_CHIME,1,1)
+    p.playSound(p.getLocation, Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1)
   }
 
 }

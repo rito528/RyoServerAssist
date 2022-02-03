@@ -4,7 +4,7 @@ import org.bukkit.entity.ExperienceOrb
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.{Effect, Material, Sound}
+import org.bukkit.{Effect, Material}
 
 import java.security.SecureRandom
 

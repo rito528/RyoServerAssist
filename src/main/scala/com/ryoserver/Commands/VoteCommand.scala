@@ -1,18 +1,22 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
+import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
+import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Vote.Vote
+import org.bukkit.command.TabExecutor
 
-class VoteCommand extends CommandBuilder {
+object VoteCommand {
 
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "testVote" -> testVote
-    )
-  ).playerCommand()
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
+    override def execute(rawCommandContext: RawCommandContext): Unit = {
+      if (rawCommandContext.args.isEmpty) return
+      rawCommandContext.args.head match {
+        case "testvote" =>
+          new Vote().vote("投票テスト", rawCommandContext.sender.getName)
+      }
+    }
 
-  def testVote(): Unit = {
-    new Vote().vote("投票テスト", sender.getName)
-  }
+    override val args: List[String] = List("testVote")
+  })
 
 }

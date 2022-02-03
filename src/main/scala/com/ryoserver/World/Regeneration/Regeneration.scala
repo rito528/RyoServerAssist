@@ -13,7 +13,7 @@ import java.util.{Calendar, TimeZone}
 
 class Regeneration {
 
-  def regeneration(implicit ryoServerAssist: RyoServerAssist,isForce: Boolean = false): Unit = {
+  def regeneration(implicit ryoServerAssist: RyoServerAssist, isForce: Boolean = false): Unit = {
     if ((!isFriday && !isForce) || (!isForce && !getConfig.autoWorldRegeneration)) return
     ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
     regenerationCommands(getConfig.regenerationNormalWorlds, Environment.NORMAL)

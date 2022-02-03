@@ -20,7 +20,7 @@ object GachaLoader {
   var bigPer: Double = _ //大当たり
   var special: Double = _ //特等
 
-  def addGachaItem(implicit ryoServerAssist: RyoServerAssist,is: ItemStack, rarity: Int): Unit = {
+  def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
     val sql = new SQL()
     val config: YamlConfiguration = new YamlConfiguration
     is.setAmount(1)
@@ -36,7 +36,7 @@ object GachaLoader {
     gachaRarityLoad(ryoServerAssist)
   }
 
-  private def gachaItemLoad(implicit ryoServerAssist: RyoServerAssist ): Unit = {
+  private def gachaItemLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("ガチャアイテムロード中....")
     val sql = new SQL()
     val rs = sql.executeQuery("SELECT * FROM GachaItems")

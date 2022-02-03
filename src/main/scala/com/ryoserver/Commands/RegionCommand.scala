@@ -4,18 +4,20 @@ import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandConte
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import org.bukkit.Bukkit
 import org.bukkit.command.TabExecutor
-import org.bukkit.entity.Player
 
-object SpawnCommand {
+object RegionCommand {
 
   val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
-      rawCommandContext.sender.asInstanceOf[Player].teleport(Bukkit.getWorld("world").getSpawnLocation)
+      if (rawCommandContext.args.isEmpty) return
+      rawCommandContext.args.head.toLowerCase match {
+        case "edit" =>
+          Bukkit.dispatchCommand(rawCommandContext.sender, "rg bypass")
+      }
     }
 
-    override val args: List[String] = Nil
-
-    override val playerCommand: Boolean = true
+    override val args: List[String] = List("edit")
   })
+
 
 }

@@ -10,7 +10,7 @@ object GachaCoolDown {
   /*
   ガチャを引くごとにクールタイムを設けないと2回同時に引いたりしてしまう
  */
-  def pullCoolDownSet(p: Player,ryoServerAssist: RyoServerAssist): Unit = {
+  def pullCoolDownSet(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
     setPullCoolDown(flag = true, p, ryoServerAssist)
     new BukkitRunnable {
       override def run(): Unit = {

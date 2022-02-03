@@ -35,22 +35,6 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     questClearCheck(p, progress)
   }
 
-  private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
-    val questGateway = new QuestGateway
-    if (progress.forall { case (_, amount) => amount == 0 }) {
-      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
-      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.questClear(p)
-      new QuestMenu(ryoServerAssist).selectInventory(p)
-      new GiveTitle().questClearNumber(p)
-      new GiveTitle().continuousLoginAndQuestClearNumber(p)
-    } else {
-      questGateway.setQuestProgress(p, progress)
-      p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectInventory(p)
-    }
-  }
-
   def deliveryFromNeoStack(p: Player): Unit = {
     val questGateway = new QuestGateway()
     val neoStackGateway = new NeoStackGateway()
@@ -68,6 +52,22 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       }
     }
     questClearCheck(p, progress)
+  }
+
+  private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
+    val questGateway = new QuestGateway
+    if (progress.forall { case (_, amount) => amount == 0 }) {
+      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
+      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      questGateway.questClear(p)
+      new QuestMenu(ryoServerAssist).selectInventory(p)
+      new GiveTitle().questClearNumber(p)
+      new GiveTitle().continuousLoginAndQuestClearNumber(p)
+    } else {
+      questGateway.setQuestProgress(p, progress)
+      p.sendMessage(s"${AQUA}納品しました。")
+      new QuestMenu(ryoServerAssist).selectInventory(p)
+    }
   }
 
   def questDestroy(p: Player): Unit = {

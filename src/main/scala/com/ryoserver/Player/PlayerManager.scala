@@ -22,10 +22,6 @@ object PlayerManager {
       }
     }
 
-    def getQuestExp: Double = playerData.exp
-
-    def getRanking: Int = PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
-
     def getBeforeExpDiff: Option[Double] = {
       val nowRanking = getRanking
       if (nowRanking == 1) {
@@ -35,6 +31,10 @@ object PlayerManager {
         Option(PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse(nowRanking - 2).exp - getQuestExp)
       }
     }
+
+    def getQuestExp: Double = playerData.exp
+
+    def getRanking: Int = PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
 
     def getLastDistributionReceived: Int = playerData.lastDistributionReceived
 

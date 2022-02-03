@@ -22,6 +22,16 @@ class HomeGateway(p: Player) {
     p.sendMessage(s"${AQUA}ホーム${point}を設定しました。")
   }
 
+  def isHomeLocked(point: Int): Boolean = {
+    val targetData = HomeData.getTargetHomeData(uuid, point)
+    targetData match {
+      case Some(data) =>
+        data.isLocked
+      case None =>
+        false
+    }
+  }
+
   def toggleLock(point: Int): Unit = {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     targetData match {
@@ -30,16 +40,6 @@ class HomeGateway(p: Player) {
         p.sendMessage(s"${AQUA}ホーム$point${if (!isHomeLocked(point)) "のロックを解除しました。" else "をロックしました。"}")
       case None =>
         p.sendMessage(s"${RED}ホームが設定されていないためロックできませんでした。")
-    }
-  }
-
-  def isHomeLocked(point: Int): Boolean = {
-    val targetData = HomeData.getTargetHomeData(uuid, point)
-    targetData match {
-      case Some(data) =>
-        data.isLocked
-      case None =>
-        false
     }
   }
 
