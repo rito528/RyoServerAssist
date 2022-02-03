@@ -29,9 +29,10 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{SQL, Translate}
+import com.ryoserver.util.{SQL, ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class RyoServerAssist extends JavaPlugin {
 
@@ -46,6 +47,11 @@ class RyoServerAssist extends JavaPlugin {
       configにはMySQLの接続情報も含まれているため、最初にロードする必要がある
      */
     ConfigData.loadConfig
+
+    /*
+     Scalikejdbcをセットアップ
+     */
+    ScalikeJDBC.setup()
 
     /*
       MySQL接続テスト
