@@ -72,9 +72,6 @@ commands:
   adminStorage:
     description: open admin storage command.
     permission: ryoserverassist.adminStorage
-  testCommand:
-    description: test
-    permission: ryoserverassist.testCommand
 
 permissions:
   ryoserverassist.*:

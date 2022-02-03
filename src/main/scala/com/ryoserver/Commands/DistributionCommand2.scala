@@ -1,6 +1,7 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Executer.{CommandContext, ContextualTabExecutor, RawCommandContext}
+import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
+import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Distribution.Distribution
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.command.TabExecutor

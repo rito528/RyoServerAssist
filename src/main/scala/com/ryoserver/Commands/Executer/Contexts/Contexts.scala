@@ -1,4 +1,4 @@
-package com.ryoserver.Commands.Executer
+package com.ryoserver.Commands.Executer.Contexts
 
 import org.bukkit.command.{Command, CommandSender}
 
