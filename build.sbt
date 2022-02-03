@@ -35,7 +35,9 @@ libraryDependencies ++= Seq(
   "com.beachape" %% "enumeratum" % "1.7.0",
   "com.fasterxml.jackson.core" % "jackson-core" % "2.13.1",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.1",
-  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.1"
+  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.1",
+  "org.scalikejdbc" %% "scalikejdbc" % "4.0.0",
+  "org.flywaydb" % "flyway-core" % "8.4.2"
 )
 
 lazy val root = (project in file("."))
