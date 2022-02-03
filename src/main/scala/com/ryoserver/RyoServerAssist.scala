@@ -75,28 +75,28 @@ class RyoServerAssist extends JavaPlugin {
       コマンドの登録
      */
     Map(
-      "home" -> new HomeCommand,
+//      "home" -> new HomeCommand,
       "gacha" -> GachaCommand.executer,
-      "distribution" -> DistributionCommand,
-      "menu" -> new MenuCommand,
-      "stick" -> new StickCommand,
-      "level" -> new LevelCommand,
-      "tpa" -> new TpaCommand,
-      "sr" -> new RegionCommand,
-      "hat" -> new HatCommand,
-      "spawn" -> new SpawnCommand,
-      "player" -> new PlayerCommand,
-      "title" -> new TitleCommand,
-      "regeneration" -> new RegenerationCommand,
-      "getoriginalitem" -> new OriginalItemCommand,
+      "distribution" -> DistributionCommand.executer,
+//      "menu" -> new MenuCommand,
+//      "stick" -> new StickCommand,
+//      "level" -> new LevelCommand,
+//      "tpa" -> new TpaCommand,
+//      "sr" -> new RegionCommand,
+//      "hat" -> new HatCommand,
+//      "spawn" -> new SpawnCommand,
+//      "player" -> new PlayerCommand,
+//      "title" -> new TitleCommand,
+//      "regeneration" -> new RegenerationCommand,
+//      "getoriginalitem" -> new OriginalItemCommand,
       //"profile" -> new ProfileSettingCommands(this),
-      "ryoserverassist" -> new RyoServerAssistCommand,
-      "security" -> new SecurityCommand,
-      "skillPoint" -> new SkillPointCommand,
-      "vote" -> new VoteCommand,
-      "getgachaitem" -> new GetGachaItemCommand,
-      "adminStorage" -> AdminStorageCommand.executer
-    ).foreach({ case (cmd, executor) =>
+//      "ryoserverassist" -> new RyoServerAssistCommand,
+//      "security" -> new SecurityCommand,
+//      "skillPoint" -> new SkillPointCommand,
+//      "vote" -> new VoteCommand,
+      "getgachaitem" -> GetGachaItemCommand,
+      "adminStorage" -> AdminStorageCommand
+    ).map().foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
 
