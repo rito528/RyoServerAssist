@@ -83,7 +83,7 @@ class RyoServerAssist extends JavaPlugin {
 //      "level" -> new LevelCommand,
 //      "tpa" -> new TpaCommand,
 //      "sr" -> new RegionCommand,
-//      "hat" -> new HatCommand,
+      "hat" -> HatCommand.executer,
 //      "spawn" -> new SpawnCommand,
 //      "player" -> new PlayerCommand,
 //      "title" -> new TitleCommand,
