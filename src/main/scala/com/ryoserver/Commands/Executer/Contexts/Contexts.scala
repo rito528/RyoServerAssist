@@ -6,4 +6,4 @@ case class RawCommandContext(sender: CommandSender,
                              executedCommand: ExecutedCommand,
                              args: List[String])
 
-case class ExecutedCommand(command: Command,alias: String)
+case class ExecutedCommand(command: Command, alias: String)

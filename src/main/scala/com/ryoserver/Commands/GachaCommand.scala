@@ -1,6 +1,5 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
@@ -44,7 +43,7 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
       }
     }
 
-    override val args: List[String] = List("help","give","add","remove","list")
+    override val args: List[String] = List("help", "give", "add", "remove", "list")
   })
 
 }

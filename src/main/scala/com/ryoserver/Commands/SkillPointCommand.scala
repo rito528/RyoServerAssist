@@ -1,12 +1,11 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Player.PlayerManager.setPlayerData
+import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
-import org.bukkit.ChatColor._
 
 object SkillPointCommand {
 
@@ -26,7 +25,7 @@ object SkillPointCommand {
       }
     }
 
-    override val args: List[String] = List("normal","special")
+    override val args: List[String] = List("normal", "special")
 
     override val playerCommand: Boolean = true
   })

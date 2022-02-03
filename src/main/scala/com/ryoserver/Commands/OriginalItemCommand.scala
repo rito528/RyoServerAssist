@@ -1,6 +1,5 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.OriginalItem.OriginalItems
@@ -28,7 +27,7 @@ object OriginalItemCommand {
       }
     }
 
-    override val args: List[String] = List("勇者の盾","スキル回復(小)","スキル回復(中)","スキル回復(大)","特等交換券")
+    override val args: List[String] = List("勇者の盾", "スキル回復(小)", "スキル回復(中)", "スキル回復(大)", "特等交換券")
 
     override val playerCommand: Boolean = true
   })

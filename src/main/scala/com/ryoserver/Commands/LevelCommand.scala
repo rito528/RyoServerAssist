@@ -1,6 +1,5 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Level.CalLv
@@ -10,8 +9,6 @@ import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
 object LevelCommand {
-
-  private val lv = new CalLv
 
   val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
@@ -48,9 +45,10 @@ object LevelCommand {
       }
     }
 
-    override val args: List[String] = List("getLevel","getExp","getTotalExp","setExp","log","help")
+    override val args: List[String] = List("getLevel", "getExp", "getTotalExp", "setExp", "log", "help")
 
     override val playerCommand: Boolean = true
   })
+  private val lv = new CalLv
 
 }

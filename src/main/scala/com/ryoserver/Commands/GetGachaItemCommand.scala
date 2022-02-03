@@ -16,7 +16,7 @@ object GetGachaItemCommand {
       new GachaItemGetInventory().openGachaItemGetMenu(sender.asInstanceOf[Player], args.head.toInt)
     }
 
-    override val args: List[String] = List("0","1","2","3")
+    override val args: List[String] = List("0", "1", "2", "3")
   })
 
 }

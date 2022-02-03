@@ -48,7 +48,7 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
         && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {
         if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
           is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
-          GachaLoader.addGachaItem(ryoServerAssist,is, rarity)
+          GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
         }
       }
     })

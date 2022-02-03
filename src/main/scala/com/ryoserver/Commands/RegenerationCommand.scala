@@ -1,6 +1,5 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.RyoServerAssist
@@ -15,7 +14,7 @@ class RegenerationCommand(implicit ryoServerAssist: RyoServerAssist) {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       Bukkit.broadcastMessage(s"${AQUA}ワールドの再生成を行います。")
       Bukkit.broadcastMessage(s"${AQUA}ラグにご注意ください！")
-      new Regeneration().regeneration(ryoServerAssist,isForce = true)
+      new Regeneration().regeneration(ryoServerAssist, isForce = true)
     }
 
     override val args: List[String] = Nil

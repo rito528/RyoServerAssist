@@ -25,7 +25,7 @@ object DistributionCommand {
       }
     }
 
-    override val args: List[String] = List("give","help")
+    override val args: List[String] = List("give", "help")
   })
 
 }

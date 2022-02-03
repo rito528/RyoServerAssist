@@ -28,18 +28,6 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  /*
-    イベントの細かい情報を返す
-   */
-  def eventInfo(eventName: String): EventType = {
-    val data = EventDataProvider.eventData.filter(_.name == eventName)
-    if (data.length == 0) {
-      null
-    } else {
-      data.head
-    }
-  }
-
   def loadEventRanking(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベントランキングを読み込み中...")
@@ -49,20 +37,6 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
       sql.close()
       ryoServerAssist.getLogger.info("イベントランキングの読み込みが完了しました。")
     }
-  }
-
-  /*
-    イベントが開催されていればイベント名、されていなければnullを返す
-   */
-  def holdingEvent(): String = {
-    EventDataProvider.eventData.foreach(event => {
-      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
-      val start = format.parse(s"${event.start} 15:00")
-      val end = format.parse(s"${event.end} 20:59")
-      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
-      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
-    })
-    null
   }
 
   /*
@@ -96,6 +70,32 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 20, 20)
+  }
+
+  /*
+    イベントの細かい情報を返す
+   */
+  def eventInfo(eventName: String): EventType = {
+    val data = EventDataProvider.eventData.filter(_.name == eventName)
+    if (data.length == 0) {
+      null
+    } else {
+      data.head
+    }
+  }
+
+  /*
+    イベントが開催されていればイベント名、されていなければnullを返す
+   */
+  def holdingEvent(): String = {
+    EventDataProvider.eventData.foreach(event => {
+      val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
+      val start = format.parse(s"${event.start} 15:00")
+      val end = format.parse(s"${event.end} 20:59")
+      val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
+      if (nowCalender.getTime.after(start) && nowCalender.getTime.before(end)) return event.name
+    })
+    null
   }
 
   def autoSaveEvent(): Unit = {

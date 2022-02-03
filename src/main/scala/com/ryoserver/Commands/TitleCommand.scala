@@ -37,7 +37,7 @@ object TitleCommand {
       }
     }
 
-    override val args: List[String] = List("add","remove")
+    override val args: List[String] = List("add", "remove")
   })
 
 }

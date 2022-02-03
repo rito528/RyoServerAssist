@@ -3,7 +3,7 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import org.bukkit.Bukkit
-import org.bukkit.command.{Command, CommandExecutor, CommandSender, TabExecutor}
+import org.bukkit.command.TabExecutor
 
 object RegionCommand {
 
