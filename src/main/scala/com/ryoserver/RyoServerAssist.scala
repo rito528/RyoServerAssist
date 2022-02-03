@@ -79,7 +79,7 @@ class RyoServerAssist extends JavaPlugin {
       "gacha" -> GachaCommand.executer,
       "distribution" -> DistributionCommand.executer,
       "menu" -> MenuCommand.executer,
-//      "stick" -> new StickCommand,
+      "stick" -> StickCommand.executer,
       "level" -> LevelCommand.executer,
 //      "tpa" -> new TpaCommand,
 //      "sr" -> new RegionCommand,
