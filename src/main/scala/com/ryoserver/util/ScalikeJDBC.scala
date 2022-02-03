@@ -17,4 +17,10 @@ object ScalikeJDBC {
     ConnectionPool.singleton(this.URL,this.USER,this.PASS)
   }
 
+  implicit class getData(sql: SQL[Nothing, NoExtractor]) {
+    def getHeadData: Option[Map[String,Any]] =  {
+      sql.map(rs => rs.toMap()).headOption.apply()
+    }
+  }
+
 }
