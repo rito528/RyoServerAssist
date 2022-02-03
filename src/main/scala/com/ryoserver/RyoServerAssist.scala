@@ -81,7 +81,7 @@ class RyoServerAssist extends JavaPlugin {
       "menu" -> MenuCommand.executer,
       "stick" -> StickCommand.executer,
       "level" -> LevelCommand.executer,
-//      "tpa" -> new TpaCommand,
+      "tpa" -> TpaCommand.executer,
 //      "sr" -> new RegionCommand,
       "hat" -> HatCommand.executer,
       "spawn" -> SpawnCommand.executer,
