@@ -80,7 +80,7 @@ class RyoServerAssist extends JavaPlugin {
       "distribution" -> DistributionCommand.executer,
 //      "menu" -> new MenuCommand,
 //      "stick" -> new StickCommand,
-//      "level" -> new LevelCommand,
+      "level" -> LevelCommand.executer,
 //      "tpa" -> new TpaCommand,
 //      "sr" -> new RegionCommand,
       "hat" -> HatCommand.executer,

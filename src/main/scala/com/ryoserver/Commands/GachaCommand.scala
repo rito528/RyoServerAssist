@@ -17,7 +17,7 @@ object GachaCommand {
       val sender = rawCommandContext.sender
       val args = rawCommandContext.args
       if (args.isEmpty) return
-      args.head match {
+      args.head.toLowerCase match {
         case "help" =>
           sender.sendMessage("+-------------------------------------+")
           sender.sendMessage(s"$AQUA/gacha give <プレイヤー名> <個数>")
