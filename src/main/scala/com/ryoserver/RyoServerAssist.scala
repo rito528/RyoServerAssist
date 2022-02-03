@@ -85,7 +85,7 @@ class RyoServerAssist extends JavaPlugin {
 //      "sr" -> new RegionCommand,
       "hat" -> HatCommand.executer,
 //      "spawn" -> new SpawnCommand,
-//      "player" -> new PlayerCommand,
+      "player" -> PlayerCommand.executor,
 //      "title" -> new TitleCommand,
 //      "regeneration" -> new RegenerationCommand,
       "getoriginalitem" -> OriginalItemCommand.executer,
@@ -94,9 +94,9 @@ class RyoServerAssist extends JavaPlugin {
 //      "security" -> new SecurityCommand,
 //      "skillPoint" -> new SkillPointCommand,
 //      "vote" -> new VoteCommand,
-      "getgachaitem" -> GetGachaItemCommand,
-      "adminStorage" -> AdminStorageCommand
-    ).map().foreach({ case (cmd, executor) =>
+      "getgachaitem" -> GetGachaItemCommand.executor,
+      "adminStorage" -> AdminStorageCommand.executer
+    ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
 
