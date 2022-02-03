@@ -92,7 +92,7 @@ class RyoServerAssist extends JavaPlugin {
       //"profile" -> new ProfileSettingCommands(this),
       "ryoserverassist" -> RyoServerAssistCommand.executer,
       "security" -> SecurityCommand.executer,
-//      "skillPoint" -> new SkillPointCommand,
+      "skillPoint" -> SkillPointCommand.executer,
 //      "vote" -> new VoteCommand,
       "getgachaitem" -> GetGachaItemCommand.executor,
       "adminStorage" -> AdminStorageCommand.executer

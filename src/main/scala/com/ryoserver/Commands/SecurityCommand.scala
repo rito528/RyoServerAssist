@@ -52,7 +52,7 @@ object SecurityCommand {
       }
     }
 
-    override val args: List[String] = List("")
+    override val args: List[String] = List("PlayerStatus","openInventory","openEnderChest","hide","show","freeze","unfreeze","help")
 
     override val playerCommand: Boolean = true
   })
