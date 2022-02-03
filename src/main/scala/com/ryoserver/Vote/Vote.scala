@@ -6,6 +6,7 @@ import com.ryoserver.util.{Player, SQL}
 import com.vexsoftware.votifier.model.VotifierEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Bukkit, ChatColor, OfflinePlayer, Sound}
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class Vote extends Listener {
 
@@ -33,18 +34,14 @@ class Vote extends Listener {
   }
 
   private def updateVoteContinue(p: OfflinePlayer): Unit = {
-    val sql = new SQL()
-    val query =
-      "UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber " +
-        "END," +
-        "LastVote = NOW() " +
-        s"WHERE UUID='${p.getUniqueId.toString}';"
-    sql.executeSQL(query)
-    val rs = sql.executeQuery(s"SELECT ContinueVoteNumber FROM Players WHERE UUID = '${p.getUniqueId.toString}'");
-    if (rs.next()) {
-      p.setReVoteNumber(rs.getInt("ContinueVoteNumber"))
-    }
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"""UPDATE Players SET ContinueVoteNumber = CASE WHEN DATEDIFF(LastVote, NOW()) <= -1 THEN ContinueVoteNumber + 1 ELSE ContinueVoteNumber
+      END,
+      LastVote = NOW()
+      WHERE UUID=${p.getUniqueId.toString}""".execute.apply()
+    p.setReVoteNumber(sql"SELECT ContinueVoteNumber FROM Players WHERE UUID = ${p.getUniqueId.toString}"
+      .map(rs => rs.int("ContinueVoteNumber"))
+      .headOption.apply().getOrElse(0))
   }
 
 }
