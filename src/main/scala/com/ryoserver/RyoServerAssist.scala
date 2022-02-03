@@ -86,7 +86,7 @@ class RyoServerAssist extends JavaPlugin {
       "hat" -> HatCommand.executer,
       "spawn" -> SpawnCommand.executer,
       "player" -> PlayerCommand.executor,
-//      "title" -> new TitleCommand,
+      "title" -> TitleCommand.executer,
       "regeneration" -> RegenerationCommand.executer,
       "getoriginalitem" -> OriginalItemCommand.executer,
       //"profile" -> new ProfileSettingCommands(this),
