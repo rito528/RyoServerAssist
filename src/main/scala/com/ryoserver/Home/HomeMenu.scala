@@ -13,6 +13,8 @@ class HomeMenu extends Menu {
 
   def openHomeMenu(player: Player): Unit = {
     p = player
+    p.sendMessage(s"${RED}Home機能は一時的に停止されています。")
+    return
     val beds = List(
       Material.WHITE_BED,
       Material.BLUE_BED,
