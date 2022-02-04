@@ -2,8 +2,10 @@ package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
 
@@ -13,30 +15,34 @@ object PlayerQuestData {
 
   def loadPlayerData(p: Player): Unit = {
     if (playerQuestData.contains(p.getUniqueId)) return
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT selectedQuest,remaining,bookmarks FROM Quests WHERE UUID='${p.getUniqueId.toString}'")
-    if (rs.next()) {
-      val selectedQuestName = rs.getString("selectedQuest")
-      val remaining = rs.getString("remaining")
-      val bookmarks = rs.getString("bookmarks")
-      var bookMarkData: List[String] = null
-      if (bookmarks != null) {
-        bookMarkData = bookmarks.split(";").toList
-      } else {
-        bookMarkData = List.empty
-      }
+    implicit val session: AutoSession.type = AutoSession
+    val quests = sql"SELECT selectedQuest,remaining,bookmarks FROM Quests WHERE UUID=${p.getUniqueId.toString}"
+    val questData = quests.getHeadData
+    case class questDataClass(selectedQuest: Option[String],remaining: Option[String],bookmarks: Option[String])
+    val data = quests
+      .map(rs =>
+        questDataClass(
+          rs.stringOpt("selectedQuest"),
+          rs.stringOpt("remaining"),
+          rs.stringOpt("bookmarks"))
+      )
+      .headOption.apply()
+    if (questData.nonEmpty) {
+      val selectedQuestName:Option[String] = data.get.selectedQuest
+      val remaining = data.get.remaining.orNull
+      val bookmarks = data.get.bookmarks.orNull
+      val bookMarkData: List[String] = if (bookmarks != null) bookmarks.split(";").toList else Nil
       if (remaining != null) {
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuestName), remaining
+        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(selectedQuestName, remaining
           .split(";")
           .map(data => data.split(":")(0) -> data.split(":")(1).toInt).toMap, bookMarkData))
       } else {
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, bookMarkData))
       }
     } else {
-      sql.executeSQL(s"INSERT INTO Quests (UUID) VALUES ('${p.getUniqueId.toString}')")
+      sql"INSERT INTO Quests (UUID) VALUES (${p.getUniqueId.toString})".execute.apply()
       playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, List.empty))
     }
-    sql.close()
   }
 
   def autoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
