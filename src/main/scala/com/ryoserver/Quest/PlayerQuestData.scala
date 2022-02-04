@@ -54,22 +54,21 @@ object PlayerQuestData {
   }
 
   def save(): Unit = {
-    val sql = new SQL()
+    implicit val session: AutoSession.type = AutoSession
     playerQuestData.foreach { case (uuid, questData) =>
       val questName = questData.selectedQuestName
       questName match {
         case Some(name) =>
-          sql.executeSQL(s"UPDATE Quests SET selectedQuest='$name'," +
-            s"remaining='${questData.progress.map { case (require, amount) => s"$require:$amount" }.mkString(";")}' " +
-            s"WHERE UUID='${uuid.toString}'")
+          sql"""UPDATE Quests SET selectedQuest=$name,
+               remaining=${questData.progress.map { case (require, amount) => s"$require:$amount" }.mkString(";")}
+               WHERE UUID=${uuid.toString}
+               """.execute.apply()
         case None =>
-          sql.executeSQL(s"UPDATE Quests SET selectedQuest=NULL," +
-            s"remaining=NULL " +
-            s"WHERE UUID='${uuid.toString}'")
+          sql"""UPDATE Quests SET selectedQuest=NULL,remaining=NULL WHERE UUID=${uuid.toString}""".execute.apply()
       }
-      sql.executeSQL(s"UPDATE Quests SET bookmarks='${if (questData.bookmarks.isEmpty) "NULL" else questData.bookmarks.mkString(";")}' WHERE UUID='${uuid.toString}'")
+      sql"""UPDATE Quests SET bookmarks=${if (questData.bookmarks.isEmpty) "NULL" else questData.bookmarks.mkString(";")}
+           WHERE UUID=${uuid.toString}"""
     }
-    sql.close()
   }
 
 }
