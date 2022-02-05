@@ -1,6 +1,8 @@
 package com.ryoserver.util
 
 import com.ryoserver.Config.ConfigData.getConfig
+import org.flywaydb.core.Flyway
+import org.flywaydb.core.api.configuration.Configuration
 import scalikejdbc._
 
 object ScalikeJDBC {
@@ -21,6 +23,11 @@ object ScalikeJDBC {
     def getHeadData: Option[Map[String,Any]] =  {
       sql.map(rs => rs.toMap()).headOption.apply()
     }
+  }
+
+  def migrate(): Unit = {
+    val flyway: Flyway = Flyway.configure.dataSource(this.URL,this.USER,this.PASS).load()
+    flyway.migrate()
   }
 
 }
