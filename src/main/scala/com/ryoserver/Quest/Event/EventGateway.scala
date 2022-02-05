@@ -36,10 +36,11 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
   def loadEventRanking(): Unit = {
     if (holdingEvent() != null) {
       ryoServerAssist.getLogger.info("イベントランキングを読み込み中...")
-      val sql = new SQL()
-      val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${holdingEvent()}';")
-      while (rs.next()) EventDataProvider.eventRanking += (rs.getString("UUID") -> rs.getInt("counter"))
-      sql.close()
+      implicit val session: AutoSession.type = AutoSession
+      val eventRankingsTable = sql"SELECT * FROM EventRankings WHERE EventName=${holdingEvent()}"
+      eventRankingsTable.foreach(rs => {
+        EventDataProvider.eventRanking += (rs.string("UUID") -> rs.int("counter"))
+      })
       ryoServerAssist.getLogger.info("イベントランキングの読み込みが完了しました。")
     }
   }
