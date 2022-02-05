@@ -26,9 +26,9 @@ class CreateData {
       }).headOption.apply()
       firstJoinItems match {
         case Some(data) =>
-          data.split(";").zipWithIndex.foreach{case (itemStackString,index) =>
+          data.split(";").zipWithIndex.foreach { case (itemStackString, index) =>
             val itemStack = Item.getItemStackFromString(itemStackString)
-            if (itemStack != null) inv.setItem(index,itemStack)
+            if (itemStack != null) inv.setItem(index, itemStack)
           }
         case None =>
       }

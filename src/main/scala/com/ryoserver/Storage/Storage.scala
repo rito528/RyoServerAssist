@@ -1,7 +1,7 @@
 package com.ryoserver.Storage
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.ChatColor._
 import org.bukkit.configuration.file.YamlConfiguration
@@ -31,9 +31,9 @@ class Storage {
       val storageTable = sql"SELECT invData FROM Storage WHERE UUID=${p.getUniqueId.toString}"
       if (storageTable.getHeadData.nonEmpty) {
         storageTable.foreach(rs => {
-          rs.string("invData").split(";").zipWithIndex.foreach{case (itemStackString,index) =>
+          rs.string("invData").split(";").zipWithIndex.foreach { case (itemStackString, index) =>
             val itemStack = Item.getItemStackFromString(itemStackString)
-            inv.setItem(index,itemStack)
+            inv.setItem(index, itemStack)
           }
         })
       }

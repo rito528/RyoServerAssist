@@ -1,7 +1,6 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
@@ -18,7 +17,7 @@ object PlayerQuestData {
     implicit val session: AutoSession.type = AutoSession
     val quests = sql"SELECT selectedQuest,remaining,bookmarks FROM Quests WHERE UUID=${p.getUniqueId.toString}"
     val questData = quests.getHeadData
-    case class questDataClass(selectedQuest: Option[String],remaining: Option[String],bookmarks: Option[String])
+    case class questDataClass(selectedQuest: Option[String], remaining: Option[String], bookmarks: Option[String])
     val data = quests
       .map(rs =>
         questDataClass(
@@ -28,7 +27,7 @@ object PlayerQuestData {
       )
       .headOption.apply()
     if (questData.nonEmpty) {
-      val selectedQuestName:Option[String] = data.get.selectedQuest
+      val selectedQuestName: Option[String] = data.get.selectedQuest
       val remaining = data.get.remaining.orNull
       val bookmarks = data.get.bookmarks.orNull
       val bookMarkData: List[String] = if (bookmarks != null) bookmarks.split(";").toList else Nil

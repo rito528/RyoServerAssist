@@ -17,6 +17,12 @@ class PlayerTitleData {
     true
   }
 
+  def removeTitle(uuid: UUID, title: String): Boolean = {
+    if (!hasTitle(uuid, title)) return false
+    Bukkit.getOfflinePlayer(uuid).openTitles(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
+    true
+  }
+
   def hasTitle(uuid: UUID, title: String): Boolean = getHasTitles(uuid).contains(title)
 
   def getHasTitles(uuid: UUID): Array[String] = {
@@ -26,12 +32,6 @@ class PlayerTitleData {
       case None =>
         Array.empty[String]
     }
-  }
-
-  def removeTitle(uuid: UUID, title: String): Boolean = {
-    if (!hasTitle(uuid, title)) return false
-    Bukkit.getOfflinePlayer(uuid).openTitles(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
-    true
   }
 
   def getSelectedTitle(uuid: UUID): String = {

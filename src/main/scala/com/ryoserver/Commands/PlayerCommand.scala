@@ -2,11 +2,10 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.Bukkit
 import org.bukkit.command.TabExecutor
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
@@ -24,9 +23,9 @@ object PlayerCommand {
           val firstJoinItemsTable = sql"SELECT ItemStack FROM firstJoinItems;"
           if (firstJoinItemsTable.getHeadData.nonEmpty) {
             firstJoinItemsTable.foreach(rs => {
-              rs.string("ItemStack").split(";").zipWithIndex.foreach{case (itemStackString,index) =>
+              rs.string("ItemStack").split(";").zipWithIndex.foreach { case (itemStackString, index) =>
                 val itemStack = Item.getItemStackFromString(itemStackString)
-                if (itemStack != null) inv.setItem(index,itemStack)
+                if (itemStack != null) inv.setItem(index, itemStack)
               }
             })
           }

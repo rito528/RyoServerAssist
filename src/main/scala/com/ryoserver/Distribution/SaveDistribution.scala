@@ -1,7 +1,6 @@
 package com.ryoserver.Distribution
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 

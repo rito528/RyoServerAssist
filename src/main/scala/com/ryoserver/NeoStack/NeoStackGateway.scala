@@ -2,8 +2,8 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.PlayerData.changedData
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
-import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -15,7 +15,7 @@ class NeoStackGateway {
     val uuid = p.getUniqueId
     implicit val session: AutoSession.type = AutoSession
     val item = sql"SELECT * FROM StackData WHERE UUID=${uuid.toString}".map(rs => {
-      NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.string("item"))),rs.int("amount"))
+      NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.string("item"))), rs.int("amount"))
     }).toList.apply().toSet
     val allItems = itemList.map(itemStack =>
       if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack), 0)

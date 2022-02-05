@@ -3,9 +3,8 @@ package com.ryoserver.NeoStack
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
-import com.ryoserver.util.{Item, SQL}
-import org.bukkit.Bukkit
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
@@ -18,9 +17,9 @@ class LoadNeoStackPage(implicit ryoServerAssist: RyoServerAssist) {
     val stackListTable = sql"SELECT * FROM StackList"
     stackPageData = mutable.Map.empty
     if (stackListTable.getHeadData.nonEmpty) {
-      case class StackData(category: String, invItems: String,page: Int)
+      case class StackData(category: String, invItems: String, page: Int)
       val stackData = stackListTable.map(rs => {
-        StackData(rs.string("category"),rs.string("invItem"),rs.int("page"))
+        StackData(rs.string("category"), rs.string("invItem"), rs.int("page"))
       }).headOption.first.apply().get
       if (!stackPageData.contains(stackData.category)) {
         stackPageData += (stackData.category -> mutable.Map(stackData.page -> stackData.invItems))

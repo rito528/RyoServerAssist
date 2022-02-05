@@ -2,7 +2,6 @@ package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
-import com.ryoserver.util.SQL
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}

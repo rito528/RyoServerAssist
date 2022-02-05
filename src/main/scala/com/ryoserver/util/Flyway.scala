@@ -7,7 +7,7 @@ import org.flywaydb.core.Flyway
 object Flyway {
 
   def migrate(): Unit = {
-    val flyway: Flyway = org.flywaydb.core.Flyway.configure().dataSource(s"jdbc:mysql://${getConfig.host}/",USER,PASS)
+    val flyway: Flyway = org.flywaydb.core.Flyway.configure().dataSource(s"jdbc:mysql://${getConfig.host}/", USER, PASS)
       .locations(getClass.getClassLoader.getResource("db/migrate").getPath).load()
     flyway.migrate()
   }

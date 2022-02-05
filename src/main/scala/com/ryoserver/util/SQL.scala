@@ -45,40 +45,40 @@ class SQL {
       sb.append(s",PRIMARY KEY(${column.columnName}${if (!column.dataType.equalsIgnoreCase("INT")) "(64)" else ""})")
     }
     println(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
-//    if (rs.next()) {
-//      //カラムが存在するので不足しているカラムがないか確認
-//      columnData.zipWithIndex.foreach { case (data, index) => {
-//        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
-//        if (!checkColumn.next()) {
-//          //カラムが存在しない
-//          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0) "" else s" AFTER ${columnData(index - 1).columnName}"}")
-//        } else {
-//          //カラムが存在するけど型が違うので変更する
-//          val sqlDataType = if (checkColumn.getString("Type").contains("tinyint")) {
-//            "boolean"
-//          } else {
-//            checkColumn.getString("Type")
-//          }
-//          if (!sqlDataType.toLowerCase.contains(data.dataType.toLowerCase)) {
-//            executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
-//          }
-//        }
-//      }
-//      }
-//    } else {
-//      //存在しないのでそのままcreate文発行
-//      //カラムの情報を組み立てる
-//      val sb = new StringBuilder
-//      columnData.foreach(data => {
-//        if (columnData.head != data) sb.append(",")
-//        sb.append(s"${data.columnName} ${data.dataType}${if (data.isPrimaryKey && data.dataType.equalsIgnoreCase("INT")) " AUTO_INCREMENT" else ""}${if (data.option != null) s" ${data.option}" else ""}")
-//      })
-//      if (columnData.exists(_.isPrimaryKey == true)) {
-//        val column = columnData.filter(_.isPrimaryKey).head
-//        sb.append(s",PRIMARY KEY(${column.columnName}${if (!column.dataType.equalsIgnoreCase("INT")) "(64)" else ""})")
-//      }
-//      executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
-//    }
+    //    if (rs.next()) {
+    //      //カラムが存在するので不足しているカラムがないか確認
+    //      columnData.zipWithIndex.foreach { case (data, index) => {
+    //        val checkColumn = executeQuery(s"DESCRIBE $tableName ${data.columnName}")
+    //        if (!checkColumn.next()) {
+    //          //カラムが存在しない
+    //          executeSQL(s"ALTER TABLE $tableName ADD ${data.columnName} ${data.dataType} ${if (data.option != null) data.option else ""}${if (index == 0) "" else s" AFTER ${columnData(index - 1).columnName}"}")
+    //        } else {
+    //          //カラムが存在するけど型が違うので変更する
+    //          val sqlDataType = if (checkColumn.getString("Type").contains("tinyint")) {
+    //            "boolean"
+    //          } else {
+    //            checkColumn.getString("Type")
+    //          }
+    //          if (!sqlDataType.toLowerCase.contains(data.dataType.toLowerCase)) {
+    //            executeSQL(s"ALTER TABLE $tableName MODIFY ${data.columnName} ${data.dataType}")
+    //          }
+    //        }
+    //      }
+    //      }
+    //    } else {
+    //      //存在しないのでそのままcreate文発行
+    //      //カラムの情報を組み立てる
+    //      val sb = new StringBuilder
+    //      columnData.foreach(data => {
+    //        if (columnData.head != data) sb.append(",")
+    //        sb.append(s"${data.columnName} ${data.dataType}${if (data.isPrimaryKey && data.dataType.equalsIgnoreCase("INT")) " AUTO_INCREMENT" else ""}${if (data.option != null) s" ${data.option}" else ""}")
+    //      })
+    //      if (columnData.exists(_.isPrimaryKey == true)) {
+    //        val column = columnData.filter(_.isPrimaryKey).head
+    //        sb.append(s",PRIMARY KEY(${column.columnName}${if (!column.dataType.equalsIgnoreCase("INT")) "(64)" else ""})")
+    //      }
+    //      executeSQL(s"CREATE TABLE IF NOT EXISTS $tableName(${sb.toString()})")
+    //    }
   }
 
   def executeQuery(query: String): ResultSet = {

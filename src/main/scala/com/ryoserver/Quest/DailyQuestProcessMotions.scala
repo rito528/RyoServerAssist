@@ -35,6 +35,21 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
     questClearCheck(p, progress)
   }
 
+  private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
+    val questGateway = new QuestGateway
+    questGateway.setDailyQuestProgress(p, progress)
+    if (progress.forall { case (_, amount) => amount == 0 }) {
+      p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
+      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
+      new GiveTitle().questClearNumber(p)
+      new GiveTitle().continuousLoginAndQuestClearNumber(p)
+    } else {
+      p.sendMessage(s"${AQUA}納品しました。")
+      new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
+    }
+  }
+
   def deliveryFromNeoStack(p: Player): Unit = {
     val questGateway = new QuestGateway()
     val neoStackGateway = new NeoStackGateway()
@@ -52,21 +67,6 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
       }
     }
     questClearCheck(p, progress)
-  }
-
-  private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
-    val questGateway = new QuestGateway
-    questGateway.setDailyQuestProgress(p, progress)
-    if (progress.forall { case (_, amount) => amount == 0 }) {
-      p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
-      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
-      new GiveTitle().questClearNumber(p)
-      new GiveTitle().continuousLoginAndQuestClearNumber(p)
-    } else {
-      p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
-    }
   }
 
   def questDestroy(p: Player): Unit = {

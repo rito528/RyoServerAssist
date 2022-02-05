@@ -1,6 +1,6 @@
 package com.ryoserver.AdminStorage
 
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -29,8 +29,8 @@ class AdminStorage {
     val adminStorage = sql"SELECT invData FROM AdminStorage"
     val storageData = adminStorage.getHeadData
     if (storageData.nonEmpty) {
-      storageData.get("invData").toString.split(";").zipWithIndex.foreach{case (itemStack,index) =>
-        if (itemStack != null) inv.setItem(index,Item.getItemStackFromString(itemStack))
+      storageData.get("invData").toString.split(";").zipWithIndex.foreach { case (itemStack, index) =>
+        if (itemStack != null) inv.setItem(index, Item.getItemStackFromString(itemStack))
       }
     }
     p.openInventory(inv)

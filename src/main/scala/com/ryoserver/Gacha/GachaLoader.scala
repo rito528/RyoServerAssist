@@ -2,9 +2,8 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import org.bukkit.Bukkit
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}

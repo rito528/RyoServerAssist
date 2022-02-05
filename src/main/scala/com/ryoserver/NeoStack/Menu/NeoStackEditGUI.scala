@@ -5,10 +5,9 @@ import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack, RyoServerMenu1}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
 import org.bukkit.Material
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
@@ -26,7 +25,7 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     name = "neoStackアイテム追加メニュー:" + page
     implicit val session: AutoSession.type = AutoSession
     sql"SELECT * FROM StackList WHERE page=$page AND category=$category".foreach(rs => {
-      rs.string("invItem").split(";").zipWithIndex.foreach{case (itemStackString,index) =>
+      rs.string("invItem").split(";").zipWithIndex.foreach { case (itemStackString, index) =>
         val itemStack = Item.getItemStackFromString(itemStackString)
         if (itemStack != null) setItemStackButton(MenuItemStack(getX(index), getY(index), itemStack))
       }

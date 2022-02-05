@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
+import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
-import com.ryoserver.util.{Item, SQL}
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}

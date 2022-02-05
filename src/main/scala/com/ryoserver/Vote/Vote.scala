@@ -2,7 +2,7 @@ package com.ryoserver.Vote
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
-import com.ryoserver.util.{Player, SQL}
+import com.ryoserver.util.Player
 import com.vexsoftware.votifier.model.VotifierEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{Bukkit, ChatColor, OfflinePlayer, Sound}

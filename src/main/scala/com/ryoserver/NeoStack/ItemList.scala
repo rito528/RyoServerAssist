@@ -1,8 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.ScalikeJDBC.getData
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 

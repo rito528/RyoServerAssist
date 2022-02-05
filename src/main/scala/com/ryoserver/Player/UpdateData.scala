@@ -1,6 +1,5 @@
 package com.ryoserver.Player
 
-import com.ryoserver.util.SQL
 import org.bukkit.entity.Player
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 

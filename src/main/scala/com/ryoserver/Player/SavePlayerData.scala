@@ -1,9 +1,8 @@
 package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef, select}
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
 
