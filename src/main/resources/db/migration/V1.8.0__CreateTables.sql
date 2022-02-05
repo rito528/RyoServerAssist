@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Quests(
     remaining TEXT,
     bookmarks TEXT,
     PRIMARY KEY(id)
-); 
+);
 
 CREATE TABLE IF NOT EXISTS StackData(
     id INT AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS StackData(
     item TEXT,
     amount INT,
     PRIMARY KEY(id)
-); 
+);
 
 CREATE TABLE IF NOT EXISTS StackList(
     id INT AUTO_INCREMENT,
@@ -30,28 +30,28 @@ CREATE TABLE IF NOT EXISTS StackList(
     PAGE INT,
     invItem TEXT,
     PRIMARY KEY(id)
-); 
+);
 
 CREATE TABLE IF NOT EXISTS GachaItems(
     id INT AUTO_INCREMENT,
     Rarity INT,
     Material TEXT,
     PRIMARY KEY(id)
-); 
+);
 
 CREATE TABLE IF NOT EXISTS Distribution(
     id INT AUTO_INCREMENT,
     GachaPaperType TEXT,
     COUNT INT,
     PRIMARY KEY(id)
-); 
+);
 
 CREATE TABLE IF NOT EXISTS Homes(
     UUID TEXT,
     POINT INT,
     Location TEXT,
     Locked BOOLEAN
-); 
+);
 
 CREATE TABLE IF NOT EXISTS Players(
     UUID TEXT,
@@ -81,20 +81,20 @@ CREATE TABLE IF NOT EXISTS Players(
     Twitter TEXT,
     Discord TEXT,
     Word TEXT
-); 
+);
 
-CREATE TABLE IF NOT EXISTS EVENTS(
+CREATE TABLE IF NOT EXISTS Events(
     EventName TEXT NOT NULL,
     counter INT,
     GivenGachaTickets INT DEFAULT 0,
     PRIMARY KEY(EventName(64))
-); 
+);
 
 CREATE TABLE IF NOT EXISTS EventRankings(
     UUID TEXT,
     EventName TEXT,
     counter INT
-); 
+);
 
-CREATE TABLE IF NOT EXISTS Storage(UUID TEXT, invData TEXT); 
+CREATE TABLE IF NOT EXISTS Storage(UUID TEXT, invData TEXT);
 CREATE TABLE IF NOT EXISTS AdminStorage(invData TEXT);

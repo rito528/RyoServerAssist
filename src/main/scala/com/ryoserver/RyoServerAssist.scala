@@ -48,14 +48,19 @@ class RyoServerAssist extends JavaPlugin {
     ConfigData.loadConfig
 
     /*
-     Scalikejdbcをセットアップ
+      マイグレーション用ファイルを作成する
      */
-    ScalikeJDBC.setup()
+    new CreateFiles().createMigrationFiles()
 
     /*
       データベースをマイグレーションする
+    */
+    ScalikeJDBC.migrate()
+
+    /*
+     Scalikejdbcをセットアップ
      */
-    //    Flyway.migrate()
+    ScalikeJDBC.setup()
 
     /*
       MySQL接続テスト
