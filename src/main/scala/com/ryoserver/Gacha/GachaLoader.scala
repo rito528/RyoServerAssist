@@ -76,18 +76,17 @@ object GachaLoader {
   }
 
   def listGachaItem(rarity: Int, p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
+    implicit val session: AutoSession.type = AutoSession
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
-    while (rs.next()) {
-      val config: YamlConfiguration = new YamlConfiguration
-      config.loadFromString(rs.getString("Material"))
-      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i", null).getItemMeta.hasDisplayName)
-        config.getItemStack("i", null).getItemMeta.getDisplayName else config.getItemStack("i", null).getType.name()))
-    }
+    sql"SELECT * FROM GachaItems WHERE Rarity=$rarity".foreach(rs => {
+      val itemStack = Item.getItemStackFromString(rs.string("Material"))
+      p.sendMessage("ID:" + rs.int("id") + " アイテム名:" + (
+        if (itemStack.getItemMeta.hasDisplayName) itemStack.getItemMeta.getDisplayName
+        else itemStack.getType.name())
+      )
+    })
     p.sendMessage("+--------------------------+")
-    sql.close()
   }
 
   def removeGachaItem(id: Int): Unit = {
