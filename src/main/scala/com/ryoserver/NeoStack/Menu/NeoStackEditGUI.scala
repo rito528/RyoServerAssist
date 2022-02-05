@@ -10,6 +10,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
@@ -23,18 +24,12 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
   def openAddGUI(player: Player, page: Int, category: String): Unit = {
     p = player
     name = "neoStackアイテム追加メニュー:" + page
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
-    var invContents = ""
-    if (rs.next()) invContents = rs.getString("invItem")
-    var index = 0
-    invContents.split(';').foreach(invContent => {
-      val config = new YamlConfiguration
-      config.loadFromString(invContent)
-      if (invContent != null) {
-        setItemStackButton(MenuItemStack(getX(index), getY(index), config.getItemStack("i", null)))
+    implicit val session: AutoSession.type = AutoSession
+    sql"SELECT * FROM StackList WHERE page=$page AND category=$category".foreach(rs => {
+      rs.string("invItem").split(";").zipWithIndex.foreach{case (itemStackString,index) =>
+        val itemStack = Item.getItemStackFromString(itemStackString)
+        if (itemStack != null) setItemStackButton(MenuItemStack(getX(index), getY(index), itemStack))
       }
-      index += 1
     })
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
       .setLeftClickMotion(backMenu))
@@ -46,7 +41,6 @@ class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
     buttons :+= 45
     buttons :+= 49
     buttons :+= 53
-    sql.close()
     build(new NeoStackEditGUI(ryoServerAssist).openAddGUI(_, 1, null))
     open()
   }
