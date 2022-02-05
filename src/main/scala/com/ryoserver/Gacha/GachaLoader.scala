@@ -2,11 +2,12 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
+import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 object GachaLoader {
 
@@ -21,12 +22,9 @@ object GachaLoader {
   var special: Double = _ //特等
 
   def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    val sql = new SQL()
-    val config: YamlConfiguration = new YamlConfiguration
-    is.setAmount(1)
-    config.set("i", is)
-    sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);", config.saveToString())
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,${Item.getStringFromItemStack(Item.getOneItemStack(is))})"
+      .execute.apply()
     unload(ryoServerAssist)
     load(ryoServerAssist)
   }
