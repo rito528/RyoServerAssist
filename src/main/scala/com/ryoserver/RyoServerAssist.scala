@@ -3,7 +3,7 @@ package com.ryoserver
 import com.ryoserver.AdminStorage.AdminStorageEvent
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
-import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
+import com.ryoserver.DataBase.UpdateContinueVoteNumber
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -29,7 +29,7 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{SQL, Translate}
+import com.ryoserver.util.{SQL, ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -48,6 +48,21 @@ class RyoServerAssist extends JavaPlugin {
     ConfigData.loadConfig
 
     /*
+      マイグレーション用ファイルを作成する
+     */
+    new CreateFiles().createMigrationFiles()
+
+    /*
+      データベースをマイグレーションする
+    */
+    ScalikeJDBC.migrate()
+
+    /*
+     Scalikejdbcをセットアップ
+     */
+    ScalikeJDBC.setup()
+
+    /*
       MySQL接続テスト
      */
     val sql = new SQL()
@@ -60,10 +75,7 @@ class RyoServerAssist extends JavaPlugin {
     }
     sql.close()
 
-    /*
-      テーブルの作成
-     */
-    new CreateTables().execute()
+
 
     /*
       連続投票日数を更新

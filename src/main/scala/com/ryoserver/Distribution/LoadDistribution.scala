@@ -1,18 +1,16 @@
 package com.ryoserver.Distribution
 
-import com.ryoserver.util.SQL
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class LoadDistribution {
 
   def load(): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery("SELECT * FROM Distribution")
-    DistributionData.distributionData = Iterator.from(0).takeWhile(_ => rs.next())
-      .map(_ => DistributionType(rs.getInt("id"),
-        rs.getString("GachaPaperType"),
-        rs.getInt("Count"))).toList
+    implicit val session: AutoSession.type = AutoSession
+    DistributionData.distributionData = sql"SELECT * FROM Distribution"
+      .map(rs => DistributionType(rs.int("id"),
+        rs.string("GachaPaperType"),
+        rs.int("Count"))).toList.apply()
     if (DistributionData.distributionData.isEmpty) DistributionData.distributionData = List(DistributionType(0, "normal", 0))
-    sql.close()
   }
 
 }

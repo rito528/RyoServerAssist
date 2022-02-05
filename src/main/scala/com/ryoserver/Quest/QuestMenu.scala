@@ -1,10 +1,11 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.entity.Player
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class QuestMenu(ryoServerAssist: RyoServerAssist) {
 
@@ -23,10 +24,11 @@ class QuestMenu(ryoServerAssist: RyoServerAssist) {
   }
 
   def selectDailyQuestMenu(player: Player): Unit = {
-    val sql = new SQL
-    val rs = sql.executeQuery(s"SELECT DATEDIFF(LastDailyQuest, NOW()) <= -1 AS dailyQuest FROM Players WHERE UUID='${player.getUniqueId.toString}'");
-    if (rs.next()) {
-      if (rs.getBoolean("dailyQuest")) {
+    implicit val session: AutoSession.type = AutoSession
+    val dateDiffTable = sql"SELECT DATEDIFF(LastDailyQuest, NOW()) <= -1 AS dailyQuest FROM Players WHERE UUID=${player.getUniqueId.toString}"
+    if (dateDiffTable.getHeadData.nonEmpty) {
+      val diff = dateDiffTable.map(rs => rs.boolean("dailyQuest")).headOption.apply().get
+      if (diff) {
         val questGateway = new QuestGateway()
         try {
           if (questGateway.getSelectedDailyQuest(player).isEmpty) {

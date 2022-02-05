@@ -1,8 +1,9 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
@@ -14,19 +15,17 @@ object ItemList {
 
   def loadItemList(implicit ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("neoStackアイテムロード中...")
-    val sql = new SQL()
-    val rs = sql.executeQuery("SELECT invItem,category FROM StackList;")
-    while (rs.next()) {
-      val category = rs.getString("category")
-      rs.getString("invItem").split(";").foreach(item => {
-        val is = Item.getItemStackFromString(item)
-        if (is != null) {
-          val one = Item.getOneItemStack(is)
-          stackList += (one -> category)
+    implicit val session: AutoSession.type = AutoSession
+    val stackListTable = sql"SELECT invItem,category FROM StackList;"
+    stackListTable.foreach(rs => {
+      val category = rs.string("category")
+      rs.string("invItem").split(";").foreach(itemStackString => {
+        val itemStack = Item.getItemStackFromString(itemStackString)
+        if (itemStack != null) {
+          stackList += (Item.getOneItemStack(itemStack) -> category)
         }
       })
-    }
-    sql.close()
+    })
     ryoServerAssist.getLogger.info("neoStackアイテムのロードが完了しました。")
   }
 

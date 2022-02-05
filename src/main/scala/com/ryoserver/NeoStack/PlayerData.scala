@@ -1,10 +1,12 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
 import scala.collection.mutable
@@ -23,19 +25,19 @@ object PlayerData {
   }
 
   def save(): Unit = {
-    val sql = new SQL()
     playerData.map(pData => pData.uuid).intersect(changedData.keySet).foreach(uuid => {
       playerData.map(pData => pData.savingItemStack).intersect(changedData(uuid).toSet).foreach(is => {
         val data = playerData.filter(pData => pData.uuid == uuid && pData.savingItemStack == is).head
-        val check = sql.executeQueryPurseFolder(s"SELECT item FROM StackData WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
-        if (!check.next()) {
-          sql.purseFolder(s"INSERT INTO StackData (UUID,item,amount) VALUES ('$uuid',?,${data.amount})", Item.getStringFromItemStack(data.savingItemStack))
+        implicit val session: AutoSession.type = AutoSession
+        val stringSavingItemStack = Item.getStringFromItemStack(data.savingItemStack)
+        val stackDataTable = sql"SELECT item FROM StackData WHERE UUID=${uuid.toString} AND item=${stringSavingItemStack}"
+        if (stackDataTable.getHeadData.isEmpty) {
+          sql"INSERT INTO StackData (UUID,item,amount) VALUES (${uuid.toString},$stringSavingItemStack,${data.amount})".execute.apply()
         } else {
-          sql.purseFolder(s"UPDATE StackData SET amount=${data.amount} WHERE UUID='$uuid' AND item=?", Item.getStringFromItemStack(data.savingItemStack))
+          sql"UPDATE StackDATA SET amount=${data.amount} WHERE UUID=${uuid.toString} AND item=$stringSavingItemStack".execute.apply()
         }
       })
     })
-    sql.close()
   }
 
   /*

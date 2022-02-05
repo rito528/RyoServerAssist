@@ -2,11 +2,11 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
+import com.ryoserver.util.Item
 import org.bukkit.Bukkit
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 object GachaLoader {
 
@@ -21,12 +21,9 @@ object GachaLoader {
   var special: Double = _ //特等
 
   def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    val sql = new SQL()
-    val config: YamlConfiguration = new YamlConfiguration
-    is.setAmount(1)
-    config.set("i", is)
-    sql.purseFolder(s"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,?);", config.saveToString())
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,${Item.getStringFromItemStack(Item.getOneItemStack(is))})"
+      .execute.apply()
     unload(ryoServerAssist)
     load(ryoServerAssist)
   }
@@ -38,19 +35,17 @@ object GachaLoader {
 
   private def gachaItemLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("ガチャアイテムロード中....")
-    val sql = new SQL()
-    val rs = sql.executeQuery("SELECT * FROM GachaItems")
-    while (rs.next()) {
-      val rarity = rs.getInt("Rarity")
-      val config = new YamlConfiguration
-      config.loadFromString(rs.getString("Material"))
-      if (rarity == 0) missItemList :+= config.getItemStack("i", null)
-      else if (rarity == 1) perItemList :+= config.getItemStack("i", null)
-      else if (rarity == 2) bigPerItemList :+= config.getItemStack("i", null)
-      else if (rarity == 3) specialItemList :+= config.getItemStack("i", null)
-    }
+    implicit val session: AutoSession.type = AutoSession
+    val gachaItemTable = sql"SELECT * FROM GachaItems"
+    gachaItemTable.foreach(rs => {
+      val rarity = rs.int("Rarity")
+      val itemStack = Item.getOneItemStack(Item.getItemStackFromString(rs.string("Material")))
+      if (rarity == 0) missItemList :+= itemStack
+      else if (rarity == 1) perItemList :+= itemStack
+      else if (rarity == 2) bigPerItemList :+= itemStack
+      else if (rarity == 3) specialItemList :+= itemStack
+    })
     ryoServerAssist.getLogger.info("ガチャアイテムロードが完了しました！")
-    sql.close()
   }
 
   private def gachaRarityLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
@@ -80,23 +75,21 @@ object GachaLoader {
   }
 
   def listGachaItem(rarity: Int, p: Player): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM GachaItems WHERE Rarity=$rarity")
+    implicit val session: AutoSession.type = AutoSession
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
-    while (rs.next()) {
-      val config: YamlConfiguration = new YamlConfiguration
-      config.loadFromString(rs.getString("Material"))
-      p.sendMessage("ID:" + rs.getInt("id") + " アイテム名:" + (if (config.getItemStack("i", null).getItemMeta.hasDisplayName)
-        config.getItemStack("i", null).getItemMeta.getDisplayName else config.getItemStack("i", null).getType.name()))
-    }
+    sql"SELECT * FROM GachaItems WHERE Rarity=$rarity".foreach(rs => {
+      val itemStack = Item.getItemStackFromString(rs.string("Material"))
+      p.sendMessage("ID:" + rs.int("id") + " アイテム名:" + (
+        if (itemStack.getItemMeta.hasDisplayName) itemStack.getItemMeta.getDisplayName
+        else itemStack.getType.name())
+      )
+    })
     p.sendMessage("+--------------------------+")
-    sql.close()
   }
 
   def removeGachaItem(id: Int): Unit = {
-    val sql = new SQL()
-    sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"DELETE FROM GachaItems WHERE id=$id".execute.apply()
   }
 }
