@@ -4,7 +4,7 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, Location}
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
+import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
 
@@ -55,16 +55,13 @@ object HomeData {
   }
 
   def save(): Unit = {
-    val sql = new SQL
-    sql.con.setAutoCommit(false)
-    sql.executeSQL("DELETE FROM Homes;")
-    homeData.foreach { data =>
-      val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
-      sql.executeSQL(s"INSERT INTO Homes (UUID,point,Location,Locked) VALUES ('${data.UUID.toString}',${data.point},'$locationString',${data.isLocked})")
-    }
-    sql.con.commit()
-    sql.con.setAutoCommit(true)
-    sql.close()
+    DB.localTx(implicit session => {
+      sql"DELETE FROM Homes;".execute.apply()
+      homeData.foreach { data =>
+        val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
+        sql"INSERT INTO Homes (UUID,point,Location,Locked) VALUES (${data.UUID.toString},${data.point},$locationString,${data.isLocked})".execute.apply()
+      }
+    })
   }
 
 }
