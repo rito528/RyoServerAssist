@@ -90,8 +90,7 @@ object GachaLoader {
   }
 
   def removeGachaItem(id: Int): Unit = {
-    val sql = new SQL()
-    sql.executeSQL(s"DELETE FROM GachaItems WHERE id=$id;")
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"DELETE FROM GachaItems WHERE id=$id".execute.apply()
   }
 }
