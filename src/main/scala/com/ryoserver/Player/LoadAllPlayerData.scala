@@ -1,6 +1,6 @@
 package com.ryoserver.Player
 
-import com.ryoserver.util.SQL
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
 import scala.collection.mutable
@@ -8,37 +8,35 @@ import scala.collection.mutable
 class LoadAllPlayerData() {
 
   def load(): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery("SELECT * FROM Players ORDER BY EXP DESC;")
+    implicit val session: AutoSession.type = AutoSession
     PlayerData.playerData = mutable.Map.empty
-    while (rs.next()) {
-      val uuid = UUID.fromString(rs.getString("UUID"))
-      val level = rs.getInt("Level")
-      val exp = rs.getDouble("EXP")
-      val lastDistributionReceived = rs.getInt("lastDistributionReceived")
-      val skillPoint = rs.getDouble("SkillPoint")
-      val loginNumber = rs.getInt("loginDays")
-      val consecutiveLoginDays = rs.getInt("consecutiveLoginDays")
-      val questClearTimes = rs.getInt("questClearTimes")
-      val gachaTickets = rs.getInt("gachaTickets")
-      val gachaPullNumber = rs.getInt("gachaPullNumber")
-      val skillOpenPoint = rs.getInt("SkillOpenPoint")
-      val OpenedSkills = rs.getString("OpenedSkills")
-      val voteNumber = rs.getInt("VoteNumber")
-      val ContinueVoteNumber = rs.getInt("ContinueVoteNumber")
-      val specialSkillOpenPoint = rs.getInt("SpecialSkillOpenPoint")
-      val openedSpecialSkills = rs.getString("OpenedSpecialSkills")
-      val openedTitles = rs.getString("OpenedTitles")
-      val selectedTitles = rs.getString("SelectedTitle")
-      val autoStack = rs.getBoolean("autoStack")
-      val twitter = rs.getString("Twitter")
-      val discord = rs.getString("Discord")
-      val word = rs.getString("Word")
+    sql"SELECT * FROM Players ORDER BY EXP DESC;".foreach(rs => {
+      val uuid = UUID.fromString(rs.string("UUID"))
+      val level = rs.int("Level")
+      val exp = rs.double("EXP")
+      val lastDistributionReceived = rs.int("lastDistributionReceived")
+      val skillPoint = rs.double("SkillPoint")
+      val loginNumber = rs.int("loginDays")
+      val consecutiveLoginDays = rs.int("consecutiveLoginDays")
+      val questClearTimes = rs.int("questClearTimes")
+      val gachaTickets = rs.int("gachaTickets")
+      val gachaPullNumber = rs.int("gachaPullNumber")
+      val skillOpenPoint = rs.int("SkillOpenPoint")
+      val OpenedSkills = rs.string("OpenedSkills")
+      val voteNumber = rs.int("VoteNumber")
+      val ContinueVoteNumber = rs.int("ContinueVoteNumber")
+      val specialSkillOpenPoint = rs.int("SpecialSkillOpenPoint")
+      val openedSpecialSkills = rs.string("OpenedSpecialSkills")
+      val openedTitles = rs.string("OpenedTitles")
+      val selectedTitles = rs.string("SelectedTitle")
+      val autoStack = rs.boolean("autoStack")
+      val twitter = rs.string("Twitter")
+      val discord = rs.string("Discord")
+      val word = rs.string("Word")
       PlayerData.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
         questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, ContinueVoteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
         Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
-    }
-    sql.close()
+    })
   }
 
 }
