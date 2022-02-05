@@ -6,22 +6,20 @@ import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class NeoStackGateway {
 
   def getPlayerHasNeoStackItems(p: Player): Set[NeoStackPlayerItemData] = {
     val uuid = p.getUniqueId
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
-    val item = Iterator.from(0).takeWhile(_ => rs.next())
-      .map(_ =>
-        NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
-      ).toSet
+    implicit val session: AutoSession.type = AutoSession
+    val item = sql"SELECT * FROM StackData WHERE UUID=${uuid.toString}".map(rs => {
+      NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.string("item"))),rs.int("amount"))
+    }).toList.apply().toSet
     val allItems = itemList.map(itemStack =>
       if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack), 0)
-      else null)
-      .filterNot(_ == null)
-    sql.close()
+      else null
+    ).filterNot(_ == null)
     item ++ allItems
   }
 
