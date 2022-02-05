@@ -3,7 +3,7 @@ package com.ryoserver
 import com.ryoserver.AdminStorage.AdminStorageEvent
 import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
-import com.ryoserver.DataBase.{CreateTables, UpdateContinueVoteNumber}
+import com.ryoserver.DataBase.UpdateContinueVoteNumber
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
@@ -29,10 +29,9 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{SQL, ScalikeJDBC, Translate}
+import com.ryoserver.util.{Flyway, SQL, ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class RyoServerAssist extends JavaPlugin {
 
@@ -56,7 +55,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       データベースをマイグレーションする
      */
-    ScalikeJDBC.migrate()
+    Flyway.migrate()
 
     /*
       MySQL接続テスト

@@ -1,15 +1,14 @@
 package com.ryoserver.util
 
 import com.ryoserver.Config.ConfigData.getConfig
-import org.flywaydb.core.Flyway
 import scalikejdbc._
 
 object ScalikeJDBC {
 
-  private val driver = "com.mysql.cj.jdbc.Driver"
-  private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
-  private val USER = getConfig.user
-  private val PASS = getConfig.pw
+  final val driver = "com.mysql.cj.jdbc.Driver"
+  final val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
+  final val USER = getConfig.user
+  final val PASS = getConfig.pw
 
   implicit val session: AutoSession.type = AutoSession
 
@@ -22,12 +21,6 @@ object ScalikeJDBC {
     def getHeadData: Option[Map[String,Any]] =  {
       sql.map(rs => rs.toMap()).headOption.apply()
     }
-  }
-
-  def migrate(): Unit = {
-    val flyway: Flyway = Flyway.configure.dataSource(this.URL,this.USER,this.PASS)
-      .locations(getClass.getClassLoader.getResource("db/migrate").getPath).load()
-    flyway.migrate()
   }
 
 }
