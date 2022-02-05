@@ -170,9 +170,8 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
     val alreadyTitles = getEventRankingTitles(uuid)
     var titles = if (alreadyTitles != null && alreadyTitles.length == 1) alreadyTitles.head + ";" else if (alreadyTitles != null) alreadyTitles.mkString(";") + ";" else ""
     titles += titleName + ";"
-    val sql = new SQL()
-    sql.executeSQL(s"UPDATE Players SET EventTitles='$titles' WHERE UUID='$uuid';")
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    sql"UPDATE Players SET EventTitles=$titles WHERE UUID=$uuid;".execute.apply()
   }
 
   def getEventRankingTitles(uuid: String): List[String] = {
