@@ -175,17 +175,18 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
   }
 
   def getEventRankingTitles(uuid: String): List[String] = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT EventTitles FROM Players WHERE UUID='$uuid'")
-    if (!rs.next()) return null
-    if (rs.getString("EventTitles") != null) {
-      val titles = rs.getString("EventTitles").split(";").toList
-      sql.close()
-      titles
-    } else {
-      sql.close()
-      null
-    }
+    implicit val session: AutoSession.type = AutoSession
+    val eventTitlesTable = sql"SELECT EventTitles FROM Players WHERE UUID=$uuid"
+    if (eventTitlesTable.getHeadData.isEmpty) return null
+    eventTitlesTable.foreach(rs => {
+      if (rs.string("EventTitles") != null) {
+        val titles = rs.string("EventTitles").split(";").toList
+        return titles
+      } else {
+        return null
+      }
+    })
+    null
   }
 
 }
