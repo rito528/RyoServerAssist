@@ -2,6 +2,7 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.PlayerData.changedData
+import com.ryoserver.util.ScalikeJDBC.getData
 import com.ryoserver.util.{Item, SQL}
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -24,11 +25,10 @@ class NeoStackGateway {
   }
 
   def editItemList(category: String, page: Int, invContents: String): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
-    if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;", invContents)
-    else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);", invContents)
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    val stackListTable = sql"SELECT * FROM StackList WHERE page=$page AND category=$category"
+    if (stackListTable.getHeadData.nonEmpty) sql"UPDATE StackList SET invItem=$invContents WHERE category=$category".execute.apply()
+    else sql"INSERT INTO StackList (category,page,invItem) VALUES ($category,$page,$invContents)".execute.apply()
   }
 
   def checkItemList(itemStack: ItemStack): Boolean = {
