@@ -7,7 +7,7 @@ import com.ryoserver.util.SQL
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
+import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.text.SimpleDateFormat
 import java.util.{Calendar, TimeZone, UUID}
@@ -136,23 +136,23 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
 
   def saveRanking(): Unit = {
     if ((holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") || isEventEnded) {
-      val sql = new SQL()
-      sql.executeSQL(s"DELETE FROM EventRankings WHERE EventName='${holdingEvent()}'")
-      EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach { case ((uuid, counter), index) =>
-        if (isEventEnded) {
-          index match {
-            case 0 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
-            case 1 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
-            case 2 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
-            case _ => addEventRankingTitle(uuid, EventDataProvider.nowEventName)
+      DB.localTx(implicit session => {
+        sql"DELETE FROM EventRankings WHERE EventName=${holdingEvent()}".execute.apply()
+        EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.zipWithIndex.foreach { case ((uuid, counter), index) =>
+          if (isEventEnded) {
+            index match {
+              case 0 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.YELLOW}${ChatColor.BOLD}1位${ChatColor.RESET}")
+              case 1 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.AQUA}${ChatColor.BOLD}2位${ChatColor.RESET}")
+              case 2 => addEventRankingTitle(uuid, EventDataProvider.nowEventName + s" - ${ChatColor.GREEN}${ChatColor.BOLD}3位${ChatColor.RESET}")
+              case _ => addEventRankingTitle(uuid, EventDataProvider.nowEventName)
+            }
+            sql"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ($uuid,${EventDataProvider.nowEventName},$counter + 1);".execute.apply()
+          } else {
+            sql"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ($uuid,${holdingEvent()},$counter + 1);".execute.apply()
           }
-          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${EventDataProvider.nowEventName}',$counter + 1);")
-        } else {
-          sql.executeSQL(s"INSERT INTO EventRankings (UUID,EventName,counter) VALUES ('$uuid','${holdingEvent()}',$counter + 1);")
         }
-      }
-      if (isEventEnded) EventDataProvider.nowEventName = ""
-      sql.close()
+        if (isEventEnded) EventDataProvider.nowEventName = ""
+      })
     }
   }
 
