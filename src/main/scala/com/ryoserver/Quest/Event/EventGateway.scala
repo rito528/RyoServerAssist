@@ -4,8 +4,10 @@ import com.ryoserver.Player.PlayerData
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.SQL
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.{Bukkit, ChatColor}
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.text.SimpleDateFormat
 import java.util.{Calendar, TimeZone, UUID}
@@ -17,10 +19,13 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
       ryoServerAssist.getLogger.info("イベント情報を読み込み中...")
       val info = eventInfo(holdingEvent())
       if (info.eventType != "bonus") {
-        val sql = new SQL()
-        val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}';")
-        if (rs.next()) EventDataProvider.eventCounter = rs.getInt("counter")
-        sql.close()
+        implicit val session: AutoSession.type = AutoSession
+        val eventsTable = sql"SELECT * FROM Events WHERE EventName=${holdingEvent()}"
+        if (eventsTable.getHeadData.nonEmpty) {
+          eventsTable.foreach(rs => {
+            EventDataProvider.eventCounter = rs.int("counter")
+          })
+        }
       } else {
         EventDataProvider.ratio = info.exp
       }
