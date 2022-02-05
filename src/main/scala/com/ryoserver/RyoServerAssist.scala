@@ -54,6 +54,11 @@ class RyoServerAssist extends JavaPlugin {
     ScalikeJDBC.setup()
 
     /*
+      データベースをマイグレーションする
+     */
+    ScalikeJDBC.migrate()
+
+    /*
       MySQL接続テスト
      */
     val sql = new SQL()
