@@ -49,18 +49,16 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
     終わったイベントかつボーナスイベントではないもののデータを取得する
    */
   def loadBeforeEvents(): Unit = {
-    val sql = new SQL()
     val format = new SimpleDateFormat("yyyy/MM/dd HH:mm")
     val nowCalender = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"))
     EventDataProvider.eventData.foreach { eventData =>
       val end = format.parse(s"${eventData.end} 20:59")
       if (nowCalender.getTime.after(end) && eventData.eventType != "bonus") {
-        val rs = sql.executeQuery(s"SELECT * FROM EventRankings WHERE EventName='${eventData.name}';")
-        EventDataProvider.oldEventData += (eventData.name -> Iterator.from(0).takeWhile(_ => rs.next())
-          .map(_ => UUID.fromString(rs.getString("UUID")) -> rs.getInt("counter")).toMap)
+        implicit val session: AutoSession.type = AutoSession
+        EventDataProvider.oldEventData += (eventData.name -> sql"SELECT * FROM EventRankings WHERE EventName=${eventData.name}"
+          .map(rs => UUID.fromString(rs.string("UUID")) -> rs.int("counter")).toList.apply().toMap)
       }
     }
-    sql.close()
   }
 
   /*
