@@ -9,6 +9,7 @@ import com.ryoserver.util.SQL
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class QuestGateway {
 
@@ -106,9 +107,8 @@ class QuestGateway {
   def dailyQuestClear(p: Player, addExp: Double): Unit = {
     getSelectedDailyQuest(p) match {
       case Some(selectedQuest) =>
-        val sql = new SQL
-        sql.executeSQL(s"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID='${p.getUniqueId.toString}'")
-        sql.close()
+        implicit val session: AutoSession.type = AutoSession
+        sql"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID=${p.getUniqueId.toString}".execute.apply()
         new UpdateLevel().addExp(selectedQuest.exp * addExp, p)
         playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
       case None =>
