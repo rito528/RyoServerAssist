@@ -115,21 +115,22 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
   def saveEvent(): Unit = {
     if (holdingEvent() != null && eventInfo(holdingEvent()).eventType != "bonus") {
       EventDataProvider.nowEventName = holdingEvent()
-      val sql = new SQL()
-      val rs = sql.executeQuery(s"SELECT * FROM Events WHERE EventName='${holdingEvent()}'")
+      implicit val session: AutoSession.type = AutoSession
       var oldExp = 0
-      if (rs.next()) oldExp = rs.getInt("counter")
+      sql"SELECT * FROM Events WHERE EventName=${holdingEvent()}".foreach(rs => {
+        oldExp = rs.int("counter")
+      })
       val reward = EventDataProvider.eventData.filter(_.name == holdingEvent()).head.reward
-      val givenGachaTicketData = sql.executeQuery(s"SELECT GivenGachaTickets FROM Events WHERE EventName='${holdingEvent()}'")
-      givenGachaTicketData.next()
-      val gacha = ((EventDataProvider.eventCounter / reward) * EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - givenGachaTicketData.getInt("GivenGachaTickets")
-      sql.executeSQL(s"INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES ('${holdingEvent()}',${EventDataProvider.eventCounter},${gacha}) " +
-        s"ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+${gacha}")
-      PlayerData.playerData.foreach { case (uuid, _) =>
-        val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
-        offlinePlayer.giveNormalGachaTickets(gacha)
-      }
-      sql.close()
+      sql"SELECT GivenGachaTickets FROM Events WHERE EventName=${holdingEvent()}".foreach(rs => {
+        val gacha = ((EventDataProvider.eventCounter / reward) * EventDataProvider.eventData.filter(_.name == holdingEvent()).head.distribution) - rs.int("GivenGachaTickets")
+        sql"""INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES (${holdingEvent()},${EventDataProvider.eventCounter},$gacha)
+          ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+$gacha"""
+          .execute.apply()
+        PlayerData.playerData.foreach { case (uuid, _) =>
+          val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
+          offlinePlayer.giveNormalGachaTickets(gacha)
+        }
+      })
     }
   }
 
