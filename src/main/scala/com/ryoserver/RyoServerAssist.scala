@@ -71,10 +71,7 @@ class RyoServerAssist extends JavaPlugin {
     }
     sql.close()
 
-    /*
-      テーブルの作成
-     */
-    new CreateTables().execute()
+
 
     /*
       連続投票日数を更新

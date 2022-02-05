@@ -25,7 +25,8 @@ object ScalikeJDBC {
   }
 
   def migrate(): Unit = {
-    val flyway: Flyway = Flyway.configure.dataSource(this.URL,this.USER,this.PASS).load()
+    val flyway: Flyway = Flyway.configure.dataSource(this.URL,this.USER,this.PASS)
+      .locations(getClass.getClassLoader.getResource("db/migrate").getPath).load()
     flyway.migrate()
   }
 
