@@ -36,19 +36,17 @@ object GachaLoader {
 
   private def gachaItemLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
     ryoServerAssist.getLogger.info("ガチャアイテムロード中....")
-    val sql = new SQL()
-    val rs = sql.executeQuery("SELECT * FROM GachaItems")
-    while (rs.next()) {
-      val rarity = rs.getInt("Rarity")
-      val config = new YamlConfiguration
-      config.loadFromString(rs.getString("Material"))
-      if (rarity == 0) missItemList :+= config.getItemStack("i", null)
-      else if (rarity == 1) perItemList :+= config.getItemStack("i", null)
-      else if (rarity == 2) bigPerItemList :+= config.getItemStack("i", null)
-      else if (rarity == 3) specialItemList :+= config.getItemStack("i", null)
-    }
+    implicit val session: AutoSession.type = AutoSession
+    val gachaItemTable = sql"SELECT * FROM GachaItems"
+    gachaItemTable.foreach(rs => {
+      val rarity = rs.int("Rarity")
+      val itemStack = Item.getOneItemStack(Item.getItemStackFromString(rs.string("Material")))
+      if (rarity == 0) missItemList :+= itemStack
+      else if (rarity == 1) perItemList :+= itemStack
+      else if (rarity == 2) bigPerItemList :+= itemStack
+      else if (rarity == 3) specialItemList :+= itemStack
+    })
     ryoServerAssist.getLogger.info("ガチャアイテムロードが完了しました！")
-    sql.close()
   }
 
   private def gachaRarityLoad(implicit ryoServerAssist: RyoServerAssist): Unit = {
