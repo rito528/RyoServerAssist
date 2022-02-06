@@ -22,6 +22,7 @@ object SkillPointCommand {
         case "special" =>
           p.addSpecialSkillOpenPoint(args(1).toInt)
           p.sendMessage(s"${AQUA}特殊スキルポイントを${args(1)}付与しました。")
+        case _ => 
       }
     }
 
