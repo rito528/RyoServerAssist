@@ -29,7 +29,7 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{SQL, ScalikeJDBC, Translate}
+import com.ryoserver.util.{ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -61,21 +61,6 @@ class RyoServerAssist extends JavaPlugin {
      Scalikejdbcをセットアップ
      */
     ScalikeJDBC.setup()
-
-    /*
-      MySQL接続テスト
-     */
-    val sql = new SQL()
-    if (!sql.connectionTest()) {
-      getLogger.severe("MySQLに接続できませんでした！")
-      getLogger.severe("サーバを終了します...")
-      sql.close()
-      Bukkit.shutdown()
-      return
-    }
-    sql.close()
-
-
 
     /*
       連続投票日数を更新
