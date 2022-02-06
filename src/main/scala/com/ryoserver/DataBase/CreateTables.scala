@@ -1,6 +1,6 @@
 package com.ryoserver.DataBase
 
-import com.ryoserver.util.{ColumnData, SQL}
+import com.ryoserver.util.ColumnData
 
 class CreateTables {
 

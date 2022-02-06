@@ -29,7 +29,7 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{SQL, ScalikeJDBC, Translate}
+import com.ryoserver.util.{ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
