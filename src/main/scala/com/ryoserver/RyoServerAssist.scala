@@ -149,6 +149,11 @@ class RyoServerAssist extends JavaPlugin {
     new CreateFiles().createResourcesFile()
 
     /*
+      ワールドの再生成を行う
+     */
+    new Regeneration().regeneration
+
+    /*
       様々なロード処理
      */
     new LoadAllPlayerData().load()
@@ -176,11 +181,6 @@ class RyoServerAssist extends JavaPlugin {
     new SaveDistribution().autoSave()
     PlayerQuestData.autoSave
     HomeData.saveHomeData
-
-    /*
-      ワールドの再生成を行う
-     */
-    new Regeneration().regeneration
 
     /*
       サーバーに入っているプレイヤーにデータを適用する

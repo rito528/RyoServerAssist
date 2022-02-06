@@ -7,7 +7,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Bukkit, Location, Sound}
-import org.jetbrains.annotations.NotNull
 
 import java.util.UUID
 import scala.collection.mutable
@@ -17,34 +16,34 @@ class WorldGuardWrapper {
 
   private val plugin = WorldGuard.getInstance()
 
-  def isGlobal(@NotNull loc: Location): Boolean = {
+  def isGlobal(loc: Location): Boolean = {
     getRegion(loc).isEmpty
   }
 
-  def isProtected(@NotNull loc: Location): Boolean = {
+  def isProtected(loc: Location): Boolean = {
     getRegion(loc).nonEmpty
   }
 
-  def getRegion(@NotNull loc: Location): mutable.Set[ProtectedRegion] = {
+  def getRegion(loc: Location): mutable.Set[ProtectedRegion] = {
     val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
     container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
   }
 
-  def isOwner(@NotNull p: Player, @NotNull loc: Location): Boolean = {
+  def isOwner(p: Player,loc: Location): Boolean = {
     getRegion(loc).foreach(region =>
       if (region.getOwners.contains(p.getUniqueId)) return true
     )
     false
   }
 
-  def getOwner(@NotNull loc: Location): String = {
+  def getOwner(loc: Location): String = {
     getRegion(loc).head.getOwners.toPlayersString.replaceAll("uuid:", "").split(",")
       .toList
       .map(uuid => Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName)
       .mkString(",")
   }
 
-  def removeRegion(@NotNull p: Player): Unit = {
+  def removeRegion(p: Player): Unit = {
     plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(p.getWorld)).removeRegion(getRegion(p.getLocation()).head.getId)
   }
 

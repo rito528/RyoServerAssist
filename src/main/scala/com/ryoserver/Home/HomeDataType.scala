@@ -6,5 +6,8 @@ import java.util.UUID
 
 case class HomeDataType(UUID: UUID,
                         point: Int,
-                        location: Location,
+                        world: String,
+                        x: Double,
+                        y: Double,
+                        z: Double,
                         isLocked: Boolean)

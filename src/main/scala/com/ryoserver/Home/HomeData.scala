@@ -30,6 +30,10 @@ object HomeData {
       .filterNot(data => data.UUID == uuid && data.point == point)
   }
 
+  def setEmptyHomeData(): Unit = {
+    homeData = Set.empty
+  }
+
   def loadHomeData(): Unit = {
     implicit val session: AutoSession.type = AutoSession
     homeData = sql"SELECT * FROM Homes".map(rs => {
@@ -38,7 +42,10 @@ object HomeData {
         UUID = UUID.fromString(rs.string("UUID")
           .replaceFirst("([0-9a-fA-F]{8})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]{4})([0-9a-fA-F]+)", "$1-$2-$3-$4-$5")),
         point = rs.int("point"),
-        location = new Location(Bukkit.getWorld(location(0)), location(1).toDouble, location(2).toDouble, location(3).toDouble),
+        world = location(0),
+        x = location(1).toDouble,
+        y = location(2).toDouble,
+        z = location(3).toDouble,
         isLocked = rs.boolean("Locked")
       )
     }).toList.apply().toSet
@@ -57,7 +64,7 @@ object HomeData {
     DB.localTx(implicit session => {
       sql"DELETE FROM Homes;".execute.apply()
       homeData.foreach { data =>
-        val locationString = s"${data.location.getWorld.getName},${data.location.getX.toInt},${data.location.getY.toInt},${data.location.getZ.toInt}"
+        val locationString = s"${data.world},${data.x},${data.y},${data.z}"
         sql"INSERT INTO Homes (UUID,point,Location,Locked) VALUES (${data.UUID.toString},${data.point},$locationString,${data.isLocked})".execute.apply()
       }
     })
