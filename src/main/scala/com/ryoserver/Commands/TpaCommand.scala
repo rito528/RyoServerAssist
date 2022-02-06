@@ -35,6 +35,7 @@ class TpaCommand(implicit ryoServerAssist: RyoServerAssist) {
             Tpa.cancelingTpa += sender.getName
             sender.sendMessage(s"${AQUA}autoCancelを有効にしました。")
           }
+        case _ =>
       }
     }
 
