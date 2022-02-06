@@ -29,31 +29,29 @@ class Regeneration {
   }
 
   private def regenerationCommands(list: List[String], worldType: Environment): Unit = {
-    val core = Bukkit.getServer.getPluginManager.getPlugin("Multiverse-Core").asInstanceOf[MultiverseCore]
     val portals = Bukkit.getServer.getPluginManager.getPlugin("Multiverse-Portals").asInstanceOf[MultiversePortals]
-    val worldManager = core.getMVWorldManager
     list.foreach(world => {
       List(
         "dynmap pause all",
         s"dynmap purgemap $world flat",
         "dynmap pause none"
       ).foreach(cmd => Bukkit.dispatchCommand(getConsoleSender, cmd))
-      worldManager.deleteWorld(world)
-      worldManager.addWorld(world, worldType, null, WorldType.NORMAL, true, null)
-      worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.KEEP_INVENTORY.asInstanceOf[GameRule[Any]], true)
-      worldManager.getMVWorld(world).getCBWorld.setGameRule(GameRule.DO_INSOMNIA.asInstanceOf[GameRule[Any]], false)
-      worldManager.getMVWorld(world).setDifficulty(Difficulty.HARD)
+      Bukkit.unloadWorld(world,false)
+      val createdWorld = WorldCreator.name(world).environment(worldType).createWorld()
+      createdWorld.setGameRule(GameRule.KEEP_INVENTORY.asInstanceOf[GameRule[Any]], true)
+      createdWorld.setGameRule(GameRule.DO_INSOMNIA.asInstanceOf[GameRule[Any]], false)
+      createdWorld.setDifficulty(Difficulty.HARD)
       val random = SecureRandom.getInstance("SHA1PRNG")
       var x = random.nextInt(500)
       var z = random.nextInt(500)
       var y = 64
       if (worldType == Environment.THE_END) {
-        worldManager.getMVWorld(world).setRespawnToWorld("world")
+        //worldManager.getMVWorld(world).setRespawnToWorld("world")
         x = -106
         z = -60
         y = 55
       }
-      val landLocation = new Location(worldManager.getMVWorld(world).getCBWorld, x, y, z)
+      val landLocation = new Location(createdWorld, x, y, z)
       for (y <- 0 until 60) {
         for (x <- 0 until 40) {
           for (z <- 0 until 40) {
@@ -68,7 +66,7 @@ class Regeneration {
           minusLoc.add(x, 0, z).getBlock.setType(Material.BEDROCK)
         }
       }
-      worldManager.getMVWorld(world).setSpawnLocation(new Location(worldManager.getMVWorld(world).getCBWorld, x, y, z))
+      createdWorld.setSpawnLocation(new Location(createdWorld, x, y, z))
       Bukkit.dispatchCommand(getConsoleSender, s"wb $world set 5000 5000 spawn")
       Bukkit.dispatchCommand(getConsoleSender, "wb shape square")
       portals.getPortalManager.getPortal(s"worldTo$world").setExactDestination(Bukkit.getWorld(world).getSpawnLocation)
