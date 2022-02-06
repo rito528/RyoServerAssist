@@ -47,6 +47,7 @@ class SecurityCommand(implicit ryoServerAssist: RyoServerAssist) {
           sender.sendMessage("/security freeze [プレイヤー名] - 指定したプレイヤーの行動を禁止します。")
           sender.sendMessage("/security unfreeze [プレイヤー名] - 指定したプレイヤーの行動の禁止を解除します。")
           sender.sendMessage("/security help - このコマンドリストを表示します。")
+        case _ =>
       }
     }
 
