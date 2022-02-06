@@ -22,6 +22,7 @@ object DistributionCommand {
           sender.sendMessage("ガチャ券を配布します。")
           sender.sendMessage("normalで通常ガチャ券、fromAdminで不具合のお詫びガチャ券を指定します。")
           sender.sendMessage("+-------------------------------------+")
+        case _ =>
       }
     }
 
