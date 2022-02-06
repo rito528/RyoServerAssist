@@ -11,6 +11,7 @@ import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.HomeData
+import com.ryoserver.Maintenance.MaintenanceData
 import com.ryoserver.Menu.{MenuEvent, MenuHandler}
 import com.ryoserver.NeoStack.Menu.SelectStackMenu
 import com.ryoserver.NeoStack._
@@ -90,7 +91,8 @@ class RyoServerAssist extends JavaPlugin {
       "skillPoint" -> SkillPointCommand.executer,
       "vote" -> VoteCommand.executer,
       "getgachaitem" -> GetGachaItemCommand.executor,
-      "adminStorage" -> AdminStorageCommand.executer
+      "adminStorage" -> AdminStorageCommand.executer,
+      "maintenance" -> MaintenanceCommand.executor
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
@@ -170,6 +172,7 @@ class RyoServerAssist extends JavaPlugin {
     new LoadDistribution().load()
     Translate.loadLangFile()
     HomeData.loadHomeData()
+    MaintenanceData.loadMaintenance()
 
 
     /*
