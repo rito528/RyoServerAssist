@@ -72,6 +72,9 @@ commands:
   adminStorage:
     description: open admin storage command.
     permission: ryoserverassist.adminStorage
+  maintenance:
+    description: set maintenance command.
+    permission: ryoserverassist.maintenance
 
 permissions:
   ryoserverassist.*:
@@ -99,6 +102,7 @@ permissions:
       - ryoserverassist.vote
       - ryoserverassist.gachaItem
       - ryoserverassist.adminStorage
+      - ryoserverassist.maintenance
   ryoserverassist.home:
     default: true
   ryoserverassist.gacha:
@@ -142,4 +146,6 @@ permissions:
   ryoserverassist.gachaItem:
     default: op
   ryoserverassist.adminStorage:
+    default: op
+  ryoserverassist.maintenance:
     default: op
