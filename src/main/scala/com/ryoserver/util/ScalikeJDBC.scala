@@ -8,7 +8,7 @@ import scalikejdbc._
 object ScalikeJDBC {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
-  private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?autoReconnect=true&useSSL=false"
+  private val URL = s"jdbc:mysql://${getConfig.host}/${getConfig.db}?useSSL=false"
   private val USER = getConfig.user
   private val PASS = getConfig.pw
 
@@ -16,7 +16,13 @@ object ScalikeJDBC {
 
   def setup(): Unit = {
     Class.forName(this.driver)
-    ConnectionPool.singleton(this.URL,this.USER,this.PASS)
+    val settings = ConnectionPoolSettings(
+      initialSize = 5,
+      maxSize = 1000,
+      connectionTimeoutMillis = 3000L,
+      validationQuery = "SELECT 1 from dual"
+    )
+    ConnectionPool.singleton(this.URL,this.USER,this.PASS,settings)
   }
 
   implicit class getData(sql: SQL[Nothing, NoExtractor]) {

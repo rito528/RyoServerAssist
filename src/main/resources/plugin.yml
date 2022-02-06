@@ -4,7 +4,7 @@ main: com.ryoserver.RyoServerAssist
 api-version: 1.17
 description: RyoServerAssist
 depends: [ WorldGuard,Votifier,CoreProtect ]
-softdepend: [ WorldGuard,Multiverse-Core,Multiverse-Portals,dynmap,Votifier,CoreProtect ]
+softdepend: [ WorldGuard,Multiverse-Portals,dynmap,Votifier,CoreProtect ]
 author: rito528
 
 
