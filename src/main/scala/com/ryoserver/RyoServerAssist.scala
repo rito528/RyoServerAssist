@@ -91,7 +91,8 @@ class RyoServerAssist extends JavaPlugin {
       "skillPoint" -> SkillPointCommand.executer,
       "vote" -> VoteCommand.executer,
       "getgachaitem" -> GetGachaItemCommand.executor,
-      "adminStorage" -> AdminStorageCommand.executer
+      "adminStorage" -> AdminStorageCommand.executer,
+      "maintenance" -> MaintenanceCommand.executor
     ).foreach({ case (cmd, executor) =>
       getCommand(cmd).setExecutor(executor)
     })
