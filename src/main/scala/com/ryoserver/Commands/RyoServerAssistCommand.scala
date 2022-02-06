@@ -17,6 +17,7 @@ class RyoServerAssistCommand(implicit ryoServerAssist: RyoServerAssist) {
         case "reload" =>
           ConfigData.loadConfig(ryoServerAssist)
           sender.sendMessage(s"${AQUA}configのリロードを行いました。")
+        case _ =>
       }
     }
 

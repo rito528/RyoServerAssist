@@ -13,6 +13,7 @@ object VoteCommand {
       rawCommandContext.args.head.toLowerCase match {
         case "testvote" =>
           new Vote().vote("投票テスト", rawCommandContext.sender.getName)
+        case _ =>
       }
     }
 

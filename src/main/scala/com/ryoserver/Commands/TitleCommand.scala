@@ -34,6 +34,7 @@ object TitleCommand {
             return
           }
           sender.sendMessage(s"$AQUA${args(2)}から称号${args(1)}を剥奪しました。")
+        case _ =>
       }
     }
 

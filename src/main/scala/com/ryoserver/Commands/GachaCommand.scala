@@ -40,6 +40,7 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
           sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
         case "list" =>
           GachaLoader.listGachaItem(args(1).toInt, sender.asInstanceOf[Player])
+        case _ =>
       }
     }
 

@@ -42,6 +42,7 @@ object LevelCommand {
           sender.sendMessage(s"$AQUA/level log <レベル>")
           sender.sendMessage("指定したレベルまで、次のレベルまでの経験値量、レベルに到達するまでの経験値量をログに出します。")
           sender.sendMessage("+-------------------------------------+")
+        case _ =>
       }
     }
 

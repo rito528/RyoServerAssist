@@ -24,6 +24,7 @@ object OriginalItemCommand {
           p.getWorld.dropItemNaturally(p.getLocation, RecoveryItems.max)
         case "特等交換券" =>
           p.getWorld.dropItem(p.getLocation, OriginalItems.tokutoukoukanken)
+        case _ =>
       }
     }
 

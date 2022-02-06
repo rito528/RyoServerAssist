@@ -30,6 +30,7 @@ object PlayerCommand {
             })
           }
           sender.asInstanceOf[Player].openInventory(inv)
+        case _ =>
       }
     }
 
