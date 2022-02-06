@@ -13,7 +13,7 @@ object SkillPointCommand {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       val sender = rawCommandContext.sender
       val args = rawCommandContext.args
-      if (args.length != 3) return
+      if (args.length != 2) return
       val p = sender.asInstanceOf[Player]
       args.head.toLowerCase match {
         case "normal" =>
