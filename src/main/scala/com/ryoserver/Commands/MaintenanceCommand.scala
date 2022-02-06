@@ -11,8 +11,8 @@ object MaintenanceCommand {
   val executor: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
       if (rawCommandContext.args.length != 1) return
-      MaintenanceData.setMaintenance(rawCommandContext.args.head.toBoolean)
-      rawCommandContext.sender.sendMessage(s"${AQUA}メンテナンスモードを${if (rawCommandContext.args.head.toBoolean) "有効" else "無効"}にしました。")
+      MaintenanceData.setMaintenance(rawCommandContext.args.head.toLowerCase == "on")
+      rawCommandContext.sender.sendMessage(s"${AQUA}メンテナンスモードを${if (rawCommandContext.args.head.toLowerCase == "on") "有効" else "無効"}にしました。")
     }
 
     override val args: List[String] = List("on","off")
