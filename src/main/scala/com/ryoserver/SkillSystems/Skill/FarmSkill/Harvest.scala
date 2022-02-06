@@ -87,7 +87,6 @@ final class Harvest {
     val facing = p.getFacing.toString
     val minusXLoc = {
       if (facing == "SOUTH" || facing == "NORTH") brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
-      else if (facing == "WEST") brokeBlock.getLocation().add(0, 0, -(range.width / 2))
       else brokeBlock.getLocation().add(0, 0, -(range.width / 2))
     }
     val location: (Int,Int) => Location = (x: Int,z: Int) => {
@@ -103,5 +102,5 @@ final class Harvest {
     } yield cost
     new SkillPointConsumption().consumption(cost.sum, p)
   }
-  
+
 }
