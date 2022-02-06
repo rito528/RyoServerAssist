@@ -1,5 +1,6 @@
 package com.ryoserver.Player
 
+import com.ryoserver.Maintenance.MaintenanceData.getMaintenance
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
@@ -11,6 +12,9 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
   @EventHandler
   def onJoin(e: PlayerJoinEvent): Unit = {
     val p = e.getPlayer
+    if (getMaintenance && !p.hasPermission("ryoserverassist.maintenance")) {
+      p.kickPlayer("現在メンテナンス中です。\n\n詳細は公式Twitter、Discordを御覧ください。")
+    }
     new PlayerDataLoader().load(p)
     val title = new GiveTitle()
     title.continuousLogin(p)
