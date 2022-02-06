@@ -15,9 +15,7 @@ class Storage {
     implicit val session: AutoSession.type = AutoSession
     var itemList = ""
     inv.getContents.foreach(is => {
-      val config = new YamlConfiguration
-      config.set("i", is)
-      itemList += config.saveToString() + ";"
+      itemList += Item.getStringFromItemStack(is) + ";"
     })
     val storageTable = sql"SELECT UUID FROM Storage WHERE UUID=${p.getUniqueId.toString}"
     if (storageTable.getHeadData.nonEmpty) sql"UPDATE Storage SET invData=$itemList WHERE UUID=${p.getUniqueId.toString}".execute.apply()
