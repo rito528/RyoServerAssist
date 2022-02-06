@@ -13,6 +13,7 @@ object RegionCommand {
       rawCommandContext.args.head.toLowerCase match {
         case "edit" =>
           Bukkit.dispatchCommand(rawCommandContext.sender, "rg bypass")
+        case _ =>
       }
     }
 
