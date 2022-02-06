@@ -63,21 +63,6 @@ class RyoServerAssist extends JavaPlugin {
     ScalikeJDBC.setup()
 
     /*
-      MySQL接続テスト
-     */
-    val sql = new SQL()
-    if (!sql.connectionTest()) {
-      getLogger.severe("MySQLに接続できませんでした！")
-      getLogger.severe("サーバを終了します...")
-      sql.close()
-      Bukkit.shutdown()
-      return
-    }
-    sql.close()
-
-
-
-    /*
       連続投票日数を更新
      */
     new UpdateContinueVoteNumber().update()
