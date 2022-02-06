@@ -1,5 +1,6 @@
 package com.ryoserver.Gacha
 
+import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
@@ -12,6 +13,7 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   override val slot: Int = 6
   override var name: String = "ガチャアイテム追加メニュー"
   override var p: Player = _
+  partButton = true
 
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
@@ -33,6 +35,10 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
       "特等アイテムに追加します。"))
       .setLeftClickMotion(addItem(_, 3))
       .setReload())
+    buttons :+= getLayOut(2,6)
+    buttons :+= getLayOut(4,6)
+    buttons :+= getLayOut(6,6)
+    buttons :+= getLayOut(8,6)
     build(new GachaAddItemInventory(ryoServerAssist).openAddInventory)
     open()
   }
@@ -43,14 +49,9 @@ class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   private def add(inv: Inventory, rarity: Int): Unit = {
+    List(46,48,50,52).foreach(inv.clear)
     inv.getContents.foreach(is => {
-      if (is != null && !GachaLoader.missItemList.contains(is) && !GachaLoader.perItemList.contains(is)
-        && !GachaLoader.bigPerItemList.contains(is) && !GachaLoader.specialItemList.contains(is)) {
-        if (is != null && is.getItemMeta != inv.getItem(46).getItemMeta && is.getItemMeta != inv.getItem(48).getItemMeta &&
-          is.getItemMeta != inv.getItem(50).getItemMeta && is.getItemMeta != inv.getItem(52).getItemMeta) {
-          GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
-        }
-      }
+      if (is != null) GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
     })
   }
 
