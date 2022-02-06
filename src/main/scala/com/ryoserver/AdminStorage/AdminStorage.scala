@@ -14,9 +14,7 @@ class AdminStorage {
     implicit val session: AutoSession.type = AutoSession
     var itemList = ""
     inv.getContents.foreach(is => {
-      val config = new YamlConfiguration
-      config.set("i", is)
-      itemList += config.saveToString() + ";"
+      itemList += Item.getStringFromItemStack(is) + ";"
     })
     val adminStorage = sql"SELECT * FROM AdminStorage"
     if (adminStorage.getHeadData.isEmpty) sql"INSERT INTO AdminStorage(invData) VALUES ($itemList)".update.apply()
