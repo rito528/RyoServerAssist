@@ -19,7 +19,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
       return
     } else if (p.getSkillPoint < effectSkills.cost && EffectSkillData.getEnablingSkill(p) != effectSkills) {
-      p.sendMessage(s"${RED}スキルポイントが足りません！")
+      p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を起動できませんでした。")
       return
     }
     new BukkitRunnable {
