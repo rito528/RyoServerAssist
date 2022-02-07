@@ -3,7 +3,7 @@ package com.ryoserver.SkillSystems.Skill.EffectSkill
 import org.bukkit.entity.Player
 
 import java.util.UUID
-import scala.collection.{immutable, mutable}
+import scala.collection.immutable
 
 object EffectSkillData {
 

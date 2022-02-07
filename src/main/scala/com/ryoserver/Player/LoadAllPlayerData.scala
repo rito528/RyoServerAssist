@@ -1,5 +1,6 @@
 package com.ryoserver.Player
 
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
@@ -23,6 +24,9 @@ class LoadAllPlayerData() {
       val gachaPullNumber = rs.int("gachaPullNumber")
       val skillOpenPoint = rs.int("SkillOpenPoint")
       val OpenedSkills = rs.string("OpenedSkills")
+        .split(";")
+        .map(openedSkillName => EffectSkills.valuesToIndex.filter(_._1.skillName == openedSkillName).head._1)
+        .toSet
       val voteNumber = rs.int("VoteNumber")
       val ContinueVoteNumber = rs.int("ContinueVoteNumber")
       val specialSkillOpenPoint = rs.int("SpecialSkillOpenPoint")
@@ -34,7 +38,7 @@ class LoadAllPlayerData() {
       val discord = rs.string("Discord")
       val word = rs.string("Word")
       PlayerData.playerData += (uuid -> PlayerDataType(level, exp, lastDistributionReceived, skillPoint, loginNumber, consecutiveLoginDays,
-        questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, Option(OpenedSkills), voteNumber, ContinueVoteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
+        questClearTimes, gachaTickets, gachaPullNumber, skillOpenPoint, OpenedSkills, voteNumber, ContinueVoteNumber, specialSkillOpenPoint, Option(openedSpecialSkills),
         Option(openedTitles), Option(selectedTitles), autoStack, Option(twitter), Option(discord), Option(word)))
     })
   }

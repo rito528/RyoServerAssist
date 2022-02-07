@@ -10,7 +10,7 @@ sealed abstract class EffectSkills(val skillName: String,
                                    val effectLevel: Int
                                   ) extends EnumEntry
 
-object Skills extends Enum[EffectSkills] {
+object EffectSkills extends Enum[EffectSkills] {
 
   override def values: IndexedSeq[EffectSkills] = findValues
 
