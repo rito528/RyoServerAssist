@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.Skill.EffectSkill
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillMenu.EffectSkillMenu
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
 import org.bukkit.ChatColor._

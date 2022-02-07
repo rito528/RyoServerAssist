@@ -1,8 +1,7 @@
 package com.ryoserver.SkillSystems.SkillOpens
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
-import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
+import .SkillNames
 import org.bukkit.entity.Player
 
 class SkillOpenCheck {

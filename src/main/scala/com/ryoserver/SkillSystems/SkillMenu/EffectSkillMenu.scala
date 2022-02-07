@@ -3,7 +3,7 @@ package com.ryoserver.SkillSystems.SkillMenu
 import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData.SkillNames
+import .SkillNames
 import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
 import com.ryoserver.SkillSystems.SkillOpens.SkillOpenCheck
 import org.bukkit.ChatColor._

@@ -4,7 +4,6 @@ import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
