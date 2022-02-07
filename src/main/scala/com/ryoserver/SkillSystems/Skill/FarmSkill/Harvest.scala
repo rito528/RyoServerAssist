@@ -17,8 +17,6 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 final class Harvest {
 
-  val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
-
   //収穫できるアイテム
   private final val farmItem = Set(
     Material.WHEAT,
@@ -51,7 +49,7 @@ final class Harvest {
     val harvestMaterialData = block.getBlockData
     val seed = new ItemStack(seeds(harvestMaterial), 1)
     val uuid = p.getUniqueId
-    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || notSpecialSkillWorld.contains(harvestLocation.getWorld.getName))) return 0
+    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || getConfig.notSpecialSkillWorlds.contains(harvestLocation.getWorld.getName))) return 0
     coreProtectAPI.logRemoval(p.getName, harvestLocation, harvestMaterial, harvestMaterialData)
     val inventory = p.getInventory
     val hasInventorySeed = inventory.contains(seed.getType)

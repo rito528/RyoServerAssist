@@ -11,8 +11,6 @@ import org.bukkit.entity.Player
 
 class Grow {
 
-  private val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
-
   private val boneMealList = Set(
     Material.WHEAT,
     Material.CARROTS,
@@ -31,7 +29,7 @@ class Grow {
     if (!boneMealList.contains(growMaterial)) return 0
     val worldGuardWrapper = new WorldGuardWrapper
     val isOwner = worldGuardWrapper.isOwner(p, growLocation)
-    if (!isOwner && (!worldGuardWrapper.isGlobal(growLocation) || notSpecialSkillWorld.contains(growLocation.getWorld.getName))) return 0
+    if (!isOwner && (!worldGuardWrapper.isGlobal(growLocation) || getConfig.notSpecialSkillWorlds.contains(growLocation.getWorld.getName))) return 0
     if (block.applyBoneMeal(BlockFace.UP)) {
       return skillPointCost
     }
