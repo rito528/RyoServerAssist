@@ -7,12 +7,18 @@ import scala.collection.immutable
 
 object EffectSkillData {
 
-  private val enablingSkills: immutable.Map[UUID,EffectSkills] = immutable.Map.empty
+  private val enablingSkills: immutable.Map[UUID,Set[EffectSkills]] = immutable.Map.empty
 
-  def getEnablingSkill(p:Player): EffectSkills = enablingSkills(p.getUniqueId)
+  def getEnablingSkill(p:Player): Set[EffectSkills] = enablingSkills(p.getUniqueId)
 
-  def setEnablingSkill(p: Player,effectSkills: EffectSkills): Unit = enablingSkills + (p.getUniqueId -> effectSkills)
+  def setEnablingSkill(p: Player,effectSkills: EffectSkills): Unit = {
+    val uuid = p.getUniqueId
+    enablingSkills + (uuid -> (if (enablingSkills.contains(uuid)) enablingSkills(uuid) ++ effectSkills else Set(effectSkills)))
+  }
 
-  def setDisableSkill(p: Player): Unit = enablingSkills - p.getUniqueId
+  def setDisableSkill(p: Player,effectSkills: EffectSkills): Unit = {
+    val uuid = p.getUniqueId
+    enablingSkills + (uuid -> enablingSkills(uuid).filterNot(_ == effectSkills))
+  }
 
 }

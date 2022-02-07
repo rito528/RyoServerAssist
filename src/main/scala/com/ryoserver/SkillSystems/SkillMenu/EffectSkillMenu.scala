@@ -6,7 +6,6 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.potion.PotionEffectType
 
 class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
