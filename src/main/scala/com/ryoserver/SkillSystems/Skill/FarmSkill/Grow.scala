@@ -9,7 +9,7 @@ import org.bukkit.{Location, Material}
 import org.bukkit.block.{Block, BlockFace}
 import org.bukkit.entity.Player
 
-class Grow {
+final class Grow {
 
   private val boneMealList = Set(
     Material.WHEAT,

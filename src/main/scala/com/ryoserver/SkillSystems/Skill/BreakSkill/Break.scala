@@ -11,8 +11,11 @@ import net.coreprotect.CoreProtect
 import org.bukkit.entity.Player
 import org.bukkit.{Location, Material}
 
-class Break {
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
+final class Break {
+
+  //破壊しないブロック
   val nonBreakBlock = List(
     Material.AIR,
     Material.CAVE_AIR,
@@ -24,74 +27,72 @@ class Break {
     Material.BEDROCK
   )
 
-  val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
+  private def executeBreak(p: Player,breakLocation: Location,skillPoint: Double): Double = {
+    val block = breakLocation.getBlock
+    val breakBlockMaterial = block.getType
+    if (nonBreakBlock.contains(breakBlockMaterial)) return 0
+    val worldGuardWrapper = new WorldGuardWrapper
+    if (!worldGuardWrapper.isOwner(p, breakLocation) &&
+      (!worldGuardWrapper.isGlobal(breakLocation) || getConfig.notSpecialSkillWorlds.contains(breakLocation.getWorld.getName)))
+      return 0
+    val handItem = p.getInventory.getItemInMainHand
+    val neoStackGateway = new NeoStackGateway
+    block.getDrops(handItem).asScala.foreach(itemStack => {
+      if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
+        neoStackGateway.addStack(itemStack, p)
+      } else {
+        p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
+      }
+    })
+    val coreProtectAPI = CoreProtect.getInstance().getAPI
+    coreProtectAPI.logRemoval(p.getName, breakLocation, breakBlockMaterial, block.getBlockData)
+    block.setType(Material.AIR)
+    itemAddDamage(p, handItem)
+    skillPoint
+  }
+
+  private def getHorizontalDirection(direction: String,startLocation:Location,addRange: BreakRange): Location = {
+    if (direction == "NORTH") {
+      startLocation.add(addRange.width,addRange.height,-addRange.depth)
+    } else if (direction == "SOUTH") {
+      startLocation.add(-addRange.width,addRange.height,addRange.depth)
+    } else if (direction == "EAST") {
+      startLocation.add(addRange.depth,addRange.height,addRange.width)
+    } else {
+      startLocation.add(addRange.depth,addRange.height,-addRange.width)
+    }
+  }
 
   def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
     if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
-    val direction = p.getFacing.toString
-    val worldGuardWrapper = new WorldGuardWrapper
-    val handItem = p.getInventory.getItemInMainHand
-    val coreProtectAPI = CoreProtect.getInstance().getAPI
-    val neoStackGateway = new NeoStackGateway()
-    if (direction == "NORTH" || direction == "SOUTH") {
-      val breakPoint = {
-        if (p.getLocation.getY < breakBlockLocation.getY) breakBlockLocation.add(-(breakRange.x / 2), -(breakRange.y / 2), 0)
-        else if (p.getLocation.getY == breakBlockLocation.getY) breakBlockLocation.add(-(breakRange.x / 2), 0, 0)
-        else breakBlockLocation.add(-(breakRange.x / 2), -breakRange.y + 1, 0)
+    val facing = p.getFacing.toString
+    val playerY = p.getLocation.getY
+    val breakBlockY = breakBlockLocation.getY
+    /*
+      ブロック破壊地点の起点はプレイヤーから見て左下と考える。
+      また、横の長さに対して中心を破壊をしたと考える
+     */
+    val startingLocation: Location = {
+      if (facing == "NORTH" || facing == "SOUTH") {
+        if (playerY == breakBlockY) breakBlockLocation.add(breakRange.width / 2, 0, 0)
+        else if (playerY < breakBlockY) breakBlockLocation.add(breakRange.width / 2 ,-1 ,0)
+        else breakBlockLocation.add(breakRange.width / 2 ,-breakRange.height + 1 ,0)
+      } else {
+        if (playerY == breakBlockY) breakBlockLocation.add(0, 0, breakRange.width / 2)
+        else if (playerY < breakBlockY) breakBlockLocation.add(0 ,-1 , breakRange.width / 2)
+        else breakBlockLocation.add(0 ,-breakRange.height + 1, breakRange.width / 2)
       }
-      var cost = 0
-      for (y <- 0 until breakRange.y) {
-        for (x <- 0 until breakRange.x) {
-          val pointClone = breakPoint.clone()
-          pointClone.add(x, y, 0)
-          if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName, pointClone, pointClone.getBlock.getType, pointClone.getBlock.getBlockData)
-              pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
-                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
-                  neoStackGateway.addStack(itemStack, p)
-                } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
-                }
-              })
-              pointClone.getBlock.setType(Material.AIR)
-              itemAddDamage(p, handItem)
-              cost += spCost / (breakRange.x * breakRange.y)
-            }
-          }
-        }
-      }
-      new SkillPointConsumption().consumption(cost, p)
-    } else if (direction == "EAST" || direction == "WEST") {
-      val breakPoint = {
-        if (p.getLocation.getY < breakBlockLocation.getY) breakBlockLocation.add(0, -(breakRange.y / 2), -(breakRange.z / 2))
-        else if (p.getLocation.getY == breakBlockLocation.getY) breakBlockLocation.add(0, 0, -(breakRange.z / 2))
-        else breakBlockLocation.add(0, -breakRange.y + 1, -(breakRange.z / 2))
-      }
-      var cost = 0
-      for (y <- 0 until breakRange.y) {
-        for (z <- 0 until breakRange.z) {
-          val pointClone = breakPoint.clone()
-          pointClone.add(0, y, z)
-          if (!nonBreakBlock.contains(pointClone.getBlock.getType)) {
-            if (worldGuardWrapper.isOwner(p, pointClone) || (worldGuardWrapper.isGlobal(pointClone) && !notSpecialSkillWorld.contains(pointClone.getWorld.getName))) {
-              coreProtectAPI.logRemoval(p.getName, pointClone, pointClone.getBlock.getType, pointClone.getBlock.getBlockData)
-              pointClone.getBlock.getDrops(handItem).forEach(itemStack => {
-                if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
-                  neoStackGateway.addStack(itemStack, p)
-                } else {
-                  p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
-                }
-              })
-              pointClone.getBlock.setType(Material.AIR)
-              itemAddDamage(p, handItem)
-              cost += spCost / (breakRange.z * breakRange.y)
-            }
-          }
-        }
-      }
-      new SkillPointConsumption().consumption(cost, p)
     }
+    if (facing == "NORTH")  startingLocation.setX(startingLocation.getX * -1)
+    else if (facing == "EAST") startingLocation.setZ(startingLocation.getZ * -1)
+    val cost = for {
+      height <- 0 until breakRange.height
+      width <- 0 until breakRange.width
+      depth <- 0 until breakRange.depth
+      cost = executeBreak(p,getHorizontalDirection(facing,startingLocation.clone(),BreakRange(height,width,depth)),
+        spCost / (breakRange.width * breakRange.height * breakRange.depth))
+    } yield cost
+    new SkillPointConsumption().consumption(cost.sum, p)
   }
 
 }
