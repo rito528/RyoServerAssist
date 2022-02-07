@@ -18,13 +18,13 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     } else if (p.getSkillOpenPoint >= 10 && !p.getOpenedSkills.contains(effectSkills)) {
       p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
       return
-    } else if (p.getSkillPoint < effectSkills.cost && EffectSkillData.getEnablingSkill(p) != effectSkills) {
+    } else if (p.getSkillPoint < effectSkills.cost && !EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
       p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を起動できませんでした。")
       return
     }
     new BukkitRunnable {
       override def run(): Unit = {
-        if (EffectSkillData.getEnablingSkill(p) != effectSkills) this.cancel()
+        if (!EffectSkillData.getEnablingSkill(p).contains(effectSkills)) this.cancel()
         else p.addPotionEffect(new PotionEffect(effectSkills.effectType, 280, effectSkills.effectLevel))
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20)
@@ -32,7 +32,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     new BukkitRunnable {
       override def run(): Unit = {
         if (p.getSkillPoint < effectSkills.cost) {
-          EffectSkillData.setDisableSkill(p)
+          EffectSkillData.setDisableSkill(p,effectSkills)
           this.cancel()
           p.sendMessage(s"${RED}スキルポイントが不足したため、スキルを無効化しました。")
         } else {
