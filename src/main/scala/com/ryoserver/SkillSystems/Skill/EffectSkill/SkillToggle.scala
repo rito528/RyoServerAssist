@@ -3,7 +3,7 @@ package com.ryoserver.SkillSystems.Skill.EffectSkill
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
-import com.ryoserver.SkillSystems.SkillMenu.SelectSkillMenu
+import com.ryoserver.SkillSystems.SkillMenu.EffectSkillMenu
 import com.ryoserver.SkillSystems.SkillOpens.{SkillOpenCheck, SkillOpenData}
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -22,7 +22,7 @@ trait SkillToggle {
     } else if (openCheck.isTrueOpen(skillName, p) && !openCheck.isOpened(skillName, p)) {
       new SkillOpenData().openSkill(p, skillName)
       p.sendMessage(s"${AQUA}スキル:${skillName}を開放しました！")
-      new SelectSkillMenu(ryoServerAssist).openMenu(p)
+      new EffectSkillMenu(ryoServerAssist).openMenu(p)
       return
     }
     if (p.getSkillPoint < sp) {

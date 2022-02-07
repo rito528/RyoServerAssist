@@ -11,7 +11,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffectType
 
-class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val slot: Int = 6
   private val toggle = new skillToggleClass(_, ryoServerAssist)
@@ -125,7 +125,7 @@ class SelectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       .setEffect())
     setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻る", List(s"${GRAY}メニューに戻ります。"))
       .setLeftClickMotion(backPage))
-    build(new SelectSkillMenu(ryoServerAssist).openMenu)
+    build(new EffectSkillMenu(ryoServerAssist).openMenu)
     open()
   }
 
