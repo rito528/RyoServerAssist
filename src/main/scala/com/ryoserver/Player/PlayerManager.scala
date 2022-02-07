@@ -1,5 +1,6 @@
 package com.ryoserver.Player
 
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointData
 import org.bukkit.Bukkit.getLogger
 import org.bukkit.OfflinePlayer
@@ -52,7 +53,7 @@ object PlayerManager {
 
     def getSkillOpenPoint: Int = playerData.SkillOpenPoint
 
-    def getOpenedSkills: Option[String] = playerData.OpenedSkills
+    def getOpenedSkills: Set[EffectSkills] = playerData.OpenedSkills
 
     def getVoteNumber: Int = playerData.voteNumber
 
