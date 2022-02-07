@@ -51,7 +51,7 @@ final class Harvest {
     val harvestMaterialData = block.getBlockData
     val seed = new ItemStack(seeds(harvestMaterial), 1)
     val uuid = p.getUniqueId
-    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || notSpecialSkillWorld.contains(harvestLocation))) return 0
+    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || notSpecialSkillWorld.contains(harvestLocation.getWorld.getName))) return 0
     coreProtectAPI.logRemoval(p.getName, harvestLocation, harvestMaterial, harvestMaterialData)
     val inventory = p.getInventory
     val hasInventorySeed = inventory.contains(seed.getType)
