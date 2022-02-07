@@ -3,9 +3,6 @@ package com.ryoserver.SkillSystems.SkillMenu
 import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
-import .SkillNames
-import com.ryoserver.SkillSystems.Skill.EffectSkill.skillToggleClass
-import com.ryoserver.SkillSystems.SkillOpens.SkillOpenCheck
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -14,13 +11,11 @@ import org.bukkit.potion.PotionEffectType
 class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   val slot: Int = 6
-  private val toggle = new skillToggleClass(_, ryoServerAssist)
   var name: String = "通常スキル選択"
   var p: Player = _
 
   def openMenu(player: Player): Unit = {
     p = player
-    val check = new SkillOpenCheck()
     setButton(MenuButton(1, 1, if (check.isOpened(SkillNames.head, p)) Material.SHIELD else Material.BEDROCK,
       s"${GREEN}[基本スキル]${SkillNames.head}", List(s"${GRAY}耐性1の効果が付与されます。",
         s"${GRAY}" + (if (check.isOpened(SkillNames.head, p)) "開放済みです。" else "解放条件:スキル開放ポイント10を消費"),
@@ -127,75 +122,6 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       .setLeftClickMotion(backPage))
     build(new EffectSkillMenu(ryoServerAssist).openMenu)
     open()
-  }
-
-  private def nankurunaisa(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.DAMAGE_RESISTANCE, 0, 300, "なんくるないさ")
-  }
-
-  private def yoidon(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.SPEED, 0, 300, "よーいドン")
-  }
-
-  private def takaminokenbutu(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.JUMP, 0, 300, "高みの見物")
-  }
-
-  private def tuyonaru(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.INCREASE_DAMAGE, 0, 300, "ツヨナール")
-  }
-
-  private def horida(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.FAST_DIGGING, 0, 300, "ホリダー")
-  }
-
-  private def zikahu(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.REGENERATION, 0, 300, "ジ・カフ")
-  }
-
-  private def antibekutoru(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.SLOW_FALLING, 0, 600, "アンチベクトル")
-  }
-
-  private def nekonome(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.NIGHT_VISION, 0, 600, "猫の目")
-  }
-
-  private def homutekuto(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.FIRE_RESISTANCE, 0, 600, "ホムテクト")
-  }
-
-  private def mizunokokyuu(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.WATER_BREATHING, 0, 600, "水の呼吸")
-  }
-
-  private def haganenomentaru(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.DAMAGE_RESISTANCE, 1, 600, "鋼のメンタル")
-  }
-
-  private def sinsoku(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.SPEED, 1, 600, "神速")
-  }
-
-  private def pyon(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.JUMP, 1, 600, "ぴょ〜ん")
-  }
-
-  private def mottotuyonaru(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.INCREASE_DAMAGE, 1, 600, "モットツヨナール")
-  }
-
-  private def saida(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.FAST_DIGGING, 1, 600, "サイダー")
-  }
-
-  private def tiyunokago(p: Player): Unit = {
-    toggle(p).effect(PotionEffectType.REGENERATION, 1, 600, "治癒の加護")
-  }
-
-  private def clear(p: Player): Unit = {
-    toggle(p).allEffectClear(p)
-    p.sendMessage(s"${AQUA}スキルをすべて無効化しました。")
   }
 
   private def backPage(p: Player): Unit = {
