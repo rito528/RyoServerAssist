@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.{EffectSkills, SkillOperation}
@@ -9,7 +9,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 6
   var name: String = "通常スキル選択"

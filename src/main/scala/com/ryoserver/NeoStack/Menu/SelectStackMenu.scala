@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.NeoStack.NeoStackGateway
 import org.bukkit.ChatColor._
 import org.bukkit.Material
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class SelectStackMenu extends Menu with Listener {
+class SelectStackMenu extends MenuOld with Listener {
 
   override val slot: Int = 6
   override var name: String = "ネオスタック選択収納"

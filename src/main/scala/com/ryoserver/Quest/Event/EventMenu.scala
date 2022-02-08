@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.Entity.getEntity
@@ -9,7 +9,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class EventMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 3
   override var name: String = "イベント"

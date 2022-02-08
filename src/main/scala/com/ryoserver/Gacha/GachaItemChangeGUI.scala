@@ -2,7 +2,7 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Listener with Menu {
+class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Listener with MenuOld {
 
   override val slot: Int = 6
   val RETE: Int = getConfig.gachaChangeRate

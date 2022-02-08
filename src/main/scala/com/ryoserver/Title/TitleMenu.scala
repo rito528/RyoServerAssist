@@ -1,7 +1,7 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 import java.nio.file.Paths
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
-class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class TitleMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 6
   var name: String = _

@@ -1,7 +1,7 @@
 package com.ryoserver.World.SimpleRegion
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.math.Vector3
@@ -15,7 +15,7 @@ import org.bukkit.{Material, Sound}
 
 import java.util.UUID
 
-class RegionMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class RegionMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 1
   var name: String = "保護メニュー"

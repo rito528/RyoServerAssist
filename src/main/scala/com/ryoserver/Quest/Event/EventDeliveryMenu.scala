@@ -2,7 +2,7 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, MenuSessions}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuSessions}
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.{ChatColor, Material}
 
-class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu with Listener {
+class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuOld with Listener {
 
   override val slot: Int = 6
   override var name: String = "イベント・納品"

@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
@@ -9,7 +9,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 6
   override var name: String = "破壊系スキル選択"

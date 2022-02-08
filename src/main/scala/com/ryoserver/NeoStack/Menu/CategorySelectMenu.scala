@@ -1,6 +1,6 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
@@ -10,7 +10,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 5
   override var name: String = "neoStackカテゴリ選択"

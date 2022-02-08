@@ -1,13 +1,13 @@
 package com.ryoserver.Quest
 
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 1
   override var name: String = "報酬選択画面"

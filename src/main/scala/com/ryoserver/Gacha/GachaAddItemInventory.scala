@@ -1,14 +1,14 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 
-class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends Menu {
+class GachaAddItemInventory(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 6
   override var name: String = "ガチャアイテム追加メニュー"

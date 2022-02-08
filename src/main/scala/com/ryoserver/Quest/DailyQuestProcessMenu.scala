@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
@@ -12,7 +12,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 6
   var p: Player = _

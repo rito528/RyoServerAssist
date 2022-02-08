@@ -10,7 +10,7 @@ import org.bukkit.{Bukkit, Material, OfflinePlayer}
 import scala.jdk.CollectionConverters._
 
 @deprecated
-trait Menu {
+trait MenuOld {
 
   /*
     各Menuで定義必須
@@ -34,9 +34,9 @@ trait Menu {
     openする前に必ず呼び出す必要がある
   */
   def build(openedInvInstance: Player => Unit): Unit = {
-    MenuData.partButton += (name -> partButton)
-    MenuData.Buttons += (name -> buttons)
-    MenuData.openedInv += (p.getUniqueId -> openedInvInstance)
+    MenuDataOld.partButton += (name -> partButton)
+    MenuDataOld.Buttons += (name -> buttons)
+    MenuDataOld.openedInv += (p.getUniqueId -> openedInvInstance)
   }
 
   /*
@@ -78,17 +78,17 @@ trait Menu {
     }
   }
 
-  private def setMotion(button: Button, x: Int, y: Int): Unit = {
-    if (button.reload && MenuData.reloadButtons.contains(name)) {
-      MenuData.reloadButtons = Map(name -> (MenuData.reloadButtons(name) + getLayOut(x, y)))
+  private def setMotion(button: ButtonOld, x: Int, y: Int): Unit = {
+    if (button.reload && MenuDataOld.reloadButtons.contains(name)) {
+      MenuDataOld.reloadButtons = Map(name -> (MenuDataOld.reloadButtons(name) + getLayOut(x, y)))
     } else if (button.reload) {
-      MenuData.reloadButtons = Map(name -> Set(getLayOut(x, y)))
+      MenuDataOld.reloadButtons = Map(name -> Set(getLayOut(x, y)))
     }
-    MenuData.rightClickButtons += (name -> (
-      if (MenuData.rightClickButtons.contains(name)) MenuData.rightClickButtons(name).updated(getLayOut(x, y), button.rightFunc)
+    MenuDataOld.rightClickButtons += (name -> (
+      if (MenuDataOld.rightClickButtons.contains(name)) MenuDataOld.rightClickButtons(name).updated(getLayOut(x, y), button.rightFunc)
       else Map(getLayOut(x, y) -> button.rightFunc)))
-    MenuData.leftClickButtons += (name -> (
-      if (MenuData.leftClickButtons.contains(name)) MenuData.leftClickButtons(name).updated(getLayOut(x, y), button.leftFunc)
+    MenuDataOld.leftClickButtons += (name -> (
+      if (MenuDataOld.leftClickButtons.contains(name)) MenuDataOld.leftClickButtons(name).updated(getLayOut(x, y), button.leftFunc)
       else Map(getLayOut(x, y) -> button.leftFunc)))
   }
 

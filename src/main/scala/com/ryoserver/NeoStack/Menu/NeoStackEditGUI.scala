@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuItemStack}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
@@ -14,7 +14,7 @@ import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
-class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends Menu {
+class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends MenuOld {
   override val slot: Int = 6
   override var name: String = _
   override var p: Player = _

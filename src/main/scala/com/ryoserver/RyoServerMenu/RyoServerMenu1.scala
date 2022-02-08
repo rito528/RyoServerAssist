@@ -20,7 +20,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
+class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot = 6
   var name = "りょう鯖メニュー"

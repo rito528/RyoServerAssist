@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuSkull}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuSkull}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -9,7 +9,7 @@ import org.bukkit.{Bukkit, Material}
 
 import java.util.UUID
 
-class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 6
   override var name: String = "イベントランキング"

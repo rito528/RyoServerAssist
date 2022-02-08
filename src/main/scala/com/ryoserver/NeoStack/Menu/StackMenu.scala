@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuItemStack}
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{NeoStackDataType, NeoStackGateway, PlayerData}
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 import scala.jdk.CollectionConverters._
 
-class StackMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class StackMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 6
   override var name: String = _

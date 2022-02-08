@@ -1,6 +1,6 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.Menu.MenuData._
+import com.ryoserver.Menu.MenuDataOld._
 import com.ryoserver.Menu.MenuSessions.session
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
@@ -9,7 +9,7 @@ import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 
 @deprecated
-class MenuHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
+class MenuHandlerOld(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def inventoryClick(e: InventoryClickEvent): Unit = {

@@ -1,12 +1,12 @@
 package com.ryoserver.RyoServerMenu
 
-import com.ryoserver.Menu.{Menu, MenuButton, MenuMotion}
+import com.ryoserver.Menu.{MenuOld, MenuButton, MenuMotion}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends Menu {
+class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   override val slot: Int = 6
   override var name: String = "りょう鯖メニュー2"

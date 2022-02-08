@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
@@ -11,7 +11,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 6
   var name: String = _

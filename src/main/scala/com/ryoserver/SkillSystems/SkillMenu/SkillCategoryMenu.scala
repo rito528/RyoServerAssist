@@ -1,13 +1,13 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   override val slot: Int = 3
   override var name: String = "スキルカテゴリ選択"
   override var p: Player = _

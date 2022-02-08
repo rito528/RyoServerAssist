@@ -3,7 +3,7 @@ package com.ryoserver.Menu
 import org.bukkit.entity.Player
 
 @deprecated
-trait Button {
+trait ButtonOld {
 
   var rightFunc: Player => Unit = _
   var leftFunc: Player => Unit = _

@@ -12,7 +12,7 @@ import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
-import com.ryoserver.Menu.MenuHandler
+import com.ryoserver.Menu.MenuHandlerOld
 import com.ryoserver.NeoStack.Menu.SelectStackMenu
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
@@ -119,7 +119,7 @@ class RyoServerAssist extends JavaPlugin {
       new GachaItemChangeGUI,
       new Vote,
       new SecurityEvent,
-      new MenuHandler,
+      new MenuHandlerOld,
       new EventDeliveryMenu,
       new PlayEffect,
       new EditEvent,

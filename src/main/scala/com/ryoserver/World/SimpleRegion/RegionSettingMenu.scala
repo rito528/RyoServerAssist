@@ -1,6 +1,6 @@
 package com.ryoserver.World.SimpleRegion
 
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{MenuOld, MenuButton}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.WorldGuardWrapper
 import com.sk89q.worldguard.protection.flags.{Flags, StateFlag}
@@ -10,7 +10,7 @@ import org.bukkit._
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 6
   var name: String = "保護設定メニュー"

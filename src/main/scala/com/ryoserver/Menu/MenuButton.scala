@@ -7,17 +7,17 @@ case class MenuButton(x: Int,
                       y: Int,
                       material: Material,
                       title: String,
-                      lore: List[String]) extends Button {
+                      lore: List[String]) extends ButtonOld {
 }
 @deprecated
 case class MenuItemStack(x: Int,
                          y: Int,
-                         itemStack: ItemStack) extends Button {
+                         itemStack: ItemStack) extends ButtonOld {
 }
 @deprecated
 case class MenuSkull(x: Int,
                      y: Int,
                      offlinePlayer: OfflinePlayer,
                      title: String,
-                     lore: List[String]) extends Button {
+                     lore: List[String]) extends ButtonOld {
 }
