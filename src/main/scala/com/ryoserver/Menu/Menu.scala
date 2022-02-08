@@ -9,6 +9,7 @@ import org.bukkit.{Bukkit, Material, OfflinePlayer}
 
 import scala.jdk.CollectionConverters._
 
+@deprecated
 trait Menu {
 
   /*

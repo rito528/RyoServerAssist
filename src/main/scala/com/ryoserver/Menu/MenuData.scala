@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 
 import java.util.UUID
 import scala.collection.mutable
-
+@deprecated
 object MenuData {
 
   val partButton: mutable.Map[String, Boolean] = mutable.Map.empty

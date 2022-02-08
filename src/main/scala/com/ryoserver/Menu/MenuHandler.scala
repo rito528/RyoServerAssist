@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 
+@deprecated
 class MenuHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
