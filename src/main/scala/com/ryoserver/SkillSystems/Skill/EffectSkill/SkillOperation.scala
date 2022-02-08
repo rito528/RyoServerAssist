@@ -20,7 +20,11 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
       return
     } else if (p.getSkillPoint < effectSkills.cost && !EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
-      p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を起動できませんでした。")
+      p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を有効化できませんでした。")
+      return
+    } else if (EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
+      p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を無効化しました。")
+      EffectSkillData.setDisableSkill(p, effectSkills)
       return
     }
     EffectSkillData.setEnablingSkill(p, effectSkills)
@@ -46,7 +50,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
-    p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を起動しました。")
+    p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を有効化しました。")
   }
 
   def allDisablingSkills(p: Player): Unit = {
