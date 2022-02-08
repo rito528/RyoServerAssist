@@ -55,6 +55,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
 
   def allDisablingSkills(p: Player): Unit = {
     EffectSkillData.getEnablingSkill(p).foreach(EffectSkillData.setDisableSkill(p,_))
+    p.sendMessage(s"${AQUA}エフェクトスキルをすべて無効化しました。")
   }
 
 }
