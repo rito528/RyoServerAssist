@@ -26,8 +26,12 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     EffectSkillData.setEnablingSkill(p, effectSkills)
     new BukkitRunnable {
       override def run(): Unit = {
-        if (!EffectSkillData.getEnablingSkill(p).contains(effectSkills)) this.cancel()
-        else p.addPotionEffect(new PotionEffect(effectSkills.effectType, 280, effectSkills.effectLevel))
+        new BukkitRunnable {
+          override def run(): Unit = {
+            if (!EffectSkillData.getEnablingSkill(p).contains(effectSkills)) this.cancel()
+            else p.addPotionEffect(new PotionEffect(effectSkills.effectType, 280, effectSkills.effectLevel))
+          }
+        }.runTask(ryoServerAssist)
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20)
 

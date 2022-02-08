@@ -9,7 +9,14 @@ object EffectSkillData {
 
   private val enablingSkills: mutable.Map[UUID,Set[EffectSkills]] = mutable.Map.empty
 
-  def getEnablingSkill(p:Player): Set[EffectSkills] = enablingSkills(p.getUniqueId)
+  def getEnablingSkill(p:Player): Set[EffectSkills] = {
+    val uuid = p.getUniqueId
+    if (enablingSkills.contains(uuid)) {
+      enablingSkills(uuid)
+    } else {
+      Set.empty
+    }
+  }
 
   def setEnablingSkill(p: Player,effectSkills: EffectSkills): Unit = {
     val uuid = p.getUniqueId
