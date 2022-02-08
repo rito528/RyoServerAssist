@@ -93,7 +93,7 @@ object PlayerManager {
 
     def addSpecialSkillOpenPoint(addPoint: Int): Unit = rp.addSpecialSkillOpenPoint(addPoint)
 
-    def openSkills(openedSkills: String): Unit = rp.skillOpen(openedSkills)
+    def openSkills(openedSkills: EffectSkills): Unit = rp.skillOpen(openedSkills)
 
     def openSpecialSkills(openedSpecialSkills: String): Unit = rp.specialSkillOpen(openedSpecialSkills)
 

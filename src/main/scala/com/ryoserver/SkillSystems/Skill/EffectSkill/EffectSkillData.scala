@@ -13,7 +13,7 @@ object EffectSkillData {
 
   def setEnablingSkill(p: Player,effectSkills: EffectSkills): Unit = {
     val uuid = p.getUniqueId
-    enablingSkills + (uuid -> (if (enablingSkills.contains(uuid)) enablingSkills(uuid) ++ effectSkills else Set(effectSkills)))
+    enablingSkills + (uuid -> (if (enablingSkills.contains(uuid)) enablingSkills(uuid) ++ Set(effectSkills) else Set(effectSkills)))
   }
 
   def setDisableSkill(p: Player,effectSkills: EffectSkills): Unit = {

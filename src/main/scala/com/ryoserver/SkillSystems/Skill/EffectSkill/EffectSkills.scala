@@ -118,7 +118,7 @@ object EffectSkills extends Enum[EffectSkills] {
     1
   )
 
-  case object mottoyutonaru extends EffectSkills(
+  case object mottotuyonaru extends EffectSkills(
     "モットツヨナール",
     600,
     isSpecialSkill = true,

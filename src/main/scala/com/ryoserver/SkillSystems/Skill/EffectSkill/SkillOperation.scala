@@ -41,4 +41,8 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
   }
 
+  def allDisablingSkills(p: Player): Unit = {
+    EffectSkillData.getEnablingSkill(p).foreach(EffectSkillData.setDisableSkill(p,_))
+  }
+
 }

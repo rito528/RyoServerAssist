@@ -46,8 +46,8 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
               lore = List(s"${GRAY}解放条件:${configCondition}回ガチャを引こう。")
             case "skillopen" =>
               lore = List(s"${GRAY}解放条件:以下のスキルを開放しよう。")
-              titleConfig.getIntegerList(s"titles.$title.condition").forEach(condition => {
-                lore = lore :+ s"$GRAY・${SkillData.SkillNames(condition)}"
+              titleConfig.getStringList(s"titles.$title.condition").forEach(condition => {
+                lore = lore :+ s"$GRAY・$condition"
               })
             case "loginyear" =>
               lore = List(s"${GRAY}解放条件:${configCondition}年にログインしよう。")

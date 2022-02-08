@@ -23,10 +23,18 @@ class LoadAllPlayerData() {
       val gachaTickets = rs.int("gachaTickets")
       val gachaPullNumber = rs.int("gachaPullNumber")
       val skillOpenPoint = rs.int("SkillOpenPoint")
-      val OpenedSkills = rs.string("OpenedSkills")
-        .split(";")
-        .map(openedSkillName => EffectSkills.valuesToIndex.filter(_._1.skillName == openedSkillName).head._1)
-        .toSet
+      val OpenedSkills: Set[EffectSkills] = {
+        val skills = rs.string("OpenedSkills")
+        if (skills.nonEmpty) {
+          skills
+          .split(";")
+          .map(skillName => EffectSkills.valuesToIndex.filter(_._1.skillName == skillName).head._1)
+          .toSet
+        } else {
+          Set.empty
+        }
+      }
+
       val voteNumber = rs.int("VoteNumber")
       val ContinueVoteNumber = rs.int("ContinueVoteNumber")
       val specialSkillOpenPoint = rs.int("SpecialSkillOpenPoint")
