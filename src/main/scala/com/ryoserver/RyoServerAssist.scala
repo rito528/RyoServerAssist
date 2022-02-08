@@ -12,7 +12,7 @@ import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
-import com.ryoserver.Menu.{MenuEvent, MenuHandler}
+import com.ryoserver.Menu.MenuHandler
 import com.ryoserver.NeoStack.Menu.SelectStackMenu
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
@@ -20,6 +20,7 @@ import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
 import com.ryoserver.Quest._
+import com.ryoserver.RyoServerMenu.StickEvent
 import com.ryoserver.Security.{Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
@@ -103,7 +104,7 @@ class RyoServerAssist extends JavaPlugin {
     List(
       new Gacha,
       new PlayerEvents,
-      new MenuEvent,
+      new StickEvent,
       new StorageEvent,
       new QuestSelectMenuEvent,
       new SuppressionEvent,

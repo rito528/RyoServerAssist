@@ -1,13 +1,12 @@
-package com.ryoserver.Menu
+package com.ryoserver.RyoServerMenu
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import org.bukkit.Material
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class MenuEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
+class StickEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def stickClick(e: PlayerInteractEvent): Unit = {
