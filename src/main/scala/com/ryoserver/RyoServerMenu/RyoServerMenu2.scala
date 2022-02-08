@@ -1,5 +1,6 @@
-package com.ryoserver.Menu
+package com.ryoserver.RyoServerMenu
 
+import com.ryoserver.Menu.{Menu, MenuButton, MenuMotion}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player

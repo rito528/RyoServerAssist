@@ -1,10 +1,11 @@
 package com.ryoserver.NeoStack.Menu
 
 import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuItemStack}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
 import org.bukkit.Material

@@ -1,7 +1,8 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.Translate
 import org.bukkit.ChatColor._

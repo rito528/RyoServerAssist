@@ -2,8 +2,9 @@ package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
+import com.ryoserver.Menu.{Menu, MenuButton}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
 import org.bukkit.ChatColor._
 import org.bukkit.Material

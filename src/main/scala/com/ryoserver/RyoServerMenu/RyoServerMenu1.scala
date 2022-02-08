@@ -1,9 +1,10 @@
-package com.ryoserver.Menu
+package com.ryoserver.RyoServerMenu
 
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
 import com.ryoserver.Gacha.{GachaItemChangeGUI, GetGachaTickets}
 import com.ryoserver.Home.HomeMenu
+import com.ryoserver.Menu._
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData

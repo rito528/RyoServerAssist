@@ -2,8 +2,8 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
-import com.ryoserver.Menu.RyoServerMenu1
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
