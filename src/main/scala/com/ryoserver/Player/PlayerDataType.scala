@@ -1,5 +1,7 @@
 package com.ryoserver.Player
 
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
+
 case class PlayerDataType(level: Int,
                           exp: Double,
                           lastDistributionReceived: Int,
@@ -10,7 +12,7 @@ case class PlayerDataType(level: Int,
                           gachaTickets: Int,
                           gachaPullNumber: Int,
                           SkillOpenPoint: Int,
-                          OpenedSkills: Option[String],
+                          OpenedSkills: Set[EffectSkills],
                           voteNumber: Int,
                           reVoteNumber: Int,
                           specialSkillOpenPoint: Int,

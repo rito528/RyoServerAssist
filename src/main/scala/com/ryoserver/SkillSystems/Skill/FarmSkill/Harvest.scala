@@ -17,8 +17,6 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 final class Harvest {
 
-  val notSpecialSkillWorld: List[String] = getConfig.notSpecialSkillWorlds
-
   //収穫できるアイテム
   private final val farmItem = Set(
     Material.WHEAT,
@@ -51,7 +49,7 @@ final class Harvest {
     val harvestMaterialData = block.getBlockData
     val seed = new ItemStack(seeds(harvestMaterial), 1)
     val uuid = p.getUniqueId
-    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || notSpecialSkillWorld.contains(harvestLocation))) return 0
+    if (!isOwner && (!worldGuardWrapper.isGlobal(harvestLocation) || getConfig.notSpecialSkillWorlds.contains(harvestLocation.getWorld.getName))) return 0
     coreProtectAPI.logRemoval(p.getName, harvestLocation, harvestMaterial, harvestMaterialData)
     val inventory = p.getInventory
     val hasInventorySeed = inventory.contains(seed.getType)
@@ -87,7 +85,6 @@ final class Harvest {
     val facing = p.getFacing.toString
     val minusXLoc = {
       if (facing == "SOUTH" || facing == "NORTH") brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
-      else if (facing == "WEST") brokeBlock.getLocation().add(0, 0, -(range.width / 2))
       else brokeBlock.getLocation().add(0, 0, -(range.width / 2))
     }
     val location: (Int,Int) => Location = (x: Int,z: Int) => {
@@ -103,5 +100,5 @@ final class Harvest {
     } yield cost
     new SkillPointConsumption().consumption(cost.sum, p)
   }
-  
+
 }

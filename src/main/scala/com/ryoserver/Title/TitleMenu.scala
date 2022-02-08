@@ -4,7 +4,6 @@ import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuButton, RyoServerMenu1}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillData
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
@@ -47,8 +46,8 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
               lore = List(s"${GRAY}解放条件:${configCondition}回ガチャを引こう。")
             case "skillopen" =>
               lore = List(s"${GRAY}解放条件:以下のスキルを開放しよう。")
-              titleConfig.getIntegerList(s"titles.$title.condition").forEach(condition => {
-                lore = lore :+ s"$GRAY・${SkillData.SkillNames(condition)}"
+              titleConfig.getStringList(s"titles.$title.condition").forEach(condition => {
+                lore = lore :+ s"$GRAY・$condition"
               })
             case "loginyear" =>
               lore = List(s"${GRAY}解放条件:${configCondition}年にログインしよう。")

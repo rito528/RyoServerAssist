@@ -26,7 +26,7 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 
   private def openSkillMenu(p: Player): Unit = {
-    new SelectSkillMenu(ryoServerAssist).openMenu(p)
+    new EffectSkillMenu(ryoServerAssist).openMenu(p)
   }
 
   private def openBreakSkillMenu(p: Player): Unit = {
