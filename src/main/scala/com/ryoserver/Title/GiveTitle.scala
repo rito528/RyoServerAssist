@@ -71,26 +71,13 @@ class GiveTitle {
   }
 
   def skillOpenNumber(p: Player): Unit = {
-//    val skillOpenData = p.getOpenedSkills
-//    skillOpenData match {
-//      case Some(skills) =>
-//        TitleData.skillOpen.foreach(title => {
-//          val conditions: mutable.Map[Integer, Boolean] = mutable.Map.empty[Integer, Boolean]
-//          titleConfig.getIntegerList(s"titles.$title.condition").asScala.foreach(titleCondition => conditions += (titleCondition -> false))
-//          skills.split(",").foreach(openedSkill => {
-//            if (conditions.contains(openedSkill.toInt)) conditions.update(openedSkill.toInt, true)
-//          })
-//          var allCheck = true
-//          conditions.foreach({ case (_, check) =>
-//            if (!check) allCheck = false
-//          })
-//          if (allCheck && data.openTitle(p, title)) {
-//            p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
-//            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-//          }
-//        })
-//      case None =>
-//    }
+    TitleData.skillOpen.foreach(title => {
+      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getOpenedSkills.map(_.skillName))
+      if (diff.isEmpty && data.openTitle(p, title)) {
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
+        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      }
+    })
   }
 
   def loginYear(p: Player): Unit = {

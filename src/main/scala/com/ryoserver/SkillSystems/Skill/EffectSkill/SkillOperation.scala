@@ -3,6 +3,7 @@ package com.ryoserver.SkillSystems.Skill.EffectSkill
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
+import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.potion.PotionEffect
@@ -17,6 +18,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     } else if (p.getSkillOpenPoint >= 10 && !p.getOpenedSkills.contains(effectSkills)) {
       p.openSkills(effectSkills)
       p.addSkillOpenPoint(-10)
+      new GiveTitle().skillOpenNumber(p)
       p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
       return
     } else if (p.getSkillPoint < effectSkills.cost && !EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
