@@ -1,7 +1,7 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuDataOld._
-import com.ryoserver.Menu.MenuSessions.session
+import com.ryoserver.Menu.session.MenuSessions.session
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent

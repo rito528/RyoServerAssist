@@ -1,7 +1,7 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.MenuSessions.session
+import com.ryoserver.Menu.session.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory

@@ -1,4 +1,4 @@
-package com.ryoserver.Menu
+package com.ryoserver.Menu.session
 
 object MenuSessions {
 

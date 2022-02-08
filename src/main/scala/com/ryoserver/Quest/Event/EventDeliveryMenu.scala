@@ -2,7 +2,8 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{MenuOld, MenuButton, MenuSessions}
+import com.ryoserver.Menu.session.MenuSessions
+import com.ryoserver.Menu.{MenuButton, MenuOld}
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
