@@ -23,6 +23,7 @@ class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
            SkillPoint=${data.skillPoint},
            SpecialSkillOpenPoint=${data.specialSkillOpenPoint},
            OpenedSpecialSkills=${data.OpenedSpecialSkills},
+           SkillOpenPoint=${data.SkillOpenPoint},
            OpenedSkills=${data.OpenedSkills.map(_.skillName).mkString(";")},
            VoteNumber=${data.voteNumber},
            gachaPullNumber=${data.gachaPullNumber},
