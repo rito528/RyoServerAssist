@@ -44,9 +44,13 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
         if (p.getSkillPoint < effectSkills.cost) {
           EffectSkillData.setDisableSkill(p,effectSkills)
           this.cancel()
-          p.sendMessage(s"${RED}スキルポイントが不足したため、スキルを無効化しました。")
+          p.sendMessage(s"${RED}スキルポイントが不足したため、エフェクトスキル:${effectSkills.skillName}を無効化しました。")
         } else {
-          new SkillPointConsumption().consumption(effectSkills.cost, p)
+          if (EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
+            new SkillPointConsumption().consumption(effectSkills.cost, p)
+          } else {
+            this.cancel()
+          }
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
