@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.EffectSkill
 
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import org.bukkit.ChatColor._
@@ -15,12 +15,15 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}を開放していないため、有効にできません！")
       return
     } else if (p.getSkillOpenPoint >= 10 && !p.getOpenedSkills.contains(effectSkills)) {
+      p.openSkills(effectSkills)
+      p.addSkillOpenPoint(-10)
       p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
       return
     } else if (p.getSkillPoint < effectSkills.cost && !EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
       p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を起動できませんでした。")
       return
     }
+    EffectSkillData.setEnablingSkill(p, effectSkills)
     new BukkitRunnable {
       override def run(): Unit = {
         if (!EffectSkillData.getEnablingSkill(p).contains(effectSkills)) this.cancel()
@@ -39,6 +42,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
+    p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を起動しました。")
   }
 
   def allDisablingSkills(p: Player): Unit = {
