@@ -31,5 +31,5 @@ case class ItemStackBuilder(material: Material,
 }
 
 object ItemStackBuilder {
-  def getDefault: ItemStackBuilder = ItemStackBuilder(null,null,Nil,effect = false)
+  def getDefault(material: Material): ItemStackBuilder = ItemStackBuilder(material,null,Nil,effect = false)
 }

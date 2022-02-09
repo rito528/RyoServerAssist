@@ -2,7 +2,6 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.session.MenuSessions
 import com.ryoserver.Menu.{MenuButton, MenuOld}
 import com.ryoserver.Quest.Event.EventDataProvider.{eventCounter, eventRanking}
 import com.ryoserver.RyoServerAssist
@@ -40,10 +39,10 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuO
   @EventHandler
   def onClose(e: InventoryCloseEvent): Unit = {
     val inv = e.getView.getTopInventory
-    if (inv.getHolder != MenuSessions.session || e.getView.getTitle != name) return
-    inv.getContents.toList.zipWithIndex.foreach { case (is, index) =>
-      if (index != getLayOut(1, 6) && index != getLayOut(2, 6) && is != null) e.getPlayer.getLocation.getWorld.dropItem(e.getPlayer.getLocation, is)
-    }
+//    if (inv.getHolder != MenuSessions.session || e.getView.getTitle != name) return
+//    inv.getContents.toList.zipWithIndex.foreach { case (is, index) =>
+//      if (index != getLayOut(1, 6) && index != getLayOut(2, 6) && is != null) e.getPlayer.getLocation.getWorld.dropItem(e.getPlayer.getLocation, is)
+//    }
   }
 
   private def backPage(p: Player): Unit = {

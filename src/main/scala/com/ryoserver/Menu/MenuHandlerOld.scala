@@ -1,7 +1,6 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuDataOld._
-import com.ryoserver.Menu.session.MenuSessions.session
 import com.ryoserver.RyoServerAssist
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -20,9 +19,9 @@ class MenuHandlerOld(implicit ryoServerAssist: RyoServerAssist) extends Listener
 
     //プラグインで作成されたMenu以外を排除
     val clickedInventory = e.getClickedInventory
-    if (e.getWhoClicked.getOpenInventory.getTopInventory.getHolder != session) {
-      return
-    }
+////    if (e.getWhoClicked.getOpenInventory.getTopInventory.getHolder != session) {
+////      return
+//    }
     //右クリック、左クリック以外を排除
     if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
       e.setCancelled(true)

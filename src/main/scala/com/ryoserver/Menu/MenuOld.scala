@@ -1,7 +1,6 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.session.MenuSessions.session
 import com.ryoserver.util.Item.{getEnchantEffectItem, getItem, getPlayerSkull}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
@@ -55,7 +54,7 @@ trait MenuOld {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
       case None =>
-        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
+//        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
         inv.get.setItem(index, if (effect) getEnchantEffectItem(item, title, lore.asJava) else getItem(item, title, lore.asJava))
       case Some(inv) =>
         inv.setItem(index, if (effect) getEnchantEffectItem(item, title, lore.asJava) else getItem(item, title, lore.asJava))
@@ -71,7 +70,7 @@ trait MenuOld {
     val index = MenuLayout.getLayOut(x, y)
     inv match {
       case None =>
-        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
+//        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
         inv.get.setItem(index, getPlayerSkull(p, title, lore))
       case Some(inv) =>
         inv.setItem(index, getPlayerSkull(p, title, lore))
@@ -96,7 +95,7 @@ trait MenuOld {
     val index = MenuLayout.getLayOut(button.x, button.y)
     inv match {
       case None =>
-        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
+//        inv = Option(Bukkit.createInventory(session, MenuLayout.getSlot(slot), name))
         inv.get.setItem(index, button.itemStack)
       case Some(inv) =>
         inv.setItem(index, button.itemStack)
