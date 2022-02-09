@@ -19,7 +19,6 @@ object TestMenu extends Menu {
     ItemStackBuilder.getDefault(Material.GRASS_BLOCK).title("テスト").lore(List("テストロール")).build(),
     ButtonMotion { e =>
       println(s"test click slot:${e.getSlot}")
-      e.setCancelled(true)
     }
   )
 }

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 trait Menu {
 
-  val frame: MenuFrame
+  val frame: MenuFrame //Menuの構成を定義する
 
   def settingMenuLayout(player: Player): Map[Int,Button]
 
