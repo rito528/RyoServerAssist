@@ -43,7 +43,7 @@ class BeforeEventsMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   private def backPage(p: Player): Unit = {
     val page = p.getOpenInventory.getTitle.replace("過去のイベント:", "").toInt
     if (page == 1) {
-      new RyoServerMenu1(ryoServerAssist).menu(p)
+      new RyoServerMenu1(ryoServerAssist).open(p)
     } else {
       new BeforeEventsMenu(ryoServerAssist).openMenu(p, page - 1)
     }

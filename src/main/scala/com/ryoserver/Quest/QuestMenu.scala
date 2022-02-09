@@ -7,7 +7,7 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
-class QuestMenu(ryoServerAssist: RyoServerAssist) {
+class QuestMenu(implicit ryoServerAssist: RyoServerAssist) {
 
   def selectInventory(player: Player): Unit = {
     val questGateway = new QuestGateway()

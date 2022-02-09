@@ -52,7 +52,7 @@ class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends List
   }
 
   private def backMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).menu(p)
+    new RyoServerMenu1(ryoServerAssist).open(p)
   }
 
   private def changeItem(p: Player): Unit = {

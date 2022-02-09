@@ -86,7 +86,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).menu(p)
+    new RyoServerMenu1(ryoServerAssist).open(p)
   }
 
   private def beforeEvent(p: Player): Unit = {

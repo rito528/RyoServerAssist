@@ -21,7 +21,7 @@ case class ItemStackBuilder(material: Material,
     val itemStack = new ItemStack(material,1)
     val meta = itemStack.getItemMeta
     meta.setDisplayName(title)
-    meta.setLore(lore.asJava)
+    if (lore != Nil) meta.setLore(lore.asJava)
     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
     itemStack.setItemMeta(meta)
     if (effect) itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)

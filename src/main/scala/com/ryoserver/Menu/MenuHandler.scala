@@ -24,6 +24,7 @@ class MenuHandler extends Listener {
     if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
       return
     }
+    e.setCancelled(true)
     holder.runMotion(e.getSlot,e)
   }
 

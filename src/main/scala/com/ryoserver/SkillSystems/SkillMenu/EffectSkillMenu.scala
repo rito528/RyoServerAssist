@@ -15,6 +15,8 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   var name: String = "通常スキル選択"
   var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openMenu(player: Player): Unit = {
     p = player
     val lore = getLore(p)(_)
@@ -119,7 +121,7 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
+    new SkillCategoryMenu().openSkillCategoryMenu(p)
   }
 
 }

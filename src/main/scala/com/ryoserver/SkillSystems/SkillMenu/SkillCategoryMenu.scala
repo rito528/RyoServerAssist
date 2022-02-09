@@ -7,7 +7,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
+class SkillCategoryMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuOld {
   override val slot: Int = 3
   override var name: String = "スキルカテゴリ選択"
   override var p: Player = _
@@ -22,7 +22,7 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
       .setLeftClickMotion(openFarmSkillMenu))
     setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
       .setLeftClickMotion(openMenu))
-    build(new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu)
+    build(new SkillCategoryMenu().openSkillCategoryMenu)
     open()
   }
 
@@ -39,7 +39,7 @@ class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def openMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).menu(p)
+    new RyoServerMenu1(ryoServerAssist).open(p)
   }
 
 }

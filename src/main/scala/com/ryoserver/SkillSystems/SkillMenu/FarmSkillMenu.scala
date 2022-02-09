@@ -15,6 +15,8 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   override var name: String = "農業系スキル選択"
   override var p: Player = _
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def openFarmSkillMenu(player: Player): Unit = {
     p = player
     setButton(MenuButton(2, 1, getIcon("ウインググロー", Material.WOODEN_HOE), s"${GREEN}ウインググロー",
@@ -87,7 +89,7 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new SkillCategoryMenu(ryoServerAssist).openSkillCategoryMenu(p)
+    new SkillCategoryMenu().openSkillCategoryMenu(p)
   }
 
   private def getGrowSkillLore(skillName: String, range: String, skillPoint: Int): List[String] = {

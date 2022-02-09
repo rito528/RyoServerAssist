@@ -63,7 +63,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).menu(p)
+    new RyoServerMenu1(ryoServerAssist).open(p)
   }
 
   private def toggleStack(p: Player): Unit = {

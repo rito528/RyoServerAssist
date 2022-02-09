@@ -14,6 +14,8 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def delivery(p: Player): Unit = {
     val questGateway = new QuestGateway()
     val inventory = p.getOpenInventory.getTopInventory
@@ -60,13 +62,13 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       questGateway.questClear(p)
-      new QuestMenu(ryoServerAssist).selectInventory(p)
+      new QuestMenu().selectInventory(p)
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
       questGateway.setQuestProgress(p, progress)
       p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectInventory(p)
+      new QuestMenu().selectInventory(p)
     }
   }
 
@@ -83,7 +85,7 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     val questData = new QuestGateway()
     questData.resetQuest(p)
     buttonItemRemove(p, p.getOpenInventory.getTopInventory)
-    new QuestMenu(ryoServerAssist).selectInventory(p)
+    new QuestMenu().selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
   }
 

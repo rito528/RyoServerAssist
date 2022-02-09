@@ -79,7 +79,7 @@ class TitleMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).menu(p)
+    new RyoServerMenu1(ryoServerAssist).open(p)
   }
 
   private def nextPage(p: Player): Unit = {

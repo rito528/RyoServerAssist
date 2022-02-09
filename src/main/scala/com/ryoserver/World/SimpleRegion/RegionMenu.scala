@@ -15,7 +15,7 @@ import org.bukkit.{Material, Sound}
 
 import java.util.UUID
 
-class RegionMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
+class RegionMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   val slot: Int = 1
   var name: String = "保護メニュー"
@@ -39,7 +39,7 @@ class RegionMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
       s"${GRAY}自分が管理者の保護範囲内にいる必要があります。"
     ))
       .setLeftClickMotion(new RegionSettingMenu(ryoServerAssist).openMenu _))
-    build(new RegionMenu(ryoServerAssist).menu)
+    build(new RegionMenu().menu)
     open()
   }
 

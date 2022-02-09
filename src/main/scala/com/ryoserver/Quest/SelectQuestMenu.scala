@@ -83,7 +83,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
 
   private def backPage(p: Player): Unit = {
     val page = p.getOpenInventory.getTitle.replace("クエスト選択:", "").toInt
-    if (page == 1) new RyoServerMenu1(ryoServerAssist).menu(p)
+    if (page == 1) new RyoServerMenu1(ryoServerAssist).open(p)
     else new SelectQuestMenu(ryoServerAssist).inventory(p, page - 1, QuestSortedData.getPlayerQuestSortData(p))
   }
 
