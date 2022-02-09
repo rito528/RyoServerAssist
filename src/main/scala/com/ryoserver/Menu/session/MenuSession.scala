@@ -1,6 +1,6 @@
 package com.ryoserver.Menu.session
 
-import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.Button.Button
 import com.ryoserver.Menu.MenuFrame
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -26,8 +26,4 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
   }
 
   override def getInventory: Inventory = sessionInventory
-}
-
-object MenuSession {
-
 }
