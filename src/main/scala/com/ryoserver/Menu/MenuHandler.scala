@@ -9,14 +9,6 @@ class MenuHandler extends Listener {
 
   @EventHandler
   def inventoryClickEvent(e: InventoryClickEvent): Unit = {
-    val p = e.getWhoClicked match {
-      case player: Player => player
-      case _ => return
-    }
-
-    //プラグインで作成されたMenu以外を排除
-    val clickedInventory = e.getClickedInventory
-
     val holder = e.getWhoClicked.getOpenInventory.getTopInventory.getHolder match {
       case session: MenuSession => session
       case _ =>

@@ -1,5 +1,5 @@
 package com.ryoserver.Menu
-import com.ryoserver.Menu.Button.{Button, LeftClickMotion}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.Contexts.MenuFrame
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.util.ItemStackBuilder
@@ -15,11 +15,11 @@ object TestMenu extends Menu {
     )
   }
 
+
   val testButton: Button = Button(
     ItemStackBuilder.getDefault(Material.GRASS_BLOCK).title("テスト").lore(List("テストロール")).build(),
-    LeftClickMotion { e =>
-      println(s"player:${e.getWhoClicked.getName}")
-      println("テストボタンがクリックされました")
+    ButtonMotion { e =>
+      println(s"test click slot:${e.getSlot}")
     }
   )
 }

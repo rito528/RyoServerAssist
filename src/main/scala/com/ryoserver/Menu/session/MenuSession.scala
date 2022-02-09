@@ -22,8 +22,7 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
   }
 
   def runMotion(index: Int,clickEvent: InventoryClickEvent): Unit = {
-    val motions = currentLayout(index).motions
-    motions.foreach(clickEvent => ButtonMotion)
+    currentLayout(index).runMotion(clickEvent)
   }
 
   override def getInventory: Inventory = sessionInventory

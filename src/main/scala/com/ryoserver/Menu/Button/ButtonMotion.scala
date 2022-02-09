@@ -3,29 +3,19 @@ package com.ryoserver.Menu.Button
 import org.bukkit.event.inventory.InventoryClickEvent
 
 trait ButtonMotion {
-  def motion(e: InventoryClickEvent): ButtonMotion = {
+
+  val clickMotion: InventoryClickEvent => Unit
+
+  def run(inventoryClickEvent: InventoryClickEvent,e: InventoryClickEvent => Unit): ButtonMotion = {
+    e.apply(inventoryClickEvent)
     this
   }
 }
 
 object ButtonMotion {
-  def apply(e: InventoryClickEvent): ButtonMotion = {
-    new ButtonMotion {}
+  def apply(clickEvent: InventoryClickEvent => Unit): ButtonMotion = {
+    new ButtonMotion {
+      override val clickMotion: InventoryClickEvent => Unit = clickEvent
+    }
   }
-}
-
-trait LeftClickMotion {
-  def apply(e: InventoryClickEvent): ButtonMotion
-}
-
-object LeftClickMotion {
-  def apply(event:InventoryClickEvent => Unit): InventoryClickEvent => ButtonMotion = (event: InventoryClickEvent) => ButtonMotion.apply(event)
-}
-
-trait RightClickMotion {
-  def apply(e: InventoryClickEvent): ButtonMotion
-}
-
-object RightClickMotion {
-  def apply(event:InventoryClickEvent => Unit): InventoryClickEvent => ButtonMotion = (event: InventoryClickEvent) => ButtonMotion.apply(event)
 }
