@@ -1,6 +1,5 @@
 package com.ryoserver.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
-import com.ryoserver.Menu.Contexts.MenuFrame
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.Material
@@ -20,6 +19,7 @@ object TestMenu extends Menu {
     ItemStackBuilder.getDefault(Material.GRASS_BLOCK).title("テスト").lore(List("テストロール")).build(),
     ButtonMotion { e =>
       println(s"test click slot:${e.getSlot}")
+      e.setCancelled(true)
     }
   )
 }

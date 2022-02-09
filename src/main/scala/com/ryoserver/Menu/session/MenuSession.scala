@@ -1,7 +1,7 @@
 package com.ryoserver.Menu.session
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
-import com.ryoserver.Menu.Contexts.MenuFrame
+import com.ryoserver.Menu.MenuFrame
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.{Inventory, InventoryHolder}
@@ -22,7 +22,7 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
   }
 
   def runMotion(index: Int,clickEvent: InventoryClickEvent): Unit = {
-    currentLayout(index).runMotion(clickEvent)
+    if (currentLayout.contains(index)) currentLayout(index).runMotion(clickEvent)
   }
 
   override def getInventory: Inventory = sessionInventory

@@ -1,10 +1,8 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.Button.Button
-import com.ryoserver.Menu.Contexts.MenuFrame
 import com.ryoserver.Menu.session.MenuSession
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
 
 trait Menu {
 

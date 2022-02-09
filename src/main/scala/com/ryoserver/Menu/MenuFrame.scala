@@ -1,4 +1,4 @@
-package com.ryoserver.Menu.Contexts
+package com.ryoserver.Menu
 
 import org.bukkit.Bukkit.createInventory
 import org.bukkit.inventory.{Inventory, InventoryHolder}
