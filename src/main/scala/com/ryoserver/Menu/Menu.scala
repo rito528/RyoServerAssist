@@ -6,7 +6,8 @@ import org.bukkit.entity.Player
 
 trait Menu {
 
-   val frame: MenuFrame //Menuの構成を定義する
+  val frame: MenuFrame //Menuの構成を定義する
+  val partButton: Boolean = false //MenuでButton以外のクリックをキャンセルしない場合はoverrideしてtrueにしてください
 
   def settingMenuLayout(player: Player): Map[Int,Button]
 
