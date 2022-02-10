@@ -35,10 +35,12 @@ class QuestMenu(implicit ryoServerAssist: RyoServerAssist) {
             new SelectDailyQuestMenu(ryoServerAssist,1).open(player)
             player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
           } else {
-            new DailyQuestProcessMenu(ryoServerAssist).inventory(player)
+            new DailyQuestProcessMenu(ryoServerAssist).open(player)
           }
         } catch {
-          case _: NoSuchElementException => player.sendMessage(s"${RED}クエストを選択中にデイリークエストのメニューを開くことはできません！")
+          case e: NoSuchElementException =>
+            e.printStackTrace()
+            player.sendMessage(s"${RED}クエストを選択中にデイリークエストのメニューを開くことはできません！")
         }
       } else {
         player.sendMessage(s"${RED}デイリークエストは一日一回のみこなすことができます!")
