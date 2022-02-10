@@ -16,7 +16,7 @@ class QuestMenu(implicit ryoServerAssist: RyoServerAssist) {
         new SelectQuestMenu(ryoServerAssist, 1, QuestSortedData.getPlayerQuestSortData(player)).open(player)
         player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
       } else {
-        new QuestProcessMenu(ryoServerAssist).inventory(player)
+        new QuestProcessMenu(ryoServerAssist).open(player)
       }
     } catch {
       case _: NoSuchElementException => player.sendMessage(s"${RED}デイリークエストを選択中にクエストのメニューを開くことはできません！")

@@ -22,6 +22,7 @@ trait Menu {
       val layout = settingMenuLayout(player)
       val session = new MenuSession(frame) {
         override val currentLayout: Map[Int, Button] = layout
+        override val isPartButton: Boolean = partButton
       }
       session.setLayout(layout)
       session.openInventory(player)
