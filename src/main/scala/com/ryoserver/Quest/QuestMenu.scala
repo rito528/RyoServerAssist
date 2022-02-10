@@ -13,7 +13,7 @@ class QuestMenu(implicit ryoServerAssist: RyoServerAssist) {
     val questGateway = new QuestGateway()
     try {
       if (questGateway.getSelectedQuest(player).isEmpty) {
-        new SelectQuestMenu(ryoServerAssist).inventory(player, 1, QuestSortedData.getPlayerQuestSortData(player))
+        new SelectQuestMenu(ryoServerAssist, 1, QuestSortedData.getPlayerQuestSortData(player)).open(player)
         player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
       } else {
         new QuestProcessMenu(ryoServerAssist).inventory(player)
