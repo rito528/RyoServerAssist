@@ -6,17 +6,25 @@ import org.bukkit.entity.Player
 
 trait Menu {
 
-  val frame: MenuFrame //Menuの構成を定義する
+   val frame: MenuFrame //Menuの構成を定義する
 
   def settingMenuLayout(player: Player): Map[Int,Button]
 
-  def open(player: Player): Unit = {
-    val layout = settingMenuLayout(player)
-    val session = new MenuSession(frame) {
-      override val currentLayout: Map[Int, Button] = layout
+  /*
+    メニューを開く前に何らかの動作を入れたい場合はopenMotionをoverrideして使ってください。
+    返り値がfalseになるとメニューが開かなくなります。
+   */
+  def openMotion(player: Player): Boolean = {true}
+
+  final def open(player: Player): Unit = {
+    if (openMotion(player)) {
+      val layout = settingMenuLayout(player)
+      val session = new MenuSession(frame) {
+        override val currentLayout: Map[Int, Button] = layout
+      }
+      session.setLayout(layout)
+      session.openInventory(player)
     }
-    session.setLayout(layout)
-    session.openInventory(player)
   }
 
 }

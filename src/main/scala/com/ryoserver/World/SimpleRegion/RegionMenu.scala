@@ -67,7 +67,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist) {
       ))
       .build(),
     ButtonMotion{_ =>
-      new RegionSettingMenu(ryoServerAssist).openMenu(p)
+      new RegionSettingMenu(ryoServerAssist).open(p)
     }
   )
 }
