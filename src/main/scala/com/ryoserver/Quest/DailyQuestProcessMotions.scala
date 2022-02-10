@@ -43,7 +43,7 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
+      new DailyQuestRewardMenu(ryoServerAssist).open(p)
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
