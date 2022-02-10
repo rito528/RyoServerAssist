@@ -1,45 +1,74 @@
 package com.ryoserver.SkillSystems.SkillMenu
 
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
+import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SkillCategoryMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuOld {
-  override val slot: Int = 3
-  override var name: String = "スキルカテゴリ選択"
-  override var p: Player = _
+class SkillCategoryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  def openSkillCategoryMenu(player: Player): Unit = {
-    p = player
-    setButton(MenuButton(3, 2, Material.POTION, s"${GREEN}通常スキル", List(s"${GRAY}クリックで開きます。"))
-      .setLeftClickMotion(openSkillMenu))
-    setButton(MenuButton(5, 2, Material.GOLDEN_PICKAXE, s"$GREEN[特殊] 破壊系スキル", List(s"${GRAY}クリックで開きます。"))
-      .setLeftClickMotion(openBreakSkillMenu))
-    setButton(MenuButton(7, 2, Material.GOLDEN_HOE, s"$GREEN[特殊] 農業系スキル", List(s"${GRAY}クリックで開きます。"))
-      .setLeftClickMotion(openFarmSkillMenu))
-    setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(openMenu))
-    build(new SkillCategoryMenu().openSkillCategoryMenu)
-    open()
+  override val frame: MenuFrame = MenuFrame(3,"スキルカテゴリ選択")
+
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeSelectSkillCategoryMenu(player,ryoServerAssist)
+    import compute._
+    Map(
+      getLayOut(3,2) -> openEffectSkillMenu,
+      getLayOut(5,2) -> openBreakSkillMenu,
+      getLayOut(7,2) -> openFarmSkillMenu,
+      getLayOut(1,3) -> backMenu
+    )
   }
 
-  private def openSkillMenu(p: Player): Unit = {
-    new EffectSkillMenu(ryoServerAssist).openMenu(p)
-  }
+}
 
-  private def openBreakSkillMenu(p: Player): Unit = {
-    new BreakSkillMenu(ryoServerAssist).openBreakSkillMenu(p)
-  }
+private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist: RyoServerAssist) {
+  val openEffectSkillMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.POTION)
+      .title(s"${GREEN}エフェクトスキル")
+      .lore(List(s"${GRAY}クリックで開きます。"))
+      .build(),
+    ButtonMotion{_ =>
+      new EffectSkillMenu(ryoServerAssist).openMenu(player)
+    }
+  )
 
-  private def openFarmSkillMenu(p: Player): Unit = {
-    new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(p)
-  }
+  val openBreakSkillMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.GOLDEN_PICKAXE)
+      .title(s"$GREEN[特殊] 破壊系スキル")
+      .lore(List(s"${GRAY}クリックで開きます。"))
+      .build(),
+    ButtonMotion{_ =>
+      new BreakSkillMenu(ryoServerAssist).openBreakSkillMenu(player)
+    }
+  )
 
-  private def openMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).open(p)
-  }
+  val openFarmSkillMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.GOLDEN_HOE)
+      .title(s"$GREEN[特殊] 農業系スキル")
+      .lore(List(s"${GRAY}クリックで開きます。"))
+      .build(),
+    ButtonMotion{_ =>
+      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(player)
+    }
+  )
 
+  val backMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}メニューに戻ります。")
+      .lore(List(s"${GRAY}クリックで戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      new RyoServerMenu1(ryoServerAssist).open(player)
+    }
+  )
 }

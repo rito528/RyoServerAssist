@@ -61,7 +61,7 @@ class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new SkillCategoryMenu().openSkillCategoryMenu(p)
+    new SkillCategoryMenu().open(p)
   }
 
   private def clear(p: Player): Unit = {

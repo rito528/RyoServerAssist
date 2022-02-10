@@ -89,7 +89,7 @@ class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new SkillCategoryMenu().openSkillCategoryMenu(p)
+    new SkillCategoryMenu().open(p)
   }
 
   private def getGrowSkillLore(skillName: String, range: String, skillPoint: Int): List[String] = {

@@ -121,7 +121,7 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backPage(p: Player): Unit = {
-    new SkillCategoryMenu().openSkillCategoryMenu(p)
+    new SkillCategoryMenu().open(p)
   }
 
 }
