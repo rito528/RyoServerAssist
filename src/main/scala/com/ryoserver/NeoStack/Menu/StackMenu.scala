@@ -13,6 +13,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
+import scala.jdk.CollectionConverters._
+
 class StackMenu(page:Int,category:String,ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6,s"neoStack:$page")
@@ -85,14 +87,15 @@ private case class computeStackMenuButton(player: Player,page: Int,category: Str
     val playerData = PlayerData.playerData
       .filter(_.uuid == player.getUniqueId)
       .filter(_.savingItemStack == is)
+    val setItem = is.clone()
+    val meta = setItem.getItemMeta
+    meta.setLore(List(
+      s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
+      s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
+    ).asJava)
+    setItem.setItemMeta(meta)
     Button(
-      ItemStackBuilder
-        .getDefault(is.getType)
-        .lore(List(
-          s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
-          s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
-        ))
-        .build(),
+      setItem,
       ButtonMotion{e =>
         val neoStackGateway = new NeoStackGateway()
         e.getClick match {
