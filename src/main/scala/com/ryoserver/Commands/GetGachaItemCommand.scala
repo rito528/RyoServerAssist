@@ -13,7 +13,7 @@ object GetGachaItemCommand {
       val sender = rawCommandContext.sender
       val args = rawCommandContext.args
       if (args.length != 1) return
-      new GachaItemGetInventory().openGachaItemGetMenu(sender.asInstanceOf[Player], args.head.toInt)
+      new GachaItemGetInventory(args.head.toInt).open(sender.asInstanceOf[Player])
     }
 
     override val args: List[String] = List("0", "1", "2", "3")
