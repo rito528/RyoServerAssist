@@ -114,7 +114,6 @@ class RyoServerAssist extends JavaPlugin {
       new TotemEffect,
       new RepairEvent,
       new PickEvent,
-      new GachaItemChangeGUI,
       new Vote,
       new SecurityEvent,
       new MenuHandler,

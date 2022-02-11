@@ -1,65 +1,67 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
+import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.{EventHandler, Listener}
 
-class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Listener with MenuOld {
+class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val slot: Int = 6
-  val RETE: Int = getConfig.gachaChangeRate
-  override var name: String = "ガチャ特等取引"
-  override var p: Player = _
+  override val frame: MenuFrame = MenuFrame(6,"ガチャ特等取引")
+  override val partButton: Boolean = true
 
-  def openChangeGUI(player: Player): Unit = {
-    p = player
-    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}menuに戻る", List(s"${GRAY}クリックでmenuに戻ります。"))
-      .setLeftClickMotion(backMenu))
-    setButton(MenuButton(5, 6, Material.NETHER_STAR, s"$RESET${GREEN}クリックでインベントリ内の特等アイテムを交換します。", List(
-      s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${RETE}個"
-    ))
-      .setLeftClickMotion(changeItem)
-      .setReload())
-    partButton = true
-    buttons :+= getLayOut(1, 6)
-    buttons :+= getLayOut(5, 6)
-    build(new GachaItemChangeGUI().openChangeGUI)
-    open()
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeGachaItemChangeMenuButton(player,ryoServerAssist)
+    import compute._
+    Map(
+      getLayOut(1,6) -> backPage,
+      getLayOut(5,6) -> change
+    )
   }
 
-  @EventHandler
-  def onClose(e: InventoryCloseEvent): Unit = {
-    if (e.getView.getTitle != name) return
-    var index = 0
-    val p = e.getPlayer
-    var check = false
-    e.getInventory.getContents.foreach(item => {
-      if (item != null && index != 49 && index != 45) {
-        p.getWorld.dropItem(p.getLocation, item)
-        check = true
-      }
-      index += 1
-    })
-    if (check) p.sendMessage(s"${RED}不要なアイテムを返却しました。")
-  }
+}
 
-  private def backMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).open(p)
-  }
+private case class computeGachaItemChangeMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+  private lazy val rate: Int = getConfig.gachaChangeRate
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
+  val backPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}メニューに戻る")
+      .lore(List(s"${GRAY}クリックでメニューに戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      new RyoServerMenu1(ryoServerAssist).open(player)
+    }
+  )
+
+  val change: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.NETHER_STAR)
+      .title(s"$RESET${GREEN}クリックでインベントリ内の特等アイテムを交換します。")
+      .lore(List(
+        s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${rate}個"
+      ))
+      .build(),
+    ButtonMotion{_ =>
+      changeItem(player)
+    }
+  )
 
   private def changeItem(p: Player): Unit = {
     var changeAmount = 0
-    inv.get.getContents.foreach(itemStack => {
+    val inv = p.getOpenInventory.getTopInventory
+    inv.getContents.foreach(itemStack => {
       if (itemStack != null && GachaLoader.specialItemList.contains(itemStack)) {
-        changeAmount += RETE
+        changeAmount += rate
       }
     })
     if (changeAmount != 0) {
@@ -67,10 +69,10 @@ class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends List
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
       p.sendMessage(s"${AQUA}特等アイテムを${changeAmount}個のスキル回復(大)と交換しました。")
-      inv.get.getContents.zipWithIndex.foreach { case (is, index) =>
-        if (GachaLoader.specialItemList.contains(is)) inv.get.clear(index)
+      inv.getContents.zipWithIndex.foreach { case (is, index) =>
+        if (GachaLoader.specialItemList.contains(is)) inv.clear(index)
       }
-      new GachaItemChangeGUI().openChangeGUI(p)
+      new GachaItemChangeGUI().open(p)
     } else {
       p.sendMessage(s"${RED}特等アイテムが見つかりませんでした。")
     }
