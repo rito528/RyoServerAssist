@@ -46,7 +46,7 @@ private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion{_ =>
-      new BreakSkillMenu(ryoServerAssist).openBreakSkillMenu(player)
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
