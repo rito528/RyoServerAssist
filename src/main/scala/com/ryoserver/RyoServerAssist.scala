@@ -124,8 +124,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayEffect,
       new EditEvent,
       new UseExpBottle,
-      new AdminStorageEvent,
-      new SelectStackMenu,
+      new AdminStorageEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*

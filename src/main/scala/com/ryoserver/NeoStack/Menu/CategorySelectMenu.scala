@@ -163,7 +163,7 @@ private case class computeCategorySelectMenu(player: Player,ryoServerAssist: Ryo
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion{_ =>
-      new SelectStackMenu().openSelectStackMenu(player)
+      new SelectStackMenu().open(player)
     }
   )
 
