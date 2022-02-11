@@ -18,17 +18,18 @@ class LoadNeoStackPage(implicit ryoServerAssist: RyoServerAssist) {
     stackPageData = mutable.Map.empty
     if (stackListTable.getHeadData.nonEmpty) {
       case class StackData(category: String, invItems: String, page: Int)
-      val stackData = stackListTable.map(rs => {
+      stackListTable.map(rs => {
         StackData(rs.string("category"), rs.string("invItem"), rs.int("page"))
-      }).headOption.first.apply().get
-      if (!stackPageData.contains(stackData.category)) {
-        stackPageData += (stackData.category -> mutable.Map(stackData.page -> stackData.invItems))
-      } else {
-        stackPageData(stackData.category) += (stackData.page -> stackData.invItems)
-      }
-      stackData.invItems.split(";").foreach(itemStackString => {
-        val itemStack = Item.getItemStackFromString(itemStackString)
-        if (itemStack != null) itemList += itemStack
+      }).toIterable().apply().foreach(stackData => {
+        if (!stackPageData.contains(stackData.category)) {
+          stackPageData += (stackData.category -> mutable.Map(stackData.page -> stackData.invItems))
+        } else {
+          stackPageData(stackData.category) += (stackData.page -> stackData.invItems)
+        }
+        stackData.invItems.split(";").foreach(itemStackString => {
+          val itemStack = Item.getItemStackFromString(itemStackString)
+          if (itemStack != null) itemList += itemStack
+        })
       })
     }
     ryoServerAssist.getLogger.info("neoStackページのロードが完了しました。")

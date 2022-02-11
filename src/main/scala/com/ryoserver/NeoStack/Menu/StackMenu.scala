@@ -1,109 +1,109 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{MenuOld, MenuButton, MenuItemStack}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
-import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.{NeoStackDataType, NeoStackGateway, PlayerData}
+import com.ryoserver.NeoStack.{NeoStackGateway, PlayerData}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.Item
+import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
+import org.bukkit.inventory.ItemStack
 
-import scala.jdk.CollectionConverters._
+class StackMenu(page:Int,category:String,ryoServerAssist: RyoServerAssist) extends Menu {
 
-class StackMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
+  override val frame: MenuFrame = MenuFrame(6,s"neoStack:$page")
 
-  override val slot: Int = 6
-  override var name: String = _
-  override var p: Player = _
-
-  def openStack(player: Player, page: Int, category: String): Unit = {
-    name = "neoStack:" + page
-    p = player
-    var index = 0
-    var invItems = ""
-    if (stackPageData.contains(category) && stackPageData(category).contains(page)) invItems = stackPageData(category)(page)
-    invItems.split(";").zipWithIndex.foreach { case (item, slot) =>
-      if (Item.getItemStackFromString(item) != null) {
-        val is = Item.getOneItemStack(Item.getItemStackFromString(item))
-        val data = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
-        PlayerData.playerData = PlayerData.playerData
-          .filterNot {
-            data => data.uuid == p.getUniqueId && data.savingItemStack == is
-          }
-        PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, null, if (data.nonEmpty) data.head.amount else 0)
-        val playerData = PlayerData.playerData
-          .filter(_.uuid == p.getUniqueId)
-          .filter(_.savingItemStack == is)
-        if (is != null) {
-          val setItem = is.clone()
-          val meta = setItem.getItemMeta
-          meta.setLore(List(
-            s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
-            s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
-          ).asJava)
-          setItem.setItemMeta(meta)
-          if (playerData.nonEmpty) {
-            PlayerData.playerData = PlayerData.playerData.filterNot(data => data.uuid == p.getUniqueId && data.savingItemStack == is)
-            PlayerData.playerData += NeoStackDataType(p.getUniqueId, is, setItem, playerData.head.amount)
-          }
-          setItemStackButton(MenuItemStack(getX(index), getY(index), setItem)
-            .setLeftClickMotion(stackItem(_, slot))
-            .setRightClickMotion(oneItem(_, slot))
-            .setReload())
-        }
-        index += 1
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeStackMenuButton(player, page, category, ryoServerAssist)
+    import compute._
+    Map(
+      getLayOut(1, 6) -> backPage,
+      getLayOut(9, 6) -> nextPage
+    ) ++ (if (compute.player.hasPermission("ryoserverassist.neoStack")) Map(
+      getLayOut(5, 6) -> openAddMenu
+    ) else Map.empty) ++ {
+      if (stackPageData.contains(compute.category) && stackPageData(compute.category).contains(compute.page)) {
+        stackPageData(compute.category)(compute.page)
+      } else {
+        ""
+      }
+    }.split(";").zipWithIndex.map { case (item, index) =>
+      val itemStack = Item.getItemStackFromString(item)
+      if (itemStack != null) {
+        index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getStackButton(itemStack)
+      } else {
+        index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> Button(ItemStackBuilder.getDefault(Material.AIR).build())
       }
     }
-    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backPage))
-    if (p.hasPermission("ryoserverassist.neoStack")) {
-      setButton(MenuButton(5, 6, Material.CHEST, s"${AQUA}アイテムを追加します。", List(s"${GRAY}クリックで追加メニューを開きます。"))
-        .setLeftClickMotion(openAddGUI))
+  }
+
+}
+
+private case class computeStackMenuButton(player: Player,page: Int,category: String,ryoServerAssist: RyoServerAssist) {
+  val backPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}前のページに戻ります。")
+      .lore(List(s"${GRAY}クリックで戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      val categoryMenu = new CategorySelectMenu(ryoServerAssist)
+      val backPage = page - 1
+      if (backPage == 0) categoryMenu.open(player)
+      else new StackMenu(backPage,category,ryoServerAssist).open(player)
     }
-    setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-      .setLeftClickMotion(nextPage))
-    build(new StackMenu(ryoServerAssist).openStack(_, page, category))
-    open()
-  }
+  )
 
-  private def backPage(p: Player): Unit = {
-    val nowPage = p.getOpenInventory.getTitle
-      .replace("neoStack:", "")
-      .replace("[Edit]", "").toInt
-    val categoryMenu = new CategorySelectMenu(ryoServerAssist)
-    val backPage = nowPage - 1
-    if (backPage == 0) categoryMenu.open(p)
-    else new StackMenu(ryoServerAssist).openStack(p, backPage, getSelectedCategory(p))
-  }
+  val nextPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}次のページに移動します。")
+      .lore(List(s"${GRAY}クリックで次のページに移動します。"))
+      .build(),
+    ButtonMotion{_ =>
+      new StackMenu(page + 1,category,ryoServerAssist).open(player)
+    }
+  )
 
-  private def nextPage(p: Player): Unit = {
-    val nowPage = p.getOpenInventory.getTitle
-      .replace("neoStack:", "")
-      .replace("[Edit]", "").toInt
-    new StackMenu(ryoServerAssist).openStack(p, nowPage + 1, getSelectedCategory(p))
-  }
+  val openAddMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.CHEST)
+      .title(s"${GREEN}アイテムを追加します。")
+      .lore(List(s"${GRAY}クリックで追加メニューを開きます。"))
+      .build(),
+    ButtonMotion{_ =>
+      new NeoStackEditGUI(ryoServerAssist).openAddGUI(player, page, category)
+    }
+  )
 
-  private def openAddGUI(p: Player): Unit = {
-    new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, 1, getSelectedCategory(p))
+  def getStackButton(itemStack: ItemStack): Button = {
+    val is = Item.getOneItemStack(itemStack)
+    val playerData = PlayerData.playerData
+      .filter(_.uuid == player.getUniqueId)
+      .filter(_.savingItemStack == is)
+    Button(
+      ItemStackBuilder
+        .getDefault(is.getType)
+        .lore(List(
+          s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
+          s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
+        ))
+        .build(),
+      ButtonMotion{e =>
+        val neoStackGateway = new NeoStackGateway()
+        e.getClick match {
+          case ClickType.LEFT =>
+            neoStackGateway.addItemToPlayer(player, playerData.head.savingItemStack, is.getType.getMaxStackSize)
+          case ClickType.RIGHT =>
+            neoStackGateway.addItemToPlayer(player, playerData.head.savingItemStack, 1)
+          case _ =>
+        }
+        new StackMenu(page, category, ryoServerAssist).open(player)
+      }
+    )
   }
-
-  private def oneItem(p: Player, index: Int): Unit = {
-    val is = inv.get.getItem(index)
-    val data = new NeoStackGateway()
-    val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)
-    if (playerData.isEmpty) return
-    data.addItemToPlayer(p, playerData.head.savingItemStack, 1)
-  }
-
-  private def stackItem(p: Player, index: Int): Unit = {
-    val is = inv.get.getItem(index)
-    val data = new NeoStackGateway()
-    val playerData = PlayerData.playerData.filter(data => data.uuid == p.getUniqueId && data.displayItemStack == is)
-    if (playerData.isEmpty) return
-    data.addItemToPlayer(p, playerData.head.savingItemStack, is.getType.getMaxStackSize)
-  }
-
 }

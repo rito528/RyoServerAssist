@@ -199,8 +199,8 @@ private case class computeCategorySelectMenu(player: Player,ryoServerAssist: Ryo
   )
 
   private def openStack(p: Player, category: String): Unit = {
-    val gui = new StackMenu(ryoServerAssist)
-    gui.openStack(p, 1, category)
+    val gui = new StackMenu(1,category,ryoServerAssist)
+    gui.open(p)
     setSelectedCategory(p, category)
   }
 }

@@ -19,12 +19,12 @@ case class ItemStackBuilder(material: Material,
 
   def build(): ItemStack = {
     val itemStack = new ItemStack(material,1)
-    val meta = itemStack.getItemMeta
-    meta.setDisplayName(title)
-    if (lore != Nil) meta.setLore(lore.asJava)
-    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-    itemStack.setItemMeta(meta)
     if (effect) itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
+    val meta = itemStack.getItemMeta
+    if (title != null) meta.setDisplayName(title)
+    if (lore != Nil) meta.setLore(lore.asJava)
+    if (effect) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+    if (meta != null) itemStack.setItemMeta(meta)
     itemStack
   }
 
