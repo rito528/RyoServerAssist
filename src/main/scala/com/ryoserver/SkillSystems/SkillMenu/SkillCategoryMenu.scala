@@ -57,7 +57,7 @@ private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion{_ =>
-      new FarmSkillMenu(ryoServerAssist).openFarmSkillMenu(player)
+      new FarmSkillMenu(ryoServerAssist).open(player)
     }
   )
 
