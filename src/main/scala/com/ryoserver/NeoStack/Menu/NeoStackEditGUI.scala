@@ -1,80 +1,110 @@
 package com.ryoserver.NeoStack.Menu
 
-import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{MenuOld, MenuButton, MenuItemStack}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
 import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.RyoServerMenu.RyoServerMenu1
-import com.ryoserver.util.Item
+import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
-class NeoStackEditGUI(ryoServerAssist: RyoServerAssist) extends MenuOld {
-  override val slot: Int = 6
-  override var name: String = _
-  override var p: Player = _
+class NeoStackEditGUI(page:Int,category:String,ryoServerAssist: RyoServerAssist) extends Menu {
 
-  private implicit val plugin: RyoServerAssist = ryoServerAssist
+  override val partButton: Boolean = true
 
-  def openAddGUI(player: Player, page: Int, category: String): Unit = {
-    p = player
-    name = "neoStackアイテム追加メニュー:" + page
+  override val frame: MenuFrame = MenuFrame(6,s"neoStackアイテム追加メニュー:$page")
+
+  override def noneOperationButton(player: Player): Map[Int, Button] = {
+    super.noneOperationButton(player)
     implicit val session: AutoSession.type = AutoSession
-    sql"SELECT * FROM StackList WHERE page=$page AND category=$category".foreach(rs => {
-      rs.string("invItem").split(";").zipWithIndex.foreach { case (itemStackString, index) =>
+    println(sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
+      rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
         val itemStack = Item.getItemStackFromString(itemStackString)
-        if (itemStack != null) setItemStackButton(MenuItemStack(getX(index), getY(index), itemStack))
+        if (itemStack != null) getLayOut(getX(index),getY(index)) -> Button(itemStack)
+        else getLayOut(getX(index),getY(index)) -> Button(new ItemStack(Material.AIR))
       }
+    }).toIterable().apply().flatten.toMap.foreach{ case (index,button) =>
+      println(index)
+      println(button)
     })
-    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backMenu))
-    setButton(MenuButton(5, 6, Material.NETHER_STAR, "クリックでリストを保存します。", List("カテゴリ:" + getSelectedCategory(p) + "のリストを保存します。"))
-      .setLeftClickMotion(save))
-    setButton(MenuButton(9, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}次のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-      .setLeftClickMotion(nextPage))
-    partButton = true
-    buttons :+= 45
-    buttons :+= 49
-    buttons :+= 53
-    build(new NeoStackEditGUI(ryoServerAssist).openAddGUI(_, 1, null))
-    open()
+    sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
+      rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
+        val itemStack = Item.getItemStackFromString(itemStackString)
+        if (itemStack != null) getLayOut(getX(index),getY(index)) -> Button(itemStack)
+        else getLayOut(getX(index),getY(index)) -> Button(new ItemStack(Material.AIR))
+      }
+    }).toIterable().apply().flatten.toMap
   }
 
-  private def backMenu(p: Player): Unit = {
-    val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:", "").toInt
-    if (nowPage != 1) {
-      new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage - 1, getSelectedCategory(p))
-    } else if (nowPage == 1) {
-      new RyoServerMenu1(ryoServerAssist).open(p)
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeNeoStackEditMenuButton(page,category,player,ryoServerAssist)
+    import compute._
+    Map(
+      getLayOut(1,6) -> backPage,
+      getLayOut(5,6) -> register,
+      getLayOut(9,6) -> nextPage
+    )
+  }
+
+}
+
+private case class computeNeoStackEditMenuButton(page:Int,category:String,player: Player,ryoServerAssist: RyoServerAssist) {
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+  val backPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}前のページに戻ります。")
+      .lore(List(s"${GRAY}クリックで戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      if (page == 1) new CategorySelectMenu(ryoServerAssist).open(player)
+      else new NeoStackEditGUI(page - 1,category, ryoServerAssist)
     }
-  }
+  )
 
-  private def save(p: Player): Unit = {
-    val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:", "").toInt
-    val data = new NeoStackGateway()
-    var invIndex = 0
-    var invItem = ""
-    p.getOpenInventory.getTopInventory.getContents.foreach(is => {
-      if (invIndex < 45) {
-        invItem += Item.getStringFromItemStack(is) + ";"
-      }
-      invIndex += 1
-    })
-    data.editItemList(getSelectedCategory(p), nowPage, invItem)
-    p.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(p)}を編集しました。")
-    new LoadNeoStackPage().loadStackPage()
-    ItemList.stackList = mutable.Map.empty
-    ItemList.loadItemList(ryoServerAssist)
-  }
+  val nextPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}次のページに移動します。")
+      .lore(List(s"${GRAY}クリックで移動します。"))
+      .build(),
+    ButtonMotion{_ =>
+      new NeoStackEditGUI(page + 1,category, ryoServerAssist)
+    }
+  )
 
-  private def nextPage(p: Player): Unit = {
-    val nowPage = p.getOpenInventory.getTitle.replace("neoStackアイテム追加メニュー:", "").toInt
-    new NeoStackEditGUI(ryoServerAssist).openAddGUI(p, nowPage + 1, getSelectedCategory(p))
-  }
+  val register: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.NETHER_STAR)
+      .title(s"${GREEN}クリックでリストを保存します。")
+      .lore(List(s"${GRAY}カテゴリ:" + getSelectedCategory(player) + "のリストを保存します。"))
+      .build(),
+    ButtonMotion{_ =>
+      val data = new NeoStackGateway()
+      var invIndex = 0
+      var invItem = ""
+      player.getOpenInventory.getTopInventory.getContents.foreach(is => {
+        if (invIndex < 45) {
+          invItem += Item.getStringFromItemStack(is) + ";"
+        }
+        invIndex += 1
+      })
+      data.editItemList(getSelectedCategory(player), page, invItem)
+      player.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(player)}を編集しました。")
+      new LoadNeoStackPage().loadStackPage()
+      ItemList.stackList = mutable.Map.empty
+      ItemList.loadItemList(ryoServerAssist)
+    }
+  )
 
+  def getNoneButton(itemStack: ItemStack): Button = {
+    Button(itemStack)
+  }
 }

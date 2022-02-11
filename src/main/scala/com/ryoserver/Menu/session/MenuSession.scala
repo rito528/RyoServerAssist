@@ -11,6 +11,7 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
 
   val currentLayout: Map[Int,Button]
   val isPartButton: Boolean
+  val noneOperationButtons: Map[Int,Button]
 
   def openInventory(p: Player): Unit = {
     p.openInventory(getInventory)
@@ -18,6 +19,12 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
 
   def setLayout(layout: Map[Int,Button]): Unit = {
     layout.foreach{case (index,button) =>
+      sessionInventory.setItem(index,button.itemStack)
+    }
+  }
+
+  def setNoneOperationButton(): Unit = {
+    noneOperationButtons.foreach{case (index,button) =>
       sessionInventory.setItem(index,button.itemStack)
     }
   }

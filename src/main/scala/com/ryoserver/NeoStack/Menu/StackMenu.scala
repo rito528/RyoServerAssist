@@ -76,7 +76,7 @@ private case class computeStackMenuButton(player: Player,page: Int,category: Str
       .lore(List(s"${GRAY}クリックで追加メニューを開きます。"))
       .build(),
     ButtonMotion{_ =>
-      new NeoStackEditGUI(ryoServerAssist).openAddGUI(player, page, category)
+      new NeoStackEditGUI(page,category,ryoServerAssist).open(player)
     }
   )
 

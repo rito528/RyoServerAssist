@@ -17,13 +17,21 @@ trait Menu {
    */
   def openMotion(player: Player): Boolean = {true}
 
+  /*
+    動作を行わないボタンを追加した場合にoverrideして使ってください。
+    ここから追加したボタンは通常のアイテムと同じように扱われます。
+   */
+  def noneOperationButton(player: Player): Map[Int,Button] = Map.empty
+
   final def open(player: Player): Unit = {
     if (openMotion(player)) {
       val layout = settingMenuLayout(player)
       val session = new MenuSession(frame) {
         override val currentLayout: Map[Int, Button] = layout
         override val isPartButton: Boolean = partButton
+        override val noneOperationButtons: Map[Int, Button] = noneOperationButton(player)
       }
+      session.setNoneOperationButton()
       session.setLayout(layout)
       session.openInventory(player)
     }
