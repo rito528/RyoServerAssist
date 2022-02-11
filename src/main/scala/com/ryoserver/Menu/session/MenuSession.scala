@@ -12,6 +12,7 @@ abstract class MenuSession(frame: MenuFrame) extends InventoryHolder {
   val currentLayout: Map[Int,Button]
   val isPartButton: Boolean
   val noneOperationButtons: Map[Int,Button]
+  val returnItem: Boolean
 
   def openInventory(p: Player): Unit = {
     p.openInventory(getInventory)

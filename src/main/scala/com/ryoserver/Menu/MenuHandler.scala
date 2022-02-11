@@ -41,12 +41,14 @@ class MenuHandler extends Listener {
       case _ =>
         return
     }
-    holder.currentLayout.keySet.foreach(index => inv.clear(index))
-    val invContents = inv.getContents
-    invContents.foreach(itemStack => {
-      if (itemStack != null) p.getWorld.dropItem(p.getLocation,itemStack)
-    })
-    if (!invContents.forall(_ == null)) p.sendMessage(s"${RED}不要なアイテムを返却しました。")
+    if (holder.returnItem) {
+      holder.currentLayout.keySet.foreach(index => inv.clear(index))
+      val invContents = inv.getContents
+      invContents.foreach(itemStack => {
+        if (itemStack != null) p.getWorld.dropItem(p.getLocation, itemStack)
+      })
+      if (!invContents.forall(_ == null)) p.sendMessage(s"${RED}不要なアイテムを返却しました。")
+    }
   }
 
 }

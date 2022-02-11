@@ -171,7 +171,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .lore(List(s"${GRAY}クリックで開きます。",s"$RED${BOLD}取扱注意！"))
       .build(),
     ButtonMotion{_ =>
-      new DustBoxInventory().openDustBox(p)
+      new DustBoxInventory().open(p)
     }
   )
 

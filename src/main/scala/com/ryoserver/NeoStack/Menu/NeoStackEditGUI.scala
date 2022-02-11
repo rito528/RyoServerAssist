@@ -18,6 +18,7 @@ import scala.collection.mutable
 class NeoStackEditGUI(page:Int,category:String,ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val partButton: Boolean = true
+  override val isReturnItem: Boolean = false
 
   override val frame: MenuFrame = MenuFrame(6,s"neoStackアイテム追加メニュー:$page")
 

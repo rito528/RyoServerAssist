@@ -8,6 +8,7 @@ trait Menu {
 
   val frame: MenuFrame //Menuの構成を定義する
   val partButton: Boolean = false //MenuでButton以外のクリックをキャンセルしない場合はoverrideしてtrueにしてください
+  val isReturnItem: Boolean = true //Menuのアイテムを最後返却しない場合はoverrideしてfalseにしてください
 
   def settingMenuLayout(player: Player): Map[Int,Button]
 
@@ -30,6 +31,7 @@ trait Menu {
         override val currentLayout: Map[Int, Button] = layout
         override val isPartButton: Boolean = partButton
         override val noneOperationButtons: Map[Int, Button] = noneOperationButton(player)
+        override val returnItem: Boolean = isReturnItem
       }
       session.setNoneOperationButton()
       session.setLayout(layout)

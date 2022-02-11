@@ -5,7 +5,6 @@ import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
 import com.ryoserver.DataBase.UpdateContinueVoteNumber
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
-import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
@@ -110,7 +109,6 @@ class RyoServerAssist extends JavaPlugin {
       new SuppressionEvent,
       new Notification,
       new RecoverySkillPointEvent,
-      new DustBoxInventoryEvent,
       new FirstJoinSettingEvent,
       new ElevatorEvent,
       new TotemEffect,
