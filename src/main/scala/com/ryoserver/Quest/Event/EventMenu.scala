@@ -1,29 +1,49 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.Entity.getEntity
-import com.ryoserver.util.Translate
+import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class EventMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
+class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val slot: Int = 3
-  override var name: String = "イベント"
-  override var p: Player = _
-
+  override val frame: MenuFrame = MenuFrame(3,"イベント")
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
-  def openEventMenu(player: Player): Unit = {
-    p = player
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeEventMenuButton(player, ryoServerAssist)
+    import compute._
     val eventGateway = new EventGateway()
     val holdingEvent = eventGateway.holdingEvent()
-    if (holdingEvent != null) {
-      val eventData = eventGateway.eventInfo(holdingEvent)
-      setButton(MenuButton(3, 2, Material.BOOK, s"${YELLOW}イベント情報", List(
+    val eventData = eventGateway.eventInfo(holdingEvent)
+    Map(
+      getLayOut(1,3) -> backPage,
+      getLayOut(5,3) -> beforeEvent,
+      getLayOut(9,3) -> eventTitle
+    ) ++ (if (holdingEvent != null) Map(getLayOut(3,2) -> eventInfoButton) else Map(getLayOut(5,2) -> eventNotHeldInfo) ++
+      (if (holdingEvent != null && eventData.eventType == "delivery") Map(getLayOut(5,2) -> deliveryButton) else Map.empty) ++
+      (if (holdingEvent != null && eventData.eventType != "bonus") Map(getLayOut(7,2) -> rankingMenu) else Map.empty))
+  }
+
+}
+
+private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+  private lazy val eventGateway = new EventGateway()
+  private lazy val holdingEvent = eventGateway.holdingEvent()
+  private lazy val eventData = eventGateway.eventInfo(holdingEvent)
+
+  lazy val eventInfoButton: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.BOOK)
+      .title(s"${GREEN}イベント情報")
+      .lore(List(
         s"${WHITE}イベント名: ${eventData.name}",
         s"${WHITE}終了日: ${eventData.end}",
         s"${WHITE}イベント種別: " +
@@ -43,7 +63,7 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
         }"
         else null,
         if (eventData.eventType != "bonus") {
-          val ranking = EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(p.getUniqueId.toString)
+          val ranking = EventDataProvider.eventRanking.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(player.getUniqueId.toString)
           if (ranking != -1) s"${WHITE}あなたの順位: " + (ranking + 1) + "位" else s"${WHITE}あなたの順位: 参加していません。"
         }
         else null,
@@ -55,46 +75,71 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
         if (eventData.eventType == "delivery") s"${WHITE}現在集められた量: ${EventDataProvider.eventCounter}個"
         else if (eventData.eventType == "suppression") s"${WHITE}現在倒された量: ${EventDataProvider.eventCounter}体"
         else null
-      ).filterNot(_ == null)))
-      if (eventData.eventType == "delivery") {
-        setButton(MenuButton(5, 2, Material.HOPPER_MINECART, s"${YELLOW}納品する", List(s"${GRAY}クリックで納品インベントリを開きます。"))
-          .setLeftClickMotion(delivery))
-      }
-      if (eventData.eventType != "bonus") {
-        setButton(MenuButton(7, 2, Material.EXPERIENCE_BOTTLE, s"${YELLOW}ランキングを表示します。", List(s"${GRAY}クリックでランキングを表示します。"))
-          .setLeftClickMotion(rankingMenu))
-      }
-    } else {
-      setButton(MenuButton(5, 2, Material.BOOK, s"${YELLOW}イベント情報", List(s"${GRAY}現在開催されていません。")))
+      ).filterNot(_ == null))
+      .build()
+    )
+
+  val eventNotHeldInfo: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.BOOK)
+      .title(s"${GREEN}イベント情報")
+      .lore(List(s"${GRAY}クリックで移動します。"))
+      .build()
+  )
+
+  val deliveryButton: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.HOPPER_MINECART)
+      .title(s"${GREEN}納品する")
+      .lore(List(s"${GRAY}クリックで納品インベントリを開きます。"))
+      .build(),
+    ButtonMotion{_ =>
+      new EventDeliveryMenu().openMenu(player)
     }
-    setButton(MenuButton(1, 3, Material.MAGENTA_GLAZED_TERRACOTTA, s"${YELLOW}メニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backMenu))
-    setButton(MenuButton(5, 3, Material.ENCHANTED_BOOK, s"${GREEN}過去のイベント", List(s"${GRAY}クリックで移動します。"))
-      .setLeftClickMotion(beforeEvent))
-    setButton(MenuButton(9, 3, Material.NAME_TAG, "イベント称号を表示します。", List(s"${GRAY}クリックで表示します。"))
-      .setLeftClickMotion(eventTitle))
-    build(new EventMenu(ryoServerAssist).openEventMenu)
-    open()
-  }
+  )
 
-  private def delivery(p: Player): Unit = {
-    new EventDeliveryMenu().openMenu(p)
-  }
+  val rankingMenu: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.EXPERIENCE_BOTTLE)
+      .title(s"${GREEN}ランキングを表示します。")
+      .lore(List(s"${GRAY}クリックでランキングを表示します。"))
+      .build(),
+    ButtonMotion{_ =>
+      new EventRankingMenu(ryoServerAssist).openRankingMenu(player)
+    }
+  )
 
-  private def rankingMenu(p: Player): Unit = {
-    new EventRankingMenu(ryoServerAssist).openRankingMenu(p)
-  }
+  val beforeEvent: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.ENCHANTED_BOOK)
+      .title(s"${GREEN}過去のイベント")
+      .lore(List(s"${GRAY}クリックで移動します。"))
+      .build(),
+    ButtonMotion{_ =>
+      new BeforeEventsMenu(ryoServerAssist).openMenu(player, 1)
+    }
+  )
 
-  private def backMenu(p: Player): Unit = {
-    new RyoServerMenu1(ryoServerAssist).open(p)
-  }
+  val eventTitle: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.NAME_TAG)
+      .title(s"${GREEN}イベント称号を表示します。")
+      .lore(List(s"${GRAY}クリックで表示します。"))
+      .build(),
+    ButtonMotion{_ =>
+      new EventTitleMenu(ryoServerAssist).openEventTitleMenu(player)
+    }
+  )
 
-  private def beforeEvent(p: Player): Unit = {
-    new BeforeEventsMenu(ryoServerAssist).openMenu(p, 1)
-  }
-
-  private def eventTitle(p: Player): Unit = {
-    new EventTitleMenu(ryoServerAssist).openEventTitleMenu(p)
-  }
+  val backPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}メニューに戻ります。")
+      .lore(List(s"${GRAY}クリックで戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      new RyoServerMenu1(ryoServerAssist).open(player)
+    }
+  )
 
 }

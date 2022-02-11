@@ -46,7 +46,7 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends MenuO
   }
 
   private def backPage(p: Player): Unit = {
-    new EventMenu(ryoServerAssist).openEventMenu(p)
+    new EventMenu(ryoServerAssist).open(p)
   }
 
   private def delivery(p: Player): Unit = {

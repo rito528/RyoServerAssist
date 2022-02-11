@@ -35,7 +35,7 @@ class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backMenu(p: Player): Unit = {
-    new EventMenu(ryoServerAssist).openEventMenu(p)
+    new EventMenu(ryoServerAssist).open(p)
   }
 
   private def setTitle(p: Player, index: Int): Unit = {

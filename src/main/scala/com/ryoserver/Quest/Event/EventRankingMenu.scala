@@ -36,7 +36,7 @@ class EventRankingMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
   }
 
   private def backMenu(p: Player): Unit = {
-    new EventMenu(ryoServerAssist).openEventMenu(p)
+    new EventMenu(ryoServerAssist).open(p)
   }
 
 
