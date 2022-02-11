@@ -75,7 +75,7 @@ class StackMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
       .replace("[Edit]", "").toInt
     val categoryMenu = new CategorySelectMenu(ryoServerAssist)
     val backPage = nowPage - 1
-    if (backPage == 0) categoryMenu.openCategorySelectMenu(p)
+    if (backPage == 0) categoryMenu.open(p)
     else new StackMenu(ryoServerAssist).openStack(p, backPage, getSelectedCategory(p))
   }
 

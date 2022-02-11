@@ -8,6 +8,7 @@ import com.ryoserver.Home.HomeMenu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu._
+import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.EventMenu
@@ -159,7 +160,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion{_ =>
-      new DustBoxInventory().openDustBox(p)
+      new CategorySelectMenu(ryoServerAssist).open(p)
     }
   )
 
