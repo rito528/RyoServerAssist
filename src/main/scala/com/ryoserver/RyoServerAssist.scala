@@ -117,7 +117,6 @@ class RyoServerAssist extends JavaPlugin {
       new Vote,
       new SecurityEvent,
       new MenuHandler,
-      new EventDeliveryMenu,
       new PlayEffect,
       new EditEvent,
       new UseExpBottle,
