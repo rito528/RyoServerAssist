@@ -47,6 +47,9 @@ class RegionSettingMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeRegionSettingButton(p: Player, ryoServerAssist: RyoServerAssist, regionSettingMenu: RegionSettingMenu) {
+  private val worldGuard = new WorldGuardWrapper
+  private val region = worldGuard.getRegion(p.getLocation()).head
+
   val deleteRegion: Button = Button(
     ItemStackBuilder
       .getDefault(Material.TNT)
@@ -198,8 +201,6 @@ private case class computeRegionSettingButton(p: Player, ryoServerAssist: RyoSer
       regionSettingMenu.open(p)
     }
   )
-  private val worldGuard = new WorldGuardWrapper
-  private val region = worldGuard.getRegion(p.getLocation()).head
 
   private def getFlagStatus(set: ProtectedRegion, flag: StateFlag): Boolean = {
     set.getFlags.getOrDefault(flag, "DENY").toString == "ALLOW"

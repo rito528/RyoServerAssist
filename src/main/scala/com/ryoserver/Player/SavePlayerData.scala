@@ -17,6 +17,7 @@ class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
   def save(): Unit = {
     implicit val session: AutoSession.type = AutoSession
     PlayerData.playerData.foreach { case (uuid, data) =>
+      val openedSkills = data.OpenedSkills.map(_.skillName)
       sql"""UPDATE Players SET
            lastDistributionReceived=${data.lastDistributionReceived},
            gachaTickets=${data.gachaTickets},
@@ -24,7 +25,7 @@ class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
            SpecialSkillOpenPoint=${data.specialSkillOpenPoint},
            OpenedSpecialSkills=${data.OpenedSpecialSkills},
            SkillOpenPoint=${data.SkillOpenPoint},
-           OpenedSkills=${data.OpenedSkills.map(_.skillName).mkString(";")},
+           OpenedSkills=${if (openedSkills.nonEmpty) openedSkills.mkString(";") else s""},
            VoteNumber=${data.voteNumber},
            gachaPullNumber=${data.gachaPullNumber},
            EXP=${data.exp},
