@@ -25,7 +25,7 @@ class LoadAllPlayerData() {
       val skillOpenPoint = rs.int("SkillOpenPoint")
       val OpenedSkills: Set[EffectSkills] = {
         val skills = rs.string("OpenedSkills")
-        if (skills != null) {
+        if (skills != "" && skills != null) {
           skills
             .split(";")
             .map(skillName => EffectSkills.valuesToIndex.filter(_._1.skillName == skillName).head._1)
