@@ -1,7 +1,5 @@
 package com.ryoserver.File
 
-import com.ryoserver.RyoServerAssist
-
 import java.io.{File, PrintWriter}
 import java.nio.file.{Files, Paths}
 import scala.io.Source

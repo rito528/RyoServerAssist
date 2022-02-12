@@ -14,6 +14,8 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
 
+  private implicit val plugin: RyoServerAssist = ryoServerAssist
+
   def delivery(p: Player): Unit = {
     val questGateway = new QuestGateway()
     val inventory = p.getOpenInventory.getTopInventory
@@ -41,12 +43,12 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      new DailyQuestRewardMenu(ryoServerAssist).openRewardMenu(p)
+      new DailyQuestRewardMenu(ryoServerAssist).open(p)
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
     } else {
       p.sendMessage(s"${AQUA}納品しました。")
-      new QuestMenu(ryoServerAssist).selectDailyQuestMenu(p)
+      new QuestMenu().selectDailyQuestMenu(p)
     }
   }
 
@@ -73,7 +75,7 @@ class DailyQuestProcessMotions(ryoServerAssist: RyoServerAssist) {
     val questData = new QuestGateway()
     questData.resetQuest(p)
     buttonItemRemove(p, p.getOpenInventory.getTopInventory)
-    new QuestMenu(ryoServerAssist).selectInventory(p)
+    new QuestMenu().selectInventory(p)
     p.playSound(p.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
   }
 

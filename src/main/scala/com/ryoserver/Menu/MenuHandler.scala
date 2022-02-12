@@ -1,61 +1,53 @@
 package com.ryoserver.Menu
 
-import com.ryoserver.Menu.MenuData._
-import com.ryoserver.Menu.MenuSessions.session
-import com.ryoserver.RyoServerAssist
+import com.ryoserver.Menu.session.MenuSession
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.scheduler.BukkitRunnable
 
-class MenuHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
+class MenuHandler extends Listener {
 
   @EventHandler
-  def inventoryClick(e: InventoryClickEvent): Unit = {
-    val p = e.getWhoClicked match {
-      case player: Player => player
+  def inventoryClickEvent(e: InventoryClickEvent): Unit = {
+    e.getWhoClicked match {
+      case p: Player =>
+      case _ => return
+    }
+    val holder = e.getWhoClicked.getOpenInventory.getTopInventory.getHolder match {
+      case session: MenuSession => session
+      case _ =>
+        return
+    }
+
+    //右クリック、左クリック以外を排除
+    if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
+      return
+    }
+    e.setCancelled(true)
+    holder.runMotion(e.getSlot, e)
+  }
+
+  @EventHandler
+  def inventoryCloseEvent(e: InventoryCloseEvent): Unit = {
+    val p = e.getPlayer match {
+      case p: Player => p
       case _ => return
     }
 
-    //プラグインで作成されたMenu以外を排除
-    val clickedInventory = e.getClickedInventory
-    if (e.getWhoClicked.getOpenInventory.getTopInventory.getHolder != session) {
-      return
+    val inv = e.getPlayer.getOpenInventory.getTopInventory
+    val holder = inv.getHolder match {
+      case session: MenuSession => session
+      case _ =>
+        return
     }
-    //右クリック、左クリック以外を排除
-    if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
-      e.setCancelled(true)
-      return
-    }
-
-    val slot = e.getSlot
-    val isPartButton = partButton(e.getView.getTitle)
-    val title = e.getView.getTitle
-    //menuで上以外のクリックを排除
-    if (clickedInventory != e.getView.getTopInventory && !isPartButton) {
-      e.setCancelled(true)
-      return
-    }
-    //すべてがボタンとなる、もしくは一部がボタンとなる場合でスロットが一致していた場合はクリックをキャンセル
-    if (!isPartButton || Buttons(title).contains(slot)) e.setCancelled(true)
-    new BukkitRunnable {
-      override def run(): Unit = {
-        if (rightClickButtons.contains(title) && e.isRightClick &&
-          rightClickButtons(title).contains(e.getSlot) && rightClickButtons(title)(e.getSlot) != null) {
-          rightClickButtons(title)(e.getSlot)(p)
-          update(p, title, e.getSlot)
-        } else if (leftClickButtons.contains(title) && e.isLeftClick &&
-          leftClickButtons(title).contains(e.getSlot) && leftClickButtons(title)(e.getSlot) != null) {
-          leftClickButtons(title)(e.getSlot)(p)
-          update(p, title, e.getSlot)
-        }
-      }
-    }.runTask(ryoServerAssist)
-  }
-
-  private def update(p: Player, title: String, slot: Int): Unit = {
-    if (reloadButtons.contains(title) && reloadButtons(title).contains(slot)) {
-      openedInv(p.getUniqueId)(p)
+    if (holder.returnItem) {
+      holder.currentLayout.keySet.foreach(index => inv.clear(index))
+      val invContents = inv.getContents
+      invContents.foreach(itemStack => {
+        if (itemStack != null) p.getWorld.dropItem(p.getLocation, itemStack)
+      })
+      if (!invContents.forall(_ == null)) p.sendMessage(s"${RED}不要なアイテムを返却しました。")
     }
   }
 

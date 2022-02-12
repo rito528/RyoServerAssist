@@ -1,8 +1,8 @@
 package com.ryoserver.Home
 
 import org.bukkit.ChatColor._
-import org.bukkit.{Bukkit, Location}
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, Location}
 
 class HomeGateway(p: Player) {
 
@@ -50,7 +50,7 @@ class HomeGateway(p: Player) {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     targetData match {
       case Some(data) =>
-        p.teleport(new Location(Bukkit.getWorld(data.world),data.x,data.y,data.z))
+        p.teleport(new Location(Bukkit.getWorld(data.world), data.x, data.y, data.z))
         p.sendMessage(s"${AQUA}ホーム${point}にテレポートしました。")
       case None =>
         p.sendMessage(s"${RED}ホームが設定されていないためテレポートできませんでした。")
@@ -61,7 +61,7 @@ class HomeGateway(p: Player) {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     targetData match {
       case Some(data) =>
-        Option(s"${data.world},${data.x},${data.y},${data.z}")
+        Option(s"${data.world},${data.x.toInt},${data.y.toInt},${data.z.toInt}")
       case None =>
         None
     }

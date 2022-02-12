@@ -2,7 +2,6 @@ package com.ryoserver.Home
 
 import com.ryoserver.RyoServerAssist
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.{Bukkit, Location}
 import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID

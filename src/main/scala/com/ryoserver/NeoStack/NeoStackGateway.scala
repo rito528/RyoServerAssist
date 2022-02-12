@@ -49,6 +49,12 @@ class NeoStackGateway {
     addChangedData(p, Item.getOneItemStack(itemStack))
   }
 
+  private def addChangedData(p: Player, is: ItemStack): Unit = {
+    val uuid = p.getUniqueId
+    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
+    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
+  }
+
   def getCategory(is: ItemStack): String = {
     NeoStackPageData.stackPageData.foreach { case (category, itemData) =>
       itemData.foreach { case (_, inv) =>
@@ -81,12 +87,6 @@ class NeoStackGateway {
       addChangedData(p, is)
     }
     minusAmount
-  }
-
-  private def addChangedData(p: Player, is: ItemStack): Unit = {
-    val uuid = p.getUniqueId
-    if (!changedData.contains(uuid)) changedData += (uuid -> Array.empty[ItemStack])
-    if (!changedData(uuid).contains(is)) changedData(uuid) :+= is
   }
 
   def getNeoStackAmount(p: Player, is: ItemStack): Int = {

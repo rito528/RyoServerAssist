@@ -34,7 +34,7 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
           sender.asInstanceOf[Player].getInventory.addItem(is)
           sender.sendMessage(s"$AQUA${sender.getName}にガチャ券を${args(2)}枚配布しました。")
         case "add" =>
-          new GachaAddItemInventory(ryoServerAssist).openAddInventory(sender.asInstanceOf[Player])
+          new GachaAddItemInventory(ryoServerAssist).open(sender.asInstanceOf[Player])
         case "remove" =>
           GachaLoader.removeGachaItem(args(1).toInt)
           sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")

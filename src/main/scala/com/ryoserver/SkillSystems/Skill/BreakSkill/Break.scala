@@ -27,7 +27,39 @@ final class Break {
     Material.BEDROCK
   )
 
-  private def executeBreak(p: Player,breakLocation: Location,skillPoint: Double): Double = {
+  def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
+    if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
+    val facing = p.getFacing.toString
+    val playerY = p.getLocation.getY
+    val breakBlockY = breakBlockLocation.getY
+    /*
+      ブロック破壊地点の起点はプレイヤーから見て左下と考える。
+      また、横の長さに対して中心を破壊をしたと考える
+     */
+    val startingLocation: Location = {
+      if (facing == "NORTH" || facing == "SOUTH") {
+        if (playerY == breakBlockY) breakBlockLocation.add(breakRange.width / 2, 0, 0)
+        else if (playerY < breakBlockY) breakBlockLocation.add(breakRange.width / 2, -1, 0)
+        else breakBlockLocation.add(breakRange.width / 2, -breakRange.height + 1, 0)
+      } else {
+        if (playerY == breakBlockY) breakBlockLocation.add(0, 0, breakRange.width / 2)
+        else if (playerY < breakBlockY) breakBlockLocation.add(0, -1, breakRange.width / 2)
+        else breakBlockLocation.add(0, -breakRange.height + 1, breakRange.width / 2)
+      }
+    }
+    if (facing == "NORTH") startingLocation.setX(startingLocation.getX * -1)
+    else if (facing == "EAST") startingLocation.setZ(startingLocation.getZ * -1)
+    val cost = for {
+      height <- 0 until breakRange.height
+      width <- 0 until breakRange.width
+      depth <- 0 until breakRange.depth
+      cost = executeBreak(p, getHorizontalDirection(facing, startingLocation.clone(), BreakRange(height, width, depth)),
+        spCost / (breakRange.width * breakRange.height * breakRange.depth))
+    } yield cost
+    new SkillPointConsumption().consumption(cost.sum, p)
+  }
+
+  private def executeBreak(p: Player, breakLocation: Location, skillPoint: Double): Double = {
     val block = breakLocation.getBlock
     val breakBlockMaterial = block.getType
     if (nonBreakBlock.contains(breakBlockMaterial)) return 0
@@ -51,48 +83,16 @@ final class Break {
     skillPoint
   }
 
-  private def getHorizontalDirection(direction: String,startLocation:Location,addRange: BreakRange): Location = {
+  private def getHorizontalDirection(direction: String, startLocation: Location, addRange: BreakRange): Location = {
     if (direction == "NORTH") {
-      startLocation.add(addRange.width,addRange.height,-addRange.depth)
+      startLocation.add(addRange.width, addRange.height, -addRange.depth)
     } else if (direction == "SOUTH") {
-      startLocation.add(-addRange.width,addRange.height,addRange.depth)
+      startLocation.add(-addRange.width, addRange.height, addRange.depth)
     } else if (direction == "EAST") {
-      startLocation.add(addRange.depth,addRange.height,addRange.width)
+      startLocation.add(addRange.depth, addRange.height, addRange.width)
     } else {
-      startLocation.add(addRange.depth,addRange.height,-addRange.width)
+      startLocation.add(addRange.depth, addRange.height, -addRange.width)
     }
-  }
-
-  def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
-    if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
-    val facing = p.getFacing.toString
-    val playerY = p.getLocation.getY
-    val breakBlockY = breakBlockLocation.getY
-    /*
-      ブロック破壊地点の起点はプレイヤーから見て左下と考える。
-      また、横の長さに対して中心を破壊をしたと考える
-     */
-    val startingLocation: Location = {
-      if (facing == "NORTH" || facing == "SOUTH") {
-        if (playerY == breakBlockY) breakBlockLocation.add(breakRange.width / 2, 0, 0)
-        else if (playerY < breakBlockY) breakBlockLocation.add(breakRange.width / 2 ,-1 ,0)
-        else breakBlockLocation.add(breakRange.width / 2 ,-breakRange.height + 1 ,0)
-      } else {
-        if (playerY == breakBlockY) breakBlockLocation.add(0, 0, breakRange.width / 2)
-        else if (playerY < breakBlockY) breakBlockLocation.add(0 ,-1 , breakRange.width / 2)
-        else breakBlockLocation.add(0 ,-breakRange.height + 1, breakRange.width / 2)
-      }
-    }
-    if (facing == "NORTH")  startingLocation.setX(startingLocation.getX * -1)
-    else if (facing == "EAST") startingLocation.setZ(startingLocation.getZ * -1)
-    val cost = for {
-      height <- 0 until breakRange.height
-      width <- 0 until breakRange.width
-      depth <- 0 until breakRange.depth
-      cost = executeBreak(p,getHorizontalDirection(facing,startingLocation.clone(),BreakRange(height,width,depth)),
-        spCost / (breakRange.width * breakRange.height * breakRange.depth))
-    } yield cost
-    new SkillPointConsumption().consumption(cost.sum, p)
   }
 
 }

@@ -1,58 +1,47 @@
 package com.ryoserver.NeoStack.Menu
 
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton}
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.{EventHandler, Listener}
 
-class SelectStackMenu extends Menu with Listener {
+class SelectStackMenu extends Menu {
 
-  override val slot: Int = 6
-  override var name: String = "ネオスタック選択収納"
-  override var p: Player = _
-  partButton = true
+  override val frame: MenuFrame = MenuFrame(6, "ネオスタック選択収納")
+  override val partButton: Boolean = true
 
-  def openSelectStackMenu(player: Player): Unit = {
-    p = player
-    setButton(MenuButton(5, 6, Material.CHEST_MINECART, s"${GREEN}neoStackに収納します", List(s"${GRAY}クリックで収納します"))
-      .setLeftClickMotion(stack)
-      .setReload())
-    buttons :+= getLayOut(5, 6)
-    build(new SelectStackMenu().openSelectStackMenu)
-    open()
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeSelectStackButton(player)
+    import compute._
+    Map(
+      getLayOut(5, 6) -> stack
+    )
   }
 
-  @EventHandler
-  def closeEvent(e: InventoryCloseEvent): Unit = {
-    if (e.getPlayer.getOpenInventory.getTitle != "ネオスタック選択収納") return
-    val p = e.getPlayer
-    val inv = e.getInventory
-    inv.clear(getLayOut(5, 6))
-    var isDropped = false
-    inv.getContents.foreach { content =>
-      if (content != null) {
-        p.getWorld.dropItem(p.getLocation, content)
-        if (!isDropped) isDropped = true
-      }
-    }
-    if (isDropped) p.sendMessage(s"${AQUA}収納できないアイテムをドロップしました。")
-  }
+}
 
-  private def stack(p: Player): Unit = {
-    val neoStackGateway = new NeoStackGateway
-    p.getOpenInventory.getTopInventory.getContents.foreach(item => {
-      if (item != null) {
-        if (neoStackGateway.checkItemList(item)) {
-          neoStackGateway.addStack(item, p)
-          p.getOpenInventory.getTopInventory.removeItem(item)
+private case class computeSelectStackButton(player: Player) {
+  val stack: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.CHEST_MINECART)
+      .title(s"${GREEN}neoStackに収納します。")
+      .lore(List(s"${GRAY}クリックで収納します。"))
+      .build(),
+    ButtonMotion { _ =>
+      val neoStackGateway = new NeoStackGateway
+      player.getOpenInventory.getTopInventory.getContents.foreach(item => {
+        if (item != null) {
+          if (neoStackGateway.checkItemList(item)) {
+            neoStackGateway.addStack(item, player)
+            player.getOpenInventory.getTopInventory.removeItem(item)
+          }
         }
-      }
-    })
-    p.sendMessage(s"${AQUA}選択されたアイテムをneoStackに収納しました。")
-  }
-
+      })
+      player.sendMessage(s"${AQUA}選択されたアイテムをneoStackに収納しました。")
+    }
+  )
 }

@@ -5,21 +5,20 @@ import com.ryoserver.Commands._
 import com.ryoserver.Config.ConfigData
 import com.ryoserver.DataBase.UpdateContinueVoteNumber
 import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
-import com.ryoserver.DustBox.DustBoxInventoryEvent
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
-import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
+import com.ryoserver.Gacha.{Gacha, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
-import com.ryoserver.Menu.{MenuEvent, MenuHandler}
-import com.ryoserver.NeoStack.Menu.SelectStackMenu
+import com.ryoserver.Menu.MenuHandler
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
-import com.ryoserver.Quest.Event.{EventDeliveryMenu, EventGateway, EventLoader}
+import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
 import com.ryoserver.Quest._
+import com.ryoserver.RyoServerMenu.StickEvent
 import com.ryoserver.Security.{Operator, SecurityEvent}
 import com.ryoserver.SkillSystems.Skill.BreakSkill.BreakSkillAction
 import com.ryoserver.SkillSystems.Skill.FarmSkill.{GrowSkillAction, HarvestSkillAction}
@@ -103,28 +102,23 @@ class RyoServerAssist extends JavaPlugin {
     List(
       new Gacha,
       new PlayerEvents,
-      new MenuEvent,
+      new StickEvent,
       new StorageEvent,
-      new QuestSelectMenuEvent,
       new SuppressionEvent,
       new Notification,
       new RecoverySkillPointEvent,
-      new DustBoxInventoryEvent,
       new FirstJoinSettingEvent,
       new ElevatorEvent,
       new TotemEffect,
       new RepairEvent,
       new PickEvent,
-      new GachaItemChangeGUI,
       new Vote,
       new SecurityEvent,
       new MenuHandler,
-      new EventDeliveryMenu,
       new PlayEffect,
       new EditEvent,
       new UseExpBottle,
-      new AdminStorageEvent,
-      new SelectStackMenu,
+      new AdminStorageEvent
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*

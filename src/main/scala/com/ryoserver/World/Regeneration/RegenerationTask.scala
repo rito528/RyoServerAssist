@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.io.File
 import java.security.SecureRandom
 
-class RegenerationTask(ryoServerAssist: RyoServerAssist,list: List[String], worldType: Environment) {
+class RegenerationTask(ryoServerAssist: RyoServerAssist, list: List[String], worldType: Environment) {
 
   def runRegeneration(): Unit = {
     val portals = Bukkit.getServer.getPluginManager.getPlugin("Multiverse-Portals").asInstanceOf[MultiversePortals]
@@ -20,7 +20,7 @@ class RegenerationTask(ryoServerAssist: RyoServerAssist,list: List[String], worl
         s"dynmap purgemap $world flat",
         "dynmap pause none"
       ).foreach(cmd => Bukkit.dispatchCommand(getConsoleSender, cmd))
-      Bukkit.unloadWorld(world,false)
+      Bukkit.unloadWorld(world, false)
       deleteDirectory(new File(world))
       new BukkitRunnable {
         override def run(): Unit = {
@@ -67,17 +67,17 @@ class RegenerationTask(ryoServerAssist: RyoServerAssist,list: List[String], worl
                       portals.getPortalManager.getPortal(s"worldTo$world").setExactDestination(Bukkit.getWorld(world).getSpawnLocation)
                       Bukkit.dispatchCommand(getConsoleSender, s"dynmap fullrender $world:Flat")
                     }
-                  }.runTaskLater(ryoServerAssist,60)
+                  }.runTaskLater(ryoServerAssist, 60)
                 }
               }.runTaskLater(ryoServerAssist, 60)
             }
-          }.runTaskLater(ryoServerAssist,60)
+          }.runTaskLater(ryoServerAssist, 60)
         }
-      }.runTaskLater(ryoServerAssist,60)
+      }.runTaskLater(ryoServerAssist, 60)
     })
   }
 
-  def deleteDirectory(file: File): Unit  = {
+  def deleteDirectory(file: File): Unit = {
     if (!file.exists()) return
     if (file.isDirectory) {
       file.listFiles().foreach(file => {

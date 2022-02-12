@@ -1,7 +1,6 @@
 package com.ryoserver.World.Regeneration
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.Home.HomeData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.World.Environment
 import org.bukkit.scheduler.BukkitRunnable
@@ -13,17 +12,17 @@ class Regeneration {
   def regeneration(implicit ryoServerAssist: RyoServerAssist, isForce: Boolean = false): Unit = {
     if ((!isFriday && !isForce) || (!isForce && !getConfig.autoWorldRegeneration)) return
     ryoServerAssist.getLogger.info("ワールドの再生成を行います。")
-    new RegenerationTask(ryoServerAssist,getConfig.regenerationNormalWorlds, Environment.NORMAL).runRegeneration()
+    new RegenerationTask(ryoServerAssist, getConfig.regenerationNormalWorlds, Environment.NORMAL).runRegeneration()
     new BukkitRunnable {
       override def run(): Unit = {
         new RegenerationTask(ryoServerAssist, getConfig.regenerationNetherWorlds, Environment.NETHER).runRegeneration()
       }
-    }.runTaskLater(ryoServerAssist,20 * 30)
+    }.runTaskLater(ryoServerAssist, 20 * 30)
     new BukkitRunnable {
       override def run(): Unit = {
-        new RegenerationTask(ryoServerAssist,getConfig.regenerationEndWorlds, Environment.THE_END).runRegeneration()
+        new RegenerationTask(ryoServerAssist, getConfig.regenerationEndWorlds, Environment.THE_END).runRegeneration()
       }
-    }.runTaskLater(ryoServerAssist,20 * 60)
+    }.runTaskLater(ryoServerAssist, 20 * 60)
   }
 
   private def isFriday: Boolean = {

@@ -2,7 +2,6 @@ package com.ryoserver.AdminStorage
 
 import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.{Bukkit, Sound}

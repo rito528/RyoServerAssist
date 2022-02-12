@@ -1,19 +1,16 @@
 package com.ryoserver.Gacha
 
-import com.ryoserver.Menu.MenuLayout._
-import com.ryoserver.Menu.{Menu, MenuItemStack}
-import org.bukkit.ChatColor._
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
-class GachaItemGetInventory extends Menu {
+class GachaItemGetInventory(rarity: Int) extends Menu {
 
-  override val slot: Int = 6
-  override var name: String = "ガチャアイテム一覧"
-  override var p: Player = _
+  override val frame: MenuFrame = MenuFrame(6, "ガチャアイテム一覧")
 
-  def openGachaItemGetMenu(player: Player, rarity: Int): Unit = {
-    p = player
-    val itemList = rarity match {
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    (rarity match {
       case 0 =>
         GachaLoader.missItemList
       case 1 =>
@@ -22,19 +19,19 @@ class GachaItemGetInventory extends Menu {
         GachaLoader.bigPerItemList
       case 3 =>
         GachaLoader.specialItemList
-    }
-    itemList.zipWithIndex.foreach { case (item, index) =>
-      setItemStackButton(MenuItemStack(getX(index), getY(index), item)
-        .setLeftClickMotion(getItem(_, index)))
-    }
-    build(new GachaItemGetInventory().openGachaItemGetMenu(_, 0))
-    open()
+    }).zipWithIndex.map { case (item, index) =>
+      index -> getButton(player, item)
+    }.toMap
   }
 
-  private def getItem(p: Player, index: Int): Unit = {
-    val item = p.getOpenInventory.getTopInventory.getItem(index)
-    p.getInventory.addItem(item)
-    p.sendMessage(s"${AQUA}${item.getItemMeta.getDisplayName}をインベントリに加えました。")
+  private def getButton(p: Player, itemStack: ItemStack): Button = {
+    Button(itemStack,
+      ButtonMotion { _ =>
+        p.getInventory.addItem(itemStack)
+        p.sendMessage(s"${itemStack.getItemMeta.getDisplayName}をインベントリに加えました。")
+      }
+    )
   }
+
 
 }

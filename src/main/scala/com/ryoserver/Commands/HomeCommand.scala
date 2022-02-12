@@ -10,7 +10,7 @@ object HomeCommand {
 
   val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
     override def execute(rawCommandContext: RawCommandContext): Unit = {
-      new HomeMenu().openHomeMenu(rawCommandContext.sender.asInstanceOf[Player])
+      new HomeMenu().open(rawCommandContext.sender.asInstanceOf[Player])
     }
 
     override val args: List[String] = Nil
