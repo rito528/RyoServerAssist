@@ -42,6 +42,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .build(),
     ButtonMotion { _ =>
       skillToggle(player, "ブレイク・デュオ")
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
@@ -53,6 +54,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .build(),
     ButtonMotion { _ =>
       skillToggle(player, "アップダウンブレイク")
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
@@ -64,6 +66,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .build(),
     ButtonMotion { _ =>
       skillToggle(player, "パンチングブレイク")
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
@@ -75,6 +78,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .build(),
     ButtonMotion { _ =>
       skillToggle(player, "トンネルブレイク")
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
@@ -86,6 +90,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .build(),
     ButtonMotion { _ =>
       skillToggle(player, "ワイドブレイク")
+      new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
 
