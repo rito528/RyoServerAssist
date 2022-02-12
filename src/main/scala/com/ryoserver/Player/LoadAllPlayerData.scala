@@ -27,9 +27,9 @@ class LoadAllPlayerData() {
         val skills = rs.string("OpenedSkills")
         if (skills != null) {
           skills
-          .split(";")
-          .map(skillName => EffectSkills.valuesToIndex.filter(_._1.skillName == skillName).head._1)
-          .toSet
+            .split(";")
+            .map(skillName => EffectSkills.valuesToIndex.filter(_._1.skillName == skillName).head._1)
+            .toSet
         } else {
           Set.empty
         }

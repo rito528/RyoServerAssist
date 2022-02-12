@@ -11,15 +11,15 @@ import org.bukkit.entity.Player
 
 class RyoServerMenu2() extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"りょう鯖メニュー2")
+  override val frame: MenuFrame = MenuFrame(6, "りょう鯖メニュー2")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeRyoServerMenu2(player)
     import compute._
     Map(
-      getLayOut(7,1) -> webSite,
-      getLayOut(8,1) -> dynmap,
-      getLayOut(9,1) -> voteSite
+      getLayOut(7, 1) -> webSite,
+      getLayOut(8, 1) -> dynmap,
+      getLayOut(9, 1) -> voteSite
     )
   }
 
@@ -32,7 +32,7 @@ private case class computeRyoServerMenu2(player: Player) {
       .title(s"${GREEN}Webサイトのリンクを表示します。")
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       player.sendMessage(getConfig.webSite)
     }
   )
@@ -43,7 +43,7 @@ private case class computeRyoServerMenu2(player: Player) {
       .title(s"${GREEN}Dynmapのリンクを表示します。")
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       player.sendMessage(getConfig.dynmap)
     }
   )
@@ -54,7 +54,7 @@ private case class computeRyoServerMenu2(player: Player) {
       .title(s"${GREEN}投票サイトのリンクを表示します。")
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       player.sendMessage(getConfig.monocraft)
       player.sendMessage(getConfig.JapanMinecraftServers)
     }

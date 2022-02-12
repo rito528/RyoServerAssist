@@ -26,41 +26,41 @@ import org.bukkit.{Bukkit, Material, Sound}
 
 class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"りょう鯖メニュー")
+  override val frame: MenuFrame = MenuFrame(6, "りょう鯖メニュー")
 
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val computes = computeButton(player,ryoServerAssist,this)
+    val computes = computeButton(player, ryoServerAssist, this)
     import computes._
     Map(
-      getLayOut(1,1) -> craftingButton,
-      getLayOut(3,1) -> regionMenu,
-      getLayOut(5,1) -> selectQuestMenu,
-      getLayOut(6,1) -> selectDailyQuestMenu,
-      getLayOut(7,1) -> selectSkillMenu,
-      getLayOut(9,1) -> selectTitleMenu,
-      getLayOut(1,3) -> openStorage,
-      getLayOut(3,3) -> openEnderChest,
-      getLayOut(5,3) -> openNeoStack,
-      getLayOut(7,3) -> openDustBox,
-      getLayOut(9,3) -> giveFirework,
-      getLayOut(1,5) -> getFromAdminGachaTickets,
-      getLayOut(3,5) -> getGachaTickets,
-      getLayOut(5,5) -> openGachaChangeMenu,
-      getLayOut(7,5) -> playerInformation,
-      getLayOut(9,5) -> openEventMenu,
-      getLayOut(1,6) -> teleportSpawn,
-      getLayOut(2,6) -> teleportWorldSpawn,
-      getLayOut(3,6) -> openHomeMenu,
-      getLayOut(5,6) -> teleportLobby,
-      getLayOut(9,6) -> nextPage
+      getLayOut(1, 1) -> craftingButton,
+      getLayOut(3, 1) -> regionMenu,
+      getLayOut(5, 1) -> selectQuestMenu,
+      getLayOut(6, 1) -> selectDailyQuestMenu,
+      getLayOut(7, 1) -> selectSkillMenu,
+      getLayOut(9, 1) -> selectTitleMenu,
+      getLayOut(1, 3) -> openStorage,
+      getLayOut(3, 3) -> openEnderChest,
+      getLayOut(5, 3) -> openNeoStack,
+      getLayOut(7, 3) -> openDustBox,
+      getLayOut(9, 3) -> giveFirework,
+      getLayOut(1, 5) -> getFromAdminGachaTickets,
+      getLayOut(3, 5) -> getGachaTickets,
+      getLayOut(5, 5) -> openGachaChangeMenu,
+      getLayOut(7, 5) -> playerInformation,
+      getLayOut(9, 5) -> openEventMenu,
+      getLayOut(1, 6) -> teleportSpawn,
+      getLayOut(2, 6) -> teleportWorldSpawn,
+      getLayOut(3, 6) -> openHomeMenu,
+      getLayOut(5, 6) -> teleportLobby,
+      getLayOut(9, 6) -> nextPage
     )
   }
 
 }
 
-private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoServerMenu1: RyoServerMenu1) {
+private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ryoServerMenu1: RyoServerMenu1) {
 
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
@@ -70,8 +70,8 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}作業台を開きます。")
       .lore(List(s"${GRAY}クリックをすると開きます。"))
       .build(),
-    ButtonMotion{_ =>
-      p.openWorkbench(null,true)
+    ButtonMotion { _ =>
+      p.openWorkbench(null, true)
     }
   )
 
@@ -81,7 +81,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}保護メニューを開きます。")
       .lore(List(s"${GRAY}クリックすると開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RegionMenu().open(p)
     }
   )
@@ -92,7 +92,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}クエスト選択画面を開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new QuestMenu().selectInventory(p)
     }
   )
@@ -103,7 +103,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title("デイリークエスト選択画面を開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new QuestMenu().selectDailyQuestMenu(p)
     }
   )
@@ -114,7 +114,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}スキルを選択します。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new SkillCategoryMenu().open(p)
     }
   )
@@ -125,8 +125,8 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}称号一覧を開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
-      new TitleMenu(1,ryoServerAssist).open(p)
+    ButtonMotion { _ =>
+      new TitleMenu(1, ryoServerAssist).open(p)
     }
   )
 
@@ -136,7 +136,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}ストレージを開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new Storage().load(p)
     }
   )
@@ -147,19 +147,19 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}エンダーチェストを開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.openInventory(p.getEnderChest)
       p.playSound(p.getLocation, Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1)
     }
   )
 
-  val openNeoStack:Button = Button(
+  val openNeoStack: Button = Button(
     ItemStackBuilder
       .getDefault(Material.SHULKER_BOX)
       .title(s"${GREEN}ネオスタックを開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new CategorySelectMenu(ryoServerAssist).open(p)
     }
   )
@@ -168,9 +168,9 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
     ItemStackBuilder
       .getDefault(Material.LAVA_BUCKET)
       .title(s"${GREEN}ゴミ箱を開きます。")
-      .lore(List(s"${GRAY}クリックで開きます。",s"$RED${BOLD}取扱注意！"))
+      .lore(List(s"${GRAY}クリックで開きます。", s"$RED${BOLD}取扱注意！"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new DustBoxInventory().open(p)
     }
   )
@@ -181,7 +181,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}ロケット花火を受け取ります。")
       .lore(List(s"${GRAY}クリックで受け取ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.getInventory.addItem(new ItemStack(Material.FIREWORK_ROCKET, 64))
       p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
     }
@@ -196,7 +196,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
         s"${GRAY}受け取れるガチャ券の枚数: ${new GetData().getFromAdminTickets(p)}枚"
       ))
       .build(),
-    ButtonMotion {_ =>
+    ButtonMotion { _ =>
       new Distribution().receipt(p)
       ryoServerMenu1.open(p)
     }
@@ -215,7 +215,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       ))
       .setEffect()
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new GetGachaTickets().receipt(p)
       ryoServerMenu1.open(p)
     }
@@ -228,7 +228,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}ガチャ特等交換画面を開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new GachaItemChangeGUI().open(p)
     }
   )
@@ -239,7 +239,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}現在いるワールドのスポーン地点に移動します。")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.teleport(p.getWorld.getSpawnLocation)
       p.sendMessage(s"${AQUA}スポーン地点にテレポートしました！")
       p.playSound(p.getLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1)
@@ -252,7 +252,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}スポーン地点に移動します。")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.teleport(Bukkit.getWorld("world").getSpawnLocation)
       p.sendMessage(s"${AQUA}worldのスポーン地点にテレポートしました！")
       p.playSound(p.getLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1)
@@ -265,18 +265,18 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}ホームメニューを開きます。")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new HomeMenu().open(p)
     }
   )
 
-  val teleportLobby:Button = Button(
+  val teleportLobby: Button = Button(
     ItemStackBuilder
       .getDefault(Material.OAK_DOOR)
       .title(s"${GREEN}ロビーに戻ります。")
       .lore(List(s"${GRAY}クリックでロビーに戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.playSound(p.getLocation, Sound.BLOCK_WOODEN_DOOR_OPEN, 1, 1)
       val out = ByteStreams.newDataOutput
       out.writeUTF("Connect")
@@ -307,7 +307,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}イベント")
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EventMenu(ryoServerAssist).open(p)
     }
   )
@@ -318,7 +318,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .title(s"${GREEN}次のページに移動します。")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RyoServerMenu2().open(p)
     }
   )

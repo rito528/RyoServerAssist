@@ -18,8 +18,8 @@ case class ItemStackBuilder(material: Material,
   def setEffect(): ItemStackBuilder = this.copy(effect = true)
 
   def build(): ItemStack = {
-    val itemStack = new ItemStack(material,1)
-    if (effect) itemStack.addUnsafeEnchantment(Enchantment.DURABILITY,1)
+    val itemStack = new ItemStack(material, 1)
+    if (effect) itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1)
     val meta = itemStack.getItemMeta
     if (title != null) meta.setDisplayName(title)
     if (lore != Nil) meta.setLore(lore.asJava)
@@ -31,5 +31,5 @@ case class ItemStackBuilder(material: Material,
 }
 
 object ItemStackBuilder {
-  def getDefault(material: Material): ItemStackBuilder = ItemStackBuilder(material,null,Nil,effect = false)
+  def getDefault(material: Material): ItemStackBuilder = ItemStackBuilder(material, null, Nil, effect = false)
 }

@@ -14,85 +14,85 @@ import org.bukkit.entity.Player
 
 class BreakSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"破壊系スキル選択")
+  override val frame: MenuFrame = MenuFrame(6, "破壊系スキル選択")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeBreakSkillButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(2,1) -> breakDuo,
-      getLayOut(4,1) -> upDownBreak,
-      getLayOut(6,1) -> pantingBreak,
-      getLayOut(8,1) -> tunnelBreak,
-      getLayOut(2,2) -> wideBreak,
-      getLayOut(1,6) -> backPage,
-      getLayOut(9,6) -> clear
+      getLayOut(2, 1) -> breakDuo,
+      getLayOut(4, 1) -> upDownBreak,
+      getLayOut(6, 1) -> pantingBreak,
+      getLayOut(8, 1) -> tunnelBreak,
+      getLayOut(2, 2) -> wideBreak,
+      getLayOut(1, 6) -> backPage,
+      getLayOut(9, 6) -> clear
     )
   }
 
 }
 
-private case class computeBreakSkillButton(player: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoServerAssist) {
   private implicit val plugin: RyoServerAssist = ryoServerAssist
   val breakDuo: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ブレイク・デュオ",Material.WOODEN_PICKAXE))
+      .getDefault(getIcon("ブレイク・デュオ", Material.WOODEN_PICKAXE))
       .title(s"${GREEN}ブレイク・デュオ")
-      .lore(getLore("ブレイク・デュオ","1*2",6))
+      .lore(getLore("ブレイク・デュオ", "1*2", 6))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       skillToggle(player, "ブレイク・デュオ")
     }
   )
 
   val upDownBreak: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("アップダウンブレイク",Material.STONE_PICKAXE))
+      .getDefault(getIcon("アップダウンブレイク", Material.STONE_PICKAXE))
       .title(s"${GREEN}アップダウンブレイク")
-      .lore(getLore("アップダウンブレイク","1*3",9))
+      .lore(getLore("アップダウンブレイク", "1*3", 9))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       skillToggle(player, "アップダウンブレイク")
     }
   )
 
   val pantingBreak: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("パンチングブレイク",Material.IRON_PICKAXE))
+      .getDefault(getIcon("パンチングブレイク", Material.IRON_PICKAXE))
       .title(s"${GREEN}パンチングブレイク")
-      .lore(getLore("パンチングブレイク","3*2",18))
+      .lore(getLore("パンチングブレイク", "3*2", 18))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       skillToggle(player, "パンチングブレイク")
     }
   )
 
   val tunnelBreak: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("トンネルブレイク",Material.GOLDEN_PICKAXE))
+      .getDefault(getIcon("トンネルブレイク", Material.GOLDEN_PICKAXE))
       .title(s"${GREEN}トンネルブレイク")
-      .lore(getLore("トンネルブレイク","3*3",27))
+      .lore(getLore("トンネルブレイク", "3*3", 27))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       skillToggle(player, "トンネルブレイク")
     }
   )
 
   val wideBreak: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ワイドブレイク",Material.GOLDEN_PICKAXE))
+      .getDefault(getIcon("ワイドブレイク", Material.GOLDEN_PICKAXE))
       .title(s"${GREEN}ワイドブレイク")
-      .lore(getLore("ワイドブレイク","5*3",45))
+      .lore(getLore("ワイドブレイク", "5*3", 45))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       skillToggle(player, "ワイドブレイク")
     }
   )
 
   val clear: Button = Button(
-    Item.getPlayerSkull(player,s"${GREEN}スキル選択を解除します",
+    Item.getPlayerSkull(player, s"${GREEN}スキル選択を解除します",
       List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + player.getSpecialSkillOpenPoint)),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       if (SpecialSkillPlayerData.getActivatedSkill(player).isDefined) {
         SpecialSkillPlayerData.skillInvalidation(player, SpecialSkillPlayerData.getActivatedSkill(player).get)
       }
@@ -106,7 +106,7 @@ private case class computeBreakSkillButton(player: Player,ryoServerAssist: RyoSe
       .title(s"${GREEN}スキルカテゴリ選択画面に戻ります。")
       .lore(List("クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new SkillCategoryMenu().open(player)
     }
   )

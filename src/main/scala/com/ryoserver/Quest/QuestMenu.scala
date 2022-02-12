@@ -32,7 +32,7 @@ class QuestMenu(implicit ryoServerAssist: RyoServerAssist) {
         val questGateway = new QuestGateway()
         try {
           if (questGateway.getSelectedDailyQuest(player).isEmpty) {
-            new SelectDailyQuestMenu(ryoServerAssist,1).open(player)
+            new SelectDailyQuestMenu(ryoServerAssist, 1).open(player)
             player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
           } else {
             new DailyQuestProcessMenu(ryoServerAssist).open(player)

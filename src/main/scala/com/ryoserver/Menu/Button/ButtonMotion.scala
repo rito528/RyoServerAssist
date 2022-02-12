@@ -6,7 +6,7 @@ trait ButtonMotion {
 
   val clickMotion: InventoryClickEvent => Unit
 
-  def run(inventoryClickEvent: InventoryClickEvent,e: InventoryClickEvent => Unit): ButtonMotion = {
+  def run(inventoryClickEvent: InventoryClickEvent, e: InventoryClickEvent => Unit): ButtonMotion = {
     e.apply(inventoryClickEvent)
     this
   }

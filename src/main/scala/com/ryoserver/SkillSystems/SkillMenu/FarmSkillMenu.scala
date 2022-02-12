@@ -14,37 +14,37 @@ import org.bukkit.entity.Player
 
 class FarmSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"農業系スキル選択")
+  override val frame: MenuFrame = MenuFrame(6, "農業系スキル選択")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeFarmSkillButton(player,ryoServerAssist)
+    val compute = computeFarmSkillButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(2,1) -> wingGrow,
-      getLayOut(4,1) -> wideGrow,
-      getLayOut(6,1) -> roundGrow,
-      getLayOut(2,3) -> wingHarvest,
-      getLayOut(4,3) -> wideHarvest,
-      getLayOut(6,3) -> roundHarvest,
-      getLayOut(1,6) -> backPage,
-      getLayOut(8,6) -> clear,
-      getLayOut(9,6) -> autoPlant
+      getLayOut(2, 1) -> wingGrow,
+      getLayOut(4, 1) -> wideGrow,
+      getLayOut(6, 1) -> roundGrow,
+      getLayOut(2, 3) -> wingHarvest,
+      getLayOut(4, 3) -> wideHarvest,
+      getLayOut(6, 3) -> roundHarvest,
+      getLayOut(1, 6) -> backPage,
+      getLayOut(8, 6) -> clear,
+      getLayOut(9, 6) -> autoPlant
     )
   }
 
 }
 
-private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoServerAssist) {
-  lazy val toggle: String => Unit = skillToggle(player,_)
+private case class computeFarmSkillButton(player: Player, ryoServerAssist: RyoServerAssist) {
+  lazy val toggle: String => Unit = skillToggle(player, _)
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   val wingGrow: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ウインググロー",Material.WOODEN_HOE))
+      .getDefault(getIcon("ウインググロー", Material.WOODEN_HOE))
       .title(s"${GREEN}ウインググロー")
-      .lore(getGrowSkillLore("ウインググロー","1*3",15))
+      .lore(getGrowSkillLore("ウインググロー", "1*3", 15))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ウインググロー")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -52,11 +52,11 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
 
   val wideGrow: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ワイドグロー",Material.STONE_HOE))
+      .getDefault(getIcon("ワイドグロー", Material.STONE_HOE))
       .title(s"${GREEN}ワイドグロー")
-      .lore(getGrowSkillLore("ワイドグロー","1*5",30))
+      .lore(getGrowSkillLore("ワイドグロー", "1*5", 30))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ワイドグロー")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -64,11 +64,11 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
 
   val roundGrow: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ラウンドグロー",Material.IRON_HOE))
+      .getDefault(getIcon("ラウンドグロー", Material.IRON_HOE))
       .title(s"${GREEN}ラウンドグロー")
-      .lore(getGrowSkillLore("ラウンドグロー","3*3",55))
+      .lore(getGrowSkillLore("ラウンドグロー", "3*3", 55))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ラウンドグロー")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -76,11 +76,11 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
 
   val wingHarvest: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ウイングハーベスト",Material.WOODEN_HOE))
+      .getDefault(getIcon("ウイングハーベスト", Material.WOODEN_HOE))
       .title(s"${GREEN}ウイングハーベスト")
-      .lore(getHarvestSkillLore("ウイングハーベスト","1*3",9))
+      .lore(getHarvestSkillLore("ウイングハーベスト", "1*3", 9))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ウイングハーベスト")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -88,11 +88,11 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
 
   val wideHarvest: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ワイドハーベスト",Material.STONE_HOE))
+      .getDefault(getIcon("ワイドハーベスト", Material.STONE_HOE))
       .title(s"${GREEN}ワイドハーベスト")
-      .lore(getHarvestSkillLore("ワイドハーベスト","1*5",15))
+      .lore(getHarvestSkillLore("ワイドハーベスト", "1*5", 15))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ワイドハーベスト")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -100,11 +100,11 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
 
   val roundHarvest: Button = Button(
     ItemStackBuilder
-      .getDefault(getIcon("ラウンドハーベスト",Material.IRON_HOE))
+      .getDefault(getIcon("ラウンドハーベスト", Material.IRON_HOE))
       .title(s"${GREEN}ラウンドハーベスト")
-      .lore(getHarvestSkillLore("ラウンドハーベスト","3*3",21))
+      .lore(getHarvestSkillLore("ラウンドハーベスト", "3*3", 21))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       toggle("ラウンドハーベスト")
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
@@ -116,16 +116,16 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}スキルカテゴリ選択画面に戻ります")
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new SkillCategoryMenu().open(player)
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
   )
 
   val clear: Button = Button(
-    Item.getPlayerSkull(player,s"${GREEN}スキル選択を解除します。",
+    Item.getPlayerSkull(player, s"${GREEN}スキル選択を解除します。",
       List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + player.getSpecialSkillOpenPoint)),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       if (SpecialSkillPlayerData.getActivatedSkill(player).isDefined) {
         SpecialSkillPlayerData.skillInvalidation(player, SpecialSkillPlayerData.getActivatedSkill(player).get)
       }
@@ -142,7 +142,7 @@ private case class computeFarmSkillButton(player: Player,ryoServerAssist: RyoSer
         s"${GRAY}収穫スキルを利用した際に有効になります。"
       ))
       .build(),
-    ButtonMotion {_ =>
+    ButtonMotion { _ =>
       toggleSeedsAutoPlace(player)
       new FarmSkillMenu(ryoServerAssist).open(player)
     }

@@ -1,10 +1,10 @@
 package com.ryoserver.Menu
 
 import com.ryoserver.Menu.session.MenuSession
+import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryCloseEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import org.bukkit.ChatColor._
 
 class MenuHandler extends Listener {
 
@@ -25,7 +25,7 @@ class MenuHandler extends Listener {
       return
     }
     e.setCancelled(true)
-    holder.runMotion(e.getSlot,e)
+    holder.runMotion(e.getSlot, e)
   }
 
   @EventHandler

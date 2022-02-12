@@ -9,7 +9,7 @@ object MaintenanceData {
   private var isMaintenance = false
 
   def loadMaintenance(): Unit = {
-    implicit val autoSession: AutoSession.type  = AutoSession
+    implicit val autoSession: AutoSession.type = AutoSession
     val maintenanceTable = sql"SELECT * FROM ServerMaintenance"
     maintenanceTable.foreach(rs => {
       if (maintenanceTable.getHeadData.isEmpty) {
@@ -19,6 +19,8 @@ object MaintenanceData {
       }
     })
   }
+
+  def getMaintenance: Boolean = isMaintenance
 
   def setMaintenance(isEnable: Boolean): Unit = {
     implicit val autoSession: AutoSession.type = AutoSession
@@ -32,7 +34,5 @@ object MaintenanceData {
       })
     }
   }
-
-  def getMaintenance: Boolean = isMaintenance
 
 }

@@ -1,8 +1,6 @@
 package com.ryoserver.util
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.RyoServerAssist
-import org.flywaydb.core.Flyway
 import scalikejdbc._
 
 object ScalikeJDBC {
@@ -22,7 +20,7 @@ object ScalikeJDBC {
       connectionTimeoutMillis = 3000L,
       validationQuery = "SELECT 1 from dual"
     )
-    ConnectionPool.singleton(this.URL,this.USER,this.PASS,settings)
+    ConnectionPool.singleton(this.URL, this.USER, this.PASS, settings)
   }
 
   implicit class getData(sql: SQL[Nothing, NoExtractor]) {

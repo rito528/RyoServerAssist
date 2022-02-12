@@ -15,9 +15,9 @@ import org.bukkit.inventory.ItemStack
 
 import scala.jdk.CollectionConverters._
 
-class StackMenu(page:Int,category:String,ryoServerAssist: RyoServerAssist) extends Menu {
+class StackMenu(page: Int, category: String, ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,s"neoStack:$page")
+  override val frame: MenuFrame = MenuFrame(6, s"neoStack:$page")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeStackMenuButton(player, page, category, ryoServerAssist)
@@ -45,18 +45,18 @@ class StackMenu(page:Int,category:String,ryoServerAssist: RyoServerAssist) exten
 
 }
 
-private case class computeStackMenuButton(player: Player,page: Int,category: String,ryoServerAssist: RyoServerAssist) {
+private case class computeStackMenuButton(player: Player, page: Int, category: String, ryoServerAssist: RyoServerAssist) {
   val backPage: Button = Button(
     ItemStackBuilder
       .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
       .title(s"${GREEN}前のページに戻ります。")
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       val categoryMenu = new CategorySelectMenu(ryoServerAssist)
       val backPage = page - 1
       if (backPage == 0) categoryMenu.open(player)
-      else new StackMenu(backPage,category,ryoServerAssist).open(player)
+      else new StackMenu(backPage, category, ryoServerAssist).open(player)
     }
   )
 
@@ -66,8 +66,8 @@ private case class computeStackMenuButton(player: Player,page: Int,category: Str
       .title(s"${GREEN}次のページに移動します。")
       .lore(List(s"${GRAY}クリックで次のページに移動します。"))
       .build(),
-    ButtonMotion{_ =>
-      new StackMenu(page + 1,category,ryoServerAssist).open(player)
+    ButtonMotion { _ =>
+      new StackMenu(page + 1, category, ryoServerAssist).open(player)
     }
   )
 
@@ -77,8 +77,8 @@ private case class computeStackMenuButton(player: Player,page: Int,category: Str
       .title(s"${GREEN}アイテムを追加します。")
       .lore(List(s"${GRAY}クリックで追加メニューを開きます。"))
       .build(),
-    ButtonMotion{_ =>
-      new NeoStackEditGUI(page,category,ryoServerAssist).open(player)
+    ButtonMotion { _ =>
+      new NeoStackEditGUI(page, category, ryoServerAssist).open(player)
     }
   )
 
@@ -96,7 +96,7 @@ private case class computeStackMenuButton(player: Player,page: Int,category: Str
     setItem.setItemMeta(meta)
     Button(
       setItem,
-      ButtonMotion{e =>
+      ButtonMotion { e =>
         val neoStackGateway = new NeoStackGateway()
         e.getClick match {
           case ClickType.LEFT =>

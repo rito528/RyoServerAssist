@@ -3,9 +3,9 @@ package com.ryoserver.Quest
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
-import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
@@ -13,14 +13,14 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class SelectQuestMenu(ryoServerAssist: RyoServerAssist,page: Int,sortType: QuestSortType) extends Menu {
+class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: QuestSortType) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,s"クエスト選択:$page")
+  override val frame: MenuFrame = MenuFrame(6, s"クエスト選択:$page")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway
     val playerLevel = player.getQuestLevel
-    val compute = computeSelectQuestButton(player,page,ryoServerAssist)
+    val compute = computeSelectQuestButton(player, page, ryoServerAssist)
     import compute._
     Map(
       getLayOut(1, 6) -> backPage,
@@ -28,17 +28,17 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist,page: Int,sortType: Quest
       getLayOut(9, 6) -> nextPage
     ) ++ (sortType match {
       case QuestSortType.normal =>
-        questGateway.getCanQuests(playerLevel).zipWithIndex.filter{case (_,index) =>
+        questGateway.getCanQuests(playerLevel).zipWithIndex.filter { case (_, index) =>
           index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
-        }.map{case (questData,index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData)}.toMap
+        }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap
       case QuestSortType.neoStack =>
-        questGateway.nowNeoStackCanQuest(compute.player).zipWithIndex.filter{case (_,index) =>
+        questGateway.nowNeoStackCanQuest(compute.player).zipWithIndex.filter { case (_, index) =>
           index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
-        }.map{case (questData,index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData)}.toMap
+        }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap
       case QuestSortType.bookMark =>
-        questGateway.getBookmarkCanQuest(compute.player).zipWithIndex.filter{case (_,index) =>
+        questGateway.getBookmarkCanQuest(compute.player).zipWithIndex.filter { case (_, index) =>
           index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
-        }.map{case (questData,index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData)}.toMap
+        }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap
       case _ =>
         Map.empty
     })
@@ -46,7 +46,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist,page: Int,sortType: Quest
 
 }
 
-private case class computeSelectQuestButton(player: Player,page:Int,ryoServerAssist: RyoServerAssist) {
+private case class computeSelectQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
 
   lazy val nowSortType: QuestSortType = QuestSortedData.getPlayerQuestSortData(player)
 

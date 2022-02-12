@@ -10,12 +10,12 @@ import org.bukkit.{Material, Sound}
 
 class DustBoxInventory extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"ゴミ箱")
+  override val frame: MenuFrame = MenuFrame(6, "ゴミ箱")
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     Map(
-      getLayOut(5,6) -> computeDustBoxButton(player).execute
+      getLayOut(5, 6) -> computeDustBoxButton(player).execute
     )
   }
 
@@ -28,7 +28,7 @@ private case class computeDustBoxButton(player: Player) {
       .title(s"$RED$BOLD[取扱注意！]${RESET}捨てる")
       .lore(List(s"${GRAY}クリックで捨てます。"))
       .build(),
-    ButtonMotion{ _ =>
+    ButtonMotion { _ =>
       player.playSound(player.getLocation, Sound.ITEM_BUCKET_FILL_LAVA, 1, 1)
       player.getOpenInventory.getTopInventory.clear()
       new DustBoxInventory().open(player)

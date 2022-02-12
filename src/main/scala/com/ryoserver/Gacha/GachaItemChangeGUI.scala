@@ -14,21 +14,21 @@ import org.bukkit.entity.Player
 
 class GachaItemChangeGUI(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"ガチャ特等取引")
+  override val frame: MenuFrame = MenuFrame(6, "ガチャ特等取引")
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeGachaItemChangeMenuButton(player,ryoServerAssist)
+    val compute = computeGachaItemChangeMenuButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(1,6) -> backPage,
-      getLayOut(5,6) -> change
+      getLayOut(1, 6) -> backPage,
+      getLayOut(5, 6) -> change
     )
   }
 
 }
 
-private case class computeGachaItemChangeMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeGachaItemChangeMenuButton(player: Player, ryoServerAssist: RyoServerAssist) {
   private lazy val rate: Int = getConfig.gachaChangeRate
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
@@ -38,7 +38,7 @@ private case class computeGachaItemChangeMenuButton(player: Player,ryoServerAssi
       .title(s"${GREEN}メニューに戻る")
       .lore(List(s"${GRAY}クリックでメニューに戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RyoServerMenu1(ryoServerAssist).open(player)
     }
   )
@@ -51,7 +51,7 @@ private case class computeGachaItemChangeMenuButton(player: Player,ryoServerAssi
         s"${GRAY}クリックでガチャアイテムを交換します。", s"${GRAY}特等アイテム1個 -> スキル回復(大)${rate}個"
       ))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       changeItem(player)
     }
   )

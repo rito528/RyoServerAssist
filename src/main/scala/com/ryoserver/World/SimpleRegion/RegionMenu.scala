@@ -12,21 +12,21 @@ import org.bukkit.inventory.ItemStack
 
 class RegionMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(1,"保護メニュー")
+  override val frame: MenuFrame = MenuFrame(1, "保護メニュー")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeButton(player,ryoServerAssist)
+    val compute = computeButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(3,1) -> giveWoodenAxe,
-      getLayOut(5,1) -> createRegion,
-      getLayOut(7,1) -> openEditMenu
+      getLayOut(3, 1) -> giveWoodenAxe,
+      getLayOut(5, 1) -> createRegion,
+      getLayOut(7, 1) -> openEditMenu
     )
   }
 
 }
 
-private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist) {
   val giveWoodenAxe: Button = Button(
     ItemStackBuilder
       .getDefault(Material.WOODEN_AXE)
@@ -37,7 +37,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist) {
         s"${GRAY}終点を対角で右クリックします。",
         s"${GRAY}その後、ダイヤの斧をクリックします。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       p.getInventory.addItem(new ItemStack(Material.WOODEN_AXE, 1))
       p.sendMessage(s"${AQUA}保護用の木の斧を配布しました。")
     }
@@ -52,7 +52,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist) {
         s"${GRAY}結果がチャットに表示されます。"
       ))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new WorldGuardWrapper().createRegion(p)
     }
   )
@@ -66,7 +66,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist) {
         s"${GRAY}自分が管理者の保護範囲内にいる必要があります。"
       ))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RegionSettingMenu(ryoServerAssist).open(p)
     }
   )

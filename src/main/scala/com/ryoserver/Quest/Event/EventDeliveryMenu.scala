@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"イベント・納品")
+  override val frame: MenuFrame = MenuFrame(6, "イベント・納品")
   override val partButton: Boolean = true
 
   override def openMotion(player: Player): Boolean = {
@@ -27,17 +27,17 @@ class EventDeliveryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu 
   }
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeEventDeliveryMenuButton(player,ryoServerAssist)
+    val compute = computeEventDeliveryMenuButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(1,6) -> backPage,
-      getLayOut(2,6) -> deliveryButton
+      getLayOut(1, 6) -> backPage,
+      getLayOut(2, 6) -> deliveryButton
     )
   }
 
 }
 
-private case class computeEventDeliveryMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeEventDeliveryMenuButton(player: Player, ryoServerAssist: RyoServerAssist) {
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   val backPage: Button = Button(
@@ -46,7 +46,7 @@ private case class computeEventDeliveryMenuButton(player: Player,ryoServerAssist
       .title(s"${GREEN}イベントページに戻る")
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EventMenu(ryoServerAssist).open(player)
     }
   )
@@ -57,7 +57,7 @@ private case class computeEventDeliveryMenuButton(player: Player,ryoServerAssist
       .title(s"${GREEN}納品する")
       .lore(List(s"${GRAY}クリックで納品します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       val gateway = new EventGateway()
       if (gateway.holdingEvent() == null) {
         player.sendMessage(s"${RED}イベントが終了したため、納品できませんでした。")

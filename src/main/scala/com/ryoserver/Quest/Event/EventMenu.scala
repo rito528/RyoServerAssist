@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(3,"イベント")
+  override val frame: MenuFrame = MenuFrame(3, "イベント")
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
@@ -23,22 +23,18 @@ class EventMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val holdingEvent = eventGateway.holdingEvent()
     val eventData = eventGateway.eventInfo(holdingEvent)
     Map(
-      getLayOut(1,3) -> backPage,
-      getLayOut(5,3) -> beforeEvent,
-      getLayOut(9,3) -> eventTitle
-    ) ++ (if (holdingEvent != null) Map(getLayOut(3,2) -> eventInfoButton) else Map(getLayOut(5,2) -> eventNotHeldInfo) ++
-      (if (holdingEvent != null && eventData.eventType == "delivery") Map(getLayOut(5,2) -> deliveryButton) else Map.empty) ++
-      (if (holdingEvent != null && eventData.eventType != "bonus") Map(getLayOut(7,2) -> rankingMenu) else Map.empty))
+      getLayOut(1, 3) -> backPage,
+      getLayOut(5, 3) -> beforeEvent,
+      getLayOut(9, 3) -> eventTitle
+    ) ++ (if (holdingEvent != null) Map(getLayOut(3, 2) -> eventInfoButton) else Map(getLayOut(5, 2) -> eventNotHeldInfo) ++
+      (if (holdingEvent != null && eventData.eventType == "delivery") Map(getLayOut(5, 2) -> deliveryButton) else Map.empty) ++
+      (if (holdingEvent != null && eventData.eventType != "bonus") Map(getLayOut(7, 2) -> rankingMenu) else Map.empty))
   }
 
 }
 
-private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeEventMenuButton(player: Player, ryoServerAssist: RyoServerAssist) {
   private implicit val plugin: RyoServerAssist = ryoServerAssist
-  private lazy val eventGateway = new EventGateway()
-  private lazy val holdingEvent = eventGateway.holdingEvent()
-  private lazy val eventData = eventGateway.eventInfo(holdingEvent)
-
   lazy val eventInfoButton: Button = Button(
     ItemStackBuilder
       .getDefault(Material.BOOK)
@@ -77,8 +73,10 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
         else null
       ).filterNot(_ == null))
       .build()
-    )
-
+  )
+  private lazy val eventGateway = new EventGateway()
+  private lazy val holdingEvent = eventGateway.holdingEvent()
+  private lazy val eventData = eventGateway.eventInfo(holdingEvent)
   val eventNotHeldInfo: Button = Button(
     ItemStackBuilder
       .getDefault(Material.BOOK)
@@ -93,7 +91,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}納品する")
       .lore(List(s"${GRAY}クリックで納品インベントリを開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EventDeliveryMenu().open(player)
     }
   )
@@ -104,7 +102,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}ランキングを表示します。")
       .lore(List(s"${GRAY}クリックでランキングを表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EventRankingMenu(ryoServerAssist).open(player)
     }
   )
@@ -115,8 +113,8 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}過去のイベント")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
-      new BeforeEventsMenu(1,ryoServerAssist).open(player)
+    ButtonMotion { _ =>
+      new BeforeEventsMenu(1, ryoServerAssist).open(player)
     }
   )
 
@@ -126,7 +124,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}イベント称号を表示します。")
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EventTitleMenu(ryoServerAssist).open(player)
     }
   )
@@ -137,7 +135,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .title(s"${GREEN}メニューに戻ります。")
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RyoServerMenu1(ryoServerAssist).open(player)
     }
   )

@@ -10,7 +10,6 @@ import java.nio.file.Paths
 import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
 import java.util.{Calendar, TimeZone}
-import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 class GiveTitle {

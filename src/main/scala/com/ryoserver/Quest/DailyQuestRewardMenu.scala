@@ -12,22 +12,20 @@ import org.bukkit.{Material, Sound}
 
 class DailyQuestRewardMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(1,"報酬選択画面")
+  override val frame: MenuFrame = MenuFrame(1, "報酬選択画面")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeRewardButton(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(2,1) -> getGachaTicket,
-      getLayOut(4,1) -> expBonus
+      getLayOut(2, 1) -> getGachaTicket,
+      getLayOut(4, 1) -> expBonus
     )
   }
 
 }
 
-private case class computeRewardButton(player: Player,ryoServerAssist: RyoServerAssist) {
-  private val questGateway = new QuestGateway
-
+private case class computeRewardButton(player: Player, ryoServerAssist: RyoServerAssist) {
   val getGachaTicket: Button = Button(
     ItemStackBuilder
       .getDefault(Material.PAPER)
@@ -35,7 +33,7 @@ private case class computeRewardButton(player: Player,ryoServerAssist: RyoServer
       .title(s"${GREEN}ガチャ券を受け取る")
       .lore(List(s"${GRAY}報酬としてガチャ券を16枚受け取ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       questGateway.dailyQuestClear(player, 1.0)
       player.giveNormalGachaTickets(16)
       player.sendMessage(s"${AQUA}デイリークエストの報酬として、ガチャ券を16枚配布しました。")
@@ -43,19 +41,19 @@ private case class computeRewardButton(player: Player,ryoServerAssist: RyoServer
       player.closeInventory()
     }
   )
-
   val expBonus: Button = Button(
     ItemStackBuilder
       .getDefault(Material.EXPERIENCE_BOTTLE)
       .title(s"${GREEN}今回のクエストの経験値1.2倍")
       .lore(List(s"${GRAY}報酬として今回のクエストの経験値を1.2倍にします。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       questGateway.dailyQuestClear(player, 1.2)
       player.sendMessage(s"${AQUA}デイリークエストの報酬として、今回のクエストの経験値を1.2倍にしました。")
       player.playSound(player.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
       player.closeInventory()
     }
   )
+  private val questGateway = new QuestGateway
 
 }

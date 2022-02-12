@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 class HomeMenu extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(3,"ホームメニュー")
+  override val frame: MenuFrame = MenuFrame(3, "ホームメニュー")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val layout = for {
@@ -20,9 +20,9 @@ class HomeMenu extends Menu {
       val compute = computeHomeMenuButton(player)
       import compute._
       Map(
-        getLayOut(x,1) -> getSetHomeButton(index),
-        getLayOut(x,2) -> getTeleportHomeButton(index),
-        getLayOut(x,3) -> getLockHomeButton(index)
+        getLayOut(x, 1) -> getSetHomeButton(index),
+        getLayOut(x, 2) -> getTeleportHomeButton(index),
+        getLayOut(x, 3) -> getLockHomeButton(index)
       )
     }
     layout(0) ++ layout(1) ++ layout(2)
@@ -30,7 +30,7 @@ class HomeMenu extends Menu {
 
 }
 
-private case class computeHomeMenuButton(player:Player) {
+private case class computeHomeMenuButton(player: Player) {
   private val beds = List(
     Material.WHITE_BED,
     Material.BLUE_BED,
@@ -45,7 +45,7 @@ private case class computeHomeMenuButton(player:Player) {
         .title(s"${GREEN}ホーム${homeNum}を設定します。")
         .lore(List(s"${GRAY}クリックでホーム${homeNum}を設定します。"))
         .build(),
-      ButtonMotion{_ =>
+      ButtonMotion { _ =>
         homeGateway.setHomePoint(homeNum, player.getLocation)
         new HomeMenu().open(player)
       }
@@ -72,7 +72,7 @@ private case class computeHomeMenuButton(player:Player) {
         .title(s"$RESET${WHITE}ホーム$homeNum${if (homeGateway.isHomeLocked(homeNum)) "のロックを解除します。" else "をロックします。"}")
         .lore(List(s"${GRAY}クリックでホーム${homeNum}をロックを切り替えます。"))
         .build(),
-      ButtonMotion{_ =>
+      ButtonMotion { _ =>
         homeGateway.toggleLock(homeNum)
         new HomeMenu().open(player)
       }

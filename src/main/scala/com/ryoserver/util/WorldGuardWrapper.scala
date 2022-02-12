@@ -1,9 +1,9 @@
 package com.ryoserver.util
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.sk89q.worldedit.{IncompleteRegionException, WorldEdit}
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.math.Vector3
+import com.sk89q.worldedit.{IncompleteRegionException, WorldEdit}
 import com.sk89q.worldguard.WorldGuard
 import com.sk89q.worldguard.protection.flags.StateFlag
 import com.sk89q.worldguard.protection.regions.{ProtectedCuboidRegion, ProtectedRegion}
@@ -27,12 +27,7 @@ class WorldGuardWrapper {
     getRegion(loc).nonEmpty
   }
 
-  def getRegion(loc: Location): mutable.Set[ProtectedRegion] = {
-    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
-    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
-  }
-
-  def isOwner(p: Player,loc: Location): Boolean = {
+  def isOwner(p: Player, loc: Location): Boolean = {
     getRegion(loc).foreach(region =>
       if (region.getOwners.contains(p.getUniqueId)) return true
     )
@@ -48,6 +43,11 @@ class WorldGuardWrapper {
 
   def removeRegion(p: Player): Unit = {
     plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(p.getWorld)).removeRegion(getRegion(p.getLocation()).head.getId)
+  }
+
+  def getRegion(loc: Location): mutable.Set[ProtectedRegion] = {
+    val container = plugin.getPlatform.getRegionContainer.get(BukkitAdapter.adapt(loc.getWorld))
+    container.getApplicableRegions(BukkitAdapter.adapt(loc).toVector.toBlockPoint).getRegions.asScala
   }
 
   def flagCheck(region: ProtectedRegion, flag: StateFlag): Boolean = {

@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class SkillOperation(ryoServerAssist: RyoServerAssist) {
 
-  def skillActivation(p: Player,effectSkills: EffectSkills): Unit = {
+  def skillActivation(p: Player, effectSkills: EffectSkills): Unit = {
     if (p.getSkillOpenPoint < 10 && !p.getOpenedSkills.contains(effectSkills)) {
       p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}を開放していないため、有効にできません！")
       return
@@ -44,7 +44,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
     new BukkitRunnable {
       override def run(): Unit = {
         if (p.getSkillPoint < effectSkills.cost) {
-          EffectSkillData.setDisableSkill(p,effectSkills)
+          EffectSkillData.setDisableSkill(p, effectSkills)
           this.cancel()
           p.sendMessage(s"${RED}スキルポイントが不足したため、エフェクトスキル:${effectSkills.skillName}を無効化しました。")
         } else {
@@ -60,7 +60,7 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
   }
 
   def allDisablingSkills(p: Player): Unit = {
-    EffectSkillData.getEnablingSkill(p).foreach(EffectSkillData.setDisableSkill(p,_))
+    EffectSkillData.getEnablingSkill(p).foreach(EffectSkillData.setDisableSkill(p, _))
     p.sendMessage(s"${AQUA}エフェクトスキルをすべて無効化しました。")
   }
 

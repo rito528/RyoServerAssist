@@ -12,29 +12,29 @@ import org.bukkit.entity.Player
 
 class SkillCategoryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(3,"スキルカテゴリ選択")
+  override val frame: MenuFrame = MenuFrame(3, "スキルカテゴリ選択")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeSelectSkillCategoryMenu(player,ryoServerAssist)
+    val compute = computeSelectSkillCategoryMenu(player, ryoServerAssist)
     import compute._
     Map(
-      getLayOut(3,2) -> openEffectSkillMenu,
-      getLayOut(5,2) -> openBreakSkillMenu,
-      getLayOut(7,2) -> openFarmSkillMenu,
-      getLayOut(1,3) -> backMenu
+      getLayOut(3, 2) -> openEffectSkillMenu,
+      getLayOut(5, 2) -> openBreakSkillMenu,
+      getLayOut(7, 2) -> openFarmSkillMenu,
+      getLayOut(1, 3) -> backMenu
     )
   }
 
 }
 
-private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist: RyoServerAssist) {
+private case class computeSelectSkillCategoryMenu(player: Player, ryoServerAssist: RyoServerAssist) {
   val openEffectSkillMenu: Button = Button(
     ItemStackBuilder
       .getDefault(Material.POTION)
       .title(s"${GREEN}エフェクトスキル")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new EffectSkillMenu(ryoServerAssist).open(player)
     }
   )
@@ -45,7 +45,7 @@ private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist
       .title(s"$GREEN[特殊] 破壊系スキル")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new BreakSkillMenu(ryoServerAssist).open(player)
     }
   )
@@ -56,7 +56,7 @@ private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist
       .title(s"$GREEN[特殊] 農業系スキル")
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new FarmSkillMenu(ryoServerAssist).open(player)
     }
   )
@@ -67,7 +67,7 @@ private case class computeSelectSkillCategoryMenu(player: Player,ryoServerAssist
       .title(s"${GREEN}メニューに戻ります。")
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new RyoServerMenu1(ryoServerAssist).open(player)
     }
   )

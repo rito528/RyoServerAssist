@@ -10,9 +10,9 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class BeforeEventsMenu(page: Int,ryoServerAssist: RyoServerAssist) extends Menu {
+class BeforeEventsMenu(page: Int, ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,s"過去のイベント:$page")
+  override val frame: MenuFrame = MenuFrame(6, s"過去のイベント:$page")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeBeforeEventMenuButton(player, page, ryoServerAssist)
@@ -29,18 +29,18 @@ class BeforeEventsMenu(page: Int,ryoServerAssist: RyoServerAssist) extends Menu 
   }
 }
 
-private case class computeBeforeEventMenuButton(player: Player,page: Int,ryoServerAssist: RyoServerAssist) {
+private case class computeBeforeEventMenuButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
   val backPage: Button = Button(
     ItemStackBuilder
       .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
       .title(s"${GREEN}前のページに移動します。")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       if (page == 1) {
         new RyoServerMenu1(ryoServerAssist).open(player)
       } else {
-        new BeforeEventsMenu(page,ryoServerAssist).open(player)
+        new BeforeEventsMenu(page, ryoServerAssist).open(player)
       }
     }
   )
@@ -51,12 +51,12 @@ private case class computeBeforeEventMenuButton(player: Player,page: Int,ryoServ
       .title(s"${GREEN}次のページに移動します。")
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
-    ButtonMotion{_ =>
-      new BeforeEventsMenu(page + 1,ryoServerAssist).open(player)
+    ButtonMotion { _ =>
+      new BeforeEventsMenu(page + 1, ryoServerAssist).open(player)
     }
   )
 
-  def getButton(title: String,lore: List[String]): Button = {
+  def getButton(title: String, lore: List[String]): Button = {
     Button(
       ItemStackBuilder
         .getDefault(Material.BOOK)

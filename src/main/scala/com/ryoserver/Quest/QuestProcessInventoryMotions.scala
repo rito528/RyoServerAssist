@@ -37,25 +37,6 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
     questClearCheck(p, progress)
   }
 
-  def deliveryFromNeoStack(p: Player): Unit = {
-    val questGateway = new QuestGateway()
-    val neoStackGateway = new NeoStackGateway()
-    var progress = questGateway.getQuestProgress(p)
-    val inventory = p.getOpenInventory.getTopInventory
-    //ボタン用アイテムを削除
-    buttonItemRemove(p, inventory)
-    progress.foreach { case (requireName, amount) =>
-      val requireMaterial = Material.matchMaterial(requireName)
-      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(requireMaterial, 1), amount)
-      if (amount > removedAmount) {
-        progress += (requireName -> (amount - removedAmount))
-      } else {
-        progress += (requireName -> 0)
-      }
-    }
-    questClearCheck(p, progress)
-  }
-
   private def questClearCheck(p: Player, progress: Map[String, Int]): Unit = {
     val questGateway = new QuestGateway
     if (progress.forall { case (_, amount) => amount == 0 }) {
@@ -79,6 +60,25 @@ class QuestProcessInventoryMotions(ryoServerAssist: RyoServerAssist) {
       getLayOut(9, 6),
       if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
     ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
+  }
+
+  def deliveryFromNeoStack(p: Player): Unit = {
+    val questGateway = new QuestGateway()
+    val neoStackGateway = new NeoStackGateway()
+    var progress = questGateway.getQuestProgress(p)
+    val inventory = p.getOpenInventory.getTopInventory
+    //ボタン用アイテムを削除
+    buttonItemRemove(p, inventory)
+    progress.foreach { case (requireName, amount) =>
+      val requireMaterial = Material.matchMaterial(requireName)
+      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(requireMaterial, 1), amount)
+      if (amount > removedAmount) {
+        progress += (requireName -> (amount - removedAmount))
+      } else {
+        progress += (requireName -> 0)
+      }
+    }
+    questClearCheck(p, progress)
   }
 
   def questDestroy(p: Player): Unit = {

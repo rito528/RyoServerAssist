@@ -62,6 +62,10 @@ class QuestGateway {
       )
   }
 
+  def getCanQuests(lv: Int): List[QuestType] = {
+    LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+  }
+
   def getCanDailyQuests(lv: Int): List[QuestType] = {
     LoadQuests.loadedDailyQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
@@ -88,10 +92,6 @@ class QuestGateway {
     getCanQuests(playerLevel).filter(data =>
       getCanQuests(playerLevel).map(_.questName).intersect(playerQuestData(p.getUniqueId).bookmarks).contains(data.questName)
     )
-  }
-
-  def getCanQuests(lv: Int): List[QuestType] = {
-    LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
   }
 
   def questClear(p: Player): Unit = {

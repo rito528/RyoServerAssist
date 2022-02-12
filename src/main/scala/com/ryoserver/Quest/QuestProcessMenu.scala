@@ -14,14 +14,14 @@ import org.bukkit.inventory.ItemStack
 
 class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"クエスト")
+  override val frame: MenuFrame = MenuFrame(6, "クエスト")
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway
     questGateway.getSelectedQuest(player) match {
       case Some(selectedQuest) =>
-        val compute = computeQuestProcessButton(player,selectedQuest,ryoServerAssist,this)
+        val compute = computeQuestProcessButton(player, selectedQuest, ryoServerAssist, this)
         import compute._
         val buttons = Map(
           getLayOut(1, 6) -> requireButton
@@ -43,7 +43,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
 }
 
-private case class computeQuestProcessButton(player: Player,selectedQuest: QuestType,ryoServerAssist: RyoServerAssist,questProcessMenu: QuestProcessMenu) {
+private case class computeQuestProcessButton(player: Player, selectedQuest: QuestType, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
   lazy val questGateway = new QuestGateway
   lazy val requireDeliveryList: List[String] = questGateway.getQuestProgress(player).map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
@@ -73,7 +73,7 @@ private case class computeQuestProcessButton(player: Player,selectedQuest: Quest
       .title(s"${GREEN}納品する")
       .lore(List(s"${GRAY}クリックで納品します。"))
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new QuestProcessInventoryMotions(ryoServerAssist).delivery(player)
     }
   )
@@ -90,7 +90,7 @@ private case class computeQuestProcessButton(player: Player,selectedQuest: Quest
         }"
       })
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player)
     }
   )
@@ -104,7 +104,7 @@ private case class computeQuestProcessButton(player: Player,selectedQuest: Quest
         s"$RED$BOLD${UNDERLINE}納品したアイテムは戻りません！")
       )
       .build(),
-    ButtonMotion{_ =>
+    ButtonMotion { _ =>
       new QuestProcessInventoryMotions(ryoServerAssist).questDestroy(player)
     }
   )

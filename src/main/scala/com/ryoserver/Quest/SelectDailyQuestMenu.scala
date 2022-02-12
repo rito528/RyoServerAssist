@@ -12,26 +12,26 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist,page: Int) extends Menu {
+class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,s"デイリークエスト選択:$page")
+  override val frame: MenuFrame = MenuFrame(6, s"デイリークエスト選択:$page")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway
     val playerLevel = player.getQuestLevel
-    val compute = computeSelectDailyQuestButton(player,page,ryoServerAssist)
+    val compute = computeSelectDailyQuestButton(player, page, ryoServerAssist)
     import compute._
     Map(
       getLayOut(1, 6) -> backPage,
       getLayOut(9, 6) -> nextPage
-    ) ++ questGateway.getCanDailyQuests(playerLevel).zipWithIndex.filter{case (_,index) =>
+    ) ++ questGateway.getCanDailyQuests(playerLevel).zipWithIndex.filter { case (_, index) =>
       index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
-    }.map{case (questData,index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData)}.toMap
+    }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap
   }
 
 }
 
-private case class computeSelectDailyQuestButton(player: Player,page:Int,ryoServerAssist: RyoServerAssist) {
+private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
   val backPage: Button = Button(
     ItemStackBuilder
       .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
@@ -74,7 +74,7 @@ private case class computeSelectDailyQuestButton(player: Player,page:Int,ryoServ
             s"$WHITE【納品リスト】"
           ) ++ requireList ++ description)
           .build(),
-        ButtonMotion {_ =>
+        ButtonMotion { _ =>
           new QuestSelectMenuMotions(ryoServerAssist).selectDailyQuest(player, questData.questName)
         }
       )
@@ -90,7 +90,7 @@ private case class computeSelectDailyQuestButton(player: Player,page:Int,ryoServ
             s"$WHITE【討伐リスト】"
           ) ++ requireList ++ description)
           .build(),
-        ButtonMotion {_ =>
+        ButtonMotion { _ =>
           new QuestSelectMenuMotions(ryoServerAssist).selectDailyQuest(player, questData.questName)
         }
       )

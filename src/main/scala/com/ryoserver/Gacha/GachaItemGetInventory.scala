@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack
 
 class GachaItemGetInventory(rarity: Int) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6,"ガチャアイテム一覧")
+  override val frame: MenuFrame = MenuFrame(6, "ガチャアイテム一覧")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     (rarity match {
@@ -19,14 +19,14 @@ class GachaItemGetInventory(rarity: Int) extends Menu {
         GachaLoader.bigPerItemList
       case 3 =>
         GachaLoader.specialItemList
-    }).zipWithIndex.map{case (item,index) =>
-      index -> getButton(player,item)
+    }).zipWithIndex.map { case (item, index) =>
+      index -> getButton(player, item)
     }.toMap
   }
 
-  private def getButton(p: Player,itemStack: ItemStack): Button = {
+  private def getButton(p: Player, itemStack: ItemStack): Button = {
     Button(itemStack,
-      ButtonMotion{_ =>
+      ButtonMotion { _ =>
         p.getInventory.addItem(itemStack)
         p.sendMessage(s"${itemStack.getItemMeta.getDisplayName}をインベントリに加えました。")
       }
