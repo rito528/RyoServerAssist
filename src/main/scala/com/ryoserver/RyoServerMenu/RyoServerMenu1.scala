@@ -319,7 +319,7 @@ private case class computeButton(p: Player,ryoServerAssist: RyoServerAssist,ryoS
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
     ButtonMotion{_ =>
-      new RyoServerMenu2(ryoServerAssist).openPage2(p)
+      new RyoServerMenu2().open(p)
     }
   )
 }

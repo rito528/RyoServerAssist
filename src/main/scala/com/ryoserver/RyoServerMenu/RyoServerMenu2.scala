@@ -1,31 +1,63 @@
 package com.ryoserver.RyoServerMenu
 
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Config.ConfigData.{getConfig, loadConfig}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuOld}
 import com.ryoserver.RyoServerAssist
+import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 import org.bukkit.{Material, Sound}
 
-class RyoServerMenu2(ryoServerAssist: RyoServerAssist) extends MenuOld {
+class RyoServerMenu2() extends Menu {
 
-  override val slot: Int = 6
-  override var name: String = "りょう鯖メニュー2"
-  override var p: Player = _
+  override val frame: MenuFrame = MenuFrame(6,"りょう鯖メニュー2")
 
-  def openPage2(player: Player): Unit = {
-    p = player
-//    val menuMotion = new MenuMotion(ryoServerAssist)
-//    setButton(MenuButton(7, 1, Material.FLOWER_BANNER_PATTERN, s"${GREEN}Webサイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
-//      .setLeftClickMotion(menuMotion.sendSiteURL(_, "web")))
-//    setButton(MenuButton(8, 1, Material.FLOWER_BANNER_PATTERN, s"${GREEN}Dynmapサイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
-//      .setLeftClickMotion(menuMotion.sendSiteURL(_, "dynmap")))
-//    setButton(MenuButton(9, 1, Material.FLOWER_BANNER_PATTERN, s"${GREEN}投票サイトのリンクを表示します。", List(s"${GRAY}クリックで表示します。"))
-//      .setLeftClickMotion(menuMotion.sendSiteURL(_, "vote")))
-//    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}前のページに移動します。", List(s"${GRAY}クリックで移動します。"))
-//      .setLeftClickMotion(new RyoServerMenu1(ryoServerAssist).menu _))
-//    p.playSound(p.getLocation, Sound.BLOCK_IRON_TRAPDOOR_OPEN, 1, 1)
-//    build(new RyoServerMenu2(ryoServerAssist).openPage2)
-    open()
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeRyoServerMenu2(player)
+    import compute._
+    Map(
+      getLayOut(7,1) -> webSite,
+      getLayOut(8,1) -> dynmap,
+      getLayOut(9,1) -> voteSite
+    )
   }
 
+}
+
+private case class computeRyoServerMenu2(player: Player) {
+  val webSite: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.FLOWER_BANNER_PATTERN)
+      .title(s"${GREEN}Webサイトのリンクを表示します。")
+      .lore(List(s"${GRAY}クリックで表示します。"))
+      .build(),
+    ButtonMotion{_ =>
+      player.sendMessage(getConfig.webSite)
+    }
+  )
+
+  val dynmap: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.FLOWER_BANNER_PATTERN)
+      .title(s"${GREEN}Dynmapのリンクを表示します。")
+      .lore(List(s"${GRAY}クリックで表示します。"))
+      .build(),
+    ButtonMotion{_ =>
+      player.sendMessage(getConfig.dynmap)
+    }
+  )
+
+  val voteSite: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.FLOWER_BANNER_PATTERN)
+      .title(s"${GREEN}投票サイトのリンクを表示します。")
+      .lore(List(s"${GRAY}クリックで表示します。"))
+      .build(),
+    ButtonMotion{_ =>
+      player.sendMessage(getConfig.monocraft)
+      player.sendMessage(getConfig.JapanMinecraftServers)
+    }
+  )
 }
