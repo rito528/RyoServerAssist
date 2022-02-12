@@ -16,6 +16,10 @@ class SkillOperation(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}を開放していないため、有効にできません！")
       return
     } else if (p.getSkillOpenPoint >= 10 && !p.getOpenedSkills.contains(effectSkills)) {
+      if (effectSkills.isSpecialSkill && EffectSkills.values.filter(_.isSpecialSkill == false).toSet != p.getOpenedSkills.filter(_.isSpecialSkill == false)) {
+        p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}は基本スキルを開放してから開放することができます！")
+        return
+      }
       p.openSkills(effectSkills)
       p.addSkillOpenPoint(-10)
       new GiveTitle().skillOpenNumber(p)
