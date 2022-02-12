@@ -10,19 +10,26 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
+import scala.collection.immutable.ListMap
+
+
 class BeforeEventsMenu(page: Int, ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, s"過去のイベント:$page")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeBeforeEventMenuButton(player, page, ryoServerAssist)
+    val uuid = player.getUniqueId
     import compute._
     Map(
       getLayOut(1, 6) -> backPage,
       getLayOut(9, 6) -> nextPage
     ) ++ EventDataProvider.oldEventData.zipWithIndex.map { case ((eventName, playerData), index) =>
       index -> getButton(s"$WHITE$eventName", List(
-        s"${WHITE}あなたの順位:${if (playerData.contains(compute.player.getUniqueId)) playerData.toSeq.sortBy(_._2).reverse.toMap.keys.toList.indexOf(compute.player.getUniqueId) else "参加していません。"}",
+        s"${WHITE}あなたの順位:${
+          if (playerData.contains(compute.player.getUniqueId))
+            ListMap(playerData.toSeq.sortWith(_._2 > _._2):_*).toIndexedSeq.indexWhere(_._1 == compute.player.getUniqueId) + 1
+        else "参加していません。"}",
         s"${WHITE}貢献数:${if (playerData.contains(compute.player.getUniqueId)) playerData(compute.player.getUniqueId) else "参加していません。"}")
       )
     }
