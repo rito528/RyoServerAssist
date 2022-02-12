@@ -61,7 +61,7 @@ class HomeGateway(p: Player) {
     val targetData = HomeData.getTargetHomeData(uuid, point)
     targetData match {
       case Some(data) =>
-        Option(s"${data.world},${data.x},${data.y},${data.z}")
+        Option(s"${data.world},${data.x.toInt},${data.y.toInt},${data.z.toInt}")
       case None =>
         None
     }

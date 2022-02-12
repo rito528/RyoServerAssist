@@ -2,7 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame}
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ItemStackBuilder

@@ -1,14 +1,13 @@
 package com.ryoserver.RyoServerMenu
 
-import com.ryoserver.Config.ConfigData.{getConfig, loadConfig}
+import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame}
-import com.ryoserver.RyoServerAssist
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.{Material, Sound}
 
 class RyoServerMenu2() extends Menu {
 
