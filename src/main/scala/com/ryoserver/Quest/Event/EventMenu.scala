@@ -127,7 +127,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .lore(List(s"${GRAY}クリックで表示します。"))
       .build(),
     ButtonMotion{_ =>
-      new EventTitleMenu(ryoServerAssist).openEventTitleMenu(player)
+      new EventTitleMenu(ryoServerAssist).open(player)
     }
   )
 

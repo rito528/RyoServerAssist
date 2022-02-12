@@ -1,56 +1,74 @@
 package com.ryoserver.Quest.Event
 
-import com.ryoserver.Menu.MenuLayout.{getX, getY}
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Menu.Button.{Button, ButtonMotion}
+import com.ryoserver.Menu.MenuLayout.getLayOut
+import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.Player.Name
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.PlayerTitleData
+import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
+import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.{ChatColor, Material}
 
-class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends MenuOld {
+class EventTitleMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val slot: Int = 6
-  override var name: String = "イベント称号"
-  override var p: Player = _
-
+  override val frame: MenuFrame = MenuFrame(6,"イベント称号")
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
-  def openEventTitleMenu(player: Player): Unit = {
-    p = player
-    setButton(MenuButton(1, 6, Material.MAGENTA_GLAZED_TERRACOTTA, s"${GREEN}イベントメニューに戻ります。", List(s"${GRAY}クリックで戻ります。"))
-      .setLeftClickMotion(backMenu))
+  override def settingMenuLayout(player: Player): Map[Int, Button] = {
+    val compute = computeEventTitleMenuButton(player,ryoServerAssist)
     val eventGateway = new EventGateway
-    if (eventGateway.getEventRankingTitles(player.getUniqueId.toString) != null) {
-      eventGateway.getEventRankingTitles(player.getUniqueId.toString).zipWithIndex.foreach { case (title, index) =>
-        setButton(MenuButton(getX(index), getY(index), Material.NAME_TAG, s"$RESET$title", List(s"${GRAY}クリックで設定します。"))
-          .setLeftClickMotion(setTitle(_, index)))
+    import compute._
+    Map(
+      getLayOut(1,6) -> backPage,
+      getLayOut(5,6) -> resetTitle
+    ) ++ (if (eventGateway.getEventRankingTitles(compute.player.getUniqueId.toString) != null) {
+      eventGateway.getEventRankingTitles(compute.player.getUniqueId.toString).zipWithIndex.map { case (title, index) =>
+        index -> getTitleButton(title)
+      }.toMap
+    } else Map.empty)
+  }
+
+}
+
+private case class computeEventTitleMenuButton(player: Player,ryoServerAssist: RyoServerAssist) {
+  val backPage: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
+      .title(s"${GREEN}イベントメニューに戻ります。")
+      .lore(List(s"${GRAY}クリックで戻ります。"))
+      .build(),
+    ButtonMotion{_ =>
+      new EventMenu(ryoServerAssist).open(player)
+    }
+  )
+
+  val resetTitle: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.PAPER)
+      .title(s"${GREEN}称号の設定をリセットします。")
+      .lore(List(s"${GRAY}クリックでリセットします。"))
+      .build(),
+    ButtonMotion{_ =>
+      new PlayerTitleData().resetSelectTitle(player.getUniqueId)
+      new Name().updateName(player)
+      player.sendMessage(s"${AQUA}称号をリセットしました。")
+    }
+  )
+
+  def getTitleButton(title: String): Button = {
+    Button(
+      ItemStackBuilder
+        .getDefault(Material.NAME_TAG)
+        .title(s"$RESET$title")
+        .lore(List(s"${GRAY}クリックで設定します。"))
+        .build(),
+      ButtonMotion{_ =>
+        new PlayerTitleData().setSelectTitle(player.getUniqueId, title)
+        new Name().updateName(player)
+        player.sendMessage(s"${AQUA}称号: 「$RESET$title$AQUA」を設定しました！")
       }
-    }
-    setButton(MenuButton(5, 6, Material.PAPER, s"${GREEN}称号の設定をリセットします。", List(s"${GRAY}クリックでリセットします。"))
-      .setLeftClickMotion(resetTitle))
-    build(new EventTitleMenu(ryoServerAssist).openEventTitleMenu)
-    open()
+    )
   }
-
-  private def backMenu(p: Player): Unit = {
-    new EventMenu(ryoServerAssist).open(p)
-  }
-
-  private def setTitle(p: Player, index: Int): Unit = {
-    if (p.getOpenInventory.getTopInventory.getItem(index) != null) {
-      val titleName = p.getOpenInventory.getTopInventory.getItem(index).getItemMeta.getDisplayName + ChatColor.RESET
-      new PlayerTitleData().setSelectTitle(p.getUniqueId, titleName)
-      new Name().updateName(p)
-      p.sendMessage(s"${AQUA}称号: 「${RESET}" + titleName + s"$AQUA」を設定しました！")
-    }
-  }
-
-  private def resetTitle(p: Player): Unit = {
-    new PlayerTitleData().resetSelectTitle(p.getUniqueId)
-    new Name().updateName(p)
-    p.sendMessage(s"${AQUA}称号をリセットしました。")
-  }
-
 }
