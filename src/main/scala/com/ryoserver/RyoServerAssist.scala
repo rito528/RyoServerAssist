@@ -11,7 +11,7 @@ import com.ryoserver.File.CreateFiles
 import com.ryoserver.Gacha.{Gacha, GachaItemChangeGUI, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
-import com.ryoserver.Menu.{MenuHandler, MenuHandlerOld}
+import com.ryoserver.Menu.MenuHandler
 import com.ryoserver.NeoStack.Menu.SelectStackMenu
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
@@ -105,7 +105,6 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents,
       new StickEvent,
       new StorageEvent,
-      new QuestSelectMenuEvent,
       new SuppressionEvent,
       new Notification,
       new RecoverySkillPointEvent,

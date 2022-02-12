@@ -3,7 +3,7 @@ package com.ryoserver.RyoServerMenu
 import com.ryoserver.Config.ConfigData.{getConfig, loadConfig}
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuOld}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._

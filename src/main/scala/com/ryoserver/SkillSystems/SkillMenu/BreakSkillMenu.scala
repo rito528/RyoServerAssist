@@ -2,7 +2,7 @@ package com.ryoserver.SkillSystems.SkillMenu
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuOld, MenuSkull}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuSkull}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData

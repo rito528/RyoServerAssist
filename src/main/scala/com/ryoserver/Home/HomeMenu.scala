@@ -1,6 +1,6 @@
 package com.ryoserver.Home
 
-import com.ryoserver.Menu.{MenuOld, MenuButton}
+import com.ryoserver.Menu.MenuButton
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player

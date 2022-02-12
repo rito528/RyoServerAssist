@@ -2,7 +2,7 @@ package com.ryoserver.Quest.Event
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
-import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuOld, MenuSkull}
+import com.ryoserver.Menu.{Menu, MenuButton, MenuFrame, MenuSkull}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
