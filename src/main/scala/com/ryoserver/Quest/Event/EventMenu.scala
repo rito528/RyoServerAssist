@@ -105,7 +105,7 @@ private case class computeEventMenuButton(player: Player,ryoServerAssist: RyoSer
       .lore(List(s"${GRAY}クリックでランキングを表示します。"))
       .build(),
     ButtonMotion{_ =>
-      new EventRankingMenu(ryoServerAssist).openRankingMenu(player)
+      new EventRankingMenu(ryoServerAssist).open(player)
     }
   )
 
