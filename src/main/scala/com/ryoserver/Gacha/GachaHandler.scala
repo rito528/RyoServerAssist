@@ -60,7 +60,7 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
           rarities.count(_ == Option(rarity))
         }
         p.sendMessage(s"${AQUA}特等x${getRarities(Rarity.special)},大当たりx${getRarities(Rarity.bigPer)}," +
-          s"あたりx${getRarities(Rarity.per)},はずれx${getRarities(Rarity.miss)}")
+          s"あたりx${getRarities(Rarity.per)},はずれx${getRarities(Rarity.miss)}個出ました！")
       } else {
         rarities.head match {
           case Some(rarity) =>
