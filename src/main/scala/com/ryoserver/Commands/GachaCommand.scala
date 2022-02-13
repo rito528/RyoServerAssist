@@ -2,7 +2,8 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
-import com.ryoserver.Gacha.{GachaAddItemInventory, GachaLoader, GachaPaperData}
+import com.ryoserver.Gacha.SubSystems.GachaAddItemInventory
+import com.ryoserver.Gacha.{GachaLoader, GachaPaperData}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor

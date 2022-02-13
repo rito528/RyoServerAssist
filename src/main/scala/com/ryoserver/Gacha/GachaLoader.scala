@@ -11,8 +11,6 @@ import scala.collection.mutable
 
 object GachaLoader {
 
-  private implicit val session: AutoSession.type = AutoSession
-
   // 1 = miss, 2 = per,3 = bigPer, 4 = special
   lazy val perItemList: mutable.Iterable[ItemStack] = getGachaItems(1)
   lazy val bigPerItemList: mutable.Iterable[ItemStack] = getGachaItems(2)
@@ -29,28 +27,4 @@ object GachaLoader {
   lazy val special: Double = getConfig.Special //特等
   lazy val miss: Double = 100.0 - per - bigPer - special //ハズレ
 
-  @deprecated //このクラスはあくまでloaderなのでaddItemがあるのはおかしい
-  def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
-    sql"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,${Item.getStringFromItemStack(Item.getOneItemStack(is))})"
-      .execute.apply()
-  }
-
-  @deprecated
-  def listGachaItem(rarity: Int, p: Player): Unit = {
-    p.sendMessage("ガチャアイテムリスト")
-    p.sendMessage("+--------------------------+")
-    sql"SELECT * FROM GachaItems WHERE Rarity=$rarity".foreach(rs => {
-      val itemStack = Item.getItemStackFromString(rs.string("Material"))
-      p.sendMessage("ID:" + rs.int("id") + " アイテム名:" + (
-        if (itemStack.getItemMeta.hasDisplayName) itemStack.getItemMeta.getDisplayName
-        else itemStack.getType.name())
-      )
-    })
-    p.sendMessage("+--------------------------+")
-  }
-
-  @deprecated
-  def removeGachaItem(id: Int): Unit = {
-    sql"DELETE FROM GachaItems WHERE id=$id".execute.apply()
-  }
 }
