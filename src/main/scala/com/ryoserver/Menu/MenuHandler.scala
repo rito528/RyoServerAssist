@@ -10,8 +10,8 @@ class MenuHandler extends Listener {
 
   @EventHandler
   def inventoryClickEvent(e: InventoryClickEvent): Unit = {
-    e.getWhoClicked match {
-      case p: Player =>
+    val p = e.getWhoClicked match {
+      case p: Player => p
       case _ => return
     }
     val holder = e.getWhoClicked.getOpenInventory.getTopInventory.getHolder match {
@@ -25,6 +25,9 @@ class MenuHandler extends Listener {
       return
     }
     e.setCancelled(true)
+    if (e.getClickedInventory != p.getOpenInventory.getTopInventory) {
+      return
+    }
     holder.runMotion(e.getSlot, e)
   }
 
