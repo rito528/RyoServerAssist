@@ -58,14 +58,12 @@ private case class computeGachaItemChangeMenuButton(player: Player, ryoServerAss
   )
 
   private def changeItem(p: Player): Unit = {
-    var changeAmount = 0
     val inv = p.getOpenInventory.getTopInventory
     val specialItemList = GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.keysIterator
-    inv.getContents.foreach(itemStack => {
-      if (itemStack != null && specialItemList.contains(itemStack)) {
-        changeAmount += rate
-      }
-    })
+    val changeAmount = inv.getContents.map(itemStack => {
+      if (itemStack != null && specialItemList.contains(itemStack)) rate
+      else 0
+    }).sum
     if (changeAmount != 0) {
       val item = RecoveryItems.max.clone()
       item.setAmount(changeAmount)
