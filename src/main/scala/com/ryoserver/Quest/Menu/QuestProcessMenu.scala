@@ -1,9 +1,10 @@
-package com.ryoserver.Quest
+package com.ryoserver.Quest.Menu
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.Quest.{QuestGateway, QuestProcessInventoryMotions, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.{ItemStackBuilder, Translate}
@@ -12,16 +13,16 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
-  override val frame: MenuFrame = MenuFrame(6, "デイリークエスト")
+  override val frame: MenuFrame = MenuFrame(6, "クエスト")
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway
-    questGateway.getSelectedDailyQuest(player) match {
+    questGateway.getSelectedQuest(player) match {
       case Some(selectedQuest) =>
-        val compute = computeDailyQuestProcessButton(player, selectedQuest, ryoServerAssist, this)
+        val compute = computeQuestProcessButton(player, selectedQuest, ryoServerAssist, this)
         import compute._
         val buttons = Map(
           getLayOut(1, 6) -> requireButton
@@ -38,11 +39,12 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
       case None =>
         Map.empty
     }
+
   }
 
 }
 
-private case class computeDailyQuestProcessButton(player: Player, selectedQuest: QuestType, ryoServerAssist: RyoServerAssist, dailyQuestProcessMenu: DailyQuestProcessMenu) {
+private case class computeQuestProcessButton(player: Player, selectedQuest: QuestType, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
   lazy val questGateway = new QuestGateway
   lazy val requireDeliveryList: List[String] = questGateway.getQuestProgress(player).map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
@@ -73,7 +75,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       .lore(List(s"${GRAY}クリックで納品します。"))
       .build(),
     ButtonMotion { _ =>
-      new DailyQuestProcessMotions(ryoServerAssist).delivery(player)
+      new QuestProcessInventoryMotions(ryoServerAssist).delivery(player)
     }
   )
 
@@ -90,7 +92,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       })
       .build(),
     ButtonMotion { _ =>
-      new DailyQuestProcessMotions(ryoServerAssist).deliveryFromNeoStack(player)
+      new QuestProcessInventoryMotions(ryoServerAssist).deliveryFromNeoStack(player)
     }
   )
 
@@ -104,7 +106,9 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       )
       .build(),
     ButtonMotion { _ =>
-      new DailyQuestProcessMotions(ryoServerAssist).questDestroy(player)
+      new QuestProcessInventoryMotions(ryoServerAssist).questDestroy(player)
     }
   )
+
+
 }

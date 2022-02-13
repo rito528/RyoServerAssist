@@ -1,5 +1,6 @@
 package com.ryoserver.Quest
 
+import com.ryoserver.Quest.Menu.{DailyQuestProcessMenu, QuestProcessMenu, SelectDailyQuestMenu, SelectQuestMenu}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.ChatColor._

@@ -1,9 +1,10 @@
-package com.ryoserver.Quest
+package com.ryoserver.Quest.Menu
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Quest.QuestGateway
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
