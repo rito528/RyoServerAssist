@@ -4,19 +4,19 @@ import org.bukkit.inventory.ItemStack
 
 import java.security.SecureRandom
 
-class GachaLottery extends Rarity_trait {
+class GachaLottery {
 
   private val random = SecureRandom.getInstance("SHA1PRNG")
 
   /*
     レアリティの抽選を行う
    */
-  def lottery(): Rarity_trait = {
+  def lottery(): Rarity = {
     val r = random.nextDouble()
-    if ((GachaLoader.special / 100) >= r) rarity.special
-    else if ((GachaLoader.bigPer / 100) >= r) rarity.bigPer
-    else if ((GachaLoader.per / 100) >= r) rarity.per
-    else rarity.miss
+    if ((GachaLoader.special / 100) >= r) Rarity.special
+    else if ((GachaLoader.bigPer / 100) >= r) Rarity.bigPer
+    else if ((GachaLoader.per / 100) >= r) Rarity.per
+    else Rarity.miss
   }
 
   /*

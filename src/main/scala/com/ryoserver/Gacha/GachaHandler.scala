@@ -44,16 +44,16 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
           } else {
             //通常のガチャ
             new GachaLottery().lottery() match {
-              case rarity.special =>
+              case Rarity.special =>
                 special += 1
                 p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(4))
-              case rarity.per =>
+              case Rarity.per =>
                 per += 1
                 p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(2))
-              case rarity.bigPer =>
+              case Rarity.bigPer =>
                 bigPer += 1
                 p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(3))
-              case rarity.miss =>
+              case Rarity.miss =>
                 miss += 1
                 p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(1))
             }
@@ -81,16 +81,16 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
           p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(4))
         } else {
           new GachaLottery().lottery() match {
-            case rarity.special =>
+            case Rarity.special =>
               p.sendMessage(s"${AQUA}特等！")
               p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(4))
-            case rarity.per =>
+            case Rarity.per =>
               p.sendMessage(s"${AQUA}あたり！")
               p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(2))
-            case rarity.bigPer =>
+            case Rarity.bigPer =>
               p.sendMessage(s"${AQUA}大当たり！")
               p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(3))
-            case rarity.miss =>
+            case Rarity.miss =>
               p.sendMessage(s"${AQUA}はずれ！")
               p.getWorld.dropItem(p.getLocation(), new GachaLottery().itemLottery(1))
           }

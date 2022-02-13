@@ -1,13 +1,18 @@
 package com.ryoserver.Gacha
 
-trait Rarity_trait
+import enumeratum.{Enum, EnumEntry}
 
-object rarity {
-  object special extends Rarity_trait
+sealed abstract class Rarity extends EnumEntry
 
-  object bigPer extends Rarity_trait
+object Rarity extends Enum[Rarity] {
 
-  object per extends Rarity_trait
+  override def values: IndexedSeq[Rarity] = findValues
 
-  object miss extends Rarity_trait
+  case object special extends Rarity
+
+  case object bigPer extends Rarity
+
+  case object per extends Rarity
+
+  case object miss extends Rarity
 }
