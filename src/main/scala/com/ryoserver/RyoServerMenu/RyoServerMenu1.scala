@@ -3,7 +3,7 @@ package com.ryoserver.RyoServerMenu
 import com.google.common.io.ByteStreams
 import com.ryoserver.Distribution.Distribution
 import com.ryoserver.DustBox.DustBoxInventory
-import com.ryoserver.Gacha.{GachaItemChangeGUI, GetGachaTickets}
+import com.ryoserver.Gacha.SubSystems.{GachaItemChangeGUI, GetGachaTickets}
 import com.ryoserver.Home.HomeMenu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut

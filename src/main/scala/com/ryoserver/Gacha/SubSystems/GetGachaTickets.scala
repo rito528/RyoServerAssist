@@ -1,5 +1,6 @@
-package com.ryoserver.Gacha
+package com.ryoserver.Gacha.SubSystems
 
+import com.ryoserver.Gacha.GachaPaperData
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
@@ -16,6 +17,7 @@ class GetGachaTickets() {
         .filter(itemStack =>
           (if (itemStack != null) Item.getOneItemStack(itemStack) else null) == Item.getOneItemStack(gachaTicket)).map(_.getAmount).sum
       gachaTicket.setAmount(number)
+      p.getInventory.addItem(gachaTicket)
       p.reduceNormalGachaTickets(p.getInventory.getContents
         .filter(itemStack =>
           (if (itemStack != null) Item.getOneItemStack(itemStack) else null) == Item.getOneItemStack(gachaTicket)).map(_.getAmount).sum - oldAmount)

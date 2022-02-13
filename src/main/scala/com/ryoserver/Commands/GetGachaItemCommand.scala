@@ -2,7 +2,7 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
-import com.ryoserver.Gacha.GachaItemGetInventory
+import com.ryoserver.Gacha.SubSystems.GachaItemGetInventory
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
