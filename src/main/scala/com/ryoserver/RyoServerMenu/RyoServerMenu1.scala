@@ -11,7 +11,7 @@ import com.ryoserver.Menu._
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Quest.Event.EventMenu
+import com.ryoserver.Quest.Event.Menu.EventMenu
 import com.ryoserver.Quest.QuestMenu
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillMenu.SkillCategoryMenu
