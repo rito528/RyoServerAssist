@@ -1,6 +1,6 @@
 package com.ryoserver.OriginalItem
 
-import com.ryoserver.Gacha.GachaLoader
+import com.ryoserver.Gacha.{GachaLoader, Rarity}
 import com.ryoserver.util.Item
 import org.bukkit.event.inventory.{InventoryClickEvent, InventoryType, PrepareAnvilEvent}
 import org.bukkit.event.{Event, EventHandler, Listener}
@@ -11,8 +11,8 @@ class RepairEvent extends Listener {
   def repair(e: PrepareAnvilEvent): Unit = {
     val item = e.getInventory.getItem(0)
     if (item == null) return
-    if (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item).orNull) ||
-      GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item).orNull))
+    if (GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.toList.contains(Item.getNonDamageItem(item).orNull) ||
+      GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.bigPer}.toList.contains(Item.getNonDamageItem(item).orNull))
       e.getInventory.setRepairCost(100)
   }
 
@@ -22,8 +22,11 @@ class RepairEvent extends Listener {
       val item1 = e.getInventory.getItem(0)
       val item2 = e.getInventory.getItem(1)
       if (item1 == null && item2 == null) return
-      if (item1 != null && (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item1).orNull) || GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item1).orNull)) ||
-        item2 != null && (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item2).orNull) || GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item2).orNull))) {
+      if (item1 != null &&
+        (GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.contains(Item.getNonDamageItem(item1).orNull) ||
+          GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.bigPer}.contains(Item.getNonDamageItem(item1).orNull)) ||
+        item2 != null && (GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.contains(Item.getNonDamageItem(item2).orNull) ||
+          GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.bigPer}.contains(Item.getNonDamageItem(item2).orNull))) {
         e.setResult(Event.Result.DENY)
       }
     }

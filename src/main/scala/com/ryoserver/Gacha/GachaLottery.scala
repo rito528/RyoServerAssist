@@ -11,7 +11,7 @@ class GachaLottery {
   /*
     レアリティの抽選を行う
    */
-  def lottery(): Rarity = {
+  def rarityLottery(): Rarity = {
     val r = random.nextDouble()
     if ((GachaLoader.special / 100) >= r) Rarity.special
     else if ((GachaLoader.bigPer / 100) >= r) Rarity.bigPer
@@ -22,21 +22,9 @@ class GachaLottery {
   /*
   アイテムの抽選を行う
    */
-  def itemLottery(rarity: Int): ItemStack = {
-    rarity match {
-      case 1 =>
-        val r = (Math.random() * GachaLoader.missItemList.size).toInt
-        GachaLoader.missItemList.toList(r)
-      case 2 =>
-        val r = (Math.random() * GachaLoader.perItemList.size).toInt
-        GachaLoader.perItemList.toList(r)
-      case 3 =>
-        val r = (Math.random() * GachaLoader.bigPerItemList.size).toInt
-        GachaLoader.bigPerItemList.toList(r)
-      case 4 =>
-        val r = (Math.random() * GachaLoader.specialItemList.size).toInt
-        GachaLoader.specialItemList.toList(r)
-    }
+  def itemLottery(rarity: Rarity): ItemStack = {
+    val r = (Math.random() * GachaLoader.getGachaItemData.count(_._2 == rarity)).toInt
+    GachaLoader.getGachaItemData.filter(_._2 == rarity).keysIterator.toList(r)
   }
 
 }

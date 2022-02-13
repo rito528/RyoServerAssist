@@ -37,8 +37,13 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
         case "add" =>
           new GachaAddItemInventory(ryoServerAssist).open(sender.asInstanceOf[Player])
         case "remove" =>
-          new GachaGateway().removeGachaItem(args(1).toInt)
-          sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
+          Rarity.values.foreach(rarity =>{
+            val list = new GachaGateway().listGachaItem(rarity)
+            if (list.contains(args(1).toInt)) {
+              new GachaGateway().removeGachaItem(args(1).toInt,list(args(1).toInt))
+              sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
+            }
+          })
         case "list" =>
           val rarity = args(1).toInt match {
             case 1 =>

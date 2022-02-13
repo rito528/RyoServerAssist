@@ -9,19 +9,28 @@ import scala.collection.mutable
 
 object GachaLoader {
 
-  private implicit val session: AutoSession.type = AutoSession
+  private implicit lazy val session: AutoSession.type = AutoSession
 
-  // 1 = miss, 2 = per,3 = bigPer, 4 = special
-  lazy val perItemList: mutable.Iterable[ItemStack] = getGachaItems(1)
-  lazy val bigPerItemList: mutable.Iterable[ItemStack] = getGachaItems(2)
-  lazy val specialItemList: mutable.Iterable[ItemStack] = getGachaItems(3)
-  lazy val missItemList: mutable.Iterable[ItemStack] = getGachaItems(4)
+  /*
+    アイテムデータ
+    1 = miss, 2 = per,3 = bigPer, 4 = special
+   */
+  private lazy val gachaItemData: mutable.Map[ItemStack,Rarity] = mutable.Map() ++ sql"SELECT * FROM GachaItems"
+    .map(rs => Item.getOneItemStack(Item.getItemStackFromString(rs.string("Material"))) ->
+      Rarity.values.filter(_.id == rs.int("Rarity")).head)
+    .toList()
+    .apply()
+    .toMap
 
-  private def getGachaItems(rarity: Int): mutable.Iterable[ItemStack] = {
-    mutable.Iterable() ++ sql"SELECT * FROM GachaItems WHERE Rarity=$rarity"
-      .map(rs => Item.getOneItemStack(Item.getItemStackFromString(rs.string("Material")))).toIterable().apply()
-  }
+  def getGachaItemData: mutable.Map[ItemStack,Rarity] = gachaItemData
 
+  def addGachaItemData(itemStack: ItemStack,rarity: Rarity): Unit = gachaItemData += (itemStack -> rarity)
+
+  def removeGachaItem(itemStack: ItemStack): Unit = gachaItemData -= itemStack
+
+  /*
+    ガチャの確率
+   */
   lazy val per: Double = getConfig.per //あたり
   lazy val bigPer: Double = getConfig.bigPer //大当たり
   lazy val special: Double = getConfig.Special //特等

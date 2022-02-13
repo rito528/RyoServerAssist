@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha.SubSystems
 
-import com.ryoserver.Gacha.GachaLoader
+import com.ryoserver.Gacha.{GachaLoader, Rarity}
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import org.bukkit.entity.Player
@@ -13,13 +13,13 @@ class GachaItemGetInventory(rarity: Int) extends Menu {
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     (rarity match {
       case 0 =>
-        GachaLoader.missItemList
+        GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.miss}.keys
       case 1 =>
-        GachaLoader.perItemList
+        GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.per}.keys
       case 2 =>
-        GachaLoader.bigPerItemList
+        GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.bigPer}.keys
       case 3 =>
-        GachaLoader.specialItemList
+        GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.keys
     }).zipWithIndex.map { case (item, index) =>
       index -> getButton(player, item)
     }.toMap

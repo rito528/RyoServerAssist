@@ -31,4 +31,9 @@ object GachaPaperData {
     getEnchantEffectItem(Material.PAPER, "ガチャ券を受け取ります。", Lore)
   }
 
+  val enableGachaTickets = List(
+    normal,
+    fromAdmin
+  )
+
 }
