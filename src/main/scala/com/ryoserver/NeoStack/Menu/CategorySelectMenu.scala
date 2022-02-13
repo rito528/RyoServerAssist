@@ -45,6 +45,8 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeCategorySelectMenu(player: Player, ryoServerAssist: RyoServerAssist) {
+  private val lore: List[String] = List(s"${GRAY}クリックで開きます。")
+
   val mainBlocks: Button = Button(
     ItemStackBuilder
       .getDefault(Material.GRASS_BLOCK)
@@ -185,7 +187,6 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       new RyoServerMenu1(ryoServerAssist).open(player)
     }
   )
-  private val lore: List[String] = List(s"${GRAY}クリックで開きます。")
 
   private def openStack(p: Player, category: String): Unit = {
     val gui = new StackMenu(1, category, ryoServerAssist)
