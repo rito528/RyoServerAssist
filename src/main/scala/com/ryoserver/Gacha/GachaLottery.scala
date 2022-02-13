@@ -25,17 +25,17 @@ class GachaLottery extends Rarity_trait {
   def itemLottery(rarity: Int): ItemStack = {
     rarity match {
       case 1 =>
-        val r = (Math.random() * GachaLoader.missItemList.length).toInt
-        GachaLoader.missItemList(r)
+        val r = (Math.random() * GachaLoader.missItemList.size).toInt
+        GachaLoader.missItemList.toList(r)
       case 2 =>
-        val r = (Math.random() * GachaLoader.perItemList.length).toInt
-        GachaLoader.perItemList(r)
+        val r = (Math.random() * GachaLoader.perItemList.size).toInt
+        GachaLoader.perItemList.toList(r)
       case 3 =>
-        val r = (Math.random() * GachaLoader.bigPerItemList.length).toInt
-        GachaLoader.bigPerItemList(r)
+        val r = (Math.random() * GachaLoader.bigPerItemList.size).toInt
+        GachaLoader.bigPerItemList.toList(r)
       case 4 =>
-        val r = (Math.random() * GachaLoader.specialItemList.length).toInt
-        GachaLoader.specialItemList(r)
+        val r = (Math.random() * GachaLoader.specialItemList.size).toInt
+        GachaLoader.specialItemList.toList(r)
     }
   }
 

@@ -1,5 +1,6 @@
-package com.ryoserver.Gacha
+package com.ryoserver.Gacha.SubSystems
 
+import com.ryoserver.Gacha.GachaLoader
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import org.bukkit.entity.Player

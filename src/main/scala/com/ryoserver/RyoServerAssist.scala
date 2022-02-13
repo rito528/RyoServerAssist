@@ -8,7 +8,7 @@ import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
-import com.ryoserver.Gacha.{Gacha, GachaLoader}
+import com.ryoserver.Gacha.{GachaHandler, GachaLoader}
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
 import com.ryoserver.Menu.MenuHandler
@@ -100,7 +100,7 @@ class RyoServerAssist extends JavaPlugin {
       Bukkitイベントの登録
      */
     List(
-      new Gacha,
+      new GachaHandler,
       new PlayerEvents,
       new StickEvent,
       new StorageEvent,
