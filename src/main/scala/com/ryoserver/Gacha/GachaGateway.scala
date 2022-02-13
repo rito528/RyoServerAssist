@@ -10,12 +10,12 @@ class GachaGateway {
 
   private implicit val session: AutoSession.type = AutoSession
 
-  def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Int): Unit = {
+  def addGachaItem(implicit ryoServerAssist: RyoServerAssist, is: ItemStack, rarity: Rarity): Unit = {
     sql"INSERT INTO GachaItems(Rarity,Material) VALUES ($rarity,${Item.getStringFromItemStack(Item.getOneItemStack(is))})"
       .execute.apply()
   }
 
-  def listGachaItem(rarity: Int, p: Player): Unit = {
+  def listGachaItem(rarity: Rarity, p: Player): Unit = {
     p.sendMessage("ガチャアイテムリスト")
     p.sendMessage("+--------------------------+")
     sql"SELECT * FROM GachaItems WHERE Rarity=$rarity".foreach(rs => {

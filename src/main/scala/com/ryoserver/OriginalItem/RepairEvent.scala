@@ -11,8 +11,8 @@ class RepairEvent extends Listener {
   def repair(e: PrepareAnvilEvent): Unit = {
     val item = e.getInventory.getItem(0)
     if (item == null) return
-    if (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item).orNull) ||
-      GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item).orNull))
+    if (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item).orNull) ||
+      GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item).orNull))
       e.getInventory.setRepairCost(100)
   }
 
@@ -22,8 +22,8 @@ class RepairEvent extends Listener {
       val item1 = e.getInventory.getItem(0)
       val item2 = e.getInventory.getItem(1)
       if (item1 == null && item2 == null) return
-      if (item1 != null && (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item1).orNull) || GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item1).orNull)) ||
-        item2 != null && (GachaLoader.specialItemList.contains(Item.getNonDamageItem(item2).orNull) || GachaLoader.bigPerItemList.contains(Item.getNonDamageItem(item2).orNull))) {
+      if (item1 != null && (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item1).orNull) || GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item1).orNull)) ||
+        item2 != null && (GachaLoader.specialItemList.toList.contains(Item.getNonDamageItem(item2).orNull) || GachaLoader.bigPerItemList.toList.contains(Item.getNonDamageItem(item2).orNull))) {
         e.setResult(Event.Result.DENY)
       }
     }

@@ -1,15 +1,15 @@
 package com.ryoserver.Gacha
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
 object GachaLoader {
+
+  private implicit val session: AutoSession.type = AutoSession
 
   // 1 = miss, 2 = per,3 = bigPer, 4 = special
   lazy val perItemList: mutable.Iterable[ItemStack] = getGachaItems(1)

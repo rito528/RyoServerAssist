@@ -3,7 +3,7 @@ package com.ryoserver.Commands
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.Gacha.SubSystems.GachaAddItemInventory
-import com.ryoserver.Gacha.{GachaLoader, GachaPaperData}
+import com.ryoserver.Gacha.{GachaGateway, GachaPaperData, Rarity}
 import com.ryoserver.RyoServerAssist
 import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
@@ -37,10 +37,20 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
         case "add" =>
           new GachaAddItemInventory(ryoServerAssist).open(sender.asInstanceOf[Player])
         case "remove" =>
-          GachaLoader.removeGachaItem(args(1).toInt)
+          new GachaGateway().removeGachaItem(args(1).toInt)
           sender.sendMessage(s"ガチャアイテムID:${args(1)}を削除しました。")
         case "list" =>
-          GachaLoader.listGachaItem(args(1).toInt, sender.asInstanceOf[Player])
+          val rarity = args(1).toInt match {
+            case 1 =>
+              Rarity.miss
+            case 2 =>
+              Rarity.per
+            case 3 =>
+              Rarity.bigPer
+            case 4 =>
+              Rarity.special
+          }
+          new GachaGateway().listGachaItem(rarity, sender.asInstanceOf[Player])
         case _ =>
       }
     }

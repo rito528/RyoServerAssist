@@ -153,7 +153,6 @@ class RyoServerAssist extends JavaPlugin {
       様々なロード処理
      */
     new LoadAllPlayerData().load()
-    GachaLoader.load
     LoadQuests.loadQuest
     new TitleLoader().loadTitle()
     ItemList.loadItemList

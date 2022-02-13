@@ -1,6 +1,6 @@
 package com.ryoserver.Gacha.SubSystems
 
-import com.ryoserver.Gacha.GachaLoader
+import com.ryoserver.Gacha.{GachaGateway, Rarity}
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
@@ -37,7 +37,7 @@ private case class computeGachaAddItemInventory(player: Player, ryoServerAssist:
       .title(s"${GREEN}はずれにアイテムを追加します。")
       .build(),
     ButtonMotion { _ =>
-      add(0)
+      add(Rarity.miss)
       player.sendMessage(s"${AQUA}はずれにアイテムを追加しました。")
     }
   )
@@ -48,7 +48,7 @@ private case class computeGachaAddItemInventory(player: Player, ryoServerAssist:
       .title(s"${GREEN}あたりにアイテムを追加します。")
       .build(),
     ButtonMotion { _ =>
-      add(1)
+      add(Rarity.per)
       player.sendMessage(s"${AQUA}あたりにアイテムを追加しました。")
     }
   )
@@ -59,7 +59,7 @@ private case class computeGachaAddItemInventory(player: Player, ryoServerAssist:
       .title(s"${GREEN}大当たりにアイテムを追加します。")
       .build(),
     ButtonMotion { _ =>
-      add(2)
+      add(Rarity.bigPer)
       player.sendMessage(s"${AQUA}大当たりにアイテムを追加しました。")
     }
   )
@@ -70,15 +70,15 @@ private case class computeGachaAddItemInventory(player: Player, ryoServerAssist:
       .title(s"${GREEN}特等にアイテムを追加します。")
       .build(),
     ButtonMotion { _ =>
-      add(3)
+      add(Rarity.special)
       player.sendMessage(s"${AQUA}特等にアイテムを追加しました。")
     }
   )
 
-  private def add(rarity: Int): Unit = {
+  private def add(rarity: Rarity): Unit = {
     List(46, 48, 50, 52).foreach(inv.clear)
     inv.getContents.foreach(is => {
-      if (is != null) GachaLoader.addGachaItem(ryoServerAssist, is, rarity)
+      if (is != null) new GachaGateway().addGachaItem(ryoServerAssist, is, rarity)
     })
   }
 }
