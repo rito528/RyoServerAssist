@@ -15,17 +15,12 @@ class GachaGateway {
       .execute.apply()
   }
 
-  def listGachaItem(rarity: Rarity, p: Player): Unit = {
-    p.sendMessage("ガチャアイテムリスト")
-    p.sendMessage("+--------------------------+")
-    sql"SELECT * FROM GachaItems WHERE Rarity=$rarity".foreach(rs => {
+  def listGachaItem(rarity: Rarity): Map[Int,ItemStack] = {
+    sql"SELECT * FROM GachaItems WHERE Rarity=${rarity.id}".map(rs =>{
       val itemStack = Item.getItemStackFromString(rs.string("Material"))
-      p.sendMessage("ID:" + rs.int("id") + " アイテム名:" + (
-        if (itemStack.getItemMeta.hasDisplayName) itemStack.getItemMeta.getDisplayName
-        else itemStack.getType.name())
-      )
-    })
-    p.sendMessage("+--------------------------+")
+      val id = rs.int("id")
+      id -> itemStack
+    }).toList().apply().toMap
   }
 
   def removeGachaItem(id: Int): Unit = {

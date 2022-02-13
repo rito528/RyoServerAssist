@@ -50,7 +50,14 @@ class GachaCommand(implicit ryoServerAssist: RyoServerAssist) {
             case 4 =>
               Rarity.special
           }
-          new GachaGateway().listGachaItem(rarity, sender.asInstanceOf[Player])
+          val gachaItemList = new GachaGateway().listGachaItem(rarity)
+          sender.sendMessage("ガチャアイテムリスト")
+          sender.sendMessage("+--------------------------+")
+          gachaItemList.foreach{case (id,itemStack) =>
+            s"ID:$id アイテム名:${if (itemStack.getItemMeta.hasDisplayName) itemStack.getItemMeta.getDisplayName
+            else itemStack.getType.name()}"
+          }
+          sender.sendMessage("+--------------------------+")
         case _ =>
       }
     }
