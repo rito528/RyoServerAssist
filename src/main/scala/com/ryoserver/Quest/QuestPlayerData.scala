@@ -12,18 +12,6 @@ object QuestPlayerData {
 
   private implicit val session: AutoSession.type = AutoSession
 
-  trait MaterialOrEntityType[T]
-
-  object MaterialOrEntityType {
-    implicit object materialInstance extends MaterialOrEntityType[Material]
-    implicit object entityTypeInstance extends MaterialOrEntityType[EntityType]
-  }
-
-  val playerQuestData2: mutable.Map[UUID,PlayerQuestDataContext[_]] = mutable.Map(
-    UUID.randomUUID() -> PlayerQuestDataContext(None,Option(Map(Material.WHEAT -> 1)),List.empty),
-    UUID.randomUUID() -> PlayerQuestDataContext(None,Option(Map(EntityType.PIG -> 1)),List.empty)
-  )
-
   val playerQuestData: mutable.Map[UUID,PlayerQuestDataContext[_]] =
     mutable.Map() ++ sql"SELECT UUID,selectedQuest,remaining,bookmarks FROM Quests"
       .map{rs =>
