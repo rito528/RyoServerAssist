@@ -4,19 +4,19 @@ import enumeratum.{Enum, EnumEntry}
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
-case class QuestDataContext(questName: String,
-                             questType: QuestType,
-                             minLevel: Int,
-                             maxLevel: Int,
-                             exp: Double,
-                             requireList: Map[String, Int])
-
 trait MaterialOrEntityType[T]
 
 object MaterialOrEntityType {
   implicit object materialInstance extends MaterialOrEntityType[Material]
   implicit object entityTypeInstance extends MaterialOrEntityType[EntityType]
 }
+
+case class QuestDataContext[materialOrEntityType: MaterialOrEntityType](questName: String,
+                                                                        questType: QuestType,
+                                                                        minLevel: Int,
+                                                                        maxLevel: Int,
+                                                                        exp: Double,
+                                                                        requireList: Map[materialOrEntityType, Int])
 
 case class PlayerQuestDataContext[materialOrEntityType: MaterialOrEntityType](selectedQuest: Option[String],
                                                                               progress: Option[Map[materialOrEntityType, Int]],

@@ -16,7 +16,7 @@ object QuestPlayerData {
     mutable.Map() ++ sql.map{rs =>
       val selectedQuest = rs.stringOpt("selectedQuest")
       val remaining = rs.stringOpt("remaining")
-      val materialProgress: Map[Material,Int]= if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+      val materialProgress: Map[Material,Int] = if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
         remaining.get.split(";").map { data =>
           val splitData = data.split(":")
           Material.matchMaterial(splitData(0)) -> splitData(1).toInt
@@ -38,10 +38,10 @@ object QuestPlayerData {
           PlayerQuestDataContext(selectedQuest,Option(materialProgress), bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
       } else if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
         UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
+          PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), bookmarks)
       } else {
         UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(None,Option(materialProgress),bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
+          PlayerQuestDataContext(None,Option(materialProgress),bookmarks)
       }
     }.toList().apply().toMap
   }
