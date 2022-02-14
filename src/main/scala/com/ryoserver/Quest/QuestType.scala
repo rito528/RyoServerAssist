@@ -12,7 +12,7 @@ case class QuestType(questName: String,
                      minLevel: Int,
                      maxLevel: Int,
                      exp: Double,
-                     requireList: Map[String, Int],
+                     requireList: Map[String, Int]
                     )
 
 /*
