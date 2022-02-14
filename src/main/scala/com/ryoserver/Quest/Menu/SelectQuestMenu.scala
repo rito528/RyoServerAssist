@@ -3,15 +3,13 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
-import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
-import org.bukkit.entity.Player
+import org.bukkit.entity.{EntityType, Player}
 import org.bukkit.event.inventory.ClickType
 
 class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: QuestSortContext) extends Menu {
@@ -26,9 +24,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
       getLayOut(1, 6) -> backPage,
       getLayOut(5, 6) -> sort,
       getLayOut(9, 6) -> nextPage
-    ) /*++ questGateway.getQuests(sortType,player).zipWithIndex.filter { case (_, index) =>
+    ) ++ questGateway.getQuests(sortType,compute.player).zipWithIndex.filter { case (_, index) =>
       index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
-    }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap*/
+    }.map { case (questData, index) => (index - ((getLayOut(9, 5) + 1) * (this.page - 1))) -> getQuestButton(questData) }.toMap
   }
 
 }
@@ -88,7 +86,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
     )
     if (questData.questType == QuestType.delivery) {
       val requireList = questData.requireList.map { case (require, amount) =>
-//        s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
+        s"$WHITE${Translate.materialNameToJapanese(require.asInstanceOf[Material])}:${amount}個"
       }
       return Button(
         ItemStackBuilder
@@ -96,27 +94,27 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
           .title(s"$RESET[納品クエスト]${questData.questName}")
           .lore(List(
             s"$WHITE【納品リスト】"
-          )/* ++ requireList ++ description*/)
+          ) ++ requireList ++ description)
           .build(),
         ButtonMotion { e =>
+          val gateway = new QuestGateway
+          val questName = questData.questName
           e.getClick match {
             case ClickType.RIGHT =>
-              val gateway = new QuestGateway
-              val questName = questData.questName
-//              if (gateway.setBookmark(player, questName)) {
-//                player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
-//              } else {
-//                player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
-//              }
-//            case ClickType.LEFT =>
-//              new QuestSelectMenuMotions(ryoServerAssist).Select(player, questData.questName)
+              if (gateway.setBookmark(player, questName)) {
+                player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
+              } else {
+                player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
+              }
+            case ClickType.LEFT =>
+              gateway.selectQuest(player,questName)
             case _ =>
           }
         }
       )
     } else if (questData.questType == QuestType.suppression) {
       val requireList = questData.requireList.map { case (require, amount) =>
-//        s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}体"
+        s"$WHITE${Translate.entityNameToJapanese(require.asInstanceOf[EntityType])}:${amount}体"
       }
       return Button(
         ItemStackBuilder
@@ -124,20 +122,20 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
           .title(s"$RESET[討伐クエスト]${questData.questName}")
           .lore(List(
             s"$WHITE【討伐リスト】"
-          ) /*++ requireList ++ description*/)
+          ) ++ requireList ++ description)
           .build(),
         ButtonMotion { e =>
+          val gateway = new QuestGateway
+          val questName = questData.questName
           e.getClick match {
             case ClickType.RIGHT =>
-//              val gateway = new QuestGateway
-//              val questName = questData.questName
-//              if (gateway.setBookmark(player, questName)) {
-//                player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
-//              } else {
-//                player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
-//              }
+              if (gateway.setBookmark(player, questName)) {
+                player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
+              } else {
+                player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
+              }
             case ClickType.LEFT =>
-//              new QuestSelectMenuMotions(ryoServerAssist).Select(player, questData.questName)
+              gateway.selectQuest(player,questName)
             case _ =>
           }
         }

@@ -32,7 +32,26 @@ class QuestGateway {
   }
 
   private def getCanQuests(playerLevel: Int): Set[QuestDataContext[_]] = {
-    QuestData.loadedQuestData.filter(data => data.maxLevel >= playerLevel && data.minLevel <= playerLevel)
+    QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
+  }
+
+  def selectQuest(p: Player,questName: String): Unit = {
+    QuestPlayerData.playerQuestData(p.getUniqueId).setSelectedQuest(Option(questName))
+  }
+
+  /*
+    クエスト名を指定するとbookmarkに追加・削除をします。
+    追加するとtrue、削除されるとfalseを返します。
+   */
+  def setBookmark(p: Player,questName: String): Boolean = {
+    val playerData = QuestPlayerData.playerQuestData(p.getUniqueId)
+    if (playerData.bookmarks.contains(questName)) {
+      playerData.setBookmarks(playerData.bookmarks.filterNot(_ == questName))
+      false
+    } else {
+      playerData.setBookmarks(playerData.bookmarks ++ List(questName))
+      true
+    }
   }
 
 }

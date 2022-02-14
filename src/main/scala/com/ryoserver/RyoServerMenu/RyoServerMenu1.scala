@@ -12,6 +12,8 @@ import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.Menu.EventMenu
+import com.ryoserver.Quest.Menu.SelectQuestMenu
+import com.ryoserver.Quest.QuestSortContext
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillMenu.SkillCategoryMenu
 import com.ryoserver.Storage.Storage
@@ -92,7 +94,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-//      new QuestMenu().selectInventory(p)
+      new SelectQuestMenu(ryoServerAssist,1,QuestSortContext.normal).open(p)
     }
   )
 

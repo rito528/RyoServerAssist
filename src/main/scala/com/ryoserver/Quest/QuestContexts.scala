@@ -20,7 +20,20 @@ case class QuestDataContext[materialOrEntityType: MaterialOrEntityType](questNam
 
 case class PlayerQuestDataContext[materialOrEntityType: MaterialOrEntityType](selectedQuest: Option[String],
                                                                               progress: Option[Map[materialOrEntityType, Int]],
-                                                                              bookmarks: List[String])
+                                                                              bookmarks: List[String]) {
+  def setSelectedQuest(questName: Option[String]): Unit = {
+    this.copy(selectedQuest = questName)
+  }
+
+  def setProgress(progress: Option[Map[materialOrEntityType,Int]]): Unit = {
+    this.copy(progress = progress)
+  }
+
+  def setBookmarks(bookmarks: List[String]): Unit = {
+    this.copy(bookmarks = bookmarks)
+  }
+
+}
 
 /*
   クエストタイプの型
