@@ -1,6 +1,7 @@
 package com.ryoserver.Quest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
 import org.bukkit.{Bukkit, Material}
 
@@ -11,6 +12,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 object QuestData {
 
   private def getQuestData(path: String): Set[QuestDataContext] = {
+    val ryoServerAssist = new RyoServerAssist
     new File(path).listFiles()
       .map(_.getName)
       .filter(_.contains(".json"))
@@ -28,8 +30,10 @@ object QuestData {
           .map{data =>
             val splitData = data.split(":")
             if (questType == QuestType.delivery && Material.matchMaterial(splitData.head) == null) {
+              ryoServerAssist.getLogger.severe(s"${splitData.head}というアイテムが存在しません！")
               Bukkit.shutdown()
             } else if (questType == QuestType.suppression && !Entity.isExistsEntity(splitData.head)) {
+              ryoServerAssist.getLogger.severe(s"${splitData.head}というエンティティが存在しません！")
               Bukkit.shutdown()
             }
             splitData.head -> splitData.last.toInt
