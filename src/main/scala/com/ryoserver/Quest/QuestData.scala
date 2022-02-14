@@ -6,14 +6,14 @@ import com.ryoserver.util.Entity
 import org.bukkit.{Bukkit, Material}
 
 import java.io.File
+import java.util.stream.{Collectors, StreamSupport}
 import scala.io.Source
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object QuestData {
 
   private def getQuestData(path: String): Set[QuestDataContext] = {
-    val ryoServerAssist = new RyoServerAssist
-    new File(path).listFiles()
+   new File(path).listFiles()
       .map(_.getName)
       .filter(_.contains(".json"))
       .toList
@@ -26,14 +26,19 @@ object QuestData {
         val minLevel = jsonData.get("minLevel").intValue()
         val maxLevel = jsonData.get("maxLevel").intValue()
         val exp = jsonData.get("exp").doubleValue()
-        val condition = jsonData.findValuesAsText("condition").asScala
+        val condition = StreamSupport.stream(jsonData.get("condition").spliterator(), false)
+          .map(
+            e => {
+              e.asText
+            })
+          .collect(Collectors.toList[String]).asScala
           .map{data =>
             val splitData = data.split(":")
             if (questType == QuestType.delivery && Material.matchMaterial(splitData.head) == null) {
-              ryoServerAssist.getLogger.severe(s"${splitData.head}というアイテムが存在しません！")
+              println(splitData.head + "は存在しません!")
               Bukkit.shutdown()
             } else if (questType == QuestType.suppression && !Entity.isExistsEntity(splitData.head)) {
-              ryoServerAssist.getLogger.severe(s"${splitData.head}というエンティティが存在しません！")
+              println(splitData.head + "は存在しません!")
               Bukkit.shutdown()
             }
             splitData.head -> splitData.last.toInt

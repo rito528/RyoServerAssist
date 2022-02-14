@@ -1,6 +1,8 @@
 package com.ryoserver.Quest
 
 import enumeratum.{Enum, EnumEntry}
+import org.bukkit.Material
+import org.bukkit.entity.EntityType
 
 case class QuestDataContext(questName: String,
                              questType: QuestType,
@@ -9,9 +11,16 @@ case class QuestDataContext(questName: String,
                              exp: Double,
                              requireList: Map[String, Int])
 
-case class PlayerQuestDataContext(selectedQuestName: Option[String],
-                                  progress: Map[String, Int],
-                                  bookmarks: List[String])
+trait MaterialOrEntityType[T]
+
+object MaterialOrEntityType {
+  implicit object materialInstance extends MaterialOrEntityType[Material]
+  implicit object entityTypeInstance extends MaterialOrEntityType[EntityType]
+}
+
+case class PlayerQuestDataContext[materialOrEntityType: MaterialOrEntityType](selectedQuest: Option[String],
+                                                                              progress: Option[Map[materialOrEntityType, Int]],
+                                                                              bookmarks: List[String])
 
 /*
   クエストタイプの型
