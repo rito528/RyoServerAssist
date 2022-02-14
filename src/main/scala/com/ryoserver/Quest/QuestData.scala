@@ -1,7 +1,6 @@
 package com.ryoserver.Quest
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
 import org.bukkit.{Bukkit, Material}
 

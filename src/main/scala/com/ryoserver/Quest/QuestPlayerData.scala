@@ -33,17 +33,16 @@ object QuestPlayerData {
         } else {
           Map.empty
         }
+        val bookmarks = rs.stringOpt("bookmarks").getOrElse("").split(";").toList
         if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
           UUID.fromString(rs.string("UUID")) ->
-            PlayerQuestDataContext(selectedQuest,Option(materialProgress),
-              rs.stringOpt("bookmarks").getOrElse("").split(";").toList).asInstanceOf[PlayerQuestDataContext[_]]
+            PlayerQuestDataContext(selectedQuest,Option(materialProgress), bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
         } else if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
           UUID.fromString(rs.string("UUID")) ->
-            PlayerQuestDataContext(selectedQuest,Option(suppressionProgress),
-              rs.stringOpt("bookmarks").getOrElse("").split(";").toList).asInstanceOf[PlayerQuestDataContext[_]]
+            PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
         } else {
           UUID.fromString(rs.string("UUID")) ->
-            PlayerQuestDataContext(None,Option(materialProgress),rs.stringOpt("bookmarks").getOrElse("").split(";").toList).asInstanceOf[PlayerQuestDataContext[_]]
+            PlayerQuestDataContext(None,Option(materialProgress),bookmarks).asInstanceOf[PlayerQuestDataContext[_]]
         }
       }.toList().apply().toMap
 

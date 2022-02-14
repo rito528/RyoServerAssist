@@ -194,8 +194,6 @@ class RyoServerAssist extends JavaPlugin {
      */
     new EventGateway().autoCheckEvent()
 
-    println(playerQuestData.head._2.progress.get.head._1.asInstanceOf[Material].getMaxStackSize)
-
     getLogger.info("RyoServerAssist enabled.")
   }
 
