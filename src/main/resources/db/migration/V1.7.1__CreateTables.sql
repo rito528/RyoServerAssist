@@ -15,6 +15,15 @@ CREATE TABLE IF NOT EXISTS Quests(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS DailyQuests(
+    id INT AUTO_INCREMENT,
+    UUID TEXT,
+    selectedQuest TEXT,
+    remaining TEXT,
+    bookmarks TEXT,
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE IF NOT EXISTS StackData(
     id INT AUTO_INCREMENT,
     UUID TEXT,
