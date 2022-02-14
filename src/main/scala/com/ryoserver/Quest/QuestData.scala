@@ -63,9 +63,9 @@ object QuestData {
           Map.empty
         }
         if (questType == QuestType.delivery) {
-          QuestDataContext(questName, questType, minLevel, maxLevel, exp, materialRequires).asInstanceOf[QuestDataContext[_]]
+          QuestDataContext(questName, questType, minLevel, maxLevel, exp, materialRequires)
         } else {
-          QuestDataContext(questName, questType, minLevel, maxLevel, exp, suppressionRequires).asInstanceOf[QuestDataContext[_]]
+          QuestDataContext(questName, questType, minLevel, maxLevel, exp, suppressionRequires)
         }
       }.toSet
   }
