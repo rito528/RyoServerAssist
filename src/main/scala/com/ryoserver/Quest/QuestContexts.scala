@@ -4,32 +4,35 @@ import enumeratum.{Enum, EnumEntry}
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
-trait MaterialOrEntityType[T]
-
-object MaterialOrEntityType {
-  implicit object materialInstance extends MaterialOrEntityType[Material]
-  implicit object entityTypeInstance extends MaterialOrEntityType[EntityType]
+sealed trait MaterialOrEntityType {
+  val material: Material = null
+  val entityType: EntityType = null
 }
 
-case class QuestDataContext[materialOrEntityType: MaterialOrEntityType](questName: String,
-                                                                        questType: QuestType,
-                                                                        minLevel: Int,
-                                                                        maxLevel: Int,
-                                                                        exp: Double,
-                                                                        requireList: Map[materialOrEntityType, Int])
+object MaterialOrEntityType {
+  case class material(override val material: Material) extends MaterialOrEntityType
+  case class entityType(override val entityType: EntityType) extends MaterialOrEntityType
+}
 
-case class PlayerQuestDataContext[materialOrEntityType: MaterialOrEntityType](selectedQuest: Option[String],
-                                                                              progress: Option[Map[materialOrEntityType, Int]],
-                                                                              bookmarks: List[String]) {
-  def setSelectedQuest(questName: Option[String]): Unit = {
+case class QuestDataContext(questName: String,
+                            questType: QuestType,
+                            minLevel: Int,
+                            maxLevel: Int,
+                            exp: Double,
+                            requireList: Map[MaterialOrEntityType, Int])
+
+case class PlayerQuestDataContext(selectedQuest: Option[String],
+                                  progress: Option[Map[MaterialOrEntityType, Int]],
+                                  bookmarks: List[String]) {
+  def setSelectedQuest(questName: Option[String]): PlayerQuestDataContext = {
     this.copy(selectedQuest = questName)
   }
 
-  def setProgress(progress: Option[Map[materialOrEntityType,Int]]): Unit = {
+  def setProgress(progress: Option[Map[MaterialOrEntityType,Int]]): PlayerQuestDataContext = {
     this.copy(progress = progress)
   }
 
-  def setBookmarks(bookmarks: List[String]): Unit = {
+  def setBookmarks(bookmarks: List[String]): PlayerQuestDataContext = {
     this.copy(bookmarks = bookmarks)
   }
 

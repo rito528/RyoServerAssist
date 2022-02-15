@@ -1,8 +1,8 @@
 package com.ryoserver.Quest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ryoserver.Quest.MaterialOrEntityType.{entityType, material}
 import com.ryoserver.util.Entity
-import org.bukkit.entity.EntityType
 import org.bukkit.{Bukkit, Material}
 
 import java.io.File
@@ -12,7 +12,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object QuestData {
 
-  private def getQuestData(path: String): Set[QuestDataContext[_]] = {
+  private def getQuestData(path: String): Set[QuestDataContext] = {
    new File(path).listFiles()
       .map(_.getName)
       .filter(_.contains(".json"))
@@ -26,7 +26,7 @@ object QuestData {
         val minLevel = jsonData.get("minLevel").textValue().toInt
         val maxLevel = jsonData.get("maxLevel").textValue().toInt
         val exp = jsonData.get("exp").doubleValue()
-        val materialRequires: Map[Material,Int] = if (questType == QuestType.delivery) {
+        val materialRequires: Map[MaterialOrEntityType,Int] = if (questType == QuestType.delivery) {
           StreamSupport.stream(jsonData.get("condition").spliterator(), false)
             .map(
               e => {
@@ -39,12 +39,12 @@ object QuestData {
                 println(splitData.head + "は存在しません!")
                 Bukkit.shutdown()
               }
-              Material.matchMaterial(splitData.head) -> splitData.last.toInt
+              material(Material.matchMaterial(splitData.head)) -> splitData.last.toInt
             }.toMap
         } else {
           Map.empty
         }
-        val suppressionRequires: Map[EntityType,Int] = if (questType == QuestType.suppression) {
+        val suppressionRequires: Map[MaterialOrEntityType,Int] = if (questType == QuestType.suppression) {
           StreamSupport.stream(jsonData.get("condition").spliterator(), false)
             .map(
               e => {
@@ -57,7 +57,7 @@ object QuestData {
                 println(splitData.head + "は存在しません!")
                 Bukkit.shutdown()
               }
-              Entity.getEntity(splitData.head) -> splitData.last.toInt
+              entityType(Entity.getEntity(splitData.head)) -> splitData.last.toInt
             }.toMap
         } else {
           Map.empty
@@ -70,8 +70,8 @@ object QuestData {
       }.toSet
   }
 
-  final val loadedQuestData: Set[QuestDataContext[_]] = getQuestData("plugins/RyoServerAssist/Quests/")
+  final val loadedQuestData: Set[QuestDataContext] = getQuestData("plugins/RyoServerAssist/Quests/")
 
-  final val loadedDailyQuestData: Set[QuestDataContext[_]] = getQuestData("plugins/RyoServerAssist/DailyQuests/")
+  final val loadedDailyQuestData: Set[QuestDataContext] = getQuestData("plugins/RyoServerAssist/DailyQuests/")
 
 }
