@@ -22,8 +22,7 @@ class QuestGateway {
             .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(requires._1.material,1)) >= requires._2})
       case QuestSortContext.bookMark =>
         //できるクエストとbookmarkされているクエストの積集合を取る
-        canQuests.intersect((if (QuestPlayerData.playerQuestData.contains(p.getUniqueId)) QuestPlayerData.playerQuestData(p.getUniqueId)
-          .bookmarks else List.empty)
+        canQuests.intersect(QuestPlayerData.getPlayerQuestContext(p.getUniqueId).bookmarks
           .map(
             questName => QuestData.loadedQuestData.filter(_.questName == questName).head
           ).toSet
@@ -36,7 +35,11 @@ class QuestGateway {
   }
 
   def selectQuest(p: Player,questName: String): Unit = {
-    QuestPlayerData.playerQuestData += p.getUniqueId -> QuestPlayerData.playerQuestData(p.getUniqueId).setSelectedQuest(Option(questName))
+    QuestPlayerData.setQuestData(p.getUniqueId,QuestPlayerData.getPlayerQuestContext(p.getUniqueId).setSelectedQuest(Option(questName)))
+  }
+
+  def getSelectedQuest(p: Player): Option[String] = {
+    QuestPlayerData.getPlayerQuestContext(p.getUniqueId).selectedQuest
   }
 
   /*
@@ -44,18 +47,12 @@ class QuestGateway {
     追加するとtrue、削除されるとfalseを返します。
    */
   def setBookmark(p: Player,questName: String): Boolean = {
-    if (QuestPlayerData.playerQuestData.contains(p.getUniqueId)) {
-      val playerData = QuestPlayerData.playerQuestData(p.getUniqueId)
-      if (playerData.bookmarks.contains(questName)) {
-        QuestPlayerData.playerQuestData += p.getUniqueId -> playerData.setBookmarks(playerData.bookmarks.filterNot(_ == questName))
-        false
-      } else {
-        QuestPlayerData.playerQuestData += p.getUniqueId -> playerData.setBookmarks(playerData.bookmarks ++ List(questName))
-        true
-      }
+    val playerData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
+    if (playerData.bookmarks.contains(questName)) {
+      QuestPlayerData.setQuestData(p.getUniqueId,playerData.setBookmarks(playerData.bookmarks.filterNot(_ == questName)))
+      false
     } else {
-      val progress: Map[MaterialOrEntityType,Int] = Map.empty
-      QuestPlayerData.playerQuestData += (p.getUniqueId -> PlayerQuestDataContext(None,Option(progress),List.empty))
+      QuestPlayerData.setQuestData(p.getUniqueId,playerData.setBookmarks(playerData.bookmarks ++ List(questName)))
       true
     }
   }
