@@ -37,11 +37,22 @@ class QuestGateway(p: Player) {
   }
 
   def selectQuest(questName: String): Unit = {
-    QuestPlayerData.setQuestData(uuid,playerQuestData.setSelectedQuest(Option(questName)))
+    QuestPlayerData.setQuestData(uuid,playerQuestData
+      .setSelectedQuest(Option(questName))
+      .setProgress(Option(QuestData.loadedQuestData
+        .filter(_.questName == questName)
+        .head
+        .requireList)
+      )
+    )
   }
 
   def getSelectedQuest: Option[String] = {
     playerQuestData.selectedQuest
+  }
+
+  def getSelectedQuestData: QuestDataContext = {
+    QuestData.loadedQuestData.filter(_.questName == getSelectedQuest.get).head
   }
 
   /*
@@ -60,6 +71,10 @@ class QuestGateway(p: Player) {
 
   def setQuestSortData(sortContext: QuestSortContext): Unit = {
     QuestPlayerData.setQuestSortData(uuid,sortContext)
+  }
+
+  def questClear(): Unit = {
+    QuestPlayerData.setQuestData(uuid,playerQuestData.setSelectedQuest(None).setProgress(None))
   }
 
 }

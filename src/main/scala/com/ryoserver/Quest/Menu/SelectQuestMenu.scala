@@ -108,6 +108,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
               }
             case ClickType.LEFT =>
               questGateway.selectQuest(questName)
+              new QuestProcessMenu(ryoServerAssist).open(player)
             case _ =>
           }
         }
@@ -135,6 +136,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
               }
             case ClickType.LEFT =>
               questGateway.selectQuest(questName)
+              new QuestProcessMenu(ryoServerAssist).open(player)
             case _ =>
           }
         }
