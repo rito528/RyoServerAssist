@@ -16,6 +16,21 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
 
   override val frame: MenuFrame = MenuFrame(6, s"クエスト選択:$page")
 
+  /*
+    このメニューはクエストが選択されていなかった場合に開き、選択されていた場合はProcessMenuに進む
+   */
+  override def openMotion(player: Player): Boolean = {
+    super.openMotion(player)
+    val questGateway = new QuestGateway(player)
+    questGateway.getSelectedQuest match {
+      case Some(_) =>
+        new QuestProcessMenu(ryoServerAssist).open(player)
+        false
+      case None =>
+        true
+    }
+  }
+
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway(player)
     val compute = computeSelectQuestButton(player, page, ryoServerAssist)
@@ -32,9 +47,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
 }
 
 private case class computeSelectQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
-  val questGateway = new QuestGateway(player)
+  private lazy val questGateway = new QuestGateway(player)
 
-  lazy val nowSortType: QuestSortContext = QuestPlayerData.getQuestSortData(player.getUniqueId)
+  private lazy val nowSortType: QuestSortContext = QuestPlayerData.getQuestSortData(player.getUniqueId)
 
   val backPage: Button = Button(
     ItemStackBuilder

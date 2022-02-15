@@ -40,7 +40,6 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
 
   private def questClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
     val questGateway = new QuestGateway(p)
-    println(progress)
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
