@@ -48,7 +48,7 @@ object QuestPlayerData {
 
   private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests")
   private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests")
-  val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
+  private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
 
   def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
     if (playerQuestData.contains(uuid)) playerQuestData(uuid)
@@ -66,6 +66,15 @@ object QuestPlayerData {
 
   def setDailyQuestData(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
     playerDailyQuestData += uuid -> playerQuestDataContext
+  }
+
+  def getQuestSortData(uuid: UUID): QuestSortContext = {
+    if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
+    else QuestSortContext.normal
+  }
+
+  def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
+    playerQuestSortData += uuid -> questSortContext
   }
 
 

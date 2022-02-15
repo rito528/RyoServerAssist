@@ -34,14 +34,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
 private case class computeSelectQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
   val questGateway = new QuestGateway(player)
 
-  lazy val nowSortType: QuestSortContext = {
-    if (QuestPlayerData.playerQuestSortData.contains(player.getUniqueId)) {
-      QuestPlayerData.playerQuestSortData(player.getUniqueId)
-    } else {
-      questGateway.setQuestSortData(QuestSortContext.normal)
-      QuestSortContext.normal
-    }
-  }
+  lazy val nowSortType: QuestSortContext = QuestPlayerData.getQuestSortData(player.getUniqueId)
 
   val backPage: Button = Button(
     ItemStackBuilder

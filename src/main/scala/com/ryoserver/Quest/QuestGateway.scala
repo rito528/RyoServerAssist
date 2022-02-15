@@ -59,7 +59,7 @@ class QuestGateway(p: Player) {
   }
 
   def setQuestSortData(sortContext: QuestSortContext): Unit = {
-    QuestPlayerData.playerQuestSortData += (uuid -> sortContext)
+    QuestPlayerData.setQuestSortData(uuid,sortContext)
   }
 
 }
