@@ -76,6 +76,7 @@ private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoS
           .build(),
         ButtonMotion { _ =>
           questGateway.selectDailyQuest(questData.questName)
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
         }
       )
     } else if (questData.questType == QuestType.suppression) {
@@ -92,6 +93,7 @@ private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoS
           .build(),
         ButtonMotion { _ =>
           questGateway.selectDailyQuest(questData.questName)
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
         }
       )
     }

@@ -4,7 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestDelivery, QuestGateway, QuestType}
+import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestDelivery, QuestGateway, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
@@ -82,7 +82,9 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
     ItemStackBuilder
       .getDefault(Material.SHULKER_BOX)
       .title(s"${GREEN}ネオスタックから納品")
-      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ selectedQuest.requireList.map { case (require, amount) =>
+      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress
+        .get
+        .map { case (require, amount) =>
         s"$WHITE${Translate.materialNameToJapanese(require.material)}:${
           val neoStackAmount = neoStackGateway.getNeoStackAmount(player, new ItemStack(require.material))
           if (neoStackAmount >= amount) s"$AQUA$BOLD${UNDERLINE}OK (所持数:${neoStackAmount}個)"

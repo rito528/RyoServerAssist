@@ -72,6 +72,14 @@ class QuestGateway(p: Player) {
     QuestData.loadedQuestData.filter(_.questName == getSelectedQuest.get).head
   }
 
+  def getSelectedDailyQuest: Option[String] = {
+    playerDailyQuestData.selectedQuest
+  }
+
+  def getSelectedDailyQuestData: QuestDataContext = {
+    QuestData.loadedDailyQuestData.filter(_.questName == getSelectedDailyQuest.get).head
+  }
+
   /*
     クエスト名を指定するとbookmarkに追加・削除をします。
     追加するとtrue、削除されるとfalseを返します。
@@ -92,6 +100,10 @@ class QuestGateway(p: Player) {
 
   def questClear(): Unit = {
     QuestPlayerData.setQuestData(uuid,playerQuestData.setSelectedQuest(None).setProgress(None))
+  }
+
+  def dailyQuestClear(): Unit = {
+    QuestPlayerData.setDailyQuestData(uuid,playerDailyQuestData.setSelectedQuest(None).setProgress(None))
   }
 
 }
