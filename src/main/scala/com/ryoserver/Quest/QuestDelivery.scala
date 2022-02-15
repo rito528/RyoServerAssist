@@ -69,11 +69,9 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
   }
 
   private def dailyQuestClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
-    val questGateway = new QuestGateway(p)
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.dailyQuestClear()
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
       new DailyQuestRewardMenu(ryoServerAssist).open(p)
@@ -109,7 +107,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     //ボタン用アイテムを削除
     buttonItemRemove(p, inventory)
     setProgressFromNeoStack(p,playerData,progress)
-    questClearCheck(p, QuestPlayerData.getPlayerQuestContext(p.getUniqueId).progress.get)
+    dailyQuestClearCheck(p, QuestPlayerData.getPlayerQuestContext(p.getUniqueId).progress.get)
   }
 
   private def setProgressFromNeoStack(p: Player,playerData:PlayerQuestDataContext,progress: Option[Map[MaterialOrEntityType, Int]]): Unit = {
