@@ -5,7 +5,8 @@ import com.ryoserver.util.Entity
 import org.bukkit.Material
 import scalikejdbc.{AutoSession, NoExtractor, SQL, scalikejdbcSQLInterpolationImplicitDef}
 
-import java.util.UUID
+import java.text.SimpleDateFormat
+import java.util.{Date, UUID}
 import scala.collection.mutable
 
 object QuestPlayerData {
@@ -49,6 +50,12 @@ object QuestPlayerData {
   private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests")
   private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests")
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
+  private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    mutable.Map() ++ sql"SELECT UUID,LastDailyQuest FROM Players".map{rs =>
+      UUID.fromString(rs.string("UUID")) -> format.parse(rs.string("LastDailyQuest"))
+    }.toList().apply().toMap
+  }
 
   def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
     if (playerQuestData.contains(uuid)) playerQuestData(uuid)
@@ -75,6 +82,17 @@ object QuestPlayerData {
 
   def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
     playerQuestSortData += uuid -> questSortContext
+  }
+
+  def getLastDailyQuest(uuid: UUID): Date = {
+    lastDailyQuestDate(uuid)
+  }
+
+  def setLastDailyQuest(uuid: UUID,date: String): Unit = {
+    val regex = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}".r
+    require(!regex.matches(date),"時間の指定形式が違います！")
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    lastDailyQuestDate += uuid -> format.parse(date)
   }
 
 
