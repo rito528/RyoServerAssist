@@ -15,6 +15,18 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends 
 
   override val frame: MenuFrame = MenuFrame(6, s"デイリークエスト選択:$page")
 
+  override def openMotion(player: Player): Boolean = {
+    super.openMotion(player)
+    val questGateway = new QuestGateway(player)
+    questGateway.getSelectedDailyQuest match {
+      case Some(_) =>
+        new DailyQuestProcessMenu(ryoServerAssist).open(player)
+        false
+      case None =>
+        true
+    }
+  }
+
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val questGateway = new QuestGateway(player)
     val compute = computeSelectDailyQuestButton(player, page, ryoServerAssist)
