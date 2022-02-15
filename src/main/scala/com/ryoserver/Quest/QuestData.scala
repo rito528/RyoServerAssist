@@ -25,7 +25,7 @@ object QuestData {
         val questType = QuestType.values.filter(_.dataName == jsonData.get("type").textValue()).head
         val minLevel = jsonData.get("minLevel").textValue().toInt
         val maxLevel = jsonData.get("maxLevel").textValue().toInt
-        val exp = jsonData.get("exp").doubleValue()
+        val exp = jsonData.get("exp").textValue().toDouble
         val materialRequires: Map[MaterialOrEntityType,Int] = if (questType == QuestType.delivery) {
           StreamSupport.stream(jsonData.get("condition").spliterator(), false)
             .map(
