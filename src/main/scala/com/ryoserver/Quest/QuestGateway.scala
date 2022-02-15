@@ -6,10 +6,12 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 class QuestGateway(p: Player) {
+  private lazy val uuid = p.getUniqueId
+  private lazy val playerLevel = p.getQuestLevel
+  private lazy val playerQuestData = QuestPlayerData.getPlayerQuestContext(uuid)
 
   def getQuests(sortType: QuestSortContext): Set[QuestDataContext] = {
-    val playerLevel = p.getQuestLevel
-    val canQuests = getCanQuests(playerLevel)
+    val canQuests = getCanQuests
     sortType match {
       case QuestSortContext.normal =>
         //自分のできるクエストすべてを返す
@@ -22,7 +24,7 @@ class QuestGateway(p: Player) {
             .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(requires._1.material,1)) >= requires._2})
       case QuestSortContext.bookMark =>
         //できるクエストとbookmarkされているクエストの積集合を取る
-        canQuests.intersect(QuestPlayerData.getPlayerQuestContext(p.getUniqueId).bookmarks
+        canQuests.intersect(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks
           .map(
             questName => QuestData.loadedQuestData.filter(_.questName == questName).head
           ).toSet
@@ -30,16 +32,16 @@ class QuestGateway(p: Player) {
     }
   }
 
-  private def getCanQuests(playerLevel: Int): Set[QuestDataContext] = {
+  private def getCanQuests: Set[QuestDataContext] = {
     QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
 
   def selectQuest(questName: String): Unit = {
-    QuestPlayerData.setQuestData(p.getUniqueId,QuestPlayerData.getPlayerQuestContext(p.getUniqueId).setSelectedQuest(Option(questName)))
+    QuestPlayerData.setQuestData(uuid,playerQuestData.setSelectedQuest(Option(questName)))
   }
 
   def getSelectedQuest: Option[String] = {
-    QuestPlayerData.getPlayerQuestContext(p.getUniqueId).selectedQuest
+    playerQuestData.selectedQuest
   }
 
   /*
@@ -47,18 +49,17 @@ class QuestGateway(p: Player) {
     追加するとtrue、削除されるとfalseを返します。
    */
   def setBookmark(questName: String): Boolean = {
-    val playerData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
-    if (playerData.bookmarks.contains(questName)) {
-      QuestPlayerData.setQuestData(p.getUniqueId,playerData.setBookmarks(playerData.bookmarks.filterNot(_ == questName)))
+    if (playerQuestData.bookmarks.contains(questName)) {
+      QuestPlayerData.setQuestData(uuid,playerQuestData.setBookmarks(playerQuestData.bookmarks.filterNot(_ == questName)))
       false
     } else {
-      QuestPlayerData.setQuestData(p.getUniqueId,playerData.setBookmarks(playerData.bookmarks ++ List(questName)))
+      QuestPlayerData.setQuestData(uuid,playerQuestData.setBookmarks(playerQuestData.bookmarks ++ List(questName)))
       true
     }
   }
 
   def setQuestSortData(sortContext: QuestSortContext): Unit = {
-    QuestPlayerData.playerQuestSortData += (p.getUniqueId -> sortContext)
+    QuestPlayerData.playerQuestSortData += (uuid -> sortContext)
   }
 
 }
