@@ -6,6 +6,8 @@ import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
+import java.util.Date
+
 class QuestGateway(p: Player) {
   private lazy val uuid = p.getUniqueId
   private lazy val playerLevel = p.getQuestLevel
@@ -110,6 +112,7 @@ class QuestGateway(p: Player) {
 
   def dailyQuestClear(ratio: Double = 1.0): Unit = {
     new UpdateLevel().addExp(getSelectedDailyQuestData.exp * ratio,p)
+    QuestPlayerData.setLastDailyQuest(uuid,new Date())
     dailyQuestDestroy()
   }
 

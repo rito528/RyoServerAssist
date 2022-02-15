@@ -60,7 +60,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
   private def setDailyQuestProgress(p: Player,progress: Option[Map[MaterialOrEntityType,Int]]): Unit = {
     val inventory = p.getOpenInventory.getTopInventory
     progress.get.foreach { case (require, amount) =>
-      val nowData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
+      val nowData = QuestPlayerData.getPlayerDailyQuestContext(p.getUniqueId)
       val nowProgress = nowData.progress.get
       val requireMaterial = require.material
       val hasItemAmount = inventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum

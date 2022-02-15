@@ -88,11 +88,8 @@ object QuestPlayerData {
     lastDailyQuestDate(uuid)
   }
 
-  def setLastDailyQuest(uuid: UUID,date: String): Unit = {
-    val regex = "[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}".r
-    require(!regex.matches(date),"時間の指定形式が違います！")
-    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    lastDailyQuestDate += uuid -> format.parse(date)
+  def setLastDailyQuest(uuid: UUID,date: Date): Unit = {
+    lastDailyQuestDate += uuid -> date
   }
 
 

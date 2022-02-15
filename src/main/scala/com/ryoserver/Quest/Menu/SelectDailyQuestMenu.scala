@@ -3,13 +3,16 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.Quest.{QuestDataContext, QuestGateway, QuestType}
+import com.ryoserver.Quest.{QuestDataContext, QuestGateway, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.{ItemStackBuilder, Translate}
+import org.apache.commons.lang.time.DateUtils
 import org.bukkit.ChatColor._
 import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
+
+import java.util.{Calendar, Date, TimeZone}
 
 class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends Menu {
 
@@ -17,14 +20,21 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends 
 
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
-    player.playSound(player.getLocation,Sound.ITEM_BOOK_PAGE_TURN,1,1)
-    val questGateway = new QuestGateway(player)
-    questGateway.getSelectedDailyQuest match {
-      case Some(_) =>
-        new DailyQuestProcessMenu(ryoServerAssist).open(player)
-        false
-      case None =>
-        true
+    val lastDate = QuestPlayerData.getLastDailyQuest(player.getUniqueId)
+    val now = new Date()
+    if (DateUtils.truncate(lastDate,Calendar.DAY_OF_MONTH).getTime != DateUtils.truncate(now,Calendar.DAY_OF_MONTH).getTime) {
+      player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
+      val questGateway = new QuestGateway(player)
+      questGateway.getSelectedDailyQuest match {
+        case Some(_) =>
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
+          false
+        case None =>
+          true
+      }
+    } else {
+      player.sendMessage(s"${RED}デイリークエストは1日1回のみこなすことができます。")
+      false
     }
   }
 
