@@ -29,6 +29,12 @@ class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, "りょう鯖メニュー")
 
+  override def openMotion(player: Player): Boolean = {
+    super.openMotion(player)
+    player.playSound(player.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
+    true
+  }
+
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {

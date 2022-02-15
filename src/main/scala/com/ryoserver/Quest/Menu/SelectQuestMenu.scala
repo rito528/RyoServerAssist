@@ -8,7 +8,7 @@ import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
@@ -21,6 +21,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
    */
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
+    player.playSound(player.getLocation,Sound.ITEM_BOOK_PAGE_TURN,1,1)
     val questGateway = new QuestGateway(player)
     questGateway.getSelectedQuest match {
       case Some(_) =>

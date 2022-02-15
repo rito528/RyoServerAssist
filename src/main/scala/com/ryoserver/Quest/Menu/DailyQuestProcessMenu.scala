@@ -8,7 +8,7 @@ import com.ryoserver.Quest._
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -102,6 +102,8 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       .build(),
     ButtonMotion { _ =>
       new QuestDelivery(ryoServerAssist).dailyQuestDestroy(player)
+      new SelectDailyQuestMenu(ryoServerAssist,1).open(player)
+      player.playSound(player.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
     }
   )
 }
