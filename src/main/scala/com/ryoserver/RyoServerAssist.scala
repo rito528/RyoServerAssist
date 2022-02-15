@@ -105,7 +105,7 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents,
       new StickEvent,
       new StorageEvent,
-//      new SuppressionEvent,
+      new SuppressionEvent,
       new Notification,
       new RecoverySkillPointEvent,
       new FirstJoinSettingEvent,
@@ -154,7 +154,6 @@ class RyoServerAssist extends JavaPlugin {
       様々なロード処理
      */
     new LoadAllPlayerData().load()
-//    LoadQuests.loadQuest
     new TitleLoader().loadTitle()
     ItemList.loadItemList
     new LoadNeoStackPage().loadStackPage()

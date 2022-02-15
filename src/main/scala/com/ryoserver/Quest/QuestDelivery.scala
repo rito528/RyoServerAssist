@@ -24,7 +24,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     //ボタン用アイテムを削除
     buttonItemRemove(p, inventory)
     //クエスト完了に必要とされるアイテム数とインベントリ内のアイテム数を確認し、該当アイテムを削除
-    setQuestProgress(p, playerData, progress)
+    setQuestProgress(p, progress)
     questClearCheck(p, QuestPlayerData.getPlayerQuestContext(p.getUniqueId).progress.get)
     new SelectQuestMenu(ryoServerAssist,1,QuestPlayerData.getQuestSortData(p.getUniqueId)).open(p)
   }
@@ -36,35 +36,39 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     //ボタン用アイテムを削除
     buttonItemRemove(p, inventory)
     //クエスト完了に必要とされるアイテム数とインベントリ内のアイテム数を確認し、該当アイテムを削除
-    setDailyQuestProgress(p, playerData, progress)
+    setDailyQuestProgress(p, progress)
     dailyQuestClearCheck(p, QuestPlayerData.getPlayerDailyQuestContext(p.getUniqueId).progress.get)
   }
 
-  private def setQuestProgress(p: Player,playerData: PlayerQuestDataContext,progress: Option[Map[MaterialOrEntityType,Int]]): Unit = {
+  private def setQuestProgress(p: Player,progress: Option[Map[MaterialOrEntityType,Int]]): Unit = {
     val inventory = p.getOpenInventory.getTopInventory
     progress.get.foreach { case (require, amount) =>
+      val nowData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
+      val nowProgress = nowData.progress.get
       val requireMaterial = require.material
       val hasItemAmount = inventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum
       if (amount >= hasItemAmount) {
-        QuestPlayerData.setQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> (amount - hasItemAmount)))))
+        QuestPlayerData.setQuestData(p.getUniqueId,nowData.setProgress(Option(nowProgress ++ Map(require -> (amount - hasItemAmount)))))
         inventory.removeItem(new ItemStack(requireMaterial, hasItemAmount))
       } else {
-        QuestPlayerData.setQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> 0))))
+        QuestPlayerData.setQuestData(p.getUniqueId,nowData.setProgress(Option(nowProgress ++ Map(require -> 0))))
         inventory.removeItem(new ItemStack(requireMaterial, amount))
       }
     }
   }
 
-  private def setDailyQuestProgress(p: Player,playerData: PlayerQuestDataContext,progress: Option[Map[MaterialOrEntityType,Int]]): Unit = {
+  private def setDailyQuestProgress(p: Player,progress: Option[Map[MaterialOrEntityType,Int]]): Unit = {
     val inventory = p.getOpenInventory.getTopInventory
     progress.get.foreach { case (require, amount) =>
+      val nowData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
+      val nowProgress = nowData.progress.get
       val requireMaterial = require.material
       val hasItemAmount = inventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum
       if (amount >= hasItemAmount) {
-        QuestPlayerData.setDailyQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> (amount - hasItemAmount)))))
+        QuestPlayerData.setDailyQuestData(p.getUniqueId,nowData.setProgress(Option(nowProgress ++ Map(require -> (amount - hasItemAmount)))))
         inventory.removeItem(new ItemStack(requireMaterial, hasItemAmount))
       } else {
-        QuestPlayerData.setDailyQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> 0))))
+        QuestPlayerData.setDailyQuestData(p.getUniqueId,nowData.setProgress(Option(nowProgress ++ Map(require -> 0))))
         inventory.removeItem(new ItemStack(requireMaterial, amount))
       }
     }

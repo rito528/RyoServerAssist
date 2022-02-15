@@ -24,13 +24,13 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         val compute = computeQuestProcessButton(player, QuestData.loadedQuestData.filter(_.questName == selectedQuest).head, ryoServerAssist, this)
         import compute._
         val buttons = Map(
-          getLayOut(1, 6) -> requireButton
+          getLayOut(1, 6) -> requireButton,
+          getLayOut(9, 6) -> suspension
         )
         if (compute.selectedQuest.questType == QuestType.delivery) {
           buttons ++ Map(
             getLayOut(2, 6) -> delivery,
-            getLayOut(3, 6) -> deliveryFromNeoStack,
-            getLayOut(9, 6) -> suspension
+            getLayOut(3, 6) -> deliveryFromNeoStack
           )
         } else {
           buttons
@@ -44,13 +44,12 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
-  lazy val questGateway = new QuestGateway(player)
-  lazy val neoStackGateway = new NeoStackGateway
-  lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
-  lazy val requireDeliveryList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val neoStackGateway = new NeoStackGateway
+  private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
+  private lazy val requireDeliveryList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
   }.toList
-  lazy val requireSuppressionList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val requireSuppressionList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
   }.toList
 
@@ -78,7 +77,7 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
     }
   )
 
-  val deliveryFromNeoStack: Button = Button(
+  lazy val deliveryFromNeoStack: Button = Button(
     ItemStackBuilder
       .getDefault(Material.SHULKER_BOX)
       .title(s"${GREEN}ネオスタックから納品")
@@ -108,6 +107,7 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
       .build(),
     ButtonMotion { _ =>
       new QuestDelivery(ryoServerAssist).questDestroy(player)
+      new SelectQuestMenu(ryoServerAssist,1,QuestPlayerData.getQuestSortData(player.getUniqueId))
     }
   )
 
