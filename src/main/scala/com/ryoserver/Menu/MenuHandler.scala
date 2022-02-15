@@ -24,7 +24,7 @@ class MenuHandler extends Listener {
     if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
       return
     }
-
+    e.setCancelled(true)
     if (e.getClickedInventory != p.getOpenInventory.getTopInventory) {
       if (holder.isPartButton) e.setCancelled(false)
       return

@@ -12,7 +12,7 @@ import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.Menu.EventMenu
-import com.ryoserver.Quest.Menu.SelectQuestMenu
+import com.ryoserver.Quest.Menu.{SelectDailyQuestMenu, SelectQuestMenu}
 import com.ryoserver.Quest.QuestSortContext
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillMenu.SkillCategoryMenu
@@ -105,7 +105,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-//      new QuestMenu().selectDailyQuestMenu(p)
+      new SelectDailyQuestMenu(ryoServerAssist,1).open(p)
     }
   )
 

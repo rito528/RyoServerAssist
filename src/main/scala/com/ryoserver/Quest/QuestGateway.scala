@@ -9,6 +9,7 @@ class QuestGateway(p: Player) {
   private lazy val uuid = p.getUniqueId
   private lazy val playerLevel = p.getQuestLevel
   private lazy val playerQuestData = QuestPlayerData.getPlayerQuestContext(uuid)
+  private lazy val playerDailyQuestData = QuestPlayerData.getPlayerDailyQuestContext(uuid)
 
   def getQuests(sortType: QuestSortContext): Set[QuestDataContext] = {
     val canQuests = getCanQuests
@@ -32,6 +33,10 @@ class QuestGateway(p: Player) {
     }
   }
 
+  def getCanDailyQuests: Set[QuestDataContext] = {
+    QuestData.loadedDailyQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
+  }
+
   private def getCanQuests: Set[QuestDataContext] = {
     QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
@@ -46,6 +51,18 @@ class QuestGateway(p: Player) {
       )
     )
   }
+
+  def selectDailyQuest(questName: String): Unit = {
+    QuestPlayerData.setDailyQuestData(uuid,playerDailyQuestData
+      .setSelectedQuest(Option(questName))
+      .setProgress(Option(QuestData.loadedDailyQuestData
+        .filter(_.questName == questName)
+        .head
+        .requireList)
+      )
+    )
+  }
+
 
   def getSelectedQuest: Option[String] = {
     playerQuestData.selectedQuest
