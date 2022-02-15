@@ -18,8 +18,8 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val questGateway = new QuestGateway
-    questGateway.getSelectedQuest(player) match {
+    val questGateway = new QuestGateway(player)
+    questGateway.getSelectedQuest match {
       case Some(selectedQuest) =>
         val compute = computeQuestProcessButton(player, QuestData.loadedQuestData.filter(_.questName == selectedQuest).head, ryoServerAssist, this)
         import compute._
@@ -44,7 +44,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
-  lazy val questGateway = new QuestGateway
+  lazy val questGateway = new QuestGateway(player)
   lazy val neoStackGateway = new NeoStackGateway
   lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
   lazy val requireDeliveryList: List[String] = selectedQuest.requireList.map { case (require, amount) =>

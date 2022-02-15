@@ -5,9 +5,9 @@ import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class QuestGateway {
+class QuestGateway(p: Player) {
 
-  def getQuests(sortType: QuestSortContext,p: Player): Set[QuestDataContext] = {
+  def getQuests(sortType: QuestSortContext): Set[QuestDataContext] = {
     val playerLevel = p.getQuestLevel
     val canQuests = getCanQuests(playerLevel)
     sortType match {
@@ -34,11 +34,11 @@ class QuestGateway {
     QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
 
-  def selectQuest(p: Player,questName: String): Unit = {
+  def selectQuest(questName: String): Unit = {
     QuestPlayerData.setQuestData(p.getUniqueId,QuestPlayerData.getPlayerQuestContext(p.getUniqueId).setSelectedQuest(Option(questName)))
   }
 
-  def getSelectedQuest(p: Player): Option[String] = {
+  def getSelectedQuest: Option[String] = {
     QuestPlayerData.getPlayerQuestContext(p.getUniqueId).selectedQuest
   }
 
@@ -46,7 +46,7 @@ class QuestGateway {
     クエスト名を指定するとbookmarkに追加・削除をします。
     追加するとtrue、削除されるとfalseを返します。
    */
-  def setBookmark(p: Player,questName: String): Boolean = {
+  def setBookmark(questName: String): Boolean = {
     val playerData = QuestPlayerData.getPlayerQuestContext(p.getUniqueId)
     if (playerData.bookmarks.contains(questName)) {
       QuestPlayerData.setQuestData(p.getUniqueId,playerData.setBookmarks(playerData.bookmarks.filterNot(_ == questName)))
@@ -57,7 +57,7 @@ class QuestGateway {
     }
   }
 
-  def setQuestSortData(p: Player,sortContext: QuestSortContext): Unit = {
+  def setQuestSortData(sortContext: QuestSortContext): Unit = {
     QuestPlayerData.playerQuestSortData += (p.getUniqueId -> sortContext)
   }
 
