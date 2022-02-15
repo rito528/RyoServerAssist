@@ -19,7 +19,10 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
-    if (player.getQuestLevel < 20) return false
+    if (player.getQuestLevel < 20) {
+      player.sendMessage(s"${RED}ネオスタックはレベル20から利用可能です。")
+      return false
+    }
     true
   }
 

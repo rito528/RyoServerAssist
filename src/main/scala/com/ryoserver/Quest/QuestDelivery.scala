@@ -3,7 +3,7 @@ package com.ryoserver.Quest
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Quest.Menu.SelectQuestMenu
+import com.ryoserver.Quest.Menu.{DailyQuestProcessMenu, DailyQuestRewardMenu, SelectQuestMenu}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
@@ -76,8 +76,10 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
       questGateway.dailyQuestClear()
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
+      new DailyQuestRewardMenu(ryoServerAssist).open(p)
     } else {
       p.sendMessage(s"${AQUA}納品しました。")
+      new DailyQuestProcessMenu(ryoServerAssist).open(p)
     }
   }
 
@@ -124,12 +126,12 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
 
   def questDestroy(p: Player): Unit = {
     val questGateway = new QuestGateway(p)
-    questGateway.questClear()
+    questGateway.questDestroy()
   }
 
   def dailyQuestDestroy(p: Player): Unit = {
     val questGateway = new QuestGateway(p)
-    questGateway.dailyQuestClear()
+    questGateway.dailyQuestDestroy()
   }
 
 }
