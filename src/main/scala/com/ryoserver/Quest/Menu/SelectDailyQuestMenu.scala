@@ -1,30 +1,51 @@
-package com.ryoserver.Quest
+package com.ryoserver.Quest.Menu
 
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.Quest.{QuestDataContext, QuestGateway, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
-import com.ryoserver.util.Entity.getEntity
 import com.ryoserver.util.{ItemStackBuilder, Translate}
+import org.apache.commons.lang.time.DateUtils
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
+
+import java.util.{Calendar, Date, TimeZone}
 
 class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, s"デイリークエスト選択:$page")
 
+  override def openMotion(player: Player): Boolean = {
+    super.openMotion(player)
+    val lastDate = QuestPlayerData.getLastDailyQuest(player.getUniqueId)
+    val now = new Date()
+    if (DateUtils.truncate(lastDate,Calendar.DAY_OF_MONTH).getTime != DateUtils.truncate(now,Calendar.DAY_OF_MONTH).getTime) {
+      player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)
+      val questGateway = new QuestGateway(player)
+      questGateway.getSelectedDailyQuest match {
+        case Some(_) =>
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
+          false
+        case None =>
+          true
+      }
+    } else {
+      player.sendMessage(s"${RED}デイリークエストは1日1回のみこなすことができます。")
+      false
+    }
+  }
+
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val questGateway = new QuestGateway
-    val playerLevel = player.getQuestLevel
+    val questGateway = new QuestGateway(player)
     val compute = computeSelectDailyQuestButton(player, page, ryoServerAssist)
     import compute._
     Map(
       getLayOut(1, 6) -> backPage,
       getLayOut(9, 6) -> nextPage
-    ) ++ questGateway.getCanDailyQuests(playerLevel).zipWithIndex.filter { case (_, index) =>
+    ) ++ questGateway.getCanDailyQuests.zipWithIndex.filter { case (_, index) =>
       index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
     }.map { case (questData, index) => index - ((getLayOut(9, 5) + 1) * (this.page - 1)) -> getQuestButton(questData) }.toMap
   }
@@ -32,6 +53,8 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends 
 }
 
 private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
+  private val questGateway = new QuestGateway(player)
+
   val backPage: Button = Button(
     ItemStackBuilder
       .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
@@ -57,14 +80,14 @@ private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoS
     }
   )
 
-  def getQuestButton(questData: QuestType): Button = {
+  def getQuestButton(questData: QuestDataContext): Button = {
     val description = List(
       "",
       s"${WHITE}このクエストをクリアした際に得られる経験値量:${questData.exp}",
     )
-    if (questData.questType == "delivery") {
+    if (questData.questType == QuestType.delivery) {
       val requireList = questData.requireList.map { case (require, amount) =>
-        s"$WHITE${Translate.materialNameToJapanese(Material.matchMaterial(require))}:${amount}個"
+        s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
       }
       return Button(
         ItemStackBuilder
@@ -75,12 +98,13 @@ private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoS
           ) ++ requireList ++ description)
           .build(),
         ButtonMotion { _ =>
-          new QuestSelectMenuMotions(ryoServerAssist).selectDailyQuest(player, questData.questName)
+          questGateway.selectDailyQuest(questData.questName)
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
         }
       )
-    } else if (questData.questType == "suppression") {
+    } else if (questData.questType == QuestType.suppression) {
       val requireList = questData.requireList.map { case (require, amount) =>
-        s"$WHITE${Translate.entityNameToJapanese(getEntity(require))}:${amount}体"
+        s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
       }
       return Button(
         ItemStackBuilder
@@ -91,7 +115,8 @@ private case class computeSelectDailyQuestButton(player: Player, page: Int, ryoS
           ) ++ requireList ++ description)
           .build(),
         ButtonMotion { _ =>
-          new QuestSelectMenuMotions(ryoServerAssist).selectDailyQuest(player, questData.questName)
+          questGateway.selectDailyQuest(questData.questName)
+          new DailyQuestProcessMenu(ryoServerAssist).open(player)
         }
       )
     }

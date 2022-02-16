@@ -17,6 +17,7 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
+import com.ryoserver.Quest.QuestPlayerData.playerQuestData
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerMenu.StickEvent
 import com.ryoserver.Security.{Operator, SecurityEvent}
@@ -30,7 +31,7 @@ import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.util.{ScalikeJDBC, Translate}
-import org.bukkit.Bukkit
+import org.bukkit.{Bukkit, Material}
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
@@ -153,7 +154,6 @@ class RyoServerAssist extends JavaPlugin {
       様々なロード処理
      */
     new LoadAllPlayerData().load()
-    LoadQuests.loadQuest
     new TitleLoader().loadTitle()
     ItemList.loadItemList
     new LoadNeoStackPage().loadStackPage()
@@ -175,7 +175,9 @@ class RyoServerAssist extends JavaPlugin {
     new SavePlayerData().autoSave()
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
-    PlayerQuestData.autoSave
+    QuestPlayerData.lastDailyQuestDateAutoSave
+    QuestPlayerData.playerQuestDataAutoSave
+    QuestPlayerData.playerDailyQuestDataAutoSave
     HomeData.saveHomeData
 
     /*
@@ -204,7 +206,9 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.save()
     new SavePlayerData().save()
     new SaveDistribution().save()
-    PlayerQuestData.save()
+    QuestPlayerData.saveLastDailyQuestDate()
+    QuestPlayerData.playerQuestDataSave()
+    QuestPlayerData.playerDailyQuestDataSave()
     HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }

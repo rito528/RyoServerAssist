@@ -11,8 +11,9 @@ import com.ryoserver.Menu._
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
 import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Quest.Event.EventMenu
-import com.ryoserver.Quest.QuestMenu
+import com.ryoserver.Quest.Event.Menu.EventMenu
+import com.ryoserver.Quest.Menu.{SelectDailyQuestMenu, SelectQuestMenu}
+import com.ryoserver.Quest.QuestSortContext
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.SkillMenu.SkillCategoryMenu
 import com.ryoserver.Storage.Storage
@@ -27,6 +28,12 @@ import org.bukkit.{Bukkit, Material, Sound}
 class RyoServerMenu1(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, "りょう鯖メニュー")
+
+  override def openMotion(player: Player): Boolean = {
+    super.openMotion(player)
+    player.playSound(player.getLocation,Sound.BLOCK_IRON_TRAPDOOR_OPEN,1,1)
+    true
+  }
 
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
@@ -93,7 +100,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-      new QuestMenu().selectInventory(p)
+      new SelectQuestMenu(ryoServerAssist,1,QuestSortContext.normal).open(p)
     }
   )
 
@@ -104,7 +111,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-      new QuestMenu().selectDailyQuestMenu(p)
+      new SelectDailyQuestMenu(ryoServerAssist,1).open(p)
     }
   )
 
