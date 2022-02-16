@@ -46,10 +46,10 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
   private lazy val neoStackGateway = new NeoStackGateway
   private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
-  private lazy val requireDeliveryList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val requireDeliveryList: List[String] = QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
   }.toList
-  private lazy val requireSuppressionList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val requireSuppressionList: List[String] = QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
   }.toList
 
