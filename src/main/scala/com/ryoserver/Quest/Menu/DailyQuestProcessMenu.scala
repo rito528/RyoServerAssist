@@ -39,13 +39,13 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeDailyQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, dailyQuestProcessMenu: DailyQuestProcessMenu) {
-  lazy val questGateway = new QuestGateway(player)
-  lazy val neoStackGateway = new NeoStackGateway
-  lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
-  lazy val requireDeliveryList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val questGateway = new QuestGateway(player)
+  private lazy val neoStackGateway = new NeoStackGateway
+  private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
+  private lazy val requireDeliveryList: List[String] = QuestPlayerData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
   }.toList
-  lazy val requireSuppressionList: List[String] = selectedQuest.requireList.map { case (require, amount) =>
+  private lazy val requireSuppressionList: List[String] = QuestPlayerData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
   }.toList
 
