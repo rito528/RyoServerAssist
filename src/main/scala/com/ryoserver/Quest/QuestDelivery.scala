@@ -88,7 +88,6 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
   }
 
   private def dailyQuestClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
-    println(progress)
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！デイリークエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)

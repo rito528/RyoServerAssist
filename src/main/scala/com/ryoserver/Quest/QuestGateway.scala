@@ -92,7 +92,7 @@ class QuestGateway(p: Player) {
       QuestPlayerData.setQuestData(uuid,playerQuestData.setBookmarks(playerQuestData.bookmarks.filterNot(_ == questName)))
       false
     } else {
-      QuestPlayerData.setQuestData(uuid,playerQuestData.setBookmarks(playerQuestData.bookmarks ++ List(questName)))
+      QuestPlayerData.setQuestData(uuid, QuestPlayerData.getPlayerQuestContext(uuid).setBookmarks(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks ++ List(questName)))
       true
     }
   }

@@ -1,8 +1,10 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Quest.MaterialOrEntityType.{entityType, material}
+import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
 import org.bukkit.Material
+import org.bukkit.scheduler.BukkitRunnable
 import scalikejdbc.{AutoSession, NoExtractor, SQL, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.text.SimpleDateFormat
@@ -17,7 +19,7 @@ object QuestPlayerData {
     mutable.Map() ++ sql.map{rs =>
       val selectedQuest = rs.stringOpt("selectedQuest")
       val remaining = rs.stringOpt("remaining")
-      val materialProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+      val materialProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
         remaining.get.split(";").map { data =>
           val splitData = data.split(":")
           material(Material.matchMaterial(splitData(0))) -> splitData(1).toInt
@@ -25,7 +27,7 @@ object QuestPlayerData {
       } else {
         Map.empty
       }
-      val suppressionProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
+      val suppressionProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
         remaining.get.split(":").map { data =>
           val splitData = data.split(";")
           entityType(Entity.getEntity(splitData(0))) -> splitData(1).toInt
@@ -33,11 +35,16 @@ object QuestPlayerData {
       } else {
         Map.empty
       }
-      val bookmarks = rs.stringOpt("bookmarks").getOrElse("").split(";").toList
-      if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+      val bookmarks = rs.stringOpt("bookmarks") match {
+        case Some(bookmarkData) =>
+          bookmarkData.split(";").toList
+        case None =>
+          List.empty
+      }
+      if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
         UUID.fromString(rs.string("UUID")) ->
           PlayerQuestDataContext(selectedQuest,Option(materialProgress), bookmarks)
-      } else if (selectedQuest.nonEmpty && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
+      } else if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
         UUID.fromString(rs.string("UUID")) ->
           PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), bookmarks)
       } else {
@@ -55,6 +62,87 @@ object QuestPlayerData {
     mutable.Map() ++ sql"SELECT UUID,LastDailyQuest FROM Players".map{rs =>
       UUID.fromString(rs.string("UUID")) -> format.parse(rs.string("LastDailyQuest"))
     }.toList().apply().toMap
+  }
+
+  def playerQuestDataSave(): Unit = {
+    playerQuestData.foreach{case (uuid,context) =>
+      val uuidString = uuid.toString
+      val selectedQuest = context.selectedQuest
+      val progress: String = selectedQuest match {
+        case Some(name) =>
+          context.progress.getOrElse(Map.empty).map{case(materialOrEntityType,amount) =>
+            QuestData.loadedQuestData.filter(_.questName == name).head.questType match {
+              case QuestType.delivery =>
+                s"${materialOrEntityType.material.name}:$amount"
+              case QuestType.suppression =>
+                s"${materialOrEntityType.entityType.name}:$amount"
+            }
+          }.mkString(";")
+        case None =>
+          ""
+      }
+      val bookmarks = context.bookmarks.mkString(";")
+      sql"""INSERT INTO Quests (UUID,selectedQuest,remaining,bookmarks) VALUES ($uuidString,${selectedQuest.getOrElse("")},$progress,$bookmarks)
+           ON DUPLICATE KEY UPDATE
+           selectedQuest=${selectedQuest.getOrElse("")},
+           remaining=$progress,
+           bookmarks=$bookmarks""".execute().apply()
+    }
+  }
+
+  def playerDailyQuestDataSave(): Unit = {
+    playerDailyQuestData.foreach{case (uuid,context) =>
+      val uuidString = uuid.toString
+      val selectedQuest = context.selectedQuest
+      val progress: String = selectedQuest match {
+        case Some(name) =>
+          context.progress.getOrElse(Map.empty).map{case(materialOrEntityType,amount) =>
+            QuestData.loadedDailyQuestData.filter(_.questName == name).head.questType match {
+              case QuestType.delivery =>
+                s"${materialOrEntityType.material.name}:$amount"
+              case QuestType.suppression =>
+                s"${materialOrEntityType.entityType.name}:$amount"
+            }
+          }.mkString(";")
+        case None =>
+          ""
+      }
+      sql"""INSERT INTO DailyQuests (UUID,selectedQuest,remaining) VALUES ($uuidString,${selectedQuest.getOrElse("")},$progress)
+           ON DUPLICATE KEY UPDATE
+           selectedQuest=${selectedQuest.getOrElse("")},
+           remaining=$progress""".execute().apply()
+    }
+  }
+
+  def saveLastDailyQuestDate(): Unit = {
+    lastDailyQuestDate.foreach{case (uuid,date) =>
+      val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+      sql"UPDATE Players SET LastDailyQuest=${simpleDateFormat.format(date.getTime)} WHERE UUID=${uuid.toString}".execute().apply()
+    }
+  }
+
+  def playerQuestDataAutoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        playerQuestDataSave()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
+  }
+
+  def playerDailyQuestDataAutoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        playerDailyQuestDataSave()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
+  }
+
+  def lastDailyQuestDateAutoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    new BukkitRunnable {
+      override def run(): Unit = {
+        saveLastDailyQuestDate()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,20 * 60,20 * 60)
   }
 
   def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
