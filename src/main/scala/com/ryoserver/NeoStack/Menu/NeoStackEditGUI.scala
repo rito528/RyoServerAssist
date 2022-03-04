@@ -25,16 +25,6 @@ class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAss
   override def noneOperationButton(player: Player): Map[Int, Button] = {
     super.noneOperationButton(player)
     implicit val session: AutoSession.type = AutoSession
-    println(sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
-      rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
-        val itemStack = Item.getItemStackFromString(itemStackString)
-        if (itemStack != null) getLayOut(getX(index), getY(index)) -> Button(itemStack)
-        else getLayOut(getX(index), getY(index)) -> Button(new ItemStack(Material.AIR))
-      }
-    }).toIterable().apply().flatten.toMap.foreach { case (index, button) =>
-      println(index)
-      println(button)
-    })
     sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
       rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
         val itemStack = Item.getItemStackFromString(itemStackString)
