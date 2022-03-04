@@ -8,7 +8,7 @@ import com.ryoserver.Distribution.{LoadDistribution, SaveDistribution}
 import com.ryoserver.Elevator.ElevatorEvent
 import com.ryoserver.ExpBottle.UseExpBottle
 import com.ryoserver.File.CreateFiles
-import com.ryoserver.Gacha.{GachaHandler, GachaLoader}
+import com.ryoserver.Gacha.GachaHandler
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
 import com.ryoserver.Menu.MenuHandler
@@ -17,7 +17,6 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
-import com.ryoserver.Quest.QuestPlayerData.playerQuestData
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerMenu.StickEvent
 import com.ryoserver.Security.{Operator, SecurityEvent}
@@ -31,7 +30,7 @@ import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
 import com.ryoserver.util.{ScalikeJDBC, Translate}
-import org.bukkit.{Bukkit, Material}
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class RyoServerAssist extends JavaPlugin {
