@@ -55,6 +55,12 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
+  def addQuestClearTimes(number: Int): Unit = {
+    val result = oldData.copy(questClearTimes = oldData.questClearTimes + number)
+    playerData += (uuid -> result)
+    oldData = result
+  }
+
   def toggleAutoStack(): Boolean = {
     val result = !oldData.autoStack
     val resultData = oldData.copy(autoStack = result)

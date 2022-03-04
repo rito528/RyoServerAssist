@@ -87,6 +87,8 @@ object PlayerManager {
 
     def questExpAddNaturally(addExp: Double): Unit = rp.addExp(addExp)
 
+    def addQuestClearTimes(): Unit = rp.addQuestClearTimes(1)
+
     def toggleAutoStack(): Unit = rp.toggleAutoStack()
 
     def addSkillOpenPoint(addPoint: Int): Unit = rp.addSkillOpenPoint(addPoint)

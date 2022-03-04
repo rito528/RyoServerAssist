@@ -2,7 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -103,6 +103,7 @@ class QuestGateway(p: Player) {
 
   def questClear(): Unit = {
     new UpdateLevel().addExp(getSelectedQuestData.exp,p)
+    p.addQuestClearTimes()
     questDestroy()
   }
 
@@ -113,6 +114,7 @@ class QuestGateway(p: Player) {
   def dailyQuestClear(ratio: Double = 1.0): Unit = {
     new UpdateLevel().addExp(getSelectedDailyQuestData.exp * ratio,p)
     QuestPlayerData.setLastDailyQuest(uuid,new Date())
+    p.addQuestClearTimes()
     dailyQuestDestroy()
   }
 
