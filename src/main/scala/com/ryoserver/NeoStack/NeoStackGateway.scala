@@ -2,35 +2,33 @@ package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.ItemList.itemList
 import com.ryoserver.NeoStack.PlayerData.changedData
-import com.ryoserver.util.{Item, SQL}
+import com.ryoserver.util.Item
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class NeoStackGateway {
 
   def getPlayerHasNeoStackItems(p: Player): Set[NeoStackPlayerItemData] = {
     val uuid = p.getUniqueId
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM StackData WHERE UUID='$uuid';")
-    val item = Iterator.from(0).takeWhile(_ => rs.next())
-      .map(_ =>
-        NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.getString("item"))), rs.getInt("amount"))
-      ).toSet
+    implicit val session: AutoSession.type = AutoSession
+    val item = sql"SELECT * FROM StackData WHERE UUID=${uuid.toString}".map(rs => {
+      NeoStackPlayerItemData(Item.getOneItemStack(Item.getItemStackFromString(rs.string("item"))), rs.int("amount"))
+    }).toList.apply().toSet
     val allItems = itemList.map(itemStack =>
-      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack),0)
-        else null)
-      .filterNot(_ == null)
-    sql.close()
+      if (!item.map(_.itemStack).contains(itemStack)) NeoStackPlayerItemData(Item.getOneItemStack(itemStack), 0)
+      else null
+    ).filterNot(_ == null)
     item ++ allItems
   }
 
   def editItemList(category: String, page: Int, invContents: String): Unit = {
-    val sql = new SQL()
-    val rs = sql.executeQuery(s"SELECT * FROM StackList WHERE page=$page AND category='$category';")
-    if (rs.next()) sql.purseFolder(s"UPDATE StackList SET invItem=? WHERE category='$category' AND page=$page;", invContents)
-    else sql.purseFolder(s"INSERT INTO StackList (category,page,invItem) VALUES ('$category',$page,?);", invContents)
-    sql.close()
+    implicit val session: AutoSession.type = AutoSession
+    val stackListTable = sql"SELECT * FROM StackList WHERE page=$page AND category=$category"
+    if (stackListTable.getHeadData.nonEmpty) sql"UPDATE StackList SET invItem=$invContents WHERE category=$category".execute.apply()
+    else sql"INSERT INTO StackList (category,page,invItem) VALUES ($category,$page,$invContents)".execute.apply()
   }
 
   def checkItemList(itemStack: ItemStack): Boolean = {

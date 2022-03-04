@@ -2,127 +2,124 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.Quest.LoadQuests.{loadedDailyQuests, loadedQuests}
-import com.ryoserver.Quest.PlayerQuestData.playerQuestData
-import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
-import org.bukkit.Material
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class QuestGateway {
+import java.util.Date
 
-  def selectQuest(p: Player, questName: String): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedQuests.filter(_.questName == questName).head.requireList, playerQuestData(p.getUniqueId).bookmarks))
-  }
+class QuestGateway(p: Player) {
+  private lazy val uuid = p.getUniqueId
+  private lazy val playerLevel = p.getQuestLevel
+  private lazy val playerQuestData = QuestPlayerData.getPlayerQuestContext(uuid)
+  private lazy val playerDailyQuestData = QuestPlayerData.getPlayerDailyQuestContext(uuid)
 
-  def selectDailyQuest(p: Player, questName: String): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(questName), loadedDailyQuests.filter(_.questName == questName).head.requireList, playerQuestData(p.getUniqueId).bookmarks))
-  }
-
-  def resetQuest(p: Player): Unit = {
-    playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
-  }
-
-  def getQuestProgress(p: Player): Map[String, Int] = {
-    playerQuestData(p.getUniqueId).progress
-  }
-
-  def setQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
-    getSelectedQuest(p) match {
-      case Some(selectedQuest) =>
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress, playerQuestData(p.getUniqueId).bookmarks))
-      case None =>
+  def getQuests(sortType: QuestSortContext): Set[QuestDataContext] = {
+    val canQuests = getCanQuests
+    sortType match {
+      case QuestSortContext.normal =>
+        //自分のできるクエストすべてを返す
+        canQuests
+      case QuestSortContext.neoStack =>
+        //NeoStackからできるクエストということはすべて納品クエストのはず
+        val neoStackGateway = new NeoStackGateway
+        canQuests
+            .filter(questData => questData.questType == QuestType.delivery && questData.requireList
+            .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(requires._1.material,1)) >= requires._2})
+      case QuestSortContext.bookMark =>
+        //できるクエストとbookmarkされているクエストの積集合を取る
+        canQuests.intersect(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks
+          .map(
+            questName => QuestData.loadedQuestData.filter(_.questName == questName).head
+          ).toSet
+        )
     }
   }
 
-  def setDailyQuestProgress(p: Player, progress: Map[String, Int]): Unit = {
-    getSelectedDailyQuest(p) match {
-      case Some(selectedQuest) =>
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(Option(selectedQuest.questName), progress, playerQuestData(p.getUniqueId).bookmarks))
-      case None =>
-    }
+  def getCanDailyQuests: Set[QuestDataContext] = {
+    QuestData.loadedDailyQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
 
-  def getSelectedQuest(p: Player): Option[QuestType] = {
-    playerQuestData(p.getUniqueId).selectedQuestName match {
-      case Some(questName) =>
-        Option(loadedQuests.filter(_.questName == questName).head)
-      case None =>
-        None
-    }
+  private def getCanQuests: Set[QuestDataContext] = {
+    QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
 
-  def getSelectedDailyQuest(p: Player): Option[QuestType] = {
-    playerQuestData(p.getUniqueId).selectedQuestName match {
-      case Some(questName) =>
-        Option(loadedDailyQuests.filter(_.questName == questName).head)
-      case None =>
-        None
-    }
-  }
-
-  def nowNeoStackCanQuest(p: Player): List[QuestType] = {
-    val neoStackGateway = new NeoStackGateway()
-    getCanQuests(p.getQuestLevel)
-      .filter(_.questType == "delivery") //neoStackからできるクエストのソートということはすべて納品クエストのはず
-      .filter(data => data.requireList
-        .forall { requires => neoStackGateway.getNeoStackAmount(p, new ItemStack(Material.matchMaterial(requires._1))) >= requires._2 }
+  def selectQuest(questName: String): Unit = {
+    QuestPlayerData.setQuestData(uuid,playerQuestData
+      .setSelectedQuest(Option(questName))
+      .setProgress(Option(QuestData.loadedQuestData
+        .filter(_.questName == questName)
+        .head
+        .requireList)
       )
+    )
   }
 
-  def getCanQuests(lv: Int): List[QuestType] = {
-    LoadQuests.loadedQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+  def selectDailyQuest(questName: String): Unit = {
+    QuestPlayerData.setDailyQuestData(uuid,playerDailyQuestData
+      .setSelectedQuest(Option(questName))
+      .setProgress(Option(QuestData.loadedDailyQuestData
+        .filter(_.questName == questName)
+        .head
+        .requireList)
+      )
+    )
   }
 
-  def getCanDailyQuests(lv: Int): List[QuestType] = {
-    LoadQuests.loadedDailyQuests.filter(data => data.minLevel <= lv && data.maxLevel >= lv)
+
+  def getSelectedQuest: Option[String] = {
+    playerQuestData.selectedQuest
+  }
+
+  def getSelectedQuestData: QuestDataContext = {
+    QuestData.loadedQuestData.filter(_.questName == getSelectedQuest.get).head
+  }
+
+  def getSelectedDailyQuest: Option[String] = {
+    playerDailyQuestData.selectedQuest
+  }
+
+  def getSelectedDailyQuestData: QuestDataContext = {
+    QuestData.loadedDailyQuestData.filter(_.questName == getSelectedDailyQuest.get).head
   }
 
   /*
-    追加したらtrue、削除したらfalseを返す
+    クエスト名を指定するとbookmarkに追加・削除をします。
+    追加するとtrue、削除されるとfalseを返します。
    */
-  def setBookmark(p: Player, questName: String): Boolean = {
-    val uuid = p.getUniqueId
-    val bookmarks = playerQuestData(uuid).bookmarks
-    if (bookmarks.contains(questName)) {
-      playerQuestData += uuid -> playerQuestData(uuid).copy(bookmarks = bookmarks.filterNot(_ == questName))
+  def setBookmark(questName: String): Boolean = {
+    if (playerQuestData.bookmarks.contains(questName)) {
+      QuestPlayerData.setQuestData(uuid,playerQuestData.setBookmarks(playerQuestData.bookmarks.filterNot(_ == questName)))
       false
     } else {
-      playerQuestData += (uuid -> playerQuestData(uuid)
-        .copy(bookmarks = bookmarks ++ List(questName)))
+      QuestPlayerData.setQuestData(uuid, QuestPlayerData.getPlayerQuestContext(uuid).setBookmarks(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks ++ List(questName)))
       true
     }
   }
 
-  def getBookmarkCanQuest(p: Player): List[QuestType] = {
-    //できるクエストとbookmarkされているクエストの積集合を取る
-    val playerLevel = p.getQuestLevel
-    getCanQuests(playerLevel).filter(data =>
-      getCanQuests(playerLevel).map(_.questName).intersect(playerQuestData(p.getUniqueId).bookmarks).contains(data.questName)
-    )
+  def setQuestSortData(sortContext: QuestSortContext): Unit = {
+    QuestPlayerData.setQuestSortData(uuid,sortContext)
   }
 
-  def questClear(p: Player, ryoServerAssist: RyoServerAssist): Unit = {
-    getSelectedQuest(p) match {
-      case Some(selectedQuest) =>
-        new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp, p)
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
-      case None =>
-    }
+  def questClear(): Unit = {
+    new UpdateLevel().addExp(getSelectedQuestData.exp,p)
+    p.addQuestClearTimes()
+    questDestroy()
   }
 
-  def dailyQuestClear(p: Player, ryoServerAssist: RyoServerAssist,addExp: Double): Unit = {
-    getSelectedDailyQuest(p) match {
-      case Some(selectedQuest) =>
-        val sql = new SQL
-        sql.executeSQL(s"UPDATE Players SET LastDailyQuest=NOW() WHERE UUID='${p.getUniqueId.toString}'")
-        sql.close()
-        new UpdateLevel(ryoServerAssist).addExp(selectedQuest.exp * addExp, p)
-        playerQuestData += (p.getUniqueId -> PlayerQuestDataType(None, Map.empty, playerQuestData(p.getUniqueId).bookmarks))
-      case None =>
-    }
+  def questDestroy(): Unit = {
+    QuestPlayerData.setQuestData(uuid,playerQuestData.setSelectedQuest(None).setProgress(None))
+  }
+
+  def dailyQuestClear(ratio: Double = 1.0): Unit = {
+    new UpdateLevel().addExp(getSelectedDailyQuestData.exp * ratio,p)
+    QuestPlayerData.setLastDailyQuest(uuid,new Date())
+    p.addQuestClearTimes()
+    dailyQuestDestroy()
+  }
+
+  def dailyQuestDestroy(): Unit = {
+    QuestPlayerData.setDailyQuestData(uuid,playerDailyQuestData.setSelectedQuest(None).setProgress(None))
   }
 
 }

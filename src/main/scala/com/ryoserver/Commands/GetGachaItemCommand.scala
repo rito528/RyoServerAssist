@@ -1,21 +1,22 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.Gacha.GachaItemGetInventory
+import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
+import com.ryoserver.Commands.Executer.ContextualTabExecutor
+import com.ryoserver.Gacha.SubSystems.GachaItemGetInventory
+import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
-class GetGachaItemCommand extends CommandBuilder {
+object GetGachaItemCommand {
 
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "0" -> gachaItemCommand,
-      "1" -> gachaItemCommand,
-      "2" -> gachaItemCommand,
-      "3" -> gachaItemCommand,
-    )
-  ).playerCommand()
+  val executor: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
+    override def execute(rawCommandContext: RawCommandContext): Unit = {
+      val sender = rawCommandContext.sender
+      val args = rawCommandContext.args
+      if (args.length != 1) return
+      new GachaItemGetInventory(args.head.toInt).open(sender.asInstanceOf[Player])
+    }
 
-  def gachaItemCommand(): Unit = {
-    new GachaItemGetInventory().openGachaItemGetMenu(sender.asInstanceOf[Player],args(0).toInt)
-  }
+    override val args: List[String] = List("0", "1", "2", "3")
+  })
+
 }

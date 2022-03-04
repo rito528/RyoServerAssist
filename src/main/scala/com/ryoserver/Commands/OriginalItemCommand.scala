@@ -1,48 +1,36 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
+import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
+import com.ryoserver.Commands.Executer.ContextualTabExecutor
 import com.ryoserver.OriginalItem.OriginalItems
 import com.ryoserver.SkillSystems.SkillPoint.RecoveryItems
+import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
-class OriginalItemCommand extends CommandBuilder {
+object OriginalItemCommand {
 
-  private val commandList: Map[String, () => Unit] = Map(
-    "勇者の盾" -> yuusyanotate,
-    "スキル回復(小)" -> min,
-    "スキル回復(中)" -> mid,
-    "スキル回復(大)" -> max,
-    "特等交換券" -> tokutoukoukanken
-  )
+  val executer: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
+    override def execute(rawCommandContext: RawCommandContext): Unit = {
+      val p = rawCommandContext.sender.asInstanceOf[Player]
+      if (rawCommandContext.args.length < 1) return
+      rawCommandContext.args.head match {
+        case "勇者の盾" =>
+          p.getWorld.dropItem(p.getLocation, OriginalItems.yuusyanotate)
+        case "スキル回復(小)" =>
+          p.getWorld.dropItemNaturally(p.getLocation, RecoveryItems.min)
+        case "スキル回復(中)" =>
+          p.getWorld.dropItemNaturally(p.getLocation, RecoveryItems.mid)
+        case "スキル回復(大)" =>
+          p.getWorld.dropItemNaturally(p.getLocation, RecoveryItems.max)
+        case "特等交換券" =>
+          p.getWorld.dropItem(p.getLocation, OriginalItems.tokutoukoukanken)
+        case _ =>
+      }
+    }
 
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    commandList ++
-      Map("all" -> all)
-  ).playerCommand()
+    override val args: List[String] = List("勇者の盾", "スキル回復(小)", "スキル回復(中)", "スキル回復(大)", "特等交換券")
 
-  private def all(): Unit = {
-    commandList.foreach { case (_, func) => func.apply() }
-  }
-
-  private def yuusyanotate(): Unit = {
-    val p = sender.asInstanceOf[Player]
-    p.getWorld.dropItem(p.getLocation, OriginalItems.yuusyanotate)
-  }
-
-  private def min(): Unit = {
-    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.min)
-  }
-
-  private def mid(): Unit = {
-    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.mid)
-  }
-
-  private def max(): Unit = {
-    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, RecoveryItems.max)
-  }
-
-  private def tokutoukoukanken(): Unit = {
-    sender.asInstanceOf[Player].getWorld.dropItemNaturally(sender.asInstanceOf[Player].getLocation, OriginalItems.tokutoukoukanken)
-  }
+    override val playerCommand: Boolean = true
+  })
 
 }

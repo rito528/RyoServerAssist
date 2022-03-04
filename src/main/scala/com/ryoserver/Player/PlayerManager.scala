@@ -1,5 +1,6 @@
 package com.ryoserver.Player
 
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointData
 import org.bukkit.Bukkit.getLogger
 import org.bukkit.OfflinePlayer
@@ -11,10 +12,6 @@ object PlayerManager {
     private val playerData: PlayerDataType = PlayerData.playerData(p.getUniqueId)
 
     def getQuestLevel: Int = playerData.level
-
-    def getQuestExp: Double = playerData.exp
-
-    def getRanking: Int = PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
 
     def getBehindExpDiff: Option[Double] = {
       val nowRanking = getRanking
@@ -36,6 +33,10 @@ object PlayerManager {
       }
     }
 
+    def getQuestExp: Double = playerData.exp
+
+    def getRanking: Int = PlayerData.playerData.values.toSeq.sortBy(_.exp).reverse.indexOf(playerData) + 1
+
     def getLastDistributionReceived: Int = playerData.lastDistributionReceived
 
     def getSkillPoint: Double = playerData.skillPoint
@@ -52,7 +53,7 @@ object PlayerManager {
 
     def getSkillOpenPoint: Int = playerData.SkillOpenPoint
 
-    def getOpenedSkills: Option[String] = playerData.OpenedSkills
+    def getOpenedSkills: Set[EffectSkills] = playerData.OpenedSkills
 
     def getVoteNumber: Int = playerData.voteNumber
 
@@ -82,7 +83,11 @@ object PlayerManager {
 
     def addGachaPullNumber(number: Int): Unit = rp.addGachaPullNumber(number)
 
+    def questExpUpdate(exp: Double): Unit = rp.updateExp(exp)
+
     def questExpAddNaturally(addExp: Double): Unit = rp.addExp(addExp)
+
+    def addQuestClearTimes(): Unit = rp.addQuestClearTimes(1)
 
     def toggleAutoStack(): Unit = rp.toggleAutoStack()
 
@@ -90,7 +95,7 @@ object PlayerManager {
 
     def addSpecialSkillOpenPoint(addPoint: Int): Unit = rp.addSpecialSkillOpenPoint(addPoint)
 
-    def openSkills(openedSkills: String): Unit = rp.skillOpen(openedSkills)
+    def openSkills(openedSkills: EffectSkills): Unit = rp.skillOpen(openedSkills)
 
     def openSpecialSkills(openedSpecialSkills: String): Unit = rp.specialSkillOpen(openedSpecialSkills)
 

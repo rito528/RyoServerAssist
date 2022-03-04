@@ -1,45 +1,37 @@
 package com.ryoserver.AdminStorage
 
-import com.ryoserver.util.SQL
-import org.bukkit.ChatColor.RED
-import org.bukkit.{Bukkit, Sound}
-import org.bukkit.configuration.file.YamlConfiguration
+import com.ryoserver.util.Item
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
+import org.bukkit.{Bukkit, Sound}
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class AdminStorage {
 
   def save(inv: Inventory): Unit = {
-    val sql = new SQL()
+    implicit val session: AutoSession.type = AutoSession
     var itemList = ""
     inv.getContents.foreach(is => {
-      val config = new YamlConfiguration
-      config.set("i", is)
-      itemList += config.saveToString() + ";"
+      itemList += Item.getStringFromItemStack(is) + ";"
     })
-    val checkRs = sql.executeQuery(s"SELECT * FROM AdminStorage")
-    if (checkRs.next()) sql.purseFolder(s"UPDATE AdminStorage SET invData=?", itemList)
-    else sql.purseFolder(s"INSERT INTO AdminStorage(invData) VALUES (?);", itemList)
-    sql.close()
+    val adminStorage = sql"SELECT * FROM AdminStorage"
+    if (adminStorage.getHeadData.isEmpty) sql"INSERT INTO AdminStorage(invData) VALUES ($itemList)".update.apply()
+    else sql"UPDATE AdminStorage SET invData=$itemList".execute.apply()
   }
 
   def load(p: Player): Unit = {
-    val sql = new SQL()
-    val invData_rs = sql.executeQuery(s"SELECT invData FROM AdminStorage;")
     val inv = Bukkit.createInventory(null, 54, "AdminStorage")
-    var counter = 0
-    if (invData_rs.next()) {
-      val invData = invData_rs.getString("invData").split(";")
-      val config = new YamlConfiguration
-      invData.foreach(material => {
-        config.loadFromString(material)
-        inv.setItem(counter, config.getItemStack("i", null))
-        counter += 1
-      })
+    implicit val session: AutoSession.type = AutoSession
+    val adminStorage = sql"SELECT invData FROM AdminStorage"
+    val storageData = adminStorage.getHeadData
+    if (storageData.nonEmpty) {
+      storageData.get("invData").toString.split(";").zipWithIndex.foreach { case (itemStack, index) =>
+        if (itemStack != null) inv.setItem(index, Item.getItemStackFromString(itemStack))
+      }
     }
     p.openInventory(inv)
     p.playSound(p.getLocation, Sound.BLOCK_CHEST_OPEN, 1, 1)
-    sql.close()
   }
 
 }

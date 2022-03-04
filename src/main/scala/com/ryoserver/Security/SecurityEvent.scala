@@ -10,7 +10,7 @@ import org.bukkit.event.player.{PlayerCommandPreprocessEvent, PlayerMoveEvent}
 import org.bukkit.event.{EventHandler, EventPriority, Listener}
 import org.bukkit.scheduler.BukkitRunnable
 
-class SecurityEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class SecurityEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   def onMove(e: PlayerMoveEvent): Unit = {

@@ -1,34 +1,45 @@
 package com.ryoserver.SkillSystems.Skill.EffectSkill
 
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.SkillSystems.Skill.EffectSkill.PlayerSkillData.enableSkills
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
+import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
-import org.bukkit.potion.{PotionEffect, PotionEffectType}
+import org.bukkit.potion.PotionEffect
 import org.bukkit.scheduler.BukkitRunnable
 
-class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAssist) {
+class SkillOperation(ryoServerAssist: RyoServerAssist) {
 
-  def skillActivation(skillEffect: PotionEffectType, level: Int, sp: Int): Unit = {
-    val name = p.getName
-    if (enableSkills.contains(name)) {
-      enableSkills(name) :+= skillName
-    } else {
-      var skillList: Array[String] = Array.empty
-      skillList :+= skillName
-      enableSkills += (name -> skillList)
+  def skillActivation(p: Player, effectSkills: EffectSkills): Unit = {
+    if (p.getSkillOpenPoint < 10 && !p.getOpenedSkills.contains(effectSkills)) {
+      p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}を開放していないため、有効にできません！")
+      return
+    } else if (p.getSkillOpenPoint >= 10 && !p.getOpenedSkills.contains(effectSkills)) {
+      if (effectSkills.isSpecialSkill && EffectSkills.values.filter(_.isSpecialSkill == false).toSet != p.getOpenedSkills.filter(_.isSpecialSkill == false)) {
+        p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}は基本スキルを開放してから開放することができます！")
+        return
+      }
+      p.openSkills(effectSkills)
+      p.addSkillOpenPoint(-10)
+      new GiveTitle().skillOpenNumber(p)
+      p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を開放しました！")
+      return
+    } else if (p.getSkillPoint < effectSkills.cost && !EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
+      p.sendMessage(s"${RED}スキルポイントが足りないため、${effectSkills.skillName}を有効化できませんでした。")
+      return
+    } else if (EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
+      p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を無効化しました。")
+      EffectSkillData.setDisableSkill(p, effectSkills)
+      return
     }
-    var runnable: BukkitRunnable = null
-    //エフェクトをつける
+    EffectSkillData.setEnablingSkill(p, effectSkills)
     new BukkitRunnable {
       override def run(): Unit = {
-        runnable = this
         new BukkitRunnable {
           override def run(): Unit = {
-            if (!isEnableSkill) runnable.cancel()
-            else p.addPotionEffect(new PotionEffect(skillEffect, 280, level))
+            if (!EffectSkillData.getEnablingSkill(p).contains(effectSkills)) this.cancel()
+            else p.addPotionEffect(new PotionEffect(effectSkills.effectType, 280, effectSkills.effectLevel))
           }
         }.runTask(ryoServerAssist)
       }
@@ -36,33 +47,25 @@ class SkillOperation(p: Player, skillName: String, ryoServerAssist: RyoServerAss
 
     new BukkitRunnable {
       override def run(): Unit = {
-        //60秒ごとにスキルポイントを更新
-        if (!isEnableSkill) {
-          runnable.cancel()
+        if (p.getSkillPoint < effectSkills.cost) {
+          EffectSkillData.setDisableSkill(p, effectSkills)
           this.cancel()
-          skillInvalidation()
-        } else if (p.getSkillPoint < sp) {
-          runnable.cancel()
-          this.cancel()
-          skillInvalidation()
-          p.sendMessage(s"${RED}スキルポイントが不足したため、スキルを無効化しました。")
+          p.sendMessage(s"${RED}スキルポイントが不足したため、エフェクトスキル:${effectSkills.skillName}を無効化しました。")
         } else {
-          new SkillPointConsumption().consumption(sp, p)
+          if (EffectSkillData.getEnablingSkill(p).contains(effectSkills)) {
+            new SkillPointConsumption().consumption(effectSkills.cost, p)
+          } else {
+            this.cancel()
+          }
         }
       }
     }.runTaskTimerAsynchronously(ryoServerAssist, 0, 20 * 60)
+    p.sendMessage(s"${AQUA}エフェクトスキル:${effectSkills.skillName}を有効化しました。")
   }
 
-  def isEnableSkill: Boolean = {
-    val name = p.getName
-    if (!enableSkills.contains(name)) return false
-    if (!enableSkills(name).contains(skillName)) return false
-    true
-  }
-
-  def skillInvalidation(): Unit = {
-    val name = p.getName
-    enableSkills(name) = enableSkills(name).filterNot(_ == skillName)
+  def allDisablingSkills(p: Player): Unit = {
+    EffectSkillData.getEnablingSkill(p).foreach(EffectSkillData.setDisableSkill(p, _))
+    p.sendMessage(s"${AQUA}エフェクトスキルをすべて無効化しました。")
   }
 
 }

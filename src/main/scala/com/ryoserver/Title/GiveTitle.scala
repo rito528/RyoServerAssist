@@ -1,8 +1,6 @@
 package com.ryoserver.Title
 
 import com.ryoserver.Player.PlayerManager.getPlayerData
-import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
 import org.bukkit.configuration.file.YamlConfiguration
@@ -12,13 +10,12 @@ import java.nio.file.Paths
 import java.text.SimpleDateFormat
 import java.time.{LocalDateTime, ZoneId}
 import java.util.{Calendar, TimeZone}
-import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
-class GiveTitle(ryoServerAssist: RyoServerAssist) {
+class GiveTitle {
 
   private val titleConfig = YamlConfiguration.loadConfiguration(Paths.get("plugins/RyoServerAssist/title.yml").toFile)
-  private val data = new PlayerTitleData(ryoServerAssist)
+  private val data = new PlayerTitleData
 
   def lv(p: Player): Unit = {
     val level = p.getQuestLevel
@@ -73,26 +70,13 @@ class GiveTitle(ryoServerAssist: RyoServerAssist) {
   }
 
   def skillOpenNumber(p: Player): Unit = {
-    val skillOpenData = p.getOpenedSkills
-    skillOpenData match {
-      case Some(skills) =>
-        TitleData.skillOpen.foreach(title => {
-          val conditions: mutable.Map[Integer, Boolean] = mutable.Map.empty[Integer, Boolean]
-          titleConfig.getIntegerList(s"titles.$title.condition").asScala.foreach(titleCondition => conditions += (titleCondition -> false))
-          skills.split(",").foreach(openedSkill => {
-            if (conditions.contains(openedSkill.toInt)) conditions.update(openedSkill.toInt, true)
-          })
-          var allCheck = true
-          conditions.foreach({ case (_, check) =>
-            if (!check) allCheck = false
-          })
-          if (allCheck && data.openTitle(p, title)) {
-            p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
-            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-          }
-        })
-      case None =>
-    }
+    TitleData.skillOpen.foreach(title => {
+      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getOpenedSkills.map(_.skillName))
+      if (diff.isEmpty && data.openTitle(p, title)) {
+        p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
+        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+      }
+    })
   }
 
   def loginYear(p: Player): Unit = {

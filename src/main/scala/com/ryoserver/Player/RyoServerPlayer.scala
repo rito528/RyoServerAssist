@@ -2,6 +2,7 @@ package com.ryoserver.Player
 
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.PlayerData.playerData
+import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import org.bukkit.OfflinePlayer
 
 import java.util.UUID
@@ -41,7 +42,7 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
-  def updateExp(amount: Int): Unit = {
+  def updateExp(amount: Double): Unit = {
     val result = oldData.copy(exp = amount, level = new CalLv().getLevel(amount))
     playerData += (uuid -> result)
     oldData = result
@@ -50,6 +51,12 @@ class RyoServerPlayer(player: OfflinePlayer) {
   def addExp(amount: Double): Unit = {
     val exp = oldData.exp + amount
     val result = oldData.copy(exp = exp, level = new CalLv().getLevel(exp))
+    playerData += (uuid -> result)
+    oldData = result
+  }
+
+  def addQuestClearTimes(number: Int): Unit = {
+    val result = oldData.copy(questClearTimes = oldData.questClearTimes + number)
     playerData += (uuid -> result)
     oldData = result
   }
@@ -74,8 +81,8 @@ class RyoServerPlayer(player: OfflinePlayer) {
     oldData = result
   }
 
-  def skillOpen(skills: String): Unit = {
-    val result = oldData.copy(OpenedSkills = Option(skills))
+  def skillOpen(skills: EffectSkills): Unit = {
+    val result = oldData.copy(OpenedSkills = oldData.OpenedSkills ++ Set(skills))
     PlayerData.playerData += (uuid -> result)
     oldData = result
   }

@@ -1,35 +1,42 @@
 package com.ryoserver.Commands
 
-import com.ryoserver.Commands.Builder.{CommandBuilder, CommandExecutorBuilder}
-import com.ryoserver.util.SQL
+import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
+import com.ryoserver.Commands.Executer.ContextualTabExecutor
+import com.ryoserver.util.Item
+import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.Bukkit
-import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
-class PlayerCommand extends CommandBuilder {
+object PlayerCommand {
 
-  override val executor: CommandExecutorBuilder = CommandExecutorBuilder(
-    Map(
-      "firstJoinItems" -> setJoinItem
-    )
-  ).playerCommand()
-
-  private def setJoinItem(): Unit = {
-    val sql = new SQL()
-    val items = sql.executeQuery("SELECT ItemStack FROM firstJoinItems;")
-    val inv = Bukkit.createInventory(null, 9, "初参加アイテム設定画面")
-    var counter = 0
-    if (items.next()) {
-      val invData = items.getString("ItemStack").split(";")
-      val config = new YamlConfiguration
-      invData.foreach(material => {
-        config.loadFromString(material)
-        inv.setItem(counter, config.getItemStack("i", null))
-        counter += 1
-      })
+  val executor: TabExecutor = ContextualTabExecutor.tabExecuter(new CommandContext {
+    override def execute(rawCommandContext: RawCommandContext): Unit = {
+      val args = rawCommandContext.args
+      val sender = rawCommandContext.sender
+      if (args.length != 1) return
+      args.head.toLowerCase match {
+        case "firstjoinitems" =>
+          val inv = Bukkit.createInventory(null, 9, "初参加アイテム設定画面")
+          implicit val session: AutoSession.type = AutoSession
+          val firstJoinItemsTable = sql"SELECT ItemStack FROM firstJoinItems;"
+          if (firstJoinItemsTable.getHeadData.nonEmpty) {
+            firstJoinItemsTable.foreach(rs => {
+              rs.string("ItemStack").split(";").zipWithIndex.foreach { case (itemStackString, index) =>
+                val itemStack = Item.getItemStackFromString(itemStackString)
+                if (itemStack != null) inv.setItem(index, itemStack)
+              }
+            })
+          }
+          sender.asInstanceOf[Player].openInventory(inv)
+        case _ =>
+      }
     }
-    sender.asInstanceOf[Player].openInventory(inv)
-    sql.close()
-  }
+
+    override val args: List[String] = List("firstJoinItems")
+
+    override val playerCommand: Boolean = true
+  })
 
 }

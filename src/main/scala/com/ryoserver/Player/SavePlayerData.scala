@@ -1,10 +1,10 @@
 package com.ryoserver.Player
 
 import com.ryoserver.RyoServerAssist
-import com.ryoserver.util.SQL
 import org.bukkit.scheduler.BukkitRunnable
+import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
-class SavePlayerData(ryoServerAssist: RyoServerAssist) {
+class SavePlayerData(implicit ryoServerAssist: RyoServerAssist) {
 
   def autoSave(): Unit = {
     new BukkitRunnable {
@@ -15,46 +15,26 @@ class SavePlayerData(ryoServerAssist: RyoServerAssist) {
   }
 
   def save(): Unit = {
-    val sql = new SQL()
+    implicit val session: AutoSession.type = AutoSession
     PlayerData.playerData.foreach { case (uuid, data) =>
-      sql.executeSQL(s"UPDATE Players SET ${saveDataBuilder(data)} WHERE UUID='${uuid.toString}'")
+      val openedSkills = data.OpenedSkills.map(_.skillName)
+      sql"""UPDATE Players SET
+           lastDistributionReceived=${data.lastDistributionReceived},
+           gachaTickets=${data.gachaTickets},
+           SkillPoint=${data.skillPoint},
+           SpecialSkillOpenPoint=${data.specialSkillOpenPoint},
+           OpenedSpecialSkills=${data.OpenedSpecialSkills},
+           SkillOpenPoint=${data.SkillOpenPoint},
+           OpenedSkills=${if (openedSkills.nonEmpty) openedSkills.mkString(";") else s""},
+           VoteNumber=${data.voteNumber},
+           gachaPullNumber=${data.gachaPullNumber},
+           EXP=${data.exp},
+           Level=${data.level},
+           autoStack=${data.autoStack},
+           OpenedTitles=${data.OpenedTitles},
+           SelectedTitle=${data.SelectedTitle}
+           WHERE UUID=${uuid.toString}""".execute.apply()
     }
-    sql.close()
-  }
-
-  private def saveDataBuilder(playerData: PlayerDataType): String = {
-    val stringBuilder = new StringBuilder
-    Map(
-      "lastDistributionReceived" -> playerData.lastDistributionReceived,
-      "gachaTickets" -> playerData.gachaTickets,
-      "SkillPoint" -> playerData.skillPoint,
-      "SpecialSkillOpenPoint" -> playerData.specialSkillOpenPoint,
-      "OpenedSpecialSkills" -> playerData.OpenedSpecialSkills,
-      "OpenedSkills" -> playerData.OpenedSkills,
-      "VoteNumber" -> playerData.voteNumber,
-      "gachaPullNumber" -> playerData.gachaPullNumber,
-      "EXP" -> playerData.exp,
-      "Level" -> playerData.level,
-      "autoStack" -> playerData.autoStack,
-      "OpenedTitles" -> playerData.OpenedTitles,
-      "SelectedTitle" -> playerData.SelectedTitle
-    ).zipWithIndex.foreach { case ((name, data), index) =>
-      if (index != 0) stringBuilder.append(",")
-      data match {
-        case Some(string: String) =>
-          stringBuilder.append(s"$name='$string'")
-        case None =>
-          stringBuilder.append(s"$name=NULL")
-        case _: Int =>
-          stringBuilder.append(s"$name=$data")
-        case _: Double =>
-          stringBuilder.append(s"$name=$data")
-        case _: Boolean =>
-          stringBuilder.append(s"$name=$data")
-        case _ =>
-      }
-    }
-    stringBuilder.toString()
   }
 
 }

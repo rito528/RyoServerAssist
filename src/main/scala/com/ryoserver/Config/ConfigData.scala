@@ -15,7 +15,7 @@ object ConfigData {
 
   def getConfig: ConfigDataType = configData
 
-  def loadConfig(ryoServerAssist: RyoServerAssist): Unit = {
+  def loadConfig(implicit ryoServerAssist: RyoServerAssist): Unit = {
     val config = ryoServerAssist.getConfig
     configData = ConfigDataType(
       host = config.getString("host"),
@@ -43,7 +43,8 @@ object ConfigData {
       ipInfo = config.getBoolean("ipInfo"),
       enableCommands = config.getStringList("enableCommands").asScala.toList,
       worldDoNotProtection = config.getStringList("worldDoNotProtection").asScala.toList,
-      autoWorldRegeneration = config.getBoolean("autoWorldRegeneration")
+      autoWorldRegeneration = config.getBoolean("autoWorldRegeneration"),
+      notSpecialSkillWorlds = config.getStringList("notSpecialSkillWorlds").asScala.toList
     )
   }
 

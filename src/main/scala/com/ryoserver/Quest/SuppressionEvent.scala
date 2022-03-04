@@ -1,6 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Quest.Event.{EventDataProvider, EventGateway}
+import com.ryoserver.Quest.MaterialOrEntityType.entityType
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.Entity.getEntity
@@ -11,35 +12,41 @@ import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.{EventHandler, Listener}
 
-class SuppressionEvent(ryoServerAssist: RyoServerAssist) extends Listener {
+class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onEntityDeath(e: EntityDeathEvent): Unit = {
     val entity = e.getEntityType
     e.getEntity.getKiller match {
       case p: Player =>
-        val questGateway = new QuestGateway()
-        val eventGateway = new EventGateway(ryoServerAssist)
+        val questGateway = new QuestGateway(p)
+        val eventGateway = new EventGateway
         var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
-        questGateway.getSelectedQuest(p) match {
-          case Some(selectedQuestData) =>
-            var questProgress = questGateway.getQuestProgress(p)
-            if (selectedQuestData.questType == "suppression" && questProgress.keys.map(getEntity).toArray.contains(entity)) {
+        questGateway.getSelectedQuest match {
+          case Some(_) =>
+            val selectedQuestData = questGateway.getSelectedQuestData
+            if (selectedQuestData.questType == QuestType.suppression && selectedQuestData.requireList.contains(entityType(entity))) {
               event = false
-              val targetProgress = questProgress(entity.name().toUpperCase())
-              if (targetProgress != 0) {
-                questProgress += (entity.name().toUpperCase() -> (targetProgress - 1))
-                questGateway.setQuestProgress(p, questProgress)
-                if (questProgress.forall { case (_, amount) => amount == 0 }) {
+              val uuid = p.getUniqueId
+              val selectedQuestPlayerData = QuestPlayerData.getPlayerQuestContext(uuid)
+              val nowProcess = selectedQuestPlayerData.progress.get
+              if (nowProcess(entityType(entity)) != 0) {
+                QuestPlayerData.setQuestData(uuid,
+                  QuestPlayerData.getPlayerQuestContext(uuid)
+                    .setProgress(Option(QuestPlayerData.getPlayerQuestContext(uuid).progress.get
+                      ++ Map(entityType(entity) -> (nowProcess(entityType(entity)) - 1)))
+                    )
+                )
+                if (QuestPlayerData.getPlayerQuestContext(uuid).progress.get.forall{case (_,amount) => amount == 0}) {
                   p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
                   p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-                  questGateway.questClear(p, ryoServerAssist)
-                  new GiveTitle(ryoServerAssist).questClearNumber(p)
-                  new GiveTitle(ryoServerAssist).continuousLoginAndQuestClearNumber(p)
-                } else if ((targetProgress - 1) % 5 == 0) {
+                  questGateway.questClear()
+                  new GiveTitle().questClearNumber(p)
+                  new GiveTitle().continuousLoginAndQuestClearNumber(p)
+                } else if (QuestPlayerData.getPlayerQuestContext(uuid).progress.get.exists{case (_,amount) => amount % 5 == 0}) {
                   p.sendMessage(s"$WHITE[クエストの進行状況]")
-                  questProgress.foreach { case (entity, amount) =>
-                    p.sendMessage(s"${Translate.entityNameToJapanese(getEntity(entity))}:残り${amount}体")
+                  QuestPlayerData.getPlayerQuestContext(uuid).progress.get.foreach { case (entity, amount) =>
+                    p.sendMessage(s"${Translate.entityNameToJapanese(entity.entityType)}:残り${amount}体")
                   }
                 }
               }

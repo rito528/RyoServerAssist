@@ -1,8 +1,6 @@
-name := "RyoServerAssist"
-
-version := "1.7.1"
-
-scalaVersion := "2.13.7"
+ThisBuild / version := "1.7.1"
+ThisBuild / scalaVersion := "2.13.7"
+ThisBuild / organization := "com.ryoserver"
 
 mainClass := Some("com.ryoserver.RyoServerAssist")
 
@@ -10,28 +8,43 @@ assemblyJarName := {
   s"${name.value}-${version.value}.jar"
 }
 
-resolvers += "maven.elmakers.com" at "https://maven.elmakers.com/repository/"
-resolvers += "sk89q-repo" at "https://maven.enginehub.org/repo/"
-resolvers += "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/"
-resolvers += "jitpack" at "https://jitpack.io"
-resolvers += Resolver.jcenterRepo
-resolvers += Resolver.mavenLocal
-resolvers += "repo.phoenix616.dev" at "https://repo.phoenix616.dev"
-resolvers += "playpro-repo" at "https://maven.playpro.com"
+resolvers ++= Seq(
+  "maven.elmakers.com" at "https://maven.elmakers.com/repository/",
+  "sk89q-repo" at "https://maven.enginehub.org/repo/",
+  "OnARandomBox" at "https://repo.onarandombox.com/content/groups/public/",
+  "jitpack" at "https://jitpack.io",
+  "repo.phoenix616.dev" at "https://repo.phoenix616.dev",
+  "playpro-repo" at "https://maven.playpro.com",
+  Resolver.jcenterRepo,
+  Resolver.mavenLocal
+)
 
-libraryDependencies += "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT" % "provided"
-libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.27"
-libraryDependencies += "org.apache.httpcomponents" % "httpclient" % "4.5.13"
-libraryDependencies += "com.sk89q.worldguard" % "worldguard-bukkit" % "7.0.6" % "provided"
-libraryDependencies += "com.sk89q.worldedit" % "worldedit-bukkit" % "7.2.0-SNAPSHOT" % "provided"
-libraryDependencies += "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.2-SNAPSHOT" % "provided"
-libraryDependencies += "com.onarandombox.multiverseportals" % "Multiverse-Portals" % "4.2.2-SNAPSHOT" % "provided"
-libraryDependencies += "com.github.nuvotifier.nuvotifier" % "nuvotifier-bukkit" % "2.6.0" % "provided"
-libraryDependencies += "com.beachape" %% "enumeratum" % "1.7.0"
-libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.13.1"
-libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.1"
-dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.1"
-libraryDependencies += "net.coreprotect" % "coreprotect" % "20.4" % "provided"
+libraryDependencies ++= Seq(
+  "org.spigotmc" % "spigot-api" % "1.17.1-R0.1-SNAPSHOT",
+  "com.sk89q.worldguard" % "worldguard-bukkit" % "7.0.6",
+  "com.sk89q.worldedit" % "worldedit-bukkit" % "7.2.0-SNAPSHOT",
+  "com.onarandombox.multiversecore" % "Multiverse-Core" % "4.3.2-SNAPSHOT",
+  "com.onarandombox.multiverseportals" % "Multiverse-Portals" % "4.2.2-SNAPSHOT",
+  "com.github.nuvotifier.nuvotifier" % "nuvotifier-bukkit" % "2.6.0",
+  "net.coreprotect" % "coreprotect" % "20.4"
+).map(_ % "provided")
+
+libraryDependencies ++= Seq(
+  "mysql" % "mysql-connector-java" % "8.0.27",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.13",
+  "com.beachape" %% "enumeratum" % "1.7.0",
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.13.1",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.1",
+  "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.1",
+  "org.scalikejdbc" %% "scalikejdbc" % "3.5.0",
+  "org.flywaydb" % "flyway-core" % "7.15.0"
+)
+
+lazy val root = (project in file("."))
+  .settings(
+    name := "RyoServerAssist",
+    javaOptions ++= Seq("-encoding","utf-8")
+  )
 
 assembly / assemblyMergeStrategy := {
   case PathList("javax", "servlet", _*) => MergeStrategy.first
