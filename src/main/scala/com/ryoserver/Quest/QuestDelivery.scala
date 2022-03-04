@@ -117,6 +117,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     buttonItemRemove(p, inventory)
     setProgressFromNeoStack(p,playerData,progress)
     questClearCheck(p, QuestPlayerData.getPlayerQuestContext(p.getUniqueId).progress.get)
+    new SelectQuestMenu(ryoServerAssist,1,QuestPlayerData.getQuestSortData(p.getUniqueId)).open(p)
   }
 
   def deliveryFromNeoStackDaily(p: Player): Unit = {
