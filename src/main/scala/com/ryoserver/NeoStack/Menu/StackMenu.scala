@@ -28,7 +28,6 @@ class StackMenu(page: Int, category: String, ryoServerAssist: RyoServerAssist) e
     ) ++ (if (compute.player.hasPermission("ryoserverassist.neoStack")) Map(
       getLayOut(5, 6) -> openAddMenu
     ) else Map.empty) ++ {
-      println(compute.page)
       if (stackPageData.contains(compute.category) && stackPageData(compute.category).contains(compute.page)) {
         stackPageData(compute.category)(compute.page)
       } else {

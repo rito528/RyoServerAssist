@@ -34,7 +34,7 @@ object PlayerData {
         if (stackDataTable.getHeadData.isEmpty) {
           sql"INSERT INTO StackData (UUID,item,amount) VALUES (${uuid.toString},$stringSavingItemStack,${data.amount})".execute.apply()
         } else {
-          sql"UPDATE StackDATA SET amount=${data.amount} WHERE UUID=${uuid.toString} AND item=$stringSavingItemStack".execute.apply()
+          sql"UPDATE StackData SET amount=${data.amount} WHERE UUID=${uuid.toString} AND item=$stringSavingItemStack".execute.apply()
         }
       })
     })

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS firstJoinItems(
 CREATE TABLE IF NOT EXISTS Quests(
     id INT AUTO_INCREMENT,
     UUID TEXT,
+    QuestName TEXT,
     selectedQuest TEXT,
     remaining TEXT,
     bookmarks TEXT,
