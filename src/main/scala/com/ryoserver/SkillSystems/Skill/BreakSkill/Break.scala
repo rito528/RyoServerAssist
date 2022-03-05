@@ -47,8 +47,8 @@ final class Break {
         else breakBlockLocation.add(0, -breakRange.height + 1, breakRange.width / 2)
       }
     }
-    if (facing == "NORTH") startingLocation.setX(startingLocation.getX * -1)
-    else if (facing == "EAST") startingLocation.setZ(startingLocation.getZ * -1)
+    if (facing == "NORTH") startingLocation.add(-breakRange.width / 2 * 2,0,0)
+    else if (facing == "EAST") startingLocation.add(0,0,-breakRange.width / 2 * 2)
     val cost = for {
       height <- 0 until breakRange.height
       width <- 0 until breakRange.width
