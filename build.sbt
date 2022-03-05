@@ -1,4 +1,4 @@
-ThisBuild / version := "1.7.1"
+ThisBuild / version := "1.7.2"
 ThisBuild / scalaVersion := "2.13.7"
 ThisBuild / organization := "com.ryoserver"
 

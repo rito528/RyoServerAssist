@@ -115,7 +115,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     val inventory = p.getOpenInventory.getTopInventory
     //ボタン用アイテムを削除
     buttonItemRemove(p, inventory)
-    setProgressFromNeoStack(p,playerData,progress)
+    setProgressFromNeoStack(p, progress)
     questClearCheck(p, QuestPlayerData.getPlayerQuestContext(p.getUniqueId).progress.get)
     new SelectQuestMenu(ryoServerAssist,1,QuestPlayerData.getQuestSortData(p.getUniqueId)).open(p)
   }
@@ -126,18 +126,19 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     val inventory = p.getOpenInventory.getTopInventory
     //ボタン用アイテムを削除
     buttonItemRemove(p, inventory)
-    setProgressFromNeoStack(p,playerData,progress)
+    setProgressFromNeoStack(p, progress)
     dailyQuestClearCheck(p, QuestPlayerData.getPlayerDailyQuestContext(p.getUniqueId).progress.get)
   }
 
-  private def setProgressFromNeoStack(p: Player,playerData:PlayerQuestDataContext,progress: Option[Map[MaterialOrEntityType, Int]]): Unit = {
+  private def setProgressFromNeoStack(p: Player, progress: Option[Map[MaterialOrEntityType, Int]]): Unit = {
     val neoStackGateway = new NeoStackGateway()
     progress.get.foreach { case (require, amount) =>
       val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(require.material, 1), amount)
+      val nowData = QuestPlayerData.getPlayerDailyQuestContext(p.getUniqueId)
       if (amount > removedAmount) {
-        QuestPlayerData.setQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> (amount - removedAmount)))))
+        QuestPlayerData.setDailyQuestData(p.getUniqueId,nowData.setProgress(Option(nowData.progress.get ++ Map(require -> (amount - removedAmount)))))
       } else {
-        QuestPlayerData.setQuestData(p.getUniqueId,playerData.setProgress(Option(Map(require -> 0))))
+        QuestPlayerData.setDailyQuestData(p.getUniqueId,nowData.setProgress(Option(nowData.progress.get ++ Map(require -> 0))))
       }
     }
   }

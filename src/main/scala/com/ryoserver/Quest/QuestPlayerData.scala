@@ -54,8 +54,41 @@ object QuestPlayerData {
     }.toList().apply().toMap
   }
 
+  private def getPlayerDailyQuestData(sql: SQL[Nothing,NoExtractor]): mutable.Map[UUID,PlayerQuestDataContext] = {
+    mutable.Map() ++ sql.map{rs =>
+      val selectedQuest = rs.stringOpt("selectedQuest")
+      val remaining = rs.stringOpt("remaining")
+      val materialProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+        remaining.get.split(";").map { data =>
+          val splitData = data.split(":")
+          material(Material.matchMaterial(splitData(0))) -> splitData(1).toInt
+        }.toMap
+      } else {
+        Map.empty
+      }
+      val suppressionProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
+        remaining.get.split(":").map { data =>
+          val splitData = data.split(";")
+          entityType(Entity.getEntity(splitData(0))) -> splitData(1).toInt
+        }.toMap
+      } else {
+        Map.empty
+      }
+      if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+        UUID.fromString(rs.string("UUID")) ->
+          PlayerQuestDataContext(selectedQuest,Option(materialProgress), List.empty)
+      } else if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
+        UUID.fromString(rs.string("UUID")) ->
+          PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), List.empty)
+      } else {
+        UUID.fromString(rs.string("UUID")) ->
+          PlayerQuestDataContext(None,Option(materialProgress),List.empty)
+      }
+    }.toList().apply().toMap
+  }
+
   private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests")
-  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests")
+  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerDailyQuestData(sql"SELECT * FROM DailyQuests")
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
   private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -71,11 +104,15 @@ object QuestPlayerData {
       val progress: String = selectedQuest match {
         case Some(name) =>
           context.progress.getOrElse(Map.empty).map{case(materialOrEntityType,amount) =>
-            QuestData.loadedQuestData.filter(_.questName == name).head.questType match {
-              case QuestType.delivery =>
-                s"${materialOrEntityType.material.name}:$amount"
-              case QuestType.suppression =>
-                s"${materialOrEntityType.entityType.name}:$amount"
+            if (QuestData.loadedQuestData.exists(_.questName == name)) {
+              QuestData.loadedQuestData.filter(_.questName == name).head.questType match {
+                case QuestType.delivery =>
+                  s"${materialOrEntityType.material.name}:$amount"
+                case QuestType.suppression =>
+                  s"${materialOrEntityType.entityType.name}:$amount"
+              }
+            } else {
+              ""
             }
           }.mkString(";")
         case None =>
@@ -173,7 +210,14 @@ object QuestPlayerData {
   }
 
   def getLastDailyQuest(uuid: UUID): Date = {
-    lastDailyQuestDate(uuid)
+    if (lastDailyQuestDate.contains(uuid)) {
+      lastDailyQuestDate(uuid)
+    } else {
+      val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+      val date = simpleDateFormat.parse("2000-01-01 00:00:00")
+      setLastDailyQuest(uuid,date)
+      date
+    }
   }
 
   def setLastDailyQuest(uuid: UUID,date: Date): Unit = {
