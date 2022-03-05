@@ -15,25 +15,26 @@ object QuestPlayerData {
 
   private implicit val session: AutoSession.type = AutoSession
 
-  private def getPlayerQuestData(sql: SQL[Nothing,NoExtractor]): mutable.Map[UUID,PlayerQuestDataContext] = {
+  private def getPlayerQuestData(sql: SQL[Nothing,NoExtractor],rawData: Set[QuestDataContext]): mutable.Map[UUID, PlayerQuestDataContext] = {
     mutable.Map() ++ sql.map{rs =>
+      val uuid = UUID.fromString(rs.string("UUID"))
       val selectedQuest = rs.stringOpt("selectedQuest")
       val remaining = rs.stringOpt("remaining")
-      val materialProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
-        remaining.get.split(";").map { data =>
-          val splitData = data.split(":")
-          material(Material.matchMaterial(splitData(0))) -> splitData(1).toInt
-        }.toMap
-      } else {
-        Map.empty
-      }
-      val suppressionProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
-        remaining.get.split(":").map { data =>
-          val splitData = data.split(";")
-          entityType(Entity.getEntity(splitData(0))) -> splitData(1).toInt
-        }.toMap
-      } else {
-        Map.empty
+      val progress: Map[MaterialOrEntityType,Int] = {
+        if (selectedQuest.getOrElse("") != "") {
+          remaining.get.split(";").map{data =>
+            val splitData = data.split(":")
+            splitData(0) -> splitData(1).toInt
+          }.toMap.map{case (key,value) =>
+            if (rawData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
+              material(Material.matchMaterial(key)) -> value
+            } else {
+              entityType(Entity.getEntity(key)) -> value
+            }
+          }
+        } else {
+          Map.empty
+        }
       }
       val bookmarks = rs.stringOpt("bookmarks") match {
         case Some(bookmarkData) =>
@@ -41,54 +42,12 @@ object QuestPlayerData {
         case None =>
           List.empty
       }
-      if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(selectedQuest,Option(materialProgress), bookmarks)
-      } else if (selectedQuest.getOrElse("") != "" && QuestData.loadedQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), bookmarks)
-      } else {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(None,Option(materialProgress),bookmarks)
-      }
-    }.toList().apply().toMap
+      uuid -> PlayerQuestDataContext(selectedQuest,Option(progress),bookmarks)
+    }.toList.apply.toMap
   }
 
-  private def getPlayerDailyQuestData(sql: SQL[Nothing,NoExtractor]): mutable.Map[UUID,PlayerQuestDataContext] = {
-    mutable.Map() ++ sql.map{rs =>
-      val selectedQuest = rs.stringOpt("selectedQuest")
-      val remaining = rs.stringOpt("remaining")
-      val materialProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
-        remaining.get.split(";").map { data =>
-          val splitData = data.split(":")
-          material(Material.matchMaterial(splitData(0))) -> splitData(1).toInt
-        }.toMap
-      } else {
-        Map.empty
-      }
-      val suppressionProgress: Map[MaterialOrEntityType,Int] = if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
-        remaining.get.split(":").map { data =>
-          val splitData = data.split(";")
-          entityType(Entity.getEntity(splitData(0))) -> splitData(1).toInt
-        }.toMap
-      } else {
-        Map.empty
-      }
-      if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.delivery) {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(selectedQuest,Option(materialProgress), List.empty)
-      } else if (selectedQuest.getOrElse("") != "" && QuestData.loadedDailyQuestData.filter(_.questName == selectedQuest.get).head.questType == QuestType.suppression) {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(selectedQuest,Option(suppressionProgress), List.empty)
-      } else {
-        UUID.fromString(rs.string("UUID")) ->
-          PlayerQuestDataContext(None,Option(materialProgress),List.empty)
-      }
-    }.toList().apply().toMap
-  }
-
-  private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests")
-  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerDailyQuestData(sql"SELECT * FROM DailyQuests")
+  private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests",QuestData.loadedQuestData)
+  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests",QuestData.loadedDailyQuestData)
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
   private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
