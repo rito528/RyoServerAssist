@@ -67,10 +67,6 @@ object QuestPlayerData {
     else PlayerQuestDataContext(None,None,List.empty)
   }
 
-  def setDailyQuestData(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
-    playerDailyQuestData += uuid -> playerQuestDataContext
-  }
-
   def getQuestSortData(uuid: UUID): QuestSortContext = {
     if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
     else QuestSortContext.normal
@@ -103,6 +99,10 @@ final class QuestPlayerData {
 
     def selectQuest(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
       playerQuestData += uuid -> playerQuestDataContext
+    }
+
+    def selectDailyQuest(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
+      playerDailyQuestData += uuid -> playerQuestDataContext
     }
 
   }
