@@ -174,9 +174,11 @@ class RyoServerAssist extends JavaPlugin {
     new SavePlayerData().autoSave()
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
-    QuestPlayerData.lastDailyQuestDateAutoSave
-    QuestPlayerData.playerQuestDataAutoSave
-    QuestPlayerData.playerDailyQuestDataAutoSave
+    val questPlayerData = new QuestPlayerData()
+    questPlayerData.saver.autoSavePlayerQuestData
+    questPlayerData.saver.autoSavePlayerDailyQuestData
+    questPlayerData.saver.autoSaveLastDailyQuestDate
+
     HomeData.saveHomeData
 
     /*
