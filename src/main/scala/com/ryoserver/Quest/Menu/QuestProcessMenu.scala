@@ -4,7 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestDelivery, QuestGateway, QuestPlayerData, QuestType}
+import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestGateway, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
