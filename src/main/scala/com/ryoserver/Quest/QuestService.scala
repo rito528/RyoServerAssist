@@ -20,7 +20,6 @@ trait QuestService {
   val playerQuestDataContext: PlayerQuestDataContext
   val p: Player
 
-  private val questPlayerData = new QuestPlayerData
   private val uuid = p.getUniqueId
   private val topInventory = p.getOpenInventory.getTopInventory
 
