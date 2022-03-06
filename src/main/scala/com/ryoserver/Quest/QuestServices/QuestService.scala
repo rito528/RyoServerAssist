@@ -4,7 +4,7 @@ import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
-import com.ryoserver.Quest.{MaterialOrEntityType, PlayerQuestDataContext, QuestDataContext, QuestGateway}
+import com.ryoserver.Quest.{MaterialOrEntityType, PlayerQuestDataContext, QuestDataContext}
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.Sound
