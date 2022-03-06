@@ -1,7 +1,7 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Quest.MaterialOrEntityType.{entityType, material}
-import com.ryoserver.Quest.QuestPlayerData.{lastDailyQuestDate, playerDailyQuestData, playerQuestData}
+import com.ryoserver.Quest.QuestPlayerData.{lastDailyQuestDate, playerDailyQuestData, playerQuestData, playerQuestSortData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
 import org.bukkit.Material
@@ -17,7 +17,7 @@ object QuestPlayerData {
   private implicit val session: AutoSession.type = AutoSession
 
   private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests",QuestData.loadedQuestData)
-  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests",QuestData.loadedDailyQuestData)
+  private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests",QuestData.loadedDailyQuestData,isDaily = true)
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
   private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -26,7 +26,7 @@ object QuestPlayerData {
     }.toList().apply().toMap
   }
 
-  private def getPlayerQuestData(sql: SQL[Nothing,NoExtractor],rawData: Set[QuestDataContext]): mutable.Map[UUID, PlayerQuestDataContext] = {
+  private def getPlayerQuestData(sql: SQL[Nothing,NoExtractor],rawData: Set[QuestDataContext],isDaily: Boolean = false): mutable.Map[UUID, PlayerQuestDataContext] = {
     mutable.Map() ++ sql.map{rs =>
       val uuid = UUID.fromString(rs.string("UUID"))
       val selectedQuest = rs.stringOpt("selectedQuest")
@@ -47,11 +47,19 @@ object QuestPlayerData {
           Map.empty
         }
       }
-      val bookmarks = rs.stringOpt("bookmarks") match {
-        case Some(bookmarkData) =>
-          bookmarkData.split(";").toList
-        case None =>
-          List.empty
+      val bookmarks = if (!isDaily) {
+        rs.stringOpt("bookmarks") match {
+          case Some(bookmarkData) =>
+            if (bookmarkData != "") {
+              bookmarkData.split(";").toList
+            } else {
+              List.empty
+            }
+          case None =>
+            List.empty
+        }
+      } else {
+        List.empty
       }
       uuid -> PlayerQuestDataContext(selectedQuest,Option(progress),bookmarks)
     }.toList.apply.toMap
@@ -65,11 +73,6 @@ object QuestPlayerData {
   def getPlayerDailyQuestContext(uuid: UUID): PlayerQuestDataContext = {
     if (playerDailyQuestData.contains(uuid)) playerDailyQuestData(uuid)
     else PlayerQuestDataContext(None,None,List.empty)
-  }
-
-  def getQuestSortData(uuid: UUID): QuestSortContext = {
-    if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
-    else QuestSortContext.normal
   }
 
   def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
@@ -117,6 +120,11 @@ final class QuestPlayerData {
     def getPlayerDailyQuestContext(uuid: UUID): PlayerQuestDataContext = {
       if (playerDailyQuestData.contains(uuid)) playerDailyQuestData(uuid)
       else PlayerQuestDataContext(None,None,List.empty)
+    }
+
+    def getQuestSortData(uuid: UUID): QuestSortContext = {
+      if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
+      else QuestSortContext.normal
     }
 
   }

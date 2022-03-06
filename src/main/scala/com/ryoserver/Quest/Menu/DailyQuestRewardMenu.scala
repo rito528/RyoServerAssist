@@ -4,6 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Quest.QuestServices.DailyQuestService
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ItemStackBuilder
 import org.bukkit.ChatColor._
@@ -34,7 +35,7 @@ private case class computeRewardButton(player: Player, ryoServerAssist: RyoServe
       .lore(List(s"${GRAY}報酬としてガチャ券を16枚受け取ります。"))
       .build(),
     ButtonMotion { _ =>
-      questGateway.dailyQuestClear()
+      questService.questClear(questService.getSelectedQuestData.exp)
       player.giveNormalGachaTickets(16)
       player.sendMessage(s"${AQUA}デイリークエストの報酬として、ガチャ券を16枚配布しました。")
       player.playSound(player.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
@@ -48,12 +49,12 @@ private case class computeRewardButton(player: Player, ryoServerAssist: RyoServe
       .lore(List(s"${GRAY}報酬として今回のクエストの経験値を1.2倍にします。"))
       .build(),
     ButtonMotion { _ =>
-      questGateway.dailyQuestClear(1.2)
+      questService.questClear(questService.getSelectedQuestData.exp * 1.2)
       player.sendMessage(s"${AQUA}デイリークエストの報酬として、今回のクエストの経験値を1.2倍にしました。")
       player.playSound(player.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
       player.closeInventory()
     }
   )
-  private val questGateway = new QuestGateway(player)
+  private val questService = new DailyQuestService(ryoServerAssist,player)
 
 }

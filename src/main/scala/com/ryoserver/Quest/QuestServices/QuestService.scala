@@ -21,8 +21,8 @@ trait QuestService {
   val playerQuestDataContext: PlayerQuestDataContext
   val p: Player
 
-  private val uuid = p.getUniqueId
-  private val topInventory = p.getOpenInventory.getTopInventory
+  private lazy val uuid = p.getUniqueId
+  private lazy val topInventory = p.getOpenInventory.getTopInventory
 
   def selectQuest(questName: String): Unit = {
     selectFunc(
@@ -31,6 +31,20 @@ trait QuestService {
         .selectQuest(Option(questName))
         .setProgress(questData.filter(_.questName == questName).head.requireList)
     )
+  }
+
+  def getCanQuests: Set[QuestDataContext] = {
+    val playerLevel = p.getQuestLevel
+    questData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
+  }
+
+  def getSelectedQuest: Option[String] = {
+    if (playerQuestDataContext.selectedQuest.getOrElse("") != "") playerQuestDataContext.selectedQuest
+    else None
+  }
+
+  def getSelectedQuestData: QuestDataContext = {
+    questData.filter(_.questName == playerQuestDataContext.selectedQuest.get).head
   }
 
   def questClear(exp: Double): Unit = {
@@ -51,55 +65,54 @@ trait QuestService {
     //ボタン用アイテムを削除
     buttonItemRemove(p, topInventory)
     //クエストの進行状況の設定と納品したアイテムの削除
-    setQuestProgressAndItemRemove()
-    questClearCheck(p, playerQuestDataContext.progress.get)
+    val progress = setQuestProgressAndItemRemove().progress.get
+    questClearCheck(p, progress)
   }
 
   def deliveryFromNeoStack(): Unit = {
-    setProgressFromNeoStack()
-    questClearCheck(p, playerQuestDataContext.progress.get)
+    val progress = setProgressFromNeoStack().progress.get
+    questClearCheck(p, progress)
   }
 
-  private def setProgressFromNeoStack(): Unit = {
+  private def setProgressFromNeoStack(): PlayerQuestDataContext = {
     val neoStackGateway = new NeoStackGateway()
-    playerQuestDataContext.progress.get.foreach { case (require, amount) =>
-      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(require.material, 1), amount)
-      val nowData = playerQuestDataContext
-      if (amount >= removedAmount) {
-        selectFunc(uuid,nowData.changeProgress(require, amount - removedAmount))
-      } else {
-        selectFunc(uuid,nowData.changeProgress(require,0))
-      }
-    }
+    playerQuestDataContext.progress.get.foldLeft(playerQuestDataContext)((nowData, require) => {
+      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(require._1.material, 1), require._2)
+      val removeAmount = if (require._2 >= removedAmount) require._2 - removedAmount else 0
+      val newProgressData = nowData.changeProgress(require._1,removeAmount)
+      selectFunc(uuid,newProgressData)
+      newProgressData
+    })
   }
 
-  private def questClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
-    val questGateway = new QuestGateway(p)
+  def questClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int],ratio: Double = 1.0): Unit = {
     if (progress.forall { case (_, amount) => amount == 0 }) {
       p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
       p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.questClear()
+      questClear(questData.filter(_.questName == playerQuestDataContext.selectedQuest.get).head.exp * ratio)
       new GiveTitle().questClearNumber(p)
       new GiveTitle().continuousLoginAndQuestClearNumber(p)
+      questDestroy()
     } else {
       p.sendMessage(s"${AQUA}納品しました。")
     }
   }
 
-  private def setQuestProgressAndItemRemove(): Unit = {
-    playerQuestDataContext.progress.get.foreach { case (require, amount) =>
-      val nowData = playerQuestDataContext
-      val requireMaterial = require.material
-      val hasItemAmount = topInventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum
-      val removeAmount = if (amount >= hasItemAmount) {
-        selectFunc(uuid,nowData.changeProgress(require, amount - hasItemAmount))
-        hasItemAmount
-      } else {
-        selectFunc(uuid,nowData.changeProgress(require,0))
-        amount
-      }
-      topInventory.removeItem(new ItemStack(requireMaterial, removeAmount))
-    }
+  private def setQuestProgressAndItemRemove(): PlayerQuestDataContext = {
+    playerQuestDataContext.progress.get
+      .foldLeft(playerQuestDataContext)((nowData, require) => {
+        val requireMaterial = require._1.material
+        val amount = require._2
+        val hasItemAmount = topInventory.all(requireMaterial).values().asScala.map(is => is.getAmount).sum
+        val removeAmount = {
+          if (amount >= hasItemAmount) hasItemAmount
+          else amount
+        }
+        val newProgressData = nowData.changeProgress(require._1,amount - removeAmount)
+        selectFunc(uuid,newProgressData)
+        topInventory.removeItem(new ItemStack(requireMaterial, removeAmount))
+        newProgressData
+      })
   }
 
   private def buttonItemRemove(p: Player, inv: Inventory): Unit = {

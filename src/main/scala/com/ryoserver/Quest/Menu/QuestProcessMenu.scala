@@ -4,6 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.Quest.QuestServices.NormalQuestService
 import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{ItemStackBuilder, Translate}
@@ -18,8 +19,8 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val questGateway = new QuestGateway(player)
-    questGateway.getSelectedQuest match {
+    val questService = new NormalQuestService(player)
+    questService.getSelectedQuest match {
       case Some(selectedQuest) =>
         val compute = computeQuestProcessButton(player, QuestData.loadedQuestData.filter(_.questName == selectedQuest).head, ryoServerAssist, this)
         import compute._
@@ -73,7 +74,9 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
       .lore(List(s"${GRAY}クリックで納品します。"))
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).delivery(player)
+      val service = new NormalQuestService(player)
+      service.delivery()
+      new SelectQuestMenu(ryoServerAssist,1,new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)).open(player)
     }
   )
 
@@ -92,7 +95,9 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
       })
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).deliveryFromNeoStack(player)
+      val service = new NormalQuestService(player)
+      service.deliveryFromNeoStack()
+      new SelectQuestMenu(ryoServerAssist,1,new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)).open(player)
     }
   )
 
@@ -106,8 +111,8 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
       )
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).questDestroy(player)
-      new SelectQuestMenu(ryoServerAssist,1,QuestPlayerData.getQuestSortData(player.getUniqueId)).open(player)
+      new NormalQuestService(player).questDestroy()
+      new SelectQuestMenu(ryoServerAssist,1,new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)).open(player)
       player.playSound(player.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
     }
   )

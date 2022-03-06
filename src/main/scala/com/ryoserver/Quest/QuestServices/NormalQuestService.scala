@@ -10,7 +10,6 @@ import java.util.UUID
 
 class NormalQuestService(player: Player) extends QuestService {
 
-  private val playerLevel = player.getQuestLevel
   private val uuid = player.getUniqueId
   private val questPlayerData = new QuestPlayerData()
 
@@ -18,10 +17,6 @@ class NormalQuestService(player: Player) extends QuestService {
   override val selectFunc: (UUID, PlayerQuestDataContext) => Unit = questPlayerData.processQuestData.selectQuest
   override val playerQuestDataContext: PlayerQuestDataContext = questPlayerData.getQuestData.getPlayerQuestDataContext(uuid)
   override val p: Player = player
-
-  private def getCanQuests: Set[QuestDataContext] = {
-    QuestData.loadedQuestData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
-  }
 
   def getQuests(sortType: QuestSortContext): Set[QuestDataContext] = {
     val canQuests = getCanQuests
@@ -39,7 +34,9 @@ class NormalQuestService(player: Player) extends QuestService {
         //できるクエストとbookmarkされているクエストの積集合を取る
         canQuests.intersect(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks
           .map(
-            questName => QuestData.loadedQuestData.filter(_.questName == questName).head
+            questName => {
+              QuestData.loadedQuestData.filter(_.questName == questName).head
+            }
           ).toSet
         )
     }

@@ -34,7 +34,7 @@ case class PlayerQuestDataContext(selectedQuest: Option[String],
   }
 
   def changeProgress(materialOrEntityType: MaterialOrEntityType,amount: Int): PlayerQuestDataContext = {
-    this.copy(progress = Option(progress.getOrElse(Map.empty) ++ (materialOrEntityType -> amount)))
+    this.copy(progress = Option(progress.getOrElse(Map.empty) ++ Map(materialOrEntityType -> amount)))
   }
 
   def addBookmarkQuest(questName: String): PlayerQuestDataContext = {
