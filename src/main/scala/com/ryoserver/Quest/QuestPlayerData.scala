@@ -62,10 +62,6 @@ object QuestPlayerData {
     else PlayerQuestDataContext(None,None,List.empty)
   }
 
-  def setQuestData(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
-    playerQuestData += uuid -> playerQuestDataContext
-  }
-
   def getPlayerDailyQuestContext(uuid: UUID): PlayerQuestDataContext = {
     if (playerDailyQuestData.contains(uuid)) playerDailyQuestData(uuid)
     else PlayerQuestDataContext(None,None,List.empty)
@@ -102,6 +98,28 @@ object QuestPlayerData {
 }
 
 final class QuestPlayerData {
+
+  final object processQuestData {
+
+    def selectQuest(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
+      playerQuestData += uuid -> playerQuestDataContext
+    }
+
+  }
+
+  final object getQuestData {
+
+    def getPlayerQuestDataContext(uuid: UUID): PlayerQuestDataContext = {
+      if (playerQuestData.contains(uuid)) playerQuestData(uuid)
+      else PlayerQuestDataContext(None,None,List.empty)
+    }
+
+    def getPlayerDailyQuestContext(uuid: UUID): PlayerQuestDataContext = {
+      if (playerDailyQuestData.contains(uuid)) playerDailyQuestData(uuid)
+      else PlayerQuestDataContext(None,None,List.empty)
+    }
+
+  }
 
   final object saver {
 

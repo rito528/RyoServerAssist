@@ -74,18 +74,7 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
     }
   }
 
-  private def questClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
-    val questGateway = new QuestGateway(p)
-    if (progress.forall { case (_, amount) => amount == 0 }) {
-      p.sendMessage(s"${AQUA}おめでとうございます！クエストが完了しました！")
-      p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-      questGateway.questClear()
-      new GiveTitle().questClearNumber(p)
-      new GiveTitle().continuousLoginAndQuestClearNumber(p)
-    } else {
-      p.sendMessage(s"${AQUA}納品しました。")
-    }
-  }
+
 
   private def dailyQuestClearCheck(p: Player, progress: Map[MaterialOrEntityType, Int]): Unit = {
     if (progress.forall { case (_, amount) => amount == 0 }) {
@@ -98,15 +87,6 @@ class QuestDelivery(ryoServerAssist: RyoServerAssist) {
       p.sendMessage(s"${AQUA}納品しました。")
       new DailyQuestProcessMenu(ryoServerAssist).open(p)
     }
-  }
-
-  private def buttonItemRemove(p: Player, inv: Inventory): Unit = {
-    List(
-      getLayOut(1, 6),
-      getLayOut(2, 6),
-      getLayOut(9, 6),
-      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
-    ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 
   def deliveryFromNeoStack(p: Player): Unit = {
