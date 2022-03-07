@@ -26,7 +26,7 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
     val questService = new NormalQuestService(player)
     questService.getSelectedQuest match {
       case Some(_) =>
-        new QuestProcessMenu(ryoServerAssist).open(player)
+        new QuestProcessMenu(ryoServerAssist,1).open(player)
         false
       case None =>
         true
@@ -125,7 +125,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
               }
             case ClickType.LEFT =>
               questService.selectQuest(questName)
-              new QuestProcessMenu(ryoServerAssist).open(player)
+              new QuestProcessMenu(ryoServerAssist,1).open(player)
             case _ =>
           }
         }
@@ -153,7 +153,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
               }
             case ClickType.LEFT =>
               questService.selectQuest(questName)
-              new QuestProcessMenu(ryoServerAssist).open(player)
+              new QuestProcessMenu(ryoServerAssist,1).open(player)
             case _ =>
           }
         }
