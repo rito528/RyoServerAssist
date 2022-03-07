@@ -11,9 +11,10 @@ import com.ryoserver.util.{ItemStackBuilder, Translate}
 import org.bukkit.ChatColor._
 import org.bukkit.{Material, Sound}
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
+class QuestProcessMenu(ryoServerAssist: RyoServerAssist,continueNumber: Int) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, "クエスト")
   override val partButton: Boolean = true
@@ -22,7 +23,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
     val questService = new NormalQuestService(player)
     questService.getSelectedQuest match {
       case Some(selectedQuest) =>
-        val compute = computeQuestProcessButton(player, QuestData.loadedQuestData.filter(_.questName == selectedQuest).head, ryoServerAssist, this)
+        val compute = computeQuestProcessButton(player, QuestData.loadedQuestData.filter(_.questName == selectedQuest).head,continueNumber,ryoServerAssist, this)
         import compute._
         val buttons = Map(
           getLayOut(1, 6) -> requireButton,
@@ -31,7 +32,8 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
         if (compute.selectedQuest.questType == QuestType.delivery) {
           buttons ++ Map(
             getLayOut(2, 6) -> delivery,
-            getLayOut(3, 6) -> deliveryFromNeoStack
+            getLayOut(3, 6) -> deliveryFromNeoStack,
+            getLayOut(4, 6) -> continueDeliverySetup
           )
         } else {
           buttons
@@ -44,11 +46,11 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
 }
 
-private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
+private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext,continueNumber: Int, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
   private lazy val neoStackGateway = new NeoStackGateway
   private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
   private lazy val requireDeliveryList: List[String] = new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
-    s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
+    s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount * continueNumber}個"
   }.toList
   private lazy val requireSuppressionList: List[String] = new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
@@ -89,14 +91,19 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
         .map { case (require, amount) =>
         s"$WHITE${Translate.materialNameToJapanese(require.material)}:${
           val neoStackAmount = neoStackGateway.getNeoStackAmount(player, new ItemStack(require.material))
-          if (neoStackAmount >= amount) s"$AQUA$BOLD${UNDERLINE}OK (所持数:${neoStackAmount}個)"
-          else s"$RED$BOLD$UNDERLINE${-(neoStackAmount - amount)}個不足しています"
+          if (neoStackAmount >= amount * continueNumber) s"$AQUA$BOLD${UNDERLINE}OK (所持数:${neoStackAmount}個)"
+          else s"$RED$BOLD$UNDERLINE${-(neoStackAmount - amount * continueNumber)}個不足しています"
         }"
       })
       .build(),
     ButtonMotion { _ =>
       val service = new NormalQuestService(player)
-      service.deliveryFromNeoStack()
+      val selectedQuestName = service.getSelectedQuest.get
+      for (_ <- 0 until continueNumber) {
+        if (continueNumber != 1) service.selectQuest(selectedQuestName)
+        service.deliveryFromNeoStack()
+      }
+      player.sendMessage(s"$AQUA${continueNumber}回納品を行いました。")
       new SelectQuestMenu(ryoServerAssist,1,new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)).open(player)
     }
   )
@@ -114,6 +121,66 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
       new NormalQuestService(player).questDestroy()
       new SelectQuestMenu(ryoServerAssist,1,new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)).open(player)
       player.playSound(player.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
+    }
+  )
+
+  val continueDeliverySetup: Button = Button(
+    ItemStackBuilder
+      .getDefault(Material.REPEATER)
+      .title(s"${GREEN}ネオスタックから納品の連続設定")
+      .lore(List(
+        s"${WHITE}現在の設定: ${continueNumber}回",
+        s"${GRAY}左クリックで増加、右クリックで減少します。",
+        s"${GRAY}設定の変更はクエストを一度も",
+        s"${GRAY}進行していない状態である必要があります。"
+      ))
+      .build(),
+    ButtonMotion{e =>
+      e.getClick match {
+        case ClickType.LEFT =>
+          val resetContinueNumber = {
+            //設定の変更はクエストが一度も進行していない必要がある。
+            //クエストが進行されていると、納品数が合わなくなるため。
+            if (QuestData.loadedQuestData.exists(_.requireList == new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get)) {
+              continueNumber match {
+                case 1 => 16
+                case 16 => 32
+                case 32 => 64
+                case 64 => 128
+                case 128 => 256
+                case 256 => 512
+                case 512 => 1024
+                case 1024 => 1024
+                case _ => 1
+              }
+            } else {
+              1
+            }
+          }
+          new QuestProcessMenu(ryoServerAssist,resetContinueNumber).open(player)
+        case ClickType.RIGHT =>
+          val resetContinueNumber = {
+            if (QuestData.loadedQuestData.exists(_.requireList == new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get)) {
+              continueNumber match {
+                case 1024 => 512
+                case 512 => 256
+                case 256 => 128
+                case 128 => 64
+                case 64 => 32
+                case 32 => 16
+                case 16 => 1
+                case 1 => 1
+                case _ => 1
+              }
+            } else {
+              1
+            }
+          }
+          new QuestProcessMenu(ryoServerAssist,resetContinueNumber).open(player)
+        case _ =>
+
+      }
+      player.playSound(player.getLocation,Sound.UI_BUTTON_CLICK,1,1)
     }
   )
 
