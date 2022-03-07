@@ -32,7 +32,7 @@ class NormalQuestService(player: Player) extends QuestService {
             .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(requires._1.material,1)) >= requires._2})
       case QuestSortContext.bookMark =>
         //できるクエストとbookmarkされているクエストの積集合を取る
-        canQuests.intersect(QuestPlayerData.getPlayerQuestContext(uuid).bookmarks
+        canQuests.intersect(new QuestPlayerData().getQuestData.getPlayerQuestContext(uuid).bookmarks
           .map(
             questName => {
               QuestData.loadedQuestData.filter(_.questName == questName).head
@@ -65,7 +65,7 @@ class NormalQuestService(player: Player) extends QuestService {
   }
 
   def setQuestSortData(sortContext: QuestSortContext): Unit = {
-    QuestPlayerData.setQuestSortData(uuid,sortContext)
+    new QuestPlayerData().processQuestData.setQuestSortData(uuid,sortContext)
   }
 
 }

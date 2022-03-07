@@ -47,10 +47,10 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
   private lazy val neoStackGateway = new NeoStackGateway
   private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
-  private lazy val requireDeliveryList: List[String] = QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
+  private lazy val requireDeliveryList: List[String] = new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
   }.toList
-  private lazy val requireSuppressionList: List[String] = QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
+  private lazy val requireSuppressionList: List[String] = new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
   }.toList
 
@@ -84,7 +84,7 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
     ItemStackBuilder
       .getDefault(Material.SHULKER_BOX)
       .title(s"${GREEN}ネオスタックから納品")
-      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ QuestPlayerData.getPlayerQuestContext(player.getUniqueId).progress
+      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress
         .get
         .map { case (require, amount) =>
         s"$WHITE${Translate.materialNameToJapanese(require.material)}:${

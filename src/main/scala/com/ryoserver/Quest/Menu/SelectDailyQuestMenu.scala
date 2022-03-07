@@ -21,7 +21,7 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends 
 
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
-    val lastDate = QuestPlayerData.getLastDailyQuest(player.getUniqueId)
+    val lastDate = new QuestPlayerData().getQuestData.getLastDailyQuest(player.getUniqueId)
     val now = new Date()
     if (DateUtils.truncate(lastDate,Calendar.DAY_OF_MONTH).getTime != DateUtils.truncate(now,Calendar.DAY_OF_MONTH).getTime) {
       player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)

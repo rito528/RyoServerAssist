@@ -37,7 +37,7 @@ class DailyQuestService(ryoServerAssist: RyoServerAssist,player: Player) extends
 
   override def questClear(exp: Double): Unit = {
     new UpdateLevel().addExp(exp,p)
-    QuestPlayerData.setLastDailyQuest(uuid,new Date())
+    new QuestPlayerData().processQuestData.changeLastDailyQuest(uuid,new Date())
     p.addQuestClearTimes()
     questDestroy()
   }

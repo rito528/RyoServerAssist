@@ -65,35 +65,6 @@ object QuestPlayerData {
     }.toList.apply.toMap
   }
 
-  def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
-    if (playerQuestData.contains(uuid)) playerQuestData(uuid)
-    else PlayerQuestDataContext(None,None,List.empty)
-  }
-
-  def getPlayerDailyQuestContext(uuid: UUID): PlayerQuestDataContext = {
-    if (playerDailyQuestData.contains(uuid)) playerDailyQuestData(uuid)
-    else PlayerQuestDataContext(None,None,List.empty)
-  }
-
-  def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
-    playerQuestSortData += uuid -> questSortContext
-  }
-
-  def getLastDailyQuest(uuid: UUID): Date = {
-    if (lastDailyQuestDate.contains(uuid)) {
-      lastDailyQuestDate(uuid)
-    } else {
-      val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-      val date = simpleDateFormat.parse("2000-01-01 00:00:00")
-      setLastDailyQuest(uuid,date)
-      date
-    }
-  }
-
-  def setLastDailyQuest(uuid: UUID,date: Date): Unit = {
-    lastDailyQuestDate += uuid -> date
-  }
-
 }
 
 final class QuestPlayerData {
@@ -106,6 +77,14 @@ final class QuestPlayerData {
 
     def selectDailyQuest(uuid: UUID,playerQuestDataContext: PlayerQuestDataContext): Unit = {
       playerDailyQuestData += uuid -> playerQuestDataContext
+    }
+
+    def changeLastDailyQuest(uuid: UUID,date: Date): Unit = {
+      lastDailyQuestDate += uuid -> date
+    }
+
+    def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
+      playerQuestSortData += uuid -> questSortContext
     }
 
   }
@@ -125,6 +104,22 @@ final class QuestPlayerData {
     def getQuestSortData(uuid: UUID): QuestSortContext = {
       if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
       else QuestSortContext.normal
+    }
+
+    def getLastDailyQuest(uuid: UUID): Date = {
+      if (lastDailyQuestDate.contains(uuid)) {
+        lastDailyQuestDate(uuid)
+      } else {
+        val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val date = simpleDateFormat.parse("2000-01-01 00:00:00")
+        processQuestData.changeLastDailyQuest(uuid,date)
+        date
+      }
+    }
+
+    def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
+      if (playerQuestData.contains(uuid)) playerQuestData(uuid)
+      else PlayerQuestDataContext(None,None,List.empty)
     }
 
   }
