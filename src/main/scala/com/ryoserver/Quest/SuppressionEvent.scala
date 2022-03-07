@@ -2,6 +2,7 @@ package com.ryoserver.Quest
 
 import com.ryoserver.Quest.Event.{EventDataProvider, EventGateway}
 import com.ryoserver.Quest.MaterialOrEntityType.entityType
+import com.ryoserver.Quest.QuestServices.NormalQuestService
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import com.ryoserver.util.Entity.getEntity
@@ -16,24 +17,24 @@ class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listen
 
   @EventHandler
   def onEntityDeath(e: EntityDeathEvent): Unit = {
-//    val entity = e.getEntityType
-//    e.getEntity.getKiller match {
-//      case p: Player =>
-//        val questGateway = new QuestGateway(p)
-//        val eventGateway = new EventGateway
-//        var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
-//        questGateway.getSelectedQuest match {
+    val entity = e.getEntityType
+    e.getEntity.getKiller match {
+      case p: Player =>
+        val service = new NormalQuestService(p)
+        val eventGateway = new EventGateway
+        var event = true //通常のクエストをこなした場合はイベントの討伐体数を無効化する
+//        service.getSelectedQuest match {
 //          case Some(_) =>
-//            val selectedQuestData = questGateway.getSelectedQuestData
+//            val selectedQuestData = service.getSelectedQuestData
 //            if (selectedQuestData.questType == QuestType.suppression && selectedQuestData.requireList.contains(entityType(entity))) {
 //              event = false
 //              val uuid = p.getUniqueId
-//              val selectedQuestPlayerData = QuestPlayerData.getPlayerQuestContext(uuid)
+//              val selectedQuestPlayerData = new QuestPlayerData().getQuestData.getPlayerQuestContext(uuid)
 //              val nowProcess = selectedQuestPlayerData.progress.get
 //              if (nowProcess(entityType(entity)) != 0) {
-//                QuestPlayerData.setQuestData(uuid,
-//                  QuestPlayerData.getPlayerQuestContext(uuid)
-//                    .setProgress(Option(QuestPlayerData.getPlayerQuestContext(uuid).progress.get
+//                new QuestPlayerData().processQuestData.selectQuest(uuid,
+//                  new QuestPlayerData().getQuestData.getPlayerQuestContext(uuid)
+//                    .setProgress(Option(new QuestPlayerData().getQuestData.getPlayerQuestContext(uuid).progress.get
 //                      ++ Map(entityType(entity) -> (nowProcess(entityType(entity)) - 1)))
 //                    )
 //                )
@@ -53,21 +54,21 @@ class SuppressionEvent(implicit ryoServerAssist: RyoServerAssist) extends Listen
 //            }
 //          case None =>
 //        }
-//        if (eventGateway.eventInfo(eventGateway.holdingEvent()) != null && eventGateway.eventInfo(eventGateway.holdingEvent()).eventType == "suppression" && event) {
-//          val eventEntity = getEntity(eventGateway.eventInfo(eventGateway.holdingEvent()).item)
-//          if (entity == eventEntity) {
-//            EventDataProvider.eventCounter += 1
-//            var counter = 0
-//            if (EventDataProvider.eventRanking.contains(p.getUniqueId.toString)) {
-//              counter = EventDataProvider.eventRanking(p.getUniqueId.toString)
-//              EventDataProvider.eventRanking = EventDataProvider.eventRanking
-//                .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
-//            }
-//            EventDataProvider.eventRanking += (p.getUniqueId.toString -> (counter + 1))
-//          }
-//        }
-//      case _ =>
-//    }
+        if (eventGateway.eventInfo(eventGateway.holdingEvent()) != null && eventGateway.eventInfo(eventGateway.holdingEvent()).eventType == "suppression" && event) {
+          val eventEntity = getEntity(eventGateway.eventInfo(eventGateway.holdingEvent()).item)
+          if (entity == eventEntity) {
+            EventDataProvider.eventCounter += 1
+            var counter = 0
+            if (EventDataProvider.eventRanking.contains(p.getUniqueId.toString)) {
+              counter = EventDataProvider.eventRanking(p.getUniqueId.toString)
+              EventDataProvider.eventRanking = EventDataProvider.eventRanking
+                .filterNot { case (uuid, _) => uuid == p.getUniqueId.toString }
+            }
+            EventDataProvider.eventRanking += (p.getUniqueId.toString -> (counter + 1))
+          }
+        }
+      case _ =>
+    }
   }
 
 }
