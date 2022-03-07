@@ -24,16 +24,25 @@ case class QuestDataContext(questName: String,
 case class PlayerQuestDataContext(selectedQuest: Option[String],
                                   progress: Option[Map[MaterialOrEntityType, Int]],
                                   bookmarks: List[String]) {
-  def setSelectedQuest(questName: Option[String]): PlayerQuestDataContext = {
+
+  def selectQuest(questName: Option[String]): PlayerQuestDataContext = {
     this.copy(selectedQuest = questName)
   }
 
-  def setProgress(progress: Option[Map[MaterialOrEntityType,Int]]): PlayerQuestDataContext = {
-    this.copy(progress = progress)
+  def setProgress(progress: Map[MaterialOrEntityType,Int]): PlayerQuestDataContext = {
+    this.copy(progress = Option(progress))
   }
 
-  def setBookmarks(bookmarks: List[String]): PlayerQuestDataContext = {
-    this.copy(bookmarks = bookmarks)
+  def changeProgress(materialOrEntityType: MaterialOrEntityType,amount: Int): PlayerQuestDataContext = {
+    this.copy(progress = Option(progress.getOrElse(Map.empty) ++ Map(materialOrEntityType -> amount)))
+  }
+
+  def addBookmarkQuest(questName: String): PlayerQuestDataContext = {
+    this.copy(bookmarks = bookmarks ++ List(questName))
+  }
+
+  def removeBookmarkQuest(questName: String): PlayerQuestDataContext = {
+    this.copy(bookmarks = bookmarks.filterNot(_ == questName))
   }
 
 }

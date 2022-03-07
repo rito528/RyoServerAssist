@@ -174,9 +174,11 @@ class RyoServerAssist extends JavaPlugin {
     new SavePlayerData().autoSave()
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
-    QuestPlayerData.lastDailyQuestDateAutoSave
-    QuestPlayerData.playerQuestDataAutoSave
-    QuestPlayerData.playerDailyQuestDataAutoSave
+    val questPlayerData = new QuestPlayerData()
+    questPlayerData.saver.autoSavePlayerQuestData
+    questPlayerData.saver.autoSavePlayerDailyQuestData
+    questPlayerData.saver.autoSaveLastDailyQuestDate
+
     HomeData.saveHomeData
 
     /*
@@ -205,9 +207,10 @@ class RyoServerAssist extends JavaPlugin {
     NeoStack.PlayerData.save()
     new SavePlayerData().save()
     new SaveDistribution().save()
-    QuestPlayerData.saveLastDailyQuestDate()
-    QuestPlayerData.playerQuestDataSave()
-    QuestPlayerData.playerDailyQuestDataSave()
+    val questPlayerData = new QuestPlayerData
+    questPlayerData.saver.savePlayerQuestData()
+    questPlayerData.saver.savePlayerDailyQuestData()
+    questPlayerData.saver.saveLastDailyQuestDate()
     HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }

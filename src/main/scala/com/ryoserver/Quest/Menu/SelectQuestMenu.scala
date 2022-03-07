@@ -3,6 +3,7 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.Quest.QuestServices.NormalQuestService
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
@@ -22,8 +23,8 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
     player.playSound(player.getLocation,Sound.ITEM_BOOK_PAGE_TURN,1,1)
-    val questGateway = new QuestGateway(player)
-    questGateway.getSelectedQuest match {
+    val questService = new NormalQuestService(player)
+    questService.getSelectedQuest match {
       case Some(_) =>
         new QuestProcessMenu(ryoServerAssist).open(player)
         false
@@ -33,14 +34,14 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
   }
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val questGateway = new QuestGateway(player)
+    val questService = new NormalQuestService(player)
     val compute = computeSelectQuestButton(player, page, ryoServerAssist)
     import compute._
     Map(
       getLayOut(1, 6) -> backPage,
       getLayOut(5, 6) -> sort,
       getLayOut(9, 6) -> nextPage
-    ) ++ questGateway.getQuests(sortType).zipWithIndex.filter { case (_, index) =>
+    ) ++ questService.getQuests(sortType).zipWithIndex.filter { case (_, index) =>
       index < (getLayOut(9, 5) + 1) * this.page && (getLayOut(9, 5) + 1) * (this.page - 1) <= index
     }.map { case (questData, index) => (index - ((getLayOut(9, 5) + 1) * (this.page - 1))) -> getQuestButton(questData) }.toMap
   }
@@ -48,9 +49,9 @@ class SelectQuestMenu(ryoServerAssist: RyoServerAssist, page: Int, sortType: Que
 }
 
 private case class computeSelectQuestButton(player: Player, page: Int, ryoServerAssist: RyoServerAssist) {
-  private lazy val questGateway = new QuestGateway(player)
+  private lazy val questService = new NormalQuestService(player)
 
-  private lazy val nowSortType: QuestSortContext = QuestPlayerData.getQuestSortData(player.getUniqueId)
+  private lazy val nowSortType: QuestSortContext = new QuestPlayerData().getQuestData.getQuestSortData(player.getUniqueId)
 
   val backPage: Button = Button(
     ItemStackBuilder
@@ -88,7 +89,7 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
       .build(),
     ButtonMotion { _ =>
       val nextType = QuestSortTypeDependency.dependency(nowSortType)
-      questGateway.setQuestSortData(nextType)
+      questService.setQuestSortData(nextType)
       new SelectQuestMenu(ryoServerAssist, page, nextType).open(player)
     }
   )
@@ -117,13 +118,13 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
           val questName = questData.questName
           e.getClick match {
             case ClickType.RIGHT =>
-              if (questGateway.setBookmark(questName)) {
+              if (questService.setBookmark(questName)) {
                 player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
               } else {
                 player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
               }
             case ClickType.LEFT =>
-              questGateway.selectQuest(questName)
+              questService.selectQuest(questName)
               new QuestProcessMenu(ryoServerAssist).open(player)
             case _ =>
           }
@@ -145,13 +146,13 @@ private case class computeSelectQuestButton(player: Player, page: Int, ryoServer
           val questName = questData.questName
           e.getClick match {
             case ClickType.RIGHT =>
-              if (questGateway.setBookmark(questName)) {
+              if (questService.setBookmark(questName)) {
                 player.sendMessage(s"$AQUA${questName}をブックマークに追加しました！")
               } else {
                 player.sendMessage(s"$RED${questName}をブックマークから削除しました。")
               }
             case ClickType.LEFT =>
-              questGateway.selectQuest(questName)
+              questService.selectQuest(questName)
               new QuestProcessMenu(ryoServerAssist).open(player)
             case _ =>
           }

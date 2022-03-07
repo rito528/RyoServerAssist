@@ -4,6 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.Quest.QuestServices.DailyQuestService
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{ItemStackBuilder, Translate}
@@ -18,8 +19,8 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val partButton: Boolean = true
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val questGateway = new QuestGateway(player)
-    val selectedQuestData = questGateway.getSelectedDailyQuestData
+    val questService = new DailyQuestService(ryoServerAssist,player)
+    val selectedQuestData = questService.getSelectedQuestData
     val compute = computeDailyQuestProcessButton(player, selectedQuestData, ryoServerAssist, this)
     import compute._
     val buttons = Map(
@@ -39,13 +40,13 @@ class DailyQuestProcessMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 }
 
 private case class computeDailyQuestProcessButton(player: Player, selectedQuest: QuestDataContext, ryoServerAssist: RyoServerAssist, dailyQuestProcessMenu: DailyQuestProcessMenu) {
-  private lazy val questGateway = new QuestGateway(player)
+  private lazy val questService = new DailyQuestService(ryoServerAssist,player)
   private lazy val neoStackGateway = new NeoStackGateway
   private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
-  private lazy val requireDeliveryList: List[String] = QuestPlayerData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
+  private lazy val requireDeliveryList: List[String] = new QuestPlayerData().getQuestData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount}個"
   }.toList
-  private lazy val requireSuppressionList: List[String] = QuestPlayerData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
+  private lazy val requireSuppressionList: List[String] = new QuestPlayerData().getQuestData.getPlayerDailyQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.entityNameToJapanese(require.entityType)}:${amount}体"
   }.toList
 
@@ -69,7 +70,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       .lore(List(s"${GRAY}クリックで納品します。"))
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).dailyQuestDelivery(player)
+      questService.delivery()
     }
   )
 
@@ -77,7 +78,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
     ItemStackBuilder
       .getDefault(Material.SHULKER_BOX)
       .title(s"${GREEN}ネオスタックから納品")
-      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ QuestPlayerData.getPlayerDailyQuestContext(player.getUniqueId).progress
+      .lore(List(s"${GRAY}クリックでneoStackから納品します。") ++ new QuestPlayerData().getQuestData.getPlayerDailyQuestContext(player.getUniqueId).progress
         .get.map { case (require, amount) =>
         s"$WHITE${Translate.materialNameToJapanese(require.material)}:${
           val neoStackAmount = neoStackGateway.getNeoStackAmount(player, new ItemStack(require.material))
@@ -87,7 +88,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       })
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).deliveryFromNeoStackDaily(player)
+      questService.deliveryFromNeoStack()
     }
   )
 
@@ -101,7 +102,7 @@ private case class computeDailyQuestProcessButton(player: Player, selectedQuest:
       )
       .build(),
     ButtonMotion { _ =>
-      new QuestDelivery(ryoServerAssist).dailyQuestDestroy(player)
+      questService.questDestroy()
       new SelectDailyQuestMenu(ryoServerAssist,1).open(player)
       player.playSound(player.getLocation, Sound.BLOCK_ANVIL_DESTROY, 1, 1)
     }
