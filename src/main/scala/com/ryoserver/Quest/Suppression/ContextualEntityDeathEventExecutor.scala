@@ -12,7 +12,7 @@ object ContextualEntityDeathEventExecutor {
     def onEntityDeathEvent(e: EntityDeathEvent): Unit = {
       e.getEntity.getKiller match {
         case p: Player =>
-          entityDeathEventContext.execute(RawEntityDeathEventContext(e.getEntity,p))
+          entityDeathEventContext.execute(RawEntityDeathEventContext(e.getEntityType,p))
         case _ =>
       }
     }

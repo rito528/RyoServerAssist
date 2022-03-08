@@ -1,8 +1,8 @@
 package com.ryoserver.Quest.Suppression
 
-import org.bukkit.entity.{LivingEntity, Player}
+import org.bukkit.entity.{EntityType, Player}
 
-case class RawEntityDeathEventContext(killedEntity: LivingEntity, killer: Player)
+case class RawEntityDeathEventContext(killedEntity: EntityType, killer: Player)
 
 trait EntityDeathEventContext {
 
