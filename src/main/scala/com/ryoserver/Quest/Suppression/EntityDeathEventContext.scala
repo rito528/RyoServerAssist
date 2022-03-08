@@ -1,4 +1,4 @@
-package com.ryoserver.Quest
+package com.ryoserver.Quest.Suppression
 
 import org.bukkit.entity.{LivingEntity, Player}
 
