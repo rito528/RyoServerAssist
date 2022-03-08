@@ -1,6 +1,5 @@
 package com.ryoserver.Quest.Suppression
 
-import com.ryoserver.Quest.RawEntityDeathEventContext
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.{EventHandler, Listener}
