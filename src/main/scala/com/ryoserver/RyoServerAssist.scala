@@ -17,6 +17,7 @@ import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
+import com.ryoserver.Quest.Suppression.{EventSuppression, NormalQuestSuppression}
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerMenu.StickEvent
 import com.ryoserver.Security.{Operator, SecurityEvent}
@@ -104,7 +105,6 @@ class RyoServerAssist extends JavaPlugin {
       new PlayerEvents,
       new StickEvent,
       new StorageEvent,
-      new SuppressionEvent,
       new Notification,
       new RecoverySkillPointEvent,
       new FirstJoinSettingEvent,
@@ -118,7 +118,9 @@ class RyoServerAssist extends JavaPlugin {
       new PlayEffect,
       new EditEvent,
       new UseExpBottle,
-      new AdminStorageEvent
+      new AdminStorageEvent,
+      NormalQuestSuppression.executor,
+      new EventSuppression().executor
     ).foreach(listener => this.getServer.getPluginManager.registerEvents(listener, this))
 
     /*
