@@ -8,7 +8,7 @@ object ContextualEntityDeathEventExecutor {
 
   def entityDeathEventExecutor(entityDeathEventContext: EntityDeathEventContext): Listener = new Listener {
 
-    @EventHandler//IDEからonEntityDeathEventは使用されていない等のメッセージが出ますが、実際には使用されています。
+    @EventHandler
     def onEntityDeathEvent(e: EntityDeathEvent): Unit = {
       e.getEntity.getKiller match {
         case p: Player =>
