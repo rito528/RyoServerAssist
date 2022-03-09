@@ -2,7 +2,7 @@ package com.ryoserver.NeoStack
 
 import org.bukkit.inventory.ItemStack
 
-case class RawNeoStackPageContext(category: String,page: Int) {
+case class RawNeoStackPageContext(category: Category,page: Int) {
   require(page >= 0)
 }
 
