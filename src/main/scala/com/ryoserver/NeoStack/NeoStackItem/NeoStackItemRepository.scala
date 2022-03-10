@@ -8,21 +8,24 @@ import java.util.UUID
 
 class NeoStackItemRepository(override val uuid: UUID) extends TNeoStackItemRepository {
 
-  private implicit val session: AutoSession.type = AutoSession
-
   override def store(): Unit = {
     NeoStackItemEntity.neoStackItem.foreach{case (uuid,rawNeoStackItemAmountContexts) =>
       rawNeoStackItemAmountContexts.foreach(rawNeoStackItemAmountContext => {
-        DB.localTx(session => {
+        DB.localTx(_ => {
           val itemStackString = Item.getStringFromItemStack(rawNeoStackItemAmountContext.itemStack)
           val amount = rawNeoStackItemAmountContext.amount
-          sql""
+          sql"""INSERT INTO StackData (UUID,item,amount) VALUES($uuid,$itemStackString,$amount)
+               ON DUPLICATE KEY UPDATE
+               item=$itemStackString,
+               amount=$amount"""
+            .execute()
         })
       })
     }
   }
 
   override def restore(): Unit = {
+    implicit val session: AutoSession.type = AutoSession
     val playerHasItemContext = sql"SELECT item,amount FROM StackData WHERE UUID=$uuid".map(rs => {
       val itemStack = Item.getOneItemStack(Item.getItemStackFromString(rs.string("item")))
       val amount = rs.int("amount")
