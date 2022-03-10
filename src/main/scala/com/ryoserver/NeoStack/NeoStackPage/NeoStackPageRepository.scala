@@ -38,4 +38,8 @@ class NeoStackPageRepository extends TNeoStackPageRepository {
     NeoStackPageEntity.pageData(RawNeoStackPageContext(category,page))
   }
 
+  def getAllItems: Set[ItemStack] = {
+    NeoStackPageEntity.pageData.values.flatten.toSet
+  }
+
 }
