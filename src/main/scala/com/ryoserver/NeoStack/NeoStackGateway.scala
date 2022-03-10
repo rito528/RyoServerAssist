@@ -1,6 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.ItemList.itemList
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageEntity
 import com.ryoserver.NeoStack.PlayerData.changedData
 import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData

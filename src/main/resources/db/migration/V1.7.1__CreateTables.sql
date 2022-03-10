@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS StackData(
 CREATE TABLE IF NOT EXISTS StackList(
     id INT AUTO_INCREMENT,
     category TEXT,
-    PAGE INT,
+    page INT,
     invItem TEXT,
     PRIMARY KEY(id)
 );
