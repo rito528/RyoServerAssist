@@ -15,4 +15,6 @@ trait TNeoStackItemRepository {
 
   def changeAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean
 
+  def getItemAmountContext(uuid: UUID,itemStack: ItemStack): Option[RawNeoStackItemAmountContext]
+
 }

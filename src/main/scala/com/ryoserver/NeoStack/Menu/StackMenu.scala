@@ -3,8 +3,9 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
-import com.ryoserver.NeoStack.{NeoStackGateway, PlayerData}
+import com.ryoserver.NeoStack.{NeoStackGateway, NeoStackService, PlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
@@ -97,12 +98,12 @@ private case class computeStackMenuButton(player: Player, page: Int, category: S
     Button(
       setItem,
       ButtonMotion { e =>
-        val neoStackGateway = new NeoStackGateway()
+        val neoStackService = new NeoStackService
         e.getClick match {
           case ClickType.LEFT =>
-            neoStackGateway.addItemToPlayer(player, playerData.head.savingItemStack, is.getType.getMaxStackSize)
+            neoStackService.addItemToPlayer(player,playerData.head.savingItemStack,is.getType.getMaxStackSize)
           case ClickType.RIGHT =>
-            neoStackGateway.addItemToPlayer(player, playerData.head.savingItemStack, 1)
+            neoStackService.addItemToPlayer(player, playerData.head.savingItemStack, 1)
           case _ =>
         }
         new StackMenu(page, category, ryoServerAssist).open(player)

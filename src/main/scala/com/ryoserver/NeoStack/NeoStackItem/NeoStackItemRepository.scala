@@ -2,6 +2,7 @@ package com.ryoserver.NeoStack.NeoStackItem
 import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack.RawNeoStackItemAmountContext
 import com.ryoserver.util.Item
+import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
@@ -45,10 +46,19 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
   }
 
   override def changeAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean = {
-    val pageRepository = new NeoStackPageRepository
-    if (!pageRepository.getAllItems.contains(rawNeoStackItemAmountContext.itemStack)) return false
+    if (!isItemExists(rawNeoStackItemAmountContext.itemStack) || rawNeoStackItemAmountContext.amount < 0) return false
     NeoStackItemEntity.neoStackItem += uuid -> (getItemList(uuid) ++ Set(rawNeoStackItemAmountContext))
     true
+  }
+
+  override def getItemAmountContext(uuid: UUID, itemStack: ItemStack): Option[RawNeoStackItemAmountContext] = {
+    if (isItemExists(itemStack)) return None
+    Option(getItemList(uuid).filter(_.itemStack == itemStack).head)
+  }
+
+  private def isItemExists(itemStack: ItemStack): Boolean = {
+    val pageRepository = new NeoStackPageRepository
+    pageRepository.getAllItems.contains(itemStack)
   }
 
 }
