@@ -38,7 +38,11 @@ class NeoStackPageRepository extends TNeoStackPageRepository {
     NeoStackPageEntity.pageData(RawNeoStackPageContext(category,page))
   }
 
-  def getAllItems: Set[ItemStack] = {
+  override def changeItem(category: Category,page: Int,invItems: List[ItemStack]): Unit = {
+    NeoStackPageEntity.pageData += (RawNeoStackPageContext(category,page),invItems)
+  }
+
+  override def getAllItems: Set[ItemStack] = {
     NeoStackPageEntity.pageData.values.flatten.toSet
   }
 

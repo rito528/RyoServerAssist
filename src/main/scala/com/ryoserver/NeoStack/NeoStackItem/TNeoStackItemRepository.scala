@@ -6,12 +6,10 @@ import java.util.UUID
 
 trait TNeoStackItemRepository {
 
-  val uuid: UUID
-
   def store(): Unit
 
-  def restore(): Unit
+  def restore(uuid: UUID): Unit
 
-  def getItemList: Set[RawNeoStackItemAmountContext]
+  def getItemList(uuid: UUID): Set[RawNeoStackItemAmountContext]
 
 }

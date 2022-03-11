@@ -11,4 +11,8 @@ trait TNeoStackPageRepository {
 
   def getCategoryPageBy(category:Category, page: Int): List[ItemStack]
 
+  def changeItem(category: Category,page: Int,invItems: List[ItemStack]): Unit
+
+  def getAllItems: Set[ItemStack]
+
 }

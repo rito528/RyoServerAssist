@@ -6,7 +6,7 @@ import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
 
-class NeoStackItemRepository(override val uuid: UUID) extends TNeoStackItemRepository {
+class NeoStackItemRepository extends TNeoStackItemRepository {
 
   override def store(): Unit = {
     NeoStackItemEntity.neoStackItem.foreach{case (uuid,rawNeoStackItemAmountContexts) =>
@@ -24,7 +24,7 @@ class NeoStackItemRepository(override val uuid: UUID) extends TNeoStackItemRepos
     }
   }
 
-  override def restore(): Unit = {
+  override def restore(uuid: UUID): Unit = {
     implicit val session: AutoSession.type = AutoSession
     val playerHasItemContext = sql"SELECT item,amount FROM StackData WHERE UUID=$uuid".map(rs => {
       val itemStack = Item.getOneItemStack(Item.getItemStackFromString(rs.string("item")))
@@ -40,7 +40,7 @@ class NeoStackItemRepository(override val uuid: UUID) extends TNeoStackItemRepos
     NeoStackItemEntity.neoStackItem += uuid -> neoStackItemData
   }
 
-  override def getItemList: Set[RawNeoStackItemAmountContext] = {
+  override def getItemList(uuid: UUID): Set[RawNeoStackItemAmountContext] = {
     NeoStackItemEntity.neoStackItem(uuid)
   }
 
