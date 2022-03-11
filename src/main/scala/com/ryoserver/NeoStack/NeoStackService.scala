@@ -1,7 +1,7 @@
 package com.ryoserver.NeoStack
 
 import com.ryoserver.NeoStack.NeoStackItem.{NeoStackItemRepository, TNeoStackItemRepository}
-import com.ryoserver.NeoStack.NeoStackPage.{NeoStackPageRepository, TNeoStackPageRepository}
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Item
 import org.bukkit.Sound
@@ -14,7 +14,6 @@ import java.util.UUID
 class NeoStackService {
 
   private val neoStackItemRepository: TNeoStackItemRepository = new NeoStackItemRepository
-  private val neoStackPageRepository: TNeoStackPageRepository = new NeoStackPageRepository
 
   def autoStoreItem(implicit ryoServerAssist: RyoServerAssist): Unit = {
     val oneMinute = 1200
@@ -36,19 +35,34 @@ class NeoStackService {
     } yield amountContext.amount
   }
 
+  def addItemAmount(uuid: UUID,itemStack: ItemStack,addAmount: Int): Unit = {
+    val oneItemStack = Item.getOneItemStack(itemStack)
+    changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,getItemAmount(uuid,oneItemStack).getOrElse(0) + addAmount))
+  }
+
+  def removeItemAmount(uuid: UUID,itemStack: ItemStack,removeAmount: Int): Option[Int] = {
+    val amount = getItemAmount(uuid, Item.getOneItemStack(itemStack)).getOrElse(0)
+    val removedAmount = if (amount >= removeAmount && changeItemAmount(uuid,RawNeoStackItemAmountContext(itemStack,amount - removeAmount))) {
+      removeAmount
+    } else {
+      changeItemAmount(uuid,RawNeoStackItemAmountContext(itemStack,0))
+      amount
+    }
+    Option(removedAmount)
+  }
+
   def addItemToPlayer(p: Player,itemStack: ItemStack,takeAmount: Int): Unit = {
     val uuid = p.getUniqueId
     val oneItemStack = Item.getOneItemStack(itemStack)
-    for {
-      amountContext <- neoStackItemRepository.getItemAmountContext(uuid,oneItemStack)
-    } yield {
-      val actualTakeAmount = if (amountContext.amount >= takeAmount) amountContext.amount - takeAmount else amountContext.amount
-      if (!changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,actualTakeAmount))) return
-      val giveItemStack = itemStack
-      giveItemStack.setAmount(takeAmount)
-      p.getInventory.addItem(giveItemStack)
-      p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
-    }
+    val giveItemStack = itemStack
+    if (getItemAmount(uuid,oneItemStack).getOrElse(0) <= 0 && p.getInventory.firstEmpty() != -1) return
+    giveItemStack.setAmount(removeItemAmount(uuid,oneItemStack,takeAmount).getOrElse(0))
+    p.getInventory.addItem(giveItemStack)
+    p.playSound(p.getLocation, Sound.UI_BUTTON_CLICK, 1, 1)
+  }
+
+  def isItemExists(itemStack: ItemStack): Boolean = {
+    new NeoStackPageRepository().getAllItems.contains(Item.getOneItemStack(itemStack))
   }
 
 }

@@ -22,18 +22,18 @@ class StackMenu(page: Int, category: Category, ryoServerAssist: RyoServerAssist)
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
     val compute = computeStackMenuButton(player, page, category, ryoServerAssist)
     import compute._
-    Map(
-      getLayOut(1, 6) -> backPage,
-      getLayOut(9, 6) -> nextPage
-    ) ++ (if (compute.player.hasPermission("ryoserverassist.neoStack")) Map(
-      getLayOut(5, 6) -> openAddMenu
-    ) else Map.empty) ++ new NeoStackPageRepository().getCategoryPageBy(compute.category,compute.page).zipWithIndex.map{case (itemStack,index) =>
+    new NeoStackPageRepository().getCategoryPageBy(compute.category,compute.page).zipWithIndex.map{case (itemStack,index) =>
       if (itemStack != null) {
         index -> getStackButton(itemStack)
       } else {
         index -> Button(ItemStackBuilder.getDefault(Material.AIR).build())
       }
-    }
+    }.toMap ++ (if (compute.player.hasPermission("ryoserverassist.neoStack")) Map(
+      getLayOut(5, 6) -> openAddMenu
+    ) else Map.empty) ++ Map(
+      getLayOut(1, 6) -> backPage,
+      getLayOut(9, 6) -> nextPage
+    )
   }
 
 }
@@ -46,9 +46,8 @@ private case class computeStackMenuButton(player: Player, page: Int, category: C
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
     ButtonMotion { _ =>
-      val categoryMenu = new CategorySelectMenu(ryoServerAssist)
       val backPage = page - 1
-      if (backPage == 0) categoryMenu.open(player)
+      if (backPage == 0) new CategorySelectMenu(ryoServerAssist).open(player)
       else new StackMenu(backPage, category, ryoServerAssist).open(player)
     }
   )
@@ -77,13 +76,11 @@ private case class computeStackMenuButton(player: Player, page: Int, category: C
 
   def getStackButton(itemStack: ItemStack): Button = {
     val is = Item.getOneItemStack(itemStack)
-    val playerData = PlayerData.playerData
-      .filter(_.uuid == player.getUniqueId)
-      .filter(_.savingItemStack == is)
+    val playerHasAmount = new NeoStackService().getItemAmount(player.getUniqueId,is).getOrElse(0)
     val setItem = is.clone()
     val meta = setItem.getItemMeta
     meta.setLore(List(
-      s"$BLUE${BOLD}保有数:$UNDERLINE${if (playerData.isEmpty) 0 else playerData.head.amount}個",
+      s"$BLUE${BOLD}保有数:$UNDERLINE${playerHasAmount}個",
       s"${GRAY}右クリックで1つ、左クリックで1st取り出します。"
     ).asJava)
     setItem.setItemMeta(meta)
@@ -93,9 +90,9 @@ private case class computeStackMenuButton(player: Player, page: Int, category: C
         val neoStackService = new NeoStackService
         e.getClick match {
           case ClickType.LEFT =>
-            neoStackService.addItemToPlayer(player,playerData.head.savingItemStack,is.getType.getMaxStackSize)
+            neoStackService.addItemToPlayer(player,is,is.getType.getMaxStackSize)
           case ClickType.RIGHT =>
-            neoStackService.addItemToPlayer(player, playerData.head.savingItemStack, 1)
+            neoStackService.addItemToPlayer(player, is, 1)
           case _ =>
         }
         new StackMenu(page, category, ryoServerAssist).open(player)

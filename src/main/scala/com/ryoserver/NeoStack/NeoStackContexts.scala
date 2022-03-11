@@ -7,5 +7,5 @@ case class RawNeoStackPageContext(category: Category,page: Int) {
 }
 
 case class RawNeoStackItemAmountContext(itemStack: ItemStack,amount: Int) {
-  require(itemStack.getAmount == 1 && amount >= 0)
+  require(itemStack != null && itemStack.getAmount == 1 && amount >= 0)
 }

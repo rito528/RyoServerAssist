@@ -1,6 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 //import com.ryoserver.Quest.PlayerQuestData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillOperation
@@ -14,10 +15,9 @@ class PlayerDataLoader(implicit ryoServerAssist: RyoServerAssist) {
     new CreateData().createPlayerData(p)
     new UpdateData().updateReLogin(p)
     new LevelLoader().loadPlayerLevel(p)
-    PlayerData.loadNeoStackPlayerData(p)
+    new NeoStackItemRepository().restore(p.getUniqueId)
     SkillPointBer.create(p)
     new Name().updateName(p)
-//    PlayerQuestData.loadPlayerData(p)
   }
 
   def unload(p: Player): Unit = {

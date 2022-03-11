@@ -1,6 +1,6 @@
 package com.ryoserver.Quest.QuestServices
 
-import com.ryoserver.Player.PlayerManager.getPlayerData
+import com.ryoserver.NeoStack.NeoStackService
 import com.ryoserver.Quest._
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -25,10 +25,10 @@ class NormalQuestService(player: Player) extends QuestService {
         canQuests
       case QuestSortContext.neoStack =>
         //NeoStackからできるクエストということはすべて納品クエストのはず
-        val neoStackGateway = new NeoStackGateway
+        val service = new NeoStackService
         canQuests
           .filter(questData => questData.questType == QuestType.delivery && questData.requireList
-            .forall{requires => neoStackGateway.getNeoStackAmount(p,new ItemStack(requires._1.material,1)) >= requires._2})
+            .forall{requires => service.getItemAmount(p.getUniqueId,new ItemStack(requires._1.material,1)).getOrElse(0) >= requires._2})
       case QuestSortContext.bookMark =>
         //できるクエストとbookmarkされているクエストの積集合を取る
         canQuests.intersect(new QuestPlayerData().getQuestData.getPlayerQuestContext(uuid).bookmarks

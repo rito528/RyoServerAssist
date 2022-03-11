@@ -3,8 +3,8 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.NeoStack.{Category, NeoStackService, RawNeoStackItemAmountContext}
-import .setSelectedCategory
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
@@ -63,7 +63,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
   val mainItems: Button = Button(
     ItemStackBuilder
       .getDefault(Material.LEATHER)
-      .title(s"${GREEN}主要ブロック")
+      .title(s"${GREEN}主要アイテム")
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
@@ -144,7 +144,8 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
           val service = new NeoStackService
           val oneItemStack = Item.getOneItemStack(item)
           val uuid = player.getUniqueId
-          if (service.changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
+          val neoStackItemRepository = new NeoStackItemRepository
+          if (neoStackItemRepository.changeAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
             player.getInventory.clear(index)
           }
         }
@@ -171,9 +172,10 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
     ButtonMotion { _ =>
       player.getInventory.getContents.zipWithIndex.foreach{case (item,index) =>
         val service = new NeoStackService
+        val neoStackItemRepository = new NeoStackItemRepository
         val oneItemStack = Item.getOneItemStack(item)
         val uuid = player.getUniqueId
-        if (service.changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
+        if (neoStackItemRepository.changeAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
           player.getInventory.clear(index)
         }
       }

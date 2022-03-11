@@ -3,17 +3,15 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
-import .getSelectedCategory
 import com.ryoserver.NeoStack.Category
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Bukkit, Material}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-
-import scala.collection.mutable
 
 class NeoStackEditGUI(page: Int, category: Category, ryoServerAssist: RyoServerAssist) extends Menu {
 
@@ -75,9 +73,20 @@ private case class computeNeoStackEditMenuButton(page: Int, category: Category, 
       .build(),
     ButtonMotion { _ =>
       val neoStackPageRepository = new NeoStackPageRepository
-      val invItems = player.getOpenInventory.getTopInventory.getContents.toList.map(Item.getOneItemStack)
+      val invItems = player.getOpenInventory.getTopInventory.getContents.toList.zipWithIndex
+        .filterNot{case (_,index) =>
+          List(
+            getLayOut(1, 6),
+            getLayOut(5, 6),
+            getLayOut(9, 6)
+          ).contains(index)
+        }.map{case (data,_) =>
+          if (data != null) Item.getOneItemStack(data) else null
+        }
       neoStackPageRepository.changeItem(category,page,invItems)
       neoStackPageRepository.store(category,page)
+      neoStackPageRepository.restore()
+      Bukkit.getOnlinePlayers.forEach(p => new NeoStackItemRepository().restore(p.getUniqueId))
       player.sendMessage(s"${AQUA}カテゴリリスト:${category.name}を編集しました。")
     }
   )

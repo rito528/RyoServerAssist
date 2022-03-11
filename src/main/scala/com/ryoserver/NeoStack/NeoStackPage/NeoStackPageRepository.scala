@@ -13,10 +13,11 @@ class NeoStackPageRepository extends TNeoStackPageRepository {
    * ページデータをデータベースに格納します。
    */
   override def store(category: Category,page: Int): Unit = {
-    NeoStackPageEntity.pageData.foreach{case (rawNeoStackPageContext,invItems) =>
-      val invItemsString = invItems.mkString(";")
-      sql"UPDATE StackList SET invItem=$invItemsString WHERE category=${rawNeoStackPageContext.category.name} AND page=${rawNeoStackPageContext.page}"
-      .execute()
+    NeoStackPageEntity.pageData.foreach{case (_,invItems) =>
+      val invItemsString = invItems.map(data => if (data != null) Item.getStringFromItemStack(data) else null).mkString(";")
+      sql"""INSERT INTO StackList (category,page,invItem) VALUES (${category.name},$page,$invItemsString)
+           ON DUPLICATE KEY UPDATE
+           invItem=$invItemsString""".execute().apply()
     }
   }
 
@@ -30,16 +31,20 @@ class NeoStackPageRepository extends TNeoStackPageRepository {
       val category = rs.string("category")
       val page = rs.int("page")
       val invItems = rs.string("invItem").split(';').map(Item.getItemStackFromString).toList
-      NeoStackPageEntity.pageData += (RawNeoStackPageContext(Category.values.filter(_.name == category).head,page),invItems)
+      NeoStackPageEntity.pageData += RawNeoStackPageContext(Category.values.filter(_.name == category).head,page) -> invItems
     })
   }
 
   override def getCategoryPageBy(category:Category, page: Int): List[ItemStack] = {
-    NeoStackPageEntity.pageData(RawNeoStackPageContext(category,page))
+    if (NeoStackPageEntity.pageData.contains(RawNeoStackPageContext(category,page))) {
+      NeoStackPageEntity.pageData(RawNeoStackPageContext(category, page))
+    } else {
+      List.empty
+    }
   }
 
   override def changeItem(category: Category,page: Int,invItems: List[ItemStack]): Unit = {
-    NeoStackPageEntity.pageData += (RawNeoStackPageContext(category,page),invItems)
+    NeoStackPageEntity.pageData += RawNeoStackPageContext(category,page) -> invItems
   }
 
   override def getAllItems: Set[ItemStack] = {

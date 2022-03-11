@@ -3,6 +3,7 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.NeoStack.NeoStackService
 import com.ryoserver.Quest.QuestServices.NormalQuestService
 import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
@@ -46,7 +47,7 @@ class QuestProcessMenu(ryoServerAssist: RyoServerAssist,continueNumber: Int) ext
 }
 
 private case class computeQuestProcessButton(player: Player, selectedQuest: QuestDataContext,continueNumber: Int, ryoServerAssist: RyoServerAssist, questProcessMenu: QuestProcessMenu) {
-  private lazy val neoStackGateway = new NeoStackGateway
+  private lazy val service = new NeoStackService
   private lazy val questType: String = if (selectedQuest.questType == QuestType.delivery) "納品" else "討伐"
   private lazy val requireDeliveryList: List[String] = new QuestPlayerData().getQuestData.getPlayerQuestContext(player.getUniqueId).progress.get.map { case (require, amount) =>
     s"$WHITE${Translate.materialNameToJapanese(require.material)}:${amount * continueNumber}個"
@@ -89,7 +90,7 @@ private case class computeQuestProcessButton(player: Player, selectedQuest: Ques
         .get
         .map { case (require, amount) =>
         s"$WHITE${Translate.materialNameToJapanese(require.material)}:${
-          val neoStackAmount = neoStackGateway.getNeoStackAmount(player, new ItemStack(require.material))
+          val neoStackAmount = service.getItemAmount(player.getUniqueId, new ItemStack(require.material)).getOrElse(0)
           if (neoStackAmount >= amount * continueNumber) s"$AQUA$BOLD${UNDERLINE}OK (所持数:${neoStackAmount}個)"
           else s"$RED$BOLD$UNDERLINE${-(neoStackAmount - amount * continueNumber)}個不足しています"
         }"
