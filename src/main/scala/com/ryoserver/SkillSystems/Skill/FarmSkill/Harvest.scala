@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.getAutoPlaceSeedsStatus

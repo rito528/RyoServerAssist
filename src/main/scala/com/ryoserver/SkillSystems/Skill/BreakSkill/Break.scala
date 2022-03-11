@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption

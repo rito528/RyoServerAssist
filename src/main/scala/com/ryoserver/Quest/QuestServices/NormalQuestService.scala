@@ -1,6 +1,5 @@
 package com.ryoserver.Quest.QuestServices
 
-import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest._
 import org.bukkit.entity.Player

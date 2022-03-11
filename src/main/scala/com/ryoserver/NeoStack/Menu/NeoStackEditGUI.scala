@@ -4,8 +4,8 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
-import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.{Category, ItemList, LoadNeoStackPage, NeoStackGateway}
+import .getSelectedCategory
+import com.ryoserver.NeoStack.Category
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._

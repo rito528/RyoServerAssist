@@ -3,7 +3,6 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.NeoStackGateway
 import com.ryoserver.Quest.QuestServices.NormalQuestService
 import com.ryoserver.Quest.{QuestData, QuestDataContext, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist

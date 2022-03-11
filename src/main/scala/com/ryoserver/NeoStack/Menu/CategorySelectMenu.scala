@@ -3,8 +3,8 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.{Category, NeoStackGateway, NeoStackService, RawNeoStackItemAmountContext}
-import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
+import com.ryoserver.NeoStack.{Category, NeoStackService, RawNeoStackItemAmountContext}
+import .setSelectedCategory
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1

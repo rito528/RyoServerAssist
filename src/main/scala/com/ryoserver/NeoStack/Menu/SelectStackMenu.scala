@@ -4,7 +4,7 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
-import com.ryoserver.NeoStack.{NeoStackGateway, NeoStackService, RawNeoStackItemAmountContext}
+import com.ryoserver.NeoStack.{NeoStackService, RawNeoStackItemAmountContext}
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
