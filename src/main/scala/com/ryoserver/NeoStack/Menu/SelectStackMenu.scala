@@ -3,8 +3,9 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.NeoStackGateway
-import com.ryoserver.util.ItemStackBuilder
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.NeoStack.{NeoStackGateway, NeoStackService, RawNeoStackItemAmountContext}
+import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -32,11 +33,13 @@ private case class computeSelectStackButton(player: Player) {
       .lore(List(s"${GRAY}クリックで収納します。"))
       .build(),
     ButtonMotion { _ =>
-      val neoStackGateway = new NeoStackGateway
+      val neoStackItemRepository = new NeoStackItemRepository
       player.getOpenInventory.getTopInventory.getContents.foreach(item => {
         if (item != null) {
-          if (neoStackGateway.checkItemList(item)) {
-            neoStackGateway.addStack(item, player)
+          val oneItemStack = Item.getOneItemStack(item)
+          val uuid = player.getUniqueId
+          val service = new NeoStackService
+          if (neoStackItemRepository.changeAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
             player.getOpenInventory.getTopInventory.removeItem(item)
           }
         }

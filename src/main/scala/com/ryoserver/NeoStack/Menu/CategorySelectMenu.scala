@@ -3,12 +3,12 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.NeoStack.{Category, NeoStackGateway, NeoStackService, RawNeoStackItemAmountContext}
 import com.ryoserver.NeoStack.PlayerCategory.setSelectedCategory
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
-import com.ryoserver.util.ItemStackBuilder
+import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -57,7 +57,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "block")
+      openStack(player, Category.block)
     }
   )
   val mainItems: Button = Button(
@@ -67,7 +67,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "item")
+      openStack(player, Category.item)
     }
   )
   val gachaItems: Button = Button(
@@ -77,7 +77,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "gachaItem")
+      openStack(player, Category.gachaItem)
     }
   )
   val tools: Button = Button(
@@ -87,7 +87,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "tool")
+      openStack(player, Category.tool)
     }
   )
   val foods: Button = Button(
@@ -97,7 +97,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "food")
+      openStack(player, Category.food)
     }
   )
   val redstones: Button = Button(
@@ -107,7 +107,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "redstone")
+      openStack(player, Category.redstone)
     }
   )
   val plant: Button = Button(
@@ -117,7 +117,7 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(lore)
       .build(),
     ButtonMotion { _ =>
-      openStack(player, "plant")
+      openStack(player, Category.plant)
     }
   )
   val autoStack: Button = Button(
@@ -139,11 +139,12 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(List(s"${GRAY}クリックで収納します。"))
       .build(),
     ButtonMotion { _ =>
-      val data = new NeoStackGateway()
       player.getInventory.getContents.zipWithIndex.foreach { case (item, index) =>
         if (item != null && index >= 9 && index <= 35) {
-          if (new NeoStackGateway().checkItemList(item)) {
-            data.addStack(item, player)
+          val service = new NeoStackService
+          val oneItemStack = Item.getOneItemStack(item)
+          val uuid = player.getUniqueId
+          if (service.changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
             player.getInventory.clear(index)
           }
         }
@@ -168,15 +169,14 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
       .lore(List(s"${GRAY}クリックで収納します。"))
       .build(),
     ButtonMotion { _ =>
-      val data = new NeoStackGateway()
-      player.getInventory.getContents.foreach(item => {
-        if (item != null) {
-          if (new NeoStackGateway().checkItemList(item)) {
-            data.addStack(item, player)
-            player.getInventory.removeItem(item)
-          }
+      player.getInventory.getContents.zipWithIndex.foreach{case (item,index) =>
+        val service = new NeoStackService
+        val oneItemStack = Item.getOneItemStack(item)
+        val uuid = player.getUniqueId
+        if (service.changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
+          player.getInventory.clear(index)
         }
-      })
+      }
       player.sendMessage(s"${AQUA}インベントリ内のアイテムをすべてneoStackに収納しました。")
     }
   )
@@ -191,9 +191,8 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
     }
   )
 
-  private def openStack(p: Player, category: String): Unit = {
+  private def openStack(p: Player, category: Category): Unit = {
     val gui = new StackMenu(1, category, ryoServerAssist)
     gui.open(p)
-    setSelectedCategory(p, category)
   }
 }

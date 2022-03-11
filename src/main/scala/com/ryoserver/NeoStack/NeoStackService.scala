@@ -25,12 +25,15 @@ class NeoStackService {
     }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
   }
 
-  def changeGUIPlacement(category: Category,page: Int,inventoryContents: List[ItemStack]): Unit = {
-    neoStackPageRepository.changeItem(category,page,inventoryContents)
+  private def changeItemAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean = {
+    neoStackItemRepository.changeAmount(uuid, rawNeoStackItemAmountContext)
   }
 
-  def changeItemAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean = {
-    neoStackItemRepository.changeAmount(uuid, rawNeoStackItemAmountContext)
+  def getItemAmount(uuid: UUID,itemStack: ItemStack): Option[Int] = {
+    val oneItemStack = Item.getOneItemStack(itemStack)
+    for {
+      amountContext <- neoStackItemRepository.getItemAmountContext(uuid,oneItemStack)
+    } yield amountContext.amount
   }
 
   def addItemToPlayer(p: Player,itemStack: ItemStack,takeAmount: Int): Unit = {
@@ -39,7 +42,8 @@ class NeoStackService {
     for {
       amountContext <- neoStackItemRepository.getItemAmountContext(uuid,oneItemStack)
     } yield {
-      if (!changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,amountContext.amount - takeAmount))) return
+      val actualTakeAmount = if (amountContext.amount >= takeAmount) amountContext.amount - takeAmount else amountContext.amount
+      if (!changeItemAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,actualTakeAmount))) return
       val giveItemStack = itemStack
       giveItemStack.setAmount(takeAmount)
       p.getInventory.addItem(giveItemStack)

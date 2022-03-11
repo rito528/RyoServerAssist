@@ -3,19 +3,19 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
+import com.ryoserver.NeoStack.{Category, ItemList, LoadNeoStackPage, NeoStackGateway}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import scala.collection.mutable
 
-class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAssist) extends Menu {
+class NeoStackEditGUI(page: Int, category: Category, ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val partButton: Boolean = true
   override val isReturnItem: Boolean = false
@@ -24,14 +24,10 @@ class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAss
 
   override def noneOperationButton(player: Player): Map[Int, Button] = {
     super.noneOperationButton(player)
-    implicit val session: AutoSession.type = AutoSession
-    sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
-      rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
-        val itemStack = Item.getItemStackFromString(itemStackString)
-        if (itemStack != null) getLayOut(getX(index), getY(index)) -> Button(itemStack)
-        else getLayOut(getX(index), getY(index)) -> Button(new ItemStack(Material.AIR))
-      }
-    }).toIterable().apply().flatten.toMap
+    new NeoStackPageRepository().getCategoryPageBy(category, page).zipWithIndex.map{case (itemStack,index) =>
+      if (itemStack != null) getLayOut(getX(index), getY(index)) -> Button(itemStack)
+      else getLayOut(getX(index), getY(index)) -> Button(new ItemStack(Material.AIR))
+    }.toMap
   }
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
@@ -46,7 +42,7 @@ class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAss
 
 }
 
-private case class computeNeoStackEditMenuButton(page: Int, category: String, player: Player, ryoServerAssist: RyoServerAssist) {
+private case class computeNeoStackEditMenuButton(page: Int, category: Category, player: Player, ryoServerAssist: RyoServerAssist) {
   private implicit val plugin: RyoServerAssist = ryoServerAssist
   val backPage: Button = Button(
     ItemStackBuilder
@@ -75,23 +71,14 @@ private case class computeNeoStackEditMenuButton(page: Int, category: String, pl
     ItemStackBuilder
       .getDefault(Material.NETHER_STAR)
       .title(s"${GREEN}クリックでリストを保存します。")
-      .lore(List(s"${GRAY}カテゴリ:" + getSelectedCategory(player) + "のリストを保存します。"))
+      .lore(List(s"${GRAY}カテゴリ:" + category.name + "のリストを保存します。"))
       .build(),
     ButtonMotion { _ =>
-      val data = new NeoStackGateway()
-      var invIndex = 0
-      var invItem = ""
-      player.getOpenInventory.getTopInventory.getContents.foreach(is => {
-        if (invIndex < 45) {
-          invItem += Item.getStringFromItemStack(is) + ";"
-        }
-        invIndex += 1
-      })
-      data.editItemList(getSelectedCategory(player), page, invItem)
-      player.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(player)}を編集しました。")
-      new LoadNeoStackPage().loadStackPage()
-      ItemList.stackList = mutable.Map.empty
-      ItemList.loadItemList(ryoServerAssist)
+      val neoStackPageRepository = new NeoStackPageRepository
+      val invItems = player.getOpenInventory.getTopInventory.getContents.toList.map(Item.getOneItemStack)
+      neoStackPageRepository.changeItem(category,page,invItems)
+      neoStackPageRepository.store(category,page)
+      player.sendMessage(s"${AQUA}カテゴリリスト:${category.name}を編集しました。")
     }
   )
 

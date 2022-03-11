@@ -3,9 +3,8 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
-import com.ryoserver.NeoStack.NeoStackPageData.stackPageData
-import com.ryoserver.NeoStack.{NeoStackGateway, NeoStackService, PlayerData}
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
+import com.ryoserver.NeoStack.{Category, NeoStackService, PlayerData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
@@ -16,7 +15,7 @@ import org.bukkit.inventory.ItemStack
 
 import scala.jdk.CollectionConverters._
 
-class StackMenu(page: Int, category: String, ryoServerAssist: RyoServerAssist) extends Menu {
+class StackMenu(page: Int, category: Category, ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(6, s"neoStack:$page")
 
@@ -28,14 +27,7 @@ class StackMenu(page: Int, category: String, ryoServerAssist: RyoServerAssist) e
       getLayOut(9, 6) -> nextPage
     ) ++ (if (compute.player.hasPermission("ryoserverassist.neoStack")) Map(
       getLayOut(5, 6) -> openAddMenu
-    ) else Map.empty) ++ {
-      if (stackPageData.contains(compute.category) && stackPageData(compute.category).contains(compute.page)) {
-        stackPageData(compute.category)(compute.page)
-      } else {
-        ""
-      }
-    }.split(";").zipWithIndex.map { case (item, index) =>
-      val itemStack = Item.getItemStackFromString(item)
+    ) else Map.empty) ++ new NeoStackPageRepository().getCategoryPageBy(compute.category,compute.page).zipWithIndex.map{case (itemStack,index) =>
       if (itemStack != null) {
         index -> getStackButton(itemStack)
       } else {
@@ -46,7 +38,7 @@ class StackMenu(page: Int, category: String, ryoServerAssist: RyoServerAssist) e
 
 }
 
-private case class computeStackMenuButton(player: Player, page: Int, category: String, ryoServerAssist: RyoServerAssist) {
+private case class computeStackMenuButton(player: Player, page: Int, category: Category, ryoServerAssist: RyoServerAssist) {
   val backPage: Button = Button(
     ItemStackBuilder
       .getDefault(Material.MAGENTA_GLAZED_TERRACOTTA)
