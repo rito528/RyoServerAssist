@@ -44,4 +44,11 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
     NeoStackItemEntity.neoStackItem(uuid)
   }
 
+  override def changeAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean = {
+    val pageRepository = new NeoStackPageRepository
+    if (!pageRepository.getAllItems.contains(rawNeoStackItemAmountContext.itemStack)) return false
+    NeoStackItemEntity.neoStackItem += uuid -> (getItemList(uuid) ++ Set(rawNeoStackItemAmountContext))
+    true
+  }
+
 }

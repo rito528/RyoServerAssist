@@ -6,6 +6,8 @@ import com.ryoserver.RyoServerAssist
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
+import java.util.UUID
+
 class NeoStackService {
 
   private val neoStackItemRepository: TNeoStackItemRepository = new NeoStackItemRepository
@@ -22,6 +24,10 @@ class NeoStackService {
 
   def changeGUIPlacement(category: Category,page: Int,inventoryContents: List[ItemStack]): Unit = {
     neoStackPageRepository.changeItem(category,page,inventoryContents)
+  }
+
+  def changeItemAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean = {
+    neoStackItemRepository.changeAmount(uuid, rawNeoStackItemAmountContext)
   }
 
 }

@@ -1,6 +1,7 @@
 package com.ryoserver.NeoStack.NeoStackItem
 
 import com.ryoserver.NeoStack.RawNeoStackItemAmountContext
+import org.bukkit.inventory.ItemStack
 
 import java.util.UUID
 
@@ -11,5 +12,7 @@ trait TNeoStackItemRepository {
   def restore(uuid: UUID): Unit
 
   def getItemList(uuid: UUID): Set[RawNeoStackItemAmountContext]
+
+  def changeAmount(uuid: UUID,rawNeoStackItemAmountContext: RawNeoStackItemAmountContext): Boolean
 
 }
