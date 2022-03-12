@@ -3,19 +3,17 @@ package com.ryoserver.NeoStack.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.{getLayOut, getX, getY}
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.NeoStack.PlayerCategory.getSelectedCategory
-import com.ryoserver.NeoStack.{ItemList, LoadNeoStackPage, NeoStackGateway}
+import com.ryoserver.NeoStack.Category
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.{Item, ItemStackBuilder}
 import org.bukkit.ChatColor._
-import org.bukkit.Material
+import org.bukkit.{Bukkit, Material}
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
-import scala.collection.mutable
-
-class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAssist) extends Menu {
+class NeoStackEditGUI(page: Int, category: Category, ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val partButton: Boolean = true
   override val isReturnItem: Boolean = false
@@ -24,14 +22,10 @@ class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAss
 
   override def noneOperationButton(player: Player): Map[Int, Button] = {
     super.noneOperationButton(player)
-    implicit val session: AutoSession.type = AutoSession
-    sql"SELECT * FROM StackList WHERE page=$page AND category=$category".map(rs => {
-      rs.string("invItem").split(";").zipWithIndex.map { case (itemStackString, index) =>
-        val itemStack = Item.getItemStackFromString(itemStackString)
-        if (itemStack != null) getLayOut(getX(index), getY(index)) -> Button(itemStack)
-        else getLayOut(getX(index), getY(index)) -> Button(new ItemStack(Material.AIR))
-      }
-    }).toIterable().apply().flatten.toMap
+    new NeoStackPageRepository().getCategoryPageBy(category, page).zipWithIndex.map{case (itemStack,index) =>
+      if (itemStack != null) getLayOut(getX(index), getY(index)) -> Button(itemStack)
+      else getLayOut(getX(index), getY(index)) -> Button(new ItemStack(Material.AIR))
+    }.toMap
   }
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
@@ -46,7 +40,7 @@ class NeoStackEditGUI(page: Int, category: String, ryoServerAssist: RyoServerAss
 
 }
 
-private case class computeNeoStackEditMenuButton(page: Int, category: String, player: Player, ryoServerAssist: RyoServerAssist) {
+private case class computeNeoStackEditMenuButton(page: Int, category: Category, player: Player, ryoServerAssist: RyoServerAssist) {
   private implicit val plugin: RyoServerAssist = ryoServerAssist
   val backPage: Button = Button(
     ItemStackBuilder
@@ -56,7 +50,7 @@ private case class computeNeoStackEditMenuButton(page: Int, category: String, pl
       .build(),
     ButtonMotion { _ =>
       if (page == 1) new CategorySelectMenu(ryoServerAssist).open(player)
-      else new NeoStackEditGUI(page - 1, category, ryoServerAssist)
+      else new NeoStackEditGUI(page - 1, category, ryoServerAssist).open(player)
     }
   )
 
@@ -67,7 +61,7 @@ private case class computeNeoStackEditMenuButton(page: Int, category: String, pl
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
     ButtonMotion { _ =>
-      new NeoStackEditGUI(page + 1, category, ryoServerAssist)
+      new NeoStackEditGUI(page + 1, category, ryoServerAssist).open(player)
     }
   )
 
@@ -75,23 +69,28 @@ private case class computeNeoStackEditMenuButton(page: Int, category: String, pl
     ItemStackBuilder
       .getDefault(Material.NETHER_STAR)
       .title(s"${GREEN}クリックでリストを保存します。")
-      .lore(List(s"${GRAY}カテゴリ:" + getSelectedCategory(player) + "のリストを保存します。"))
+      .lore(List(s"${GRAY}カテゴリ:" + category.name + "のリストを保存します。"))
       .build(),
     ButtonMotion { _ =>
-      val data = new NeoStackGateway()
-      var invIndex = 0
-      var invItem = ""
-      player.getOpenInventory.getTopInventory.getContents.foreach(is => {
-        if (invIndex < 45) {
-          invItem += Item.getStringFromItemStack(is) + ";"
+      val neoStackPageRepository = new NeoStackPageRepository
+      val invItems = player.getOpenInventory.getTopInventory.getContents.toList.zipWithIndex
+        .filterNot{case (_,index) =>
+          List(
+            getLayOut(1, 6),
+            getLayOut(5, 6),
+            getLayOut(9, 6)
+          ).contains(index)
+        }.map{case (data,_) =>
+          if (data != null) Item.getOneItemStack(data) else null
         }
-        invIndex += 1
-      })
-      data.editItemList(getSelectedCategory(player), page, invItem)
-      player.sendMessage(s"${AQUA}カテゴリリスト:${getSelectedCategory(player)}を編集しました。")
-      new LoadNeoStackPage().loadStackPage()
-      ItemList.stackList = mutable.Map.empty
-      ItemList.loadItemList(ryoServerAssist)
+      println(category)
+      println(page)
+      println(invItems)
+      neoStackPageRepository.changeItem(category,page,invItems)
+      neoStackPageRepository.store(category,page)
+      neoStackPageRepository.restore()
+      Bukkit.getOnlinePlayers.forEach(p => new NeoStackItemRepository().restore(p.getUniqueId))
+      player.sendMessage(s"${AQUA}カテゴリリスト:${category.name}を編集しました。")
     }
   )
 

@@ -12,6 +12,8 @@ import com.ryoserver.Gacha.GachaHandler
 import com.ryoserver.Home.HomeData
 import com.ryoserver.Maintenance.MaintenanceData
 import com.ryoserver.Menu.MenuHandler
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
@@ -156,8 +158,7 @@ class RyoServerAssist extends JavaPlugin {
      */
     new LoadAllPlayerData().load()
     new TitleLoader().loadTitle()
-    ItemList.loadItemList
-    new LoadNeoStackPage().loadStackPage()
+    new NeoStackPageRepository().restore()
     Operator.checkOp
     new EventLoader().loadEvent()
     new EventGateway().loadEventData()
@@ -172,7 +173,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       オートセーブの実行
      */
-    NeoStack.PlayerData.autoSave
+    new NeoStackService().autoStoreItem
     new SavePlayerData().autoSave()
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
@@ -206,7 +207,7 @@ class RyoServerAssist extends JavaPlugin {
     new EventGateway().saveEvent()
     new EventGateway().saveRanking()
     Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader().unload(p))
-    NeoStack.PlayerData.save()
+    new NeoStackItemRepository().store()
     new SavePlayerData().save()
     new SaveDistribution().save()
     val questPlayerData = new QuestPlayerData

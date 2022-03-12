@@ -2,7 +2,7 @@ package com.ryoserver.Quest.QuestServices
 
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
-import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.NeoStack.NeoStackService
 import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import com.ryoserver.Quest.{MaterialOrEntityType, PlayerQuestDataContext, QuestDataContext}
 import com.ryoserver.Title.GiveTitle
@@ -75,9 +75,9 @@ trait QuestService {
   }
 
   private def setProgressFromNeoStack(): PlayerQuestDataContext = {
-    val neoStackGateway = new NeoStackGateway()
+    val neoStackService = new NeoStackService
     playerQuestDataContext.progress.get.foldLeft(playerQuestDataContext)((nowData, require) => {
-      val removedAmount = neoStackGateway.removeNeoStack(p, new ItemStack(require._1.material, 1), require._2)
+      val removedAmount = neoStackService.removeItemAmount(uuid,new ItemStack(require._1.material, 1),require._2).getOrElse(0)
       val removeAmount = if (require._2 >= removedAmount) require._2 - removedAmount else 0
       val newProgressData = nowData.changeProgress(require._1,removeAmount)
       selectFunc(uuid,newProgressData)
