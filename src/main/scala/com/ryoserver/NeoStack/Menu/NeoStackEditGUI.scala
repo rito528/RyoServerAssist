@@ -83,9 +83,6 @@ private case class computeNeoStackEditMenuButton(page: Int, category: Category, 
         }.map{case (data,_) =>
           if (data != null) Item.getOneItemStack(data) else null
         }
-      println(category)
-      println(page)
-      println(invItems)
       neoStackPageRepository.changeItem(category,page,invItems)
       neoStackPageRepository.store(category,page)
       neoStackPageRepository.restore()

@@ -59,7 +59,7 @@ class RegenerationTask(ryoServerAssist: RyoServerAssist, list: List[String], wor
                       minusLoc.add(x, 0, z).getBlock.setType(Material.BEDROCK)
                     }
                   }
-                  createdWorld.setSpawnLocation(new Location(createdWorld, x, y, z))
+                  createdWorld.setSpawnLocation(new Location(createdWorld, x, y + 1, z))
                   new BukkitRunnable {
                     override def run(): Unit = {
                       Bukkit.dispatchCommand(getConsoleSender, s"wb $world set 5000 5000 spawn")
