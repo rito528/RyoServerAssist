@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack
 import scalikejdbc.{AutoSession, DB, DBSession, scalikejdbcSQLInterpolationImplicitDef}
 
 import java.util.UUID
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class NeoStackItemRepository extends TNeoStackItemRepository {
 
@@ -29,6 +30,9 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
         if (!Bukkit.getOfflinePlayer(uuid).isOnline) {
           clearCache(uuid)
         }
+        //キャッシュクリア時に同時に参加した場合を考慮し、終わったあとにデータがないプレイヤーが存在しないことを確認し、存在したら適用する
+        val players = Bukkit.getOnlinePlayers.asScala.filter(p => !NeoStackItemEntity.neoStackItem.contains(p.getUniqueId))
+        players.foreach(p => restore(p.getUniqueId))
       }
     }
   }

@@ -13,12 +13,11 @@ class NeoStackPageRepository extends TNeoStackPageRepository {
    * ページデータをデータベースに格納します。
    */
   override def store(category: Category,page: Int): Unit = {
-    NeoStackPageEntity.pageData.foreach{case (_,invItems) =>
-      val invItemsString = invItems.map(data => if (data != null) Item.getStringFromItemStack(data) else null).mkString(";")
-      sql"""INSERT INTO StackList (category,page,invItem) VALUES (${category.name},$page,$invItemsString)
+    val storeTargetPage = RawNeoStackPageContext(category,page)
+    val invItemsString = NeoStackPageEntity.pageData(storeTargetPage).map(data => if (data != null) Item.getStringFromItemStack(data) else null).mkString(";")
+    sql"""INSERT INTO StackList (category,page,invItem) VALUES (${category.name},$page,$invItemsString)
            ON DUPLICATE KEY UPDATE
            invItem=$invItemsString""".execute().apply()
-    }
   }
 
   /**

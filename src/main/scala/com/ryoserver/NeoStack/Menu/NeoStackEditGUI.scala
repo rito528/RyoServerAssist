@@ -50,7 +50,7 @@ private case class computeNeoStackEditMenuButton(page: Int, category: Category, 
       .build(),
     ButtonMotion { _ =>
       if (page == 1) new CategorySelectMenu(ryoServerAssist).open(player)
-      else new NeoStackEditGUI(page - 1, category, ryoServerAssist)
+      else new NeoStackEditGUI(page - 1, category, ryoServerAssist).open(player)
     }
   )
 
@@ -61,7 +61,7 @@ private case class computeNeoStackEditMenuButton(page: Int, category: Category, 
       .lore(List(s"${GRAY}クリックで移動します。"))
       .build(),
     ButtonMotion { _ =>
-      new NeoStackEditGUI(page + 1, category, ryoServerAssist)
+      new NeoStackEditGUI(page + 1, category, ryoServerAssist).open(player)
     }
   )
 
@@ -83,6 +83,9 @@ private case class computeNeoStackEditMenuButton(page: Int, category: Category, 
         }.map{case (data,_) =>
           if (data != null) Item.getOneItemStack(data) else null
         }
+      println(category)
+      println(page)
+      println(invItems)
       neoStackPageRepository.changeItem(category,page,invItems)
       neoStackPageRepository.store(category,page)
       neoStackPageRepository.restore()
