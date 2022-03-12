@@ -33,7 +33,6 @@ private case class computeSelectStackButton(player: Player) {
       .lore(List(s"${GRAY}クリックで収納します。"))
       .build(),
     ButtonMotion { _ =>
-      val neoStackItemRepository = new NeoStackItemRepository
       player.getOpenInventory.getTopInventory.getContents.foreach(item => {
         if (item != null) {
           val oneItemStack = Item.getOneItemStack(item)

@@ -172,10 +172,9 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
     ButtonMotion { _ =>
       player.getInventory.getContents.zipWithIndex.foreach{case (item,index) =>
         val service = new NeoStackService
-        val neoStackItemRepository = new NeoStackItemRepository
-        val oneItemStack = Item.getOneItemStack(item)
         val uuid = player.getUniqueId
-        if (neoStackItemRepository.changeAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
+        if (item != null && service.isItemExists(item)) {
+          service.addItemAmount(uuid,item,item.getAmount)
           player.getInventory.clear(index)
         }
       }
