@@ -1,5 +1,6 @@
 package com.ryoserver.NeoStack
 
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Sound
@@ -12,19 +13,24 @@ class PickEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def playerPickEvent(e: EntityPickupItemEvent): Unit = {
-    if (!e.getEntity.isInstanceOf[Player]) return
-    val itemStack = e.getItem.getItemStack
-    val data = new NeoStackGateway()
-    val p = e.getEntity.asInstanceOf[Player]
-    if (!data.checkItemList(itemStack) || !p.isAutoStack) return
-    e.setCancelled(true)
-    e.getItem.remove()
-    new BukkitRunnable {
-      override def run(): Unit = {
-        data.addStack(itemStack, p)
-        p.playSound(p.getLocation, Sound.ENTITY_ITEM_PICKUP, 1, 1)
-      }
-    }.runTaskLater(ryoServerAssist, 5)
+    e.getEntity match {
+      case p: Player =>
+        if (!p.isAutoStack) return
+        val pickupItemStack = e.getItem.getItemStack
+        val amount = pickupItemStack.getAmount
+        pickupItemStack.setAmount(1)
+        val service = new NeoStackService
+        if (!service.isItemExists(pickupItemStack)) return
+        e.setCancelled(true)
+        e.getItem.remove()
+        new BukkitRunnable {
+          override def run(): Unit = {
+            service.addItemAmount(p.getUniqueId,pickupItemStack,amount)
+            p.playSound(p.getLocation, Sound.ENTITY_ITEM_PICKUP, 1, 1)
+          }
+        }.runTaskLater(ryoServerAssist, 5)
+      case _ =>
+    }
   }
 
 

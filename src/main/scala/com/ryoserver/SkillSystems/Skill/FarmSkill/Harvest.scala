@@ -1,7 +1,7 @@
 package com.ryoserver.SkillSystems.Skill.FarmSkill
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.NeoStack.NeoStackService
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.getAutoPlaceSeedsStatus
@@ -65,7 +65,7 @@ final class Harvest {
     if (!farmItem.contains(harvestMaterial)) return 0
     val worldGuardWrapper = new WorldGuardWrapper
     val coreProtectAPI = CoreProtect.getInstance().getAPI
-    val neoStackGateway = new NeoStackGateway
+    val neoStackService = new NeoStackService
     val isOwner = worldGuardWrapper.isOwner(p, harvestLocation)
     val harvestMaterialData = block.getBlockData
     val seed = new ItemStack(seeds(harvestMaterial), 1)
@@ -78,7 +78,7 @@ final class Harvest {
     //収穫するアイテムのドロップまたは収納
     block.getDrops.asScala.foreach(itemStack => {
       if (p.isAutoStack) {
-        neoStackGateway.addStack(itemStack, p)
+        neoStackService.addItemAmount(uuid, itemStack,itemStack.getAmount)
       } else {
         val playerLocation = p.getLocation
         playerLocation.getWorld.dropItemNaturally(playerLocation, itemStack)
@@ -86,12 +86,12 @@ final class Harvest {
     })
 
     //ブロックの破壊または植え直し
-    if (getAutoPlaceSeedsStatus(uuid) && (hasInventorySeed || neoStackGateway.getNeoStackAmount(p, seed) >= 1)) {
+    if (getAutoPlaceSeedsStatus(uuid) && (hasInventorySeed || neoStackService.getItemAmount(uuid,seed).getOrElse(0) >= 1)) {
       if (hasInventorySeed) {
         inventory.removeItem(seed)
         p.updateInventory()
       } else {
-        neoStackGateway.removeNeoStack(p, seed, 1)
+        neoStackService.removeItemAmount(uuid,seed,1)
       }
       block.setType(harvestMaterial)
       skillCost + 1

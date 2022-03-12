@@ -1,12 +1,13 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.NeoStack.NeoStackGateway
+import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.NeoStack.{NeoStackService, RawNeoStackItemAmountContext}
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.Item.itemAddDamage
-import com.ryoserver.util.WorldGuardWrapper
+import com.ryoserver.util.{Item, WorldGuardWrapper}
 import net.coreprotect.CoreProtect
 import org.bukkit.entity.Player
 import org.bukkit.{Location, Material}
@@ -68,10 +69,10 @@ final class Break {
       (!worldGuardWrapper.isGlobal(breakLocation) || getConfig.notSpecialSkillWorlds.contains(breakLocation.getWorld.getName)))
       return 0
     val handItem = p.getInventory.getItemInMainHand
-    val neoStackGateway = new NeoStackGateway
+    val neoStackService = new NeoStackService
     block.getDrops(handItem).asScala.foreach(itemStack => {
-      if (neoStackGateway.checkItemList(itemStack) && p.isAutoStack) {
-        neoStackGateway.addStack(itemStack, p)
+      if (neoStackService.isItemExists(itemStack) && p.isAutoStack) {
+         neoStackService.addItemAmount(p.getUniqueId,itemStack,itemStack.getAmount)
       } else {
         p.getLocation.getWorld.dropItem(p.getLocation, itemStack)
       }
