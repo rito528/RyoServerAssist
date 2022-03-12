@@ -13,12 +13,16 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
 
   override def store(): Unit = {
     NeoStackItemEntity.neoStackItem.foreach{case (uuid,rawNeoStackItemAmountContexts) =>
+      println(changedNeoStackItemCache)
       if (changedNeoStackItemCache.contains(uuid)) {
+        println(rawNeoStackItemAmountContexts.filter(context => changedNeoStackItemCache(uuid).contains(context.itemStack)))
         rawNeoStackItemAmountContexts.filter(context => changedNeoStackItemCache(uuid).contains(context.itemStack)).foreach(rawNeoStackItemAmountContext => {
           DB.localTx(session => {
             implicit val iSession: DBSession = session
             val itemStackString = Item.getStringFromItemStack(rawNeoStackItemAmountContext.itemStack)
             val amount = rawNeoStackItemAmountContext.amount
+            println(itemStackString)
+            println(amount)
             sql"""INSERT INTO StackData (UUID,item,amount) VALUES(${uuid.toString},$itemStackString,$amount)
                ON DUPLICATE KEY UPDATE
                item=$itemStackString,

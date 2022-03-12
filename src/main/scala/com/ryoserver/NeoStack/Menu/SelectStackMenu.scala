@@ -39,7 +39,8 @@ private case class computeSelectStackButton(player: Player) {
           val oneItemStack = Item.getOneItemStack(item)
           val uuid = player.getUniqueId
           val service = new NeoStackService
-          if (neoStackItemRepository.changeAmount(uuid,RawNeoStackItemAmountContext(oneItemStack,service.getItemAmount(uuid,oneItemStack).getOrElse(0) + item.getAmount))) {
+          if (service.isItemExists(oneItemStack)) {
+            service.addItemAmount(uuid,oneItemStack,item.getAmount)
             player.getOpenInventory.getTopInventory.removeItem(item)
           }
         }
