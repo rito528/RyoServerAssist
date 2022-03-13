@@ -16,7 +16,7 @@ case class PlayerDataType(level: Int, exp: Double,
 
   def setLevel(level: Int): PlayerDataType = this.copy(level = level)
 
-  def setExp(exp: Double): PlayerDataType = this.copy()
+  def setExp(exp: Double): PlayerDataType = this.copy(exp = exp)
 
   def setLastDistributionReceived(num: Int): PlayerDataType = this.copy(lastDistributionReceived = num)
 
