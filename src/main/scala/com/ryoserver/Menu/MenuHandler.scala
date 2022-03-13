@@ -22,6 +22,7 @@ class MenuHandler extends Listener {
 
     //右クリック、左クリック以外を排除
     if (!e.getClick.isLeftClick && !e.getClick.isRightClick) {
+      e.setCancelled(true)
       return
     }
     e.setCancelled(true)
