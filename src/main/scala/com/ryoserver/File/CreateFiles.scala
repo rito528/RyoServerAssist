@@ -35,7 +35,8 @@ class CreateFiles {
     new File("plugins/RyoServerAssist/db/migration").mkdirs()
     Set(
       "V1.7.1__CreateTables.sql",
-      "V1.8.0__ChangeTables.sql"
+      "V1.8.0__ChangeTables.sql",
+      "V1.9.0__ChangePrimaryKey.sql"
     ).foreach(f => {
       val is = getClass.getClassLoader.getResourceAsStream(s"db/migration/$f")
       val fileData = Source.fromInputStream(is).getLines().mkString("\n")
