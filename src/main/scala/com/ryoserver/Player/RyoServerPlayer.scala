@@ -1,7 +1,7 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.CalLv
-import com.ryoserver.Player.PlayerData.playerData
+import .playerData
 import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import org.bukkit.OfflinePlayer
 

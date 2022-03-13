@@ -33,7 +33,7 @@ case class PlayerDataType(level: Int, exp: Double,
 
   def setSkillOpenPoint(skillOpenPoint: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint)
 
-  def addOpenedSkills(effectSkills: EffectSkills): PlayerDataType = this.copy(openedSkills = openedSkills ++ effectSkills)
+  def addOpenedSkills(effectSkills: EffectSkills): PlayerDataType = this.copy(openedSkills = openedSkills ++ Set(effectSkills))
 
   def addVoteNumber(addVoteNum: Int): PlayerDataType = this.copy(voteNumber = voteNumber + addVoteNum)
 

@@ -76,7 +76,7 @@ final class Harvest {
     val hasInventorySeed = inventory.contains(seed.getType)
 
     //収穫するアイテムのドロップまたは収納
-    block.getDrops.asScala.foreach(itemStack => {
+    block.getDrops(inventory.getItemInMainHand).asScala.foreach(itemStack => {
       if (p.isAutoStack) {
         neoStackService.addItemAmount(uuid, itemStack,itemStack.getAmount)
       } else {
