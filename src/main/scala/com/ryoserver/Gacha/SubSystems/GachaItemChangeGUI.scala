@@ -61,7 +61,10 @@ private case class computeGachaItemChangeMenuButton(player: Player, ryoServerAss
     val inv = p.getOpenInventory.getTopInventory
     val specialItemList = GachaLoader.getGachaItemData.filter{case (_,rarity) => rarity == Rarity.special}.keysIterator
     val changeAmount = inv.getContents.map(itemStack => {
-      if (itemStack != null && specialItemList.contains(itemStack)) rate
+      if (itemStack != null && specialItemList.contains(itemStack)) {
+        inv.removeItem(itemStack)
+        rate
+      }
       else 0
     }).sum
     if (changeAmount != 0) {
@@ -69,9 +72,6 @@ private case class computeGachaItemChangeMenuButton(player: Player, ryoServerAss
       item.setAmount(changeAmount)
       p.getWorld.dropItem(p.getLocation, item)
       p.sendMessage(s"${AQUA}特等アイテムを${changeAmount}個のスキル回復(大)と交換しました。")
-      inv.getContents.zipWithIndex.foreach { case (is, index) =>
-        if (specialItemList.contains(is)) inv.clear(index)
-      }
       new GachaItemChangeGUI().open(p)
     } else {
       p.sendMessage(s"${RED}特等アイテムが見つかりませんでした。")
