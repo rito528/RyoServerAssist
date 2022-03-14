@@ -8,7 +8,7 @@ import java.util.Date
 case class PlayerDataType(lastLogin: Date,lastLogout: Date,
                            level: Int, exp: Double,
                           lastDistributionReceived: Int, skillPoint: Double,
-                          loginNumber: Int, consecutiveLoginDays: Int,
+                          loginDays: Int, consecutiveLoginDays: Int,
                           questClearTimes: Int, gachaTickets: Int,
                           gachaPullNumber: Int, skillOpenPoint: Int,
                           openedSkills: Set[EffectSkills], voteNumber: Int,
@@ -24,7 +24,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Date,
 
   def setSkillPoint(skillPoint: Double): PlayerDataType = this.copy(skillPoint = skillPoint)
 
-  def setLoginNumber(loginNumber: Int): PlayerDataType = this.copy(loginNumber = loginNumber)
+  def setLoginNumber(loginDays: Int): PlayerDataType = this.copy(loginDays = loginDays)
 
   def setConsecutiveLoginDays(consecutiveLoginNum: Int): PlayerDataType = this.copy(consecutiveLoginDays = consecutiveLoginNum)
 
