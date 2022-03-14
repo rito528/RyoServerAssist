@@ -3,7 +3,10 @@ package com.ryoserver.Player
 import com.ryoserver.Level.CalLv
 import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 
-case class PlayerDataType(level: Int, exp: Double,
+import java.util.Date
+
+case class PlayerDataType(lastLogin: Date,lastLogout: Date,
+                           level: Int, exp: Double,
                           lastDistributionReceived: Int, skillPoint: Double,
                           loginNumber: Int, consecutiveLoginDays: Int,
                           questClearTimes: Int, gachaTickets: Int,
