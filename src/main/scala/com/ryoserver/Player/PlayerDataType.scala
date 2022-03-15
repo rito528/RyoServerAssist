@@ -7,18 +7,19 @@ import java.util.Date
 
 case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           level: Int, exp: Double,
-                          lastDistributionReceived: Int, skillPoint: Double,
-                          loginDays: Int, consecutiveLoginDays: Int,
-                          questClearTimes: Int, gachaTickets: Int,
-                          gachaPullNumber: Int, skillOpenPoint: Int,
-                          openedSkills: Set[EffectSkills], voteNumber: Int,
-                          reVoteNumber: Int, specialSkillOpenPoint: Int,
+                          ranking: Int, lastDistributionReceived: Int,
+                          skillPoint: Double, loginDays: Int,
+                          consecutiveLoginDays: Int, questClearTimes: Int,
+                          gachaTickets: Int, gachaPullNumber: Int,
+                          skillOpenPoint: Int, openedSkills: Set[EffectSkills],
+                          voteNumber: Int, reVoteNumber: Int, specialSkillOpenPoint: Int,
                           openedSpecialSkills: Set[String], openedTitles: Set[String],
                           selectedTitle: Option[String], autoStack: Boolean,
-                          Twitter: Option[String], Discord: Option[String],
-                          Word: Option[String]) {
+                          Twitter: Option[String], Discord: Option[String], Word: Option[String]) {
 
   def setExp(exp: Double): PlayerDataType = this.copy(level = new CalLv().getLevel(exp), exp = exp)
+
+  def setRanking(ranking: Int): PlayerDataType = this.copy(ranking = ranking)
 
   def setLastDistributionReceived(num: Int): PlayerDataType = this.copy(lastDistributionReceived = num)
 
