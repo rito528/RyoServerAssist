@@ -107,4 +107,9 @@ class PlayerDataRepository extends TPlayerDataRepository {
     PlayerDataEntity.playerData += uuid -> playerData
   }
 
+  override def findBy(uuid: UUID): Option[PlayerDataType] = {
+    if (PlayerDataEntity.playerData.contains(uuid)) Option(PlayerDataEntity.playerData(uuid))
+    else None
+  }
+
 }
