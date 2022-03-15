@@ -6,7 +6,7 @@ import org.bukkit.ChatColor.AQUA
 
 import java.util.UUID
 
-object LoadPlayerData {
+class PlayerService {
 
   private val playerDataRepository: TPlayerDataRepository = new PlayerDataRepository
 
