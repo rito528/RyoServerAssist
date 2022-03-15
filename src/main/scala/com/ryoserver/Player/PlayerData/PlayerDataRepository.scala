@@ -11,7 +11,34 @@ class PlayerDataRepository extends TPlayerDataRepository {
   private implicit val session: AutoSession.type = AutoSession
 
   override def store(uuid: UUID): Unit = {
-
+    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val playerData = PlayerDataEntity.playerData(uuid)
+    sql"""UPDATE Players SET
+         last_login=${format.format(playerData.lastLogin)},
+         last_logout=${format.format(playerData.lastLogout)},
+         level=${playerData.level},
+         exp=${playerData.exp},
+         last_distribution_received=${playerData.lastDistributionReceived},
+         skill_point=${playerData.skillPoint},
+         login_days=${playerData.loginDays},
+         consecutive_login_days=${playerData.consecutiveLoginDays},
+         quest_clear_times=${playerData.questClearTimes},
+         gacha_tickets=${playerData.questClearTimes},
+         gacha_pull_number=${playerData.gachaPullNumber},
+         skill_open_point=${playerData.skillOpenPoint},
+         opened_skills=${playerData.openedSkills.map(_.skillName).mkString(";")},
+         vote_number=${playerData.voteNumber},
+         continue_vote_number=${playerData.reVoteNumber},
+         special_skill_open_point=${playerData.specialSkillOpenPoint},
+         opened_special_skills=${playerData.openedSpecialSkills.mkString(";")},
+         opened_titles=${playerData.openedTitles.mkString(";")},
+         selected_title=${playerData.selectedTitle},
+         is_auto_stack=${playerData.autoStack},
+         Twitter=${playerData.Twitter},
+         Discord=${playerData.Discord},
+         Word=${playerData.Word}"""
+      .execute()
+      .apply()
   }
 
   override def restore(uuid: UUID): Unit = {
