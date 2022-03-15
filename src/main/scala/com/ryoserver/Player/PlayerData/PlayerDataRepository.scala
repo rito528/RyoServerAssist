@@ -46,7 +46,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
 
   override def restore(uuid: UUID): Unit = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val playersTable = sql"SELECT * FROM Players WHERE UUID=$uuid"
+    val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.EXP > Players.EXP) AS ranking FROM Players WHERE UUID=$uuid;"
     val playerData: PlayerDataType = {
       if (playersTable.getHeadData.nonEmpty) {
         playersTable.map(rs => {
@@ -55,6 +55,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
             lastLogout = Option(format.parse(rs.string("last_logout"))),
             level = rs.int(rs.string("level")),
             exp = rs.double("exp"),
+            ranking = rs.int("ranking"),
             lastDistributionReceived = rs.int("last_distribution_received"),
             skillPoint = rs.double("skill_point"),
             loginDays = rs.int("login_days"),
@@ -77,31 +78,34 @@ class PlayerDataRepository extends TPlayerDataRepository {
           )
         }).headOption().apply().get
       } else {
-        PlayerDataType(
-          lastLogin = new Date,
-          lastLogout = None,
-          level = 0,
-          exp = 0,
-          lastDistributionReceived = DistributionData.distributionData.maxBy(_.id).id,
-          skillPoint = new SkillPointCal().getMaxSkillPoint(0),
-          loginDays = 1,
-          consecutiveLoginDays = 0,
-          questClearTimes = 0,
-          gachaTickets = 0,
-          gachaPullNumber = 0,
-          skillOpenPoint = 0,
-          openedSkills = Set.empty,
-          voteNumber = 0,
-          reVoteNumber = 0,
-          specialSkillOpenPoint = 0,
-          openedSpecialSkills = Set.empty,
-          openedTitles = Set.empty,
-          selectedTitle = None,
-          autoStack = false,
-          Twitter = None,
-          Discord = None,
-          Word = None
-        )
+        sql"SELECT COUNT(*) AS max_row_num FROM Players;".map(rs => {
+          PlayerDataType(
+            lastLogin = new Date,
+            lastLogout = None,
+            level = 0,
+            exp = 0,
+            ranking = rs.int("max_row_num") + 1,
+            lastDistributionReceived = DistributionData.distributionData.maxBy(_.id).id,
+            skillPoint = new SkillPointCal().getMaxSkillPoint(0),
+            loginDays = 1,
+            consecutiveLoginDays = 0,
+            questClearTimes = 0,
+            gachaTickets = 0,
+            gachaPullNumber = 0,
+            skillOpenPoint = 0,
+            openedSkills = Set.empty,
+            voteNumber = 0,
+            reVoteNumber = 0,
+            specialSkillOpenPoint = 0,
+            openedSpecialSkills = Set.empty,
+            openedTitles = Set.empty,
+            selectedTitle = None,
+            autoStack = false,
+            Twitter = None,
+            Discord = None,
+            Word = None
+          )
+        }).headOption().apply().get
       }
     }
     PlayerDataEntity.playerData += uuid -> playerData
