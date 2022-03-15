@@ -45,6 +45,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
   }
 
   override def restore(uuid: UUID): Unit = {
+    if (PlayerDataEntity.playerData.contains(uuid)) return
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.EXP > Players.EXP) AS ranking FROM Players WHERE UUID=$uuid;"
     val playerData: PlayerDataType = {
