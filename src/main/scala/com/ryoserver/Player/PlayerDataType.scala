@@ -5,8 +5,8 @@ import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 
 import java.util.Date
 
-case class PlayerDataType(lastLogin: Date,lastLogout: Date,
-                           level: Int, exp: Double,
+case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
+                          level: Int, exp: Double,
                           lastDistributionReceived: Int, skillPoint: Double,
                           loginDays: Int, consecutiveLoginDays: Int,
                           questClearTimes: Int, gachaTickets: Int,
