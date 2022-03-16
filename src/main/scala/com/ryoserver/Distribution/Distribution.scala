@@ -2,7 +2,7 @@ package com.ryoserver.Distribution
 
 import com.ryoserver.Gacha.GachaPaperData
 import com.ryoserver.Player.PlayerData
-import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
 import org.bukkit.ChatColor._
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -52,6 +52,17 @@ class Distribution {
       p.sendMessage(s"${AQUA}運営からのガチャ券を受け取りました。")
       p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     }
+  }
+
+  def getFromAdminTicketsAmount(p: Player): Int = {
+    val lastReceived = p.getLastDistributionReceived
+    var amount = 0
+    DistributionData.distributionData.foreach(data => {
+      if (data.id > lastReceived) {
+        amount += data.amount
+      }
+    })
+    amount
   }
 
 }
