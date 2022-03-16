@@ -12,4 +12,6 @@ trait TPlayerDataRepository {
 
   def findBy(uuid: UUID): Option[PlayerDataType]
 
+  def updateData(uuid: UUID,playerDataType: PlayerDataType): Unit
+
 }

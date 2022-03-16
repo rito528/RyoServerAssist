@@ -1,4 +1,4 @@
-package com.ryoserver.Player
+package com.ryoserver.Player.FirstJoin
 
 import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.{EventHandler, Listener}
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
-class FirstJoinSettingEvent() extends Listener {
+class FirstJoinSettingEvent extends Listener {
 
   @EventHandler
   def onClose(e: InventoryCloseEvent): Unit = {

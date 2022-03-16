@@ -17,6 +17,7 @@ import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
+import com.ryoserver.Player.FirstJoin.FirstJoinSettingEvent
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
 import com.ryoserver.Quest.Suppression.{EventSuppression, NormalQuestSuppression}
