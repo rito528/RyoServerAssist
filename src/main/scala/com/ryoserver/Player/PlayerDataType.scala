@@ -1,9 +1,10 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Level.CalLv
+import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           level: Int, exp: Double,
@@ -52,5 +53,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
   def selectedTitle(title: Option[String]): PlayerDataType = this.copy(selectedTitle = title)
 
   def toggleAutoStack(): PlayerDataType = this.copy(autoStack = !autoStack)
+
+  def apply(implicit uuid: UUID): Unit = new PlayerDataRepository().updateData(uuid,this)
 
 }
