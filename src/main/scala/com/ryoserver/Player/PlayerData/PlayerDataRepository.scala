@@ -13,10 +13,10 @@ class PlayerDataRepository extends TPlayerDataRepository {
 
   private implicit val session: AutoSession.type = AutoSession
 
-  override def store(uuid: UUID): Unit = {
+  override def store(): Unit = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val playerData = PlayerDataEntity.playerData(uuid)
-    sql"""UPDATE Players SET
+    PlayerDataEntity.playerData.foreach{case (uuid,playerData) =>
+      sql"""UPDATE Players SET
          last_login=${format.format(playerData.lastLogin)},
          last_logout=${format.format(playerData.lastLogout)},
          level=${playerData.level},
@@ -39,9 +39,11 @@ class PlayerDataRepository extends TPlayerDataRepository {
          is_auto_stack=${playerData.autoStack},
          Twitter=${playerData.Twitter},
          Discord=${playerData.Discord},
-         Word=${playerData.Word}"""
-      .execute()
-      .apply()
+         Word=${playerData.Word}
+         WHERE uuid=$uuid"""
+        .execute()
+        .apply()
+    }
   }
 
   override def restore(uuid: UUID): Unit = {

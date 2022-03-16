@@ -6,7 +6,7 @@ import java.util.UUID
 
 trait TPlayerDataRepository {
 
-  def store(uuid: UUID): Unit
+  def store(): Unit
 
   def restore(uuid: UUID): Unit
 

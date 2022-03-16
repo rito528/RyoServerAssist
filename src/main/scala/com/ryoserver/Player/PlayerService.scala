@@ -1,8 +1,10 @@
 package com.ryoserver.Player
 
 import com.ryoserver.Player.PlayerData.{PlayerDataRepository, TPlayerDataRepository}
+import com.ryoserver.RyoServerAssist
 import org.bukkit.{Bukkit, Sound}
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.scheduler.BukkitRunnable
 
 import java.util.UUID
 
@@ -21,6 +23,15 @@ class PlayerService {
       case _ =>
     }
     playerDataRepository.restore(uuid)
+  }
+
+  def autoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
+    val oneMinute = 1200
+    new BukkitRunnable {
+      override def run(): Unit = {
+        playerDataRepository.store()
+      }
+    }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
   }
 
 }
