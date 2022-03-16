@@ -181,6 +181,7 @@ class RyoServerAssist extends JavaPlugin {
     questPlayerData.saver.autoSavePlayerQuestData
     questPlayerData.saver.autoSavePlayerDailyQuestData
     questPlayerData.saver.autoSaveLastDailyQuestDate
+    new PlayerService().autoSave
 
     HomeData.saveHomeData
 
