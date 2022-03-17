@@ -1,7 +1,6 @@
 package com.ryoserver.Quest.Event
 
 import com.ryoserver.Player.PlayerData
-import com.ryoserver.Player.PlayerManager.setPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ScalikeJDBC.getData
 import org.bukkit.scheduler.BukkitRunnable
@@ -99,10 +98,10 @@ class EventGateway(implicit ryoServerAssist: RyoServerAssist) {
         sql"""INSERT INTO Events(EventName,counter,GivenGachaTickets) VALUES (${holdingEvent()},${EventDataProvider.eventCounter},$gacha)
           ON DUPLICATE KEY UPDATE counter=${EventDataProvider.eventCounter},GivenGachaTickets=GivenGachaTickets+$gacha"""
           .execute.apply()
-        PlayerData.playerData.foreach { case (uuid, _) =>
-          val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
-          offlinePlayer.giveNormalGachaTickets(gacha)
-        }
+//        PlayerData.playerData.foreach { case (uuid, _) =>
+//          val offlinePlayer = Bukkit.getOfflinePlayer(uuid)
+//          offlinePlayer.giveNormalGachaTickets(gacha)
+//        }
       })
     }
   }

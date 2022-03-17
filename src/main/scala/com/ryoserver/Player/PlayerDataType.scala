@@ -3,6 +3,8 @@ package com.ryoserver.Player
 import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
+import org.bukkit.OfflinePlayer
+import org.bukkit.entity.Player
 
 import java.util.{Date, UUID}
 
@@ -44,16 +46,20 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def setReVoteNumber(reVoteNum: Int): PlayerDataType = this.copy(reVoteNumber = reVoteNum)
 
-  def setSpecialSkillOpenPoint(specialSkillOpenPoint: Int): PlayerDataType = this.copy(specialSkillOpenPoint = specialSkillOpenPoint)
+  def addSpecialSkillOpenPoint(addSpecialSkillOpenPoint: Int): PlayerDataType = this.copy(specialSkillOpenPoint = specialSkillOpenPoint + addSpecialSkillOpenPoint)
+
+  def removeSpecialSkillOpenPoint(removeSpecialSkillOpenPoint: Int): PlayerDataType = this.copy(specialSkillOpenPoint = specialSkillOpenPoint - removeSpecialSkillOpenPoint)
 
   def addOpenedSpecialSkill(specialSkill: String): PlayerDataType = this.copy(openedSpecialSkills = openedSpecialSkills ++ Set(specialSkill))
 
   def addOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = openedTitles ++ Set(title))
 
-  def selectedTitle(title: Option[String]): PlayerDataType = this.copy(selectedTitle = title)
+  def removeOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = openedTitles.filterNot(_ == title))
+
+  def setSelectedTitle(title: Option[String]): PlayerDataType = this.copy(selectedTitle = title)
 
   def toggleAutoStack(): PlayerDataType = this.copy(autoStack = !autoStack)
 
-  def apply(implicit uuid: UUID): Unit = new PlayerDataRepository().updateData(uuid,this)
+  def apply(implicit p: OfflinePlayer): Unit = new PlayerDataRepository().updateData(p.getUniqueId,this)
 
 }

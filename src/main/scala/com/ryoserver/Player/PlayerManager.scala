@@ -7,7 +7,10 @@ object PlayerManager {
 
   implicit class getPlayerData(p: OfflinePlayer) {
 
-    def getRyoServerData: PlayerDataType = new PlayerDataRepository().findBy(p.getUniqueId).get
+    def getRyoServerData: PlayerDataType = {
+      val uuid = p.getUniqueId
+      new PlayerDataRepository().findBy(uuid).get
+    }
 
   }
 

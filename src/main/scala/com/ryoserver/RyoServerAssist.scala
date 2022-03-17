@@ -18,6 +18,7 @@ import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
 import com.ryoserver.Player.FirstJoin.FirstJoinSettingEvent
+import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
 import com.ryoserver.Quest.Suppression.{EventSuppression, NormalQuestSuppression}
@@ -157,7 +158,6 @@ class RyoServerAssist extends JavaPlugin {
     /*
       様々なロード処理
      */
-    new LoadAllPlayerData().load()
     new TitleLoader().loadTitle()
     new NeoStackPageRepository().restore()
     Operator.checkOp
@@ -175,7 +175,7 @@ class RyoServerAssist extends JavaPlugin {
       オートセーブの実行
      */
     new NeoStackService().autoStoreItem
-    new SavePlayerData().autoSave()
+    new PlayerService().autoSave
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
     val questPlayerData = new QuestPlayerData()
@@ -189,7 +189,7 @@ class RyoServerAssist extends JavaPlugin {
     /*
       サーバーに入っているプレイヤーにデータを適用する
      */
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader().load(p))
+    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataRepository().restore(p.getUniqueId))
 
     /*
       TipsSenderの起動
@@ -208,9 +208,8 @@ class RyoServerAssist extends JavaPlugin {
     super.onDisable()
     new EventGateway().saveEvent()
     new EventGateway().saveRanking()
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader().unload(p))
+    new PlayerDataRepository().store()
     new NeoStackItemRepository().store()
-    new SavePlayerData().save()
     new SaveDistribution().save()
     val questPlayerData = new QuestPlayerData
     questPlayerData.saver.savePlayerQuestData()

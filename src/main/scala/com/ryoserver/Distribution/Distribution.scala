@@ -1,8 +1,7 @@
 package com.ryoserver.Distribution
 
 import com.ryoserver.Gacha.GachaPaperData
-import com.ryoserver.Player.PlayerData
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.ChatColor._
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,14 +26,13 @@ class Distribution {
     Bukkit.broadcastMessage(s"$YELLOW[お知らせ]${RESET}運営よりガチャ券が配布されました。")
   }
 
-  def receipt(p: Player): Unit = {
+  def receipt(implicit p: Player): Unit = {
     var stack = 0
     var id = 0
     var loop = true
     var gachaPaperType = ""
     DistributionData.distributionData.foreach(data => {
-      val playerData = PlayerData.playerData(p.getUniqueId)
-      if (data.id > playerData.lastDistributionReceived) {
+      if (data.id > p.getRyoServerData.lastDistributionReceived) {
         stack += data.amount
         id = data.id
         if (gachaPaperType == "") gachaPaperType = data.TicketType
@@ -43,7 +41,7 @@ class Distribution {
       }
     })
     if (stack != 0 && id != 0) {
-      p.setLastDistributionReceived(id)
+      p.getRyoServerData.setLastDistributionReceived(id).apply
       var gachaPaper: ItemStack = null
       if (gachaPaperType.equalsIgnoreCase("normal")) gachaPaper = new ItemStack(GachaPaperData.normal)
       if (gachaPaperType.equalsIgnoreCase("fromAdmin")) gachaPaper = new ItemStack(GachaPaperData.fromAdmin)
@@ -55,7 +53,7 @@ class Distribution {
   }
 
   def getFromAdminTicketsAmount(p: Player): Int = {
-    val lastReceived = p.getLastDistributionReceived
+    val lastReceived = p.getRyoServerData.lastDistributionReceived
     var amount = 0
     DistributionData.distributionData.foreach(data => {
       if (data.id > lastReceived) {
