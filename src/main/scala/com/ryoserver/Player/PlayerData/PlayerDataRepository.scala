@@ -59,6 +59,8 @@ class PlayerDataRepository extends TPlayerDataRepository {
             level = rs.int(rs.string("level")),
             exp = rs.double("exp"),
             ranking = rs.int("ranking"),
+            backRankingExpDiff = ,
+            nextRankingExpDiff = ,
             lastDistributionReceived = rs.int("last_distribution_received"),
             skillPoint = rs.double("skill_point"),
             loginDays = rs.int("login_days"),

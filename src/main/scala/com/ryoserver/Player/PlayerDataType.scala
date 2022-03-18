@@ -10,8 +10,8 @@ import java.util.{Date, UUID}
 
 case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           level: Int, exp: Double,
-                          ranking: Int, lastDistributionReceived: Int,
-                          skillPoint: Double, loginDays: Int,
+                          ranking: Int, backRankingExpDiff: Double, nextRankingExpDiff: Double,
+                          lastDistributionReceived: Int,skillPoint: Double, loginDays: Int,
                           consecutiveLoginDays: Int, questClearTimes: Int,
                           gachaTickets: Int, gachaPullNumber: Int,
                           skillOpenPoint: Int, openedSkills: Set[EffectSkills],
