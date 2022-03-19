@@ -16,7 +16,7 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   override val frame: MenuFrame = MenuFrame(6, "通常スキル選択")
 
   override def settingMenuLayout(player: Player): Map[Int, Button] = {
-    val compute = computeEffectSkillButton(player, ryoServerAssist)
+    val compute = computeEffectSkillButton(ryoServerAssist)(player)
     import compute._
     Map(
       getLayOut(1, 1) -> nankurunaisa,
@@ -41,9 +41,9 @@ class EffectSkillMenu(ryoServerAssist: RyoServerAssist) extends Menu {
   }
 }
 
-private case class computeEffectSkillButton(player: Player, plugin: RyoServerAssist) {
+private case class computeEffectSkillButton(plugin: RyoServerAssist)(implicit player: Player) {
   private implicit val ryoServerAssist: RyoServerAssist = plugin
-  private lazy val activateSkill = new SkillOperation(ryoServerAssist).skillActivation(player, _)
+  private lazy val activateSkill = new SkillOperation(ryoServerAssist).skillActivation(_)
 
   val nankurunaisa: Button = Button(
     ItemStackBuilder
@@ -249,7 +249,7 @@ private case class computeEffectSkillButton(player: Player, plugin: RyoServerAss
 
   val allClear: Button = Button(
     Item.getPlayerSkull(player, s"${GREEN}クリックですべてのスキル選択を解除できます。", List(
-      s"${GRAY}現在保有中のスキル開放ポイント:" + player.getSkillOpenPoint
+      s"${GRAY}現在保有中のスキル開放ポイント:" + player.getRyoServerData.skillOpenPoint
     )),
     ButtonMotion { _ =>
       new SkillOperation(ryoServerAssist).allDisablingSkills(player)
@@ -264,19 +264,19 @@ private case class computeEffectSkillButton(player: Player, plugin: RyoServerAss
       .lore(List(s"${GRAY}クリックで戻ります。"))
       .build(),
     ButtonMotion { _ =>
-      new SkillCategoryMenu().open(player)
+      new SkillCategoryMenu(ryoServerAssist).open(player)
     }
   )
 
   private def getIcon(p: Player, material: Material, effectSkills: EffectSkills): Material = {
-    if (p.getOpenedSkills.contains(effectSkills)) material
+    if (p.getRyoServerData.openedSkills.contains(effectSkills)) material
     else Material.BEDROCK
   }
 
   private def getLore(p: Player, effectSkills: EffectSkills): List[String] = {
-    List(if (p.getOpenedSkills.contains(effectSkills)) s"${GRAY}解放済みです。" else s"$GRAY[解放条件]",
-      if (p.getOpenedSkills.contains(effectSkills)) "" else s"$GRAY・スキル解放ポイントを10消費",
-      if (!p.getOpenedSkills.contains(effectSkills) && effectSkills.isSpecialSkill) s"$GRAY・基本スキルをすべて開放" else "",
+    List(if (p.getRyoServerData.openedSkills.contains(effectSkills)) s"${GRAY}解放済みです。" else s"$GRAY[解放条件]",
+      if (p.getRyoServerData.openedSkills.contains(effectSkills)) "" else s"$GRAY・スキル解放ポイントを10消費",
+      if (p.getRyoServerData.openedSkills.contains(effectSkills) && effectSkills.isSpecialSkill) s"$GRAY・基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:${effectSkills.cost}").filterNot(_ == "")
   }
 

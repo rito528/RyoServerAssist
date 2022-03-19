@@ -2,7 +2,7 @@ package com.ryoserver.Level.Player
 
 import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.Name
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.EventDataProvider
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
 import com.ryoserver.Title.GiveTitle
@@ -20,9 +20,9 @@ class UpdateLevel {
     強制的に経験値を上げる場合に利用する関数
    */
   def updateExp(exp: Int, p: Player): Unit = {
-    p.questExpUpdate(exp)
+    p.getRyoServerData.setExp(exp).apply(p)
     BossBar.updateLevelBer(exp, p)
-    p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
+    p.getRyoServerData.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)).apply(p)
   }
 
   /*
@@ -57,8 +57,8 @@ class UpdateLevel {
     }
 
     //1.0 + (投票日数 * 0.01)だけ経験値を増やすように
-    if (p.getReVoteNumber != 0) {
-      val doubleExp = (if (p.getReVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getReVoteNumber * 0.01))
+    if (p.getRyoServerData.reVoteNumber != 0) {
+      val doubleExp = (if (p.getRyoServerData.reVoteNumber >= 20) 1.0 + (20 * 0.01) else 1.0 + (p.getRyoServerData.reVoteNumber * 0.01))
       p.sendMessage(s"${AQUA}連続投票ボーナス発生！")
       p.sendMessage(s"${AQUA}経験値が${String.format("%.2f", doubleExp)}倍になりました。")
       val oldExp = exp
@@ -67,37 +67,37 @@ class UpdateLevel {
     }
 
     //更新前のレベルと経験値
-    val oldPlayerExp = p.getQuestExp
-    val oldPlayerLevel = p.getQuestLevel
+    val oldPlayerExp = p.getRyoServerData.exp
+    val oldPlayerLevel = p.getRyoServerData.level
 
     //経験値を増やしてレベルバーを更新
-    p.questExpAddNaturally(exp)
-    BossBar.updateLevelBer(p.getQuestExp, p)
+    p.getRyoServerData.addExp(exp).apply(p)
+    BossBar.updateLevelBer(p.getRyoServerData.exp, p)
 
     //経験値毎にもらうガチャ券の枚数を算出して付与
     val ticketAmountCal = (((oldPlayerExp % 100) + exp) / 100).toInt
-    if (ticketAmountCal > 0) p.giveNormalGachaTickets(ticketAmountCal)
+    if (ticketAmountCal > 0) p.getRyoServerData.addGachaTickets(ticketAmountCal).apply(p)
 
     //レベルが上がっていた場合の処理
-    if (oldPlayerLevel < p.getQuestLevel) {
-      for (i <- oldPlayerLevel + 1 to p.getQuestLevel) {
-        if (i % 10 == 0) p.giveNormalGachaTickets(32) //Lv10上がるごとにもらえるガチャ券を付与
-        if (p.getQuestLevel > 90) p.addSpecialSkillOpenPoint(1) //Lv91からもらえる特殊スキル解放ポイントを付与
-        p.addSkillOpenPoint(1) //レベルが上がった分だけスキル解放ポイントを付与
+    if (oldPlayerLevel < p.getRyoServerData.level) {
+      for (i <- oldPlayerLevel + 1 to p.getRyoServerData.level) {
+        if (i % 10 == 0) p.getRyoServerData.addGachaTickets(32).apply(p) //Lv10上がるごとにもらえるガチャ券を付与
+        if (p.getRyoServerData.level > 90) p.getRyoServerData.addSpecialSkillOpenPoint(1).apply(p) //Lv91からもらえる特殊スキル解放ポイントを付与
+        p.getRyoServerData.addSkillOpenPoint(1) //レベルが上がった分だけスキル解放ポイントを付与
       }
 
       //Tab等の表示上の名前を更新
       new Name().updateName(p)
 
       //スキルポイントを全回復
-      p.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getQuestLevel))
+      p.getRyoServerData.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)).apply(p)
 
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
-      p.sendMessage(s"${AQUA}Lv." + oldPlayerLevel + " → Lv." + p.getQuestLevel)
+      p.sendMessage(s"${AQUA}Lv." + oldPlayerLevel + " → Lv." + p.getRyoServerData.level)
 
       val maxLv = getConfig.maxLv
       //最大レベルに到達した場合のメッセージ
-      if (p.getQuestLevel == maxLv) {
+      if (p.getRyoServerData.level == maxLv) {
         Bukkit.broadcastMessage(s"$AQUA${p.getName}さんがLv.${maxLv}に到達しました！")
         Bukkit.getOnlinePlayers.forEach(p => p.playSound(p.getLocation, Sound.ENTITY_ENDER_DRAGON_DEATH, 1, 1))
       }

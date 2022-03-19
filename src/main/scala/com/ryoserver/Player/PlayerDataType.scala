@@ -21,6 +21,8 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def setExp(exp: Double): PlayerDataType = this.copy(level = new CalLv().getLevel(exp), exp = exp)
 
+  def addExp(addExp: Double): PlayerDataType = this.copy(level = new CalLv().getLevel(exp + addExp),exp = exp + addExp)
+
   def setRanking(ranking: Int): PlayerDataType = this.copy(ranking = ranking)
 
   def setLastDistributionReceived(num: Int): PlayerDataType = this.copy(lastDistributionReceived = num)
@@ -31,13 +33,17 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def setConsecutiveLoginDays(consecutiveLoginNum: Int): PlayerDataType = this.copy(consecutiveLoginDays = consecutiveLoginNum)
 
-  def setQuestClearTimes(questClearTimes: Int): PlayerDataType = this.copy(questClearTimes = questClearTimes)
+  def addQuestClearTimes(addNum: Int): PlayerDataType = this.copy(questClearTimes = questClearTimes + addNum)
 
-  def setGachaTickets(gachaTickets: Int): PlayerDataType = this.copy(gachaTickets = gachaTickets)
+  def addGachaTickets(addGachaTicketsAmount: Int): PlayerDataType = this.copy(gachaTickets = gachaTickets + addGachaTicketsAmount)
+
+  def removeGachaTicket(removeGachaTicketsAmount: Int): PlayerDataType = this.copy(gachaTickets = gachaTickets - removeGachaTicketsAmount)
 
   def setGachaPullNumber(gachaPullNumber: Int): PlayerDataType = this.copy(gachaPullNumber = gachaPullNumber)
 
-  def setSkillOpenPoint(skillOpenPoint: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint)
+  def addSkillOpenPoint(skillOpenPointNum: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint + skillOpenPointNum)
+
+  def removeSkillOpenPoint(skillOpenPointNum: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint - skillOpenPointNum)
 
   def addOpenedSkills(effectSkills: EffectSkills): PlayerDataType = this.copy(openedSkills = openedSkills ++ Set(effectSkills))
 

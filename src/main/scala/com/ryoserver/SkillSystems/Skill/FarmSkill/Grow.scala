@@ -19,7 +19,7 @@ final class Grow {
   )
 
   def grow(p: Player, skillName: String, clickedBlock: Block, spCost: Int, range: FarmRange): Unit = {
-    if (!boneMealList.contains(clickedBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
+    if (!boneMealList.contains(clickedBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getRyoServerData.skillPoint) return
     val facing = p.getFacing.toString
     val minusXLoc = {
       if (facing == "SOUTH" || facing == "NORTH") clickedBlock.getLocation().add(-(range.width / 2), 0, 0)

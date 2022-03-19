@@ -3,7 +3,7 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
-import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.QuestServices.DailyQuestService
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.ItemStackBuilder
@@ -36,7 +36,7 @@ private case class computeRewardButton(player: Player, ryoServerAssist: RyoServe
       .build(),
     ButtonMotion { _ =>
       questService.questClear(questService.getSelectedQuestData.exp)
-      player.giveNormalGachaTickets(16)
+      player.getRyoServerData.addGachaTickets(16).apply(player)
       player.sendMessage(s"${AQUA}デイリークエストの報酬として、ガチャ券を16枚配布しました。")
       player.playSound(player.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
       player.closeInventory()

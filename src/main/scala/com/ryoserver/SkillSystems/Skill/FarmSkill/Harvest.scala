@@ -34,7 +34,7 @@ final class Harvest {
   )
 
   def harvest(p: Player, skillName: String, brokeBlock: Block, spCost: Int, range: FarmRange): Unit = {
-    if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
+    if (!farmItem.contains(brokeBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || spCost > p.getRyoServerData.skillPoint) return
     val facing = p.getFacing.toString
     val minusXLoc = {
       if (facing == "SOUTH" || facing == "NORTH") brokeBlock.getLocation().add(-(range.width / 2), 0, 0)
@@ -77,7 +77,7 @@ final class Harvest {
 
     //収穫するアイテムのドロップまたは収納
     block.getDrops(inventory.getItemInMainHand).asScala.foreach(itemStack => {
-      if (p.isAutoStack) {
+      if (p.getRyoServerData.autoStack) {
         neoStackService.addItemAmount(uuid, itemStack,itemStack.getAmount)
       } else {
         val playerLocation = p.getLocation

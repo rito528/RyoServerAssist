@@ -12,7 +12,7 @@ class Name {
     val selectedTitle = new PlayerTitleData().getSelectedTitle(p.getUniqueId)
     if (selectedTitle != null) title = "[" + selectedTitle + "]"
     val prefix = if (p.hasPermission("minecraft.command.gamemode")) ChatColor.LIGHT_PURPLE else ""
-    val name = s"$title[Lv.${p.getQuestLevel}]$prefix${p.getName}" + ChatColor.RESET
+    val name = s"$title[Lv.${p.getRyoServerData.level}]$prefix${p.getName}" + ChatColor.RESET
     p.setDisplayName(name)
     p.setPlayerListName(name)
   }

@@ -123,7 +123,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-      new SkillCategoryMenu().open(p)
+      new SkillCategoryMenu(ryoServerAssist).open(p)
     }
   )
 

@@ -1,6 +1,5 @@
 package com.ryoserver.NeoStack
 
-import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import org.bukkit.Sound
@@ -15,7 +14,7 @@ class PickEvent(implicit ryoServerAssist: RyoServerAssist) extends Listener {
   def playerPickEvent(e: EntityPickupItemEvent): Unit = {
     e.getEntity match {
       case p: Player =>
-        if (!p.isAutoStack) return
+        if (!p.getRyoServerData.autoStack) return
         val pickupItemStack = e.getItem.getItemStack
         val amount = pickupItemStack.getAmount
         pickupItemStack.setAmount(1)

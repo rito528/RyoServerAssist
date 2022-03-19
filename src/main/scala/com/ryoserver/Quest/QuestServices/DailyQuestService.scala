@@ -1,7 +1,7 @@
 package com.ryoserver.Quest.QuestServices
 
 import com.ryoserver.Level.Player.UpdateLevel
-import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Menu.{DailyQuestProcessMenu, DailyQuestRewardMenu}
 import com.ryoserver.Quest._
 import com.ryoserver.RyoServerAssist
@@ -38,7 +38,7 @@ class DailyQuestService(ryoServerAssist: RyoServerAssist,player: Player) extends
   override def questClear(exp: Double): Unit = {
     new UpdateLevel().addExp(exp,p)
     new QuestPlayerData().processQuestData.changeLastDailyQuest(uuid,new Date())
-    p.addQuestClearTimes()
+    p.getRyoServerData.addQuestClearTimes(1).apply(p)
     questDestroy()
   }
 

@@ -23,7 +23,7 @@ sealed trait HarvestProvider extends Listener with EnumEntry {
   @EventHandler
   def breakFarm(e: BlockBreakEvent): Unit = {
     val p = e.getPlayer
-    if (!farmItem.contains(e.getBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || cost > p.getSkillPoint) return
+    if (!farmItem.contains(e.getBlock.getType) || !SpecialSkillPlayerData.isActivatedSkill(p, skillName) || cost > p.getRyoServerData.skillPoint) return
     e.setCancelled(true)
     new Harvest().harvest(e.getPlayer, skillName, e.getBlock, cost, range)
   }
