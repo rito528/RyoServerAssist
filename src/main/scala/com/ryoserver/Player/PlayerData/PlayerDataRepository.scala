@@ -49,22 +49,22 @@ class PlayerDataRepository extends TPlayerDataRepository {
   override def restore(uuid: UUID): Unit = {
     if (PlayerDataEntity.playerData.contains(uuid)) return
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players WHERE UUID=$uuid;"
+    val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking,COUNT(*) AS max_row_num FROM Players WHERE UUID=$uuid;"
     val playerData: PlayerDataType = {
       if (playersTable.getHeadData.nonEmpty) {
         playersTable.map(rs => {
-          val nextPlayerExp = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-            .getHeadData.get("exp").toString.toInt
-          val backPlayerExp = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
-            .getHeadData.get("exp").toString.toInt
+          val nextPlayerExp = if (rs.int("ranking") != 1) sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
+            .getHeadData.get("exp").toString.toInt else 0
+          val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
+            .getHeadData.get("exp").toString.toInt else 0
           PlayerDataType(
             lastLogin = format.parse(rs.string("last_login")),
             lastLogout = Option(format.parse(rs.string("last_logout"))),
             level = rs.int(rs.string("level")),
             exp = rs.double("exp"),
             ranking = rs.int("ranking"),
-            nextRankingExpDiff = nextPlayerExp - rs.double("exp"),
-            backRankingExpDiff = rs.double("exp") - backPlayerExp,
+            nextRankingExpDiff = if (rs.int("ranking") == 1) 0 else nextPlayerExp - rs.double("exp"),
+            backRankingExpDiff = if (rs.int("max_row_num") != rs.int("ranking")) rs.double("exp") - backPlayerExp else 0,
             lastDistributionReceived = rs.int("last_distribution_received"),
             skillPoint = rs.double("skill_point"),
             loginDays = rs.int("login_days"),
@@ -89,8 +89,6 @@ class PlayerDataRepository extends TPlayerDataRepository {
       } else {
         sql"SELECT COUNT(*) AS max_row_num FROM Players;".map(rs => {
           val nextPlayerExp = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-            .getHeadData.get("exp").toString.toInt
-          val backPlayerExp = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
             .getHeadData.get("exp").toString.toInt
           PlayerDataType(
             lastLogin = new Date,
