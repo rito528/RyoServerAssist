@@ -4,9 +4,8 @@ import com.ryoserver.Level.CalLv
 import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.SkillSystems.Skill.EffectSkill.EffectSkills
 import org.bukkit.OfflinePlayer
-import org.bukkit.entity.Player
 
-import java.util.{Date, UUID}
+import java.util.Date
 
 case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           level: Int, exp: Double,
