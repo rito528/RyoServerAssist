@@ -53,10 +53,18 @@ class PlayerDataRepository extends TPlayerDataRepository {
     val playerData: PlayerDataType = {
       if (playersTable.getHeadData.nonEmpty) {
         playersTable.map(rs => {
-          val nextPlayerExp = if (rs.int("ranking") != 1) sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-            .getHeadData.get("exp").toString.toInt else 0
-          val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
-            .getHeadData.get("exp").toString.toInt else 0
+          val nextPlayerExp = if (rs.int("ranking") != 1) {
+            val next = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
+            next.getHeadData.get("exp").toString.toInt
+          } else {
+            0
+          }
+          val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) {
+            val back = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
+            back.getHeadData.get("exp").toString.toInt
+          } else {
+            0
+          }
           PlayerDataType(
             lastLogin = format.parse(rs.string("last_login")),
             lastLogout = Option(format.parse(rs.string("last_logout"))),
@@ -76,6 +84,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
             openedSkills = rs.string("opened_skills").split(';').map(stringName => EffectSkills.values.filter(_.skillName == stringName).head).toSet,
             voteNumber = rs.int("vote_number"),
             reVoteNumber = rs.int("continue_vote_number"),
+            lastVote = format.parse(rs.string("last_vote")),
             specialSkillOpenPoint = rs.int("special_skill_open_point"),
             openedSpecialSkills = rs.string("opened_special_skills").split(';').toSet,
             openedTitles = rs.string("opened_titles").split(';').toSet,
@@ -88,8 +97,8 @@ class PlayerDataRepository extends TPlayerDataRepository {
         }).headOption().apply().get
       } else {
         sql"SELECT COUNT(*) AS max_row_num FROM Players;".map(rs => {
-          val nextPlayerExp = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-            .getHeadData.get("exp").toString.toInt
+          val nextPlayerExpSQL = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
+          val nextPlayerExp = nextPlayerExpSQL.getHeadData.get("exp").toString.toInt
           PlayerDataType(
             lastLogin = new Date,
             lastLogout = None,
@@ -109,6 +118,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
             openedSkills = Set.empty,
             voteNumber = 0,
             reVoteNumber = 0,
+            lastVote = format.parse("2022-01-01 00:00:00"),
             specialSkillOpenPoint = 0,
             openedSpecialSkills = Set.empty,
             openedTitles = Set.empty,

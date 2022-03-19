@@ -14,7 +14,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           consecutiveLoginDays: Int, questClearTimes: Int,
                           gachaTickets: Int, gachaPullNumber: Int,
                           skillOpenPoint: Int, openedSkills: Set[EffectSkills],
-                          voteNumber: Int, reVoteNumber: Int, specialSkillOpenPoint: Int,
+                          voteNumber: Int, reVoteNumber: Int, lastVote: Date,specialSkillOpenPoint: Int,
                           openedSpecialSkills: Set[String], openedTitles: Set[String],
                           selectedTitle: Option[String], autoStack: Boolean,
                           Twitter: Option[String], Discord: Option[String], Word: Option[String]) {

@@ -39,6 +39,7 @@ class Vote extends Listener {
       END,
       LastVote = NOW()
       WHERE UUID=${p.getUniqueId.toString}""".execute.apply()
+    p.getRyoServerData.setReVoteNumber()
     p.setReVoteNumber(sql"SELECT ContinueVoteNumber FROM Players WHERE UUID = ${p.getUniqueId.toString}"
       .map(rs => rs.int("ContinueVoteNumber"))
       .headOption.apply().getOrElse(0))
