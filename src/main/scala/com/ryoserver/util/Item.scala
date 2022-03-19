@@ -1,5 +1,6 @@
 package com.ryoserver.util
 
+import org.bukkit.configuration.InvalidConfigurationException
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -48,9 +49,13 @@ object Item {
   }
 
   def getItemStackFromString(str: String): ItemStack = {
-    val config = new YamlConfiguration
-    config.loadFromString(str)
-    config.getItemStack("i", null)
+    try {
+      val config = new YamlConfiguration
+      config.loadFromString(str)
+      config.getItemStack("i", null)
+    } catch {
+      case e: InvalidConfigurationException => null
+    }
   }
 
   def getOneItemStack(itemStack: ItemStack): ItemStack = {
