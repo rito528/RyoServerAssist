@@ -54,7 +54,7 @@ object Item {
       config.loadFromString(str)
       config.getItemStack("i", null)
     } catch {
-      case e: InvalidConfigurationException => null:
+      case e: InvalidConfigurationException => null
     }
   }
 
