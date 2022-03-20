@@ -19,6 +19,8 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           selectedTitle: Option[String], autoStack: Boolean,
                           Twitter: Option[String], Discord: Option[String], Word: Option[String]) {
 
+  def setLastLogoutNow(): PlayerDataType = this.copy(lastLogout = Option(new Date))
+
   def setExp(exp: Double): PlayerDataType = this.copy(level = new CalLv().getLevel(exp), exp = exp)
 
   def addExp(addExp: Double): PlayerDataType = this.copy(level = new CalLv().getLevel(exp + addExp),exp = exp + addExp)

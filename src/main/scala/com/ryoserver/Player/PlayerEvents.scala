@@ -4,14 +4,15 @@ import com.ryoserver.Level.Player.{BossBar, LevelLoader}
 import com.ryoserver.Maintenance.MaintenanceData.getMaintenance
 import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.Player.PlayerData.PlayerDataRepository
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillOperation
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointBer
 import com.ryoserver.Title.GiveTitle
+import org.bukkit.entity.Player
 import org.bukkit.event.player.{PlayerJoinEvent, PlayerQuitEvent}
 import org.bukkit.event.{EventHandler, Listener}
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
@@ -38,13 +39,12 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onQuit(e: PlayerQuitEvent): Unit = {
-    val p = e.getPlayer
+    implicit val p: Player = e.getPlayer
     BossBar.unloadLevelBer(p)
     SkillPointBer.remove(p)
     new SkillOperation(ryoServerAssist).allDisablingSkills(p)
     if (SpecialSkillPlayerData.getActivatedSkill(p).isDefined) SpecialSkillPlayerData.skillInvalidation(p, SpecialSkillPlayerData.getActivatedSkill(p).get)
-    implicit val session: AutoSession.type = AutoSession
-    sql"UPDATE Players SET lastLogout=NOW() WHERE UUID=${e.getPlayer.getUniqueId.toString}".execute.apply()
+    p.getRyoServerData.setLastLogoutNow().apply
   }
 
 }
