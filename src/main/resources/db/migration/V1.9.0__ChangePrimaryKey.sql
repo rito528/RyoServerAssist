@@ -1,5 +1,6 @@
 ALTER TABLE Players ADD PRIMARY KEY(UUID(128));
 ALTER TABLE Players
+CHANGE COLUMN UUID uuid TEXT,
 CHANGE COLUMN lastLogin last_login DATETIME,
 CHANGE COLUMN lastLogout last_logout DATETIME,
 CHANGE COLUMN loginDays login_days INT,
