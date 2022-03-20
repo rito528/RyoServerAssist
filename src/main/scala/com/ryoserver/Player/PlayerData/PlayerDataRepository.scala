@@ -49,7 +49,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
   override def restore(uuid: UUID): Unit = {
     if (PlayerDataEntity.playerData.contains(uuid)) return
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking,COUNT(*) AS max_row_num FROM Players WHERE UUID=$uuid;"
+    val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking,COUNT(*) AS max_row_num FROM Players WHERE UUID=${uuid.toString};"
     val playerData: PlayerDataType = {
       if (playersTable.getHeadData.nonEmpty) {
         playersTable.map(rs => {
@@ -68,7 +68,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
           PlayerDataType(
             lastLogin = format.parse(rs.string("last_login")),
             lastLogout = Option(format.parse(rs.string("last_logout"))),
-            level = rs.int(rs.string("level")),
+            level = rs.int("level"),
             exp = rs.double("exp"),
             ranking = rs.int("ranking"),
             nextRankingExpDiff = if (rs.int("ranking") == 1) 0 else nextPlayerExp - rs.double("exp"),
@@ -81,13 +81,31 @@ class PlayerDataRepository extends TPlayerDataRepository {
             gachaTickets = rs.int("gacha_tickets"),
             gachaPullNumber = rs.int("gacha_pull_number"),
             skillOpenPoint = rs.int("skill_open_point"),
-            openedSkills = rs.string("opened_skills").split(';').map(stringName => EffectSkills.values.filter(_.skillName == stringName).head).toSet,
+            openedSkills = rs.stringOpt("opened_skills") match {
+              case Some(skills) =>
+                if (skills != "") skills.split(';').map(skillName => EffectSkills.values.filter(_.skillName == skillName).head).toSet
+                else Set.empty
+              case None =>
+                Set.empty
+            },
             voteNumber = rs.int("vote_number"),
             reVoteNumber = rs.int("continue_vote_number"),
             lastVote = format.parse(rs.string("last_vote")),
             specialSkillOpenPoint = rs.int("special_skill_open_point"),
-            openedSpecialSkills = rs.string("opened_special_skills").split(';').toSet,
-            openedTitles = rs.string("opened_titles").split(';').toSet,
+            openedSpecialSkills = rs.stringOpt("opened_special_skills") match {
+              case Some(skills) =>
+                if (skills != "") skills.split(';').toSet
+                else Set.empty
+              case None =>
+                Set.empty
+            },
+            openedTitles = rs.stringOpt("opened_titles") match {
+              case Some(titles) =>
+                if (titles != null) titles.split(';').toSet
+                else Set.empty
+              case None =>
+                Set.empty
+            },
             selectedTitle = rs.stringOpt("selected_title"),
             autoStack = rs.boolean("is_auto_stack"),
             Twitter = rs.stringOpt("Twitter"),

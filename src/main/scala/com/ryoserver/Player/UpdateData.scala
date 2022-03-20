@@ -1,20 +1,23 @@
 package com.ryoserver.Player
 
+import com.ryoserver.Player.PlayerManager.getPlayerData
+import org.apache.commons.lang.time.DateUtils
 import org.bukkit.entity.Player
-import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
+
+import java.util.{Calendar, Date}
 
 class UpdateData {
 
-  def updateReLogin(p: Player): Unit = {
-    implicit val session: AutoSession.type = AutoSession
-    sql"""UPDATE Players SET loginDays = CASE WHEN DATEDIFF(lastLogin, NOW()) <= -1 THEN loginDays + 1 ELSE loginDays
-      END,
-      consecutiveLoginDays = CASE WHEN DATEDIFF(lastLogin, NOW()) = -1 THEN consecutiveLoginDays + 1
-      WHEN DATEDIFF(lastLogin, NOW()) <> 0 AND DATEDIFF(lastLogin, NOW()) <= -1 THEN 0
-      ELSE consecutiveLoginDays
-      END,
-      lastLogin = NOW()
-      WHERE UUID=${p.getUniqueId.toString}""".execute.apply()
+  def updateReLogin(implicit p: Player): Unit = {
+    val lastVoteDay = DateUtils.truncate(p.getRyoServerData.lastLogin,Calendar.DAY_OF_MONTH).getTime
+    val nowDay = DateUtils.truncate(new Date,Calendar.DAY_OF_MONTH).getTime
+    val oneWeekMilliSec = 604800000 //1週間をミリ秒で表す
+    val ryoServerData = p.getRyoServerData
+    if (nowDay - lastVoteDay <= oneWeekMilliSec) { //1週間以内だったら
+      ryoServerData.setConsecutiveLoginDays(ryoServerData.consecutiveLoginDays + 1).apply
+    } else {
+      ryoServerData.setConsecutiveLoginDays(0).apply
+    }
   }
 
 }

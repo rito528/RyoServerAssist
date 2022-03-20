@@ -3,6 +3,7 @@ package com.ryoserver.Player
 import com.ryoserver.Level.Player.{BossBar, LevelLoader}
 import com.ryoserver.Maintenance.MaintenanceData.getMaintenance
 import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
+import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.SkillSystems.Skill.EffectSkill.SkillOperation
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData
@@ -20,6 +21,7 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
     if (getMaintenance && !p.hasPermission("ryoserverassist.maintenance")) {
       p.kickPlayer("現在メンテナンス中です。\n\n詳細は公式Twitter、Discordを御覧ください。")
     }
+    new PlayerDataRepository().restore(p.getUniqueId)
     new UpdateData().updateReLogin(p)
     new LevelLoader().loadPlayerLevel(p)
     new NeoStackItemRepository().restore(p.getUniqueId)

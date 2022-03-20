@@ -21,8 +21,8 @@ object QuestPlayerData {
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
   private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    mutable.Map() ++ sql"SELECT UUID,LastDailyQuest FROM Players".map{rs =>
-      UUID.fromString(rs.string("UUID")) -> format.parse(rs.string("LastDailyQuest"))
+    mutable.Map() ++ sql"SELECT uuid,last_daily_quest FROM Players".map{rs =>
+      UUID.fromString(rs.string("uuid")) -> format.parse(rs.string("last_daily_quest"))
     }.toList().apply().toMap
   }
 
