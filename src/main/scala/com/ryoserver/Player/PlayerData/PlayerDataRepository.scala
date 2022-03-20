@@ -18,7 +18,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
     PlayerDataEntity.playerData.foreach{case (uuid,playerData) =>
       sql"""UPDATE Players SET
          last_login=${format.format(playerData.lastLogin)},
-         last_logout=${format.format(playerData.lastLogout)},
+         last_logout=${format.format(playerData.lastLogout.orNull)},
          level=${playerData.level},
          exp=${playerData.exp},
          last_distribution_received=${playerData.lastDistributionReceived},
