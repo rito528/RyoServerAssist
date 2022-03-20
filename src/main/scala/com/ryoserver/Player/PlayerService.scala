@@ -13,16 +13,16 @@ class PlayerService {
   private val playerDataRepository: TPlayerDataRepository = new PlayerDataRepository
 
   def loadPlayerData(uuid: UUID): Unit = {
-    playerDataRepository.findBy(uuid) match {
-      case None =>
-        Bukkit.getOnlinePlayers.forEach(p => {
-          p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
-        })
-        val newPlayer = Bukkit.getPlayer(uuid)
-        Bukkit.broadcastMessage(s"$AQUA${newPlayer.getName}さんが初参加しました！")
-      case _ =>
-    }
     playerDataRepository.restore(uuid)
+//    playerDataRepository.findBy(uuid) match {
+//      case None =>
+//        Bukkit.getOnlinePlayers.forEach(p => {
+//          p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
+//        })
+//        val newPlayer = Bukkit.getPlayer(uuid)
+//        Bukkit.broadcastMessage(s"$AQUA${newPlayer.getName}さんが初参加しました！")
+//      case _ =>
+//    }
   }
 
   def autoSave(implicit ryoServerAssist: RyoServerAssist): Unit = {
