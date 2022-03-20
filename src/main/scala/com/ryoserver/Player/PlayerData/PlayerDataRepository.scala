@@ -51,16 +51,16 @@ class PlayerDataRepository extends TPlayerDataRepository {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking,COUNT(*) AS max_row_num FROM Players WHERE UUID=${uuid.toString};"
     val playerData: PlayerDataType = {
-      if (playersTable.getHeadData.nonEmpty) {
+      if (playersTable.getHeadData.getOrElse(Map.empty).contains("uuid")) {
         playersTable.map(rs => {
           val nextPlayerExp = if (rs.int("ranking") != 1) {
-            val next = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
+            val next = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
             next.getHeadData.get("exp").toString.toInt
           } else {
             0
           }
           val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) {
-            val back = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
+            val back = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
             back.getHeadData.get("exp").toString.toInt
           } else {
             0
@@ -115,14 +115,20 @@ class PlayerDataRepository extends TPlayerDataRepository {
         }).headOption().apply().get
       } else {
         sql"SELECT COUNT(*) AS max_row_num FROM Players;".map(rs => {
-          val nextPlayerExpSQL = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-          val nextPlayerExp = nextPlayerExpSQL.getHeadData.get("exp").toString.toInt
+          val nextPlayerExpSQL = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=ranking-1;"
+          val nextPlayerExp = {
+            nextPlayerExpSQL.getHeadData match {
+              case Some(data) => data("exp").toString.toInt
+              case None => 0
+            }
+          }
+          val exp = nextPlayerExpSQL.map(_.doubleOpt("exp").getOrElse(0.0)).headOption().apply().getOrElse(0.0)
           PlayerDataType(
             lastLogin = new Date,
             lastLogout = None,
             level = 0,
             exp = 0,
-            nextRankingExpDiff = nextPlayerExp - rs.double("exp"),
+            nextRankingExpDiff = nextPlayerExp - exp,
             backRankingExpDiff = 0,
             ranking = rs.int("max_row_num") + 1,
             lastDistributionReceived = DistributionData.distributionData.maxBy(_.id).id,
