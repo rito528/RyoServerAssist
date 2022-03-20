@@ -3,6 +3,7 @@ package com.ryoserver.Quest.Menu
 import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.QuestServices.DailyQuestService
 import com.ryoserver.Quest.{QuestDataContext, QuestPlayerData, QuestType}
 import com.ryoserver.RyoServerAssist
@@ -21,7 +22,7 @@ class SelectDailyQuestMenu(ryoServerAssist: RyoServerAssist, page: Int) extends 
 
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
-    val lastDate = new QuestPlayerData().getQuestData.getLastDailyQuest(player.getUniqueId)
+    val lastDate = player.getRyoServerData.lastDailyQuestDate
     val now = new Date()
     if (DateUtils.truncate(lastDate,Calendar.DAY_OF_MONTH).getTime != DateUtils.truncate(now,Calendar.DAY_OF_MONTH).getTime) {
       player.playSound(player.getLocation, Sound.ITEM_BOOK_PAGE_TURN, 1, 1)

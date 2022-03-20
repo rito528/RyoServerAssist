@@ -181,7 +181,6 @@ class RyoServerAssist extends JavaPlugin {
     val questPlayerData = new QuestPlayerData()
     questPlayerData.saver.autoSavePlayerQuestData
     questPlayerData.saver.autoSavePlayerDailyQuestData
-    questPlayerData.saver.autoSaveLastDailyQuestDate
     new PlayerService().autoSave
 
     HomeData.saveHomeData
@@ -214,7 +213,6 @@ class RyoServerAssist extends JavaPlugin {
     val questPlayerData = new QuestPlayerData
     questPlayerData.saver.savePlayerQuestData()
     questPlayerData.saver.savePlayerDailyQuestData()
-    questPlayerData.saver.saveLastDailyQuestDate()
     HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }

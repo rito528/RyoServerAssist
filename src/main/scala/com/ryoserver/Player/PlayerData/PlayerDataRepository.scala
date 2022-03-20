@@ -38,21 +38,21 @@ class PlayerDataRepository extends TPlayerDataRepository {
             (uuid,last_login,last_logout,level,exp,last_distribution_received,skill_point,
             login_days,consecutive_login_days,quest_clear_times,gacha_tickets,gacha_pull_number,
             skill_open_point,opened_skills,vote_number,continue_vote_number,last_vote,special_skill_open_point,
-            opened_special_skills,opened_titles,selected_title,is_auto_stack,Twitter,Discord,Word)
+            opened_special_skills,opened_titles,selected_title,is_auto_stack,last_daily_quest_time,Twitter,Discord,Word)
           VALUES (${uuid.toString},${format.format(playerData.lastLogin)},${format.format(playerData.lastLogout.getOrElse(new Date))},${playerData.level},
          ${playerData.exp},${playerData.lastDistributionReceived},${playerData.skillPoint},${playerData.loginDays},${playerData.consecutiveLoginDays},
          ${playerData.questClearTimes},${playerData.gachaTickets},${playerData.gachaPullNumber},${playerData.skillOpenPoint},
          $openedSkills,${playerData.voteNumber},${playerData.reVoteNumber},${format.format(playerData.lastVote)},${playerData.specialSkillOpenPoint},
-         $openedSpecialSkills,$openedTitles,${playerData.selectedTitle},${playerData.autoStack},
+         $openedSpecialSkills,$openedTitles,${playerData.selectedTitle},${playerData.autoStack},${format.format(playerData.lastDailyQuestDate)},
          ${playerData.Twitter}, ${playerData.Discord},${playerData.Word})
          ON DUPLICATE KEY UPDATE
          last_login=VALUES(last_login),last_logout=VALUES(last_logout),level=VALUES(level),exp=VALUES(exp),
          last_distribution_received=VALUES(last_distribution_received),skill_point=VALUES(skill_point),login_days=VALUES(login_days),
          consecutive_login_days=VALUES(consecutive_login_days),quest_clear_times=VALUES(quest_clear_times),gacha_tickets=VALUES(gacha_tickets),
          gacha_pull_number=VALUES(gacha_pull_number),skill_open_point=VALUES(skill_open_point),opened_skills=VALUES(opened_skills),
-         vote_number=VALUES(vote_number),continue_vote_number=VALUES(continue_vote_number),special_skill_open_point=VALUES(special_skill_open_point),
+         vote_number=VALUES(vote_number),continue_vote_number=VALUES(continue_vote_number),last_vote=VALUES(last_vote),special_skill_open_point=VALUES(special_skill_open_point),
          opened_special_skills=VALUES(opened_special_skills),opened_titles=VALUES(opened_titles),selected_title=VALUES(selected_title),
-         is_auto_stack=VALUES(is_auto_stack),Twitter=VALUES(Twitter),Discord=VALUES(Discord),Word=VALUES(Word)
+         is_auto_stack=VALUES(is_auto_stack),last_daily_quest_time=VALUES(last_daily_quest_time),Twitter=VALUES(Twitter),Discord=VALUES(Discord),Word=VALUES(Word)
          """
         .execute()
         .apply()
@@ -60,13 +60,11 @@ class PlayerDataRepository extends TPlayerDataRepository {
   }
 
   override def restore(uuid: UUID): Unit = {
-    try {
       if (PlayerDataEntity.playerData.contains(uuid)) return
       val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
       val playersTable = sql"SELECT *,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking,COUNT(*) AS max_row_num FROM Players WHERE UUID=${uuid.toString};"
       val playerData: PlayerDataType = {
         if (playersTable.getHeadData.getOrElse(Map.empty).contains("uuid")) {
-          println("SQLから取得")
           playersTable.map(rs => {
             val nextPlayerExp = if (rs.int("ranking") != 1) {
               val next = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
@@ -74,14 +72,12 @@ class PlayerDataRepository extends TPlayerDataRepository {
             } else {
               0
             }
-            println(1)
             val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) {
               val back = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
               back.getHeadData.get("exp").toString.toInt
             } else {
               0
             }
-            println(2)
             PlayerDataType(
               lastLogin = format.parse(rs.string("last_login")),
               lastLogout = Option(format.parse(rs.string("last_logout"))),
@@ -127,6 +123,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
               }),
               selectedTitle = rs.stringOpt("selected_title"),
               autoStack = rs.boolean("is_auto_stack"),
+              lastDailyQuestDate = format.parse(rs.string("last_daily_quest_time")),
               Twitter = rs.stringOpt("Twitter"),
               Discord = rs.stringOpt("Discord"),
               Word = rs.stringOpt("Word")
@@ -167,6 +164,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
               openedTitles = None,
               selectedTitle = None,
               autoStack = false,
+              lastDailyQuestDate = format.parse("2022-01-01 00:00:00"),
               Twitter = None,
               Discord = None,
               Word = None
@@ -174,11 +172,7 @@ class PlayerDataRepository extends TPlayerDataRepository {
           }).headOption().apply().get
         }
       }
-      println(3)
       updateData(uuid, playerData)
-    } catch {
-      case e: Exception => e.printStackTrace()
-    }
   }
 
   override def findBy(uuid: UUID): Option[PlayerDataType] = {

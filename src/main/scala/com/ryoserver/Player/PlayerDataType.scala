@@ -16,7 +16,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           skillOpenPoint: Int, openedSkills: Option[Set[EffectSkills]],
                           voteNumber: Int, reVoteNumber: Int, lastVote: Date,specialSkillOpenPoint: Int,
                           openedSpecialSkills: Option[Set[String]], openedTitles: Option[Set[String]],
-                          selectedTitle: Option[String], autoStack: Boolean,
+                          selectedTitle: Option[String], autoStack: Boolean,lastDailyQuestDate: Date,
                           Twitter: Option[String], Discord: Option[String], Word: Option[String]) {
 
   def setLastLogoutNow(): PlayerDataType = this.copy(lastLogout = Option(new Date))
@@ -66,6 +66,8 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
   def setSelectedTitle(title: Option[String]): PlayerDataType = this.copy(selectedTitle = title)
 
   def toggleAutoStack(): PlayerDataType = this.copy(autoStack = !autoStack)
+
+  def setLastDailyQuestDateNow(): PlayerDataType = this.copy(lastDailyQuestDate = new Date)
 
   def apply(implicit p: OfflinePlayer): Unit = new PlayerDataRepository().updateData(p.getUniqueId,this)
 
