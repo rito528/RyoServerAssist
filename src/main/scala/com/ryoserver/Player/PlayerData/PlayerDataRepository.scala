@@ -16,31 +16,26 @@ class PlayerDataRepository extends TPlayerDataRepository {
   override def store(): Unit = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     PlayerDataEntity.playerData.foreach{case (uuid,playerData) =>
-      sql"""UPDATE Players SET
-         last_login=${format.format(playerData.lastLogin)},
-         last_logout=${format.format(playerData.lastLogout.orNull)},
-         level=${playerData.level},
-         exp=${playerData.exp},
-         last_distribution_received=${playerData.lastDistributionReceived},
-         skill_point=${playerData.skillPoint},
-         login_days=${playerData.loginDays},
-         consecutive_login_days=${playerData.consecutiveLoginDays},
-         quest_clear_times=${playerData.questClearTimes},
-         gacha_tickets=${playerData.questClearTimes},
-         gacha_pull_number=${playerData.gachaPullNumber},
-         skill_open_point=${playerData.skillOpenPoint},
-         opened_skills=${playerData.openedSkills.map(_.skillName).mkString(";")},
-         vote_number=${playerData.voteNumber},
-         continue_vote_number=${playerData.reVoteNumber},
-         special_skill_open_point=${playerData.specialSkillOpenPoint},
-         opened_special_skills=${playerData.openedSpecialSkills.mkString(";")},
-         opened_titles=${playerData.openedTitles.mkString(";")},
-         selected_title=${playerData.selectedTitle},
-         is_auto_stack=${playerData.autoStack},
-         Twitter=${playerData.Twitter},
-         Discord=${playerData.Discord},
-         Word=${playerData.Word}
-         WHERE uuid=$uuid"""
+      sql"""INSERT INTO Players
+            (uuid,last_login,last_logout,level,exp,last_distribution_received,skill_point,
+            login_days,consecutive_login_days,quest_clear_times,gacha_tickets,gacha_pull_number,
+            skill_open_point,opened_skills,vote_number,continue_vote_number,special_skill_open_point,
+            opened_special_skills,opened_titles,selected_title,is_auto_stack,Twitter,Discord,Word)
+          VALUES (${uuid.toString},${format.format(playerData.lastLogin)},${format.format(playerData.lastLogout.getOrElse(new Date))},${playerData.level},
+         ${playerData.exp},${playerData.lastDistributionReceived},${playerData.skillPoint},${playerData.loginDays},${playerData.consecutiveLoginDays},
+         ${playerData.questClearTimes},${playerData.gachaTickets},${playerData.gachaPullNumber},${playerData.skillOpenPoint},
+         ${playerData.openedSkills.map(_.skillName).mkString(";")},${playerData.voteNumber},${playerData.reVoteNumber},${playerData.specialSkillOpenPoint},
+         ${playerData.openedSpecialSkills.mkString(";")},${playerData.openedTitles.mkString(";")},${playerData.selectedTitle},${playerData.autoStack},
+         ${playerData.Twitter}, ${playerData.Discord},${playerData.Word})
+         ON DUPLICATE KEY UPDATE
+         last_login=VALUES(last_login),last_logout=VALUES(last_logout),level=VALUES(level),exp=VALUES(exp),
+         last_distribution_received=VALUES(last_distribution_received),skill_point=VALUES(skill_point),login_days=VALUES(login_days),
+         consecutive_login_days=VALUES(consecutive_login_days),quest_clear_times=VALUES(quest_clear_times),gacha_tickets=VALUES(gacha_tickets),
+         gacha_pull_number=VALUES(gacha_pull_number),skill_open_point=VALUES(skill_open_point),opened_skills=VALUES(opened_skills),
+         vote_number=VALUES(vote_number),continue_vote_number=VALUES(continue_vote_number),special_skill_open_point=VALUES(special_skill_open_point),
+         opened_special_skills=VALUES(opened_special_skills),opened_titles=VALUES(opened_titles),selected_title=VALUES(selected_title),
+         is_auto_stack=VALUES(is_auto_stack),Twitter=VALUES(Twitter),Discord=VALUES(Discord),Word=VALUES(Word)
+         """
         .execute()
         .apply()
     }
