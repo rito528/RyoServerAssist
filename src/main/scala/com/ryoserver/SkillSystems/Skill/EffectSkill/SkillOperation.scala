@@ -12,11 +12,11 @@ import org.bukkit.scheduler.BukkitRunnable
 class SkillOperation(ryoServerAssist: RyoServerAssist) {
 
   def skillActivation(effectSkills: EffectSkills)(implicit p: Player): Unit = {
-    if (p.getRyoServerData.skillOpenPoint < 10 && !p.getRyoServerData.openedSkills.contains(effectSkills)) {
+    if (p.getRyoServerData.skillOpenPoint < 10 && !p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills)) {
       p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}を開放していないため、有効にできません！")
       return
-    } else if (p.getRyoServerData.skillOpenPoint >= 10 && !p.getRyoServerData.openedSkills.contains(effectSkills)) {
-      if (effectSkills.isSpecialSkill && EffectSkills.values.filter(_.isSpecialSkill == false).toSet != p.getRyoServerData.openedSkills.filter(_.isSpecialSkill == false)) {
+    } else if (p.getRyoServerData.skillOpenPoint >= 10 && !p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills)) {
+      if (effectSkills.isSpecialSkill && EffectSkills.values.filter(_.isSpecialSkill == false).toSet != p.getRyoServerData.openedSkills.getOrElse(Set.empty).filter(_.isSpecialSkill == false)) {
         p.sendMessage(s"${RED}エフェクトスキル:${effectSkills.skillName}は基本スキルを開放してから開放することができます！")
         return
       }

@@ -71,7 +71,7 @@ class GiveTitle {
 
   def skillOpenNumber(p: Player): Unit = {
     TitleData.skillOpen.foreach(title => {
-      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getRyoServerData.openedSkills.map(_.skillName))
+      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getRyoServerData.openedSkills.getOrElse(Set.empty).map(_.skillName))
       if (diff.isEmpty && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)

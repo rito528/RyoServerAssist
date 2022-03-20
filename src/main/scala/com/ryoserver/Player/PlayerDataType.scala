@@ -13,9 +13,9 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
                           lastDistributionReceived: Int,skillPoint: Double, loginDays: Int,
                           consecutiveLoginDays: Int, questClearTimes: Int,
                           gachaTickets: Int, gachaPullNumber: Int,
-                          skillOpenPoint: Int, openedSkills: Set[EffectSkills],
+                          skillOpenPoint: Int, openedSkills: Option[Set[EffectSkills]],
                           voteNumber: Int, reVoteNumber: Int, lastVote: Date,specialSkillOpenPoint: Int,
-                          openedSpecialSkills: Set[String], openedTitles: Set[String],
+                          openedSpecialSkills: Option[Set[String]], openedTitles: Option[Set[String]],
                           selectedTitle: Option[String], autoStack: Boolean,
                           Twitter: Option[String], Discord: Option[String], Word: Option[String]) {
 
@@ -47,7 +47,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def removeSkillOpenPoint(skillOpenPointNum: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint - skillOpenPointNum)
 
-  def addOpenedSkills(effectSkills: EffectSkills): PlayerDataType = this.copy(openedSkills = openedSkills ++ Set(effectSkills))
+  def addOpenedSkills(effectSkills: EffectSkills): PlayerDataType = this.copy(openedSkills = Option(openedSkills.getOrElse(Set.empty) ++ Set(effectSkills)))
 
   def addVoteNumber(addVoteNum: Int): PlayerDataType = this.copy(voteNumber = voteNumber + addVoteNum)
 
@@ -57,11 +57,11 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def removeSpecialSkillOpenPoint(removeSpecialSkillOpenPoint: Int): PlayerDataType = this.copy(specialSkillOpenPoint = specialSkillOpenPoint - removeSpecialSkillOpenPoint)
 
-  def addOpenedSpecialSkill(specialSkill: String): PlayerDataType = this.copy(openedSpecialSkills = openedSpecialSkills ++ Set(specialSkill))
+  def addOpenedSpecialSkill(specialSkill: String): PlayerDataType = this.copy(openedSpecialSkills = Option(openedSpecialSkills.getOrElse(Set.empty) ++ Set(specialSkill)))
 
-  def addOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = openedTitles ++ Set(title))
+  def addOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = Option(openedTitles.getOrElse(Set.empty) ++ Set(title)))
 
-  def removeOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = openedTitles.filterNot(_ == title))
+  def removeOpenedTitles(title: String): PlayerDataType = this.copy(openedTitles = Option(openedTitles.getOrElse(Set.empty).filterNot(_ == title)))
 
   def setSelectedTitle(title: Option[String]): PlayerDataType = this.copy(selectedTitle = title)
 

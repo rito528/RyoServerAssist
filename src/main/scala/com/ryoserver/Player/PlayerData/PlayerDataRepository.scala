@@ -16,6 +16,24 @@ class PlayerDataRepository extends TPlayerDataRepository {
   override def store(): Unit = {
     val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     PlayerDataEntity.playerData.foreach{case (uuid,playerData) =>
+      val openedSkills = Option(
+        playerData.openedSkills match {
+          case Some(skills) => skills.map(_.skillName).mkString(";")
+          case None => null
+        }
+      )
+      val openedSpecialSkills = Option(
+        playerData.openedSpecialSkills match {
+          case Some(specialSkills) => specialSkills.mkString(";")
+          case None => null
+        }
+      )
+      val openedTitles = Option(
+        playerData.openedTitles match {
+          case Some(titles) => titles.mkString(";")
+          case None => null
+        }
+      )
       sql"""INSERT INTO Players
             (uuid,last_login,last_logout,level,exp,last_distribution_received,skill_point,
             login_days,consecutive_login_days,quest_clear_times,gacha_tickets,gacha_pull_number,
@@ -24,8 +42,8 @@ class PlayerDataRepository extends TPlayerDataRepository {
           VALUES (${uuid.toString},${format.format(playerData.lastLogin)},${format.format(playerData.lastLogout.getOrElse(new Date))},${playerData.level},
          ${playerData.exp},${playerData.lastDistributionReceived},${playerData.skillPoint},${playerData.loginDays},${playerData.consecutiveLoginDays},
          ${playerData.questClearTimes},${playerData.gachaTickets},${playerData.gachaPullNumber},${playerData.skillOpenPoint},
-         ${playerData.openedSkills.map(_.skillName).mkString(";")},${playerData.voteNumber},${playerData.reVoteNumber},${playerData.specialSkillOpenPoint},
-         ${playerData.openedSpecialSkills.mkString(";")},${playerData.openedTitles.mkString(";")},${playerData.selectedTitle},${playerData.autoStack},
+         $openedSkills,${playerData.voteNumber},${playerData.reVoteNumber},${playerData.specialSkillOpenPoint},
+         $openedSpecialSkills,$openedTitles,${playerData.selectedTitle},${playerData.autoStack},
          ${playerData.Twitter}, ${playerData.Discord},${playerData.Word})
          ON DUPLICATE KEY UPDATE
          last_login=VALUES(last_login),last_logout=VALUES(last_logout),level=VALUES(level),exp=VALUES(exp),
@@ -76,31 +94,33 @@ class PlayerDataRepository extends TPlayerDataRepository {
             gachaTickets = rs.int("gacha_tickets"),
             gachaPullNumber = rs.int("gacha_pull_number"),
             skillOpenPoint = rs.int("skill_open_point"),
-            openedSkills = rs.stringOpt("opened_skills") match {
+            openedSkills = Option(
+              rs.stringOpt("opened_skills") match {
               case Some(skills) =>
                 if (skills != "") skills.split(';').map(skillName => EffectSkills.values.filter(_.skillName == skillName).head).toSet
-                else Set.empty
+                else null
               case None =>
-                Set.empty
-            },
+                null
+              }
+            ),
             voteNumber = rs.int("vote_number"),
             reVoteNumber = rs.int("continue_vote_number"),
             lastVote = format.parse(rs.string("last_vote")),
             specialSkillOpenPoint = rs.int("special_skill_open_point"),
-            openedSpecialSkills = rs.stringOpt("opened_special_skills") match {
+            openedSpecialSkills = Option(rs.stringOpt("opened_special_skills") match {
               case Some(skills) =>
                 if (skills != "") skills.split(';').toSet
-                else Set.empty
+                else null
               case None =>
-                Set.empty
-            },
-            openedTitles = rs.stringOpt("opened_titles") match {
+                null
+            }),
+            openedTitles = Option(rs.stringOpt("opened_titles") match {
               case Some(titles) =>
                 if (titles != null) titles.split(';').toSet
-                else Set.empty
+                else null
               case None =>
-                Set.empty
-            },
+                null
+            }),
             selectedTitle = rs.stringOpt("selected_title"),
             autoStack = rs.boolean("is_auto_stack"),
             Twitter = rs.stringOpt("Twitter"),
@@ -134,13 +154,13 @@ class PlayerDataRepository extends TPlayerDataRepository {
             gachaTickets = 0,
             gachaPullNumber = 0,
             skillOpenPoint = 0,
-            openedSkills = Set.empty,
+            openedSkills = None,
             voteNumber = 0,
             reVoteNumber = 0,
             lastVote = format.parse("2022-01-01 00:00:00"),
             specialSkillOpenPoint = 0,
-            openedSpecialSkills = Set.empty,
-            openedTitles = Set.empty,
+            openedSpecialSkills = None,
+            openedTitles = None,
             selectedTitle = None,
             autoStack = false,
             Twitter = None,

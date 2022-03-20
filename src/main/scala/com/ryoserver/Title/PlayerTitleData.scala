@@ -20,7 +20,7 @@ class PlayerTitleData {
   def hasTitle(uuid: UUID, title: String): Boolean = getHasTitles(uuid).contains(title)
 
   def getHasTitles(uuid: UUID): Set[String] = {
-    Bukkit.getOfflinePlayer(uuid).getRyoServerData.openedTitles
+    Bukkit.getOfflinePlayer(uuid).getRyoServerData.openedTitles.getOrElse(Set.empty)
   }
 
   def removeTitle(uuid: UUID, title: String): Boolean = {
