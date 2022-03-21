@@ -188,7 +188,8 @@ class RyoServerAssist extends JavaPlugin {
     /*
       サーバーに入っているプレイヤーにデータを適用する
      */
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataRepository().restore(p.getUniqueId))
+    val playerLoader = new PlayerLoader()
+    Bukkit.getOnlinePlayers.forEach(p => playerLoader.load(p))
 
     /*
       TipsSenderの起動
@@ -205,6 +206,8 @@ class RyoServerAssist extends JavaPlugin {
 
   override def onDisable(): Unit = {
     super.onDisable()
+    val playerLoader = new PlayerLoader()
+    Bukkit.getOnlinePlayers.forEach(p => playerLoader.unload(p))
     new EventGateway().saveEvent()
     new EventGateway().saveRanking()
     new PlayerDataRepository().store()
