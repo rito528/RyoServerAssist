@@ -146,7 +146,7 @@ private case class computeEffectSkillButton(plugin: RyoServerAssist)(implicit pl
   val homutekuto: Button = Button(
     ItemStackBuilder
       .getDefault(getIcon(player, Material.LAVA_BUCKET, EffectSkills.homutekuto))
-      .title(s"${GREEN}猫の目")
+      .title(s"${GREEN}ホムテクト")
       .lore(List(s"${GRAY}耐火の効果が付与されます。") ++ getLore(player, EffectSkills.homutekuto))
       .setEffect()
       .build(),
