@@ -41,7 +41,7 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def removeGachaTicket(removeGachaTicketsAmount: Int): PlayerDataType = this.copy(gachaTickets = gachaTickets - removeGachaTicketsAmount)
 
-  def setGachaPullNumber(gachaPullNumber: Int): PlayerDataType = this.copy(gachaPullNumber = gachaPullNumber)
+  def addGachaPullNumber(addGachaPullNumber: Int): PlayerDataType = this.copy(gachaPullNumber = gachaPullNumber + addGachaPullNumber)
 
   def addSkillOpenPoint(skillOpenPointNum: Int): PlayerDataType = this.copy(skillOpenPoint = skillOpenPoint + skillOpenPointNum)
 

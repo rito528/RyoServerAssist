@@ -45,7 +45,7 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
       enableGachaTickets.map(_.getItemMeta).contains(mainHand.getItemMeta) && !getCoolDown(p)) {
       val thisGachaPullNum = if (p.isSneaking) getItemAmount else 1
       val rarities: IndexedSeq[Option[Rarity]] = (0 until thisGachaPullNum).map(_ => {
-        p.getRyoServerData.addGachaTickets(1).apply(p)
+        p.getRyoServerData.addGachaPullNumber(1).apply(p)
         if (!checkPart(p)) {
           val rarity = gachaLottery.rarityLottery()
           p.getWorld.dropItem(p.getLocation, gachaLottery.itemLottery(rarity))
