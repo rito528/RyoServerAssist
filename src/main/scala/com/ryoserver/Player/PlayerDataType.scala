@@ -69,6 +69,8 @@ case class PlayerDataType(lastLogin: Date,lastLogout: Option[Date],
 
   def setLastDailyQuestDateNow(): PlayerDataType = this.copy(lastDailyQuestDate = new Date)
 
+  def setLastVoteNow(): PlayerDataType = this.copy(lastVote = new Date)
+
   def apply(implicit p: OfflinePlayer): Unit = new PlayerDataRepository().updateData(p.getUniqueId,this)
 
 }

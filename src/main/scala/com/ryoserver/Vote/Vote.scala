@@ -27,7 +27,7 @@ class Vote extends Listener {
     val ryoServerData = p.getRyoServerData
     ryoServerData.addVoteNumber(1).apply
     updateVoteContinue
-    ryoServerData.addGachaTickets(if (ryoServerData.reVoteNumber >= 20) 16 + 20 else 16 + ryoServerData.reVoteNumber)
+    ryoServerData.addGachaTickets(if (ryoServerData.reVoteNumber >= 20) 16 + 20 else 16 + ryoServerData.reVoteNumber).apply
     Bukkit.getOnlinePlayers.forEach(p => {
       p.sendMessage(site + "で" + name + "さんが投票しました！")
       p.sendMessage("投票はこちら！")
@@ -46,6 +46,7 @@ class Vote extends Listener {
     } else {
       ryoServerData.setReVoteNumber(0).apply
     }
+    p.getRyoServerData.setLastVoteNow().apply
   }
 
 }
