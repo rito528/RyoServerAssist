@@ -17,7 +17,7 @@ import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
-import com.ryoserver.Player.FirstJoin.FirstJoinSettingEvent
+import com.ryoserver.Player.FirstJoin.{FirstJoinGiveItemRepository, FirstJoinSettingEvent}
 import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
@@ -182,6 +182,7 @@ class RyoServerAssist extends JavaPlugin {
     questPlayerData.saver.autoSavePlayerQuestData
     questPlayerData.saver.autoSavePlayerDailyQuestData
     new PlayerService().autoSave
+    new FirstJoinGiveItemRepository().restore()
 
     HomeData.saveHomeData
 
