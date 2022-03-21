@@ -4,7 +4,7 @@ import com.ryoserver.Config.ConfigData.getConfig
 import com.ryoserver.Player.Name
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.EventDataProvider
-import com.ryoserver.SkillSystems.SkillPoint.SkillPointCal
+import com.ryoserver.SkillSystems.SkillPoint.{SkillPointBer, SkillPointCal}
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
@@ -23,6 +23,7 @@ class UpdateLevel {
     p.getRyoServerData.setExp(exp).apply(p)
     BossBar.updateLevelBer(exp, p)
     p.getRyoServerData.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)).apply(p)
+    SkillPointBer.update(p)
   }
 
   /*
@@ -91,6 +92,7 @@ class UpdateLevel {
 
       //スキルポイントを全回復
       p.getRyoServerData.setSkillPoint(new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)).apply(p)
+      SkillPointBer.update(p)
 
       p.sendMessage(s"${AQUA}おめでとうございます！レベルが上がりました！")
       p.sendMessage(s"${AQUA}Lv." + oldPlayerLevel + " → Lv." + p.getRyoServerData.level)

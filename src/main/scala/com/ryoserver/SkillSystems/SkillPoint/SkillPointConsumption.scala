@@ -8,7 +8,8 @@ class SkillPointConsumption {
   def consumption(skillPoint: Double, p: Player): Unit = {
     val playerSP = p.getRyoServerData.skillPoint
     if (skillPoint <= playerSP) {
-      p.getRyoServerData.setSkillPoint(playerSP - skillPoint)
+      p.getRyoServerData.setSkillPoint(playerSP - skillPoint).apply(p)
+      SkillPointBer.update(p)
     }
   }
 

@@ -25,6 +25,7 @@ class RecoverySkillPointEvent extends Listener {
     } else if (item == RecoveryItems.max) {
       setMaxSkillPoint(p)
     }
+    SkillPointBer.update(p)
   }
 
   private def setMaxSkillPoint(implicit p: Player): Unit = {
