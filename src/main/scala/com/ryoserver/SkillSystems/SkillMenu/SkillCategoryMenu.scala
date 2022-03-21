@@ -10,7 +10,7 @@ import org.bukkit.ChatColor._
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class SkillCategoryMenu(implicit ryoServerAssist: RyoServerAssist) extends Menu {
+class SkillCategoryMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override val frame: MenuFrame = MenuFrame(3, "スキルカテゴリ選択")
 

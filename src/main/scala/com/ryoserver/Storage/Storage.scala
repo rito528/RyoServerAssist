@@ -22,7 +22,7 @@ class Storage {
   }
 
   def load(p: Player): Unit = {
-    if (p.getQuestLevel >= 10) {
+    if (p.getRyoServerData.level >= 10) {
       implicit val session: AutoSession.type = AutoSession
       val inv = Bukkit.createInventory(null, 54, "Storage")
       val storageTable = sql"SELECT invData FROM Storage WHERE UUID=${p.getUniqueId.toString}"

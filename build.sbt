@@ -42,8 +42,7 @@ libraryDependencies ++= Seq(
 
 lazy val root = (project in file("."))
   .settings(
-    name := "RyoServerAssist",
-    javaOptions ++= Seq("-encoding","utf-8")
+    name := "RyoServerAssist"
   )
 
 assembly / assemblyMergeStrategy := {

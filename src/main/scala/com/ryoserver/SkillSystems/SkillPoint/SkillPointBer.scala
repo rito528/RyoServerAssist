@@ -12,8 +12,8 @@ object SkillPointBer {
   private var bers: mutable.Map[Player, org.bukkit.boss.BossBar] = mutable.Map.empty
 
   def create(p: Player): Unit = {
-    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(p.getQuestLevel)
-    val playerSkillPoint = p.getSkillPoint
+    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)
+    val playerSkillPoint = p.getRyoServerData.skillPoint
     val bossBer = Bukkit.createBossBar("スキルポイント: " + playerSkillPoint, BarColor.WHITE, BarStyle.SOLID)
     bossBer.setProgress(playerSkillPoint / maxSkillPoint.toDouble)
     bossBer.setVisible(true)
@@ -23,9 +23,9 @@ object SkillPointBer {
 
   def update(p: Player): Unit = {
     val bossBer = bers.get(p)
-    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(p.getQuestLevel)
-    bossBer.get.setTitle("スキルポイント: " + p.getSkillPoint)
-    bossBer.get.setProgress(p.getSkillPoint / maxSkillPoint.toDouble)
+    val maxSkillPoint = new SkillPointCal().getMaxSkillPoint(p.getRyoServerData.level)
+    bossBer.get.setTitle("スキルポイント: " + p.getRyoServerData.skillPoint)
+    bossBer.get.setProgress(p.getRyoServerData.skillPoint / maxSkillPoint.toDouble)
   }
 
   def remove(p: Player): Unit = {

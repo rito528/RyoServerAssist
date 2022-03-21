@@ -9,7 +9,6 @@ import com.ryoserver.Menu.Button.{Button, ButtonMotion}
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu._
 import com.ryoserver.NeoStack.Menu.CategorySelectMenu
-import com.ryoserver.Player.GetData
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.Event.Menu.EventMenu
 import com.ryoserver.Quest.Menu.{SelectDailyQuestMenu, SelectQuestMenu}
@@ -71,6 +70,8 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
 
   private implicit val plugin: RyoServerAssist = ryoServerAssist
 
+  private val ryoServerData = p.getRyoServerData
+
   val craftingButton: Button = Button(
     ItemStackBuilder
       .getDefault(Material.CRAFTING_TABLE)
@@ -122,7 +123,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .lore(List(s"${GRAY}クリックで開きます。"))
       .build(),
     ButtonMotion { _ =>
-      new SkillCategoryMenu().open(p)
+      new SkillCategoryMenu(ryoServerAssist).open(p)
     }
   )
 
@@ -200,7 +201,7 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
       .title(s"${GREEN}運営からのガチャ券を受け取ります。")
       .lore(List(
         s"${GRAY}クリックで受け取ります。",
-        s"${GRAY}受け取れるガチャ券の枚数: ${new GetData().getFromAdminTickets(p)}枚"
+        s"${GRAY}受け取れるガチャ券の枚数: ${new Distribution().getFromAdminTicketsAmount(p)}枚"
       ))
       .build(),
     ButtonMotion { _ =>
@@ -217,8 +218,8 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
         s"${GRAY}クリックで受け取ります。",
         s"${GRAY}ガチャ券はEXPが100毎に1枚、または",
         s"${GRAY}レベルが10上がる毎に32枚手に入ります。",
-        s"${GRAY}受け取れるガチャ券の枚数:" + p.getGachaTickets + "枚",
-        s"${GRAY}次のガチャ券まであと" + String.format("%.1f", 100 - p.getQuestExp % 100)
+        s"${GRAY}受け取れるガチャ券の枚数:" + p.getRyoServerData.gachaTickets + "枚",
+        s"${GRAY}次のガチャ券まであと" + String.format("%.1f", 100 - p.getRyoServerData.exp % 100)
       ))
       .setEffect()
       .build(),
@@ -294,17 +295,17 @@ private case class computeButton(p: Player, ryoServerAssist: RyoServerAssist, ry
 
   val playerInformation: Button = Button(
     Item.getPlayerSkull(p, s"${p.getName}の情報", List(
-      s"${WHITE}レベル: Lv.${p.getQuestLevel}",
-      s"${WHITE}EXP: ${Format.threeCommaFormat(p.getQuestExp)}",
-      s"${WHITE}ランキング: ${p.getRanking}位",
-      s"${WHITE}前の順位のプレイヤーとの差:${Format.threeCommaFormat(p.getBeforeExpDiff.getOrElse(0))}",
-      s"${WHITE}後ろの順位のプレイヤーとの差:${Format.threeCommaFormat(p.getBehindExpDiff.getOrElse(0))}",
-      s"${WHITE}クエストクリア回数: ${p.getQuestClearTimes}回",
-      s"${WHITE}ガチャを引いた回数: ${p.getGachaPullNumber}回",
-      s"${WHITE}ログイン日数: ${p.getLoginNumber}日",
-      s"${WHITE}連続ログイン日数: ${p.getConsecutiveLoginDays}日",
-      s"${WHITE}投票回数: ${p.getVoteNumber}回",
-      s"${WHITE}連続投票日数: ${p.getReVoteNumber}日"
+      s"${WHITE}レベル: Lv.${ryoServerData.level}",
+      s"${WHITE}EXP: ${Format.threeCommaFormat(ryoServerData.exp)}",
+      s"${WHITE}ランキング: ${ryoServerData.ranking}位",
+      s"${WHITE}前の順位のプレイヤーとの差:${ryoServerData.nextRankingExpDiff}",
+      s"${WHITE}後ろの順位のプレイヤーとの差:${ryoServerData.backRankingExpDiff}",
+      s"${WHITE}クエストクリア回数: ${ryoServerData.questClearTimes}回",
+      s"${WHITE}ガチャを引いた回数: ${ryoServerData.gachaPullNumber}回",
+      s"${WHITE}ログイン日数: ${ryoServerData.loginDays}日",
+      s"${WHITE}連続ログイン日数: ${ryoServerData.consecutiveLoginDays}日",
+      s"${WHITE}投票回数: ${ryoServerData.voteNumber}回",
+      s"${WHITE}連続投票日数: ${ryoServerData.reVoteNumber}日"
     ))
   )
 

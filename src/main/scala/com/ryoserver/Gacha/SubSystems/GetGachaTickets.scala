@@ -1,7 +1,7 @@
 package com.ryoserver.Gacha.SubSystems
 
 import com.ryoserver.Gacha.GachaPaperData
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.util.Item
 import org.bukkit.ChatColor._
 import org.bukkit.Sound
@@ -18,9 +18,9 @@ class GetGachaTickets() {
           (if (itemStack != null) Item.getOneItemStack(itemStack) else null) == Item.getOneItemStack(gachaTicket)).map(_.getAmount).sum
       gachaTicket.setAmount(number)
       p.getInventory.addItem(gachaTicket)
-      p.reduceNormalGachaTickets(p.getInventory.getContents
+      p.getRyoServerData.removeGachaTicket(p.getInventory.getContents
         .filter(itemStack =>
-          (if (itemStack != null) Item.getOneItemStack(itemStack) else null) == Item.getOneItemStack(gachaTicket)).map(_.getAmount).sum - oldAmount)
+          (if (itemStack != null) Item.getOneItemStack(itemStack) else null) == Item.getOneItemStack(gachaTicket)).map(_.getAmount).sum - oldAmount).apply(p)
       p.sendMessage(s"${AQUA}ガチャ券を受け取りました。")
       p.playSound(p.getLocation, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1)
     } else {
@@ -29,7 +29,7 @@ class GetGachaTickets() {
   }
 
   def getTickets(p: Player): Int = {
-    val number = p.getGachaTickets
+    val number = p.getRyoServerData.gachaTickets
     if (number >= 576) {
       576
     } else {

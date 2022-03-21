@@ -1,6 +1,6 @@
 package com.ryoserver.SkillSystems.SkillPoint
 
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.util.Item
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -12,25 +12,26 @@ class RecoverySkillPointEvent extends Listener {
   @EventHandler
   def onEat(e: PlayerItemConsumeEvent): Unit = {
     val item = Item.getOneItemStack(e.getItem)
-    val p = e.getPlayer
-    val playerLevel = p.getQuestLevel
-    val playerSP = p.getSkillPoint
+    implicit val p: Player = e.getPlayer
+    val playerLevel = p.getRyoServerData.level
+    val playerSP = p.getRyoServerData.skillPoint
     val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
     if (item == RecoveryItems.min) {
       if (playerSP + 300 >= maxSP) setMaxSkillPoint(p)
-      else p.setSkillPoint(playerSP + 300)
+      else p.getRyoServerData.setSkillPoint(playerSP + 300).apply
     } else if (item == RecoveryItems.mid) {
       if (playerSP + 3000 >= maxSP) setMaxSkillPoint(p)
-      else p.setSkillPoint(playerSP + 3000)
+      else p.getRyoServerData.setSkillPoint(playerSP + 3000).apply
     } else if (item == RecoveryItems.max) {
       setMaxSkillPoint(p)
     }
+    SkillPointBer.update(p)
   }
 
-  private def setMaxSkillPoint(p: Player): Unit = {
-    val playerLevel = p.getQuestLevel
+  private def setMaxSkillPoint(implicit p: Player): Unit = {
+    val playerLevel = p.getRyoServerData.level
     val maxSP = new SkillPointCal().getMaxSkillPoint(playerLevel)
-    p.setSkillPoint(maxSP)
+    p.getRyoServerData.setSkillPoint(maxSP).apply
     p.playSound(p.getLocation, Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1)
   }
 

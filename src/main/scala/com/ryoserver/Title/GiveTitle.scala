@@ -18,7 +18,7 @@ class GiveTitle {
   private val data = new PlayerTitleData
 
   def lv(p: Player): Unit = {
-    val level = p.getQuestLevel
+    val level = p.getRyoServerData.level
     TitleData.lv.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= level) {
         if (data.openTitle(p, title)) {
@@ -30,7 +30,7 @@ class GiveTitle {
   }
 
   def continuousLogin(p: Player): Unit = {
-    val continuousLoginDays = p.getConsecutiveLoginDays
+    val continuousLoginDays = p.getRyoServerData.consecutiveLoginDays
     TitleData.continuousLogin.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= continuousLoginDays && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
@@ -40,7 +40,7 @@ class GiveTitle {
   }
 
   def loginDays(p: Player): Unit = {
-    val LoginDays = p.getLoginNumber
+    val LoginDays = p.getRyoServerData.loginDays
     TitleData.loginDays.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= LoginDays && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
@@ -50,7 +50,7 @@ class GiveTitle {
   }
 
   def questClearNumber(p: Player): Unit = {
-    val clearTimes = p.getQuestClearTimes
+    val clearTimes = p.getRyoServerData.questClearTimes
     TitleData.questClearNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= clearTimes && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
@@ -60,7 +60,7 @@ class GiveTitle {
   }
 
   def gachaPullNumber(p: Player): Unit = {
-    val pullNumber = p.getGachaPullNumber
+    val pullNumber = p.getRyoServerData.gachaPullNumber
     TitleData.gachaNumber.foreach(title => {
       if (titleConfig.getInt(s"titles.$title.condition") <= pullNumber && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
@@ -71,7 +71,7 @@ class GiveTitle {
 
   def skillOpenNumber(p: Player): Unit = {
     TitleData.skillOpen.foreach(title => {
-      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getOpenedSkills.map(_.skillName))
+      val diff = titleConfig.getStringList(s"titles.$title.condition").asScala.toSet.diff(p.getRyoServerData.openedSkills.getOrElse(Set.empty).map(_.skillName))
       if (diff.isEmpty && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
@@ -115,7 +115,7 @@ class GiveTitle {
 
   def titleGetNumber(p: Player): Unit = {
     TitleData.titleGetNumber.foreach(title => {
-      if (data.getHasTitles(p.getUniqueId).length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p, title)) {
+      if (data.getHasTitles(p.getUniqueId).toList.length >= titleConfig.getInt(s"titles.$title.condition") && data.openTitle(p, title)) {
         p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 1)
       }
@@ -126,8 +126,8 @@ class GiveTitle {
     TitleData.continuousLoginAndQuestClearNumber.foreach(title => {
       val conditionLogin = titleConfig.getString(s"titles.$title.condition").split(",")(0).toInt
       val conditionQuest = titleConfig.getString(s"titles.$title.condition").split(",")(1).toInt
-      var login = p.getConsecutiveLoginDays
-      var quest = p.getQuestClearTimes
+      val login = p.getRyoServerData.consecutiveLoginDays
+      val quest = p.getRyoServerData.questClearTimes
       if (conditionLogin <= login && conditionQuest <= quest) {
         if (data.openTitle(p, title)) {
           p.sendMessage(s"${AQUA}称号:${title}が開放されました！")
