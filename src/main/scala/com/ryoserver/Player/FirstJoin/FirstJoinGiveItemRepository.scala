@@ -2,7 +2,7 @@ package com.ryoserver.Player.FirstJoin
 
 import com.ryoserver.util.Item
 import com.ryoserver.util.ScalikeJDBC.getData
-import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.{Inventory, ItemStack}
 import scalikejdbc.{AutoSession, scalikejdbcSQLInterpolationImplicitDef}
 
 class FirstJoinGiveItemRepository extends TFirstJoinGiveItemRepository {
@@ -24,6 +24,10 @@ class FirstJoinGiveItemRepository extends TFirstJoinGiveItemRepository {
         FirstJoinGiveItemEntity.giveItems += itemStack
       })
     })
+  }
+
+  override def get(): List[ItemStack] = {
+    FirstJoinGiveItemEntity.giveItems.toList
   }
 
 }
