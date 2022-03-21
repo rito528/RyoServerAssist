@@ -1,9 +1,8 @@
 package com.ryoserver.Title
 
-import com.ryoserver.Player.PlayerData
-import com.ryoserver.Player.PlayerManager.setPlayerData
-import org.bukkit.Bukkit
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.entity.Player
+import org.bukkit.{Bukkit, OfflinePlayer}
 
 import java.util.UUID
 
@@ -12,43 +11,41 @@ class PlayerTitleData {
   def openTitle(p: Player, title: String): Boolean = {
     val uuid = p.getUniqueId
     if (hasTitle(uuid, title)) return false
-    p.openTitles(getHasTitles(uuid).mkString(";") + (if (getHasTitles(uuid).mkString(";") != "") ";" else "") + title)
+    implicit val player: Player = p
+    player.getRyoServerData.addOpenedTitles(title).apply
     new GiveTitle().titleGetNumber(p)
     true
   }
 
   def hasTitle(uuid: UUID, title: String): Boolean = getHasTitles(uuid).contains(title)
 
-  def getHasTitles(uuid: UUID): Array[String] = {
-    PlayerData.playerData(uuid).OpenedTitles match {
-      case Some(titles) =>
-        titles.split(";")
-      case None =>
-        Array.empty[String]
-    }
+  def getHasTitles(uuid: UUID): Set[String] = {
+    Bukkit.getOfflinePlayer(uuid).getRyoServerData.openedTitles.getOrElse(Set.empty)
   }
 
   def removeTitle(uuid: UUID, title: String): Boolean = {
     if (!hasTitle(uuid, title)) return false
-    Bukkit.getOfflinePlayer(uuid).openTitles(getHasTitles(uuid).filterNot(_ == title).mkString(";") + ";")
+    implicit val p: OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
+    p.getRyoServerData.removeOpenedTitles(title).apply
     true
   }
 
   def getSelectedTitle(uuid: UUID): String = {
-    PlayerData.playerData(uuid).SelectedTitle match {
-      case Some(title) =>
-        title
-      case None =>
-        null
+    implicit val p: OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
+    p.getRyoServerData.selectedTitle match {
+      case Some(title) => title
+      case None => null
     }
   }
 
   def setSelectTitle(uuid: UUID, title: String): Unit = {
-    Bukkit.getOfflinePlayer(uuid).setSelectedTitle(title)
+    implicit val offlinePlayer: OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
+    offlinePlayer.getRyoServerData.setSelectedTitle(Option(title))
   }
 
   def resetSelectTitle(uuid: UUID): Unit = {
-    Bukkit.getOfflinePlayer(uuid).setSelectedTitle(null)
+    implicit val offlinePlayer: OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
+    offlinePlayer.getRyoServerData.setSelectedTitle(None).apply
   }
 
 }

@@ -3,7 +3,7 @@ package com.ryoserver.Quest.QuestServices
 import com.ryoserver.Level.Player.UpdateLevel
 import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.NeoStack.NeoStackService
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.Quest.{MaterialOrEntityType, PlayerQuestDataContext, QuestDataContext}
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor.AQUA
@@ -34,7 +34,7 @@ trait QuestService {
   }
 
   def getCanQuests: Set[QuestDataContext] = {
-    val playerLevel = p.getQuestLevel
+    val playerLevel = p.getRyoServerData.level
     questData.filter(data => data.minLevel <= playerLevel && data.maxLevel >= playerLevel)
   }
 
@@ -49,7 +49,7 @@ trait QuestService {
 
   def questClear(exp: Double): Unit = {
     new UpdateLevel().addExp(exp,p)
-    p.addQuestClearTimes()
+    p.getRyoServerData.addQuestClearTimes(1).apply(p)
   }
 
   def questDestroy(): Unit = {
@@ -120,7 +120,7 @@ trait QuestService {
       getLayOut(1, 6),
       getLayOut(2, 6),
       getLayOut(9, 6),
-      if (p.getQuestLevel >= 20) getLayOut(3, 6) else -1
+      if (p.getRyoServerData.level >= 20) getLayOut(3, 6) else -1
     ).filterNot(_ == -1).foreach(index => inv.remove(inv.getItem(index)))
   }
 

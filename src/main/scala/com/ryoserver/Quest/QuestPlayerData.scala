@@ -1,15 +1,14 @@
 package com.ryoserver.Quest
 
 import com.ryoserver.Quest.MaterialOrEntityType.{entityType, material}
-import com.ryoserver.Quest.QuestPlayerData.{lastDailyQuestDate, playerDailyQuestData, playerQuestData, playerQuestSortData}
+import com.ryoserver.Quest.QuestPlayerData.{playerDailyQuestData, playerQuestData, playerQuestSortData}
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.util.Entity
 import org.bukkit.Material
 import org.bukkit.scheduler.BukkitRunnable
 import scalikejdbc.{AutoSession, NoExtractor, SQL, scalikejdbcSQLInterpolationImplicitDef}
 
-import java.text.SimpleDateFormat
-import java.util.{Date, UUID}
+import java.util.UUID
 import scala.collection.mutable
 
 object QuestPlayerData {
@@ -19,12 +18,6 @@ object QuestPlayerData {
   private val playerQuestData: mutable.Map[UUID, PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM Quests",QuestData.loadedQuestData)
   private val playerDailyQuestData: mutable.Map[UUID,PlayerQuestDataContext] = getPlayerQuestData(sql"SELECT * FROM DailyQuests",QuestData.loadedDailyQuestData,isDaily = true)
   private val playerQuestSortData: mutable.Map[UUID,QuestSortContext] = mutable.Map.empty
-  private val lastDailyQuestDate: mutable.Map[UUID,Date] = {
-    val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-    mutable.Map() ++ sql"SELECT UUID,LastDailyQuest FROM Players".map{rs =>
-      UUID.fromString(rs.string("UUID")) -> format.parse(rs.string("LastDailyQuest"))
-    }.toList().apply().toMap
-  }
 
   private def getPlayerQuestData(sql: SQL[Nothing,NoExtractor],rawData: Set[QuestDataContext],isDaily: Boolean = false): mutable.Map[UUID, PlayerQuestDataContext] = {
     mutable.Map() ++ sql.map{rs =>
@@ -79,10 +72,6 @@ final class QuestPlayerData {
       playerDailyQuestData += uuid -> playerQuestDataContext
     }
 
-    def changeLastDailyQuest(uuid: UUID,date: Date): Unit = {
-      lastDailyQuestDate += uuid -> date
-    }
-
     def setQuestSortData(uuid: UUID,questSortContext: QuestSortContext): Unit = {
       playerQuestSortData += uuid -> questSortContext
     }
@@ -104,17 +93,6 @@ final class QuestPlayerData {
     def getQuestSortData(uuid: UUID): QuestSortContext = {
       if (playerQuestSortData.contains(uuid)) playerQuestSortData(uuid)
       else QuestSortContext.normal
-    }
-
-    def getLastDailyQuest(uuid: UUID): Date = {
-      if (lastDailyQuestDate.contains(uuid)) {
-        lastDailyQuestDate(uuid)
-      } else {
-        val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val date = simpleDateFormat.parse("2000-01-01 00:00:00")
-        processQuestData.changeLastDailyQuest(uuid,date)
-        date
-      }
     }
 
     def getPlayerQuestContext(uuid: UUID): PlayerQuestDataContext = {
@@ -198,22 +176,6 @@ final class QuestPlayerData {
         }
       }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
     }
-
-    def saveLastDailyQuestDate(): Unit = {
-      lastDailyQuestDate.foreach{case (uuid,date) =>
-        val simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        sql"UPDATE Players SET LastDailyQuest=${simpleDateFormat.format(date.getTime)} WHERE UUID=${uuid.toString}".execute().apply()
-      }
-    }
-
-    def autoSaveLastDailyQuestDate(implicit ryoServerAssist: RyoServerAssist): Unit = {
-      new BukkitRunnable {
-        override def run(): Unit = {
-          saveLastDailyQuestDate()
-        }
-      }.runTaskTimerAsynchronously(ryoServerAssist,oneMinute,oneMinute)
-    }
-
   }
 
 }

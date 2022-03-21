@@ -1,13 +1,12 @@
 package com.ryoserver.SkillSystems.Skill.BreakSkill
 
 import com.ryoserver.Config.ConfigData.getConfig
-import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
-import com.ryoserver.NeoStack.{NeoStackService, RawNeoStackItemAmountContext}
+import com.ryoserver.NeoStack.NeoStackService
 import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.SkillSystems.Skill.SpecialSkillPlayerData.isActivatedSkill
 import com.ryoserver.SkillSystems.SkillPoint.SkillPointConsumption
 import com.ryoserver.util.Item.itemAddDamage
-import com.ryoserver.util.{Item, WorldGuardWrapper}
+import com.ryoserver.util.WorldGuardWrapper
 import net.coreprotect.CoreProtect
 import org.bukkit.entity.Player
 import org.bukkit.{Location, Material}
@@ -29,7 +28,7 @@ final class Break {
   )
 
   def break(p: Player, skillName: String, spCost: Int, breakBlockLocation: Location, breakRange: BreakRange): Unit = {
-    if (!isActivatedSkill(p, skillName) || spCost > p.getSkillPoint) return
+    if (!isActivatedSkill(p, skillName) || spCost > p.getRyoServerData.skillPoint) return
     val facing = p.getFacing.toString
     val playerY = p.getLocation.getY
     val breakBlockY = breakBlockLocation.getY
@@ -71,7 +70,7 @@ final class Break {
     val handItem = p.getInventory.getItemInMainHand
     val neoStackService = new NeoStackService
     block.getDrops(handItem).asScala.foreach(itemStack => {
-      if (neoStackService.isItemExists(itemStack) && p.isAutoStack) {
+      if (neoStackService.isItemExists(itemStack) && p.getRyoServerData.autoStack) {
          neoStackService.addItemAmount(p.getUniqueId,itemStack,itemStack.getAmount)
       } else {
         p.getLocation.getWorld.dropItem(p.getLocation, itemStack)

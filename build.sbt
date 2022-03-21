@@ -1,4 +1,4 @@
-ThisBuild / version := "1.8.4"
+ThisBuild / version := "1.9.0"
 ThisBuild / scalaVersion := "2.13.7"
 ThisBuild / organization := "com.ryoserver"
 
@@ -42,8 +42,7 @@ libraryDependencies ++= Seq(
 
 lazy val root = (project in file("."))
   .settings(
-    name := "RyoServerAssist",
-    javaOptions ++= Seq("-encoding","utf-8")
+    name := "RyoServerAssist"
   )
 
 assembly / assemblyMergeStrategy := {

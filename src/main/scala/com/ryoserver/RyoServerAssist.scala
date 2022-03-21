@@ -17,6 +17,8 @@ import com.ryoserver.NeoStack.NeoStackPage.NeoStackPageRepository
 import com.ryoserver.NeoStack._
 import com.ryoserver.Notification.Notification
 import com.ryoserver.OriginalItem.{PlayEffect, RepairEvent, TotemEffect}
+import com.ryoserver.Player.FirstJoin.{FirstJoinGiveItemRepository, FirstJoinSettingEvent}
+import com.ryoserver.Player.PlayerData.PlayerDataRepository
 import com.ryoserver.Player._
 import com.ryoserver.Quest.Event.{EventGateway, EventLoader}
 import com.ryoserver.Quest.Suppression.{EventSuppression, NormalQuestSuppression}
@@ -32,9 +34,10 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{ScalikeJDBC, Translate}
+import com.ryoserver.util.{Item, ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import scalikejdbc.{AutoSession, DB, scalikejdbcSQLInterpolationImplicitDef}
 
 class RyoServerAssist extends JavaPlugin {
 
@@ -156,7 +159,6 @@ class RyoServerAssist extends JavaPlugin {
     /*
       様々なロード処理
      */
-    new LoadAllPlayerData().load()
     new TitleLoader().loadTitle()
     new NeoStackPageRepository().restore()
     Operator.checkOp
@@ -174,20 +176,22 @@ class RyoServerAssist extends JavaPlugin {
       オートセーブの実行
      */
     new NeoStackService().autoStoreItem
-    new SavePlayerData().autoSave()
+    new PlayerService().autoSave
     new EventGateway().autoSaveEvent()
     new SaveDistribution().autoSave()
     val questPlayerData = new QuestPlayerData()
     questPlayerData.saver.autoSavePlayerQuestData
     questPlayerData.saver.autoSavePlayerDailyQuestData
-    questPlayerData.saver.autoSaveLastDailyQuestDate
+    new PlayerService().autoSave
+    new FirstJoinGiveItemRepository().restore()
 
     HomeData.saveHomeData
 
     /*
       サーバーに入っているプレイヤーにデータを適用する
      */
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader().load(p))
+    val playerLoader = new PlayerLoader()
+    Bukkit.getOnlinePlayers.forEach(p => playerLoader.load(p))
 
     /*
       TipsSenderの起動
@@ -199,21 +203,37 @@ class RyoServerAssist extends JavaPlugin {
      */
     new EventGateway().autoCheckEvent()
 
+    //NeoStack用データベースマイグレーション
+    println("データベースマイグレーション中...")
+    DB.localTx(implicit session => {
+      sql"SELECT * FROM StackData".foreach(rs =>{
+        val itemStack = Item.getStringFromItemStack(Item.getItemStackFromString(rs.string("item")))
+        if (rs.string("item").contains("2730")) {
+          sql"DELETE FROM StackData WHERE item=${rs.string("item")}".execute().apply()
+          if (!sql"SELECT item FROM StackData WHERE item=$itemStack".map(rs => rs.string("item")).toList().apply().contains(itemStack)) {
+            sql"INSERT INTO StackData (uuid,item,amount) VALUES (${rs.string("uuid")},$itemStack,${rs.int("amount")})"
+              .execute().apply()
+          }
+        }
+      })
+    })
+    println("データベースマイグレーション完了")
+
     getLogger.info("RyoServerAssist enabled.")
   }
 
   override def onDisable(): Unit = {
     super.onDisable()
+    val playerLoader = new PlayerLoader()
+    Bukkit.getOnlinePlayers.forEach(p => playerLoader.unload(p))
     new EventGateway().saveEvent()
     new EventGateway().saveRanking()
-    Bukkit.getOnlinePlayers.forEach(p => new PlayerDataLoader().unload(p))
+    new PlayerDataRepository().store()
     new NeoStackItemRepository().store()
-    new SavePlayerData().save()
     new SaveDistribution().save()
     val questPlayerData = new QuestPlayerData
     questPlayerData.saver.savePlayerQuestData()
     questPlayerData.saver.savePlayerDailyQuestData()
-    questPlayerData.saver.saveLastDailyQuestDate()
     HomeData.save()
     getLogger.info("RyoServerAssist disabled.")
   }

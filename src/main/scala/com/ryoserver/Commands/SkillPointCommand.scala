@@ -2,7 +2,7 @@ package com.ryoserver.Commands
 
 import com.ryoserver.Commands.Executer.Contexts.{CommandContext, RawCommandContext}
 import com.ryoserver.Commands.Executer.ContextualTabExecutor
-import com.ryoserver.Player.PlayerManager.setPlayerData
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.ChatColor._
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
@@ -17,10 +17,10 @@ object SkillPointCommand {
       val p = sender.asInstanceOf[Player]
       args.head.toLowerCase match {
         case "normal" =>
-          p.addSkillOpenPoint(args(1).toInt)
+          p.getRyoServerData.addSkillOpenPoint(args(1).toInt).apply(p)
           p.sendMessage(s"${AQUA}スキルポイントを${args(1)}付与しました。")
         case "special" =>
-          p.addSpecialSkillOpenPoint(args(1).toInt)
+          p.getRyoServerData.addSpecialSkillOpenPoint(args(1).toInt).apply(p)
           p.sendMessage(s"${AQUA}特殊スキルポイントを${args(1)}付与しました。")
         case _ =>
       }

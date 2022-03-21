@@ -96,7 +96,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
 
   val clear: Button = Button(
     Item.getPlayerSkull(player, s"${GREEN}スキル選択を解除します",
-      List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + player.getSpecialSkillOpenPoint)),
+      List(s"${GRAY}現在保有中の特殊スキル解放ポイント:" + player.getRyoServerData.specialSkillOpenPoint)),
     ButtonMotion { _ =>
       if (SpecialSkillPlayerData.getActivatedSkill(player).isDefined) {
         SpecialSkillPlayerData.skillInvalidation(player, SpecialSkillPlayerData.getActivatedSkill(player).get)
@@ -112,7 +112,7 @@ private case class computeBreakSkillButton(player: Player, ryoServerAssist: RyoS
       .lore(List("クリックで戻ります。"))
       .build(),
     ButtonMotion { _ =>
-      new SkillCategoryMenu().open(player)
+      new SkillCategoryMenu(ryoServerAssist).open(player)
     }
   )
 

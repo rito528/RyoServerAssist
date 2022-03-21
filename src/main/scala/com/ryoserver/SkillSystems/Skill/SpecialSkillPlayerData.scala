@@ -1,7 +1,6 @@
 package com.ryoserver.SkillSystems.Skill
 
-import com.ryoserver.Player.PlayerData
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import org.bukkit.ChatColor._
 import org.bukkit.entity.Player
 
@@ -30,7 +29,7 @@ object SpecialSkillPlayerData {
   }
 
   def skillToggle(p: Player, skillName: String): Unit = {
-    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && p.getSpecialSkillOpenPoint >= 10) {
+    if (!isSkillOpened(p, skillName) && checkSkillOpen(p, skillName) && p.getRyoServerData.specialSkillOpenPoint >= 10) {
       skillOpen(p, skillName)
       p.sendMessage(s"$AQUA${skillName}を開放しました。")
       return
@@ -83,21 +82,11 @@ object SpecialSkillPlayerData {
   }
 
   def isSkillOpened(p: Player, skillName: String): Boolean = {
-    val openedSkills = p.getOpenedSpecialSkills.orNull
-    if (openedSkills != null) openedSkills.contains(skillName) else false
+    p.getRyoServerData.openedSpecialSkills.contains(skillName)
   }
 
   def skillOpen(p: Player, skillName: String): Unit = {
-    val data = PlayerData.playerData(p.getUniqueId)
-    var openedSkills = ""
-    data.OpenedSpecialSkills match {
-      case Some(s) =>
-        openedSkills += s + "," + skillName
-      case None =>
-        openedSkills += skillName
-    }
-    p.addSpecialSkillOpenPoint(-10)
-    p.openSpecialSkills(openedSkills)
+    p.getRyoServerData.addOpenedSpecialSkill(skillName).removeSpecialSkillOpenPoint(10).apply(p)
   }
 
   def skillInvalidation(p: Player, skillName: String): Unit = {

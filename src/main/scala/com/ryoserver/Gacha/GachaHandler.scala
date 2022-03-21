@@ -3,7 +3,7 @@ package com.ryoserver.Gacha
 import com.ryoserver.Gacha.GachaCoolDown.{getCoolDown, pullCoolDownSet}
 import com.ryoserver.Gacha.GachaPaperData.enableGachaTickets
 import com.ryoserver.OriginalItem.OriginalItems
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.Title.GiveTitle
 import org.bukkit.ChatColor._
@@ -20,12 +20,12 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
    */
   private def checkPart(p: Player): Boolean = {
     val gachaLottery = new GachaLottery
-    if (p.getGachaPullNumber % 3000 == 0 && p.getGachaPullNumber != 0) {
+    if (p.getRyoServerData.gachaPullNumber % 3000 == 0 && p.getRyoServerData.gachaPullNumber != 0) {
       //特等交換券を出す
       p.getWorld.dropItem(p.getLocation(), OriginalItems.tokutoukoukanken)
       p.sendMessage(s"${AQUA}特等交換券が排出されました。")
       return true
-    } else if (p.getGachaPullNumber % 1000 == 0 && p.getGachaPullNumber != 0) {
+    } else if (p.getRyoServerData.gachaPullNumber % 1000 == 0 && p.getRyoServerData.gachaPullNumber != 0) {
       //必ず何かしらの特等を出す
       p.getWorld.dropItem(p.getLocation(), gachaLottery.itemLottery(Rarity.special))
       return true
@@ -45,7 +45,7 @@ class GachaHandler(implicit ryoServerAssist: RyoServerAssist) extends Listener {
       enableGachaTickets.map(_.getItemMeta).contains(mainHand.getItemMeta) && !getCoolDown(p)) {
       val thisGachaPullNum = if (p.isSneaking) getItemAmount else 1
       val rarities: IndexedSeq[Option[Rarity]] = (0 until thisGachaPullNum).map(_ => {
-        p.addGachaPullNumber(1)
+        p.getRyoServerData.addGachaPullNumber(1).apply(p)
         if (!checkPart(p)) {
           val rarity = gachaLottery.rarityLottery()
           p.getWorld.dropItem(p.getLocation, gachaLottery.itemLottery(rarity))

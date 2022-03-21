@@ -5,7 +5,7 @@ import com.ryoserver.Menu.MenuLayout.getLayOut
 import com.ryoserver.Menu.{Menu, MenuFrame}
 import com.ryoserver.NeoStack.NeoStackItem.NeoStackItemRepository
 import com.ryoserver.NeoStack.{Category, NeoStackService, RawNeoStackItemAmountContext}
-import com.ryoserver.Player.PlayerManager.{getPlayerData, setPlayerData}
+import com.ryoserver.Player.PlayerManager.getPlayerData
 import com.ryoserver.RyoServerAssist
 import com.ryoserver.RyoServerMenu.RyoServerMenu1
 import com.ryoserver.util.{Item, ItemStackBuilder}
@@ -19,7 +19,7 @@ class CategorySelectMenu(ryoServerAssist: RyoServerAssist) extends Menu {
 
   override def openMotion(player: Player): Boolean = {
     super.openMotion(player)
-    if (player.getQuestLevel < 20) {
+    if (player.getRyoServerData.level < 20) {
       player.sendMessage(s"${RED}ネオスタックはレベル20から利用可能です。")
       return false
     }
@@ -123,12 +123,12 @@ private case class computeCategorySelectMenu(player: Player, ryoServerAssist: Ry
   val autoStack: Button = Button(
     ItemStackBuilder
       .getDefault(Material.HOPPER)
-      .title(s"${WHITE}自動収納を${if (player.isAutoStack) "off" else "on"}にします。")
+      .title(s"${WHITE}自動収納を${if (player.getRyoServerData.autoStack) "off" else "on"}にします。")
       .lore(List(s"${GRAY}クリックで切り替えます。",
-        s"${GRAY}現在の状態:${if (player.isAutoStack) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
+        s"${GRAY}現在の状態:${if (player.getRyoServerData.autoStack) s"$GREEN$BOLD${UNDERLINE}on" else s"$RED$BOLD${UNDERLINE}off"}"))
       .build(),
     ButtonMotion { _ =>
-      player.toggleAutoStack()
+      player.getRyoServerData.toggleAutoStack().apply(player)
       new CategorySelectMenu(ryoServerAssist).open(player)
     }
   )
