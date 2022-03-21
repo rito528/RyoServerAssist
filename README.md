@@ -6,7 +6,7 @@
 - [Intellij IDEA](https://www.jetbrains.com/ja-jp/idea/)
 - [Scala 2.13.7](https://www.scala-lang.org/download/2.13.7.html)
 - [sbt 1.6.1](https://www.scala-sbt.org/1.x/docs/Setup.html)
-- [Paper 1.17.1](https://papermc.io/downloads)
+- [Paper 1.18.2](https://papermc.io/downloads)
 
 ### このプラグインを利用する上での注意
 
@@ -26,6 +26,7 @@
 
 - plugin.ymlのapiVersionを利用バージョンに変更
 - resourcesディレクトリの中にあるja_jp.jsonを利用バージョンに変更する
+- NeoStackのアイテムデータ変更用マイグレーションプログラムを書き、実行する
 
 ### 必要な設定
 
