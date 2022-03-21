@@ -269,14 +269,14 @@ private case class computeEffectSkillButton(plugin: RyoServerAssist)(implicit pl
   )
 
   private def getIcon(p: Player, material: Material, effectSkills: EffectSkills): Material = {
-    if (p.getRyoServerData.openedSkills.contains(effectSkills)) material
+    if (p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills)) material
     else Material.BEDROCK
   }
 
   private def getLore(p: Player, effectSkills: EffectSkills): List[String] = {
-    List(if (p.getRyoServerData.openedSkills.contains(effectSkills)) s"${GRAY}解放済みです。" else s"$GRAY[解放条件]",
-      if (p.getRyoServerData.openedSkills.contains(effectSkills)) "" else s"$GRAY・スキル解放ポイントを10消費",
-      if (p.getRyoServerData.openedSkills.contains(effectSkills) && effectSkills.isSpecialSkill) s"$GRAY・基本スキルをすべて開放" else "",
+    List(if (p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills)) s"${GRAY}解放済みです。" else s"$GRAY[解放条件]",
+      if (p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills)) "" else s"$GRAY・スキル解放ポイントを10消費",
+      if (p.getRyoServerData.openedSkills.getOrElse(Set.empty).contains(effectSkills) && effectSkills.isSpecialSkill) s"$GRAY・基本スキルをすべて開放" else "",
       s"${GRAY}スキルポイントコスト:${effectSkills.cost}").filterNot(_ == "")
   }
 
