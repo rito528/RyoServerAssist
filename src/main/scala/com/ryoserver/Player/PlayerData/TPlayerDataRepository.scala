@@ -8,7 +8,10 @@ trait TPlayerDataRepository {
 
   def store(): Unit
 
-  def restore(uuid: UUID): Unit
+  /**
+   * プレイヤーデータが存在しなかった場合にfalseを返します。
+   */
+  def restore(uuid: UUID): Boolean
 
   def findBy(uuid: UUID): Option[PlayerDataType]
 
