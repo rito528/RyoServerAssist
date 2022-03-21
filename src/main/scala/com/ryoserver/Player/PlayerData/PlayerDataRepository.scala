@@ -69,13 +69,13 @@ class PlayerDataRepository extends TPlayerDataRepository {
         playersTable.map(rs => {
           val nextPlayerExp = if (rs.int("ranking") != 1) {
             val next = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") - 1};"
-            next.getHeadData.get("exp").toString.toInt
+            next.getHeadData.get("exp").toString.toDouble
           } else {
             0
           }
           val backPlayerExp = if (rs.int("max_row_num") != rs.int("ranking")) {
             val back = sql"SELECT exp,(SELECT COUNT(*) + 1 FROM Players B WHERE B.exp > Players.exp) AS ranking FROM Players HAVING ranking=${rs.int("ranking") + 1};"
-            back.getHeadData.get("exp").toString.toInt
+            back.getHeadData.get("exp").toString.toDouble
           } else {
             0
           }
