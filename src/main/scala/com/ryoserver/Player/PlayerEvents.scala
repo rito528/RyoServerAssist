@@ -13,7 +13,7 @@ class PlayerEvents(implicit ryoServerAssist: RyoServerAssist) extends Listener {
 
   @EventHandler
   def onQuit(e: PlayerQuitEvent): Unit = {
-    new PlayerLoader().load(e.getPlayer)
+    new PlayerLoader().unload(e.getPlayer)
   }
 
 }
