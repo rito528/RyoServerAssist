@@ -20,19 +20,15 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
             implicit val iSession: DBSession = session
             val itemStackString = Item.getStringFromItemStack(rawNeoStackItemAmountContext.itemStack)
             val amount = rawNeoStackItemAmountContext.amount
-            sql"""INSERT INTO StackData (UUID,item,amount) VALUES(${uuid.toString},$itemStackString,$amount)
+            println(amount)
+            sql"""INSERT INTO StackData (UUID,item,amount) VALUES (${uuid.toString},$itemStackString,$amount)
                ON DUPLICATE KEY UPDATE
+               item=$itemStackString,
                amount=$amount"""
               .execute()
               .apply()
           })
         })
-        if (!Bukkit.getOfflinePlayer(uuid).isOnline) {
-          clearCache(uuid)
-        }
-        //キャッシュクリア時に同時に参加した場合を考慮し、終わったあとにデータがないプレイヤーが存在しないことを確認し、存在したら適用する
-        val players = Bukkit.getOnlinePlayers.asScala.filter(p => !NeoStackItemEntity.neoStackItem.contains(p.getUniqueId))
-        players.foreach(p => restore(p.getUniqueId))
       }
     }
   }
@@ -61,6 +57,7 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
     if (!isItemExists(rawNeoStackItemAmountContext.itemStack) || rawNeoStackItemAmountContext.amount < 0) return false
     NeoStackItemEntity.neoStackItem += uuid -> (getItemList(uuid).filterNot(_.itemStack == rawNeoStackItemAmountContext.itemStack) ++ Set(rawNeoStackItemAmountContext))
     changedNeoStackItemCache += uuid -> ((if (changedNeoStackItemCache.contains(uuid)) changedNeoStackItemCache(uuid) else Set.empty) ++ Set(rawNeoStackItemAmountContext.itemStack))
+    println(changedNeoStackItemCache)
     true
   }
 
@@ -72,10 +69,6 @@ class NeoStackItemRepository extends TNeoStackItemRepository {
   private def isItemExists(itemStack: ItemStack): Boolean = {
     val pageRepository = new NeoStackPageRepository
     pageRepository.getAllItems.contains(itemStack)
-  }
-
-  def clearCache(uuid: UUID): Unit = {
-    changedNeoStackItemCache -= uuid
   }
 
 }
