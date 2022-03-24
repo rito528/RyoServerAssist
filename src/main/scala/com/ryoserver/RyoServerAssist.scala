@@ -32,9 +32,10 @@ import com.ryoserver.Title.TitleLoader
 import com.ryoserver.Vote.Vote
 import com.ryoserver.World.GuardMessage.EditEvent
 import com.ryoserver.World.Regeneration.Regeneration
-import com.ryoserver.util.{ScalikeJDBC, Translate}
+import com.ryoserver.util.{Item, ScalikeJDBC, Translate}
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import scalikejdbc.{DB, scalikejdbcSQLInterpolationImplicitDef}
 
 class RyoServerAssist extends JavaPlugin {
 
@@ -64,6 +65,22 @@ class RyoServerAssist extends JavaPlugin {
      Scalikejdbcをセットアップ
      */
     ScalikeJDBC.setup()
+
+    //NeoStack用データベースマイグレーション
+    println("データベースマイグレーション中...")
+    DB.localTx(implicit session => {
+      sql"SELECT * FROM StackData".foreach(rs => {
+        val itemStack = Item.getStringFromItemStack(Item.getItemStackFromString(rs.string("item")))
+        if (rs.string("item").contains("2730")) {
+          sql"DELETE FROM StackData WHERE item=${rs.string("item")}".execute().apply()
+          if (!sql"SELECT item FROM StackData WHERE item=$itemStack".map(rs => rs.string("item")).toList().apply().contains(itemStack)) {
+            sql"INSERT INTO StackData (uuid,item,amount) VALUES (${rs.string("uuid")},$itemStack,${rs.int("amount")})"
+              .execute().apply()
+          }
+        }
+      })
+    })
+    println("データベースマイグレーション完了")
 
     /*
       連続投票日数を更新
